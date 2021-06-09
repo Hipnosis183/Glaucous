@@ -2,9 +2,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+// Define MongoDB and Mongoose.
+var mongoose = require('mongoose');
+var mongoDB = process.env.MONGO_LOCAL;
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 var app = express();
 
