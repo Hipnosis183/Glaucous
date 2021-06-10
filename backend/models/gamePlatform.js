@@ -1,7 +1,12 @@
 const { Schema, model } = require('mongoose');
 
 const gamePlatformSchema = new Schema({
-    game: { type: Schema.Types.ObjectId, ref: 'game', required: true }
+    otherPlatforms: [{ type: Schema.Types.ObjectId, ref: 'gamePlatform', required: true }],
+    developer: { type: Schema.Types.ObjectId, ref: 'developer', required: true },
+    platform: { type: Schema.Types.ObjectId, ref: 'platform', required: true },
+    releaseYear: { type: String, required: true },
+    numberPlayers: { type: String, required: true },
+    latestVersion: { type: String }
 });
 
 gamePlatformSchema.set('toObject', { virtuals: true });

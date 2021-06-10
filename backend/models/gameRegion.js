@@ -7,12 +7,7 @@ const gameRegionSchema = new Schema({
     originalTitle: { type: String },
     romanizedTitle: { type: String },
     translatedTitle: { type: String },
-    region: { type: String, required: true },
-    developer: { type: Schema.Types.ObjectId, ref: 'developer', required: true },
-    platform: { type: Schema.Types.ObjectId, ref: 'platform', required: true },
-    releaseYear: { type: String, required: true },
-    numberPlayers: { type: String, required: true },
-    latestVersion: { type: String }
+    region: { type: String, required: true }
 });
 
 gameRegionSchema.virtual('fullTitle').get(function () {
