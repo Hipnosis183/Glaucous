@@ -1,6 +1,5 @@
-// var developerModel = require('../models/developer');
-// var platformModel = require('../models/platform');
-
+var developerModel = require('../models/developer');
+var platformModel = require('../models/platform');
 var gamePlatformModel = require('../models/gamePlatform');
 var gameRegionModel = require('../models/gameRegion');
 var gameVersionModel = require('../models/gameVersion');
