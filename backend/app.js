@@ -5,7 +5,6 @@ var logger = require('morgan');
 require('dotenv').config()
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 // Define MongoDB and Mongoose.
 var mongoose = require('mongoose');
@@ -21,7 +20,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 let server = app.listen(3000, function () {
     console.log('Express server listening on port ' + server.address().port);

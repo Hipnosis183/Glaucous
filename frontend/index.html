@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend</title>
+
+  <!-- Import Vue.js -->
+  <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
+  <!-- Import Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <create-game></create-game>
+    <create-platform></create-platform>
+    <create-developer></create-developer>
+  </div>
+
+  <!-- Import App -->
+  <script src="./main.js"></script>
+  <!-- Import Components -->
+  <script src="./components/CreateGame.js"></script>
+  <script src="./components/CreateGamePlatform.js"></script>
+  <script src="./components/CreateGameRegion.js"></script>
+  <script src="./components/CreateGameVersion.js"></script>
+  <script src="./components/CreateDeveloper.js"></script>
+  <script src="./components/CreatePlatform.js"></script>
+
+  <!-- Mount App -->
+  <script>
+    const mountedApp = app.mount('#app')
+  </script>
+</body>
+
+</html>
