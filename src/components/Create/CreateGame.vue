@@ -50,6 +50,10 @@
 </template>
 
 <script>
+  import { getDevelopers } from '../../database/controllers/Developer'
+  import { getPlatforms } from '../../database/controllers/Platform'
+  import { createGame } from '../../database/controllers/Game'
+
   export default {
     name: 'create-game',
     data () {
@@ -75,14 +79,15 @@
         for (const prop in this.gameForm) {
           if (this.gameForm[prop] === null) return
         }
-        this.$db.games.insert(this.gameForm)
+        createGame(this.gameForm)
+          .then(this.$router.back())
       }
     },
     mounted () {
-      this.$db.developers.find({})
-        .then(response => this.developers = response)
-      this.$db.platforms.find({})
-        .then(response => this.platforms = response)
+      getDevelopers()
+        .then(res => this.developers = res)
+      getPlatforms()
+        .then(res => this.platforms = res)
     }
   }
 </script>

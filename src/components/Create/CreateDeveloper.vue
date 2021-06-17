@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { createDeveloper } from '../../database/controllers/Developer'
+
 export default {
   name: "create-developer",
   data() {
@@ -25,7 +27,8 @@ export default {
       for (const prop in this.developerForm) {
         if (this.developerForm[prop] === null) return
       }
-      this.$db.developers.insert(this.developerForm);
+      createDeveloper(this.developerForm)
+        .then(this.$router.back())
     },
   }
 };

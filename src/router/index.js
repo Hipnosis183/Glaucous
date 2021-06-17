@@ -7,19 +7,24 @@ const routes = [
     component: () => import('../components/Index.vue')
   },
   {
+    path: '/viewGame/:id',
+    name: 'view-game',
+    component: () => import('../components/View/ViewGame.vue')
+  },
+  {
     path: '/createGame',
     name: 'createGame',
-    component: () => import('../components/CreateGame.vue')
+    component: () => import('../components/Create/CreateGame.vue')
   },
   {
     path: '/createPlatform',
     name: 'createPlatform',
-    component: () => import('../components/CreatePlatform.vue')
+    component: () => import('../components/Create/CreatePlatform.vue')
   },
   {
     path: '/createDeveloper',
     name: 'createDeveloper',
-    component: () => import('../components/CreateDeveloper.vue')
+    component: () => import('../components/Create/CreateDeveloper.vue')
   }
 ]
 

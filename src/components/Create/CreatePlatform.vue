@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { createPlatform } from '../../database/controllers/Platform'
+
 export default {
   name: "create-platform",
   data() {
@@ -25,7 +27,8 @@ export default {
       for (const prop in this.platformForm) {
         if (this.platformForm[prop] === null) return
       }
-      this.$db.platforms.insert(this.platformForm);
+      createPlatform(this.platformForm)
+        .then(this.$router.back())
     },
   }
 };
