@@ -1,10 +1,11 @@
 const { connect } = require('marpat')
-// import path from 'path'
-// import { remote } from 'electron'
 
 let database
-const uri = 'nedb://database'
-
-connect(uri).then(function(db) {
-    database = db;
-});
+const uriRoot = 'nedb://database'
+export async function connectDatastore (uri) {
+    let uriConnect = uri != null
+    ? uriRoot + '/' + uri : uriRoot
+    connect(uriConnect).then(db => {
+        database = db;
+    })
+}

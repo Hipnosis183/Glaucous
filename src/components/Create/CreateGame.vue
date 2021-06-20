@@ -50,6 +50,7 @@
 </template>
 
 <script>
+  import { connectDatastore } from '../../database/datastore'
   import { getDevelopers } from '../../database/controllers/Developer'
   import { getPlatforms } from '../../database/controllers/Platform'
   import { createGame } from '../../database/controllers/Game'
@@ -79,15 +80,19 @@
         for (const prop in this.gameForm) {
           if (this.gameForm[prop] === null) return
         }
-        createGame(this.gameForm)
-          .then(this.$router.back())
+        connectDatastore(this.gameForm.platform).then(() => {
+          createGame(this.gameForm)
+            .then(this.$router.back())
+        })
       }
     },
     mounted () {
-      getDevelopers()
-        .then(res => this.developers = res)
-      getPlatforms()
-        .then(res => this.platforms = res)
+      connectDatastore().then(() => {
+        getDevelopers()
+          .then(res => this.developers = res)
+        getPlatforms()
+          .then(res => this.platforms = res)
+      })
     }
   }
 </script>
