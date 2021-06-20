@@ -35,6 +35,7 @@ async function createGamePlatform (req) {
 async function createGameRegion (req) {
     // Create game region model.
     const GameRegion = GameRegionModel.create({
+        platform: req.platform,
         gamePlatform: Platform,
         title: req.title,
         subTitle: req.subTitle,
@@ -53,6 +54,7 @@ async function createGameRegion (req) {
 async function createGameVersion (req) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
+        platform: req.platform,
         gameRegion: Region,
         currentVersion: req.currentVersion,
         comments: req.comments

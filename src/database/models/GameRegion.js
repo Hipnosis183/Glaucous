@@ -1,6 +1,8 @@
 const { Document } = require('marpat')
 const GamePlatformModel = require('./GamePlatform')
 
+let dbname = '.gamesRegion'
+
 class GameRegionModel extends Document {
     constructor() {
         super()
@@ -14,6 +16,9 @@ class GameRegionModel extends Document {
             region: { type: String, required: true }
         })
     }
+    preInit(data) {
+        dbname = data.platform + dbname
+    }
     static fullTitle() {
         return this.title + this.subTitle
     }
@@ -21,7 +26,7 @@ class GameRegionModel extends Document {
         return this.originalTitle ? true : false;
     }
     static collectionName() {
-        return 'gamesRegion'
+        return dbname
     }
 }
 

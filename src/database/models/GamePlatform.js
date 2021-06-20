@@ -2,6 +2,8 @@ const { Document } = require('marpat')
 const DeveloperModel = require('./Developer')
 const PlatformModel = require('./Platform')
 
+let dbname = '.gamesPlatform'
+
 class GamePlatformModel extends Document {
     constructor() {
         super()
@@ -14,8 +16,11 @@ class GamePlatformModel extends Document {
             latestVersion: { type: String }
         })
     }
+    preInit(data) {
+        dbname = data.platform + dbname
+    }
     static collectionName() {
-        return 'gamesPlatform'
+        return dbname
     }
 }
 
