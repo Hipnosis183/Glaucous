@@ -40,7 +40,6 @@ const routes = [
     component: () => import('../components/View/ViewPlatform.vue')
   },
   // Developers
-  /*
   {
     path: '/developers',
     name: 'ListDevelopers',
@@ -50,7 +49,12 @@ const routes = [
     path: '/developers/create-developer',
     name: 'CreateDeveloper',
     component: () => import('../components/Create/CreateDeveloper.vue')
-  }*/
+  },
+  {
+    path: '/developers/:id',
+    name: 'ViewDeveloper',
+    component: () => import('../components/View/ViewDeveloper.vue')
+  },
 ]
 
 const router = createRouter({

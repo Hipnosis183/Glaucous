@@ -2,7 +2,7 @@
   <div>
     <button>
       <router-link
-      :to="{ name: 'CreatePlatform' }"
+        :to="{ name: 'CreatePlatform' }"
       >New Platform</router-link>
     </button>
     <ul>
@@ -13,7 +13,9 @@
         @click="$router.push(`/platforms/${ platform._id }`)"
       >{{ platform.name }}</li>
     </ul>
-    <button @click="$router.back()">Back</button>
+    <button
+      @click="$router.back()"
+    >Back</button>
   </div>
 </template>
 
