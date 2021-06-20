@@ -1,20 +1,20 @@
 <template>
   <div>
       <button>
-        <router-link to="/createGame">Create Game</router-link>
+        <router-link to="/games">Games</router-link>
       </button>
       <button>
-        <router-link to="/createDeveloper">Create Developer</router-link>
+        <router-link to="/developers">Developers</router-link>
       </button>
       <button>
-        <router-link to="/createPlatform">Create Platform</router-link>
+        <router-link to="/platforms">Platforms</router-link>
       </button>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'index',
+    name: 'Index',
     methods: {}
   }
 </script>

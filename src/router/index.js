@@ -1,31 +1,56 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 
 const routes = [
+  // Index
   {
     path: '/',
-    name: 'index',
+    name: 'Index',
     component: () => import('../components/Index.vue')
   },
+  // Games
   {
-    path: '/viewGame/:id',
-    name: 'view-game',
-    component: () => import('../components/View/ViewGame.vue')
+    path: '/games',
+    name: 'ListGames',
+    component: () => import('../components/List/ListGames.vue')
   },
   {
-    path: '/createGame',
-    name: 'createGame',
+    path: '/games/create-game',
+    name: 'CreateGame',
     component: () => import('../components/Create/CreateGame.vue')
   },
   {
-    path: '/createPlatform',
-    name: 'createPlatform',
+    path: '/games/:id',
+    name: 'ViewGame',
+    component: () => import('../components/View/ViewGame.vue')
+  },
+  // Platforms
+  {
+    path: '/platforms',
+    name: 'ListPlatforms',
+    component: () => import('../components/List/ListPlatforms.vue')
+  },
+  {
+    path: '/platforms/create-platform',
+    name: 'CreatePlatform',
     component: () => import('../components/Create/CreatePlatform.vue')
   },
   {
-    path: '/createDeveloper',
-    name: 'createDeveloper',
+    path: '/platforms/:id',
+    name: 'ViewPlatform',
+    component: () => import('../components/View/ViewPlatform.vue')
+  },
+  // Developers
+  /*
+  {
+    path: '/developers',
+    name: 'ListDevelopers',
+    component: () => import('../components/List/ListDevelopers.vue')
+  },
+  {
+    path: '/developers/create-developer',
+    name: 'CreateDeveloper',
     component: () => import('../components/Create/CreateDeveloper.vue')
-  }
+  }*/
 ]
 
 const router = createRouter({

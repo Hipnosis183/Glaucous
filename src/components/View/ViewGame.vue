@@ -7,7 +7,7 @@
 
 <script>
   export default {
-    name: 'create-game',
+    name: 'view-game',
     data () {
       return {
         game: {
