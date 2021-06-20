@@ -1,11 +1,11 @@
 const { Document } = require('marpat')
-const GamePlatformModel = require('./GamePlatform')
+const GameVersionModel = require('./GameVersion')
 
 class GameRegionModel extends Document {
     constructor() {
         super()
         this.schema({
-            gamePlatform: { type: GamePlatformModel, required: true },
+            gameVersions: { type: [ GameVersionModel ], required: true },
             title: { type: String, required: true },
             subTitle: { type: String, required: true },
             originalTitle: { type: String },

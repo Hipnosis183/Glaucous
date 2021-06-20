@@ -1,7 +1,7 @@
 <template>
   <div>
       <button>
-        <router-link to="/games">Games</router-link>
+        <router-link to="/games/create-game">Games</router-link>
       </button>
       <button>
         <router-link to="/developers">Developers</router-link>

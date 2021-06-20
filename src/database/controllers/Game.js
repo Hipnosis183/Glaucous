@@ -2,23 +2,24 @@ import GamePlatformModel from '../models/GamePlatform'
 import GameRegionModel from '../models/GameRegion'
 import GameVersionModel from '../models/GameVersion'
 
-let Platform
 let Region
+let Version
 
 export async function createGame (req) {
-    // Create platform for the game.
-    await createGamePlatform(req)
-    // Create a region for the game.
-    await createGameRegion(req)
     // Create a version for the game.
     await createGameVersion(req)
+    // Create a region for the game.
+    await createGameRegion(req)
+    // Create platform for the game.
+    await createGamePlatform(req)
 }
 
 // Create a specific game for a determined platform.
 async function createGamePlatform (req) {
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
-        otherPlatforms: null,
+        gamePlatforms: null,
+        gameRegions: new Array(Region),
         developer: req.developer,
         platform: req.platform,
         releaseYear: req.releaseYear,
@@ -27,15 +28,13 @@ async function createGamePlatform (req) {
     })
     // Save model to database.
     await GamePlatform.save()
-        // Store platform id.
-        .then(res => Platform = res._id)
 };
 
 // Create a specific region for a determined game.
 async function createGameRegion (req) {
     // Create game region model.
     const GameRegion = GameRegionModel.create({
-        gamePlatform: Platform,
+        gameVersions: new Array(Version),
         title: req.title,
         subTitle: req.subTitle,
         originalTitle: req.originalTitle,
@@ -53,12 +52,13 @@ async function createGameRegion (req) {
 async function createGameVersion (req) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
-        gameRegion: Region,
         currentVersion: req.currentVersion,
         comments: req.comments
     })
     // Save model to database.
     await GameVersion.save()
+    // Store version id.
+        .then(res => Version = res._id)
 }
 
 // Search for a specific game.

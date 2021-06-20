@@ -6,7 +6,7 @@
         :key="game._id"
         :value="game._id"
         @click="$router.push(`/games/${ game._id }`)"
-      >{{ game.title }}</li>
+      >{{ game.gameRegions[0].title }}</li>
     </ul>
     <button @click="$router.back()">Back</button>
   </div>
