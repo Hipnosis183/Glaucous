@@ -63,7 +63,7 @@ async function createGameVersion (req) {
 
 // Search for a specific game.
 export async function getGame (req) {
-    return await GamePlatformModel.findOne({ _id: req._id }, { populate: true })
+    return await GamePlatformModel.findOne({ _id: req }, { populate: true })
 }
 
 // Search for all games.

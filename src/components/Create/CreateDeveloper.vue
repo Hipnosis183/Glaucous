@@ -32,7 +32,7 @@ export default {
       // Set datastore and save new developer entry.
       connectDatastore().then(() => {
         createDeveloper(this.developerForm)
-          .then(this.$router.back())
+          .then(() => this.$router.back())
       })
     }
   }

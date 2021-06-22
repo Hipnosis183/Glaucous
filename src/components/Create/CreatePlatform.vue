@@ -32,7 +32,7 @@ export default {
       // Set datastore and save new platform entry.
       connectDatastore().then(() => {
         createPlatform(this.platformForm)
-          .then(this.$router.back())
+          .then(() => this.$router.back())
       })
     }
   }

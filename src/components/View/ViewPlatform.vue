@@ -13,7 +13,11 @@
         v-for="g in games"
         :key="g._id"
         :value="g._id"
-        @click="$router.push(`/games/${ g._id }`)"
+        @click="$router.push({
+          name: 'ViewGame',
+          params: { id: g._id },
+          query: { p: $route.params.id }
+        })"
       >{{ g.gameRegions[0].title }}</li>
     </ul>
     <button @click="$router.back()">Back</button>
