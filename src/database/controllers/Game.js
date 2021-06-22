@@ -7,11 +7,11 @@ let Version
 
 export async function createGame (req) {
     // Create a version for the game.
-    await createGameVersion(req)
+    await createGameVersion(req.gameVersion)
     // Create a region for the game.
-    await createGameRegion(req)
+    await createGameRegion(req.gameRegion)
     // Create platform for the game.
-    await createGamePlatform(req)
+    await createGamePlatform(req.gamePlatform)
 }
 
 // Create a specific game for a determined platform.
