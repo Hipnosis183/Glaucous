@@ -25,6 +25,21 @@ export default createStore({
     }
   },
   mutations: {
+    resetGameForm (state) {
+      state.gameForm.gamePlatform.developer = null
+      state.gameForm.gamePlatform.platform = null
+      state.gameForm.gamePlatform.releaseYear = null
+      state.gameForm.gamePlatform.numberPlayers = null
+      state.gameForm.gamePlatform.latestVersion = null
+      state.gameForm.gameRegion.title = null
+      state.gameForm.gameRegion.subTitle = null
+      state.gameForm.gameRegion.originalTitle = null
+      state.gameForm.gameRegion.romanizedTitle = null
+      state.gameForm.gameRegion.translatedTitle = null
+      state.gameForm.gameRegion.region = null
+      state.gameForm.gameVersion.currentVersion = null
+      state.gameForm.gameVersion.comments = null
+    },
     setGamePlatformDeveloper (state, data) {
       state.gameForm.gamePlatform.developer = data
     },
