@@ -19,22 +19,24 @@ export default {
   data() {
     return {
       developerForm: {
-        name: null,
-      },
-    };
+        name: null
+      }
+    }
   },
   methods: {
     onSubmit() {
+      // Avoid submitting incomplete form.
       for (const prop in this.developerForm) {
         if (this.developerForm[prop] === null) return
       }
+      // Set datastore and save new developer entry.
       connectDatastore().then(() => {
         createDeveloper(this.developerForm)
           .then(this.$router.back())
       })
-    },
+    }
   }
-};
+}
 </script>
 
 <style>

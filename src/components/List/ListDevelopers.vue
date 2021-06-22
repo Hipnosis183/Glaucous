@@ -7,11 +7,11 @@
     </button>
     <ul>
       <li
-        v-for="developer in developers"
-        :key="developer._id"
-        :value="developer._id"
-        @click="$router.push(`/developers/${ developer._id }`)"
-      >{{ developer.name }}</li>
+        v-for="d in developers"
+        :key="d._id"
+        :value="d._id"
+        @click="$router.push(`/developers/${ d._id }`)"
+      >{{ d.name }}</li>
     </ul>
     <button
       @click="$router.back()"
@@ -30,7 +30,6 @@
         developers: null
       }
     },
-    methods: {},
     mounted () {
       connectDatastore().then(() => {
         getDevelopers()

@@ -28,7 +28,7 @@ async function createGamePlatform (req) {
     })
     // Save model to database.
     await GamePlatform.save()
-};
+}
 
 // Create a specific region for a determined game.
 async function createGameRegion (req) {

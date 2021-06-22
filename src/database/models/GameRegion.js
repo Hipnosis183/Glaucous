@@ -18,7 +18,7 @@ class GameRegionModel extends Document {
         return this.title + this.subTitle
     }
     static hasSymbols() {
-        return this.originalTitle ? true : false;
+        return this.originalTitle ? true : false
     }
     static collectionName() {
         return 'gamesRegion'

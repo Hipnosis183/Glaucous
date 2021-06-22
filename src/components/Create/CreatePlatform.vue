@@ -19,22 +19,24 @@ export default {
   data() {
     return {
       platformForm: {
-        name: null,
-      },
-    };
+        name: null
+      }
+    }
   },
   methods: {
     onSubmit() {
+      // Avoid submitting incomplete form.
       for (const prop in this.platformForm) {
         if (this.platformForm[prop] === null) return
       }
+      // Set datastore and save new platform entry.
       connectDatastore().then(() => {
         createPlatform(this.platformForm)
           .then(this.$router.back())
       })
-    },
+    }
   }
-};
+}
 </script>
 
 <style>

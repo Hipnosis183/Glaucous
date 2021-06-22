@@ -24,12 +24,6 @@
 <script>
   export default {
     name: 'create-game-region',
-    data () {
-    },
-    methods: {
-    },
-    mounted () {
-    },
     computed: {
       title: {
         get() { return this.$store.state.gameForm.gameRegion.title },

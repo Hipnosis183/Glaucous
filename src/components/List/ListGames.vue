@@ -16,9 +16,7 @@
       return {
         games: null
       }
-    },
-    methods: {},
-    mounted () {}
+    }
   }
 </script>
 

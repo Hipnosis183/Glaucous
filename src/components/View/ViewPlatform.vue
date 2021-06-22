@@ -10,11 +10,11 @@
     </button>
     <ul>
       <li
-        v-for="game in games"
-        :key="game._id"
-        :value="game._id"
-        @click="$router.push(`/games/${ game._id }`)"
-      >{{ game.gameRegions[0].title }}</li>
+        v-for="g in games"
+        :key="g._id"
+        :value="g._id"
+        @click="$router.push(`/games/${ g._id }`)"
+      >{{ g.gameRegions[0].title }}</li>
     </ul>
     <button @click="$router.back()">Back</button>
   </div>
@@ -31,7 +31,6 @@
         games: null
       }
     },
-    methods: {},
     mounted () {
       connectDatastore(this.$route.params.id).then(() => {
         getGames()

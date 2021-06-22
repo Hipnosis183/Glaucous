@@ -43,8 +43,6 @@
         platforms: null
       }
     },
-    methods: {
-    },
     mounted () {
       // Select platform from parent page.
       this.platform = this.$route.query.p

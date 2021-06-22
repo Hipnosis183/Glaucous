@@ -23,8 +23,6 @@
       CreateGameRegion,
       CreateGameVersion
     },
-    data () {
-    },
     methods: {
       onSubmit () {
         // Avoid submitting incomplete form. Temporal.
@@ -44,8 +42,6 @@
               .then(this.$router.back())
           })
       }
-    },
-    mounted () {
     }
   }
 </script>

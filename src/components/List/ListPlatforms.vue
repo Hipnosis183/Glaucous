@@ -7,11 +7,11 @@
     </button>
     <ul>
       <li
-        v-for="platform in platforms"
-        :key="platform._id"
-        :value="platform._id"
-        @click="$router.push(`/platforms/${ platform._id }`)"
-      >{{ platform.name }}</li>
+        v-for="p in platforms"
+        :key="p._id"
+        :value="p._id"
+        @click="$router.push(`/platforms/${ p._id }`)"
+      >{{ p.name }}</li>
     </ul>
     <button
       @click="$router.back()"
@@ -30,7 +30,6 @@
         platforms: null
       }
     },
-    methods: {},
     mounted () {
       connectDatastore().then(() => {
         getPlatforms()
