@@ -1,5 +1,13 @@
 <template>
   <div>
+    <button>
+      <router-link
+        :to="{
+          name: 'CreateGame',
+          query: { p: $route.params.id }
+        }"
+      >New Game</router-link>
+    </button>
     <ul>
       <li
         v-for="game in games"

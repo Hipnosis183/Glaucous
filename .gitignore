@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # NeDB / Marpat database files
 /database
+
+# Other
+.todo-list.txt

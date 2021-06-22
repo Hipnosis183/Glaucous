@@ -77,9 +77,11 @@
     },
     methods: {
       onSubmit () {
+        // Avoid submitting incomplete form.
         for (const prop in this.gameForm) {
           if (this.gameForm[prop] === null) return
         }
+        // Set datastore and save new game entry.
         connectDatastore(this.gameForm.platform).then(() => {
           createGame(this.gameForm)
             .then(this.$router.back())
@@ -87,6 +89,13 @@
       }
     },
     mounted () {
+      // Select platform from parent page.
+      this.gameForm.platform = this.$route.query.p
+      ? this.$route.query.p : null
+      // Select developer from parent page.
+      this.gameForm.developer = this.$route.query.d
+      ? this.$route.query.d : null
+      // Set datastore and get developers and platforms.
       connectDatastore().then(() => {
         getDevelopers()
           .then(res => this.developers = res)
