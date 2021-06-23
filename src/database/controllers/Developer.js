@@ -12,7 +12,7 @@ export async function createDeveloper (req) {
 
 // Search for a specific developer.
 export async function getDeveloper (req) {
-    return await DeveloperModel.findOne({ _id: req._id })
+    return await DeveloperModel.findOne({ _id: req })
 }
 
 // Search for all developers.

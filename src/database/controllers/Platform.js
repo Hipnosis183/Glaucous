@@ -12,7 +12,7 @@ export async function createPlatform (req) {
 
 // Search for a specific platform.
 export async function getPlatform (req) {
-    return await PlatformModel.findOne({ _id: req._id })
+    return await PlatformModel.findOne({ _id: req })
 }
 
 // Search for all platforms.

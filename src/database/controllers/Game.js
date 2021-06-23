@@ -5,7 +5,7 @@ import GameVersionModel from '../models/GameVersion'
 let Region
 let Version
 
-export async function createGame (req) {
+export async function createGame(req) {
     // Create a version for the game.
     await createGameVersion(req.gameVersion)
     // Create a region for the game.
@@ -15,7 +15,7 @@ export async function createGame (req) {
 }
 
 // Create a specific game for a determined platform.
-async function createGamePlatform (req) {
+async function createGamePlatform(req) {
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
         gamePlatforms: null,
@@ -31,7 +31,7 @@ async function createGamePlatform (req) {
 }
 
 // Create a specific region for a determined game.
-async function createGameRegion (req) {
+async function createGameRegion(req) {
     // Create game region model.
     const GameRegion = GameRegionModel.create({
         gameVersions: new Array(Version),
@@ -49,7 +49,7 @@ async function createGameRegion (req) {
 }
 
 // Create a specific version for a determined region.
-async function createGameVersion (req) {
+async function createGameVersion(req) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
         currentVersion: req.currentVersion,
@@ -57,16 +57,45 @@ async function createGameVersion (req) {
     })
     // Save model to database.
     await GameVersion.save()
-    // Store version id.
+        // Store version id.
         .then(res => Version = res._id)
 }
 
+// Search for a specific game platform.
+export async function getGamePlatform (req) {
+    return await GamePlatformModel.findOne({ _id: req }, { populate: false })
+}
+
+// Search for a specific game region.
+export async function getGameRegion(req) {
+    return await GameRegionModel.findOne({ _id: req }, { populate: true })
+}
+
+// Search for a specific game version.
+export async function getGameVersion(req) {
+    return await GameVersionModel.findOne({ _id: req }, { populate: false })
+}
+
 // Search for a specific game.
-export async function getGame (req) {
-    return await GamePlatformModel.findOne({ _id: req }, { populate: true })
+export async function getGame(req) {
+    // Since 'gameVersion' is the last object in the tree,
+    // there's no need to populate it manually.
+    let gameRegions = []
+    return await getGamePlatform(req)
+        .then(async res => {
+            // Loop through all the items in 'res.gameRegions[]'.
+            for (let gameRegion of res.gameRegions) {
+                await getGameRegion(gameRegion)
+                    // Populate each item with its data.
+                    .then(res => gameRegions.push(res))
+            }
+            res.gameRegions = gameRegions
+            // Return populated object.
+            return res
+        })
 }
 
 // Search for all games.
-export async function getGames () {
+export async function getGames() {
     return await GamePlatformModel.find({}, { populate: true })
 }
