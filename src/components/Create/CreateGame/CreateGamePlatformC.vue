@@ -36,7 +36,7 @@
   import { getPlatforms } from '../../../database/controllers/Platform'
 
   export default {
-    name: 'create-game-platform',
+    name: 'create-game-platform-c',
     data () {
       return {
         developers: null,

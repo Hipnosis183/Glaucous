@@ -2,7 +2,7 @@
   <div>
     <button>
       <router-link
-        :to="{ name: 'CreateGame' }"
+        :to="{ name: 'CreateGamePlatform' }"
       >New Game</router-link>
     </button>
     <button @click="$router.back()">Back</button>

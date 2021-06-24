@@ -1,5 +1,16 @@
 <template>
   <div>
+    <button>
+      <router-link
+        :to="{
+          name: 'CreateGameRegion',
+          query: {
+            id: $route.params.id,
+            p: game.platform._id
+          }
+        }"
+      >New Region</router-link>
+    </button>
     <p>{{ game.gameRegions[0].title }}</p>
     <p>{{ game.gameRegions[0].subTitle }}</p>
     <p>{{ game.gameRegions[0].originalTitle }}</p>
@@ -64,6 +75,9 @@
               getPlatform(res.platform)
                 .then(res => this.game.platform = res)
             })
+            for (let gameRegion of this.game.gameRegions){
+              console.log(gameRegion)
+            }
           })
       })
     }

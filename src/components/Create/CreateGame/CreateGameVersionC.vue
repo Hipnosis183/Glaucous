@@ -11,7 +11,7 @@
 
 <script>
   export default {
-    name: 'create-game-version',
+    name: 'create-game-version-c',
     computed: {
       currentVersion: {
         get() { return this.$store.state.gameForm.gameVersion.currentVersion },

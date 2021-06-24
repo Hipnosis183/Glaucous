@@ -14,9 +14,19 @@ const routes = [
     component: () => import('../components/List/ListGames.vue')
   },
   {
-    path: '/games/create-game',
-    name: 'CreateGame',
-    component: () => import('../components/Create/CreateGame.vue')
+    path: '/games/create-game-platform',
+    name: 'CreateGamePlatform',
+    component: () => import('../components/Create/CreateGamePlatform.vue')
+  },
+  {
+    path: '/games/create-game-region',
+    name: 'CreateGameRegion',
+    component: () => import('../components/Create/CreateGameRegion.vue')
+  },
+  {
+    path: '/games/create-game-version',
+    name: 'CreateGameVersion',
+    component: () => import('../components/Create/CreateGameVersion.vue')
   },
   {
     path: '/games/:id',

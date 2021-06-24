@@ -1,0 +1,49 @@
+<template>
+  <div>
+    <create-game-version-c></create-game-version-c>
+    <button @click="onSubmit()">Submit</button>
+    <button @click="onDone()">Back</button>
+  </div>
+</template>
+
+<script>
+  import CreateGameVersionC from './CreateGame/CreateGameVersionC.vue'
+
+  import { connectDatastore } from '../../database/datastore'
+  import { createGame } from '../../database/controllers/Game'
+
+  export default {
+    name: 'create-game-version',
+    components: {
+      CreateGameVersion
+    },
+    methods: {
+      onDone () {
+        // Clean input fields.
+        this.$store.commit('resetGameForm')
+        // Go to previous page.
+        this.$router.back()
+      },
+      onSubmit () {
+        // Avoid submitting incomplete form. Temporal.
+        for (const prop in this.$store.state.gameForm.gamePlatform) {
+          if (this.$store.state.gameForm.gamePlatform[prop] === null) return
+        }
+        for (const prop in this.$store.state.gameForm.gameRegion) {
+          if (this.$store.state.gameForm.gameRegion[prop] === null) return
+        }
+        for (const prop in this.$store.state.gameForm.gameVersion) {
+          if (this.$store.state.gameForm.gameVersion[prop] === null) return
+        }
+        // Set datastore and save new game entry.
+        connectDatastore(this.$store.state.gameForm.gamePlatform.platform)
+          .then(() => createGame(this.$store.state.gameForm)
+            .then(() => this.onDone())
+          )
+      }
+    }
+  }
+</script>
+
+<style>
+</style>

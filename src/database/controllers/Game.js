@@ -5,13 +5,30 @@ import GameVersionModel from '../models/GameVersion'
 let Region
 let Version
 
-export async function createGame(req) {
+export async function newGamePlatform(req) {
     // Create a version for the game.
     await createGameVersion(req.gameVersion)
     // Create a region for the game.
     await createGameRegion(req.gameRegion)
     // Create platform for the game.
     await createGamePlatform(req.gamePlatform)
+}
+
+export async function newGameRegion(req, id) {
+    // Create a version for the game.
+    await createGameVersion(req.gameVersion)
+    // Create a region for the game.
+    await createGameRegion(req.gameRegion)
+    // Update platform for the game.
+    await getGamePlatform(id)
+        .then(async res => {
+            res.gameRegions.push(Region)
+            await GamePlatformModel.findOneAndUpdate(
+                { _id: id },
+                { gameRegions: res.gameRegions },
+                { populate: false }
+            )
+        })
 }
 
 // Create a specific game for a determined platform.
@@ -62,7 +79,7 @@ async function createGameVersion(req) {
 }
 
 // Search for a specific game platform.
-export async function getGamePlatform (req) {
+export async function getGamePlatform(req) {
     return await GamePlatformModel.findOne({ _id: req }, { populate: false })
 }
 

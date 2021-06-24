@@ -3,7 +3,7 @@
     <button>
       <router-link
         :to="{
-          name: 'CreateGame',
+          name: 'CreateGamePlatform',
           query: { p: $route.params.id }
         }"
       >New Game</router-link>

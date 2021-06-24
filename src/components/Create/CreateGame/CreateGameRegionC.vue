@@ -23,7 +23,7 @@
 
 <script>
   export default {
-    name: 'create-game-region',
+    name: 'create-game-region-c',
     computed: {
       title: {
         get() { return this.$store.state.gameForm.gameRegion.title },
