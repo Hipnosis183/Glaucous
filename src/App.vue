@@ -1,7 +1,7 @@
 <template>
-  <div class="relative min-h-screen flex">
+  <div class="flex min-h-screen relative">
     <side-nav/>
-    <div class="p-6">
+    <div class="p-6 w-full">
       <router-view/>
     </div>
   </div>
