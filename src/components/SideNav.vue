@@ -1,8 +1,10 @@
 <template>
   <div class="transform ease-in-out transition-all duration-1000 relative bg-indigo-500 flex-col justify-between flex" :class="expanded ? 'w-60' : 'w-14'">
     <div class="h-full flex-col justify-between flex">
-      <div class="text-center">
-        <h1 class="text-gray-200 font-semibold text-3xl my-12">{{ name }}</h1>
+      <div class="">
+        <router-link to="/" class="text-center">
+          <h1 class="text-gray-200 font-semibold text-3xl my-12">{{ name }}</h1>
+        </router-link>
         <div class="space-y-4 mt-8">
           <router-link to="/games" class="flex">
             <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ games }}</button>
@@ -15,8 +17,13 @@
           </router-link>
         </div>
       </div>
-      <div class="flex mb-8">
-        <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ settings }}</button>
+      <div class="space-y-4 mb-8">
+        <div class="flex">
+          <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ search }}</button>
+        </div>
+        <div class="flex" :class="history > 0 ? 'visible' : 'hidden'">
+          <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full" @click="$router.back()">{{ back }}</button>
+        </div>
       </div>
     </div>
     <div class="bg-indigo-600 flex text-center">
@@ -30,12 +37,14 @@ export default {
   data() {
     return {
       expanded: true,
+      history: window.history.state.position,
       name: 'Frontend',
       icon: '<',
       games: 'Games',
       developers: 'Developers',
       platforms: 'Platforms',
-      settings: 'Settings'
+      search: 'Search',
+      back: 'Back'
     } 
   },
   methods: {
@@ -46,7 +55,14 @@ export default {
       this.games = this.expanded ? 'Games' : 'G'
       this.developers = this.expanded ? 'Developers' : 'D'
       this.platforms = this.expanded ? 'Platforms' : 'P'
-      this.settings = this.expanded ? 'Settings' : 'S'
+      this.search = this.expanded ? 'Search' : 'S'
+      this.back = this.expanded ? 'Back' : 'B'
+    }
+  },
+  watch: {
+    // Watch for route changes to display the back button.
+    '$route'(to, from){
+      this.history = window.history.state.position
     }
   }
 }

@@ -5,7 +5,6 @@
         :to="{ name: 'CreateGamePlatform' }"
       >New Game</router-link>
     </button>
-    <button @click="$router.back()">Back</button>
   </div>
 </template>
 

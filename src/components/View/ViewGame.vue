@@ -28,8 +28,6 @@
     <p>{{ game.gameRegions[region].gameVersions[0].comments }}</p>
     <button @click="prevRegion()">Prev</button>
     <button @click="nextRegion()">Next</button>
-    <br>
-    <button @click="$router.back()">Back</button>
   </div>
 </template>
 

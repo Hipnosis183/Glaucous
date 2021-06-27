@@ -1,7 +1,9 @@
 <template>
   <div class="relative min-h-screen flex">
     <side-nav/>
-    <router-view/>
+    <div class="p-6">
+      <router-view/>
+    </div>
   </div>
 </template>
 

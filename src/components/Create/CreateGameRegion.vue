@@ -3,7 +3,6 @@
     <create-game-region-c></create-game-region-c>
     <create-game-version-c></create-game-version-c>
     <button @click="onSubmit()">Submit</button>
-    <button @click="onDone()">Back</button>
   </div>
 </template>
 
@@ -21,12 +20,6 @@
       CreateGameVersionC
     },
     methods: {
-      onDone () {
-        // Clean input fields.
-        this.$store.commit('resetGameForm')
-        // Go to previous page.
-        this.$router.back()
-      },
       onSubmit () {
         // Avoid submitting incomplete form. Temporal.
         for (const prop in this.$store.state.gameForm.gameRegion) {
@@ -38,8 +31,14 @@
         // Set datastore and save new game entry.
         connectDatastore(this.$route.query.p)
           .then(() => newGameRegion(this.$store.state.gameForm, this.$route.query.id)
-            .then(() => this.onDone())
+            .then(() => this.$router.back())
           )
+      }
+    },
+    watch: {
+      // Watch for route changes to clean the input fields.
+      '$route'(to, from){
+        this.$store.commit('resetGameForm')
       }
     }
   }

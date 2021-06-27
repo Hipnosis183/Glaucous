@@ -13,9 +13,6 @@
         @click="$router.push(`/developers/${ d._id }`)"
       >{{ d.name }}</li>
     </ul>
-    <button
-      @click="$router.back()"
-    >Back</button>
   </div>
 </template>
 

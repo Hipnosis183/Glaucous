@@ -6,7 +6,6 @@
       <br />
       <input class="button" type="submit" value="Submit" />
     </form>
-    <button @click="$router.back()">Back</button>
   </div>
 </template>
 

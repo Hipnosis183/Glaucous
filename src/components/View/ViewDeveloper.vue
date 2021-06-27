@@ -16,7 +16,6 @@
         @click="$router.push(`/games/${ g._id }`)"
       >{{ g.gameRegions[0].title }}</li>
     </ul>
-    <button @click="$router.back()">Back</button>
   </div>
 </template>
 
