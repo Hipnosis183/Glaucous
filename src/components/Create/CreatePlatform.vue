@@ -4,7 +4,7 @@
       <label class="text-blue-900 ml-2">Name</label>
       <input
         type="text"
-        class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+        class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
         v-model="platformForm.name"
       />
       <button

@@ -1,8 +1,11 @@
 <template>
   <div>
-    <router-link :to="{ name: 'CreateDeveloper' }">
-      <button class="bg-gray-200 font-semibold px-6 py-3 rounded-full text-base text-blue-800">New Developer</button>
-    </router-link>
+    <div class="inline-flex shadow bg-white w-full justify-between">
+      <router-link :to="{ name: 'CreateDeveloper' }">
+        <button class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Developer</button>
+      </router-link>
+      <div></div>
+    </div>
     <ul class="space-y-4 mt-8">
       <li
         v-for="d in developers"
@@ -10,7 +13,7 @@
         :value="d._id"
       >
         <button
-          class="bg-gray-200 px-6 py-3 rounded-full w-full"
+          class="bg-gray-300 px-6 py-3 rounded-full w-full"
           @click="$router.push(`/developers/${ d._id }`)"
         >{{ d.name }}</button>
       </li>

@@ -2,7 +2,7 @@
   <div>
     <label class="text-blue-900 ml-2">Developer</label>
     <select
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="developer"
     >
       <option
@@ -13,7 +13,7 @@
     </select>
     <label class="text-blue-900 ml-2">Platform</label>
     <select
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="platform"
     >
       <option
@@ -25,19 +25,19 @@
     <label class="text-blue-900 ml-2">Release Year</label>
     <input
       type="text"
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="releaseYear"
     >
     <label class="text-blue-900 ml-2">Number of Players</label>
     <input
       type="text"
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="numberPlayers"
     >
     <label class="text-blue-900 ml-2">Latest Version</label>
     <input
       type="text"
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="latestVersion"
     >
   </div>

@@ -1,8 +1,11 @@
 <template>
   <div>
-    <router-link :to="{ name: 'CreatePlatform' }">
-      <button class="bg-gray-200 font-semibold px-6 py-3 rounded-full text-base text-blue-800">New Platform</button>
-    </router-link>
+    <div class="inline-flex shadow bg-white w-full justify-between">
+      <router-link :to="{ name: 'CreatePlatform' }">
+        <button class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Platform</button>
+      </router-link>
+      <div></div>
+    </div>
     <ul class="space-y-4 mt-8">
       <li
         v-for="p in platforms"
@@ -10,7 +13,7 @@
         :value="p._id"
       >
         <button
-          class="bg-gray-200 px-6 py-3 rounded-full w-full"
+          class="bg-gray-300 px-6 py-3 rounded-full w-full"
           @click="$router.push(`/platforms/${p._id}`)"
         >{{ p.name }}</button>
       </li>
