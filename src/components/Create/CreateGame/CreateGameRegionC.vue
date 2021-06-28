@@ -1,56 +1,74 @@
 <template>
   <div>
-    <label for="title">Title:</label>
-    <input id="title" v-model="title">
-    <br/>
-    <label for="subTitle">Subtitle:</label>
-    <input id="subTitle" v-model="subTitle">
-    <br/>
-    <label for="originalTitle">Original Title:</label>
-    <input id="originalTitle" v-model="originalTitle">
-    <br/>
-    <label for="romanizedTitle">Romanized Title:</label>
-    <input id="romanizedTitle" v-model="romanizedTitle">
-    <br/>
-    <label for="translatedTitle">Translated Title:</label>
-    <input id="translatedTitle" v-model="translatedTitle">
-    <br/>
-    <label for="region">Region:</label>
-    <input id="region" v-model="region">
-    <br/>
+    <label class="text-blue-900 ml-2">Title</label>
+    <input
+      type="text"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      v-model="title"
+    >
+    <label class="text-blue-900 ml-2">Subtitle</label>
+    <input
+      type="text"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      v-model="subTitle"
+    >
+    <label class="text-blue-900 ml-2">Original Title</label>
+    <input
+      type="text"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      v-model="originalTitle"
+    >
+    <label class="text-blue-900 ml-2">Romanized Title</label>
+    <input
+      type="text"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      v-model="romanizedTitle"
+    >
+    <label class="text-blue-900 ml-2">Translated Title</label>
+    <input
+      type="text"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      v-model="translatedTitle"
+    >
+    <label class="text-blue-900 ml-2">Region</label>
+    <input
+      type="text"
+      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+      v-model="region"
+    >
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'create-game-region-c',
-    computed: {
-      title: {
-        get() { return this.$store.state.gameForm.gameRegion.title },
-        set(value) { this.$store.commit('setGameRegionTitle', value) }
-      },
-      subTitle: {
-        get() { return this.$store.state.gameForm.gameRegion.subTitle },
-        set(value) { this.$store.commit('setGameRegionSubTitle', value) }
-      },
-      originalTitle: {
-        get() { return this.$store.state.gameForm.gameRegion.originalTitle },
-        set(value) { this.$store.commit('setGameRegionOriginalTitle', value) }
-      },
-      romanizedTitle: {
-        get() { return this.$store.state.gameForm.gameRegion.romanizedTitle },
-        set(value) { this.$store.commit('setGameRegionRomanizedTitle', value) }
-      },
-      translatedTitle: {
-        get() { return this.$store.state.gameForm.gameRegion.translatedTitle },
-        set(value) { this.$store.commit('setGameRegionTranslatedTitle', value) }
-      },
-      region: {
-        get() { return this.$store.state.gameForm.gameRegion.region },
-        set(value) { this.$store.commit('setGameRegionRegion', value) }
-      }
+export default {
+  name: 'create-game-region-c',
+  computed: {
+    title: {
+      get() { return this.$store.state.gameForm.gameRegion.title },
+      set(value) { this.$store.commit('setGameRegionTitle', value) }
+    },
+    subTitle: {
+      get() { return this.$store.state.gameForm.gameRegion.subTitle },
+      set(value) { this.$store.commit('setGameRegionSubTitle', value) }
+    },
+    originalTitle: {
+      get() { return this.$store.state.gameForm.gameRegion.originalTitle },
+      set(value) { this.$store.commit('setGameRegionOriginalTitle', value) }
+    },
+    romanizedTitle: {
+      get() { return this.$store.state.gameForm.gameRegion.romanizedTitle },
+      set(value) { this.$store.commit('setGameRegionRomanizedTitle', value) }
+    },
+    translatedTitle: {
+      get() { return this.$store.state.gameForm.gameRegion.translatedTitle },
+      set(value) { this.$store.commit('setGameRegionTranslatedTitle', value) }
+    },
+    region: {
+      get() { return this.$store.state.gameForm.gameRegion.region },
+      set(value) { this.$store.commit('setGameRegionRegion', value) }
     }
   }
+}
 </script>
 
 <style>

@@ -10,7 +10,7 @@
         :value="d._id"
       >
         <button
-          class="bg-gray-200 px-6 py-3 rounded-2xl w-full"
+          class="bg-gray-200 px-6 py-3 rounded-full w-full"
           @click="$router.push(`/developers/${ d._id }`)"
         >{{ d.name }}</button>
       </li>

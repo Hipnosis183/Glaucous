@@ -1,10 +1,16 @@
 <template>
   <div>
     <form @submit.prevent="onSubmit">
-      <label for="name">Name:</label>
-      <input id="name" v-model="platformForm.name" />
-      <br />
-      <input class="button" type="submit" value="Submit" />
+      <label class="text-blue-900 ml-2">Name</label>
+      <input
+        type="text"
+        class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:bg-gray-200 focus:ring-0"
+        v-model="platformForm.name"
+      />
+      <button
+        class="bg-gray-300 font-semibold mt-6 px-6 py-3 rounded-full text-base text-blue-800"
+        @click="onSubmit()"
+      >Submit</button>
     </form>
   </div>
 </template>

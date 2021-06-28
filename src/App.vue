@@ -1,8 +1,10 @@
 <template>
-  <div class="flex min-h-screen relative">
-    <side-nav/>
+  <div class="flex min-h-screen max-h-screen relative bg-gray-100">
+    <side-nav />
     <div class="p-6 w-full">
-      <router-view/>
+      <div class="bg-white p-6 rounded-xl shadow">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

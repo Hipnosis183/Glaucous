@@ -15,7 +15,7 @@
         :value="g._id"
       >
         <button
-          class="bg-gray-200 px-6 py-3 rounded-2xl w-full"
+          class="bg-gray-200 px-6 py-3 rounded-full w-full"
           @click="$router.push({
             name: 'ViewGame',
             params: { id: g._id },

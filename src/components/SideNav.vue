@@ -9,39 +9,39 @@
           to="/"
           class="text-center"
         >
-          <h1 class="text-gray-200 font-semibold text-3xl my-12">{{ name }}</h1>
+          <h1 class="text-gray-100 font-semibold text-3xl my-12">{{ name }}</h1>
         </router-link>
         <div class="space-y-4 mt-8">
           <router-link
             to="/games"
             class="flex"
           >
-            <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ games }}</button>
+            <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ games }}</button>
           </router-link>
           <router-link
             to="/developers"
             class="flex"
           >
-            <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ developers }}</button>
+            <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ developers }}</button>
           </router-link>
           <router-link
             to="/platforms"
             class="flex"
           >
-            <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ platforms }}</button>
+            <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ platforms }}</button>
           </router-link>
         </div>
       </div>
       <div class="space-y-4 mb-8">
         <div class="flex">
-          <button class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full">{{ search }}</button>
+          <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ search }}</button>
         </div>
         <div
           class="flex"
           :class="history > 0 ? 'visible' : 'hidden'"
         >
           <button
-            class="w-10/12 m-auto bg-gray-200 text-blue-800 text-base font-semibold py-3 rounded-full"
+            class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full"
             @click="$router.back()"
           >{{ back }}</button>
         </div>
@@ -49,7 +49,7 @@
     </div>
     <div class="bg-indigo-600 flex text-center">
       <button
-        class="text-gray-200 font-semibold text-2xl m-auto py-3"
+        class="text-gray-100 font-semibold text-2xl m-auto py-3"
         :class="expanded ? 'mr-auto' : 'mr-5'"
         @click="toggle()"
       >{{ icon }}</button>
