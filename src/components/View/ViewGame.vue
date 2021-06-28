@@ -1,5 +1,59 @@
 <template>
   <div>
+    <div
+      class="flex items-center justify-center fixed w-almost h-full"
+      :class="details ? 'visible' : 'hidden'"
+    >
+      <div
+        class="bg-black bg-opacity-50 w-full h-full"
+        @click="showDetails()"
+      >
+      </div>
+      <div class="absolute bg-white p-6 rounded-xl shadow leading-loose">
+        <div class="flex mb-6">
+          <h1 class="text-xl font-bold">ROM Information</h1>
+        </div>
+        <div class="flex space-x-6 mb-8">
+          <div>
+            <div class="text-lg mt-1 space-x-2 flex flex-inline">
+              <p class="font-semibold">Region:</p>
+              <p>{{ game.gameRegions[region].region }}</p>
+            </div>
+            <div class="text-lg mt-1 space-x-2 flex flex-inline">
+              <p class="font-semibold">Format:</p>
+              <p>-</p>
+            </div>
+            <div class="text-lg mt-1 space-x-2 flex flex-inline">
+              <p class="font-semibold">File Size:</p>
+              <p>-</p>
+            </div>
+          </div>
+          <div>
+            <div class="text-lg mt-1 space-x-2 flex flex-inline">
+              <p class="font-semibold">Latest Version:</p>
+              <p>{{ game.latestVersion }}</p>
+            </div>
+            <div class="text-lg mt-1 space-x-2 flex flex-inline">
+              <p class="font-semibold">Current Version:</p>
+              <p>{{ game.gameRegions[region].gameVersions[0].currentVersion }}</p>
+            </div>
+            <div class="text-lg mt-1 space-x-2 flex flex-inline">
+              <p class="font-semibold">ID:</p>
+              <p>{{ game.gameRegions[region]._id }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex mb-6">
+          <h1 class="text-xl font-bold">Comments</h1>
+        </div>
+        <div class="text-lg mt-1">
+          <ul class="list-disc list-inside">
+            <li v-if="game.gameRegions[region].gameVersions[0].comments > 1">{{ game.gameRegions[region].gameVersions[0].comments }}</li>
+            <li v-else>None</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <ul class="inline-flex shadow bg-white w-full justify-evenly">
       <router-link :to="{
         name: 'CreateGameRegion',
@@ -7,8 +61,7 @@
           id: $route.params.id,
           p: game.platform._id
         }
-      }"
-      >
+      }">
         <button class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Region</button>
       </router-link>
       <li
@@ -25,32 +78,55 @@
       </li>
     </ul>
   </div>
-  <div class="flex m-6 space-x-6">
+  <div class="flex m-6 space-x-6 h-almost">
     <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
-      <p class="text-4xl">{{ game.gameRegions[region].title }}</p>
-      <p class="text-2xl">{{ game.gameRegions[region].subTitle }}</p>
-      <br />
-      <p class="text-lg mt-1"><b>Full Title:</b> {{ fullTitle }}</p>
-      <p class="text-lg mt-1"><b>Original Title:</b> {{ game.gameRegions[region].originalTitle }}</p>
-      <p class="text-lg mt-1"><b>Romanized Title:</b> {{ game.gameRegions[region].romanizedTitle }}</p>
-      <p class="text-lg mt-1"><b>Translated Title:</b> {{ game.gameRegions[region].translatedTitle }}</p>
-      <br />
-      <p
-        class="text-lg mt-1"
-        @click="$router.push(`/developers/${ game.developer._id }`)"
-      ><b>Developer:</b> {{ game.developer.name }}</p>
-      <p
-        class="text-lg mt-1"
-        @click="$router.push(`/platforms/${ game.platform._id }`)"
-      ><b>Platform:</b> {{ game.platform.name }}</p>
-      <p class="text-lg mt-1"><b>Release Year:</b> {{ game.releaseYear }}</p>
-      <p class="text-lg mt-1"><b>Number of Players:</b> {{ game.numberPlayers }}</p>
-    </div>
-    <div class="hidden">
-      <p class="text-lg mt-1"><b>Region:</b> {{ game.gameRegions[region].region }}</p>
-      <p class="text-lg mt-1"><b>Latest Version:</b> {{ game.latestVersion }}</p>
-      <p class="text-lg mt-1"><b>Current Version:</b> {{ game.gameRegions[region].gameVersions[0].currentVersion }}</p>
-      <p class="text-lg mt-1"><b>Comments:</b> {{ game.gameRegions[region].gameVersions[0].comments }}</p>
+      <div class="mb-10">
+        <p class="text-4xl">{{ game.gameRegions[region].title }}</p>
+        <p class="text-2xl">{{ game.gameRegions[region].subTitle }}</p>
+      </div>
+      <div class="flex flex-inline items-center space-x-4 mb-6">
+        <h1 class="text-xl font-bold">Game Information</h1>
+        <button
+          class="w-max h-full bg-gray-300 font-semibold px-4 py-2 rounded-full text-base text-blue-800"
+          @click="showDetails()"
+        >Details</button>
+      </div>
+      <div class="mb-6">
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Full Title:</p>
+          <p>{{ fullTitle }}</p>
+        </div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Original Title:</p>
+          <p>{{ game.gameRegions[region].originalTitle }}</p>
+        </div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Romanized Title:</p>
+          <p>{{ game.gameRegions[region].romanizedTitle }}</p>
+        </div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Translated Title:</p>
+          <p>{{ game.gameRegions[region].translatedTitle }}</p>
+        </div>
+      </div>
+      <div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Developer:</p>
+          <p @click="$router.push(`/developers/${ game.developer._id }`)">{{ game.developer.name }}</p>
+        </div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Platform:</p>
+          <p @click="$router.push(`/platforms/${ game.platform._id }`)">{{ game.platform.name }}</p>
+        </div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Release Year:</p>
+          <p>{{ game.releaseYear }}</p>
+        </div>
+        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+          <p class="font-semibold">Number of Players:</p>
+          <p>{{ game.numberPlayers }}</p>
+        </div>
+      </div>
     </div>
     <div class="w-2/5 bg-white p-6 rounded-xl shadow">
     </div>
@@ -68,6 +144,7 @@ export default {
   data() {
     return {
       region: 0,
+      details: 0,
       game: {
         developer: { name: null },
         platform: { name: null },
@@ -103,6 +180,9 @@ export default {
     },
     changeRegion(sel) {
       this.region = sel
+    },
+    showDetails() {
+      this.details = !this.details
     }
   },
   mounted() {
@@ -132,4 +212,10 @@ export default {
 </script>
 
 <style>
+.h-almost {
+  height: calc(100vh - 104px);
+}
+.w-almost {
+  width: calc(100vw - 15rem);
+}
 </style>
