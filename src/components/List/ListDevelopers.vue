@@ -6,16 +6,18 @@
       </router-link>
       <div></div>
     </div>
-    <ul class="space-y-4 mt-8">
+    <ul class="grid grid-cols-4 gap-4 m-6">
       <li
         v-for="d in developers"
         :key="d._id"
         :value="d._id"
+        @click="$router.push(`/developers/${ d._id }`)"
       >
-        <button
-          class="bg-gray-300 px-6 py-3 rounded-full w-full"
-          @click="$router.push(`/developers/${ d._id }`)"
-        >{{ d.name }}</button>
+        <div class="bg-white p-4 rounded-xl shadow text-center cursor-pointer">
+          <h1 class="text-xl text-blue-800 font-semibold">{{ d.name }}</h1>
+          <!-- Placeholder -->
+          <p class="text-indigo-400">0 Titles</p>
+        </div>
       </li>
     </ul>
   </div>

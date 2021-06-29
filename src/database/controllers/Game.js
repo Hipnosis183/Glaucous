@@ -114,5 +114,17 @@ export async function getGame(req) {
 
 // Search for all games.
 export async function getGames() {
-    return await GamePlatformModel.find({}, { populate: true })
+    let gamePlatforms = []
+    return await GamePlatformModel.find({}, { populate: false })
+        .then(async res => {
+            // Loop through all the items in 'res'.
+            for (let gamePlatform of res) {
+                await getGame(gamePlatform._id)
+                    // Populate each item with its data.
+                    .then(res => gamePlatforms.push(res))
+            }
+            res = gamePlatforms
+            // Return populated object.
+            return res
+        })
 }
