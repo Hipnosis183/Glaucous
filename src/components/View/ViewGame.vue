@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      class="flex items-center justify-center fixed w-almost h-full"
-      :class="details ? 'visible' : 'hidden'"
+      class="transform ease-in-out transition-all duration-1000 flex items-center justify-center fixed h-full"
+      :class="[details ? 'visible' : 'hidden', $store.state.sidenavExpanded ? 'w-exp' : 'w-cont']"
     >
       <div
         class="bg-black bg-opacity-50 w-full h-full"
@@ -218,7 +218,10 @@ export default {
 .min-h-almost {
   min-height: calc(100vh - 104px);
 }
-.w-almost {
+.w-exp {
   width: calc(100vw - 15rem);
+}
+.w-cont {
+  width: calc(100vw - 3.5rem);
 }
 </style>

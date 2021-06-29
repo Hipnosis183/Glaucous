@@ -1,7 +1,7 @@
 <template>
   <div
     class="transform ease-in-out transition-all duration-1000 relative bg-indigo-500 flex-col justify-between flex flex-shrink-0"
-    :class="expanded ? 'w-60' : 'w-14'"
+    :class="$store.state.sidenavExpanded ? 'w-60' : 'w-14'"
   >
     <div class="h-full flex-col justify-between flex">
       <div class="">
@@ -50,7 +50,7 @@
     <div class="bg-indigo-600 flex text-center">
       <button
         class="text-gray-100 font-semibold text-2xl m-auto py-3"
-        :class="expanded ? 'mr-auto' : 'mr-5'"
+        :class="$store.state.sidenavExpanded ? 'mr-auto' : 'mr-5'"
         @click="toggle()"
       >{{ icon }}</button>
     </div>
@@ -61,7 +61,6 @@
 export default {
   data() {
     return {
-      expanded: true,
       history: window.history.state.position,
       name: 'Frontend',
       icon: '<',
@@ -74,14 +73,14 @@ export default {
   },
   methods: {
     toggle() {
-      this.expanded = !this.expanded;
-      this.name = this.expanded ? 'Frontend' : 'F'
-      this.icon = this.expanded ? '<' : '>'
-      this.games = this.expanded ? 'Games' : 'G'
-      this.developers = this.expanded ? 'Developers' : 'D'
-      this.platforms = this.expanded ? 'Platforms' : 'P'
-      this.search = this.expanded ? 'Search' : 'S'
-      this.back = this.expanded ? 'Back' : 'B'
+      this.$store.state.sidenavExpanded = !this.$store.state.sidenavExpanded;
+      this.name = this.$store.state.sidenavExpanded ? 'Frontend' : 'F'
+      this.icon = this.$store.state.sidenavExpanded ? '<' : '>'
+      this.games = this.$store.state.sidenavExpanded ? 'Games' : 'G'
+      this.developers = this.$store.state.sidenavExpanded ? 'Developers' : 'D'
+      this.platforms = this.$store.state.sidenavExpanded ? 'Platforms' : 'P'
+      this.search = this.$store.state.sidenavExpanded ? 'Search' : 'S'
+      this.back = this.$store.state.sidenavExpanded ? 'Back' : 'B'
     }
   },
   watch: {
