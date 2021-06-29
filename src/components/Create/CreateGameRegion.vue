@@ -39,9 +39,6 @@ export default {
       for (const prop in this.$store.state.gameForm.gameRegion) {
         if (this.$store.state.gameForm.gameRegion[prop] === null) return
       }
-      for (const prop in this.$store.state.gameForm.gameVersion) {
-        if (this.$store.state.gameForm.gameVersion[prop] === null) return
-      }
       // Set datastore and save new game entry.
       connectDatastore(this.$route.query.p)
         .then(() => newGameRegion(this.$store.state.gameForm, this.$route.query.id)

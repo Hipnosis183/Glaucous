@@ -21,7 +21,7 @@ export default createStore({
       },
       gameVersion: {
         currentVersion: null,
-        comments: null
+        comments: []
       }
     }
   },
@@ -39,7 +39,7 @@ export default createStore({
       state.gameForm.gameRegion.translatedTitle = null
       state.gameForm.gameRegion.region = null
       state.gameForm.gameVersion.currentVersion = null
-      state.gameForm.gameVersion.comments = null
+      state.gameForm.gameVersion.comments = []
     },
     setGamePlatformDeveloper (state, data) {
       state.gameForm.gamePlatform.developer = data
@@ -77,8 +77,11 @@ export default createStore({
     setGameVersionCurrentVersion (state, data) {
       state.gameForm.gameVersion.currentVersion = data
     },
-    setGameVersionComments (state, data) {
-      state.gameForm.gameVersion.comments = data
+    setGameVersionCommentsAdd (state, data) {
+      state.gameForm.gameVersion.comments.push(data)
+    },
+    setGameVersionCommentsRemove (state, data) {
+      state.gameForm.gameVersion.comments.splice(data, 1)
     }
   },
   actions: {

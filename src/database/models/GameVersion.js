@@ -5,7 +5,7 @@ class GameVersionModel extends Document {
         super()
         this.schema({
             currentVersion: { type: String },
-            comments: { type: String }
+            comments: { type: [ String ] }
         })
     }
     static collectionName() {

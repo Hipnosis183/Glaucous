@@ -9,7 +9,7 @@
         @click="showDetails()"
       >
       </div>
-      <div class="absolute bg-white p-6 rounded-xl shadow leading-loose">
+      <div class="absolute bg-white p-6 rounded-xl shadow leading-loose max-w-prose">
         <div class="flex mb-6">
           <h1 class="text-xl font-bold">ROM Information</h1>
         </div>
@@ -47,9 +47,22 @@
           <h1 class="text-xl font-bold">Comments</h1>
         </div>
         <div class="text-lg mt-1">
-          <ul class="list-disc list-inside">
-            <li v-if="game.gameRegions[region].gameVersions[0].comments > 1">{{ game.gameRegions[region].gameVersions[0].comments }}</li>
-            <li v-else>None</li>
+          <ul
+            class="list-disc list-inside"
+            v-if="game.gameRegions[region].gameVersions[0].comments.length > 0"
+          >
+            <li
+              class="text-justify"
+              v-for="(c, index) in game.gameRegions[region].gameVersions[0].comments"
+              :key="index"
+              :value="c"
+            >{{ c }}</li>
+          </ul>
+          <ul
+            class="list-disc list-inside"
+            v-else
+          >
+            <li>None</li>
           </ul>
         </div>
       </div>
@@ -65,10 +78,10 @@
         <button class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Region</button>
       </router-link>
       <li
+        class="w-full h-full"
         v-for="(r, index) in game.gameRegions"
         :key="r._id"
         :value="r._id"
-        class="w-full h-full"
       >
         <button
           class="w-full h-full py-3.5"
@@ -161,7 +174,7 @@ export default {
           region: null,
           gameVersions: [{
             currentVersion: null,
-            comments: null
+            comments: [null]
           }]
         }]
       }
