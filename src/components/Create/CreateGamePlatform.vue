@@ -1,15 +1,22 @@
 <template>
-  <div class="flex space-x-4">
-    <div class="w-1/2">
-      <create-game-region-c />
-      <button
-        class="bg-gray-300 font-semibold mt-6 px-6 py-3 rounded-full text-base text-blue-800"
-        @click="onSubmit()"
-      >Submit</button>
-    </div>
-    <div class="w-1/2">
-      <create-game-platform-c />
-      <create-game-version-c />
+  <div class="inline-flex shadow bg-white w-full justify-between">
+    <button
+      class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
+      @click="onSubmit()"
+    >Submit</button>
+    <div></div>
+  </div>
+  <div class="flex m-6 space-x-6">
+    <div class="w-full bg-white p-6 rounded-xl shadow leading-loose">
+      <div class="flex space-x-4">
+        <div class="w-1/2">
+          <create-game-region-c />
+        </div>
+        <div class="w-1/2">
+          <create-game-platform-c />
+          <create-game-version-c />
+        </div>
+      </div>
     </div>
   </div>
 </template>

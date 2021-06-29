@@ -1,7 +1,15 @@
 <template>
-  <div>
-    <create-game-version-c></create-game-version-c>
-    <button @click="onSubmit()">Submit</button>
+  <div class="inline-flex shadow bg-white w-full justify-between">
+    <button
+      class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
+      @click="onSubmit()"
+    >Submit</button>
+    <div></div>
+  </div>
+  <div class="flex m-6 space-x-6 h-almost">
+    <div class="w-full bg-white p-6 rounded-xl shadow leading-loose">
+      <create-game-region-c />
+    </div>
   </div>
 </template>
 
@@ -14,7 +22,7 @@
   export default {
     name: 'create-game-version',
     components: {
-      CreateGameVersion
+      CreateGameVersionC
     },
     methods: {
       onSubmit () {

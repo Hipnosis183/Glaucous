@@ -3,13 +3,13 @@
     <label class="text-blue-900 ml-2">Current Version</label>
     <input
       type="text"
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
+      class="mt-1 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="currentVersion"
     >
     <label class="text-blue-900 ml-2">Comments</label>
     <input
       type="text"
-      class="mt-2 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
+      class="mt-1 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
       v-model="comments"
     >
   </div>

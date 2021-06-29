@@ -78,7 +78,7 @@
       </li>
     </ul>
   </div>
-  <div class="flex m-6 space-x-6 h-almost">
+  <div class="flex m-6 space-x-6 min-h-almost">
     <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
       <div class="mb-10">
         <p class="text-4xl">{{ game.gameRegions[region].title }}</p>
@@ -214,6 +214,9 @@ export default {
 <style>
 .h-almost {
   height: calc(100vh - 104px);
+}
+.min-h-almost {
+  min-height: calc(100vh - 104px);
 }
 .w-almost {
   width: calc(100vw - 15rem);

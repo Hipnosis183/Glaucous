@@ -1,8 +1,10 @@
 <template>
   <div class="flex min-h-screen max-h-screen relative bg-gray-300">
     <side-nav />
-    <div class="w-full h-full">
-      <router-view />
+    <div class="flex-1 flex overflow-hidden">
+      <div class="flex-1 overflow-y-scroll no-scrollbar">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
