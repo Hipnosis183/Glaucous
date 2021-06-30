@@ -1,6 +1,7 @@
 import PlatformModel from '../models/Platform'
-import { getGamePlatformCount } from './Game'
+
 import { connectDatastore } from '../datastore'
+import { getGamePlatformCount } from './Game'
 
 // Create new system platform.
 export async function createPlatform(req) {

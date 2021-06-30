@@ -2,6 +2,10 @@ import GamePlatformModel from '../models/GamePlatform'
 import GameRegionModel from '../models/GameRegion'
 import GameVersionModel from '../models/GameVersion'
 
+import { connectDatastore } from '../datastore'
+import { getDeveloper } from './Developer'
+import { getPlatform } from './Platform'
+
 let Region
 let Version
 
@@ -111,6 +115,33 @@ export async function getGame(req) {
                     // Populate each item with its data.
                     .then(res => gameRegions.push(res))
             }
+            // Populate the developer and platform.
+            await connectDatastore().then(async () => {
+                await getDeveloper(res.developer)
+                    .then(dev => res.developer = dev)
+                await getPlatform(res.platform)
+                    .then(pla => res.platform = pla)
+            })
+            res.gameRegions = gameRegions
+            // Return populated object.
+            return res
+        })
+}
+
+// Search for a specific game.
+// More performant, to use with 'getGames()'.
+export async function getGameAll(req) {
+    // Since 'gameVersion' is the last object in the tree,
+    // there's no need to populate it manually.
+    let gameRegions = []
+    return await getGamePlatform(req)
+        .then(async res => {
+            // Loop through all the items in 'res.gameRegions[]'.
+            for (let gameRegion of res.gameRegions) {
+                await getGameRegion(gameRegion)
+                    // Populate each item with its data.
+                    .then(res => gameRegions.push(res))
+            }
             res.gameRegions = gameRegions
             // Return populated object.
             return res
@@ -124,10 +155,18 @@ export async function getGames() {
         .then(async res => {
             // Loop through all the items in 'res'.
             for (let gamePlatform of res) {
-                await getGame(gamePlatform._id)
+                await getGameAll(gamePlatform._id)
                     // Populate each item with its data.
                     .then(res => gamePlatforms.push(res))
             }
+            await connectDatastore().then(async () => {
+                for (let [i, gamePlatform] of gamePlatforms.entries()) {
+                    await getDeveloper(gamePlatform.developer)
+                        .then(dev => gamePlatforms[i].developer = dev)
+                    await getPlatform(gamePlatform.platform)
+                        .then(pla => gamePlatforms[i].platform = pla)
+                }
+            })
             res = gamePlatforms
             // Return populated object.
             return res

@@ -40,8 +40,6 @@
 
 <script>
 import { connectDatastore } from '../../database/datastore'
-import { getDeveloper } from '../../database/controllers/Developer'
-import { getPlatform } from '../../database/controllers/Platform'
 import { getGames } from '../../database/controllers/Game'
 
 export default {
@@ -55,16 +53,6 @@ export default {
     connectDatastore(this.$route.params.id).then(() => {
       getGames().then(res => {
         this.games = res
-        // There are synchronization problems if
-        // this fetch is done inside 'getGame()'.
-        connectDatastore().then(() => {
-          for (let [i, r] of res.entries()) {
-            getDeveloper(r.developer)
-              .then(res => this.games[i].developer = res)
-            getPlatform(r.platform)
-              .then(res => this.games[i].platform = res)
-          }
-        })
       })
     })
   }

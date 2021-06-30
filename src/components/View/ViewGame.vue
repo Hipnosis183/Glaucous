@@ -202,17 +202,6 @@ export default {
     connectDatastore(this.$route.query.p).then(() => {
       getGame(this.$route.params.id).then(res => {
         this.game = res
-        // There are synchronization problems if
-        // this fetch is done inside 'getGame()'.
-        connectDatastore().then(() => {
-          getDeveloper(res.developer)
-            .then(res => this.game.developer = res)
-          getPlatform(res.platform)
-            .then(res => this.game.platform = res)
-        })
-        for (let gameRegion of this.game.gameRegions) {
-          console.log(gameRegion)
-        }
       })
     })
   },
