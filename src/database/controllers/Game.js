@@ -83,6 +83,11 @@ export async function getGamePlatform(req) {
     return await GamePlatformModel.findOne({ _id: req }, { populate: false })
 }
 
+// Search for a specific game platform.
+export async function getGamePlatformCount() {
+    return await GamePlatformModel.count({}, { populate: false })
+}
+
 // Search for a specific game region.
 export async function getGameRegion(req) {
     return await GameRegionModel.findOne({ _id: req }, { populate: true })

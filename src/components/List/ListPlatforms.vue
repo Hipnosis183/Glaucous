@@ -15,8 +15,7 @@
       >
         <div class="bg-white p-4 rounded-xl shadow text-center cursor-pointer">
           <h1 class="text-xl text-blue-800 font-semibold">{{ p.name }}</h1>
-          <!-- Placeholder -->
-          <p class="text-indigo-400">0 Titles</p>
+          <p class="text-indigo-400">{{ p.titles }} Titles</p>
         </div>
       </li>
     </ul>
@@ -37,7 +36,9 @@ export default {
   mounted() {
     connectDatastore().then(() => {
       getPlatforms()
-        .then(res => this.platforms = res)
+        .then(res => {
+          this.platforms = res
+        })
     })
   }
 }
