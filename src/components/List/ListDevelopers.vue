@@ -15,8 +15,7 @@
       >
         <div class="bg-white p-4 rounded-xl shadow text-center cursor-pointer">
           <h1 class="text-xl text-blue-800 font-semibold">{{ d.name }}</h1>
-          <!-- Placeholder -->
-          <p class="text-indigo-400">0 Titles</p>
+          <p class="text-indigo-400">{{ d.titles }} Titles</p>
         </div>
       </li>
     </ul>

@@ -34,9 +34,7 @@ export default {
   },
   mounted() {
     getPlatforms()
-      .then(res => {
-        this.platforms = res
-      })
+      .then(res => this.platforms = res)
   }
 }
 </script>

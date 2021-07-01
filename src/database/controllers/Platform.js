@@ -1,5 +1,5 @@
 import PlatformModel from '../models/Platform'
-import { getGamePlatformCount } from './Game'
+import { getGamePlatformCountP } from './Game'
 
 // Create new system platform.
 export async function createPlatform(req) {
@@ -23,7 +23,7 @@ export async function getPlatforms() {
             // Loop through all the items in 'res'.
             for (let platform of res) {
                 // Get and add titles count to the object.
-                await getGamePlatformCount(platform._id)
+                await getGamePlatformCountP(platform._id)
                     .then(count => {
                         platform.titles = count
                     })

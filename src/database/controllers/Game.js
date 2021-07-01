@@ -86,7 +86,12 @@ export async function getGamePlatform(req) {
 }
 
 // Search for a specific game platform.
-export async function getGamePlatformCount(req) {
+export async function getGamePlatformCountD(req) {
+    return await GamePlatformModel.count({ developer: req }, { populate: false })
+}
+
+// Search for a specific game platform.
+export async function getGamePlatformCountP(req) {
     return await GamePlatformModel.count({ platform: req }, { populate: false })
 }
 
@@ -124,7 +129,24 @@ export async function getGame(req) {
 }
 
 // Search for all games.
-export async function getGames(req) {
+export async function getGamesD(req) {
+    let gamePlatforms = []
+    return await GamePlatformModel.find({ developer: req }, { populate: false })
+        .then(async res => {
+            // Loop through all the items in 'res'.
+            for (let gamePlatform of res) {
+                await getGame(gamePlatform._id)
+                    // Populate each item with its data.
+                    .then(res => gamePlatforms.push(res))
+            }
+            res = gamePlatforms
+            // Return populated object.
+            return res
+        })
+}
+
+// Search for all games.
+export async function getGamesP(req) {
     let gamePlatforms = []
     return await GamePlatformModel.find({ platform: req }, { populate: false })
         .then(async res => {

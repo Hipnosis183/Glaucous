@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getGames } from '../../database/controllers/Game'
+import { getGamesP } from '../../database/controllers/Game'
 
 export default {
   name: 'view-platform',
@@ -49,9 +49,8 @@ export default {
     }
   },
   mounted() {
-    getGames(this.$route.params.id).then(res => {
-      this.games = res
-    })
+    getGamesP(this.$route.params.id)
+      .then(res => this.games = res)
   }
 }
 </script>
