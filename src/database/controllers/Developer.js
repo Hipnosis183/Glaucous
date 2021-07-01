@@ -1,10 +1,12 @@
 import DeveloperModel from '../models/Developer'
+import { generateID } from '../datastore'
 import { getGamePlatformCountD } from './Game'
 
 // Create new game developer.
 export async function createDeveloper(req) {
     // Create developer model.
     const Developer = DeveloperModel.create({
+        _id: generateID(),
         name: req.name
     })
     // Save model to database.

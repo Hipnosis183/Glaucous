@@ -1,10 +1,12 @@
 import PlatformModel from '../models/Platform'
+import { generateID } from '../datastore'
 import { getGamePlatformCountP } from './Game'
 
 // Create new system platform.
 export async function createPlatform(req) {
     // Create platform model.
     const Platform = PlatformModel.create({
+        _id: generateID(),
         name: req.name
     })
     // Save model to database.

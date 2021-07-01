@@ -1,6 +1,7 @@
 import GamePlatformModel from '../models/GamePlatform'
 import GameRegionModel from '../models/GameRegion'
 import GameVersionModel from '../models/GameVersion'
+import { generateID } from '../datastore'
 import { getDeveloper } from './Developer'
 import { getPlatform } from './Platform'
 
@@ -37,6 +38,7 @@ export async function newGameRegion(req, id) {
 async function createGamePlatform(req) {
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
+        _id: generateID(),
         gamePlatforms: null,
         gameRegions: new Array(Region),
         developer: req.developer,
@@ -53,6 +55,7 @@ async function createGamePlatform(req) {
 async function createGameRegion(req) {
     // Create game region model.
     const GameRegion = GameRegionModel.create({
+        _id: generateID(),
         gameVersions: new Array(Version),
         title: req.title,
         subTitle: req.subTitle,
@@ -71,6 +74,7 @@ async function createGameRegion(req) {
 async function createGameVersion(req) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
+        _id: generateID(),
         currentVersion: req.currentVersion,
         comments: req.comments
     })

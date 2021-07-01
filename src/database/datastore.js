@@ -1,11 +1,22 @@
+const crypto = require('crypto')
 const { connect } = require('marpat')
 
 let database
 const uri = 'nedb://database'
 
-connect(uri).then(function(db) {
+connect(uri).then(function (db) {
     database = db;
 });
+
+// Generate a random, 16 characters long ID.
+// If a collision happens, NeDB will generate a new ID.
+export function generateID() {
+    return crypto.randomBytes(Math.ceil(Math.max(8, 16 * 2)))
+        .toString('base64')
+        .replace(/[+\/]/g, '')
+        .slice(0, 16)
+        .toUpperCase();
+}
 
 /*
 While at first I thought that having separated databases for
