@@ -8,7 +8,7 @@ export async function createPlatform(req) {
         name: req.name
     })
     // Save model to database.
-    await Platform.save()
+    return await Platform.save()
 }
 
 // Search for a specific platform.
