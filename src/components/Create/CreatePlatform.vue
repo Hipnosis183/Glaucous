@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../database/datastore'
 import { createPlatform } from '../../database/controllers/Platform'
 
 export default {
@@ -39,11 +38,9 @@ export default {
       for (const prop in this.platformForm) {
         if (this.platformForm[prop] === null) return
       }
-      // Set datastore and save new platform entry.
-      connectDatastore().then(() => {
-        createPlatform(this.platformForm)
-          .then(() => this.$router.back())
-      })
+      // Save new platform entry.
+      createPlatform(this.platformForm)
+        .then(() => this.$router.back())
     }
   }
 }

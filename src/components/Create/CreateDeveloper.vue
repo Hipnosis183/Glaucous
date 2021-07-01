@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../database/datastore'
 import { createDeveloper } from '../../database/controllers/Developer'
 
 export default {
@@ -39,11 +38,9 @@ export default {
       for (const prop in this.developerForm) {
         if (this.developerForm[prop] === null) return
       }
-      // Set datastore and save new developer entry.
-      connectDatastore().then(() => {
-        createDeveloper(this.developerForm)
-          .then(() => this.$router.back())
-      })
+      // Save new developer entry.
+      createDeveloper(this.developerForm)
+        .then(() => this.$router.back())
     }
   }
 }

@@ -147,9 +147,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../database/datastore'
-import { getDeveloper } from '../../database/controllers/Developer'
-import { getPlatform } from '../../database/controllers/Platform'
 import { getGame } from '../../database/controllers/Game'
 
 export default {
@@ -199,10 +196,8 @@ export default {
     }
   },
   mounted() {
-    connectDatastore(this.$route.query.p).then(() => {
-      getGame(this.$route.params.id).then(res => {
-        this.game = res
-      })
+    getGame(this.$route.params.id).then(res => {
+      this.game = res
     })
   },
   computed: {

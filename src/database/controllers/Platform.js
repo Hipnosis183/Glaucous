@@ -1,6 +1,4 @@
 import PlatformModel from '../models/Platform'
-
-import { connectDatastore } from '../datastore'
 import { getGamePlatformCount } from './Game'
 
 // Create new system platform.
@@ -24,13 +22,11 @@ export async function getPlatforms() {
         .then(async res => {
             // Loop through all the items in 'res'.
             for (let platform of res) {
-                await connectDatastore(platform._id).then(async () => {
-                    // Get and add titles count to the object.
-                    await getGamePlatformCount()
-                        .then(count => {
-                            platform.titles = count
-                        })
-                })
+                // Get and add titles count to the object.
+                await getGamePlatformCount(platform._id)
+                    .then(count => {
+                        platform.titles = count
+                    })
             }
             // Return object.
             return res

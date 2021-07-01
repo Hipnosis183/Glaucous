@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../database/datastore'
 import { getGames } from '../../database/controllers/Game'
 
 export default {
@@ -37,10 +36,8 @@ export default {
     }
   },
   mounted() {
-    connectDatastore(this.$route.params.id).then(() => {
-      getGames()
-        .then(res => this.games = res)
-    })
+    getGames(this.$route.params.id)
+      .then(res => this.games = res)
   }
 }
 </script>

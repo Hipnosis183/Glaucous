@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../database/datastore'
 import { getPlatforms } from '../../database/controllers/Platform'
 
 export default {
@@ -34,12 +33,10 @@ export default {
     }
   },
   mounted() {
-    connectDatastore().then(() => {
-      getPlatforms()
-        .then(res => {
-          this.platforms = res
-        })
-    })
+    getPlatforms()
+      .then(res => {
+        this.platforms = res
+      })
   }
 }
 </script>

@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../../database/datastore'
 import { getDevelopers } from '../../../database/controllers/Developer'
 import { getPlatforms } from '../../../database/controllers/Platform'
 
@@ -64,13 +63,11 @@ export default {
     this.developer = this.$route.query.d
       ? this.$route.query.d : null
 
-    // Set datastore and get developers and platforms.
-    connectDatastore().then(() => {
-      getDevelopers()
-        .then(res => this.developers = res)
-      getPlatforms()
-        .then(res => this.platforms = res)
-    })
+    // Get developers and platforms.
+    getDevelopers()
+      .then(res => this.developers = res)
+    getPlatforms()
+      .then(res => this.platforms = res)
   },
   computed: {
     developer: {

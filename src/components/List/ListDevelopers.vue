@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { connectDatastore } from '../../database/datastore'
 import { getDevelopers } from '../../database/controllers/Developer'
 
 export default {
@@ -35,10 +34,8 @@ export default {
     }
   },
   mounted() {
-    connectDatastore().then(() => {
-      getDevelopers()
-        .then(res => this.developers = res)
-    })
+    getDevelopers()
+      .then(res => this.developers = res)
   }
 }
 </script>

@@ -25,8 +25,6 @@
 import CreateGamePlatformC from './CreateGame/CreateGamePlatformC.vue'
 import CreateGameRegionC from './CreateGame/CreateGameRegionC.vue'
 import CreateGameVersionC from './CreateGame/CreateGameVersionC.vue'
-
-import { connectDatastore } from '../../database/datastore'
 import { newGamePlatform } from '../../database/controllers/Game'
 
 export default {
@@ -45,11 +43,9 @@ export default {
       for (const prop in this.$store.state.gameForm.gameRegion) {
         if (this.$store.state.gameForm.gameRegion[prop] === null) return
       }
-      // Set datastore and save new game entry.
-      connectDatastore(this.$store.state.gameForm.gamePlatform.platform)
-        .then(() => newGamePlatform(this.$store.state.gameForm)
-          .then(() => this.$router.back())
-        )
+      // Save new game entry.
+      newGamePlatform(this.$store.state.gameForm)
+        .then(() => this.$router.back())
     }
   },
   watch: {
