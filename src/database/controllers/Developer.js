@@ -10,7 +10,7 @@ export async function createDeveloper(req) {
         name: req.name
     })
     // Save model to database.
-    await Developer.save()
+    return await Developer.save()
 }
 
 // Search for a specific developer.
