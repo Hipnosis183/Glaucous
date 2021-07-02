@@ -1,6 +1,6 @@
 import PlatformModel from '../models/Platform'
-import { generateID } from '../datastore'
-import { getGamePlatformCountP } from './Game'
+import { generateID, connectDatastore } from '../datastore'
+import { getGamePlatformCountP, deleteGamesP } from './Game'
 
 // Create new system platform.
 export async function createPlatform(req) {
@@ -33,4 +33,15 @@ export async function getPlatforms() {
             // Return object.
             return res
         })
+}
+
+// Delete a specific system platform.
+export async function deletePlatform(req) {
+    // Compact database.
+    await connectDatastore().then(async () => {
+        // Delete all of the platform's related games.
+        await deleteGamesP(req)
+        // Delete the platform itself.
+        await PlatformModel.findOneAndDelete({ _id: req })
+    })
 }

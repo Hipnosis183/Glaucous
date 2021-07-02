@@ -75,8 +75,16 @@
           p: game.platform._id
         }
       }">
-        <button class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Region</button>
+        <button class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">+</button>
       </router-link>
+      <button
+        class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
+        @click="deleteGameRegion()"
+      >-</button>
+      <button
+        class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
+        @click="deleteGamePlatform()"
+      >*</button>
       <li
         class="w-full h-full"
         v-for="(r, index) in game.gameRegions"
@@ -147,7 +155,7 @@
 </template>
 
 <script>
-import { getGame } from '../../database/controllers/Game'
+import { getGame, deleteGamePlatform, deleteGameRegion } from '../../database/controllers/Game'
 
 export default {
   name: 'view-game',
@@ -178,6 +186,10 @@ export default {
     }
   },
   methods: {
+    loadGame() {
+      getGame(this.$route.params.id)
+        .then(res => this.game = res)
+    },
     nextRegion() {
       if (this.region < this.game.gameRegions.length - 1) {
         this.region++
@@ -193,12 +205,25 @@ export default {
     },
     showDetails() {
       this.details = !this.details
+    },
+    deleteGameRegion() {
+      deleteGameRegion(this.game, this.region)
+        .then(res => {
+          if (res) {
+            this.loadGame()
+            this.region = 0
+          } else {
+            this.$router.back()
+          }
+        })
+    },
+    deleteGamePlatform() {
+      deleteGamePlatform(this.game)
+        .then(() => this.$router.back())
     }
   },
   mounted() {
-    getGame(this.$route.params.id).then(res => {
-      this.game = res
-    })
+    this.loadGame()
   },
   computed: {
     fullTitle() {

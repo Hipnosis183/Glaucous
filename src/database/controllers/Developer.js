@@ -1,6 +1,6 @@
 import DeveloperModel from '../models/Developer'
-import { generateID } from '../datastore'
-import { getGamePlatformCountD } from './Game'
+import { generateID, connectDatastore } from '../datastore'
+import { getGamePlatformCountD, deleteGamesD } from './Game'
 
 // Create new game developer.
 export async function createDeveloper(req) {
@@ -33,4 +33,15 @@ export async function getDevelopers() {
             // Return object.
             return res
         })
+}
+
+// Delete a specific developer.
+export async function deleteDeveloper(req) {
+    // Compact database.
+    await connectDatastore().then(async () => {
+        // Delete all of the developer's related games.
+        await deleteGamesD(req)
+        // Delete the developer itself.
+        await DeveloperModel.findOneAndDelete({ _id: req })
+    })
 }

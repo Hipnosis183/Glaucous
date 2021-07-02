@@ -165,3 +165,68 @@ export async function getGamesP(req) {
             return res
         })
 }
+
+// Delete the specified game platform and all its related data.
+export async function deleteGamePlatform(req, p) {
+    // Delete all the game regions of the game platform.
+    for (let r of req.gameRegions) {
+        // Delete all the game versions of the game region.
+        for (let v of r.gameVersions) {
+            await GameVersionModel.findOneAndDelete({ _id: p ? v : v._id })
+        }
+        await GameRegionModel.findOneAndDelete({ _id: r._id })
+    }
+    // Delete the game platform.
+    await GamePlatformModel.findOneAndDelete({ _id: req._id })
+}
+
+// Delete the specified game region and all its related data.
+export async function deleteGameRegion(req, i) {
+    // Delete all the game versions of the game region.
+    for (let v of req.gameRegions[i].gameVersions) {
+        await GameVersionModel.findOneAndDelete({ _id: v._id })
+    }
+    // Delete the game region.
+    await GameRegionModel.findOneAndDelete({ _id: req.gameRegions[i]._id })
+
+    if ((req.gameRegions.length - 1) > 0) {
+        // Update platform for the game.
+        await getGamePlatform(req._id)
+            .then(async res => {
+                let index = res.gameRegions.indexOf(req.gameRegions[i]._id)
+                res.gameRegions.splice(index, 1)
+                await GamePlatformModel.findOneAndUpdate(
+                    { _id: req._id },
+                    { gameRegions: res.gameRegions },
+                    { populate: false }
+                )
+            })
+        return true
+    } else {
+        // Delete the game platform.
+        await GamePlatformModel.findOneAndDelete({ _id: req._id })
+        return false
+    }
+}
+
+// Delete all the games from the specified developer.
+export async function deleteGamesD(req) {
+    await GamePlatformModel.find({ developer: req })
+        .then(async res => {
+            // Delete all the game platforms of the platform.
+            for (let p of res) {
+                await deleteGamePlatform(p, true)
+            }
+        })
+}
+
+// Delete all the games from the specified platform.
+export async function deleteGamesP(req) {
+    await GamePlatformModel.find({ platform: req })
+        .then(async res => {
+            // Delete all the game platforms of the platform.
+            for (let p of res) {
+                await deleteGamePlatform(p, true)
+            }
+        })
+}

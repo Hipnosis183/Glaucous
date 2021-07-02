@@ -6,9 +6,13 @@
         query: { d: $route.params.id }
       }"
       >
-        <button class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Game</button>
+        <button class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">+</button>
       </router-link>
-      <div></div>
+      <button
+        class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
+        @click="deleteDeveloper()"
+      >-</button>
+      <div class="w-full"></div>
     </div>
     <ul class="grid grid-cols-4 gap-4 m-6">
       <li
@@ -40,12 +44,19 @@
 
 <script>
 import { getGamesD } from '../../database/controllers/Game'
+import { deleteDeveloper } from '../../database/controllers/Developer'
 
 export default {
   name: 'view-developer',
   data() {
     return {
       games: null
+    }
+  },
+  methods: {
+    deleteDeveloper() {
+      deleteDeveloper(this.$route.params.id)
+        .then(() => this.$router.back())
     }
   },
   mounted() {

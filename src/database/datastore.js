@@ -3,10 +3,15 @@ const { connect } = require('marpat')
 
 let database
 const uri = 'nedb://database'
+connectDatastore()
 
-connect(uri).then(function (db) {
-    database = db;
-});
+// Used as a hack to compact the database.
+// Mostly to avoid errors on delete operations.
+export async function connectDatastore(){
+    connect(uri).then(db => {
+        database = db
+    })
+}
 
 // Generate a random, 16 characters long ID.
 // If a collision happens, NeDB will generate a new ID.
