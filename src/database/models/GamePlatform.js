@@ -7,7 +7,7 @@ class GamePlatformModel extends Document {
     constructor() {
         super()
         this.schema({
-            gamePlatforms: { type: [ GamePlatformModel ] },
+            gamePlatforms: { type: [ GamePlatformModel ], required: true },
             gameRegions: { type: [ GameRegionModel ], required: true },
             developer: { type: DeveloperModel, required: true },
             platform: { type: PlatformModel, required: true },

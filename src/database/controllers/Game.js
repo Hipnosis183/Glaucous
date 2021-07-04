@@ -26,20 +26,17 @@ export async function newGameRegion(req, id) {
     await getGamePlatform(id)
         .then(async res => {
             res.gameRegions.push(Region)
-            await GamePlatformModel.findOneAndUpdate(
-                { _id: id },
-                { gameRegions: res.gameRegions },
-                { populate: false }
-            )
+            await GamePlatformModel.findOneAndUpdate({ _id: id }, { gameRegions: res.gameRegions })
         })
 }
 
 // Create a specific game for a determined platform.
 async function createGamePlatform(req) {
+    let Platform = generateID()
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
-        _id: generateID(),
-        gamePlatforms: null,
+        _id: Platform,
+        gamePlatforms: new Array(Platform),
         gameRegions: new Array(Region),
         developer: req.developer,
         platform: req.platform,
@@ -132,7 +129,16 @@ export async function getGame(req) {
         })
 }
 
-// Search for all games.
+// Search for all games on an array.
+export async function getGames(req) {
+    let games = []
+    for (let g of req) {
+        await getGame(g).then(res => games.push(res))
+    }
+    return games
+}
+
+// Search for all games by a specific developer.
 export async function getGamesD(req) {
     let gamePlatforms = []
     return await GamePlatformModel.find({ developer: req }, { populate: false })
@@ -149,7 +155,7 @@ export async function getGamesD(req) {
         })
 }
 
-// Search for all games.
+// Search for all games by a specific platform.
 export async function getGamesP(req) {
     let gamePlatforms = []
     return await GamePlatformModel.find({ platform: req }, { populate: false })
@@ -176,8 +182,8 @@ export async function deleteGamePlatform(req, p) {
         }
         await GameRegionModel.findOneAndDelete({ _id: r._id })
     }
-    // Delete the game platform.
-    await GamePlatformModel.findOneAndDelete({ _id: req._id })
+    // Unlink game.
+    await unlinkGame(req, true)
 }
 
 // Delete the specified game region and all its related data.
@@ -195,23 +201,19 @@ export async function deleteGameRegion(req, i) {
             .then(async res => {
                 let index = res.gameRegions.indexOf(req.gameRegions[i]._id)
                 res.gameRegions.splice(index, 1)
-                await GamePlatformModel.findOneAndUpdate(
-                    { _id: req._id },
-                    { gameRegions: res.gameRegions },
-                    { populate: false }
-                )
+                await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: res.gameRegions })
             })
         return true
     } else {
-        // Delete the game platform.
-        await GamePlatformModel.findOneAndDelete({ _id: req._id })
+        // Unlink game.
+        await unlinkGame(req, true)
         return false
     }
 }
 
 // Delete all the games from the specified developer.
 export async function deleteGamesD(req) {
-    await GamePlatformModel.find({ developer: req })
+    await GamePlatformModel.find({ developer: req }, { populate: ['gameRegions'] })
         .then(async res => {
             // Delete all the game platforms of the platform.
             for (let p of res) {
@@ -222,11 +224,80 @@ export async function deleteGamesD(req) {
 
 // Delete all the games from the specified platform.
 export async function deleteGamesP(req) {
-    await GamePlatformModel.find({ platform: req })
+    await GamePlatformModel.find({ platform: req }, { populate: ['gameRegions'] })
         .then(async res => {
             // Delete all the game platforms of the platform.
             for (let p of res) {
                 await deleteGamePlatform(p, true)
             }
         })
+}
+
+// Search all the games in the database by a given title.
+export async function searchGameByTitle(q, req) {
+    let query = new RegExp(q, 'i')
+    // Search through game regions, case insensitive.
+    return await GameRegionModel.find({ $or: [{ title: query }, { subTitle: query }, { translatedTitle: query }] })
+        .then(async res => {
+            let ids = []
+            let games = []
+            let platforms = []
+            for (let r of res) {
+                // Search the parent game platform of the game region.
+                await GamePlatformModel.findOne({ gameRegions: r._id }, { populate: ['developer', 'platform'] })
+                    .then(async res => {
+                        // Avoid returning already linked games.
+                        if (!req.includes(res._id)) {
+                            // Avoid returning all regions of a game.
+                            if (!ids.includes(res._id)) {
+                                // Populate parent with the region.
+                                res.child = r
+                                // Get linked games' platforms names.
+                                for (let g of res.gamePlatforms) {
+                                    await GamePlatformModel.findOne({ _id: g }, { select: ['platform'], populate: ['platform'] })
+                                        .then(res => platforms.push(res.platform.name))
+                                }
+                                res.platforms = platforms
+                                // Add game to return array.
+                                games.push(res)
+                                // Blacklist IDs.
+                                ids = ids.concat(res.gamePlatforms)
+                                // Reset platforms names list.
+                                platforms = []
+                            }
+                        }
+                    })
+            }
+            // Return search results.
+            return games
+        })
+}
+
+// Manage game linking.
+export async function linkGame(req, sid) {
+    // Get selected game.
+    let sel = await getGamePlatform(sid)
+    // Concatenate the current and the selected games' game platforms.
+    let linkedGames = req.gamePlatforms.concat(sel.gamePlatforms)
+    // Update the game platforms of all the linked games.
+    for (let g of linkedGames) {
+        await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
+    }
+}
+
+// Manage game unlinking.
+export async function unlinkGame(req, del) {
+    // Get only the linked games.
+    let linkedGames = req.gamePlatforms.filter(res => res != req._id)
+    if (del) {
+        // Delete the game platform.
+        await GamePlatformModel.findOneAndDelete({ _id: req._id })
+    } else {
+        // Update the game platform.
+        await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gamePlatforms: new Array(req._id) })
+    }
+    // Delete the game platform from the linked games.
+    for (let g of linkedGames) {
+        await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
+    }
 }

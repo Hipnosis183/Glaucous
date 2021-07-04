@@ -1,5 +1,34 @@
 <template>
   <div>
+    <el-dialog v-model="addLinks">
+      <el-select
+        v-model="addLinksResult"
+        filterable
+        remote
+        reserve-keyword
+        :remote-method="addLinksRemote"
+      >
+        <el-option
+          v-for="item in addLinksQuery"
+          :key="item._id"
+          :label="item.child.title + ' (' + item.releaseYear + ') - ' + item.platforms.join(' / ')"
+          :value="item._id"
+        >
+        </el-option>
+      </el-select>
+      <el-button @click="linkGame()">Link</el-button>
+      <el-button @click="unlinkGame()">Unlink</el-button>
+    </el-dialog>
+    <el-dialog v-model="viewLinks">
+      <ul class="grid grid-cols-1 m-6">
+        <li
+          v-for="item in viewLinksResult"
+          :key="item._id"
+          :value="item._id"
+        >{{item.platform.name}}
+        </li>
+      </ul>
+    </el-dialog>
     <div
       class="transform ease-in-out transition-all duration-1000 flex items-center justify-center fixed h-full"
       :class="[details ? 'visible' : 'hidden', $store.state.sidenavExpanded ? 'w-exp' : 'w-cont']"
@@ -135,9 +164,17 @@
           <p class="font-semibold">Developer:</p>
           <p @click="$router.push(`/developers/${ game.developer._id }`)">{{ game.developer.name }}</p>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="text-lg mt-1 space-x-2 flex flex-inline items-center">
           <p class="font-semibold">Platform:</p>
           <p @click="$router.push(`/platforms/${ game.platform._id }`)">{{ game.platform.name }}</p>
+          <button
+            class="w-max h-full bg-gray-300 font-semibold px-4 py-2 rounded-full text-base text-blue-800"
+            @click="viewLinksGet()"
+          >Also On</button>
+          <button
+            class="w-max h-full bg-gray-300 font-semibold px-4 py-2 rounded-full text-base text-blue-800"
+            @click="addLinks = !addLinks"
+          >+</button>
         </div>
         <div class="text-lg mt-1 space-x-2 flex flex-inline">
           <p class="font-semibold">Release Year:</p>
@@ -155,12 +192,17 @@
 </template>
 
 <script>
-import { getGame, deleteGamePlatform, deleteGameRegion } from '../../database/controllers/Game'
+import { getGame, getGames, deleteGamePlatform, deleteGameRegion, searchGameByTitle, linkGame, unlinkGame } from '../../database/controllers/Game'
 
 export default {
   name: 'view-game',
   data() {
     return {
+      addLinks: false,
+      addLinksQuery: [],
+      addLinksResult: [],
+      viewLinks: false,
+      viewLinksResult: [],
       region: 0,
       details: 0,
       game: {
@@ -169,7 +211,7 @@ export default {
         releaseYear: null,
         numberPlayers: null,
         latestVersion: null,
-        gamePlatforms: [null],
+        gamePlatforms: [],
         gameRegions: [{
           title: null,
           subTitle: null,
@@ -220,6 +262,37 @@ export default {
     deleteGamePlatform() {
       deleteGamePlatform(this.game)
         .then(() => this.$router.back())
+    },
+    linkGame() {
+      linkGame(this.game, this.addLinksResult).then(() => {
+        this.loadGame()
+        this.addLinksQuery = []
+        this.addLinksResult = ''
+      })
+    },
+    unlinkGame() {
+      unlinkGame(this.game).then(() => {
+        this.loadGame()
+        this.addLinksQuery = []
+        this.addLinksResult = ''
+      })
+    },
+    addLinksRemote(query) {
+      if (query !== '' && query.length > 2) {
+        searchGameByTitle(query, this.game.gamePlatforms)
+          .then(res => {
+            this.addLinksQuery = res
+          })
+      } else {
+        this.addLinksQuery = []
+      }
+    },
+    viewLinksGet() {
+      getGames(this.game.gamePlatforms)
+        .then(res => {
+          this.viewLinksResult = res
+          this.viewLinks = !this.viewLinks
+        })
     }
   },
   mounted() {
@@ -228,6 +301,13 @@ export default {
   computed: {
     fullTitle() {
       return this.game.gameRegions[this.region].title + ' ' + this.game.gameRegions[this.region].subTitle
+    }
+  },
+  watch: {
+    // Watch for route changes to clean the input fields.
+    addLinks() {
+      this.addLinksQuery = []
+      this.addLinksResult = ''
     }
   }
 }

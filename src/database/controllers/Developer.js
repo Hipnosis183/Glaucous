@@ -13,6 +13,17 @@ export async function createDeveloper(req) {
     return await Developer.save()
 }
 
+// Delete a specific developer.
+export async function deleteDeveloper(req) {
+    // Compact database.
+    await connectDatastore().then(async () => {
+        // Delete all of the developer's related games.
+        await deleteGamesD(req)
+        // Delete the developer itself.
+        await DeveloperModel.findOneAndDelete({ _id: req })
+    })
+}
+
 // Search for a specific developer.
 export async function getDeveloper(req) {
     return await DeveloperModel.findOne({ _id: req })
@@ -33,15 +44,4 @@ export async function getDevelopers() {
             // Return object.
             return res
         })
-}
-
-// Delete a specific developer.
-export async function deleteDeveloper(req) {
-    // Compact database.
-    await connectDatastore().then(async () => {
-        // Delete all of the developer's related games.
-        await deleteGamesD(req)
-        // Delete the developer itself.
-        await DeveloperModel.findOneAndDelete({ _id: req })
-    })
 }

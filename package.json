@@ -1,9 +1,8 @@
 {
   "name": "frontend-vue",
   "version": "0.0.1",
-  "author": "Renzo Pigliacampo",
   "private": true,
-  "main": "background.js",
+  "author": "Renzo Pigliacampo",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -12,8 +11,10 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "element-plus": "^1.0.2-beta.28",
     "marpat": "^3.0.5",
     "nedb-promises": "^5.0.0",
     "vue": "^3.0.0",
@@ -32,6 +33,7 @@
     "electron-devtools-installer": "^3.1.0",
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4",
-    "vue-cli-plugin-electron-builder": "~2.0.0"
+    "vue-cli-plugin-electron-builder": "~2.0.0",
+    "vue-cli-plugin-element-plus": "~0.0.13"
   }
 }

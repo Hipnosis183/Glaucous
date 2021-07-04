@@ -13,6 +13,17 @@ export async function createPlatform(req) {
     return await Platform.save()
 }
 
+// Delete a specific system platform.
+export async function deletePlatform(req) {
+    // Compact database.
+    await connectDatastore().then(async () => {
+        // Delete all of the platform's related games.
+        await deleteGamesP(req)
+        // Delete the platform itself.
+        await PlatformModel.findOneAndDelete({ _id: req })
+    })
+}
+
 // Search for a specific platform.
 export async function getPlatform(req) {
     return await PlatformModel.findOne({ _id: req })
@@ -33,15 +44,4 @@ export async function getPlatforms() {
             // Return object.
             return res
         })
-}
-
-// Delete a specific system platform.
-export async function deletePlatform(req) {
-    // Compact database.
-    await connectDatastore().then(async () => {
-        // Delete all of the platform's related games.
-        await deleteGamesP(req)
-        // Delete the platform itself.
-        await PlatformModel.findOneAndDelete({ _id: req })
-    })
 }
