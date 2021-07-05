@@ -113,7 +113,14 @@
     <hip-nav-bar>
       <router-link :to="{
         name: 'CreateGameRegion',
-        query: { id: $route.params.id, p: game.platform._id }
+        query: {
+          id: $route.params.id,
+          t: game.gameRegions[region].title,
+          s: game.gameRegions[region].subTitle,
+          o: game.gameRegions[region].originalTitle,
+          r: game.gameRegions[region].romanizedTitle,
+          tr: game.gameRegions[region].translatedTitle
+        }
       }">
         <hip-button-nb>+</hip-button-nb>
       </router-link>

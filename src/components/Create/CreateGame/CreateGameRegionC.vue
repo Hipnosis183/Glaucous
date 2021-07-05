@@ -67,6 +67,19 @@ export default {
       regions: Regions
     }
   },
+  mounted() {
+    // Set data from parent page.
+    this.title = this.$route.query.t
+      ? this.$route.query.t : null
+    this.subTitle = this.$route.query.s
+      ? this.$route.query.s : null
+    this.originalTitle = this.$route.query.o
+      ? this.$route.query.o : null
+    this.romanizedTitle = this.$route.query.r
+      ? this.$route.query.r : null
+    this.translatedTitle = this.$route.query.tr
+      ? this.$route.query.tr : null
+  },
   computed: {
     title: {
       get() { return this.$store.state.gameForm.gameRegion.title },
