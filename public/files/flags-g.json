@@ -1,0 +1,36 @@
+[
+  {"group":"Regions", "items": [
+    {"code":"us", "name":"United States"},
+    {"code":"eu", "name":"Europe"},
+    {"code":"jp", "name":"Japan"},
+    {"code":"un", "name":"World"}
+  ]},
+  {"group":"Europe", "items": [
+    {"code":"gb", "name":"United Kingdom"},
+    {"code":"fr", "name":"France"},
+    {"code":"de", "name":"Germany"},
+    {"code":"it", "name":"Italy"},
+    {"code":"es", "name":"Spain"},
+    {"code":"pl", "name":"Poland"},
+    {"code":"dk", "name":"Denmark"},
+    {"code":"fi", "name":"Finland"},
+    {"code":"gr", "name":"Greece"},
+    {"code":"nl", "name":"Netherlands"},
+    {"code":"no", "name":"Norway"},
+    {"code":"pt", "name":"Portugal"},
+    {"code":"se", "name":"Sweden"},
+    {"code":"cz", "name":"Czech Republic"}
+  ]},
+  {"group":"Asia / Oceania", "items": [
+    {"code":"kr", "name":"South Korea"},
+    {"code":"cn", "name":"China"},
+    {"code":"tw", "name":"Taiwan"},
+    {"code":"ru", "name":"Russia"},
+    {"code":"il", "name":"Israel"},
+    {"code":"au", "name":"Australia"}
+  ]},
+  {"group":"America", "items": [
+    {"code":"br", "name":"Brazil"},
+    {"code":"ca", "name":"Canada"}
+  ]}
+]

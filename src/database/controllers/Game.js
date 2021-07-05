@@ -5,6 +5,8 @@ import { generateID } from '../datastore'
 import { getDeveloper } from './Developer'
 import { getPlatform } from './Platform'
 
+import Regions from '../../../public/files/flags.json'
+
 let Region
 let Version
 
@@ -170,6 +172,14 @@ export async function getGamesP(req) {
             // Return populated object.
             return res
         })
+}
+
+// Get the name for the requested region code.
+export function getRegion(reg) {
+    // Filter code from array.
+    let region = Regions.filter(res => res.code == reg)
+    // Return the name property.
+    return region.length > 0 ? region[0].name : reg
 }
 
 // Delete the specified game platform and all its related data.

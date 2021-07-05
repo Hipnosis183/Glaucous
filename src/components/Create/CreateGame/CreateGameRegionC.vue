@@ -31,17 +31,42 @@
       v-model="translatedTitle"
     >
     <label class="text-blue-900 ml-2">Region</label>
-    <input
-      type="text"
-      class="mt-1 mb-2 px-4 block w-full rounded-full bg-gray-300 border-transparent focus:border-indigo-600 focus:ring-0"
+    <br />
+    <el-select
       v-model="region"
+      filterable
     >
+      <el-option-group
+        v-for="flags in regions"
+        :key="flags.group"
+        :label="flags.group"
+      >
+        <el-option
+          v-for="flag in flags.items"
+          :key="flag.code"
+          :label="flag.name"
+          :value="flag.code"
+        >
+          <div class="inline-flex space-x-4">
+            <img class="w-8" :src="'./images/flags/' + flag.code + '.svg'"/>
+            <p>{{ flag.name }}</p>
+          </div>
+        </el-option>
+      </el-option-group>
+    </el-select>
   </div>
 </template>
 
 <script>
+import Regions from '../../../../public/files/flags-g.json'
+
 export default {
   name: 'create-game-region-c',
+  data() {
+    return {
+      regions: Regions
+    }
+  },
   computed: {
     title: {
       get() { return this.$store.state.gameForm.gameRegion.title },

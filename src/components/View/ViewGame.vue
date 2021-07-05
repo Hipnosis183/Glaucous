@@ -129,13 +129,17 @@
             class="w-full py-3.5"
             :class="index == region ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
             @click="changeRegion(index)"
-          >{{ r.region }}</button>
+          >{{ getRegion(r.region) }}</button>
         </li>
       </ul>
     </hip-nav-bar>
   </div>
   <div class="flex m-6 space-x-6 min-h-almost">
     <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
+      <img
+        class="w-12 float-right rounded-md"
+        :src="'./images/flags/' + game.gameRegions[region].region + '.svg'"
+      />
       <div class="mb-10">
         <p class="text-4xl">{{ game.gameRegions[region].title }}</p>
         <p class="text-2xl">{{ game.gameRegions[region].subTitle }}</p>
@@ -191,7 +195,7 @@
 <script>
 import { HipButton, HipButtonNb, HipCardSq, HipDialog, HipNavBar, HipOverlay } from '../Component'
 
-import { getGame, getGames, deleteGamePlatform, deleteGameRegion, searchGameByTitle, linkGame, unlinkGame } from '../../database/controllers/Game'
+import { getGame, getGames, getRegion, deleteGamePlatform, deleteGameRegion, searchGameByTitle, linkGame, unlinkGame } from '../../database/controllers/Game'
 
 export default {
   name: 'view-game',
@@ -297,6 +301,9 @@ export default {
           this.viewLinksResult = res
           this.viewLinks = !this.viewLinks
         })
+    },
+    getRegion(reg) {
+      return getRegion(reg)
     }
   },
   mounted() {
