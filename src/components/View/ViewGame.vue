@@ -61,7 +61,7 @@
         <div>
           <div class="data-container">
             <p class="font-semibold">Region:</p>
-            <p>{{ game.gameRegions[region].region }}</p>
+            <p>{{ getRegion(game.gameRegions[region].region) }}</p>
           </div>
           <div class="data-container">
             <p class="font-semibold">Format:</p>
