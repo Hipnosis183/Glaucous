@@ -119,8 +119,9 @@
       </router-link>
       <hip-button-nb @click="deleteGameRegion()">-</hip-button-nb>
       <hip-button-nb @click="deleteGamePlatform()">*</hip-button-nb>
-      <ul class="w-full">
+      <ul class="w-full flex">
         <li
+          class="w-full"
           v-for="(r, index) in game.gameRegions"
           :key="r._id"
           :value="r._id"
@@ -137,7 +138,7 @@
   <div class="flex m-6 space-x-6 min-h-almost">
     <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
       <img
-        class="w-12 float-right rounded-md"
+        class="w-12 float-right rounded-md border-2 border-gray-200"
         :src="'./images/flags/' + game.gameRegions[region].region + '.svg'"
       />
       <div class="mb-10">
