@@ -16,34 +16,31 @@
             to="/games"
             class="flex"
           >
-            <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ games }}</button>
+            <hip-button-sb>{{ games }}</hip-button-sb>
           </router-link>
           <router-link
             to="/developers"
             class="flex"
           >
-            <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ developers }}</button>
+            <hip-button-sb>{{ developers }}</hip-button-sb>
           </router-link>
           <router-link
             to="/platforms"
             class="flex"
           >
-            <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ platforms }}</button>
+            <hip-button-sb>{{ platforms }}</hip-button-sb>
           </router-link>
         </div>
       </div>
       <div class="space-y-4 mb-8">
         <div class="flex">
-          <button class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full">{{ search }}</button>
+          <hip-button-sb>{{ search }}</hip-button-sb>
         </div>
         <div
           class="flex"
-          :class="history > 0 ? 'visible' : 'hidden'"
+          v-show="history > 0"
         >
-          <button
-            class="w-10/12 m-auto bg-gray-100 text-blue-800 text-base font-semibold py-3 rounded-full"
-            @click="$router.back()"
-          >{{ back }}</button>
+          <hip-button-sb @click="$router.back()">{{ back }}</hip-button-sb>
         </div>
       </div>
     </div>
@@ -58,7 +55,12 @@
 </template>
 
 <script>
+import { HipButtonSb } from './Component'
+
 export default {
+  components: {
+    HipButtonSb
+  },
   data() {
     return {
       history: window.history.state.position,

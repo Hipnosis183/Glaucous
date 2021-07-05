@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-dialog v-model="addLinks">
+    <hip-dialog
+      v-show="addLinks"
+      @close="addLinks = !addLinks"
+    >
       <el-select
         v-model="addLinksResult"
         filterable
@@ -16,117 +19,120 @@
         >
         </el-option>
       </el-select>
-      <el-button @click="linkGame()">Link</el-button>
-      <el-button @click="unlinkGame()">Unlink</el-button>
-    </el-dialog>
-    <el-dialog v-model="viewLinks">
-      <ul class="grid grid-cols-1 m-6">
+      <hip-button @click="linkGame()">Link</hip-button>
+      <hip-button @click="unlinkGame()">Unlink</hip-button>
+    </hip-dialog>
+    <hip-overlay
+      v-show="viewLinks"
+      @close="viewLinks = !viewLinks"
+    >
+      <ul class="grid grid-flow-row gap-4">
         <li
-          v-for="item in viewLinksResult"
-          :key="item._id"
-          :value="item._id"
-        >{{item.platform.name}}
+          v-for="g in viewLinksResult"
+          :key="g._id"
+          :value="g._id"
+          @click="$router.push({
+            name: 'ViewGame',
+            params: { id: g._id },
+            query: { p: g.platform._id }
+        })"
+        >
+          <hip-card-sq>
+            <div class="mb-2">
+              <h1 class="text-xl text-blue-800 font-semibold">{{ g.gameRegions[0].title }}</h1>
+              <h2 class="text-base text-blue-600 font-normal">{{ g.gameRegions[0].subTitle }}</h2>
+            </div>
+            <div class="mb-2">
+              <h2 class="text-base text-gray-600 italic font-normal">{{ g.gameRegions[0].originalTitle }}</h2>
+            </div>
+            <h3 class="text-base text-gray-600 font-normal">{{ g.platform.name }} - {{ g.releaseYear }}</h3>
+          </hip-card-sq>
         </li>
       </ul>
-    </el-dialog>
-    <div
-      class="transform ease-in-out transition-all duration-1000 flex items-center justify-center fixed h-full"
-      :class="[details ? 'visible' : 'hidden', $store.state.sidenavExpanded ? 'w-exp' : 'w-cont']"
+    </hip-overlay>
+    <hip-dialog
+      v-show="showDetails"
+      @close="showDetails = !showDetails"
     >
-      <div
-        class="bg-black bg-opacity-50 w-full h-full"
-        @click="showDetails()"
-      >
+      <div class="flex mb-6">
+        <h1 class="data-title">ROM Information</h1>
       </div>
-      <div class="absolute bg-white p-6 rounded-xl shadow leading-loose max-w-prose">
-        <div class="flex mb-6">
-          <h1 class="text-xl font-bold">ROM Information</h1>
-        </div>
-        <div class="flex space-x-6 mb-8">
-          <div>
-            <div class="text-lg mt-1 space-x-2 flex flex-inline">
-              <p class="font-semibold">Region:</p>
-              <p>{{ game.gameRegions[region].region }}</p>
-            </div>
-            <div class="text-lg mt-1 space-x-2 flex flex-inline">
-              <p class="font-semibold">Format:</p>
-              <p>-</p>
-            </div>
-            <div class="text-lg mt-1 space-x-2 flex flex-inline">
-              <p class="font-semibold">File Size:</p>
-              <p>-</p>
-            </div>
+      <div class="flex space-x-6 mb-8">
+        <div>
+          <div class="data-container">
+            <p class="font-semibold">Region:</p>
+            <p>{{ game.gameRegions[region].region }}</p>
           </div>
-          <div>
-            <div class="text-lg mt-1 space-x-2 flex flex-inline">
-              <p class="font-semibold">Latest Version:</p>
-              <p>{{ game.latestVersion }}</p>
-            </div>
-            <div class="text-lg mt-1 space-x-2 flex flex-inline">
-              <p class="font-semibold">Current Version:</p>
-              <p>{{ game.gameRegions[region].gameVersions[0].currentVersion }}</p>
-            </div>
-            <div class="text-lg mt-1 space-x-2 flex flex-inline">
-              <p class="font-semibold">ID:</p>
-              <p>{{ game.gameRegions[region]._id }}</p>
-            </div>
+          <div class="data-container">
+            <p class="font-semibold">Format:</p>
+            <p>-</p>
+          </div>
+          <div class="data-container">
+            <p class="font-semibold">File Size:</p>
+            <p>-</p>
           </div>
         </div>
-        <div class="flex mb-6">
-          <h1 class="text-xl font-bold">Comments</h1>
-        </div>
-        <div class="text-lg mt-1">
-          <ul
-            class="list-disc list-inside"
-            v-if="game.gameRegions[region].gameVersions[0].comments.length > 0"
-          >
-            <li
-              class="text-justify"
-              v-for="(c, index) in game.gameRegions[region].gameVersions[0].comments"
-              :key="index"
-              :value="c"
-            >{{ c }}</li>
-          </ul>
-          <ul
-            class="list-disc list-inside"
-            v-else
-          >
-            <li>None</li>
-          </ul>
+        <div>
+          <div class="data-container">
+            <p class="font-semibold">Latest Version:</p>
+            <p>{{ game.latestVersion }}</p>
+          </div>
+          <div class="data-container">
+            <p class="font-semibold">Current Version:</p>
+            <p>{{ game.gameRegions[region].gameVersions[0].currentVersion }}</p>
+          </div>
+          <div class="data-container">
+            <p class="font-semibold">ID:</p>
+            <p>{{ game.gameRegions[region]._id }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <ul class="inline-flex shadow bg-white w-full justify-evenly">
+      <div class="flex mb-6">
+        <h1 class="data-title">Comments</h1>
+      </div>
+      <div class="text-lg mt-1">
+        <ul
+          class="list-disc list-inside"
+          v-if="game.gameRegions[region].gameVersions[0].comments.length > 0"
+        >
+          <li
+            class="text-justify"
+            v-for="(c, index) in game.gameRegions[region].gameVersions[0].comments"
+            :key="index"
+            :value="c"
+          >{{ c }}</li>
+        </ul>
+        <ul
+          class="list-disc list-inside"
+          v-else
+        >
+          <li>None</li>
+        </ul>
+      </div>
+    </hip-dialog>
+    <hip-nav-bar>
       <router-link :to="{
         name: 'CreateGameRegion',
-        query: {
-          id: $route.params.id,
-          p: game.platform._id
-        }
+        query: { id: $route.params.id, p: game.platform._id }
       }">
-        <button class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">+</button>
+        <hip-button-nb>+</hip-button-nb>
       </router-link>
-      <button
-        class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
-        @click="deleteGameRegion()"
-      >-</button>
-      <button
-        class="w-max h-full bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
-        @click="deleteGamePlatform()"
-      >*</button>
-      <li
-        class="w-full h-full"
-        v-for="(r, index) in game.gameRegions"
-        :key="r._id"
-        :value="r._id"
-      >
-        <button
-          class="w-full h-full py-3.5"
-          :class="index == region ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
-          @click="changeRegion(index)"
-        >{{r.region}}</button>
-      </li>
-    </ul>
+      <hip-button-nb @click="deleteGameRegion()">-</hip-button-nb>
+      <hip-button-nb @click="deleteGamePlatform()">*</hip-button-nb>
+      <ul class="w-full">
+        <li
+          v-for="(r, index) in game.gameRegions"
+          :key="r._id"
+          :value="r._id"
+        >
+          <button
+            class="w-full py-3.5"
+            :class="index == region ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
+            @click="changeRegion(index)"
+          >{{ r.region }}</button>
+        </li>
+      </ul>
+    </hip-nav-bar>
   </div>
   <div class="flex m-6 space-x-6 min-h-almost">
     <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
@@ -135,52 +141,43 @@
         <p class="text-2xl">{{ game.gameRegions[region].subTitle }}</p>
       </div>
       <div class="flex flex-inline items-center space-x-4 mb-6">
-        <h1 class="text-xl font-bold">Game Information</h1>
-        <button
-          class="w-max h-full bg-gray-300 font-semibold px-4 py-2 rounded-full text-base text-blue-800"
-          @click="showDetails()"
-        >Details</button>
+        <h1 class="data-title">Game Information</h1>
+        <hip-button @click="showDetails = !showDetails">Details</hip-button>
       </div>
       <div class="mb-6">
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Full Title:</p>
           <p>{{ fullTitle }}</p>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Original Title:</p>
           <p>{{ game.gameRegions[region].originalTitle }}</p>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Romanized Title:</p>
           <p>{{ game.gameRegions[region].romanizedTitle }}</p>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Translated Title:</p>
           <p>{{ game.gameRegions[region].translatedTitle }}</p>
         </div>
       </div>
       <div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Developer:</p>
           <p @click="$router.push(`/developers/${ game.developer._id }`)">{{ game.developer.name }}</p>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline items-center">
+        <div class="data-container">
           <p class="font-semibold">Platform:</p>
           <p @click="$router.push(`/platforms/${ game.platform._id }`)">{{ game.platform.name }}</p>
-          <button
-            class="w-max h-full bg-gray-300 font-semibold px-4 py-2 rounded-full text-base text-blue-800"
-            @click="viewLinksGet()"
-          >Also On</button>
-          <button
-            class="w-max h-full bg-gray-300 font-semibold px-4 py-2 rounded-full text-base text-blue-800"
-            @click="addLinks = !addLinks"
-          >+</button>
+          <hip-button @click="viewLinksGet()">Also On</hip-button>
+          <hip-button @click="addLinks = !addLinks">+</hip-button>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Release Year:</p>
           <p>{{ game.releaseYear }}</p>
         </div>
-        <div class="text-lg mt-1 space-x-2 flex flex-inline">
+        <div class="data-container">
           <p class="font-semibold">Number of Players:</p>
           <p>{{ game.numberPlayers }}</p>
         </div>
@@ -192,10 +189,20 @@
 </template>
 
 <script>
+import { HipButton, HipButtonNb, HipCardSq, HipDialog, HipNavBar, HipOverlay } from '../Component'
+
 import { getGame, getGames, deleteGamePlatform, deleteGameRegion, searchGameByTitle, linkGame, unlinkGame } from '../../database/controllers/Game'
 
 export default {
   name: 'view-game',
+  components: {
+    HipButton,
+    HipButtonNb,
+    HipCardSq,
+    HipDialog,
+    HipNavBar,
+    HipOverlay
+  },
   data() {
     return {
       addLinks: false,
@@ -204,7 +211,7 @@ export default {
       viewLinks: false,
       viewLinksResult: [],
       region: 0,
-      details: 0,
+      showDetails: false,
       game: {
         developer: { name: null },
         platform: { name: null },
@@ -244,9 +251,6 @@ export default {
     },
     changeRegion(sel) {
       this.region = sel
-    },
-    showDetails() {
-      this.details = !this.details
     },
     deleteGameRegion() {
       deleteGameRegion(this.game, this.region)
@@ -314,16 +318,4 @@ export default {
 </script>
 
 <style>
-.h-almost {
-  height: calc(100vh - 104px);
-}
-.min-h-almost {
-  min-height: calc(100vh - 104px);
-}
-.w-exp {
-  width: calc(100vw - 15rem);
-}
-.w-cont {
-  width: calc(100vw - 3.5rem);
-}
 </style>

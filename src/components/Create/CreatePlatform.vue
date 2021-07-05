@@ -1,11 +1,8 @@
 <template>
-  <div class="inline-flex shadow bg-white w-full justify-between">
-    <button
-      class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
-      @click="onSubmit()"
-    >Submit</button>
-    <div></div>
-  </div>
+  <hip-nav-bar>
+    <hip-button-nb @click="onSubmit()">Submit</hip-button-nb>
+    <div class="w-full"></div>
+  </hip-nav-bar>
   <div class="flex m-6 space-x-6">
     <div class="w-full bg-white p-6 rounded-xl shadow leading-loose">
       <div>
@@ -21,10 +18,16 @@
 </template>
 
 <script>
+import { HipButtonNb, HipNavBar } from '../Component'
+
 import { createPlatform } from '../../database/controllers/Platform'
 
 export default {
   name: "create-platform",
+  components: {
+    HipButtonNb,
+    HipNavBar
+  },
   data() {
     return {
       platformForm: {

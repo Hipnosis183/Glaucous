@@ -3,7 +3,7 @@
     <side-nav />
     <div class="flex-1 flex overflow-hidden">
       <div class="flex-1 overflow-y-scroll no-scrollbar">
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </div>
     </div>
   </div>

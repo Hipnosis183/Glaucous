@@ -1,11 +1,8 @@
 <template>
-  <div class="inline-flex shadow bg-white w-full justify-between">
-    <button
-      class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800"
-      @click="onSubmit()"
-    >Submit</button>
-    <div></div>
-  </div>
+  <hip-nav-bar>
+    <hip-button-nb @click="onSubmit()">Submit</hip-button-nb>
+    <div class="w-full"></div>
+  </hip-nav-bar>
   <div class="flex m-6 space-x-6">
     <div class="w-full bg-white p-6 rounded-xl shadow leading-loose">
       <div class="flex space-x-4">
@@ -22,6 +19,8 @@
 </template>
 
 <script>
+import { HipButtonNb, HipNavBar } from '../Component'
+
 import CreateGamePlatformC from './CreateGame/CreateGamePlatformC.vue'
 import CreateGameRegionC from './CreateGame/CreateGameRegionC.vue'
 import CreateGameVersionC from './CreateGame/CreateGameVersionC.vue'
@@ -30,6 +29,8 @@ import { newGamePlatform } from '../../database/controllers/Game'
 export default {
   name: 'create-game-platform',
   components: {
+    HipButtonNb,
+    HipNavBar,
     CreateGamePlatformC,
     CreateGameRegionC,
     CreateGameVersionC

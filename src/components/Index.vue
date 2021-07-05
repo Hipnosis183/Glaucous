@@ -1,17 +1,19 @@
 <template>
   <div class="flex items-center justify-center h-full">
-    <button
-      class="bg-gray-100 font-semibold px-6 py-4 rounded-full text-base text-blue-800"
-      @click="seed()"
-    >Seed</button>
+    <hip-button-sb @click="seed()">Seed</hip-button-sb>
   </div>
 </template>
 
 <script>
+import { HipButtonSb } from './Component'
+
 import { dbSeed } from '../database/seeder'
 
 export default {
   name: 'Index',
+  components: {
+    HipButtonSb
+  },
   methods: {
     seed() {
       dbSeed()

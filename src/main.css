@@ -6,6 +6,46 @@
   outline: none;
 }
 
+.data-container {
+  @apply text-lg mt-1 space-x-2 flex items-center;
+}
+
+.data-title {
+  @apply text-xl font-bold;
+}
+
+.h-almost {
+  height: calc(100vh - 104px);
+}
+
+.min-h-almost {
+  min-height: calc(100vh - 104px);
+}
+
+.min-w-almost {
+  min-width: calc(100% - 104px);
+}
+
+.max-h-almost {
+  max-height: calc(100vh - 104px);
+}
+
+.max-w-almost {
+  max-width: calc(100% - 104px);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.w-almost {
+  width: calc(100% - 104px);
+}
+
+.w-cont {
+  width: calc(100vw - 3.5rem);
+}
+
+.w-exp {
+  width: calc(100vw - 15rem);
 }

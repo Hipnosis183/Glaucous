@@ -1,17 +1,24 @@
 <template>
   <div>
-    <div class="inline-flex shadow bg-white w-full justify-between">
+    <hip-nav-bar>
       <router-link :to="{ name: 'CreateGamePlatform' }">
-        <button class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Game</button>
+        <hip-button-nb>New Game</hip-button-nb>
       </router-link>
-      <div></div>
-    </div>
+      <div class="w-full"></div>
+    </hip-nav-bar>
   </div>
 </template>
 
 <script>
+import { HipButtonNb, HipCardSq, HipNavBar } from '../Component'
+
 export default {
   name: 'list-games',
+  components: {
+    HipButtonNb,
+    HipCardSq,
+    HipNavBar
+  },
   data() {
     return {
       games: null

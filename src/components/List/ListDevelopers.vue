@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="inline-flex shadow bg-white w-full justify-between">
+    <hip-nav-bar>
       <router-link :to="{ name: 'CreateDeveloper' }">
-        <button class="bg-gray-300 font-semibold px-6 py-4 text-base text-blue-800">New Developer</button>
+        <hip-button-nb>New Developer</hip-button-nb>
       </router-link>
-      <div></div>
-    </div>
+      <div class="w-full"></div>
+    </hip-nav-bar>
     <ul class="grid grid-cols-4 gap-4 m-6">
       <li
         v-for="d in developers"
@@ -13,20 +13,27 @@
         :value="d._id"
         @click="$router.push(`/developers/${ d._id }`)"
       >
-        <div class="bg-white p-4 rounded-xl shadow text-center cursor-pointer">
+        <hip-card-sq>
           <h1 class="text-xl text-blue-800 font-semibold">{{ d.name }}</h1>
           <p class="text-indigo-400">{{ d.titles }} Titles</p>
-        </div>
+        </hip-card-sq>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { HipButtonNb, HipCardSq, HipNavBar } from '../Component'
+
 import { getDevelopers } from '../../database/controllers/Developer'
 
 export default {
   name: 'list-developers',
+  components: {
+    HipButtonNb,
+    HipCardSq,
+    HipNavBar
+  },
   data() {
     return {
       developers: null
