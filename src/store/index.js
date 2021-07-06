@@ -28,6 +28,10 @@ export default createStore({
         currentVersion: null,
         comments: []
       }
+    },
+    otherSelected: null,
+    otherForm: {
+      name: null
     }
   },
   mutations: {
@@ -90,7 +94,13 @@ export default createStore({
     },
     setGameVersionCommentsRemove (state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
-    }
+    },
+    resetOtherForm (state) {
+      state.otherForm.name = null
+    },
+    setOtherName (state, data) {
+      state.otherForm.name = data
+    },
   },
   actions: {
   },

@@ -13,6 +13,11 @@ export async function createDeveloper(req) {
     return await Developer.save()
 }
 
+// Update a specific developer.
+export async function updateDeveloper(req, id) {
+    await DeveloperModel.findOneAndUpdate({ _id: id }, { name: req.name })
+}
+
 // Delete a specific developer.
 export async function deleteDeveloper(req) {
     // Compact database.

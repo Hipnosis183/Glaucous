@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      // Save new game entry.
+      // Update game entry.
       updateGame(this.$store.state.gameForm, this.$store.state.gameSelected)
         .then(() => this.$emit('close'))
     }

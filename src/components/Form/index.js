@@ -2,6 +2,7 @@ import FormComments from './FormComments.vue'
 import FormCurrentVersion from './FormCurrentVersion.vue'
 import FormDeveloper from './FormDeveloper.vue'
 import FormLatestVersion from './FormLatestVersion.vue'
+import FormName from './FormName.vue'
 import FormNumberPlayers from './FormNumberPlayers.vue'
 import FormOriginalTitle from './FormOriginalTitle.vue'
 import FormPlatform from './FormPlatform.vue'
@@ -17,6 +18,7 @@ export {
     FormCurrentVersion,
     FormDeveloper,
     FormLatestVersion,
+    FormName,
     FormNumberPlayers,
     FormOriginalTitle,
     FormPlatform,

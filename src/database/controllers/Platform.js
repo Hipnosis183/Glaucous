@@ -13,6 +13,11 @@ export async function createPlatform(req) {
     return await Platform.save()
 }
 
+// Update a specific system platform.
+export async function updatePlatform(req, id) {
+    await PlatformModel.findOneAndUpdate({ _id: id }, { name: req.name })
+}
+
 // Delete a specific system platform.
 export async function deletePlatform(req) {
     // Compact database.
