@@ -1,0 +1,26 @@
+<template>
+  <el-form-item
+    label="Latest Version"
+    prop="latestVersion"
+  >
+    <el-input v-model="latestVersion"></el-input>
+  </el-form-item>
+</template>
+
+<script>
+export default {
+  name: 'form-latest-version',
+  computed: {
+    latestVersion: {
+      get() { return this.$store.state.gameForm.gamePlatform.latestVersion },
+      set(value) { this.$store.commit('setGamePlatformLatestVersion', value) }
+    }
+  }
+}
+</script>
+
+<style>
+.el-form-item{
+  margin-bottom: 4px;
+}
+</style>

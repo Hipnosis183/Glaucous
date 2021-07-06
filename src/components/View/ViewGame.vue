@@ -1,6 +1,12 @@
 <template>
   <div>
     <hip-dialog
+      v-show="edit"
+      @close="editGameClose()"
+    >
+      <edit-game @close="editGameClose()" />
+    </hip-dialog>
+    <hip-dialog
       v-show="addLinks"
       @close="addLinks = !addLinks"
     >
@@ -126,6 +132,7 @@
       </router-link>
       <hip-button-nb @click="deleteGameRegion()">-</hip-button-nb>
       <hip-button-nb @click="deleteGamePlatform()">*</hip-button-nb>
+      <hip-button-nb @click="editGameOpen()">/</hip-button-nb>
       <ul class="w-full flex">
         <li
           class="w-full"
@@ -204,6 +211,7 @@
 import { HipButton, HipButtonNb, HipCardSq, HipDialog, HipNavBar, HipOverlay } from '../Component'
 
 import { getGame, getGames, getRegion, deleteGamePlatform, deleteGameRegion, searchGameByTitle, linkGame, unlinkGame } from '../../database/controllers/Game'
+import EditGame from '../Edit/EditGame.vue'
 
 export default {
   name: 'view-game',
@@ -213,10 +221,12 @@ export default {
     HipCardSq,
     HipDialog,
     HipNavBar,
-    HipOverlay
+    HipOverlay,
+    EditGame
   },
   data() {
     return {
+      edit: false,
       addLinks: false,
       addLinksQuery: [],
       addLinksResult: [],
@@ -312,6 +322,36 @@ export default {
     },
     getRegion(reg) {
       return getRegion(reg)
+    },
+    editGameOpen() {
+      // Save current game IDs into the store.
+      this.$store.state.gameSelected.gamePlatform = this.game._id
+      this.$store.state.gameSelected.gameRegion = this.game.gameRegions[this.region]._id
+      this.$store.state.gameSelected.gameVersion = this.game.gameRegions[this.region].gameVersions[0]._id
+      // Save data of the current game into the store.
+      this.$store.commit('setGamePlatformDeveloper', this.game.developer._id)
+      this.$store.commit('setGamePlatformPlatform', this.game.platform._id)
+      this.$store.commit('setGamePlatformReleaseYear', this.game.releaseYear)
+      this.$store.commit('setGamePlatformNumberPlayers', this.game.numberPlayers)
+      this.$store.commit('setGamePlatformLatestVersion', this.game.latestVersion)
+      this.$store.commit('setGameRegionTitle', this.game.gameRegions[this.region].title)
+      this.$store.commit('setGameRegionSubTitle', this.game.gameRegions[this.region].subTitle)
+      this.$store.commit('setGameRegionOriginalTitle', this.game.gameRegions[this.region].originalTitle)
+      this.$store.commit('setGameRegionRomanizedTitle', this.game.gameRegions[this.region].romanizedTitle)
+      this.$store.commit('setGameRegionTranslatedTitle', this.game.gameRegions[this.region].translatedTitle)
+      this.$store.commit('setGameRegionRegion', this.game.gameRegions[this.region].region)
+      this.$store.commit('setGameVersionCurrentVersion', this.game.gameRegions[this.region].gameVersions[0].currentVersion)
+      this.$store.commit('setGameVersionComments', this.game.gameRegions[this.region].gameVersions[0].comments)
+      // Open edit dialog.
+      this.edit = !this.edit
+    },
+    editGameClose() {
+      // Reload game.
+      this.loadGame()
+      // Close edit dialog.
+      this.edit = !this.edit
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
     }
   },
   mounted() {

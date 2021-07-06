@@ -14,6 +14,10 @@
   @apply text-xl font-bold;
 }
 
+.el-form-item{
+  @apply -space-y-4;
+}
+
 .h-almost {
   height: calc(100vh - 104px);
 }

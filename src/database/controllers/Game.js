@@ -83,6 +83,31 @@ async function createGameVersion(req) {
         .then(res => Version = res._id)
 }
 
+export async function updateGame(req, id) {
+    // Update the game platform.
+    await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
+        developer: req.gamePlatform.developer,
+        platform: req.gamePlatform.platform,
+        releaseYear: req.gamePlatform.releaseYear,
+        numberPlayers: req.gamePlatform.numberPlayers,
+        latestVersion: req.gamePlatform.latestVersion }
+    )
+    // Update the game region.
+    await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
+        title: req.gameRegion.title,
+        subTitle: req.gameRegion.subTitle,
+        originalTitle: req.gameRegion.originalTitle,
+        romanizedTitle: req.gameRegion.romanizedTitle,
+        translatedTitle: req.gameRegion.translatedTitle,
+        region: req.gameRegion.region }
+    )
+    // Update the game version.
+    await GameVersionModel.findOneAndUpdate({ _id: id.gameVersion }, {
+        currentVersion: req.gameVersion.currentVersion,
+        comments: req.gameVersion.comments }
+    )
+}
+
 // Search for a specific game platform.
 export async function getGamePlatform(req) {
     return await GamePlatformModel.findOne({ _id: req }, { populate: false })

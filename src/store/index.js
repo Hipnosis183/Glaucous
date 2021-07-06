@@ -3,6 +3,11 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     sidenavExpanded: true,
+    gameSelected: {
+      gamePlatform: null,
+      gameRegion: null,
+      gameVersion: null
+    },
     gameForm: {
       gamePlatform: {
         developer: null,
@@ -76,6 +81,9 @@ export default createStore({
     },
     setGameVersionCurrentVersion (state, data) {
       state.gameForm.gameVersion.currentVersion = data
+    },
+    setGameVersionComments (state, data) {
+      state.gameForm.gameVersion.comments = data
     },
     setGameVersionCommentsAdd (state, data) {
       state.gameForm.gameVersion.comments.push(data)
