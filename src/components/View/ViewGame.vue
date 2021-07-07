@@ -1,6 +1,12 @@
 <template>
   <div>
     <hip-dialog
+      v-show="create"
+      @close="createGameRegionClose()"
+    >
+      <create-game-region @close="createGameRegionClose()" />
+    </hip-dialog>
+    <hip-dialog
       v-show="edit"
       @close="editGameClose()"
     >
@@ -117,19 +123,7 @@
       </div>
     </hip-dialog>
     <hip-nav-bar>
-      <router-link :to="{
-        name: 'CreateGameRegion',
-        query: {
-          id: $route.params.id,
-          t: game.gameRegions[region].title,
-          s: game.gameRegions[region].subTitle,
-          o: game.gameRegions[region].originalTitle,
-          r: game.gameRegions[region].romanizedTitle,
-          tr: game.gameRegions[region].translatedTitle
-        }
-      }">
-        <hip-button-nb>+</hip-button-nb>
-      </router-link>
+      <hip-button-nb @click="createGameRegionOpen()">+</hip-button-nb>
       <hip-button-nb @click="deleteGameRegion()">-</hip-button-nb>
       <hip-button-nb @click="deleteGamePlatform()">*</hip-button-nb>
       <hip-button-nb @click="editGameOpen()">/</hip-button-nb>
@@ -211,6 +205,7 @@
 import { HipButton, HipButtonNb, HipCardSq, HipDialog, HipNavBar, HipOverlay } from '../Component'
 
 import { getGame, getGames, getRegion, deleteGamePlatform, deleteGameRegion, searchGameByTitle, linkGame, unlinkGame } from '../../database/controllers/Game'
+import CreateGameRegion from '../Create/CreateGameRegion.vue'
 import EditGame from '../Edit/EditGame.vue'
 
 export default {
@@ -222,10 +217,12 @@ export default {
     HipDialog,
     HipNavBar,
     HipOverlay,
+    CreateGameRegion,
     EditGame
   },
   data() {
     return {
+      create: false,
       edit: false,
       addLinks: false,
       addLinksQuery: [],
@@ -322,6 +319,23 @@ export default {
     },
     getRegion(reg) {
       return getRegion(reg)
+    },
+    createGameRegionOpen() {
+      // Save current game IDs into the store.
+      this.$store.state.gameSelected.gamePlatform = this.game._id
+      // Save data of the current game region into the store.
+      this.$store.commit('setGameRegionTitle', this.game.gameRegions[this.region].title)
+      this.$store.commit('setGameRegionSubTitle', this.game.gameRegions[this.region].subTitle)
+      // Open create dialog.
+      this.create = !this.create
+    },
+    createGameRegionClose() {
+      // Reload game.
+      this.loadGame()
+      // Close create dialog.
+      this.create = !this.create
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
     },
     editGameOpen() {
       // Save current game IDs into the store.

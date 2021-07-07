@@ -1,9 +1,13 @@
 <template>
   <div>
+    <hip-dialog
+      v-show="create"
+      @close="createPlatformClose()"
+    >
+      <create-platform @close="createPlatformClose()" />
+    </hip-dialog>
     <hip-nav-bar>
-      <router-link :to="{ name: 'CreatePlatform' }">
-        <hip-button-nb>New Platform</hip-button-nb>
-      </router-link>
+      <hip-button-nb @click="createPlatformOpen()">+</hip-button-nb>
       <div class="w-full"></div>
     </hip-nav-bar>
     <ul class="grid grid-cols-4 gap-4 m-6">
@@ -23,25 +27,46 @@
 </template>
 
 <script>
-import { HipButtonNb, HipCardSq, HipNavBar } from '../Component'
+import { HipButtonNb, HipCardSq, HipDialog, HipNavBar } from '../Component'
 
 import { getPlatforms } from '../../database/controllers/Platform'
+import CreatePlatform from '../Create/CreatePlatform.vue'
 
 export default {
   name: 'list-platforms',
   components: {
     HipButtonNb,
     HipCardSq,
-    HipNavBar
+    HipDialog,
+    HipNavBar,
+    CreatePlatform
   },
   data() {
     return {
+      create: false,
       platforms: null
     }
   },
+  methods: {
+    loadPlatforms() {
+      getPlatforms()
+        .then(res => this.platforms = res)
+    },
+    createPlatformOpen() {
+      // Open create dialog.
+      this.create = !this.create
+    },
+    createPlatformClose() {
+      // Reload platforms.
+      this.loadPlatforms()
+      // Close create dialog.
+      this.create = !this.create
+      // Restore the data on the store.
+      this.$store.commit('resetOtherForm')
+    }
+  },
   mounted() {
-    getPlatforms()
-      .then(res => this.platforms = res)
+    this.loadPlatforms()
   }
 }
 </script>

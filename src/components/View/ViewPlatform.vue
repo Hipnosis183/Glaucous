@@ -1,18 +1,19 @@
 <template>
   <div>
     <hip-dialog
+      v-show="create"
+      @close="createGamePlatformClose()"
+    >
+      <create-game-platform @close="createGamePlatformClose()" />
+    </hip-dialog>
+    <hip-dialog
       v-show="edit"
       @close="editPlatformClose()"
     >
       <edit-platform @close="editPlatformClose()" />
     </hip-dialog>
     <hip-nav-bar>
-      <router-link :to="{
-        name: 'CreateGamePlatform',
-        query: { p: $route.params.id }
-      }">
-        <hip-button-nb>+</hip-button-nb>
-      </router-link>
+      <hip-button-nb @click="createGamePlatformOpen()">+</hip-button-nb>
       <hip-button-nb @click="deletePlatform()">-</hip-button-nb>
       <hip-button-nb @click="editPlatformOpen()">/</hip-button-nb>
       <div class="w-full"></div>
@@ -48,6 +49,7 @@ import { HipButtonNb, HipCardSq, HipDialog, HipNavBar } from '../Component'
 
 import { getGamesP } from '../../database/controllers/Game'
 import { getPlatform, deletePlatform } from '../../database/controllers/Platform'
+import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditPlatform from '../Edit/EditPlatform.vue'
 
 export default {
@@ -57,10 +59,12 @@ export default {
     HipCardSq,
     HipDialog,
     HipNavBar,
+    CreateGamePlatform,
     EditPlatform
   },
   data() {
     return {
+      create: false,
       edit: false,
       games: null,
       platform: {
@@ -74,6 +78,20 @@ export default {
         .then(res => this.platform = res)
       getGamesP(this.$route.params.id)
         .then(res => this.games = res)
+    },
+    createGamePlatformOpen() {
+      // Save data of the current platform into the store.
+      this.$store.commit('setGamePlatformPlatform', this.$route.params.id)
+      // Open create dialog.
+      this.create = !this.create
+    },
+    createGamePlatformClose() {
+      // Reload platform.
+      this.loadPlatform()
+      // Close create dialog.
+      this.create = !this.create
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
     },
     deletePlatform() {
       deletePlatform(this.$route.params.id)

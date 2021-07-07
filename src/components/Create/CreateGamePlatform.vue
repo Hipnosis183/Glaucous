@@ -1,58 +1,83 @@
 <template>
-  <hip-nav-bar>
-    <hip-button-nb @click="onSubmit()">Submit</hip-button-nb>
-    <div class="w-full"></div>
-  </hip-nav-bar>
-  <div class="flex m-6 space-x-6">
-    <div class="w-full bg-white p-6 rounded-xl shadow leading-loose">
-      <div class="flex space-x-4">
-        <div class="w-1/2">
-          <create-game-region-c />
+  <el-form
+    :model="$store.state.gameForm"
+    label-position="top"
+    ref="gameForm"
+    :show-message="false"
+  >
+    <div class="flex space-x-4">
+      <div class="w-1/2">
+        <form-title />
+        <form-sub-title />
+        <form-original-title />
+        <form-romanized-title />
+        <form-translated-title />
+      </div>
+      <div class="w-1/2">
+        <form-region />
+        <form-developer />
+        <form-platform />
+        <div class="flex space-x-4">
+          <form-release-year />
+          <form-number-players />
         </div>
-        <div class="w-1/2">
-          <create-game-platform-c />
-          <create-game-version-c />
+        <div class="flex space-x-4">
+          <form-current-version />
+          <form-latest-version />
         </div>
       </div>
     </div>
-  </div>
+    <form-comments />
+    <div class="flex space-x-4 mt-4 justify-center">
+      <hip-button @click="onSubmit()">Create</hip-button>
+      <hip-button @click="$emit('close')">Cancel</hip-button>
+    </div>
+  </el-form>
 </template>
 
 <script>
-import { HipButtonNb, HipNavBar } from '../Component'
+import { HipButton } from '../Component'
+import {
+  FormComments,
+  FormCurrentVersion,
+  FormDeveloper,
+  FormLatestVersion,
+  FormNumberPlayers,
+  FormOriginalTitle,
+  FormPlatform,
+  FormRegion,
+  FormReleaseYear,
+  FormRomanizedTitle,
+  FormSubTitle,
+  FormTitle,
+  FormTranslatedTitle
+} from '../Form'
 
-import CreateGamePlatformC from './CreateGame/CreateGamePlatformC.vue'
-import CreateGameRegionC from './CreateGame/CreateGameRegionC.vue'
-import CreateGameVersionC from './CreateGame/CreateGameVersionC.vue'
 import { newGamePlatform } from '../../database/controllers/Game'
 
 export default {
   name: 'create-game-platform',
   components: {
-    HipButtonNb,
-    HipNavBar,
-    CreateGamePlatformC,
-    CreateGameRegionC,
-    CreateGameVersionC
+    HipButton,
+    FormComments,
+    FormCurrentVersion,
+    FormDeveloper,
+    FormLatestVersion,
+    FormNumberPlayers,
+    FormOriginalTitle,
+    FormPlatform,
+    FormRegion,
+    FormReleaseYear,
+    FormRomanizedTitle,
+    FormSubTitle,
+    FormTitle,
+    FormTranslatedTitle
   },
   methods: {
     onSubmit() {
-      // Avoid submitting incomplete form. Temporal.
-      for (const prop in this.$store.state.gameForm.gamePlatform) {
-        if (this.$store.state.gameForm.gamePlatform[prop] === null) return
-      }
-      for (const prop in this.$store.state.gameForm.gameRegion) {
-        if (this.$store.state.gameForm.gameRegion[prop] === null) return
-      }
       // Save new game entry.
       newGamePlatform(this.$store.state.gameForm)
-        .then(() => this.$router.back())
-    }
-  },
-  watch: {
-    // Watch for route changes to clean the input fields.
-    '$route'(to, from) {
-      this.$store.commit('resetGameForm')
+        .then(() => this.$emit('close'))
     }
   }
 }

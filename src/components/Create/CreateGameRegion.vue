@@ -1,52 +1,64 @@
 <template>
-  <hip-nav-bar>
-    <hip-button-nb @click="onSubmit()">Submit</hip-button-nb>
-    <div class="w-full"></div>
-  </hip-nav-bar>
-  <div class="flex m-6 space-x-6 h-almost">
-    <div class="w-full bg-white p-6 rounded-xl shadow leading-loose">
-      <div class="flex space-x-4">
-        <div class="w-1/2">
-          <create-game-region-c />
-        </div>
-        <div class="w-1/2">
-          <create-game-version-c />
-        </div>
+  <el-form
+    :model="$store.state.gameForm"
+    label-position="top"
+    ref="gameForm"
+    :show-message="false"
+  >
+    <div class="flex space-x-4">
+      <div class="w-1/2">
+        <form-region />
+        <form-title />
+        <form-sub-title />
+        <form-current-version />
+      </div>
+      <div class="w-1/2">
+        <form-original-title />
+        <form-romanized-title />
+        <form-translated-title />
+        <form-comments />
       </div>
     </div>
-  </div>
+    <div class="flex space-x-4 mt-4 justify-center">
+      <hip-button @click="onSubmit()">Create</hip-button>
+      <hip-button @click="$emit('close')">Cancel</hip-button>
+    </div>
+  </el-form>
 </template>
 
 <script>
-import { HipButtonNb, HipNavBar } from '../Component'
+import { HipButton } from '../Component'
+import {
+  FormComments,
+  FormCurrentVersion,
+  FormOriginalTitle,
+  FormRegion,
+  FormRomanizedTitle,
+  FormSubTitle,
+  FormTitle,
+  FormTranslatedTitle
+} from '../Form'
 
-import CreateGameRegionC from './CreateGame/CreateGameRegionC.vue'
-import CreateGameVersionC from './CreateGame/CreateGameVersionC.vue'
 import { newGameRegion } from '../../database/controllers/Game'
 
 export default {
   name: 'create-game-region',
   components: {
-    HipButtonNb,
-    HipNavBar,
-    CreateGameRegionC,
-    CreateGameVersionC
+    HipButton,
+    FormComments,
+    FormCurrentVersion,
+    FormOriginalTitle,
+    FormRegion,
+    FormRomanizedTitle,
+    FormSubTitle,
+    FormTitle,
+    FormTranslatedTitle
   },
   methods: {
     onSubmit() {
-      // Avoid submitting incomplete form. Temporal.
-      for (const prop in this.$store.state.gameForm.gameRegion) {
-        if (this.$store.state.gameForm.gameRegion[prop] === null) return
-      }
       // Save new game entry.
-      newGameRegion(this.$store.state.gameForm, this.$route.query.id)
-        .then(() => this.$router.back())
-    }
-  },
-  watch: {
-    // Watch for route changes to clean the input fields.
-    '$route'(to, from) {
-      this.$store.commit('resetGameForm')
+      newGameRegion(this.$store.state.gameForm, this.$store.state.gameSelected.gamePlatform)
+        .then(() => this.$emit('close'))
     }
   }
 }

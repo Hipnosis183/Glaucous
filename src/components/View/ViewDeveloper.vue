@@ -1,18 +1,19 @@
 <template>
   <div>
     <hip-dialog
+      v-show="create"
+      @close="createGamePlatformClose()"
+    >
+      <create-game-platform @close="createGamePlatformClose()" />
+    </hip-dialog>
+    <hip-dialog
       v-show="edit"
       @close="editDeveloperClose()"
     >
       <edit-developer @close="editDeveloperClose()" />
     </hip-dialog>
     <hip-nav-bar>
-      <router-link :to="{
-        name: 'CreateGamePlatform',
-        query: { d: $route.params.id }
-      }">
-        <hip-button-nb>+</hip-button-nb>
-      </router-link>
+      <hip-button-nb @click="createGamePlatformOpen()">+</hip-button-nb>
       <hip-button-nb @click="deleteDeveloper()">-</hip-button-nb>
       <hip-button-nb @click="editDeveloperOpen()">/</hip-button-nb>
       <div class="w-full"></div>
@@ -48,6 +49,7 @@ import { HipButtonNb, HipCardSq, HipDialog, HipNavBar } from '../Component'
 
 import { getGamesD } from '../../database/controllers/Game'
 import { getDeveloper, deleteDeveloper } from '../../database/controllers/Developer'
+import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditDeveloper from '../Edit/EditDeveloper.vue'
 
 export default {
@@ -57,10 +59,12 @@ export default {
     HipCardSq,
     HipDialog,
     HipNavBar,
+    CreateGamePlatform,
     EditDeveloper
   },
   data() {
     return {
+      create: false,
       edit: false,
       games: null,
       developer: {
@@ -75,6 +79,20 @@ export default {
       getGamesD(this.$route.params.id)
         .then(res => this.games = res)
     },
+    createGamePlatformOpen() {
+      // Save data of the current developer into the store.
+      this.$store.commit('setGamePlatformDeveloper', this.$route.params.id)
+      // Open create dialog.
+      this.create = !this.create
+    },
+    createGamePlatformClose() {
+      // Reload developer.
+      this.loadDeveloper()
+      // Close create dialog.
+      this.create = !this.create
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
+    },
     deleteDeveloper() {
       deleteDeveloper(this.$route.params.id)
         .then(() => this.$router.back())
@@ -88,6 +106,8 @@ export default {
       this.edit = !this.edit
     },
     editDeveloperClose() {
+      // Reload developer.
+      this.loadDeveloper()
       // Close edit dialog.
       this.edit = !this.edit
       // Restore the data on the store.

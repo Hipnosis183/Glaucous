@@ -1,9 +1,13 @@
 <template>
   <div>
+    <hip-dialog
+      v-show="create"
+      @close="createDeveloperClose()"
+    >
+      <create-developer @close="createDeveloperClose()" />
+    </hip-dialog>
     <hip-nav-bar>
-      <router-link :to="{ name: 'CreateDeveloper' }">
-        <hip-button-nb>New Developer</hip-button-nb>
-      </router-link>
+      <hip-button-nb @click="createDeveloperOpen()">+</hip-button-nb>
       <div class="w-full"></div>
     </hip-nav-bar>
     <ul class="grid grid-cols-4 gap-4 m-6">
@@ -23,25 +27,46 @@
 </template>
 
 <script>
-import { HipButtonNb, HipCardSq, HipNavBar } from '../Component'
+import { HipButtonNb, HipCardSq, HipDialog, HipNavBar } from '../Component'
 
 import { getDevelopers } from '../../database/controllers/Developer'
+import CreateDeveloper from '../Create/CreateDeveloper.vue'
 
 export default {
   name: 'list-developers',
   components: {
     HipButtonNb,
     HipCardSq,
-    HipNavBar
+    HipDialog,
+    HipNavBar,
+    CreateDeveloper
   },
   data() {
     return {
+      create: false,
       developers: null
     }
   },
+  methods: {
+    loadDevelopers() {
+      getDevelopers()
+        .then(res => this.developers = res)
+    },
+    createDeveloperOpen() {
+      // Open create dialog.
+      this.create = !this.create
+    },
+    createDeveloperClose() {
+      // Reload developers.
+      this.loadDevelopers()
+      // Close create dialog.
+      this.create = !this.create
+      // Restore the data on the store.
+      this.$store.commit('resetOtherForm')
+    }
+  },
   mounted() {
-    getDevelopers()
-      .then(res => this.developers = res)
+    this.loadDevelopers()
   }
 }
 </script>
