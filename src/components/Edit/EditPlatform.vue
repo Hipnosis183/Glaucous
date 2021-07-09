@@ -1,13 +1,15 @@
 <template>
+  <!-- Edit platform form. -->
   <el-form
-    :model="$store.state.otherForm"
     label-position="top"
-    ref="otherForm"
+    :model="$store.state.otherForm"
     :show-message="false"
   >
+    <!-- Form components. -->
     <div class="flex space-x-4">
       <form-name />
     </div>
+    <!-- Form buttons. -->
     <div class="flex space-x-4 mt-4 justify-center">
       <hip-button @click="onSubmit()">Update</hip-button>
       <hip-button @click="$emit('close')">Cancel</hip-button>
@@ -16,16 +18,20 @@
 </template>
 
 <script>
-import { HipButton } from '../Component'
+// Import form components.
 import { FormName } from '../Form'
-
+// Import UI components.
+import { HipButton } from '../Component'
+// Import database controllers functions.
 import { updatePlatform } from '../../database/controllers/Platform'
 
 export default {
-  name: 'edit-platform',
+  name: 'EditPlatform',
   components: {
-    HipButton,
-    FormName
+    // Form components.
+    FormName,
+    // UI components.
+    HipButton
   },
   methods: {
     onSubmit() {

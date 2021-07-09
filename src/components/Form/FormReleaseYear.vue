@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-release-year',
+  name: 'FormReleaseYear',
   computed: {
     releaseYear: {
       get() { return this.$store.state.gameForm.gamePlatform.releaseYear },

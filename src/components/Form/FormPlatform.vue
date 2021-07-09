@@ -23,7 +23,7 @@
 import { getPlatforms } from '../../database/controllers/Platform'
 
 export default {
-  name: 'form-platform',
+  name: 'FormPlatform',
   data() {
     return {
       platforms: null

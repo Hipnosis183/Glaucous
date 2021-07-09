@@ -1,10 +1,11 @@
 <template>
+  <!-- Edit game form. -->
   <el-form
-    :model="$store.state.gameForm"
     label-position="top"
-    ref="gameForm"
+    :model="$store.state.gameForm"
     :show-message="false"
   >
+    <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
         <form-title />
@@ -28,6 +29,7 @@
       </div>
     </div>
     <form-comments />
+    <!-- Form buttons. -->
     <div class="flex space-x-4 mt-4 justify-center">
       <hip-button @click="onSubmit()">Update</hip-button>
       <hip-button @click="$emit('close')">Cancel</hip-button>
@@ -36,7 +38,7 @@
 </template>
 
 <script>
-import { HipButton } from '../Component'
+// Import form components.
 import {
   FormComments,
   FormCurrentVersion,
@@ -52,13 +54,15 @@ import {
   FormTitle,
   FormTranslatedTitle
 } from '../Form'
-
+// Import UI components.
+import { HipButton } from '../Component'
+// Import database controllers functions.
 import { updateGame } from '../../database/controllers/Game'
 
 export default {
-  name: 'edit-game',
+  name: 'EditGame',
   components: {
-    HipButton,
+    // Form components.
     FormComments,
     FormCurrentVersion,
     FormDeveloper,
@@ -71,7 +75,9 @@ export default {
     FormRomanizedTitle,
     FormSubTitle,
     FormTitle,
-    FormTranslatedTitle
+    FormTranslatedTitle,
+    // UI components.
+    HipButton
   },
   methods: {
     onSubmit() {

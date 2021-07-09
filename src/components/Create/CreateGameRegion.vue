@@ -1,10 +1,11 @@
 <template>
+  <!-- Create game region form. -->
   <el-form
-    :model="$store.state.gameForm"
     label-position="top"
-    ref="gameForm"
+    :model="$store.state.gameForm"
     :show-message="false"
   >
+    <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
         <form-region />
@@ -19,6 +20,7 @@
         <form-comments />
       </div>
     </div>
+    <!-- Form buttons. -->
     <div class="flex space-x-4 mt-4 justify-center">
       <hip-button @click="onSubmit()">Create</hip-button>
       <hip-button @click="$emit('close')">Cancel</hip-button>
@@ -27,7 +29,7 @@
 </template>
 
 <script>
-import { HipButton } from '../Component'
+// Import form components.
 import {
   FormComments,
   FormCurrentVersion,
@@ -38,13 +40,15 @@ import {
   FormTitle,
   FormTranslatedTitle
 } from '../Form'
-
+// Import UI components.
+import { HipButton } from '../Component'
+// Import database controllers functions.
 import { newGameRegion } from '../../database/controllers/Game'
 
 export default {
-  name: 'create-game-region',
+  name: 'CreateGameRegion',
   components: {
-    HipButton,
+    // Form components.
     FormComments,
     FormCurrentVersion,
     FormOriginalTitle,
@@ -52,7 +56,9 @@ export default {
     FormRomanizedTitle,
     FormSubTitle,
     FormTitle,
-    FormTranslatedTitle
+    FormTranslatedTitle,
+    // UI components.
+    HipButton
   },
   methods: {
     onSubmit() {

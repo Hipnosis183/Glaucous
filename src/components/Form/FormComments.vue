@@ -1,35 +1,41 @@
 <template>
+  <!-- Show comments dialog. -->
   <hip-dialog
-    v-show="showComments"
-    @close="showComments = !showComments"
+    v-show="dialog.viewComments"
+    @close="viewComments()"
     :class="['top-0 left-0', $store.state.sidenavExpanded ? 'w-exp' : 'w-cont']"
   >
+    <!-- Comments list. -->
     <div class="flex mb-6">
       <h1 class="text-xl font-bold">Comments</h1>
     </div>
     <div class="text-lg mt-1">
-      <ul
-        class="list-disc list-inside"
-        v-if="$store.state.gameForm.gameVersion.comments.length > 0"
-      >
+      <ul class="list-disc list-inside">
         <div
-          class="flex flex-inline items-center space-x-6"
-          v-for="(c, index) in $store.state.gameForm.gameVersion.comments"
-          :key="index"
-          :value="c"
+          v-if="$store.state.gameForm.gameVersion.comments.length > 0"
+          class="space-y-4"
         >
-          <li class="text-justify">{{ c }}</li>
-          <el-button
-            icon="el-icon-remove"
-            @click="removeComment(index)"
-          ></el-button>
+          <div
+            class="flex flex-inline items-center space-x-6"
+            v-for="(comment, index) in $store.state.gameForm.gameVersion.comments"
+            :key="index"
+            :value="comment"
+          >
+            <li class="text-justify">{{ comment }}</li>
+            <!-- Remove related comment from the list. -->
+            <el-button
+              icon="el-icon-remove"
+              @click="removeComment(index)"
+            ></el-button>
+          </div>
         </div>
-      </ul>
-      <ul class="list-disc list-inside" v-else>
-        <li>None</li>
+        <div v-else>
+          <li>None</li>
+        </div>
       </ul>
     </div>
   </hip-dialog>
+  <!-- Comment form. -->
   <div class="flex space-x-2">
     <el-form-item
       class="w-full"
@@ -38,10 +44,12 @@
     >
       <el-input v-model="comment">
         <template #append>
+          <!-- View comments list dialog. -->
           <el-button
             icon="el-icon-notebook-2"
-            @click="showComments = !showComments"
+            @click="viewComments()"
           ></el-button>
+          <!-- Add input comment to the list. -->
           <el-button
             icon="el-icon-circle-plus"
             @click="addComment()"
@@ -56,23 +64,34 @@
 import { HipDialog } from '../Component'
 
 export default {
-  name: 'form-comments',
+  name: 'FormComments',
   components: {
     HipDialog
   },
   data() {
     return {
       comment: null,
-      showComments: false
+      // Dialog object.
+      dialog: {
+        viewComments: false
+      }
     }
   },
   methods: {
+    // Comments operations.
     addComment() {
+      // Save comment into the store.
       this.$store.commit('setGameVersionCommentsAdd', this.comment)
+      // Reset comment input.
       this.comment = null
     },
     removeComment(com) {
+      // Remove comment from the store.
       this.$store.commit('setGameVersionCommentsRemove', com)
+    },
+    viewComments() {
+      // Open comments dialog.
+      this.dialog.viewComments = !this.dialog.viewComments
     }
   }
 }

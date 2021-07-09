@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-current-version',
+  name: 'FormCurrentVersion',
   computed: {
     currentVersion: {
       get() { return this.$store.state.gameForm.gameVersion.currentVersion },

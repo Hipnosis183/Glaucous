@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-name',
+  name: 'FormName',
   computed: {
     name: {
       get() { return this.$store.state.otherForm.name },

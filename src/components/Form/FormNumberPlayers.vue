@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-number-players',
+  name: 'FormNumberPlayers',
   computed: {
     numberPlayers: {
       get() { return this.$store.state.gameForm.gamePlatform.numberPlayers },

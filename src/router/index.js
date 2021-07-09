@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory,
+  createWebHashHistory
+} from 'vue-router'
 
 const routes = [
   // Index
@@ -14,21 +18,6 @@ const routes = [
     component: () => import('../components/List/ListGames.vue')
   },
   {
-    path: '/games/create-game-platform',
-    name: 'CreateGamePlatform',
-    component: () => import('../components/Create/CreateGamePlatform.vue')
-  },
-  {
-    path: '/games/create-game-region',
-    name: 'CreateGameRegion',
-    component: () => import('../components/Create/CreateGameRegion.vue')
-  },
-  {
-    path: '/games/create-game-version',
-    name: 'CreateGameVersion',
-    component: () => import('../components/Create/CreateGameVersion.vue')
-  },
-  {
     path: '/games/:id',
     name: 'ViewGame',
     component: () => import('../components/View/ViewGame.vue')
@@ -40,11 +29,6 @@ const routes = [
     component: () => import('../components/List/ListPlatforms.vue')
   },
   {
-    path: '/platforms/create-platform',
-    name: 'CreatePlatform',
-    component: () => import('../components/Create/CreatePlatform.vue')
-  },
-  {
     path: '/platforms/:id',
     name: 'ViewPlatform',
     component: () => import('../components/View/ViewPlatform.vue')
@@ -54,11 +38,6 @@ const routes = [
     path: '/developers',
     name: 'ListDevelopers',
     component: () => import('../components/List/ListDevelopers.vue')
-  },
-  {
-    path: '/developers/create-developer',
-    name: 'CreateDeveloper',
-    component: () => import('../components/Create/CreateDeveloper.vue')
   },
   {
     path: '/developers/:id',

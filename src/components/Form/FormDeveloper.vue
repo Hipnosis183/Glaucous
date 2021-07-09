@@ -23,7 +23,7 @@
 import { getDevelopers } from '../../database/controllers/Developer'
 
 export default {
-  name: 'form-developer',
+  name: 'FormDeveloper',
   data() {
     return {
       developers: null

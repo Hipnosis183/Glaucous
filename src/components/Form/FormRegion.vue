@@ -33,7 +33,7 @@
 import Regions from '../../../public/files/flags-g.json'
 
 export default {
-  name: 'form-region',
+  name: 'FormRegion',
   data() {
     return {
       regions: Regions

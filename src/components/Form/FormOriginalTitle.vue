@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-original-title',
+  name: 'FormOriginalTitle',
   computed: {
     originalTitle: {
       get() { return this.$store.state.gameForm.gameRegion.originalTitle },

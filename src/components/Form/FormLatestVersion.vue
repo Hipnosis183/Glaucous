@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-latest-version',
+  name: 'FormLatestVersion',
   computed: {
     latestVersion: {
       get() { return this.$store.state.gameForm.gamePlatform.latestVersion },

@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'form-romanized-title',
+  name: 'FormRomanizedTitle',
   computed: {
     romanizedTitle: {
       get() { return this.$store.state.gameForm.gameRegion.romanizedTitle },
