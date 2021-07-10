@@ -11,6 +11,7 @@
   <hip-nav-bar>
     <!-- Open create developer dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-circle-plus-outline text-2xl"
       @click="createGamePlatformOpen()"
     ></hip-button-nb>

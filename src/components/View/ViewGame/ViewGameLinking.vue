@@ -1,7 +1,10 @@
 <template>
   <hip-overlay>
     <!-- Game linking dialog. -->
-    <hip-modal class="flex justify-center pt-8 mb-4">
+    <hip-modal
+      v-show="$store.state.editMode"
+      class="flex justify-center pt-8 mb-4"
+    >
       <!-- Game search bar. -->
       <el-select
         class="w-80"

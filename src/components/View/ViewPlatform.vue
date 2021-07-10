@@ -45,16 +45,19 @@
   <hip-nav-bar>
     <!-- Open create game platform dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-circle-plus-outline text-2xl"
       @click="createGamePlatformOpen()"
     ></hip-button-nb>
     <!-- Open edit platform dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-edit-outline text-2xl"
       @click="editPlatformOpen()"
     ></hip-button-nb>
     <!-- Open delete platform dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-remove-outline text-2xl"
       @click="deletePlatformOpen()"
     ></hip-button-nb>

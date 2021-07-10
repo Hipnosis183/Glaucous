@@ -92,21 +92,25 @@
   <hip-nav-bar>
     <!-- Open create game region dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-circle-plus-outline text-2xl"
       @click="createGameRegionOpen()"
     ></hip-button-nb>
     <!-- Open edit game dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-edit-outline text-2xl"
       @click="editGameOpen()"
     ></hip-button-nb>
     <!-- Open delete game region dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-remove-outline text-2xl"
       @click="deleteGameRegionOpen()"
     ></hip-button-nb>
     <!-- Open delete game platform dialog. -->
     <hip-button-nb
+      v-show="$store.state.editMode"
       class="el-icon-delete text-2xl"
       @click="deleteGamePlatformOpen()"
     ></hip-button-nb>

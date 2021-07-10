@@ -44,10 +44,16 @@
         </div>
       </div>
     </div>
-    <div class="bg-indigo-600 flex text-center">
+    <div class="bg-indigo-600 flex justify-between">
+      <el-switch
+        v-model="$store.state.editMode"
+        class="m-auto"
+        :class="$store.state.sidenavExpanded ? 'ml-auto' : 'ml-2'"
+        :width=20
+      ></el-switch>
       <button
         class="text-gray-100 font-semibold text-2xl m-auto py-3"
-        :class="$store.state.sidenavExpanded ? 'mr-auto' : 'mr-5'"
+        :class="$store.state.sidenavExpanded ? 'mr-auto' : 'mr-2'"
         @click="toggle()"
       >{{ icon }}</button>
     </div>
