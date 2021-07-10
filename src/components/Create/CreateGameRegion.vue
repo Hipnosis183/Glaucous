@@ -22,8 +22,16 @@
     </div>
     <!-- Form buttons. -->
     <div class="flex space-x-4 mt-4 justify-center">
-      <hip-button @click="onSubmit()">Create</hip-button>
-      <hip-button @click="$emit('close')">Cancel</hip-button>
+      <hip-button
+        class="el-icon-circle-check text-2xl"
+        @click="onSubmit()"
+        :icon="true"
+      ></hip-button>
+      <hip-button
+        class="el-icon-circle-close text-2xl"
+        @click="$emit('close')"
+        :icon="true"
+      ></hip-button>
     </div>
   </el-form>
 </template>

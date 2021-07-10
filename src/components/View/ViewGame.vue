@@ -15,6 +15,59 @@
     <!-- Insert edit game form component. -->
     <edit-game @close="editGameClose()" />
   </hip-dialog>
+  <!-- Delete game region dialog. -->
+  <hip-dialog
+    v-show="dialog.deleteGameRegion"
+    @close="deleteGameRegionOpen()"
+  >
+    <!-- Dialog message. -->
+    <p class="text-center text-lg">
+      Delete region <b>'{{ getRegion(regionIndex) }}'</b>
+      from game <b>'{{ fullTitle }}'</b> ?
+      <br />
+      It will also delete all its versions.
+    </p>
+    <div class="flex space-x-4 mt-6 justify-center">
+      <!-- Confirm game deletion. -->
+      <hip-button
+        class="el-icon-circle-check text-2xl"
+        @click="deleteGameRegionClose()"
+        :icon="true"
+      ></hip-button>
+      <!-- Cancel game deletion. -->
+      <hip-button
+        class="el-icon-circle-close text-2xl"
+        @click="deleteGameRegionOpen()"
+        :icon="true"
+      ></hip-button>
+    </div>
+  </hip-dialog>
+  <!-- Delete game platform dialog. -->
+  <hip-dialog
+    v-show="dialog.deleteGamePlatform"
+    @close="deleteGamePlatformOpen()"
+  >
+    <!-- Dialog message. -->
+    <p class="text-center text-lg">
+      Delete game <b>'{{ fullTitle }}'</b> ?
+      <br />
+      It will also delete all its regions and versions.
+    </p>
+    <div class="flex space-x-4 mt-6 justify-center">
+      <!-- Confirm game deletion. -->
+      <hip-button
+        class="el-icon-circle-check text-2xl"
+        @click="deleteGamePlatformClose()"
+        :icon="true"
+      ></hip-button>
+      <!-- Cancel game deletion. -->
+      <hip-button
+        class="el-icon-circle-close text-2xl"
+        @click="deleteGamePlatformOpen()"
+        :icon="true"
+      ></hip-button>
+    </div>
+  </hip-dialog>
   <!-- View game details dialog. -->
   <hip-dialog
     v-show="dialog.viewGameDetails"
@@ -39,23 +92,23 @@
   <hip-nav-bar>
     <!-- Open create game region dialog. -->
     <hip-button-nb
-      class="el-icon-circle-plus-outline text-xl"
+      class="el-icon-circle-plus-outline text-2xl"
       @click="createGameRegionOpen()"
     ></hip-button-nb>
     <!-- Open edit game dialog. -->
     <hip-button-nb
-      class="el-icon-edit-outline text-xl"
+      class="el-icon-edit-outline text-2xl"
       @click="editGameOpen()"
     ></hip-button-nb>
     <!-- Open delete game region dialog. -->
     <hip-button-nb
-      class="el-icon-remove-outline text-xl"
-      @click="deleteGameRegion()"
+      class="el-icon-remove-outline text-2xl"
+      @click="deleteGameRegionOpen()"
     ></hip-button-nb>
     <!-- Open delete game platform dialog. -->
     <hip-button-nb
-      class="el-icon-delete text-xl"
-      @click="deleteGamePlatform()"
+      class="el-icon-delete text-2xl"
+      @click="deleteGamePlatformOpen()"
     ></hip-button-nb>
     <!-- Game region tabs. -->
     <ul class="w-full flex">
@@ -184,6 +237,8 @@ export default {
       dialog: {
         createGameRegion: false,
         editGame: false,
+        deleteGameRegion: false,
+        deleteGamePlatform: false,
         viewGameDetails: false,
         viewGameLinking: false
       },
@@ -268,7 +323,11 @@ export default {
       this.$store.commit('resetGameForm')
     },
     // Delete operations.
-    deleteGameRegion() {
+    deleteGameRegionOpen() {
+      // Open delete dialog.
+      this.dialog.deleteGameRegion = !this.dialog.deleteGameRegion
+    },
+    deleteGameRegionClose() {
       // Delete game region.
       deleteGameRegion(this.gameInfo, this.regionIndex)
         .then(res => {
@@ -278,13 +337,19 @@ export default {
             this.loadGame()
             // Reset selected region.
             this.regionIndex = 0
-            // If the game only had one region.
+            // Close delete dialog.
+            this.dialog.deleteGameRegion = !this.dialog.deleteGameRegion
           } else {
+            // If the game only had one region.
             this.$router.back()
           }
         })
     },
-    deleteGamePlatform() {
+    deleteGamePlatformOpen() {
+      // Open delete dialog.
+      this.dialog.deleteGamePlatform = !this.dialog.deleteGamePlatform
+    },
+    deleteGamePlatformClose() {
       // Delete game platform.
       deleteGamePlatform(this.gameInfo)
         .then(() => this.$router.back())

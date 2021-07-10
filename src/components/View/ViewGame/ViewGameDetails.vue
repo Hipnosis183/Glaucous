@@ -22,12 +22,12 @@
     </div>
     <div>
       <div class="data-container">
-        <p class="font-semibold">Latest Version:</p>
-        <p>{{ gameInfo.latestVersion }}</p>
-      </div>
-      <div class="data-container">
         <p class="font-semibold">Current Version:</p>
         <p>{{ gameInfo.gameRegions[regionIndex].gameVersions[0].currentVersion }}</p>
+      </div>
+      <div class="data-container">
+        <p class="font-semibold">Latest Version:</p>
+        <p>{{ gameInfo.latestVersion }}</p>
       </div>
       <div class="data-container">
         <p class="font-semibold">ID:</p>

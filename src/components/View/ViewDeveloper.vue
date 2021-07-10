@@ -15,22 +15,48 @@
     <!-- Insert edit developer form component. -->
     <edit-developer @close="editDeveloperClose()" />
   </hip-dialog>
+  <!-- Delete developer dialog. -->
+  <hip-dialog
+    v-show="dialog.deleteDeveloper"
+    @close="deleteDeveloperOpen()"
+  >
+    <!-- Dialog message. -->
+    <p class="text-center text-lg">
+      Delete developer <b>'{{ developer.name }}'</b> ?
+      <br />
+      It will also delete all its game entries.
+    </p>
+    <div class="flex space-x-4 mt-6 justify-center">
+      <!-- Confirm developer deletion. -->
+      <hip-button
+        class="el-icon-circle-check text-2xl"
+        @click="deleteDeveloperClose()"
+        :icon="true"
+      ></hip-button>
+      <!-- Cancel developer deletion. -->
+      <hip-button
+        class="el-icon-circle-close text-2xl"
+        @click="deleteDeveloperOpen()"
+        :icon="true"
+      ></hip-button>
+    </div>
+  </hip-dialog>
   <!-- Navigation bar. -->
   <hip-nav-bar>
     <!-- Open create game platform dialog. -->
     <hip-button-nb
-      class="el-icon-circle-plus-outline text-xl"
+      class="el-icon-circle-plus-outline text-2xl"
       @click="createGamePlatformOpen()"
     ></hip-button-nb>
     <!-- Open edit developer dialog. -->
     <hip-button-nb
-      class="el-icon-edit-outline text-xl"
+      class="el-icon-edit-outline text-2xl"
       @click="editDeveloperOpen()"
     ></hip-button-nb>
     <!-- Open delete developer dialog. -->
     <hip-button-nb
-      class="el-icon-remove-outline text-xl"
-      @click="deleteDeveloper()"
+      class="el-icon-remove-outline text-2xl"
+      @click="deleteDeveloperOpen()"
     ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>
@@ -64,6 +90,7 @@ import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditDeveloper from '../Edit/EditDeveloper.vue'
 // Import UI components.
 import {
+  HipButton,
   HipButtonNb,
   HipCardSq,
   HipDialog,
@@ -83,6 +110,7 @@ export default {
     CreateGamePlatform,
     EditDeveloper,
     // UI components.
+    HipButton,
     HipButtonNb,
     HipCardSq,
     HipDialog,
@@ -93,7 +121,8 @@ export default {
       // Dialog object.
       dialog: {
         createGamePlatform: false,
-        editDeveloper: false
+        editDeveloper: false,
+        deleteDeveloper: false
       },
       // Developer object.
       developer: {
@@ -144,7 +173,11 @@ export default {
       this.$store.commit('resetOtherForm')
     },
     // Delete operations.
-    deleteDeveloper() {
+    deleteDeveloperOpen() {
+      // Open delete dialog.
+      this.dialog.deleteDeveloper = !this.dialog.deleteDeveloper
+    },
+    deleteDeveloperClose() {
       // Delete developer.
       deleteDeveloper(this.$route.params.id)
         .then(() => this.$router.back())

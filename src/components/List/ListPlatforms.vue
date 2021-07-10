@@ -11,7 +11,7 @@
   <hip-nav-bar>
     <!-- Open create platform dialog. -->
     <hip-button-nb
-      class="el-icon-circle-plus-outline text-xl"
+      class="el-icon-circle-plus-outline text-2xl"
       @click="createPlatformOpen()"
     ></hip-button-nb>
     <!-- Padding. -->

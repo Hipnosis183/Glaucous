@@ -23,10 +23,11 @@
           >
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->
-            <el-button
-              icon="el-icon-remove"
+            <hip-button
+              class="el-icon-remove-outline text-2xl"
               @click="removeComment(index)"
-            ></el-button>
+              :icon="true"
+            ></hip-button>
           </div>
         </div>
         <div v-else>
@@ -51,7 +52,7 @@
           ></el-button>
           <!-- Add input comment to the list. -->
           <el-button
-            icon="el-icon-circle-plus"
+            icon="el-icon-circle-plus-outline"
             @click="addComment()"
           ></el-button>
         </template>
@@ -61,11 +62,15 @@
 </template>
 
 <script>
-import { HipDialog } from '../Component'
+import {
+  HipButton,
+  HipDialog
+} from '../Component'
 
 export default {
   name: 'FormComments',
   components: {
+    HipButton,
     HipDialog
   },
   data() {

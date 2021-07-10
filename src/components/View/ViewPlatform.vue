@@ -15,22 +15,48 @@
     <!-- Insert edit platform form component. -->
     <edit-platform @close="editPlatformClose()" />
   </hip-dialog>
+  <!-- Delete platform dialog. -->
+  <hip-dialog
+    v-show="dialog.deletePlatform"
+    @close="deletePlatformOpen()"
+  >
+    <!-- Dialog message. -->
+    <p class="text-center text-lg">
+      Delete platform <b>'{{ platform.name }}'</b> ?
+      <br />
+      It will also delete all its game entries.
+    </p>
+    <div class="flex space-x-4 mt-6 justify-center">
+      <!-- Confirm platform deletion. -->
+      <hip-button
+        class="el-icon-circle-check text-2xl"
+        @click="deletePlatformClose()"
+        :icon="true"
+      ></hip-button>
+      <!-- Cancel platform deletion. -->
+      <hip-button
+        class="el-icon-circle-close text-2xl"
+        @click="deletePlatformOpen()"
+        :icon="true"
+      ></hip-button>
+    </div>
+  </hip-dialog>
   <!-- Navigation bar. -->
   <hip-nav-bar>
     <!-- Open create game platform dialog. -->
     <hip-button-nb
-      class="el-icon-circle-plus-outline text-xl"
+      class="el-icon-circle-plus-outline text-2xl"
       @click="createGamePlatformOpen()"
     ></hip-button-nb>
     <!-- Open edit platform dialog. -->
     <hip-button-nb
-      class="el-icon-edit-outline text-xl"
+      class="el-icon-edit-outline text-2xl"
       @click="editPlatformOpen()"
     ></hip-button-nb>
     <!-- Open delete platform dialog. -->
     <hip-button-nb
-      class="el-icon-remove-outline text-xl"
-      @click="deletePlatform()"
+      class="el-icon-remove-outline text-2xl"
+      @click="deletePlatformOpen()"
     ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>
@@ -64,6 +90,7 @@ import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditPlatform from '../Edit/EditPlatform.vue'
 // Import UI components.
 import {
+  HipButton,
   HipButtonNb,
   HipCardSq,
   HipDialog,
@@ -83,6 +110,7 @@ export default {
     CreateGamePlatform,
     EditPlatform,
     // UI components.
+    HipButton,
     HipButtonNb,
     HipCardSq,
     HipDialog,
@@ -93,7 +121,8 @@ export default {
       // Dialog object.
       dialog: {
         createGamePlatform: false,
-        editPlatform: false
+        editPlatform: false,
+        deletePlatform: false
       },
       // Platform object.
       platform: {
@@ -144,7 +173,11 @@ export default {
       this.$store.commit('resetOtherForm')
     },
     // Delete operations.
-    deletePlatform() {
+    deletePlatformOpen() {
+      // Open delete dialog.
+      this.dialog.deletePlatform = !this.dialog.deletePlatform
+    },
+    deletePlatformClose() {
       // Delete platform.
       deletePlatform(this.$route.params.id)
         .then(() => this.$router.back())

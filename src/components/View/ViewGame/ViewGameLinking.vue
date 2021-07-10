@@ -22,8 +22,16 @@
       </el-select>
       <!-- Form buttons. -->
       <div class="flex space-x-4 mt-4 justify-center">
-        <hip-button @click="linkGame()">Link</hip-button>
-        <hip-button @click="unlinkGame()">Unlink</hip-button>
+        <hip-button
+          class="el-icon-circle-plus-outline text-2xl"
+          @click="linkGame()"
+          :icon="true"
+        ></hip-button>
+        <hip-button
+          class="el-icon-remove-outline text-2xl"
+          @click="unlinkGame()"
+          :icon="true"
+        ></hip-button>
       </div>
     </hip-modal>
     <!-- Show linked games list. -->
