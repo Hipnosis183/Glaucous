@@ -18,11 +18,20 @@
   <!-- Navigation bar. -->
   <hip-nav-bar>
     <!-- Open create game platform dialog. -->
-    <hip-button-nb @click="createGamePlatformOpen()">+</hip-button-nb>
-    <!-- Open delete developer dialog. -->
-    <hip-button-nb @click="deleteDeveloper()">-</hip-button-nb>
+    <hip-button-nb
+      class="el-icon-circle-plus-outline text-xl"
+      @click="createGamePlatformOpen()"
+    ></hip-button-nb>
     <!-- Open edit developer dialog. -->
-    <hip-button-nb @click="editDeveloperOpen()">/</hip-button-nb>
+    <hip-button-nb
+      class="el-icon-edit-outline text-xl"
+      @click="editDeveloperOpen()"
+    ></hip-button-nb>
+    <!-- Open delete developer dialog. -->
+    <hip-button-nb
+      class="el-icon-remove-outline text-xl"
+      @click="deleteDeveloper()"
+    ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>
   </hip-nav-bar>

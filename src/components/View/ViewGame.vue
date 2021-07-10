@@ -38,13 +38,25 @@
   <!-- Navigation bar. -->
   <hip-nav-bar>
     <!-- Open create game region dialog. -->
-    <hip-button-nb @click="createGameRegionOpen()">+</hip-button-nb>
-    <!-- Open delete game region dialog. -->
-    <hip-button-nb @click="deleteGameRegion()">-</hip-button-nb>
-    <!-- Open delete game platform dialog. -->
-    <hip-button-nb @click="deleteGamePlatform()">*</hip-button-nb>
+    <hip-button-nb
+      class="el-icon-circle-plus-outline text-xl"
+      @click="createGameRegionOpen()"
+    ></hip-button-nb>
     <!-- Open edit game dialog. -->
-    <hip-button-nb @click="editGameOpen()">/</hip-button-nb>
+    <hip-button-nb
+      class="el-icon-edit-outline text-xl"
+      @click="editGameOpen()"
+    ></hip-button-nb>
+    <!-- Open delete game region dialog. -->
+    <hip-button-nb
+      class="el-icon-remove-outline text-xl"
+      @click="deleteGameRegion()"
+    ></hip-button-nb>
+    <!-- Open delete game platform dialog. -->
+    <hip-button-nb
+      class="el-icon-delete text-xl"
+      @click="deleteGamePlatform()"
+    ></hip-button-nb>
     <!-- Game region tabs. -->
     <ul class="w-full flex">
       <li
@@ -54,7 +66,7 @@
         :value="region._id"
       >
         <button
-          class="w-full py-3.5"
+          class="w-full py-3"
           :class="index == regionIndex ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
           @click="changeRegion(index)"
         >{{ getRegion(index) }}</button>

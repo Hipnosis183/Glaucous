@@ -10,7 +10,10 @@
   <!-- Navigation bar. -->
   <hip-nav-bar>
     <!-- Open create developer dialog. -->
-    <hip-button-nb @click="createGamePlatformOpen()">+</hip-button-nb>
+    <hip-button-nb
+      class="el-icon-circle-plus-outline text-xl"
+      @click="createGamePlatformOpen()"
+    ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>
   </hip-nav-bar>

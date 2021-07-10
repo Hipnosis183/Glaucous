@@ -19,11 +19,11 @@
 }
 
 .h-almost {
-  height: calc(100vh - 104px);
+  height: calc(100vh - 100px);
 }
 
 .min-h-almost {
-  min-height: calc(100vh - 104px);
+  min-height: calc(100vh - 100px);
 }
 
 .min-w-almost {
@@ -31,7 +31,7 @@
 }
 
 .max-h-almost {
-  max-height: calc(100vh - 104px);
+  max-height: calc(100vh - 100px);
 }
 
 .max-w-almost {
