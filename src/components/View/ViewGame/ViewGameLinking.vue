@@ -35,25 +35,38 @@
       </div>
     </hip-modal>
     <!-- Show linked games list. -->
-    <ul class="grid grid-flow-row gap-4">
-      <li
-        v-for="game in linkedGames"
-        :key="game._id"
-        :value="game._id"
-        @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
+    <ul>
+      <div
+        v-if="linkedGames.length > 0"
+        class="grid grid-flow-row gap-4"
       >
-        <!-- Game card. -->
-        <hip-card-sq>
-          <div class="mb-2">
-            <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
-            <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
-          </div>
-          <div class="mb-2">
-            <h2 class="text-base text-gray-600 italic font-normal">{{ game.gameRegions[0].originalTitle }}</h2>
-          </div>
-          <h3 class="text-base text-gray-600 font-normal">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
-        </hip-card-sq>
-      </li>
+        <li
+          v-for="game in linkedGames"
+          :key="game._id"
+          :value="game._id"
+          @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
+        >
+          <!-- Game card. -->
+          <hip-card-sq>
+            <div class="mb-2">
+              <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
+              <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
+            </div>
+            <div class="mb-2">
+              <h2 class="text-base text-gray-600 italic font-normal">{{ game.gameRegions[0].originalTitle }}</h2>
+            </div>
+            <h3 class="text-base text-gray-600 font-normal">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
+          </hip-card-sq>
+        </li>
+      </div>
+      <div v-else>
+        <li>
+          <!-- Empty card. -->
+          <hip-card-sq>
+            <p>No other platforms available.</p>
+          </hip-card-sq>
+        </li>
+      </div>
     </ul>
   </hip-overlay>
 </template>
@@ -134,7 +147,8 @@ export default {
   mounted() {
     // Load linked games.
     getGames(this.gameInfo.gamePlatforms)
-      .then(res => this.linkedGames = res)
+      // Exclude the selected game.
+      .then(res => this.linkedGames = res.filter(res => res._id != this.gameInfo._id))
   }
 }
 </script>
