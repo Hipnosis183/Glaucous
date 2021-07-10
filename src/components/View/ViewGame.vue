@@ -131,7 +131,7 @@
     </ul>
   </hip-nav-bar>
   <!-- Game information. -->
-  <div class="flex m-6 space-x-6 min-h-almost">
+  <div class="flex m-6 space-x-6 min-h-content">
     <!-- Left card. -->
     <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
       <img

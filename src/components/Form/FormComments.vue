@@ -2,8 +2,8 @@
   <!-- Show comments dialog. -->
   <hip-dialog
     v-show="dialog.viewComments"
+    class="top-0 left-14 z-10"
     @close="viewComments()"
-    :class="['top-0 left-0', $store.state.sidenavExpanded ? 'w-exp' : 'w-cont']"
   >
     <!-- Comments list. -->
     <div class="flex mb-6">

@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    sidenavExpanded: true,
+    sidenavExpanded: false,
     editMode: true,
     gameSelected: {
       gamePlatform: null,

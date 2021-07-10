@@ -1,7 +1,15 @@
 <template>
+  <!-- Expanded sidenav. -->
+  <transition v-show="$store.state.sidenavExpanded">
+    <div
+      class="absolute z-10 bg-black bg-opacity-50 w-full h-full"
+      @click="sidenavToggle()"
+    >
+    </div>
+  </transition>
   <div
-    class="transform ease-in-out transition-all duration-1000 relative bg-indigo-500 flex-col justify-between flex flex-shrink-0"
-    :class="$store.state.sidenavExpanded ? 'w-60' : 'w-14'"
+    class="absolute flex flex-col z-10 inset-y-0 transform w-80 bg-indigo-500 transition-all duration-500"
+    :class="$store.state.sidenavExpanded ? 'translate-x-0' : '-translate-x-full'"
   >
     <div class="h-full flex-col justify-between flex">
       <div class="">
@@ -9,38 +17,38 @@
           to="/"
           class="text-center"
         >
-          <h1 class="text-gray-100 font-semibold text-3xl my-12">{{ name }}</h1>
+          <h1 class="text-gray-100 font-semibold text-3xl my-12">Frontend</h1>
         </router-link>
         <div class="space-y-4 mt-8">
           <router-link
             to="/games"
             class="flex"
           >
-            <hip-button-sb>{{ games }}</hip-button-sb>
+            <hip-button-sb>Games</hip-button-sb>
           </router-link>
           <router-link
             to="/developers"
             class="flex"
           >
-            <hip-button-sb>{{ developers }}</hip-button-sb>
+            <hip-button-sb>Developers</hip-button-sb>
           </router-link>
           <router-link
             to="/platforms"
             class="flex"
           >
-            <hip-button-sb>{{ platforms }}</hip-button-sb>
+            <hip-button-sb>Platforms</hip-button-sb>
           </router-link>
         </div>
       </div>
       <div class="space-y-4 mb-8">
         <div class="flex">
-          <hip-button-sb>{{ search }}</hip-button-sb>
+          <hip-button-sb>Search</hip-button-sb>
         </div>
         <div
           class="flex"
           v-show="history > 0"
         >
-          <hip-button-sb @click="$router.back()">{{ back }}</hip-button-sb>
+          <hip-button-sb @click="$router.back()">Back</hip-button-sb>
         </div>
       </div>
     </div>
@@ -48,14 +56,61 @@
       <el-switch
         v-model="$store.state.editMode"
         class="m-auto"
-        :class="$store.state.sidenavExpanded ? 'ml-auto' : 'ml-2'"
-        :width=20
       ></el-switch>
       <button
-        class="text-gray-100 font-semibold text-2xl m-auto py-3"
-        :class="$store.state.sidenavExpanded ? 'mr-auto' : 'mr-2'"
-        @click="toggle()"
-      >{{ icon }}</button>
+        class="el-icon-s-fold text-gray-100 font-semibold text-2xl m-auto py-3"
+        @click="sidenavToggle()"
+      ></button>
+    </div>
+  </div>
+  <!-- Small sidenav. -->
+  <div class="relative w-14 bg-indigo-500 flex-col justify-between flex">
+    <div class="h-full flex-col justify-between flex">
+      <div class="">
+        <router-link
+          to="/"
+          class="text-center"
+        >
+          <h1 class="text-gray-100 font-semibold text-3xl my-12">F</h1>
+        </router-link>
+        <div class="space-y-4 mt-8">
+          <router-link
+            to="/games"
+            class="flex"
+          >
+            <hip-button-sb>G</hip-button-sb>
+          </router-link>
+          <router-link
+            to="/developers"
+            class="flex"
+          >
+            <hip-button-sb>D</hip-button-sb>
+          </router-link>
+          <router-link
+            to="/platforms"
+            class="flex"
+          >
+            <hip-button-sb>P</hip-button-sb>
+          </router-link>
+        </div>
+      </div>
+      <div class="space-y-4 mb-8">
+        <div class="flex">
+          <hip-button-sb>S</hip-button-sb>
+        </div>
+        <div
+          class="flex"
+          v-show="history > 0"
+        >
+          <hip-button-sb @click="$router.back()">B</hip-button-sb>
+        </div>
+      </div>
+    </div>
+    <div class="bg-indigo-600 flex justify-between">
+      <button
+        class="el-icon-s-unfold text-gray-100 font-semibold text-2xl m-auto py-3"
+        @click="sidenavToggle()"
+      ></button>
     </div>
   </div>
 </template>
@@ -69,26 +124,12 @@ export default {
   },
   data() {
     return {
-      history: window.history.state.position,
-      name: 'Frontend',
-      icon: '<',
-      games: 'Games',
-      developers: 'Developers',
-      platforms: 'Platforms',
-      search: 'Search',
-      back: 'Back'
+      history: window.history.state.position
     }
   },
   methods: {
-    toggle() {
-      this.$store.state.sidenavExpanded = !this.$store.state.sidenavExpanded;
-      this.name = this.$store.state.sidenavExpanded ? 'Frontend' : 'F'
-      this.icon = this.$store.state.sidenavExpanded ? '<' : '>'
-      this.games = this.$store.state.sidenavExpanded ? 'Games' : 'G'
-      this.developers = this.$store.state.sidenavExpanded ? 'Developers' : 'D'
-      this.platforms = this.$store.state.sidenavExpanded ? 'Platforms' : 'P'
-      this.search = this.$store.state.sidenavExpanded ? 'Search' : 'S'
-      this.back = this.$store.state.sidenavExpanded ? 'Back' : 'B'
+    sidenavToggle() {
+      this.$store.state.sidenavExpanded = !this.$store.state.sidenavExpanded
     }
   },
   watch: {
