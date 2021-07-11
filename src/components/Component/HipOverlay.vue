@@ -15,6 +15,7 @@
 
 <script>
 export default {
-  name: 'HipOverlay'
+  name: 'HipOverlay',
+  emits: ['close']
 }
 </script>
