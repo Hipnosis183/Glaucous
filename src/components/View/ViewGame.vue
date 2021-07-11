@@ -142,7 +142,14 @@
       <!-- Header title. -->
       <div class="mb-10">
         <p class="text-4xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
-        <p class="text-2xl">{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
+        <p
+          v-show="gameInfo.gameRegions[regionIndex].subTitle"
+          class="text-2xl"
+        >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
+        <p
+          v-show="gameInfo.gameRegions[regionIndex].originalTitle"
+          class="text-xl"
+        >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
       </div>
       <!-- Body contents. -->
       <div class="flex flex-inline items-center space-x-4 mb-6">
@@ -155,15 +162,24 @@
           <p class="font-semibold">Full Title:</p>
           <p>{{ fullTitle }}</p>
         </div>
-        <div class="data-container">
+        <div
+          v-show="gameInfo.gameRegions[regionIndex].originalTitle"
+          class="data-container"
+        >
           <p class="font-semibold">Original Title:</p>
           <p>{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
         </div>
-        <div class="data-container">
+        <div
+          v-show="gameInfo.gameRegions[regionIndex].romanizedTitle"
+          class="data-container"
+        >
           <p class="font-semibold">Romanized Title:</p>
           <p>{{ gameInfo.gameRegions[regionIndex].romanizedTitle }}</p>
         </div>
-        <div class="data-container">
+        <div
+          v-show="gameInfo.gameRegions[regionIndex].translatedTitle"
+          class="data-container"
+        >
           <p class="font-semibold">Translated Title:</p>
           <p>{{ gameInfo.gameRegions[regionIndex].translatedTitle }}</p>
         </div>
@@ -189,7 +205,10 @@
           <p class="font-semibold">Release Year:</p>
           <p>{{ gameInfo.releaseYear }}</p>
         </div>
-        <div class="data-container">
+        <div
+          v-show="gameInfo.numberPlayers"
+          class="data-container"
+        >
           <p class="font-semibold">Number of Players:</p>
           <p>{{ gameInfo.numberPlayers }}</p>
         </div>
@@ -395,7 +414,9 @@ export default {
   },
   computed: {
     fullTitle() {
-      return this.gameInfo.gameRegions[this.regionIndex].title + ' ' + this.gameInfo.gameRegions[this.regionIndex].subTitle
+      return this.gameInfo.gameRegions[this.regionIndex].subTitle ?
+        this.gameInfo.gameRegions[this.regionIndex].title + ' ' + this.gameInfo.gameRegions[this.regionIndex].subTitle :
+        this.gameInfo.gameRegions[this.regionIndex].title
     }
   }
 }
