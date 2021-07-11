@@ -44,12 +44,10 @@ export default {
   },
   data() {
     return {
-      // Dialog object.
+      games: null,
       dialog: {
         createGamePlatform: false
-      },
-      // Games list.
-      games: null
+      }
     }
   },
   methods: {

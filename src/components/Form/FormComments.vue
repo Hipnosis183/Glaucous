@@ -76,7 +76,6 @@ export default {
   data() {
     return {
       comment: null,
-      // Dialog object.
       dialog: {
         viewComments: false
       }
@@ -103,7 +102,4 @@ export default {
 </script>
 
 <style>
-.el-form-item {
-  margin-bottom: 4px;
-}
 </style>

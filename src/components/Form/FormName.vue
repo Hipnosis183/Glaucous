@@ -3,7 +3,10 @@
     label="Name"
     prop="name"
   >
-    <el-input v-model="name"></el-input>
+    <el-input
+      v-model="name"
+      placeholder="Required"
+    ></el-input>
   </el-form-item>
 </template>
 
@@ -20,7 +23,4 @@ export default {
 </script>
 
 <style>
-.el-form-item {
-  margin-bottom: 4px;
-}
 </style>

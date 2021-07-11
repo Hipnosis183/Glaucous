@@ -84,6 +84,7 @@
   <view-game-linking
     v-show="dialog.viewGameLinking"
     :gameInfo="gameInfo"
+    :regionIndex="regionIndex"
     :key="gameInfo"
     @reload="loadGame()"
     @close="viewGameLinking()"
@@ -237,16 +238,6 @@ export default {
   },
   data() {
     return {
-      // Dialog object.
-      dialog: {
-        createGameRegion: false,
-        editGame: false,
-        deleteGameRegion: false,
-        deleteGamePlatform: false,
-        viewGameDetails: false,
-        viewGameLinking: false
-      },
-      // Game object.
       gameInfo: {
         developer: { name: null },
         platform: { name: null },
@@ -267,7 +258,15 @@ export default {
           }]
         }]
       },
-      regionIndex: 0
+      regionIndex: 0,
+      dialog: {
+        createGameRegion: false,
+        editGame: false,
+        deleteGameRegion: false,
+        deleteGamePlatform: false,
+        viewGameDetails: false,
+        viewGameLinking: false
+      }
     }
   },
   methods: {

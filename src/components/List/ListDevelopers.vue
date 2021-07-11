@@ -61,12 +61,10 @@ export default {
   },
   data() {
     return {
-      // Dialog object.
+      developers: null,
       dialog: {
         createDeveloper: false
-      },
-      // Developers list.
-      developers: null
+      }
     }
   },
   methods: {

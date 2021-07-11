@@ -12,7 +12,7 @@ class GamePlatformModel extends Document {
             developer: { type: DeveloperModel, required: true },
             platform: { type: PlatformModel, required: true },
             releaseYear: { type: String, required: true },
-            numberPlayers: { type: String, required: true },
+            numberPlayers: { type: String },
             latestVersion: { type: String }
         })
     }

@@ -7,6 +7,7 @@
       v-model="platform"
       class="w-full"
       filterable
+      placeholder="Required"
     >
       <el-option
         v-for="p in platforms"
@@ -44,7 +45,4 @@ export default {
 </script>
 
 <style>
-.el-form-item{
-  margin-bottom: 4px;
-}
 </style>

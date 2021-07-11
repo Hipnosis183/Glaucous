@@ -7,6 +7,7 @@
       v-model="region"
       class="w-full"
       filterable
+      placeholder="Required"
     >
       <el-option-group
         v-for="flags in regions"
@@ -49,7 +50,4 @@ export default {
 </script>
 
 <style>
-.el-form-item {
-  margin-bottom: 4px;
-}
 </style>

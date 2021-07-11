@@ -61,12 +61,10 @@ export default {
   },
   data() {
     return {
-      // Dialog object.
+      platforms: null,
       dialog: {
         createPlatform: false
-      },
-      // Platforms list.
-      platforms: null
+      }
     }
   },
   methods: {

@@ -6,6 +6,10 @@
   outline: none;
 }
 
+::placeholder {
+  @apply text-red-500 !important;
+}
+
 .data-container {
   @apply text-lg mt-1 space-x-2 flex items-center;
 }
@@ -16,6 +20,7 @@
 
 .el-form-item{
   @apply -space-y-4;
+  margin-bottom: 4px !important;
 }
 
 .no-scrollbar::-webkit-scrollbar {

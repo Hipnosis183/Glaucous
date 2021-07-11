@@ -20,7 +20,4 @@ export default {
 </script>
 
 <style>
-.el-form-item {
-  margin-bottom: 4px;
-}
 </style>

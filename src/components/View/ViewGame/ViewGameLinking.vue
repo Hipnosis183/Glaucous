@@ -1,5 +1,51 @@
 <template>
   <hip-overlay>
+    <!-- Unlink game dialog. -->
+    <hip-dialog
+      v-show="dialog.unlinkGame"
+      class="top-0 left-14 z-10"
+      @close="unlinkGameOpen()"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Unlink the game <b>'{{ gameInfo.gameRegions[regionIndex].title }}'</b> ?
+        <br />
+        It will stop being grouped with the games listed.
+      </p>
+      <div class="flex space-x-4 mt-6 justify-center">
+        <!-- Confirm game unlink. -->
+        <hip-button
+          class="el-icon-circle-check text-2xl"
+          @click="unlinkGameClose()"
+          :icon="true"
+        ></hip-button>
+        <!-- Cancel game unlink. -->
+        <hip-button
+          class="el-icon-circle-close text-2xl"
+          @click="unlinkGameOpen()"
+          :icon="true"
+        ></hip-button>
+      </div>
+    </hip-dialog>
+    <!-- Validation error dialog. -->
+    <hip-dialog
+      v-show="dialog.validationError"
+      class="top-0 left-14 z-10"
+      @close="validationError()"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Complete the required field.
+      </p>
+      <div class="flex space-x-4 mt-6 justify-center">
+        <!-- Close message. -->
+        <hip-button
+          class="el-icon-circle-check text-2xl"
+          @click="validationError()"
+          :icon="true"
+        ></hip-button>
+      </div>
+    </hip-dialog>
     <!-- Game linking dialog. -->
     <hip-modal
       v-show="$store.state.editMode"
@@ -9,6 +55,7 @@
       <el-select
         class="w-80"
         filterable
+        placeholder="Required"
         remote
         :remote-method="querySearch"
         reserve-keyword
@@ -32,7 +79,7 @@
         ></hip-button>
         <hip-button
           class="el-icon-remove-outline text-2xl"
-          @click="unlinkGame()"
+          @click="unlinkGameOpen()"
           :icon="true"
         ></hip-button>
       </div>
@@ -79,6 +126,7 @@
 import {
   HipButton,
   HipCardSq,
+  HipDialog,
   HipModal,
   HipOverlay
 } from '../../Component'
@@ -96,22 +144,33 @@ export default {
     // UI components.
     HipButton,
     HipCardSq,
+    HipDialog,
     HipModal,
     HipOverlay
   },
   props: [
-    'gameInfo'
+    'gameInfo',
+    'regionIndex'
   ],
   data() {
     return {
       linkedGames: [],
       queryResults: [],
       querySelected: [],
+      dialog: {
+        unlinkGame: false,
+        validationError: false
+      },
     }
   },
   methods: {
     // Game linking operations.
     linkGame() {
+      // Validate required fields.
+      if (!this.querySelected) {
+        this.validationError()
+        return
+      }
       // Link current to selected game(s).
       linkGame(this.gameInfo, this.querySelected).then(() => {
         // Reload updated game entry.
@@ -121,7 +180,11 @@ export default {
         this.querySelected = ''
       })
     },
-    unlinkGame() {
+    unlinkGameOpen() {
+      // Open unlink dialog.
+      this.dialog.unlinkGame = !this.dialog.unlinkGame
+    },
+    unlinkGameClose() {
       // Unlink current from associated game(s).
       unlinkGame(this.gameInfo).then(() => {
         // Reload updated game entry.
@@ -129,6 +192,8 @@ export default {
         // Reset query.
         this.queryResults = []
         this.querySelected = ''
+        // Close unlink dialog.
+        this.dialog.unlinkGame = !this.dialog.unlinkGame
       })
     },
     // Query searching.
@@ -145,6 +210,11 @@ export default {
         // Keep results empty.
         this.queryResults = []
       }
+    },
+    // Show validation errors.
+    validationError() {
+      // Open error dialog.
+      this.dialog.validationError = !this.dialog.validationError
     }
   },
   mounted() {

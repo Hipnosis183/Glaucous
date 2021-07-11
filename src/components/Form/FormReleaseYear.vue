@@ -3,7 +3,10 @@
     label="Release Year"
     prop="releaseYear"
   >
-    <el-input v-model="releaseYear"></el-input>
+    <el-input
+      v-model="releaseYear"
+      placeholder="Required"
+    ></el-input>
   </el-form-item>
 </template>
 
@@ -20,7 +23,4 @@ export default {
 </script>
 
 <style>
-.el-form-item{
-  margin-bottom: 4px;
-}
 </style>

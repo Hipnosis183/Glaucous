@@ -121,16 +121,14 @@ export default {
   },
   data() {
     return {
-      // Dialog object.
+      developer: {
+        name: null,
+        games: null
+      },
       dialog: {
         createGamePlatform: false,
         editDeveloper: false,
         deleteDeveloper: false
-      },
-      // Developer object.
-      developer: {
-        name: null,
-        games: null
       }
     }
   },

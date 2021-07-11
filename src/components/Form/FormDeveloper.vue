@@ -7,6 +7,7 @@
       v-model="developer"
       class="w-full"
       filterable
+      placeholder="Required"
     >
       <el-option
         v-for="d in developers"
@@ -44,7 +45,4 @@ export default {
 </script>
 
 <style>
-.el-form-item{
-  margin-bottom: 4px;
-}
 </style>
