@@ -53,16 +53,16 @@ export default {
   methods: {
     // Create operations.
     createGamePlatformOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
       // Open create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
     },
     createGamePlatformClose() {
       // Close create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
     }
-  },
+  }
 }
 </script>
 

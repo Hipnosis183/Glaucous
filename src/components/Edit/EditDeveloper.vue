@@ -48,7 +48,10 @@
 // Import form components.
 import { FormName } from '../Form'
 // Import UI components.
-import { HipButton } from '../Component'
+import {
+  HipButton,
+  HipDialog
+} from '../Component'
 // Import database controllers functions.
 import { updateDeveloper } from '../../database/controllers/Developer'
 
@@ -68,7 +71,9 @@ export default {
       }
     }
   },
-  emits: ['close'],
+  emits: [
+    'close'
+  ],
   methods: {
     onSubmit() {
       // Validate required fields.

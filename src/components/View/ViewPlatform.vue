@@ -5,7 +5,10 @@
     @close="createGamePlatformClose()"
   >
     <!-- Insert create game platform form component. -->
-    <create-game-platform @close="createGamePlatformClose()" />
+    <create-game-platform
+      :gamePlatform="$route.params.id"
+      @close="createGamePlatformClose()"
+    />
   </hip-dialog>
   <!-- Edit platform dialog. -->
   <hip-dialog
@@ -143,6 +146,8 @@ export default {
     },
     // Create operations.
     createGamePlatformOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
       // Save data of the current platform into the store.
       this.$store.commit('setGamePlatformPlatform', this.$route.params.id)
       // Open create dialog.
@@ -153,11 +158,11 @@ export default {
       this.loadPlatform()
       // Close create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
     },
     // Edit operations.
     editPlatformOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetOtherForm')
       // Save current platform ID into the store.
       this.$store.state.otherSelected = this.$route.params.id
       // Save data of the current platform into the store.
@@ -170,8 +175,6 @@ export default {
       this.loadPlatform()
       // Close edit dialog.
       this.dialog.editPlatform = !this.dialog.editPlatform
-      // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
     },
     // Delete operations.
     deletePlatformOpen() {

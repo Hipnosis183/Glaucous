@@ -13,7 +13,11 @@
     @close="editGameClose()"
   >
     <!-- Insert edit game form component. -->
-    <edit-game @close="editGameClose()" />
+    <edit-game
+      :gameDeveloper="gameInfo.developer._id"
+      :gamePlatform="gameInfo.platform._id"
+      @close="editGameClose()"
+    />
   </hip-dialog>
   <!-- Delete game region dialog. -->
   <hip-dialog
@@ -297,6 +301,8 @@ export default {
     },
     // Create operations.
     createGameRegionOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
       // Save data of the current game region into the store.
@@ -310,11 +316,11 @@ export default {
       this.loadGame()
       // Close create dialog.
       this.dialog.createGameRegion = !this.dialog.createGameRegion
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
     },
     // Edit operations.
     editGameOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
       this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[this.regionIndex]._id
@@ -341,8 +347,6 @@ export default {
       this.loadGame()
       // Close edit dialog.
       this.dialog.editGame = !this.dialog.editGame
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
     },
     // Delete operations.
     deleteGameRegionOpen() {

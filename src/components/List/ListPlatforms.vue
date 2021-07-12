@@ -75,6 +75,8 @@ export default {
     },
     // Create operations.
     createPlatformOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetOtherForm')
       // Open create dialog.
       this.dialog.createPlatform = !this.dialog.createPlatform
     },
@@ -83,8 +85,6 @@ export default {
       this.loadPlatforms()
       // Close create dialog.
       this.dialog.createPlatform = !this.dialog.createPlatform
-      // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
     }
   },
   mounted() {

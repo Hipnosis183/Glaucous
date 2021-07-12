@@ -5,15 +5,20 @@
   >
     <el-select
       v-model="platform"
+      allow-create
       class="w-full"
+      default-first-option
       filterable
       placeholder="Required"
+      remote
+      :remote-method="querySearch"
+      reserve-keyword
     >
       <el-option
-        v-for="p in platforms"
-        :key="p._id"
-        :label="p.name"
-        :value="p._id"
+        v-for="item in queryResults"
+        :key="item._id"
+        :label="item.name"
+        :value="item._id"
       >
       </el-option>
     </el-select>
@@ -21,24 +26,62 @@
 </template>
 
 <script>
-import { getPlatforms } from '../../database/controllers/Platform'
+import {
+  getPlatform,
+  getPlatformByName
+} from '../../database/controllers/Platform'
 
 export default {
   name: 'FormPlatform',
   data() {
     return {
-      platforms: null
+      queryResults: []
+    }
+  },
+  props: [
+    'gamePlatform'
+  ],
+  methods: {
+    // Query searching.
+    querySearch(query) {
+      // Only start search from two characters onwards.
+      if (query !== '' && query.length > 1) {
+        // Search for platforms matching the query.
+        getPlatformByName(query)
+          .then(res => {
+            // Store results.
+            this.queryResults = res
+          })
+      } else {
+        // Keep results empty.
+        this.queryResults = []
+      }
+    },
+    // Autocomplete platform input field.
+    selectPlatform() {
+      // Get platform from parent page.
+      getPlatform(this.gamePlatform)
+        .then(res => {
+          this.platform = this.gamePlatform
+          this.queryResults = new Array(res)
+        })
     }
   },
   mounted() {
-    // Get platforms.
-    getPlatforms()
-      .then(res => this.platforms = res)
+    if (this.gamePlatform) {
+      this.selectPlatform()
+    }
   },
   computed: {
     platform: {
       get() { return this.$store.state.gameForm.gamePlatform.platform },
       set(value) { this.$store.commit('setGamePlatformPlatform', value) }
+    }
+  },
+  watch: {
+    // Watch for platform ID to be loaded.
+    gamePlatform() {
+      this.selectPlatform()
     }
   }
 }

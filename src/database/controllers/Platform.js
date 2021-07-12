@@ -34,6 +34,13 @@ export async function getPlatform(req) {
     return await PlatformModel.findOne({ _id: req })
 }
 
+// Search for a specific platform.
+export async function getPlatformByName(q) {
+    let query = new RegExp(q, 'i')
+    // Search through platforms, case insensitive.
+    return await PlatformModel.find({ name: query })
+}
+
 // Search for all platforms.
 export async function getPlatforms() {
     return await PlatformModel.find()

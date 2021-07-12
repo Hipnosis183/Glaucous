@@ -75,6 +75,8 @@ export default {
     },
     // Create operations.
     createDeveloperOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetOtherForm')
       // Open create dialog.
       this.dialog.createDeveloper = !this.dialog.createDeveloper
     },
@@ -83,8 +85,6 @@ export default {
       this.loadDevelopers()
       // Close create dialog.
       this.dialog.createDeveloper = !this.dialog.createDeveloper
-      // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
     }
   },
   mounted() {

@@ -35,8 +35,8 @@
       </div>
       <div class="w-1/2">
         <form-region />
-        <form-developer />
-        <form-platform />
+        <form-developer :gameDeveloper="gameDeveloper" />
+        <form-platform :gamePlatform="gamePlatform" />
         <div class="flex space-x-4">
           <form-release-year />
           <form-number-players />
@@ -88,6 +88,14 @@ import {
 } from '../Component'
 // Import database controllers functions.
 import { newGamePlatform } from '../../database/controllers/Game'
+import {
+  createDeveloper,
+  getDeveloper
+} from '../../database/controllers/Developer'
+import {
+  createPlatform,
+  getPlatform
+} from '../../database/controllers/Platform'
 
 export default {
   name: 'CreateGamePlatform',
@@ -117,7 +125,13 @@ export default {
       }
     }
   },
-  emits: ['close'],
+  emits: [
+    'close'
+  ],
+  props: [
+    'gameDeveloper',
+    'gamePlatform'
+  ],
   methods: {
     onSubmit() {
       // Validate required fields.
@@ -129,14 +143,58 @@ export default {
         this.validationError()
         return
       }
-      // Save new game entry.
-      newGamePlatform(this.$store.state.gameForm)
-        .then(() => this.$emit('close'))
+      // Check developer existance.
+      this.checkDeveloper()
+        // Check platform existance.
+        .then(() => this.checkPlatform()
+          .then(() => {
+            // Save new game entry.
+            newGamePlatform(this.$store.state.gameForm)
+              .then(() => this.$emit('close'))
+          }))
+    },
+    async checkDeveloper() {
+      // Check if the developer entered exists.
+      await getDeveloper(this.developer)
+        .then(async res => {
+          if (!res) {
+            // Populate new developer form.
+            this.$store.commit('setOtherName', this.developer)
+            // Save new developer entry.
+            await createDeveloper(this.$store.state.otherForm)
+              // Set the new developer in the game form.
+              .then(res => this.developer = res._id)
+          }
+        })
+    },
+    async checkPlatform() {
+      // Check if the platform entered exists.
+      await getPlatform(this.platform)
+        .then(async res => {
+          if (!res) {
+            // Populate new platform form.
+            this.$store.commit('setOtherName', this.platform)
+            // Save new platform entry.
+            await createPlatform(this.$store.state.otherForm)
+              // Set the new platform in the game form.
+              .then(res => this.platform = res._id)
+          }
+        })
     },
     // Show validation errors.
     validationError() {
       // Open error dialog.
       this.dialog.validationError = !this.dialog.validationError
+    }
+  },
+  computed: {
+    developer: {
+      get() { return this.$store.state.gameForm.gamePlatform.developer },
+      set(value) { this.$store.commit('setGamePlatformDeveloper', value) }
+    },
+    platform: {
+      get() { return this.$store.state.gameForm.gamePlatform.platform },
+      set(value) { this.$store.commit('setGamePlatformPlatform', value) }
     }
   }
 }

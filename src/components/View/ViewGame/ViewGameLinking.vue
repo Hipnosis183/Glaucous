@@ -53,13 +53,13 @@
     >
       <!-- Game search bar. -->
       <el-select
+        v-model="querySelected"
         class="w-80"
         filterable
         placeholder="Required"
         remote
         :remote-method="querySearch"
         reserve-keyword
-        v-model="querySelected"
       >
         <!-- Game search results. -->
         <el-option
@@ -199,7 +199,7 @@ export default {
     },
     // Query searching.
     querySearch(query) {
-      // Only start search from two characters onwards.
+      // Only start search from three characters onwards.
       if (query !== '' && query.length > 2) {
         // Search for games matching the query.
         searchGameByTitle(query, this.gameInfo.gamePlatforms)

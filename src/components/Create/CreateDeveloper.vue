@@ -71,7 +71,9 @@ export default {
       }
     }
   },
-  emits: ['close'],
+  emits: [
+    'close'
+  ],
   methods: {
     onSubmit() {
       // Validate required fields.

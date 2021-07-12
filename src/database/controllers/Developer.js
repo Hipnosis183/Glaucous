@@ -34,6 +34,13 @@ export async function getDeveloper(req) {
     return await DeveloperModel.findOne({ _id: req })
 }
 
+// Search for all developers in the database matching the given name.
+export async function getDeveloperByName(q) {
+    let query = new RegExp(q, 'i')
+    // Search through developers, case insensitive.
+    return await DeveloperModel.find({ name: query })
+}
+
 // Search for all developers.
 export async function getDevelopers() {
     return await DeveloperModel.find()
