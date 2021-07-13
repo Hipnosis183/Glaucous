@@ -93,8 +93,12 @@ async function createGameVersion(req) {
 
 async function storeImages(req, id) {
     Platform = id ? id : Platform
-    for (let [i, image] of req.images.entries()) {
-        copySync(image, app.getAppPath() + '/images/' + Platform + '/' + Region + '/' + Version + '-' + i)
+    let imagesPath = app.getAppPath() + '/images/' + Platform + '/' + Region + '/'
+    if (req.images.cover) {
+        copySync(req.images.cover[0], imagesPath + '0'.repeat(16))
+    }
+    for (let [i, image] of req.images.pictures.entries()) {
+        copySync(image, imagesPath + String(parseInt(i) + 1).padStart(16, '0'))
     }
 }
 

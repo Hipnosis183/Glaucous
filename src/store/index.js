@@ -24,7 +24,10 @@ export default createStore({
         romanizedTitle: null,
         translatedTitle: null,
         region: null,
-        images: []
+        images: {
+          cover: null,
+          pictures: []
+        }
       },
       gameVersion: {
         currentVersion: null,
@@ -85,8 +88,11 @@ export default createStore({
     setGameRegionRegion (state, data) {
       state.gameForm.gameRegion.region = data
     },
-    setGameRegionImages (state, data) {
-      state.gameForm.gameRegion.images = data
+    setGameRegionImagesCover (state, data) {
+      state.gameForm.gameRegion.images.cover = data
+    },
+    setGameRegionImagesPictures (state, data) {
+      state.gameForm.gameRegion.images.pictures = data
     },
     setGameRegionImagesAdd (state, data) {
       state.gameForm.gameRegion.images.push(data)

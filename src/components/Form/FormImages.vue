@@ -7,7 +7,8 @@
   >
   </hip-dialog>
   <!-- Comment form. -->
-  <hip-button @click="getImages()">Images</hip-button>
+  <hip-button @click="selectCover()">Cover</hip-button>
+  <hip-button @click="selectPictures()">Pictures</hip-button>
 </template>
 
 <script>
@@ -34,7 +35,20 @@ export default {
   methods: {
     // Images management.
     getImages() {
-      this.images = dialog.showOpenDialogSync({
+    },
+    selectCover() {
+      this.cover = dialog.showOpenDialogSync({
+        properties: [
+          'openFile'
+        ],
+        filters: [{
+          name: 'Images',
+          extensions: ['bmp', 'jpg', 'png']
+        }]
+      })
+    },
+    selectPictures() {
+      this.pictures = dialog.showOpenDialogSync({
         properties: [
           'openFile',
           'multiSelections'
@@ -61,9 +75,13 @@ export default {
     }
   },
   computed: {
-    images: {
-      get() { return this.$store.state.gameForm.gameRegion.images },
-      set(value) { this.$store.commit('setGameRegionImages', value) }
+    cover: {
+      get() { return this.$store.state.gameForm.gameRegion.images.cover },
+      set(value) { this.$store.commit('setGameRegionImagesCover', value) }
+    },
+    pictures: {
+      get() { return this.$store.state.gameForm.gameRegion.images.pictures },
+      set(value) { this.$store.commit('setGameRegionImagesPictures', value) }
     }
   }
 }
