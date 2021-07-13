@@ -5,8 +5,12 @@ import { generateID } from '../datastore'
 import { getDeveloper } from './Developer'
 import { getPlatform } from './Platform'
 
+import { app } from '@electron/remote'
+import { copySync } from 'fs-extra'
+
 import Regions from '../../../public/files/flags.json'
 
+let Platform
 let Region
 let Version
 
@@ -17,6 +21,8 @@ export async function newGamePlatform(req) {
     await createGameRegion(req.gameRegion)
     // Create platform for the game.
     await createGamePlatform(req.gamePlatform)
+    // Store uploaded images for the game.
+    await storeImages(req.gameRegion)
 }
 
 export async function newGameRegion(req, id) {
@@ -30,11 +36,13 @@ export async function newGameRegion(req, id) {
             res.gameRegions.push(Region)
             await GamePlatformModel.findOneAndUpdate({ _id: id }, { gameRegions: res.gameRegions })
         })
+    // Store uploaded images for the game.
+    await storeImages(req.gameRegion, id)
 }
 
 // Create a specific game for a determined platform.
 async function createGamePlatform(req) {
-    let Platform = generateID()
+    Platform = generateID()
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
         _id: Platform,
@@ -81,6 +89,13 @@ async function createGameVersion(req) {
     await GameVersion.save()
         // Store version id.
         .then(res => Version = res._id)
+}
+
+async function storeImages(req, id) {
+    Platform = id ? id : Platform
+    for (let [i, image] of req.images.entries()) {
+        copySync(image, app.getAppPath() + '/images/' + Platform + '/' + Region + '/' + Version + '-' + i)
+    }
 }
 
 export async function updateGame(req, id) {

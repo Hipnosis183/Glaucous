@@ -15,6 +15,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.28",
+    "fs-extra": "^7.0.1",
     "marpat": "^3.0.5",
     "nedb-promises": "^5.0.0",
     "vue": "^3.0.0",
@@ -22,6 +23,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@electron/remote": "^1.2.0",
     "@tailwindcss/forms": "^0.3.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

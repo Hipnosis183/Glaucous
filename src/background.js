@@ -5,6 +5,9 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+// Initialize external Electron remote module.
+require('@electron/remote/main').initialize()
+
 // Scheme must be registered before the app is ready.
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -21,7 +24,8 @@ async function createWindow() {
       // Fuck security, I already spent too much time on this shit.
       nodeIntegration: true,
       contextIsolation: false,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      webSecurity: false
     }
   })
 

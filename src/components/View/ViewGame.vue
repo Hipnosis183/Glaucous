@@ -225,6 +225,9 @@
 </template>
 
 <script>
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { readdirSync } from 'fs-extra'
 // Import form components.
 import CreateGameRegion from '../Create/CreateGameRegion.vue'
 import EditGame from '../Edit/EditGame.vue'
@@ -281,6 +284,8 @@ export default {
           }]
         }]
       },
+      imageFiles: [],
+      imagesPath: null,
       regionIndex: 0,
       dialog: {
         createGameRegion: false,
@@ -296,8 +301,13 @@ export default {
     loadGame() {
       // Get game.
       getGame(this.$route.params.id)
-        //.then(res => this.gameInfo = res)
-        .then(res => this.gameInfo = res)
+        .then(res => {
+          this.gameInfo = res
+          // Set the image directory path of the game region.
+          this.imagesPath = app.getAppPath() + '/images/' + res._id + '/' + res.gameRegions[this.regionIndex]._id
+          // Load images filenames.
+          this.imageFiles = readdirSync(this.imagesPath)
+        })
     },
     // Create operations.
     createGameRegionOpen() {

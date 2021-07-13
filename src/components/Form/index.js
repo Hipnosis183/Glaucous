@@ -1,6 +1,7 @@
 import FormComments from './FormComments.vue'
 import FormCurrentVersion from './FormCurrentVersion.vue'
 import FormDeveloper from './FormDeveloper.vue'
+import FormImages from './FormImages.vue'
 import FormLatestVersion from './FormLatestVersion.vue'
 import FormName from './FormName.vue'
 import FormNumberPlayers from './FormNumberPlayers.vue'
@@ -17,6 +18,7 @@ export {
     FormComments,
     FormCurrentVersion,
     FormDeveloper,
+    FormImages,
     FormLatestVersion,
     FormName,
     FormNumberPlayers,

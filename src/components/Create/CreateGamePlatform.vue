@@ -48,6 +48,7 @@
       </div>
     </div>
     <form-comments />
+    <form-images />
     <!-- Form buttons. -->
     <div class="flex space-x-4 mt-4 justify-center">
       <hip-button
@@ -70,6 +71,7 @@ import {
   FormComments,
   FormCurrentVersion,
   FormDeveloper,
+  FormImages,
   FormLatestVersion,
   FormNumberPlayers,
   FormOriginalTitle,
@@ -104,6 +106,7 @@ export default {
     FormComments,
     FormCurrentVersion,
     FormDeveloper,
+    FormImages,
     FormLatestVersion,
     FormNumberPlayers,
     FormOriginalTitle,

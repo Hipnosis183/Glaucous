@@ -37,6 +37,7 @@
         <form-romanized-title />
         <form-translated-title />
         <form-comments />
+        <form-images />
       </div>
     </div>
     <!-- Form buttons. -->
@@ -60,6 +61,7 @@
 import {
   FormComments,
   FormCurrentVersion,
+  FormImages,
   FormOriginalTitle,
   FormRegion,
   FormRomanizedTitle,
@@ -81,6 +83,7 @@ export default {
     // Form components.
     FormComments,
     FormCurrentVersion,
+    FormImages,
     FormOriginalTitle,
     FormRegion,
     FormRomanizedTitle,
