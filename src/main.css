@@ -10,6 +10,10 @@
   @apply text-red-500 !important;
 }
 
+.ar-square {
+  aspect-ratio: 1 / 1;
+}
+
 .data-container {
   @apply text-lg mt-1 space-x-2 flex items-center;
 }
@@ -32,11 +36,15 @@
 }
 
 .max-h-content {
-  max-height: calc(100% - 4rem);
+  max-height: calc(100vh - 4rem);
 }
 
 .max-w-content {
   max-width: calc(100% - 4rem);
+}
+
+.h-content {
+  height: calc(100vh - 4rem);
 }
 
 .w-content {

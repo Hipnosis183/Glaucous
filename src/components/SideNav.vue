@@ -2,13 +2,13 @@
   <!-- Expanded sidenav. -->
   <transition v-show="$store.state.sidenavExpanded">
     <div
-      class="absolute z-10 bg-black bg-opacity-50 w-full h-full"
+      class="absolute z-20 bg-black bg-opacity-50 w-full h-full"
       @click="sidenavToggle()"
     >
     </div>
   </transition>
   <div
-    class="absolute flex flex-col z-10 inset-y-0 transform w-80 bg-indigo-500 transition-all duration-500"
+    class="absolute flex flex-col z-20 inset-y-0 transform w-80 bg-indigo-500 transition-all duration-500"
     :class="$store.state.sidenavExpanded ? 'translate-x-0' : '-translate-x-full'"
   >
     <div class="h-full flex-col justify-between flex">

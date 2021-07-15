@@ -16,6 +16,8 @@
 <script>
 export default {
   name: 'HipOverlay',
-  emits: ['close']
+  emits: [
+    'close'
+  ]
 }
 </script>

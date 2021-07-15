@@ -220,21 +220,21 @@
     </div>
     <!-- Right card. -->
     <div class="w-2/5 bg-white p-6 rounded-xl shadow">
+      <view-game-images
+        :gameInfo="gameInfo"
+        :regionIndex="regionIndex"
+        :key="gameInfo"
+      />
     </div>
   </div>
 </template>
 
 <script>
-// Import functions from modules.
-import { app } from '@electron/remote'
-import {
-  existsSync,
-  readdirSync
-} from 'fs-extra'
 // Import form components.
 import CreateGameRegion from '../Create/CreateGameRegion.vue'
 import EditGame from '../Edit/EditGame.vue'
 import ViewGameDetails from './ViewGame/ViewGameDetails.vue'
+import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameLinking from './ViewGame/ViewGameLinking.vue'
 // Import UI components.
 import {
@@ -258,6 +258,7 @@ export default {
     CreateGameRegion,
     EditGame,
     ViewGameDetails,
+    ViewGameImages,
     ViewGameLinking,
     // UI components.
     HipButton,
@@ -283,12 +284,10 @@ export default {
           region: null,
           gameVersions: [{
             currentVersion: null,
-            comments: [null]
+            comments: []
           }]
         }]
       },
-      imageFiles: [],
-      imagesPath: null,
       regionIndex: 0,
       dialog: {
         createGameRegion: false,
@@ -304,15 +303,7 @@ export default {
     loadGame() {
       // Get game.
       getGame(this.$route.params.id)
-        .then(res => {
-          this.gameInfo = res
-          // Set the image directory path of the game region.
-          this.imagesPath = app.getAppPath() + '/images/' + res._id + '/' + res.gameRegions[this.regionIndex]._id
-          if (existsSync(this.imagesPath)) {
-            // Load images filenames.
-            this.imageFiles = readdirSync(this.imagesPath)
-          }
-        })
+        .then(res => this.gameInfo = res)
     },
     // Create operations.
     createGameRegionOpen() {
