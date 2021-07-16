@@ -18,18 +18,43 @@
   <!-- View selected picture. -->
   <transition>
     <hip-overlay
-      v-if="imageFile"
+      v-if="imagesPictures[imageIndex]"
       v-show="dialog.viewImagesPictures"
       @close="viewImagesPicturesClose()"
       class="top-0 left-14 z-10"
     >
-      <div class="flex">
+      <div class="flex h-image overflow-y-scroll no-scrollbar rounded-xl mb-4">
         <img
-          @click="imagesZoom = !imagesZoom"
-          :src="'file://' + imagesPath + '/' + imageFile"
-          class="cursor-pointer object-contain rounded-xl"
-          :class="imagesZoom ? 'h-full' : 'h-content'"
+          @click="viewImagesPicturesClose()"
+          :src="'file://' + imagesPath + '/' + imagesPictures[imageIndex]"
+          class="cursor-pointer object-contain rounded-xl m-auto transition-all ease-in-out duration-1000 transform translate-x-0"
+          :class="imagesZoom ? 'h-auto' : 'h-image'"
         />
+      </div>
+      <div class="flex ml-14">
+        <div class="bg-indigo-600 p-2 w-10 text-center rounded-xl ml-auto my-auto">
+          <button
+            @click="viewImagesPicturesClose()"
+            class="el-icon-close text-2xl text-gray-200"
+          ></button>
+        </div>
+        <div class="bg-gray-200 p-3 w-40 rounded-xl shadow mx-4 flex justify-between">
+          <button
+            @click="prevImage()"
+            class="el-icon-d-arrow-left text-2xl"
+          ></button>
+          <button
+            @click="imagesZoom = !imagesZoom"
+            class="el-icon-full-screen text-2xl"
+          ></button>
+          <button
+            @click="nextImage()"
+            class="el-icon-d-arrow-right text-2xl"
+          ></button>
+        </div>
+        <div class="bg-indigo-600 p-2 w-24 text-center rounded-xl mr-auto my-auto">
+          <p class="text-gray-200 text-xl">{{ (imageIndex + 1) + ' / ' + imagesPictures.length }}</p>
+        </div>
       </div>
     </hip-overlay>
   </transition>
@@ -50,7 +75,7 @@
         class="w-full h-full flex justify-center"
       >
         <img
-          @click="viewImagesPicturesOpen(image)"
+          @click="viewImagesPicturesOpen(index)"
           :src="'file://' + imagesPath + '/' + image"
           class="cursor-pointer object-cover rounded-xl"
         />
@@ -116,7 +141,7 @@ export default {
   ],
   data() {
     return {
-      imageFile: null,
+      imageIndex: null,
       imageFiles: [],
       imagesPath: null,
       imagesZoom: false,
@@ -143,6 +168,18 @@ export default {
         this.imageFiles = []
       }
     },
+    nextImage() {
+      // Increase image index.
+      if (this.imageIndex < this.imagesPictures.length - 1) {
+        this.imageIndex++
+      }
+    },
+    prevImage() {
+      // Decrease image index.
+      if (this.imageIndex > 0) {
+        this.imageIndex--
+      }
+    },
     // View images.
     viewImagesGallery() {
       // Open gallery.
@@ -158,9 +195,9 @@ export default {
       // Close cover view.
       this.dialog.viewImagesCover = !this.dialog.viewImagesCover
     },
-    viewImagesPicturesOpen(img) {
+    viewImagesPicturesOpen(index) {
       // Set selected image.
-      this.imageFile = img
+      this.imageIndex = index
       // Reset zoom mode.
       this.imagesZoom = false
       // Open pictures view.
@@ -168,7 +205,7 @@ export default {
     },
     viewImagesPicturesClose() {
       // Empty selected image.
-      this.imageFile = null
+      this.imageIndex = null
       // Close pictures view.
       this.dialog.viewImagesPictures = !this.dialog.viewImagesPictures
     }
@@ -206,4 +243,7 @@ export default {
 </script>
 
 <style>
+.h-image {
+  height: calc(100vh - 8rem);
+}
 </style>
