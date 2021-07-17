@@ -18,18 +18,12 @@
       ></hip-button>
     </div>
   </hip-dialog>
-  <!-- Edit platform form. -->
-  <el-form
-    label-position="top"
-    :model="$store.state.otherForm"
-    :show-message="false"
-  >
-    <!-- Form components. -->
-    <div class="flex space-x-4">
-      <form-name />
-    </div>
+  <!-- Form header. -->
+  <div class="flex justify-between mb-4 mx-2">
+    <!-- Form title. -->
+    <h1 class="text-2xl pt-1 mr-10">Edit Platform</h1>
     <!-- Form buttons. -->
-    <div class="flex space-x-4 mt-4 justify-center">
+    <div class="h-10 space-x-4">
       <hip-button
         class="el-icon-circle-check text-2xl"
         @click="onSubmit()"
@@ -41,6 +35,15 @@
         :icon="true"
       ></hip-button>
     </div>
+  </div>
+  <!-- Edit platform form. -->
+  <el-form
+    label-position="top"
+    :model="$store.state.otherForm"
+    :show-message="false"
+  >
+    <!-- Form components. -->
+    <form-name />
   </el-form>
 </template>
 

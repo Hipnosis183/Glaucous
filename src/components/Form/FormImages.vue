@@ -7,8 +7,17 @@
   >
   </hip-dialog>
   <!-- Comment form. -->
-  <hip-button @click="selectCover()">Cover</hip-button>
-  <hip-button @click="selectPictures()">Pictures</hip-button>
+  <p class="text-sm text-gray-600 leading-10 -mb-1">Images</p>
+  <el-button-group class="w-full">
+    <el-button
+      class="w-1/2"
+      @click="selectCover()"
+    >Cover</el-button>
+    <el-button
+      class="w-1/2"
+      @click="selectPictures()"
+    >Pictures</el-button>
+  </el-button-group>
 </template>
 
 <script>
@@ -88,4 +97,7 @@ export default {
 </script>
 
 <style>
+.el-button {
+  font-weight: normal;
+}
 </style>

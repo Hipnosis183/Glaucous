@@ -18,6 +18,24 @@
       ></hip-button>
     </div>
   </hip-dialog>
+  <!-- Form header. -->
+  <div class="flex justify-between mb-4 mx-2">
+    <!-- Form title. -->
+    <h1 class="text-2xl pt-1">Edit Game Entry</h1>
+    <!-- Form buttons. -->
+    <div class="h-10 space-x-4">
+      <hip-button
+        class="el-icon-circle-check text-2xl"
+        @click="onSubmit()"
+        :icon="true"
+      ></hip-button>
+      <hip-button
+        class="el-icon-circle-close text-2xl"
+        @click="$emit('close')"
+        :icon="true"
+      ></hip-button>
+    </div>
+  </div>
   <!-- Edit game form. -->
   <el-form
     label-position="top"
@@ -45,21 +63,8 @@
           <form-current-version />
           <form-latest-version />
         </div>
+        <form-comments />
       </div>
-    </div>
-    <form-comments />
-    <!-- Form buttons. -->
-    <div class="flex space-x-4 mt-4 justify-center">
-      <hip-button
-        class="el-icon-circle-check text-2xl"
-        @click="onSubmit()"
-        :icon="true"
-      ></hip-button>
-      <hip-button
-        class="el-icon-circle-close text-2xl"
-        @click="$emit('close')"
-        :icon="true"
-      ></hip-button>
     </div>
   </el-form>
 </template>

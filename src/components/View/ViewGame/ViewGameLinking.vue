@@ -51,6 +51,24 @@
       v-show="$store.state.editMode"
       class="flex justify-center pt-8 mb-4"
     >
+      <!-- Form header. -->
+      <div class="flex justify-between mb-6 mx-2">
+        <!-- Form title. -->
+        <h1 class="text-2xl pt-1 mr-10">Game Linking</h1>
+        <!-- Form buttons. -->
+        <div class="h-10 space-x-4">
+          <hip-button
+            class="el-icon-circle-plus-outline text-2xl"
+            @click="linkGame()"
+            :icon="true"
+          ></hip-button>
+          <hip-button
+            class="el-icon-remove-outline text-2xl"
+            @click="unlinkGameOpen()"
+            :icon="true"
+          ></hip-button>
+        </div>
+      </div>
       <!-- Game search bar. -->
       <el-select
         v-model="querySelected"
@@ -70,19 +88,6 @@
         >
         </el-option>
       </el-select>
-      <!-- Form buttons. -->
-      <div class="flex space-x-4 mt-4 justify-center">
-        <hip-button
-          class="el-icon-circle-plus-outline text-2xl"
-          @click="linkGame()"
-          :icon="true"
-        ></hip-button>
-        <hip-button
-          class="el-icon-remove-outline text-2xl"
-          @click="unlinkGameOpen()"
-          :icon="true"
-        ></hip-button>
-      </div>
     </hip-modal>
     <!-- Show linked games list. -->
     <ul>

@@ -18,30 +18,12 @@
       ></hip-button>
     </div>
   </hip-dialog>
-  <!-- Create game region form. -->
-  <el-form
-    label-position="top"
-    :model="$store.state.gameForm"
-    :show-message="false"
-  >
-    <!-- Form components. -->
-    <div class="flex space-x-4">
-      <div class="w-1/2">
-        <form-region />
-        <form-title />
-        <form-sub-title />
-        <form-current-version />
-      </div>
-      <div class="w-1/2">
-        <form-original-title />
-        <form-romanized-title />
-        <form-translated-title />
-        <form-comments />
-        <form-images />
-      </div>
-    </div>
+  <!-- Form header. -->
+  <div class="flex justify-between mb-4 mx-2">
+    <!-- Form title. -->
+    <h1 class="text-2xl pt-1">New Game Region</h1>
     <!-- Form buttons. -->
-    <div class="flex space-x-4 mt-4 justify-center">
+    <div class="h-10 space-x-4">
       <hip-button
         class="el-icon-circle-check text-2xl"
         @click="onSubmit()"
@@ -53,6 +35,29 @@
         :icon="true"
       ></hip-button>
     </div>
+  </div>
+  <!-- Create game region form. -->
+  <el-form
+    label-position="top"
+    :model="$store.state.gameForm"
+    :show-message="false"
+  >
+    <!-- Form components. -->
+    <div class="flex space-x-4">
+      <div class="w-1/2">
+        <form-images />
+        <form-region />
+        <form-title />
+        <form-sub-title />
+      </div>
+      <div class="w-1/2">
+        <form-original-title />
+        <form-romanized-title />
+        <form-translated-title />
+        <form-current-version />
+      </div>
+    </div>
+    <form-comments />
   </el-form>
 </template>
 
