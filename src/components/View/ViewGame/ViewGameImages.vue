@@ -1,17 +1,17 @@
 <template>
   <!-- View cover image. -->
   <hip-overlay
-    v-if="imagesPath"
+    v-if="imagePath"
     v-show="dialog.viewImagesCover"
     @close="viewImagesCoverClose()"
     class="top-0 left-14"
   >
     <div class="flex">
       <img
-        @click="imagesZoom = !imagesZoom"
-        :src="'file://' + imagesPath + '/' + (imagesCover ? imagesCover : imagesPictures[0])"
+        @click="imageZoom = !imageZoom"
+        :src="'file://' + imagePath + '/' + (imagesCover ? imagesCover : imagesPictures[0])"
         class="cursor-pointer object-contain rounded-xl"
-        :class="imagesZoom ? 'h-full' : 'h-content'"
+        :class="imageZoom ? 'h-full' : 'h-content'"
       />
     </div>
   </hip-overlay>
@@ -23,16 +23,27 @@
       @close="viewImagesPicturesClose()"
       class="top-0 left-14 z-10"
     >
-      <div class="flex h-image overflow-y-scroll no-scrollbar rounded-xl mb-4">
-        <img
-          @click="viewImagesPicturesClose()"
-          :src="'file://' + imagesPath + '/' + imagesPictures[imageIndex]"
-          class="cursor-pointer object-contain rounded-xl m-auto transition-all ease-in-out duration-1000 transform translate-x-0"
-          :class="imagesZoom ? 'h-auto' : 'h-image'"
-        />
+      <div
+        ref="imageContainer"
+        class="relative w-image h-image overflow-y-scroll no-scrollbar rounded-xl mb-4"
+      >
+        <transition
+          :name="slideBack ? 'slide-b' : 'slide-f'"
+          class="absolute top-0 bottom-0 left-0 right-0 rounded-xl"
+        >
+          <img
+            ref="pictureImage"
+            :key="imageIndex"
+            @click="viewImagesPicturesClose()"
+            @load="viewImagesPicturesLoad()"
+            :src="'file://' + imagePath + '/' + imagesPictures[imageIndex]"
+            class="object-contain rounded-xl"
+            :class="imageZoom ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ] : ['m-auto', imageLoaded ? 'h-image' : '']"
+          />
+        </transition>
       </div>
       <div class="flex ml-14">
-        <div class="bg-indigo-600 p-2 w-10 text-center rounded-xl ml-auto my-auto">
+        <div class="bg-indigo-600 p-2 h-10 text-center rounded-xl ml-auto my-auto">
           <button
             @click="viewImagesPicturesClose()"
             class="el-icon-close text-2xl text-gray-200"
@@ -44,7 +55,7 @@
             class="el-icon-d-arrow-left text-2xl"
           ></button>
           <button
-            @click="imagesZoom = !imagesZoom"
+            @click="imageZoom = !imageZoom"
             class="el-icon-full-screen text-2xl"
           ></button>
           <button
@@ -53,7 +64,7 @@
           ></button>
         </div>
         <div class="bg-indigo-600 p-2 w-24 text-center rounded-xl mr-auto my-auto">
-          <p class="text-gray-200 text-xl">{{ (imageIndex + 1) + ' / ' + imagesPictures.length }}</p>
+          <p class="text-gray-200 text-xl cursor-default">{{ (imageIndex + 1) + ' / ' + imagesPictures.length }}</p>
         </div>
       </div>
     </hip-overlay>
@@ -65,7 +76,7 @@
     class="top-0 left-14"
   >
     <div
-      v-if="imagesPath"
+      v-if="imagePath"
       class="grid grid-cols-4 gap-4"
     >
       <div
@@ -76,7 +87,7 @@
       >
         <img
           @click="viewImagesPicturesOpen(index)"
-          :src="'file://' + imagesPath + '/' + image"
+          :src="'file://' + imagePath + '/' + image"
           class="cursor-pointer object-cover rounded-xl"
         />
       </div>
@@ -91,7 +102,7 @@
       v-if="imagesCover || imagesPictures[0]"
       @click="viewImagesCoverOpen()"
       @load="renderReady = true"
-      :src="'file://' + imagesPath + '/' + (imagesCover ? imagesCover : imagesPictures[0])"
+      :src="'file://' + imagePath + '/' + (imagesCover ? imagesCover : imagesPictures[0])"
       class="cursor-pointer m-auto mb-4 object-contain rounded-md border-2 border-gray-200"
       :class="renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : ''"
     />
@@ -143,9 +154,12 @@ export default {
     return {
       imageIndex: null,
       imageFiles: [],
-      imagesPath: null,
-      imagesZoom: false,
+      imagePath: null,
+      imageZoom: false,
+      imageCenter: false,
+      imageLoaded: false,
       renderReady: false,
+      slideBack: false,
       dialog: {
         viewImagesGallery: false,
         viewImagesCover: false,
@@ -157,26 +171,34 @@ export default {
     // Images management.
     getImages() {
       // Set the image directory path of the game region.
-      this.imagesPath = app.getAppPath() + '/images/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[this.regionIndex]._id
-      if (existsSync(this.imagesPath)) {
+      this.imagePath = app.getAppPath() + '/images/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[this.regionIndex]._id
+      if (existsSync(this.imagePath)) {
         // Load images filenames.
-        this.imageFiles = readdirSync(this.imagesPath)
+        this.imageFiles = readdirSync(this.imagePath)
       }
       else {
         // Empty image variables.
-        this.imagesPath = null
+        this.imagePath = null
         this.imageFiles = []
       }
     },
     nextImage() {
-      // Increase image index.
       if (this.imageIndex < this.imagesPictures.length - 1) {
+        // Unload image.
+        this.imageLoaded = false
+        // Set sliding transition orientation.
+        this.slideBack = false
+        // Increase image index.
         this.imageIndex++
       }
     },
     prevImage() {
-      // Decrease image index.
       if (this.imageIndex > 0) {
+        // Unload image.
+        this.imageLoaded = false
+        // Set sliding transition orientation.
+        this.slideBack = true
+        // Decrease image index.
         this.imageIndex--
       }
     },
@@ -187,7 +209,7 @@ export default {
     },
     viewImagesCoverOpen() {
       // Reset zoom mode.
-      this.imagesZoom = false
+      this.imageZoom = false
       // Open cover view.
       this.dialog.viewImagesCover = !this.dialog.viewImagesCover
     },
@@ -199,15 +221,23 @@ export default {
       // Set selected image.
       this.imageIndex = index
       // Reset zoom mode.
-      this.imagesZoom = false
+      this.imageZoom = false
       // Open pictures view.
       this.dialog.viewImagesPictures = !this.dialog.viewImagesPictures
     },
     viewImagesPicturesClose() {
+      // Unload image.
+      this.imageLoaded = false
       // Empty selected image.
       this.imageIndex = null
       // Close pictures view.
       this.dialog.viewImagesPictures = !this.dialog.viewImagesPictures
+    },
+    viewImagesPicturesLoad() {
+      // Determine centering by the image's height.
+      this.imageCenter = (this.$refs.pictureImage.clientHeight < this.$refs.imageContainer.clientHeight) ? true : false
+      // Load image.
+      this.imageLoaded = true
     }
   },
   mounted() {
@@ -245,5 +275,30 @@ export default {
 <style>
 .h-image {
   height: calc(100vh - 8rem);
+}
+.w-image {
+  width: calc(100vw - 7.5rem);
+}
+
+.slide-b-leave-active,
+.slide-b-enter-active {
+  transition: 0.5s;
+}
+.slide-b-enter-from {
+  transform: translate(-100vw, 0);
+}
+.slide-b-leave-to {
+  transform: translate(100vw, 0);
+}
+
+.slide-f-leave-active,
+.slide-f-enter-active {
+  transition: 0.5s;
+}
+.slide-f-enter-from {
+  transform: translate(100vw, 0);
+}
+.slide-f-leave-to {
+  transform: translate(-100vw, 0);
 }
 </style>
