@@ -42,30 +42,35 @@
           />
         </transition>
       </div>
-      <div class="flex ml-14">
-        <div class="bg-indigo-600 p-2 h-10 text-center rounded-xl ml-auto my-auto">
-          <button
+      <div class="max-w-max mx-auto">
+      <!-- Header. -->
+      <hip-modal class="rounded-full p-image ml-8">
+        <!-- Gallery buttons. -->
+        <div class="flex h-10 justify-between mx-1">
+          <!-- Open images folder. -->
+          <hip-button
+            class="el-icon-circle-close text-2xl"
             @click="viewImagesPicturesClose()"
-            class="el-icon-close text-2xl text-gray-200"
-          ></button>
+            :icon="true"
+          ></hip-button>
+          <!--  -->
+          <div class="mx-4 flex justify-between rounded-full divide-x-2 border-2">
+            <button
+              @click="prevImage()"
+              class="el-icon-d-arrow-left text-2xl px-4"
+            ></button>
+            <button
+              @click="imageZoom = !imageZoom"
+              class="el-icon-full-screen text-2xl px-4"
+            ></button>
+            <button
+              @click="nextImage()"
+              class="el-icon-d-arrow-right text-2xl px-4"
+            ></button>
+          </div>
+          <hip-button class="cursor-default">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</hip-button>
         </div>
-        <div class="bg-gray-200 p-3 w-40 rounded-xl shadow mx-4 flex justify-between">
-          <button
-            @click="prevImage()"
-            class="el-icon-d-arrow-left text-2xl"
-          ></button>
-          <button
-            @click="imageZoom = !imageZoom"
-            class="el-icon-full-screen text-2xl"
-          ></button>
-          <button
-            @click="nextImage()"
-            class="el-icon-d-arrow-right text-2xl"
-          ></button>
-        </div>
-        <div class="bg-indigo-600 p-2 w-24 text-center rounded-xl mr-auto my-auto">
-          <p class="text-gray-200 text-xl">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</p>
-        </div>
+      </hip-modal>
       </div>
     </hip-overlay>
   </transition>
