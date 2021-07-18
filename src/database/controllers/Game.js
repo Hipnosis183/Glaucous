@@ -10,6 +10,7 @@ import {
     copySync,
     ensureDirSync,
     readdirSync,
+    remove,
     removeSync
 } from 'fs-extra'
 
@@ -295,10 +296,15 @@ export async function deleteGameRegion(req, i) {
                 res.gameRegions.splice(index, 1)
                 await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: res.gameRegions })
             })
+        // Remove game region's images.
+        remove(app.getAppPath() + '/images/' + req._id + '/' + req.gameRegions[i]._id)
+        // There are other regions for the platform.
         return true
-    } else {
+    }
+    else {
         // Unlink game.
         await unlinkGame(req, true)
+        // There are no other regions for the platform.
         return false
     }
 }
@@ -392,4 +398,6 @@ export async function unlinkGame(req, del) {
     for (let g of linkedGames) {
         await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
     }
+    // Remove game platform's images.
+    remove(app.getAppPath() + '/images/' + req._id)
 }
