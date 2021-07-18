@@ -8,6 +8,7 @@ import { getPlatform } from './Platform'
 import { app } from '@electron/remote'
 import {
     copySync,
+    ensureDirSync,
     readdirSync,
     removeSync
 } from 'fs-extra'
@@ -100,6 +101,8 @@ async function storeImages(req, id) {
     Platform = id ? id : Platform
     // Set image path for a specific game region.
     let imagesPath = app.getAppPath() + '/images/' + Platform + '/' + Region
+    // Ensure images directory creation, even if there are no images.
+    ensureDirSync(imagesPath)
     // Add cover image file.
     if (req.images.cover.add) {
         // Copy cover image file. It starts with eight zeroes, followed by eight random characters.
