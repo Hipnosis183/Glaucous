@@ -6,7 +6,11 @@ import { getDeveloper } from './Developer'
 import { getPlatform } from './Platform'
 
 import { app } from '@electron/remote'
-import { copySync } from 'fs-extra'
+import {
+    copySync,
+    readdirSync,
+    removeSync
+} from 'fs-extra'
 
 import Regions from '../../../public/files/flags.json'
 
@@ -92,13 +96,18 @@ async function createGameVersion(req) {
 }
 
 async function storeImages(req, id) {
+    // Set game platform ID.
     Platform = id ? id : Platform
-    let imagesPath = app.getAppPath() + '/images/' + Platform + '/' + Region + '/'
-    if (req.images.cover) {
-        copySync(req.images.cover[0], imagesPath + '0'.repeat(16))
+    // Set image path for a specific game region.
+    let imagesPath = app.getAppPath() + '/images/' + Platform + '/' + Region
+    // Add cover image file.
+    if (req.images.cover.add) {
+        // Copy cover image file. It starts with eight zeroes, followed by eight random characters.
+        copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
     }
-    for (let [i, image] of req.images.pictures.entries()) {
-        copySync(image, imagesPath + String(parseInt(i) + 1).padStart(16, '0'))
+    // Add pictures image files.
+    for (let image of req.images.pictures.add) {
+        copySync(image, imagesPath + '/' + generateID())
     }
 }
 
@@ -125,6 +134,32 @@ export async function updateGame(req, id) {
         currentVersion: req.gameVersion.currentVersion,
         comments: req.gameVersion.comments }
     )
+    await updateImages(req.gameRegion, id)
+}
+
+async function updateImages(req, id) {
+    // Set image path for a specific game region.
+    let imagesPath = app.getAppPath() + '/images/' + id.gamePlatform + '/' + id.gameRegion
+    // Remove cover image file.
+    if (req.images.cover.remove) {
+        // The cover image file starts with eight zeroes, followed by eight random characters.
+        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter(res => res.startsWith('0'.repeat(8)))[0])
+    }
+    // Add cover image file.
+    if (req.images.cover.add) {
+        // Remove any previously stored cover image file.
+        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter(res => res.startsWith('0'.repeat(8)))[0])
+        // Copy cover image file, using cache busting for proper rendering update.
+        copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
+    }
+    // Remove pictures image files.
+    for (let image of req.images.pictures.remove) {
+        removeSync(imagesPath + '/' + image)
+    }
+    // Add pictures image files.
+    for (let image of req.images.pictures.add) {
+        copySync(image, imagesPath + '/' + generateID())
+    }
 }
 
 // Search for a specific game platform.

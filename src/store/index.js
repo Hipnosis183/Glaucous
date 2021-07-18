@@ -25,8 +25,14 @@ export default createStore({
         translatedTitle: null,
         region: null,
         images: {
-          cover: null,
-          pictures: []
+          cover: {
+            add: null,
+            remove: false
+          },
+          pictures: {
+            add: [],
+            remove: []
+          }
         }
       },
       gameVersion: {
@@ -40,7 +46,7 @@ export default createStore({
     }
   },
   mutations: {
-    resetGameForm (state) {
+    resetGameForm(state) {
       state.gameForm.gamePlatform.developer = null
       state.gameForm.gamePlatform.platform = null
       state.gameForm.gamePlatform.releaseYear = null
@@ -52,70 +58,74 @@ export default createStore({
       state.gameForm.gameRegion.romanizedTitle = null
       state.gameForm.gameRegion.translatedTitle = null
       state.gameForm.gameRegion.region = null
+      state.gameForm.gameRegion.images.cover.add = null
+      state.gameForm.gameRegion.images.cover.remove = false
+      state.gameForm.gameRegion.images.pictures.add = []
+      state.gameForm.gameRegion.images.pictures.remove = []
       state.gameForm.gameVersion.currentVersion = null
       state.gameForm.gameVersion.comments = []
     },
-    setGamePlatformDeveloper (state, data) {
+    setGamePlatformDeveloper(state, data) {
       state.gameForm.gamePlatform.developer = data
     },
-    setGamePlatformPlatform (state, data) {
+    setGamePlatformPlatform(state, data) {
       state.gameForm.gamePlatform.platform = data
     },
-    setGamePlatformReleaseYear (state, data) {
+    setGamePlatformReleaseYear(state, data) {
       state.gameForm.gamePlatform.releaseYear = data
     },
-    setGamePlatformNumberPlayers (state, data) {
+    setGamePlatformNumberPlayers(state, data) {
       state.gameForm.gamePlatform.numberPlayers = data
     },
-    setGamePlatformLatestVersion (state, data) {
+    setGamePlatformLatestVersion(state, data) {
       state.gameForm.gamePlatform.latestVersion = data
     },
-    setGameRegionTitle (state, data) {
+    setGameRegionTitle(state, data) {
       state.gameForm.gameRegion.title = data
     },
-    setGameRegionSubTitle (state, data) {
+    setGameRegionSubTitle(state, data) {
       state.gameForm.gameRegion.subTitle = data
     },
-    setGameRegionOriginalTitle (state, data) {
+    setGameRegionOriginalTitle(state, data) {
       state.gameForm.gameRegion.originalTitle = data
     },
-    setGameRegionRomanizedTitle (state, data) {
+    setGameRegionRomanizedTitle(state, data) {
       state.gameForm.gameRegion.romanizedTitle = data
     },
-    setGameRegionTranslatedTitle (state, data) {
+    setGameRegionTranslatedTitle(state, data) {
       state.gameForm.gameRegion.translatedTitle = data
     },
-    setGameRegionRegion (state, data) {
+    setGameRegionRegion(state, data) {
       state.gameForm.gameRegion.region = data
     },
-    setGameRegionImagesCover (state, data) {
-      state.gameForm.gameRegion.images.cover = data
+    setGameRegionImagesCoverAdd(state, data) {
+      state.gameForm.gameRegion.images.cover.add = data
     },
-    setGameRegionImagesPictures (state, data) {
-      state.gameForm.gameRegion.images.pictures = data
+    setGameRegionImagesCoverRemove(state, data) {
+      state.gameForm.gameRegion.images.cover.remove = data
     },
-    setGameRegionImagesAdd (state, data) {
-      state.gameForm.gameRegion.images.push(data)
+    setGameRegionImagesPicturesAdd(state, data) {
+      state.gameForm.gameRegion.images.pictures.add.push(data)
     },
-    setGameRegionImagesRemove (state, data) {
-      state.gameForm.gameRegion.images.splice(data, 1)
+    setGameRegionImagesPicturesRemove(state, data) {
+      state.gameForm.gameRegion.images.pictures.remove.push(data)
     },
-    setGameVersionCurrentVersion (state, data) {
+    setGameVersionCurrentVersion(state, data) {
       state.gameForm.gameVersion.currentVersion = data
     },
-    setGameVersionComments (state, data) {
+    setGameVersionComments(state, data) {
       state.gameForm.gameVersion.comments = data
     },
-    setGameVersionCommentsAdd (state, data) {
+    setGameVersionCommentsAdd(state, data) {
       state.gameForm.gameVersion.comments.push(data)
     },
-    setGameVersionCommentsRemove (state, data) {
+    setGameVersionCommentsRemove(state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
     },
-    resetOtherForm (state) {
+    resetOtherForm(state) {
       state.otherForm.name = null
     },
-    setOtherName (state, data) {
+    setOtherName(state, data) {
       state.otherForm.name = data
     },
   },

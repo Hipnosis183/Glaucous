@@ -117,7 +117,7 @@
       <div v-else>
         <li>
           <!-- Empty card. -->
-          <hip-modal class="justify-center">
+          <hip-modal class="text-center">
             <p>No other platforms available.</p>
           </hip-modal>
         </li>

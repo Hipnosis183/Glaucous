@@ -45,6 +45,7 @@
     <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
+        <form-images />
         <form-title />
         <form-sub-title />
         <form-original-title />
@@ -75,6 +76,7 @@ import {
   FormComments,
   FormCurrentVersion,
   FormDeveloper,
+  FormImages,
   FormLatestVersion,
   FormNumberPlayers,
   FormOriginalTitle,
@@ -109,6 +111,7 @@ export default {
     FormComments,
     FormCurrentVersion,
     FormDeveloper,
+    FormImages,
     FormLatestVersion,
     FormNumberPlayers,
     FormOriginalTitle,

@@ -1,7 +1,7 @@
 <template>
   <!-- View cover image. -->
   <hip-overlay
-    v-if="imagePath"
+    v-if="getCover"
     v-show="dialog.viewImagesCover"
     @close="viewImagesCoverClose()"
     class="top-0 left-14"
@@ -9,7 +9,7 @@
     <div class="flex">
       <img
         @click="imageZoom = !imageZoom"
-        :src="'file://' + imagePath + '/' + (imagesCover ? imagesCover : imagesPictures[0])"
+        :src="'file://' + imagePath + '/' + getCover"
         class="cursor-pointer object-contain rounded-xl"
         :class="imageZoom ? 'h-full' : 'h-content'"
       />
@@ -18,7 +18,7 @@
   <!-- View selected picture. -->
   <transition>
     <hip-overlay
-      v-if="imagesPictures[imageIndex]"
+      v-if="getPictures[imageIndex]"
       v-show="dialog.viewImagesPictures"
       @close="viewImagesPicturesClose()"
       class="top-0 left-14 z-10"
@@ -36,7 +36,7 @@
             :key="imageIndex"
             @click="viewImagesPicturesClose()"
             @load="viewImagesPicturesLoad()"
-            :src="'file://' + imagePath + '/' + imagesPictures[imageIndex]"
+            :src="'file://' + imagePath + '/' + getPictures[imageIndex]"
             class="object-contain rounded-xl"
             :class="imageZoom ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ] : ['m-auto', imageLoaded ? 'h-image' : '']"
           />
@@ -64,7 +64,7 @@
           ></button>
         </div>
         <div class="bg-indigo-600 p-2 w-24 text-center rounded-xl mr-auto my-auto">
-          <p class="text-gray-200 text-xl cursor-default">{{ (imageIndex + 1) + ' / ' + imagesPictures.length }}</p>
+          <p class="text-gray-200 text-xl">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</p>
         </div>
       </div>
     </hip-overlay>
@@ -76,11 +76,11 @@
     class="top-0 left-14"
   >
     <div
-      v-if="imagePath"
+      v-if="getPictures[0]"
       class="grid grid-cols-4 gap-4"
     >
       <div
-        v-for="(image, index) in imagesPictures"
+        v-for="(image, index) in getPictures"
         :key="index"
         :value="image"
         class="w-full h-full flex justify-center"
@@ -99,10 +99,10 @@
   <div class="w-full ar-square justify-center">
     <img
       ref="coverImage"
-      v-if="imagesCover || imagesPictures[0]"
+      v-if="getCover"
       @click="viewImagesCoverOpen()"
       @load="renderReady = true"
-      :src="'file://' + imagePath + '/' + (imagesCover ? imagesCover : imagesPictures[0])"
+      :src="'file://' + imagePath + '/' + getCover"
       class="cursor-pointer m-auto mb-4 object-contain rounded-md border-2 border-gray-200"
       :class="renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : ''"
     />
@@ -183,7 +183,7 @@ export default {
       }
     },
     nextImage() {
-      if (this.imageIndex < this.imagesPictures.length - 1) {
+      if (this.imageIndex < this.getPictures.length - 1) {
         // Unload image.
         this.imageLoaded = false
         // Set sliding transition orientation.
@@ -253,13 +253,13 @@ export default {
       // Dynamically get parent's height.
       return this.$refs.coverImage.clientHeight
     },
-    imagesCover() {
+    getCover() {
       // Get cover image.
-      return this.imageFiles.filter(res => res == '0'.repeat(16))[0]
+      return this.imageFiles.filter(res => res.startsWith('0'.repeat(8)))[0]
     },
-    imagesPictures() {
+    getPictures() {
       // Get array of pictures.
-      return this.imageFiles.filter(res => res != '0'.repeat(16))
+      return this.imageFiles.filter(res => !res.startsWith('0'.repeat(8)))
     }
   },
   watch: {

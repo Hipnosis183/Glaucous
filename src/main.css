@@ -10,6 +10,10 @@
   @apply text-red-500 !important;
 }
 
+p, h1, h2, h3 {
+  cursor: default;
+}
+
 .ar-square {
   aspect-ratio: 1 / 1;
 }
