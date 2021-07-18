@@ -75,27 +75,61 @@
     @close="viewImagesGallery()"
     class="top-0 left-14"
   >
-    <div
+    <!-- Header. -->
+    <hip-modal
       v-if="getPictures[0]"
-      class="grid grid-cols-4 gap-4"
+      class="rounded-full p-image ml-auto mb-4"
     >
+      <!-- Gallery buttons. -->
+      <div class="flex h-10 justify-between mx-1">
+        <!-- Open images folder. -->
+        <hip-button
+          class="el-icon-folder-opened text-2xl"
+          @click="viewImagesFolder()"
+          :icon="true"
+        ></hip-button>
+        <!-- Header title. -->
+        <p class="text-2xl pt-1">Gallery</p>
+        <!-- Close dialog. -->
+        <hip-button
+          class="el-icon-circle-close text-2xl"
+          @click="viewImagesGallery()"
+          :icon="true"
+        ></hip-button>
+      </div>
+    </hip-modal>
+    <!-- Pictures grid. -->
+    <div class="h-image max-h-images flex-1 flex overflow-hidden rounded-xl">
       <div
-        v-for="(image, index) in getPictures"
-        :key="index"
-        :value="image"
-        class="w-full h-full flex justify-center"
+        v-if="getPictures[0]"
+        class="flex-1 overflow-y-scroll no-scrollbar"
       >
-        <img
-          @click="viewImagesPicturesOpen(index)"
-          :src="'file://' + imagePath + '/' + image"
-          class="cursor-pointer object-cover rounded-xl"
-        />
+        <div class="grid grid-cols-4 gap-4">
+          <div
+            v-for="(image, index) in getPictures"
+            :key="index"
+            :value="image"
+            class="w-full h-full flex justify-center"
+          >
+            <img
+              @click="viewImagesPicturesOpen(index)"
+              :src="'file://' + imagePath + '/' + image"
+              class="cursor-pointer object-cover rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        v-else
+        class="flex flex-col items-center m-auto"
+      >
+        <hip-modal>
+          <p>No images available.</p>
+        </hip-modal>
       </div>
     </div>
-    <hip-modal v-else>
-      <p>No images available.</p>
-    </hip-modal>
   </hip-overlay>
+  <!-- Cover image. -->
   <div class="w-full ar-square justify-center">
     <img
       ref="coverImage"
@@ -126,7 +160,10 @@
 
 <script>
 // Import functions from modules.
-import { app } from '@electron/remote'
+import {
+  app,
+  shell
+} from '@electron/remote'
 import {
   existsSync,
   readdirSync
@@ -238,6 +275,10 @@ export default {
       this.imageCenter = (this.$refs.pictureImage.clientHeight < this.$refs.imageContainer.clientHeight) ? true : false
       // Load image.
       this.imageLoaded = true
+    },
+    viewImagesFolder() {
+      // Open images location path in the file manager.
+      shell.openPath(this.imagePath)
     }
   },
   mounted() {
@@ -272,12 +313,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.p-image {
+  padding: 0.8rem;
+}
 .h-image {
-  height: calc(100vh - 8rem);
+  height: calc(100vh - 9.2rem);
 }
 .w-image {
   width: calc(100vw - 7.5rem);
+}
+.max-h-images {
+  max-height: calc(100vh - 9.2rem);
 }
 
 .slide-b-leave-active,
