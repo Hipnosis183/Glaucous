@@ -150,7 +150,7 @@
       class="flex w-full h-full mb-4 rounded-md border-2 border-gray-200 items-center"
     >
       <div class="flex flex-col items-center m-auto">
-        <i class="el-icon-document-delete text-6xl text-gray-300 mb-4"></i>
+        <i class="el-icon-picture text-6xl text-gray-300 mb-4"></i>
         <p>No image available</p>
       </div>
     </div>

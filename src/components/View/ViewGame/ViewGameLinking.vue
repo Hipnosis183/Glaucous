@@ -49,7 +49,7 @@
     <!-- Game linking dialog. -->
     <hip-modal
       v-show="$store.state.editMode"
-      class="flex justify-center pt-8 mb-4"
+      class="justify-center pt-8 mb-4"
     >
       <!-- Form header. -->
       <div class="flex justify-between mb-6 mx-2">
@@ -72,7 +72,7 @@
       <!-- Game search bar. -->
       <el-select
         v-model="querySelected"
-        class="w-80"
+        class="w-full"
         filterable
         placeholder="Required"
         remote
@@ -96,13 +96,28 @@
         class="grid grid-flow-row gap-4"
       >
         <li
+          class="inline-flex"
           v-for="game in linkedGames"
           :key="game._id"
           :value="game._id"
           @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
         >
-          <!-- Game card. -->
-          <hip-card-sq>
+          <!-- Game card image. -->
+          <img
+            v-if="getImage(game)"
+            class="h-32 ar-square rounded-l-xl object-cover cursor-pointer"
+            :src="'file://' + getImage(game)"
+          >
+          <div
+            v-else
+            class="h-32 ar-square rounded-l-xl cursor-pointer items-center bg-gray-100 border-2 border-gray-200"
+          >
+            <div class="flex w-full h-full items-center">
+              <div class="el-icon-picture text-6xl text-gray-300 m-auto"></div>
+            </div>
+          </div>
+          <!-- Game card information. -->
+          <hip-card-sq class="w-full rounded-l-none">
             <div class="mb-2">
               <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
               <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
@@ -127,6 +142,9 @@
 </template>
 
 <script>
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { readdirSync } from 'fs-extra'
 // Import UI components.
 import {
   HipButton,
@@ -221,7 +239,16 @@ export default {
     validationError() {
       // Open error dialog.
       this.dialog.validationError = !this.dialog.validationError
-    }
+    },
+    // Get games cover image.
+    getImage(game) {
+      // Set the image directory path of the game region.
+      let imagePath = app.getAppPath() + '/images/' + game._id + '/' + game.gameRegions[0]._id
+      // Load images filenames and filter the cover image file.
+      let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
+      // Return the cover if it exists.
+      return imageFile ? (imagePath + '/' + imageFile) : false
+    },
   },
   mounted() {
     // Load linked games.

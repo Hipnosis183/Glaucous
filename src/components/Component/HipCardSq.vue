@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-white p-4 h-full rounded-xl shadow text-center cursor-pointer flex items-center justify-center">
+  <div class="relative flex h-full bg-white p-4 rounded-xl shadow text-center items-center justify-center">
+    <div class="absolute w-full h-full cursor-pointer rounded-xl"></div>
     <div>
       <slot></slot>
     </div>

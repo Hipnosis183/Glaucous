@@ -62,7 +62,7 @@
           class="flex w-full ar-square items-center rounded-xl border-2 border-gray-200"
         >
           <div class="flex flex-col items-center m-auto">
-            <i class="el-icon-document-delete text-6xl text-gray-300 mb-4"></i>
+            <i class="el-icon-picture text-6xl text-gray-300 mb-4"></i>
             <p>No image available</p>
           </div>
         </div>
@@ -147,7 +147,7 @@
             class="flex w-full h-images items-center rounded-xl border-2 border-gray-200"
           >
             <div class="flex flex-col items-center m-auto">
-              <i class="el-icon-document-delete text-6xl text-gray-300 mb-4"></i>
+              <i class="el-icon-picture text-6xl text-gray-300 mb-4"></i>
               <p>No images available</p>
             </div>
           </div>

@@ -3,6 +3,7 @@
   <hip-dialog
     v-show="dialog.createGamePlatform"
     @close="createGamePlatformClose()"
+    class="z-10"
   >
     <!-- Insert create game platform form component. -->
     <create-game-platform
@@ -14,6 +15,7 @@
   <hip-dialog
     v-show="dialog.editPlatform"
     @close="editPlatformClose()"
+    class="z-10"
   >
     <!-- Insert edit platform form component. -->
     <edit-platform @close="editPlatformClose()" />
@@ -22,6 +24,7 @@
   <hip-dialog
     v-show="dialog.deletePlatform"
     @close="deletePlatformOpen()"
+    class="z-10"
   >
     <!-- Dialog message. -->
     <p class="text-center text-lg">
@@ -77,14 +80,29 @@
     >
       <!-- Game card. -->
       <hip-card-sq>
-        <div class="mb-2">
-          <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
-          <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
+        <img
+          v-if="getImage(game)"
+          class="absolute top-0 left-0 w-full h-40 rounded-t-xl object-cover cursor-pointer"
+          :src="'file://' + getImage(game)"
+        >
+        <div
+          v-else
+          class="absolute top-0 left-0 w-full h-40 rounded-t-xl cursor-pointer items-center border-2 border-gray-200"
+        >
+          <div class="flex w-full h-full items-center">
+            <div class="el-icon-picture text-6xl text-gray-300 m-auto"></div>
+          </div>
         </div>
-        <div class="mb-2">
-          <h2 class="text-base text-gray-600 italic font-normal">{{ game.gameRegions[0].originalTitle }}</h2>
+        <div class="mt-40">
+          <div class="mb-2">
+            <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
+            <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
+          </div>
+          <div class="mb-2">
+            <h2 class="text-base text-gray-600 italic font-normal">{{ game.gameRegions[0].originalTitle }}</h2>
+          </div>
+          <h3 class="text-base text-gray-600 font-normal">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
         </div>
-        <h3 class="text-base text-gray-600 font-normal">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
       </hip-card-sq>
     </li>
   </ul>
@@ -94,6 +112,9 @@
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditPlatform from '../Edit/EditPlatform.vue'
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { readdirSync } from 'fs-extra'
 // Import UI components.
 import {
   HipButton,
@@ -185,7 +206,16 @@ export default {
       // Delete platform.
       deletePlatform(this.$route.params.id)
         .then(() => this.$router.back())
-    }
+    },
+    // Get games cover image.
+    getImage(game) {
+      // Set the image directory path of the game region.
+      let imagePath = app.getAppPath() + '/images/' + game._id + '/' + game.gameRegions[0]._id
+      // Load images filenames and filter the cover image file.
+      let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
+      // Return the cover if it exists.
+      return imageFile ? (imagePath + '/' + imageFile) : false
+    },
   },
   mounted() {
     // Load platform's games list.
