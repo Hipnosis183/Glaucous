@@ -1,4 +1,24 @@
 <template>
+  <!-- Show settings dialog. -->
+  <hip-dialog
+    v-show="dialog.viewSettings"
+    class="top-0 left-14 z-20"
+    @close="viewSettings()"
+  >
+    <!-- Dialog header. -->
+    <div class="flex justify-between mb-6 mx-2">
+      <h1 class="text-2xl pt-1">Settings</h1>
+      <hip-button
+        class="el-icon-circle-close text-2xl h-10"
+        @click="viewSettings()"
+        :icon="true"
+      ></hip-button>
+    </div>
+    <!-- Dialog content. -->
+    <el-checkbox v-model="keepName">
+      Maintain original filenames for pictures
+    </el-checkbox>
+  </hip-dialog>
   <!-- Show images dialog. -->
   <hip-overlay
     v-show="dialog.viewImages"
@@ -60,11 +80,18 @@
           <!-- Pictures title. -->
           <h1 class="text-2xl pt-1">Pictures</h1>
           <!-- Pictures buttons. -->
-          <hip-button
-            class="el-icon-circle-plus-outline text-2xl"
-            @click="addPicturesAdd()"
-            :icon="true"
-          ></hip-button>
+          <div class="flex h-10 space-x-4">
+            <hip-button
+              class="el-icon-set-up text-2xl"
+              @click="viewSettings()"
+              :icon="true"
+            ></hip-button>
+            <hip-button
+              class="el-icon-circle-plus-outline text-2xl"
+              @click="addPicturesAdd()"
+              :icon="true"
+            ></hip-button>
+          </div>
         </div>
         <!-- Pictures grid. -->
         <div class="max-h-images flex-1 flex overflow-hidden rounded-xl">
@@ -159,6 +186,7 @@ import {
 // Import UI components.
 import {
   HipButton,
+  HipDialog,
   HipModal,
   HipOverlay
 } from '../Component'
@@ -167,6 +195,7 @@ export default {
   name: 'FormImages',
   components: {
     HipButton,
+    HipDialog,
     HipModal,
     HipOverlay
   },
@@ -175,7 +204,8 @@ export default {
       imageFiles: [],
       imagePath: null,
       dialog: {
-        viewImages: false
+        viewImages: false,
+        viewSettings: false
       }
     }
   },
@@ -255,6 +285,11 @@ export default {
     viewImagesClose() {
       // Close images dialog.
       this.dialog.viewImages = !this.dialog.viewImages
+    },
+    // View settings.
+    viewSettings() {
+      // Close settings dialog.
+      this.dialog.viewSettings = !this.dialog.viewSettings
     }
   },
   computed: {
@@ -281,6 +316,10 @@ export default {
     imagesPicturesRemove: {
       get() { return this.$store.state.gameForm.gameRegion.images.pictures.remove },
       set(value) { this.$store.commit('setGameRegionImagesPicturesRemove', value) }
+    },
+    keepName: {
+      get() { return this.$store.state.gameForm.gameRegion.images.pictures.keepName },
+      set(value) { this.$store.state.gameForm.gameRegion.images.pictures.keepName = value }
     }
   }
 }

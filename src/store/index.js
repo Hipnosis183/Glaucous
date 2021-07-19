@@ -31,7 +31,8 @@ export default createStore({
           },
           pictures: {
             add: [],
-            remove: []
+            remove: [],
+            keepName: false
           }
         }
       },

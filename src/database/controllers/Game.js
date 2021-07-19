@@ -13,6 +13,7 @@ import {
     remove,
     removeSync
 } from 'fs-extra'
+import { basename } from 'path'
 
 import Regions from '../../../public/files/flags.json'
 
@@ -111,7 +112,7 @@ async function storeImages(req, id) {
     }
     // Add pictures image files.
     for (let image of req.images.pictures.add) {
-        copySync(image, imagesPath + '/' + generateID())
+        copySync(image, imagesPath + '/' + (req.images.pictures.keepName ? basename(image) : generateID()))
     }
 }
 
@@ -162,7 +163,7 @@ async function updateImages(req, id) {
     }
     // Add pictures image files.
     for (let image of req.images.pictures.add) {
-        copySync(image, imagesPath + '/' + generateID())
+        copySync(image, imagesPath + '/' + (req.images.pictures.keepName ? basename(image) : generateID()))
     }
 }
 
