@@ -278,6 +278,8 @@ export async function deleteGamePlatform(req, p) {
     }
     // Unlink game.
     await unlinkGame(req, true)
+    // Remove game platform's images.
+    remove(app.getAppPath() + '/images/' + req._id)
 }
 
 // Delete the specified game region and all its related data.
@@ -305,6 +307,8 @@ export async function deleteGameRegion(req, i) {
     else {
         // Unlink game.
         await unlinkGame(req, true)
+        // Remove game platform's images.
+        remove(app.getAppPath() + '/images/' + req._id)
         // There are no other regions for the platform.
         return false
     }
@@ -399,6 +403,4 @@ export async function unlinkGame(req, del) {
     for (let g of linkedGames) {
         await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
     }
-    // Remove game platform's images.
-    remove(app.getAppPath() + '/images/' + req._id)
 }
