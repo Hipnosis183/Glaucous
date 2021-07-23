@@ -53,7 +53,10 @@
         <form-translated-title />
       </div>
       <div class="w-1/2">
-        <form-region />
+        <div class="flex space-x-4">
+          <form-region />
+          <form-serial />
+        </div>
         <form-developer :gameDeveloper="gameDeveloper" />
         <form-platform :gamePlatform="gamePlatform" />
         <div class="flex space-x-4">
@@ -84,6 +87,7 @@ import {
   FormRegion,
   FormReleaseYear,
   FormRomanizedTitle,
+  FormSerial,
   FormSubTitle,
   FormTitle,
   FormTranslatedTitle
@@ -119,6 +123,7 @@ export default {
     FormRegion,
     FormReleaseYear,
     FormRomanizedTitle,
+    FormSerial,
     FormSubTitle,
     FormTitle,
     FormTranslatedTitle,

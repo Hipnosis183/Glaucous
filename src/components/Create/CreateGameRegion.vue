@@ -54,7 +54,10 @@
         <form-original-title />
         <form-romanized-title />
         <form-translated-title />
-        <form-current-version />
+        <div class="flex space-x-4">
+          <form-serial />
+          <form-current-version />
+        </div>
       </div>
     </div>
     <form-comments />
@@ -70,6 +73,7 @@ import {
   FormOriginalTitle,
   FormRegion,
   FormRomanizedTitle,
+  FormSerial,
   FormSubTitle,
   FormTitle,
   FormTranslatedTitle
@@ -92,6 +96,7 @@ export default {
     FormOriginalTitle,
     FormRegion,
     FormRomanizedTitle,
+    FormSerial,
     FormSubTitle,
     FormTitle,
     FormTranslatedTitle,

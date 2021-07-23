@@ -13,7 +13,6 @@ import {
     remove,
     removeSync
 } from 'fs-extra'
-import { basename } from 'path'
 
 import Regions from '../../../public/files/flags.json'
 
@@ -76,7 +75,8 @@ async function createGameRegion(req) {
         originalTitle: req.originalTitle,
         romanizedTitle: req.romanizedTitle,
         translatedTitle: req.translatedTitle,
-        region: req.region
+        region: req.region,
+        serial: req.serial
     })
     // Save model to database.
     await GameRegion.save()
@@ -132,7 +132,8 @@ export async function updateGame(req, id) {
         originalTitle: req.gameRegion.originalTitle,
         romanizedTitle: req.gameRegion.romanizedTitle,
         translatedTitle: req.gameRegion.translatedTitle,
-        region: req.gameRegion.region }
+        region: req.gameRegion.region,
+        serial: req.gameRegion.serial }
     )
     // Update the game version.
     await GameVersionModel.findOneAndUpdate({ _id: id.gameVersion }, {

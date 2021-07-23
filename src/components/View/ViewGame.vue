@@ -297,6 +297,7 @@ export default {
           romanizedTitle: null,
           translatedTitle: null,
           region: null,
+          serial: null,
           gameVersions: [{
             currentVersion: null,
             comments: []
@@ -358,6 +359,7 @@ export default {
       this.$store.commit('setGameRegionRomanizedTitle', this.gameInfo.gameRegions[this.regionIndex].romanizedTitle)
       this.$store.commit('setGameRegionTranslatedTitle', this.gameInfo.gameRegions[this.regionIndex].translatedTitle)
       this.$store.commit('setGameRegionRegion', this.gameInfo.gameRegions[this.regionIndex].region)
+      this.$store.commit('setGameRegionSerial', this.gameInfo.gameRegions[this.regionIndex].serial)
       this.$store.commit('setGameVersionCurrentVersion', this.gameInfo.gameRegions[this.regionIndex].gameVersions[0].currentVersion)
       this.$store.commit('setGameVersionComments', this.gameInfo.gameRegions[this.regionIndex].gameVersions[0].comments)
       // Open edit dialog.

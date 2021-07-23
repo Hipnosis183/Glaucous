@@ -22,15 +22,18 @@
     </div>
     <div>
       <div class="data-content">
-        <p class="font-semibold">Current Version:</p>
-        <p>{{ gameInfo.gameRegions[regionIndex].gameVersions[0].currentVersion }}</p>
+        <p class="font-semibold">Version:</p>
+        <p v-if="!gameInfo.gameRegions[regionIndex].gameVersions[0].currentVersion">-</p>
+        <p v-else>{{ gameInfo.gameRegions[regionIndex].gameVersions[0].currentVersion }}</p>
+        <p v-if="gameInfo.latestVersion">({{ gameInfo.latestVersion }})</p>
       </div>
       <div class="data-content">
-        <p class="font-semibold">Latest Version:</p>
-        <p>{{ gameInfo.latestVersion }}</p>
+        <p class="font-semibold">Serial | Game ID:</p>
+        <p v-if="!gameInfo.gameRegions[regionIndex].serial">-</p>
+        <p v-else>{{ gameInfo.gameRegions[regionIndex].serial }}</p>
       </div>
       <div class="data-content">
-        <p class="font-semibold">ID:</p>
+        <p class="font-semibold">Database ID:</p>
         <p>{{ gameInfo.gameRegions[regionIndex]._id }}</p>
       </div>
     </div>
