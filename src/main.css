@@ -5,61 +5,36 @@
 *:focus {
   outline: none;
 }
-
-::placeholder {
-  @apply text-red-500 !important;
-}
-
 p, h1, h2, h3 {
   cursor: default;
 }
-
+::placeholder {
+  @apply text-red-500 !important;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 .ar-square {
   aspect-ratio: 1 / 1;
 }
-
-.data-container {
-  @apply text-lg mt-1 space-x-2 flex items-center;
+.pos-initial {
+  @apply top-0 left-14;
 }
 
-.data-title {
-  @apply text-xl font-bold;
+/* Element UI. */
+.el-button {
+  font-weight: normal !important;
 }
-
 .el-form-item{
   @apply -space-y-4;
   margin-bottom: 4px !important;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.min-h-content {
-  min-height: calc(100% - 6.25rem);
-}
-
-.max-h-content {
-  max-height: calc(100vh - 4rem);
-}
-
-.max-w-content {
-  max-width: calc(100% - 4rem);
-}
-
-.h-content {
-  height: calc(100vh - 4rem);
-}
-
-.w-content {
-  width: calc(100% - 3.5rem);
-}
-
+/* Transitions. */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
 }
-
 .v-enter-from,
 .v-leave-to {
   opacity: 0;

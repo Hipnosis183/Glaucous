@@ -32,18 +32,18 @@
       <br />
       It will also delete all its game entries.
     </p>
-    <div class="flex space-x-4 mt-6 justify-center">
+    <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm platform deletion. -->
       <hip-button
-        class="el-icon-circle-check text-2xl"
-        @click="deletePlatformClose()"
         :icon="true"
+        @click="deletePlatformClose()"
+        class="el-icon-circle-check text-2xl"
       ></hip-button>
       <!-- Cancel platform deletion. -->
       <hip-button
-        class="el-icon-circle-close text-2xl"
-        @click="deletePlatformOpen()"
         :icon="true"
+        @click="deletePlatformOpen()"
+        class="el-icon-circle-close text-2xl"
       ></hip-button>
     </div>
   </hip-dialog>
@@ -52,26 +52,26 @@
     <!-- Open create game platform dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-circle-plus-outline text-2xl"
       @click="createGamePlatformOpen()"
+      class="el-icon-circle-plus-outline text-2xl"
     ></hip-button-nb>
     <!-- Open edit platform dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-edit-outline text-2xl"
       @click="editPlatformOpen()"
+      class="el-icon-edit-outline text-2xl"
     ></hip-button-nb>
     <!-- Open delete platform dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-remove-outline text-2xl"
       @click="deletePlatformOpen()"
+      class="el-icon-remove-outline text-2xl"
     ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>
   </hip-nav-bar>
   <!-- Show platform's games list. -->
-  <ul class="grid grid-cols-4 gap-4 m-6">
+  <ul class="gap-4 grid grid-cols-4 m-6">
     <li
       v-for="game in platform.games"
       :key="game._id"
@@ -80,28 +80,30 @@
     >
       <!-- Game card. -->
       <hip-card-sq>
+        <!-- Game card image. -->
         <img
           v-if="getImage(game)"
-          class="absolute top-0 left-0 w-full h-40 rounded-t-xl object-cover cursor-pointer"
           :src="'file://' + getImage(game)"
+          class="absolute cursor-pointer h-40 left-0 object-cover rounded-t-xl top-0 w-full"
         >
         <div
           v-else
-          class="absolute top-0 left-0 w-full h-40 rounded-t-xl cursor-pointer items-center border-2 border-gray-200"
+          class="absolute border-2 border-gray-200 cursor-pointer h-40 items-center left-0 rounded-t-xl top-0 w-full"
         >
-          <div class="flex w-full h-full items-center">
-            <div class="el-icon-picture text-6xl text-gray-300 m-auto"></div>
+          <div class="flex h-full items-center w-full">
+            <div class="el-icon-picture m-auto text-6xl text-gray-300"></div>
           </div>
         </div>
+        <!-- Game card information. -->
         <div class="mt-40">
           <div class="mb-2">
-            <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
-            <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
+            <h1 class="font-semibold text-xl text-blue-800">{{ game.gameRegions[0].title }}</h1>
+            <h2 class="font-normal text-base text-blue-600">{{ game.gameRegions[0].subTitle }}</h2>
           </div>
           <div class="mb-2">
-            <h2 class="text-base text-gray-600 italic font-normal">{{ game.gameRegions[0].originalTitle }}</h2>
+            <h2 class="font-normal italic text-base text-gray-600">{{ game.gameRegions[0].originalTitle }}</h2>
           </div>
-          <h3 class="text-base text-gray-600 font-normal">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
+          <h3 class="font-normal text-base text-gray-600">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
         </div>
       </hip-card-sq>
     </li>

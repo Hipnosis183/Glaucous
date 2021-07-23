@@ -12,14 +12,14 @@
     <!-- Open create developer dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-circle-plus-outline text-2xl"
       @click="createDeveloperOpen()"
+      class="el-icon-circle-plus-outline text-2xl"
     ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>
   </hip-nav-bar>
   <!-- Show developers list. -->
-  <ul class="grid grid-cols-4 gap-4 m-6">
+  <ul class="gap-4 grid grid-cols-4 m-6">
     <li
       v-for="developer in developers"
       :key="developer._id"
@@ -28,7 +28,7 @@
     >
       <!-- Developer card. -->
       <hip-card-sq>
-        <h1 class="text-xl text-blue-800 font-semibold">{{ developer.name }}</h1>
+        <h1 class="font-semibold text-blue-800 text-xl">{{ developer.name }}</h1>
         <p class="text-indigo-400">{{ developer.titles }} Titles</p>
       </hip-card-sq>
     </li>

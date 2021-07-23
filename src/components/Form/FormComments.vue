@@ -2,31 +2,31 @@
   <!-- Show comments dialog. -->
   <hip-dialog
     v-show="dialog.viewComments"
-    class="top-0 left-14 z-10"
     @close="viewComments()"
+    class="pos-initial z-10"
   >
     <!-- Comments list. -->
     <div class="flex mb-6">
-      <h1 class="text-xl font-bold">Comments</h1>
+      <h1 class="font-bold text-xl">Comments</h1>
     </div>
-    <div class="text-lg mt-1">
+    <div class="mt-1 text-lg">
       <ul class="list-disc list-inside">
         <div
           v-if="$store.state.gameForm.gameVersion.comments.length > 0"
           class="space-y-4"
         >
           <div
-            class="flex flex-inline items-center space-x-6"
             v-for="(comment, index) in $store.state.gameForm.gameVersion.comments"
             :key="index"
             :value="comment"
+            class="flex flex-inline items-center space-x-6"
           >
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->
             <hip-button
-              class="el-icon-remove-outline text-2xl"
-              @click="removeComment(index)"
               :icon="true"
+              @click="removeComment(index)"
+              class="el-icon-remove-outline text-2xl"
             ></hip-button>
           </div>
         </div>
@@ -39,9 +39,9 @@
   <!-- Comment form. -->
   <div class="flex space-x-2">
     <el-form-item
-      class="w-full"
       label="Comments"
       prop="comment"
+      class="w-full"
     >
       <el-input v-model="comment">
         <template #append>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+// Import UI components.
 import {
   HipButton,
   HipDialog
@@ -70,6 +71,7 @@ import {
 export default {
   name: 'FormComments',
   components: {
+    // UI components.
     HipButton,
     HipDialog
   },

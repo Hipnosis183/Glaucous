@@ -6,13 +6,13 @@
     <el-select
       v-model="platform"
       allow-create
-      class="w-full"
       default-first-option
       filterable
       placeholder="Required"
       remote
       :remote-method="querySearch"
       reserve-keyword
+      class="w-full"
     >
       <el-option
         v-for="item in queryResults"

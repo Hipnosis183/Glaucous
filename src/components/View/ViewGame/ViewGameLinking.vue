@@ -3,8 +3,8 @@
     <!-- Unlink game dialog. -->
     <hip-dialog
       v-show="dialog.unlinkGame"
-      class="top-0 left-14 z-10"
       @close="unlinkGameOpen()"
+      class="pos-initial z-10"
     >
       <!-- Dialog message. -->
       <p class="text-center text-lg">
@@ -12,72 +12,72 @@
         <br />
         It will stop being grouped with the games listed.
       </p>
-      <div class="flex space-x-4 mt-6 justify-center">
+      <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game unlink. -->
         <hip-button
-          class="el-icon-circle-check text-2xl"
-          @click="unlinkGameClose()"
           :icon="true"
+          @click="unlinkGameClose()"
+          class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game unlink. -->
         <hip-button
-          class="el-icon-circle-close text-2xl"
-          @click="unlinkGameOpen()"
           :icon="true"
+          @click="unlinkGameOpen()"
+          class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
     </hip-dialog>
     <!-- Validation error dialog. -->
     <hip-dialog
       v-show="dialog.validationError"
-      class="top-0 left-14 z-10"
       @close="validationError()"
+      class="pos-initial z-10"
     >
       <!-- Dialog message. -->
       <p class="text-center text-lg">
         Complete the required field.
       </p>
-      <div class="flex space-x-4 mt-6 justify-center">
+      <div class="flex justify-center mt-6 space-x-4">
         <!-- Close message. -->
         <hip-button
-          class="el-icon-circle-check text-2xl"
-          @click="validationError()"
           :icon="true"
+          @click="validationError()"
+          class="el-icon-circle-check text-2xl"
         ></hip-button>
       </div>
     </hip-dialog>
     <!-- Game linking dialog. -->
     <hip-modal
       v-show="$store.state.editMode"
-      class="justify-center pt-8 mb-4"
+      class="justify-center mb-4 pt-8"
     >
       <!-- Form header. -->
       <div class="flex justify-between mb-6 mx-2">
         <!-- Form title. -->
-        <h1 class="text-2xl pt-1 mr-10">Game Linking</h1>
+        <h1 class="mr-10 pt-1 text-2xl">Game Linking</h1>
         <!-- Form buttons. -->
         <div class="h-10 space-x-4">
           <hip-button
-            class="el-icon-circle-plus-outline text-2xl"
-            @click="linkGame()"
             :icon="true"
+            @click="linkGame()"
+            class="el-icon-circle-plus-outline text-2xl"
           ></hip-button>
           <hip-button
-            class="el-icon-remove-outline text-2xl"
-            @click="unlinkGameOpen()"
             :icon="true"
+            @click="unlinkGameOpen()"
+            class="el-icon-remove-outline text-2xl"
           ></hip-button>
         </div>
       </div>
       <!-- Game search bar. -->
       <el-select
         v-model="querySelected"
-        class="w-full"
         filterable
         placeholder="Required"
         remote
         :remote-method="querySearch"
         reserve-keyword
+        class="w-full"
       >
         <!-- Game search results. -->
         <el-option
@@ -93,39 +93,39 @@
     <ul>
       <div
         v-if="linkedGames.length > 0"
-        class="grid grid-flow-row gap-4"
+        class="gap-4 grid grid-flow-row"
       >
         <li
-          class="inline-flex"
           v-for="game in linkedGames"
           :key="game._id"
           :value="game._id"
           @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
+          class="inline-flex"
         >
           <!-- Game card image. -->
           <img
             v-if="getImage(game)"
-            class="h-32 ar-square rounded-l-xl object-cover cursor-pointer"
             :src="'file://' + getImage(game)"
+            class="ar-square cursor-pointer h-32 object-cover rounded-l-xl"
           >
           <div
             v-else
-            class="h-32 ar-square rounded-l-xl cursor-pointer items-center bg-gray-100 border-2 border-gray-200"
+            class="ar-square bg-gray-100 border-2 border-gray-200 cursor-pointer h-32 items-center rounded-l-xl"
           >
-            <div class="flex w-full h-full items-center">
-              <div class="el-icon-picture text-6xl text-gray-300 m-auto"></div>
+            <div class="flex h-full items-center w-full">
+              <div class="el-icon-picture m-auto text-6xl text-gray-300"></div>
             </div>
           </div>
           <!-- Game card information. -->
-          <hip-card-sq class="w-full rounded-l-none">
+          <hip-card-sq class="rounded-l-none w-full">
             <div class="mb-2">
-              <h1 class="text-xl text-blue-800 font-semibold">{{ game.gameRegions[0].title }}</h1>
-              <h2 class="text-base text-blue-600 font-normal">{{ game.gameRegions[0].subTitle }}</h2>
+              <h1 class="font-semibold text-xl text-blue-800">{{ game.gameRegions[0].title }}</h1>
+              <h2 class="font-normal text-base text-blue-600">{{ game.gameRegions[0].subTitle }}</h2>
             </div>
             <div class="mb-2">
-              <h2 class="text-base text-gray-600 italic font-normal">{{ game.gameRegions[0].originalTitle }}</h2>
+              <h2 class="font-normal italic text-base text-gray-600">{{ game.gameRegions[0].originalTitle }}</h2>
             </div>
-            <h3 class="text-base text-gray-600 font-normal">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
+            <h3 class="font-normal text-base text-gray-600">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
           </hip-card-sq>
         </li>
       </div>

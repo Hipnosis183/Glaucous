@@ -1,8 +1,8 @@
 <template>
-  <div class="flex min-h-screen max-h-screen relative bg-gray-300">
+  <div class="bg-gray-300 flex max-h-screen min-h-screen relative">
     <side-nav />
-    <div class="flex-1 flex overflow-hidden">
-      <div class="flex-1 overflow-y-scroll no-scrollbar">
+    <div class="flex flex-1 overflow-hidden">
+      <div class="flex-1 no-scrollbar overflow-y-scroll">
         <router-view :key="$route.fullPath" />
       </div>
     </div>

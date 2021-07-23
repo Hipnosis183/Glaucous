@@ -2,37 +2,37 @@
   <!-- Validation error dialog. -->
   <hip-dialog
     v-show="dialog.validationError"
-    class="top-0 left-14 z-10"
     @close="validationError()"
+    class="pos-initial z-10"
   >
     <!-- Dialog message. -->
     <p class="text-center text-lg">
       Complete the required fields.
     </p>
-    <div class="flex space-x-4 mt-6 justify-center">
+    <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        class="el-icon-circle-check text-2xl"
-        @click="validationError()"
         :icon="true"
+        @click="validationError()"
+        class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
   </hip-dialog>
   <!-- Form header. -->
   <div class="flex justify-between mb-4 mx-2">
     <!-- Form title. -->
-    <h1 class="text-2xl pt-1">New Game Entry</h1>
+    <h1 class="pt-1 text-2xl">New Game Entry</h1>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        class="el-icon-circle-check text-2xl"
-        @click="onSubmit()"
         :icon="true"
+        @click="onSubmit()"
+        class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        class="el-icon-circle-close text-2xl"
-        @click="$emit('close')"
         :icon="true"
+        @click="$emit('close')"
+        class="el-icon-circle-close text-2xl"
       ></hip-button>
     </div>
   </div>

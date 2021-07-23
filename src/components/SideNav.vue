@@ -1,125 +1,112 @@
 <template>
   <!-- Expanded sidenav. -->
+  <!-- Sidenav overlay. -->
   <transition v-show="$store.state.sidenavExpanded">
     <div
-      class="absolute z-20 bg-black bg-opacity-50 w-full h-full"
       @click="sidenavToggle()"
+      class="absolute bg-black bg-opacity-50 h-full w-full z-40"
     >
     </div>
   </transition>
-  <div
-    class="absolute flex flex-col z-20 inset-y-0 transform w-80 bg-indigo-500 transition-all duration-500"
-    :class="$store.state.sidenavExpanded ? 'translate-x-0' : '-translate-x-full'"
-  >
-    <div class="h-full flex-col justify-between flex">
-      <div class="">
-        <router-link
-          to="/"
-          class="text-center"
-        >
-          <h1 class="text-gray-100 font-semibold text-3xl my-12">Frontend</h1>
-        </router-link>
-        <div class="space-y-4 mt-8">
-          <router-link
-            to="/games"
-            class="flex"
-          >
-            <hip-button-sb>Games</hip-button-sb>
-          </router-link>
-          <router-link
-            to="/developers"
-            class="flex"
-          >
-            <hip-button-sb>Developers</hip-button-sb>
-          </router-link>
-          <router-link
-            to="/platforms"
-            class="flex"
-          >
-            <hip-button-sb>Platforms</hip-button-sb>
-          </router-link>
+  <!-- Sidenav contents. -->
+  <transition name="slide-nav">
+    <div
+      v-show="$store.state.sidenavExpanded"
+      class="absolute bg-indigo-500 flex flex-col inset-y-0 w-80 z-40"
+    >
+      <div class="flex flex-col h-full justify-between">
+        <div>
+          <h1
+            @click="$router.push({ name: 'Index' })"
+            class="cursor-pointer font-semibold my-12 text-3xl text-center text-gray-100"
+          >Frontend</h1>
+          <div class="mt-8 space-y-4">
+            <div class="flex">
+              <hip-button-sb @click="$router.push({ name: 'ListGames' })">Games</hip-button-sb>
+            </div>
+            <div class="flex">
+              <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">Developers</hip-button-sb>
+            </div>
+            <div class="flex">
+              <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">Platforms</hip-button-sb>
+            </div>
+          </div>
+        </div>
+        <div class="mb-8 space-y-4">
+          <div class="flex">
+            <hip-button-sb>Search</hip-button-sb>
+          </div>
+          <div v-show="history > 0">
+            <div class="flex">
+              <hip-button-sb @click="$router.back()">Back</hip-button-sb>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="space-y-4 mb-8">
-        <div class="flex">
-          <hip-button-sb>Search</hip-button-sb>
-        </div>
-        <div
-          class="flex"
-          v-show="history > 0"
-        >
-          <hip-button-sb @click="$router.back()">Back</hip-button-sb>
-        </div>
+      <!-- Bottom bar. -->
+      <div class="bg-indigo-600 flex justify-between">
+        <el-switch
+          v-model="$store.state.editMode"
+          class="m-auto"
+        ></el-switch>
+        <button
+          @click="sidenavToggle()"
+          class="el-icon-s-fold font-semibold m-auto py-3 text-2xl text-gray-100"
+        ></button>
       </div>
     </div>
-    <div class="bg-indigo-600 flex justify-between">
-      <el-switch
-        v-model="$store.state.editMode"
-        class="m-auto"
-      ></el-switch>
-      <button
-        class="el-icon-s-fold text-gray-100 font-semibold text-2xl m-auto py-3"
-        @click="sidenavToggle()"
-      ></button>
-    </div>
-  </div>
+  </transition>
   <!-- Small sidenav. -->
-  <div class="relative w-14 bg-indigo-500 flex-col justify-between flex">
-    <div class="h-full flex-col justify-between flex">
-      <div class="">
-        <router-link
-          to="/"
-          class="text-center"
-        >
-          <h1 class="text-gray-100 font-semibold text-3xl my-12">F</h1>
-        </router-link>
-        <div class="space-y-4 mt-8">
-          <router-link
-            to="/games"
-            class="flex"
-          >
-            <hip-button-sb>G</hip-button-sb>
-          </router-link>
-          <router-link
-            to="/developers"
-            class="flex"
-          >
-            <hip-button-sb>D</hip-button-sb>
-          </router-link>
-          <router-link
-            to="/platforms"
-            class="flex"
-          >
-            <hip-button-sb>P</hip-button-sb>
-          </router-link>
+  <div class="bg-indigo-500 flex flex-col justify-between relative w-14">
+    <div class="flex flex-col h-full justify-between">
+      <div>
+        <h1
+          @click="$router.push({ name: 'Index' })"
+          class="cursor-pointer font-semibold my-12 text-3xl text-center text-gray-100"
+        >F</h1>
+        <div class="mt-8 space-y-4">
+          <div class="flex">
+            <hip-button-sb @click="$router.push({ name: 'ListGames' })">G</hip-button-sb>
+          </div>
+          <div class="flex">
+            <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">D</hip-button-sb>
+          </div>
+          <div class="flex">
+            <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">P</hip-button-sb>
+          </div>
         </div>
       </div>
-      <div class="space-y-4 mb-8">
+      <div class="mb-8 space-y-4">
         <div class="flex">
-          <hip-button-sb>S</hip-button-sb>
+          <hip-button-sb class="el-icon-search h-12 text-xl"></hip-button-sb>
         </div>
-        <div
-          class="flex"
-          v-show="history > 0"
-        >
-          <hip-button-sb @click="$router.back()">B</hip-button-sb>
+        <div v-show="history > 0">
+          <div class="flex">
+            <hip-button-sb
+              @click="$router.back()"
+              class="el-icon-back h-12 text-xl"
+            ></hip-button-sb>
+          </div>
         </div>
       </div>
     </div>
+    <!-- Bottom bar. -->
     <div class="bg-indigo-600 flex justify-between">
       <button
-        class="el-icon-s-unfold text-gray-100 font-semibold text-2xl m-auto py-3"
         @click="sidenavToggle()"
+        class="el-icon-s-fold font-semibold m-auto py-3 text-2xl text-gray-100"
       ></button>
     </div>
   </div>
 </template>
 
 <script>
+// Import UI components.
 import { HipButtonSb } from './Component'
 
 export default {
   components: {
+    // UI components.
     HipButtonSb
   },
   data() {
@@ -136,10 +123,20 @@ export default {
     // Watch for route changes to display the back button.
     '$route'(to, from) {
       this.history = window.history.state.position
+      this.$store.state.sidenavExpanded = false
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+/* Transitions. */
+.slide-nav-leave-active,
+.slide-nav-enter-active {
+  transition: all 0.5s;
+}
+.slide-nav-leave-to,
+.slide-nav-enter-from {
+  transform: translate(-100%, 0);
+}
 </style>

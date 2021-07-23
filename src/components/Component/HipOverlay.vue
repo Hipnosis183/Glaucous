@@ -1,12 +1,12 @@
 <template>
   <transition>
-    <div class="flex items-center justify-center fixed h-full w-content">
+    <div class="fixed flex h-full items-center justify-center w-overlay">
       <div
-        class="bg-black bg-opacity-50 w-full h-full"
         @click="$emit('close')"
+        class="bg-black bg-opacity-50 h-full w-full"
       >
       </div>
-      <div class="absolute flex-col rounded-xl overflow-y-scroll overflow-x-scroll no-scrollbar max-h-content max-w-content">
+      <div class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll rounded-xl">
         <slot></slot>
       </div>
     </div>
@@ -21,3 +21,16 @@ export default {
   ]
 }
 </script>
+
+<style scoped>
+/* Calculations. */
+.max-h-overlay {
+  max-height: calc(100vh - 4rem);
+}
+.max-w-overlay {
+  max-width: calc(100% - 4rem);
+}
+.w-overlay {
+  width: calc(100% - 3.5rem);
+}
+</style>

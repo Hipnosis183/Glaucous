@@ -5,9 +5,9 @@
   >
     <el-select
       v-model="region"
-      class="w-full"
       filterable
       placeholder="Required"
+      class="w-full"
     >
       <el-option-group
         v-for="flags in regions"
@@ -21,7 +21,10 @@
           :value="flag.code"
         >
           <div class="inline-flex space-x-4">
-            <img class="w-8" :src="'./images/flags/' + flag.code + '.svg'"/>
+            <img
+              :src="'./images/flags/' + flag.code + '.svg'"
+              class="w-8"
+            />
             <p>{{ flag.name }}</p>
           </div>
         </el-option>

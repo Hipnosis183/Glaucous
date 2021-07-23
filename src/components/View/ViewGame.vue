@@ -31,18 +31,19 @@
       <br />
       It will also delete all its versions.
     </p>
-    <div class="flex space-x-4 mt-6 justify-center">
+    <!-- Dialog buttons. -->
+    <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm game deletion. -->
       <hip-button
-        class="el-icon-circle-check text-2xl"
-        @click="deleteGameRegionClose()"
         :icon="true"
+        @click="deleteGameRegionClose()"
+        class="el-icon-circle-check text-2xl"
       ></hip-button>
       <!-- Cancel game deletion. -->
       <hip-button
-        class="el-icon-circle-close text-2xl"
-        @click="deleteGameRegionOpen()"
         :icon="true"
+        @click="deleteGameRegionOpen()"
+        class="el-icon-circle-close text-2xl"
       ></hip-button>
     </div>
   </hip-dialog>
@@ -57,18 +58,19 @@
       <br />
       It will also delete all its regions and versions.
     </p>
-    <div class="flex space-x-4 mt-6 justify-center">
+    <!-- Dialog buttons. -->
+    <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm game deletion. -->
       <hip-button
-        class="el-icon-circle-check text-2xl"
-        @click="deleteGamePlatformClose()"
         :icon="true"
+        @click="deleteGamePlatformClose()"
+        class="el-icon-circle-check text-2xl"
       ></hip-button>
       <!-- Cancel game deletion. -->
       <hip-button
-        class="el-icon-circle-close text-2xl"
-        @click="deleteGamePlatformOpen()"
         :icon="true"
+        @click="deleteGamePlatformOpen()"
+        class="el-icon-circle-close text-2xl"
       ></hip-button>
     </div>
   </hip-dialog>
@@ -87,9 +89,9 @@
   <!-- Insert view game linking component. -->
   <view-game-linking
     v-show="dialog.viewGameLinking"
+    :key="gameInfo"
     :gameInfo="gameInfo"
     :regionIndex="regionIndex"
-    :key="gameInfo"
     @reload="loadGame()"
     @close="viewGameLinking()"
   />
@@ -98,134 +100,145 @@
     <!-- Open create game region dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-circle-plus-outline text-2xl"
       @click="createGameRegionOpen()"
+      class="el-icon-circle-plus-outline text-2xl"
     ></hip-button-nb>
     <!-- Open edit game dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-edit-outline text-2xl"
       @click="editGameOpen()"
+      class="el-icon-edit-outline text-2xl"
     ></hip-button-nb>
     <!-- Open delete game region dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-remove-outline text-2xl"
       @click="deleteGameRegionOpen()"
+      class="el-icon-remove-outline text-2xl"
     ></hip-button-nb>
     <!-- Open delete game platform dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-delete text-2xl"
       @click="deleteGamePlatformOpen()"
+      class="el-icon-delete text-2xl"
     ></hip-button-nb>
     <!-- Game region tabs. -->
-    <ul class="w-full flex">
+    <ul class="flex w-full">
       <li
-        class="w-full"
         v-for="(region, index) in gameInfo.gameRegions"
         :key="region._id"
         :value="region._id"
+        class="w-full"
       >
+        <!-- Region tab button. -->
         <button
-          class="w-full py-3"
-          :class="index == regionIndex ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
           @click="changeRegion(index)"
+          class="py-3 w-full"
+          :class="index == regionIndex ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
         >{{ getRegion(index) }}</button>
       </li>
     </ul>
   </hip-nav-bar>
   <!-- Game information. -->
-  <div class="flex m-6 space-x-6 min-h-content">
+  <div class="flex m-6 space-x-6">
     <!-- Left card. -->
-    <div class="w-3/5 bg-white p-6 rounded-xl shadow leading-loose">
-      <img
-        class="w-12 float-right rounded-md border-2 border-gray-200"
-        :src="'./images/flags/' + gameInfo.gameRegions[regionIndex].region + '.svg'"
-      />
-      <!-- Header title. -->
-      <div class="mb-10">
-        <p class="text-4xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
-        <p
-          v-show="gameInfo.gameRegions[regionIndex].subTitle"
-          class="text-2xl"
-        >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
-        <p
-          v-show="gameInfo.gameRegions[regionIndex].originalTitle"
-          class="text-xl"
-        >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
+    <hip-modal class="h-content w-3/5">
+      <div class="flex max-h-content overflow-hidden">
+        <div class="flex-1 no-scrollbar overflow-y-scroll">
+          <!-- Flag image. -->
+          <img
+            :src="'./images/flags/' + gameInfo.gameRegions[regionIndex].region + '.svg'"
+            class="border-2 border-gray-200 float-right h-10 rounded-md"
+          />
+          <!-- Header title. -->
+          <div class="mb-10">
+            <p class="text-4xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
+            <p
+              v-show="gameInfo.gameRegions[regionIndex].subTitle"
+              class="text-2xl"
+            >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
+            <p
+              v-show="gameInfo.gameRegions[regionIndex].originalTitle"
+              class="text-xl"
+            >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
+          </div>
+          <!-- Body contents. -->
+          <div class="flex flex-inline items-center mb-6 space-x-4">
+            <h1 class="data-title">Game Information</h1>
+            <!-- Open view game details dialog. -->
+            <hip-button @click="viewGameDetails()">Details</hip-button>
+          </div>
+          <div class="mb-6">
+            <div class="data-content">
+              <p class="font-semibold">Full Title:</p>
+              <p>{{ fullTitle }}</p>
+            </div>
+            <div
+              v-show="gameInfo.gameRegions[regionIndex].originalTitle"
+              class="data-content"
+            >
+              <p class="font-semibold">Original Title:</p>
+              <p>{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
+            </div>
+            <div
+              v-show="gameInfo.gameRegions[regionIndex].romanizedTitle"
+              class="data-content"
+            >
+              <p class="font-semibold">Romanized Title:</p>
+              <p>{{ gameInfo.gameRegions[regionIndex].romanizedTitle }}</p>
+            </div>
+            <div
+              v-show="gameInfo.gameRegions[regionIndex].translatedTitle"
+              class="data-content"
+            >
+              <p class="font-semibold">Translated Title:</p>
+              <p>{{ gameInfo.gameRegions[regionIndex].translatedTitle }}</p>
+            </div>
+          </div>
+          <div>
+            <div class="data-content">
+              <p class="font-semibold">Developer:</p>
+              <!-- Go to the developer page. -->
+              <p @click="$router.push({ name: 'ViewDeveloper', params: { id: gameInfo.developer._id } })">
+                {{ gameInfo.developer.name }}
+              </p>
+            </div>
+            <div class="data-content">
+              <p class="font-semibold">Platform:</p>
+              <!-- Go to the platform page. -->
+              <p @click="$router.push({ name: 'ViewPlatform', params: { id: gameInfo.platform._id } })">
+                {{ gameInfo.platform.name }}
+              </p>
+              <!-- Open view game linking dialog. -->
+              <hip-button @click="viewGameLinking()">Also On</hip-button>
+            </div>
+            <div class="data-content">
+              <p class="font-semibold">Release Year:</p>
+              <p>{{ gameInfo.releaseYear }}</p>
+            </div>
+            <div
+              v-show="gameInfo.numberPlayers"
+              class="data-content"
+            >
+              <p class="font-semibold">Number of Players:</p>
+              <p>{{ gameInfo.numberPlayers }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- Body contents. -->
-      <div class="flex flex-inline items-center space-x-4 mb-6">
-        <h1 class="data-title">Game Information</h1>
-        <!-- Open view game details dialog. -->
-        <hip-button @click="viewGameDetails()">Details</hip-button>
-      </div>
-      <div class="mb-6">
-        <div class="data-container">
-          <p class="font-semibold">Full Title:</p>
-          <p>{{ fullTitle }}</p>
-        </div>
-        <div
-          v-show="gameInfo.gameRegions[regionIndex].originalTitle"
-          class="data-container"
-        >
-          <p class="font-semibold">Original Title:</p>
-          <p>{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
-        </div>
-        <div
-          v-show="gameInfo.gameRegions[regionIndex].romanizedTitle"
-          class="data-container"
-        >
-          <p class="font-semibold">Romanized Title:</p>
-          <p>{{ gameInfo.gameRegions[regionIndex].romanizedTitle }}</p>
-        </div>
-        <div
-          v-show="gameInfo.gameRegions[regionIndex].translatedTitle"
-          class="data-container"
-        >
-          <p class="font-semibold">Translated Title:</p>
-          <p>{{ gameInfo.gameRegions[regionIndex].translatedTitle }}</p>
-        </div>
-      </div>
-      <div>
-        <div class="data-container">
-          <p class="font-semibold">Developer:</p>
-          <!-- Go to the developer page. -->
-          <p @click="$router.push({ name: 'ViewDeveloper', params: { id: gameInfo.developer._id } })">
-            {{ gameInfo.developer.name }}
-          </p>
-        </div>
-        <div class="data-container">
-          <p class="font-semibold">Platform:</p>
-          <!-- Go to the platform page. -->
-          <p @click="$router.push({ name: 'ViewPlatform', params: { id: gameInfo.platform._id } })">
-            {{ gameInfo.platform.name }}
-          </p>
-          <!-- Open view game linking dialog. -->
-          <hip-button @click="viewGameLinking()">Also On</hip-button>
-        </div>
-        <div class="data-container">
-          <p class="font-semibold">Release Year:</p>
-          <p>{{ gameInfo.releaseYear }}</p>
-        </div>
-        <div
-          v-show="gameInfo.numberPlayers"
-          class="data-container"
-        >
-          <p class="font-semibold">Number of Players:</p>
-          <p>{{ gameInfo.numberPlayers }}</p>
-        </div>
-      </div>
-    </div>
+    </hip-modal>
     <!-- Right card. -->
-    <div class="w-2/5 bg-white p-6 rounded-xl shadow">
-      <view-game-images
-        :gameInfo="gameInfo"
-        :regionIndex="regionIndex"
-        :key="gameInfo"
-      />
-    </div>
+    <hip-modal class="h-content w-2/5">
+      <div class="flex max-h-content overflow-hidden">
+        <div class="flex-1 no-scrollbar overflow-y-scroll">
+          <!-- Insert game images component. -->
+          <view-game-images
+            :key="gameInfo"
+            :gameInfo="gameInfo"
+            :regionIndex="regionIndex"
+          />
+        </div>
+      </div>
+    </hip-modal>
   </div>
 </template>
 
@@ -241,6 +254,7 @@ import {
   HipButton,
   HipButtonNb,
   HipDialog,
+  HipModal,
   HipNavBar
 } from '../Component'
 // Import database controllers functions.
@@ -264,6 +278,7 @@ export default {
     HipButton,
     HipButtonNb,
     HipDialog,
+    HipModal,
     HipNavBar
   },
   data() {
@@ -432,5 +447,19 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss" scoped>
+/* Calculations. */
+.h-content {
+  height: calc(100vh - 6.25rem);
+}
+.max-h-content {
+  max-height: calc(100vh - 9.25rem);
+}
+/* Styling. */
+.data-content {
+  @apply flex items-center mt-1 space-x-2 text-lg;
+}
+.data-title {
+  @apply font-bold text-xl;
+}
 </style>

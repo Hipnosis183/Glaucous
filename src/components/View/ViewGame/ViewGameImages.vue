@@ -4,14 +4,14 @@
     v-if="getCover"
     v-show="dialog.viewImagesCover"
     @close="viewImagesCoverClose()"
-    class="top-0 left-14"
+    class="pos-initial z-10"
   >
     <div class="flex">
       <img
         @click="imageZoom = !imageZoom"
         :src="'file://' + imagePath + '/' + getCover"
         class="cursor-pointer object-contain rounded-xl"
-        :class="imageZoom ? 'h-full' : 'h-content'"
+        :class="imageZoom ? 'h-full' : 'h-cover'"
       />
     </div>
   </hip-overlay>
@@ -21,15 +21,15 @@
       v-if="getPictures[imageIndex]"
       v-show="dialog.viewImagesPictures"
       @close="viewImagesPicturesClose()"
-      class="top-0 left-14 z-10"
+      class="pos-initial z-20"
     >
       <div
         ref="imageContainer"
-        class="relative w-image h-image overflow-y-scroll no-scrollbar rounded-xl mb-4"
+        class="h-gallery mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-gallery"
       >
         <transition
-          :name="slideBack ? 'slide-b' : 'slide-f'"
-          class="absolute top-0 bottom-0 left-0 right-0 rounded-xl"
+          :name="slideBack ? 'slide-image-b' : 'slide-image-f'"
+          class="absolute bottom-0 left-0 right-0 top-0"
         >
           <img
             ref="pictureImage"
@@ -38,39 +38,42 @@
             @load="viewImagesPicturesLoad()"
             :src="'file://' + imagePath + '/' + getPictures[imageIndex]"
             class="object-contain rounded-xl"
-            :class="imageZoom ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ] : ['m-auto', imageLoaded ? 'h-image' : '']"
+            :class="imageZoom ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ] : ['m-auto', imageLoaded ? 'h-gallery' : '']"
           />
         </transition>
       </div>
-      <div class="max-w-max mx-auto">
-      <!-- Header. -->
-      <hip-modal class="rounded-full p-image ml-8">
-        <!-- Gallery buttons. -->
-        <div class="flex h-10 justify-between mx-1">
-          <!-- Open images folder. -->
-          <hip-button
-            class="el-icon-circle-close text-2xl"
-            @click="viewImagesPicturesClose()"
-            :icon="true"
-          ></hip-button>
-          <!--  -->
-          <div class="mx-4 flex justify-between rounded-full divide-x-2 border-2">
-            <button
-              @click="prevImage()"
-              class="el-icon-d-arrow-left text-2xl px-4"
-            ></button>
-            <button
-              @click="imageZoom = !imageZoom"
-              class="el-icon-full-screen text-2xl px-4"
-            ></button>
-            <button
-              @click="nextImage()"
-              class="el-icon-d-arrow-right text-2xl px-4"
-            ></button>
+      <div class="mx-auto max-w-max">
+        <!-- Control bar. -->
+        <hip-modal class="ml-8 p-gallery rounded-full">
+          <div class="flex h-10 justify-between mx-1">
+            <!-- Close dialog. -->
+            <hip-button
+              :icon="true"
+              @click="viewImagesPicturesClose()"
+              class="el-icon-circle-close text-2xl"
+            ></hip-button>
+            <!-- Control bar buttons. -->
+            <div class="border-2 divide-x-2 flex justify-between mx-4 rounded-full">
+              <!-- Previous image. -->
+              <button
+                @click="prevImage()"
+                class="el-icon-d-arrow-left px-4 text-2xl"
+              ></button>
+              <!-- Display image in its original size. -->
+              <button
+                @click="imageZoom = !imageZoom"
+                class="el-icon-full-screen px-4 text-2xl"
+              ></button>
+              <!-- Next image. -->
+              <button
+                @click="nextImage()"
+                class="el-icon-d-arrow-right px-4 text-2xl"
+              ></button>
+            </div>
+            <!-- Image counter. -->
+            <hip-button class="cursor-default">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</hip-button>
           </div>
-          <hip-button class="cursor-default">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</hip-button>
-        </div>
-      </hip-modal>
+        </hip-modal>
       </div>
     </hip-overlay>
   </transition>
@@ -78,43 +81,43 @@
   <hip-overlay
     v-show="dialog.viewImagesGallery"
     @close="viewImagesGallery()"
-    class="top-0 left-14"
+    class="pos-initial z-10"
   >
     <!-- Header. -->
     <hip-modal
       v-if="getPictures[0]"
-      class="rounded-full p-image ml-auto mb-4"
+      class="mb-4 ml-auto p-gallery rounded-full"
     >
       <!-- Gallery buttons. -->
       <div class="flex h-10 justify-between mx-1">
         <!-- Open images folder. -->
         <hip-button
-          class="el-icon-folder-opened text-2xl"
-          @click="viewImagesFolder()"
           :icon="true"
+          @click="viewImagesFolder()"
+          class="el-icon-folder-opened text-2xl"
         ></hip-button>
         <!-- Header title. -->
-        <p class="text-2xl pt-1">Gallery</p>
+        <p class="pt-1 text-2xl">Gallery</p>
         <!-- Close dialog. -->
         <hip-button
-          class="el-icon-circle-close text-2xl"
-          @click="viewImagesGallery()"
           :icon="true"
+          @click="viewImagesGallery()"
+          class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
     </hip-modal>
     <!-- Pictures grid. -->
-    <div class="h-image max-h-images flex-1 flex overflow-hidden rounded-xl">
+    <div class="flex h-gallery max-h-gallery overflow-hidden rounded-xl">
       <div
         v-if="getPictures[0]"
-        class="flex-1 overflow-y-scroll no-scrollbar"
+        class="flex-1 no-scrollbar overflow-y-scroll"
       >
-        <div class="grid grid-cols-4 gap-4">
+        <div class="gap-4 grid grid-cols-4">
           <div
             v-for="(image, index) in getPictures"
             :key="index"
             :value="image"
-            class="w-full h-full flex justify-center"
+            class="flex h-full justify-center w-full"
           >
             <img
               @click="viewImagesPicturesOpen(index)"
@@ -135,26 +138,27 @@
     </div>
   </hip-overlay>
   <!-- Cover image. -->
-  <div class="w-full ar-square justify-center">
+  <div class="ar-square justify-center w-full">
     <img
       ref="coverImage"
       v-if="getCover"
       @click="viewImagesCoverOpen()"
       @load="renderReady = true"
       :src="'file://' + imagePath + '/' + getCover"
-      class="cursor-pointer m-auto mb-4 object-contain rounded-md border-2 border-gray-200"
+      class="border-2 border-gray-200 cursor-pointer m-auto mb-4 object-contain rounded-md"
       :class="renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : ''"
     />
     <div
       v-else
-      class="flex w-full h-full mb-4 rounded-md border-2 border-gray-200 items-center"
+      class="border-2 border-gray-200 flex h-full items-center mb-4 rounded-md w-full"
     >
       <div class="flex flex-col items-center m-auto">
-        <i class="el-icon-picture text-6xl text-gray-300 mb-4"></i>
+        <div class="el-icon-picture text-6xl mb-4 text-gray-300"></div>
         <p>No image available</p>
       </div>
     </div>
-    <div class="w-full flex">
+    <!-- Open gallery. -->
+    <div class="flex w-full">
       <hip-button
         :large="true"
         @click="viewImagesGallery()"
@@ -319,38 +323,41 @@ export default {
 </script>
 
 <style scoped>
-.p-image {
-  padding: 0.8rem;
+/* Calculations. */
+.h-cover {
+  height: calc(100vh - 4rem);
 }
-.h-image {
+.h-gallery {
   height: calc(100vh - 9.2rem);
 }
-.w-image {
-  width: calc(100vw - 7.5rem);
-}
-.max-h-images {
+.max-h-gallery {
   max-height: calc(100vh - 9.2rem);
 }
-
-.slide-b-leave-active,
-.slide-b-enter-active {
+.p-gallery {
+  padding: 0.8rem;
+}
+.w-gallery {
+  width: calc(100vw - 7.5rem);
+}
+/* Transitions. */
+.slide-image-b-leave-active,
+.slide-image-b-enter-active {
   transition: 0.5s;
 }
-.slide-b-enter-from {
+.slide-image-b-enter-from {
   transform: translate(-100vw, 0);
 }
-.slide-b-leave-to {
+.slide-image-b-leave-to {
   transform: translate(100vw, 0);
 }
-
-.slide-f-leave-active,
-.slide-f-enter-active {
+.slide-image-f-leave-active,
+.slide-image-f-enter-active {
   transition: 0.5s;
 }
-.slide-f-enter-from {
+.slide-image-f-enter-from {
   transform: translate(100vw, 0);
 }
-.slide-f-leave-to {
+.slide-image-f-leave-to {
   transform: translate(-100vw, 0);
 }
 </style>

@@ -2,16 +2,16 @@
   <!-- Show settings dialog. -->
   <hip-dialog
     v-show="dialog.viewSettings"
-    class="top-0 left-14 z-20"
     @close="viewSettings()"
+    class="pos-initial z-20"
   >
     <!-- Dialog header. -->
     <div class="flex justify-between mb-6 mx-2">
-      <h1 class="text-2xl pt-1">Settings</h1>
+      <h1 class="pt-1 text-2xl">Settings</h1>
       <hip-button
-        class="el-icon-circle-close text-2xl h-10"
-        @click="viewSettings()"
         :icon="true"
+        @click="viewSettings()"
+        class="el-icon-circle-close h-10 text-2xl"
       ></hip-button>
     </div>
     <!-- Dialog content. -->
@@ -22,27 +22,27 @@
   <!-- Show images dialog. -->
   <hip-overlay
     v-show="dialog.viewImages"
-    class="top-0 left-14 z-10"
     @close="viewImagesClose()"
+    class="pos-initial z-10"
   >
-    <div class="w-images flex space-x-4">
+    <div class="flex space-x-4 w-images">
       <!-- Cover panel. -->
-      <hip-modal class="w-1/4 max-h-content">
+      <hip-modal class="max-h-content w-1/4">
         <!-- Cover header. -->
         <div class="flex justify-between mb-6 mx-2">
           <!-- Cover title. -->
-          <h1 class="text-2xl pt-1">Cover</h1>
+          <h1 class="pt-1 text-2xl">Cover</h1>
           <!-- Cover buttons. -->
           <div class="flex h-10 space-x-4">
             <hip-button
-              class="el-icon-circle-plus-outline text-2xl"
-              @click="addCover()"
               :icon="true"
+              @click="addCover()"
+              class="el-icon-circle-plus-outline text-2xl"
             ></hip-button>
             <hip-button
-              class="el-icon-remove-outline text-2xl"
-              @click="removeCover()"
               :icon="true"
+              @click="removeCover()"
+              class="el-icon-remove-outline text-2xl"
             ></hip-button>
           </div>
         </div>
@@ -50,69 +50,69 @@
         <img
           v-if="imagesCoverAdd"
           :src="'file://' + imagesCoverAdd"
-          class="object-cover rounded-xl border-2 border-gray-200"
+          class="border-2 border-gray-200 object-cover rounded-xl"
         />
         <img
           v-else-if="getCover && !imagesCoverRemove"
           :src="'file://' + imagePath + '/' + getCover"
-          class="object-cover rounded-xl border-2 border-gray-200"
+          class="border-2 border-gray-200 object-cover rounded-xl"
         />
         <div
           v-else
-          class="flex w-full ar-square items-center rounded-xl border-2 border-gray-200"
+          class="ar-square border-2 border-gray-200 flex items-center rounded-xl w-full"
         >
           <div class="flex flex-col items-center m-auto">
-            <i class="el-icon-picture text-6xl text-gray-300 mb-4"></i>
+            <div class="el-icon-picture mb-4 text-6xl text-gray-300"></div>
             <p>No image available</p>
           </div>
         </div>
         <!-- Back button. -->
         <hip-button
-          class="mt-6"
-          @click="viewImagesClose()"
           :large="true"
+          @click="viewImagesClose()"
+          class="mt-6"
         >Back</hip-button>
       </hip-modal>
       <!-- Pictures panel. -->
-      <hip-modal class="w-3/4 h-content max-h-content">
+      <hip-modal class="h-content max-h-content w-3/4">
         <!-- Pictures header. -->
         <div class="flex justify-between mb-6 mx-2">
           <!-- Pictures title. -->
-          <h1 class="text-2xl pt-1">Pictures</h1>
+          <h1 class="pt-1 text-2xl">Pictures</h1>
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
             <hip-button
-              class="el-icon-set-up text-2xl"
-              @click="viewSettings()"
               :icon="true"
+              @click="viewSettings()"
+              class="el-icon-set-up text-2xl"
             ></hip-button>
             <hip-button
-              class="el-icon-circle-plus-outline text-2xl"
-              @click="addPicturesAdd()"
               :icon="true"
+              @click="addPicturesAdd()"
+              class="el-icon-circle-plus-outline text-2xl"
             ></hip-button>
           </div>
         </div>
         <!-- Pictures grid. -->
-        <div class="max-h-images flex-1 flex overflow-hidden rounded-xl">
+        <div class="flex flex-1 max-h-images overflow-hidden rounded-xl">
           <div
             v-if="getPictures[0] || imagesPicturesAdd[0]"
-            class="flex-1 overflow-y-scroll no-scrollbar"
+            class="flex-1 no-scrollbar overflow-y-scroll"
           >
-            <div class="grid grid-cols-4 gap-4">
+            <div class="gap-4 grid grid-cols-4">
               <div
                 v-for="(image, index) in getPictures"
                 :key="index"
                 :value="image"
-                class="w-full h-full flex justify-center relative rounded-xl border-2 border-gray-200"
+                class="border-2 border-gray-200 h-full flex justify-center relative rounded-xl w-full"
               >
                 <transition>
                   <div
                     v-show="toDelete(image)"
-                    class="absolute flex bg-red-800 bg-opacity-50 w-full h-full cursor-pointer rounded-xl"
                     @click="selectPicturesRemove(image)"
+                    class="absolute bg-red-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
-                    <div class="el-icon-remove-outline text-6xl text-gray-200 m-auto" />
+                    <div class="el-icon-remove-outline m-auto text-6xl text-gray-200" />
                   </div>
                 </transition>
                 <img
@@ -125,14 +125,14 @@
                 v-for="(image, index) in imagesPicturesAdd"
                 :key="index"
                 :value="image"
-                class="w-full h-full flex justify-center relative rounded-xl border-2 border-gray-200"
+                class="border-2 border-gray-200 flex h-full justify-center relative rounded-xl w-full"
               >
                 <transition>
                   <div
-                    class="absolute flex bg-green-800 bg-opacity-50 w-full h-full cursor-pointer rounded-xl"
                     @click="removePicturesAdd(image)"
+                    class="absolute bg-green-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
-                    <div class="el-icon-circle-plus-outline text-6xl text-gray-200 m-auto" />
+                    <div class="el-icon-circle-plus-outline m-auto text-6xl text-gray-200" />
                   </div>
                 </transition>
                 <img
@@ -144,10 +144,10 @@
           </div>
           <div
             v-else
-            class="flex w-full h-images items-center rounded-xl border-2 border-gray-200"
+            class="border-2 border-gray-200 flex h-images items-center rounded-xl w-full"
           >
             <div class="flex flex-col items-center m-auto">
-              <i class="el-icon-picture text-6xl text-gray-300 mb-4"></i>
+              <div class="el-icon-picture mb-4 text-6xl text-gray-300"></div>
               <p>No images available</p>
             </div>
           </div>
@@ -156,19 +156,19 @@
     </div>
   </hip-overlay>
   <!-- Images form. -->
-  <p class="text-sm text-gray-600 leading-10 -mb-1">Images</p>
+  <p class="leading-10 -mb-1 text-gray-600 text-sm">Images</p>
   <el-button-group class="w-full">
     <el-button
-      class="w-2/5"
       @click="addCover()"
+      class="w-2/5"
     >Cover</el-button>
     <el-button
-      class="w-2/5"
       @click="addPicturesAdd()"
+      class="w-2/5"
     >Pictures</el-button>
     <el-button
-      class="w-1/5 el-icon-picture-outline"
       @click="viewImagesOpen()"
+      class="el-icon-picture-outline w-1/5"
     ></el-button>
   </el-button-group>
 </template>
@@ -194,6 +194,7 @@ import {
 export default {
   name: 'FormImages',
   components: {
+    // UI components.
     HipButton,
     HipDialog,
     HipModal,
@@ -325,19 +326,16 @@ export default {
 }
 </script>
 
-<style>
-.el-button {
-  font-weight: normal;
+<style scoped>
+/* Calculations. */
+.h-images {
+  height: calc(100vh - 11rem);
 }
-
 .max-h-content {
   max-height: calc(100vh - 4rem);
 }
 .max-h-images {
   max-height: calc(100vh - 11rem);
-}
-.h-images {
-  height: calc(100vh - 11rem);
 }
 .w-images {
   width: calc(100vw - 7.5rem);

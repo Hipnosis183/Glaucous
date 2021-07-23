@@ -12,8 +12,8 @@
     <!-- Open create developer dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
-      class="el-icon-circle-plus-outline text-2xl"
       @click="createGamePlatformOpen()"
+      class="el-icon-circle-plus-outline text-2xl"
     ></hip-button-nb>
     <!-- Padding. -->
     <div class="w-full"></div>

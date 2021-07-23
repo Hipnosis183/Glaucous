@@ -1,6 +1,6 @@
 <template>
-  <div class="relative flex h-full bg-white p-4 rounded-xl shadow text-center items-center justify-center">
-    <div class="absolute w-full h-full cursor-pointer rounded-xl"></div>
+  <div class="bg-white flex h-full items-center justify-center p-4 relative rounded-xl shadow text-center">
+    <div class="absolute cursor-pointer h-full rounded-xl w-full"></div>
     <div>
       <slot></slot>
     </div>
