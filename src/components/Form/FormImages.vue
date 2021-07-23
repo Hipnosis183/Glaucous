@@ -1,24 +1,4 @@
 <template>
-  <!-- Show settings dialog. -->
-  <hip-dialog
-    v-show="dialog.viewSettings"
-    @close="viewSettings()"
-    class="pos-initial z-20"
-  >
-    <!-- Dialog header. -->
-    <div class="flex justify-between mb-6 mx-2">
-      <h1 class="pt-1 text-2xl">Settings</h1>
-      <hip-button
-        :icon="true"
-        @click="viewSettings()"
-        class="el-icon-circle-close h-10 text-2xl"
-      ></hip-button>
-    </div>
-    <!-- Dialog content. -->
-    <el-checkbox v-model="keepName">
-      Maintain original filenames for pictures
-    </el-checkbox>
-  </hip-dialog>
   <!-- Show images dialog. -->
   <hip-overlay
     v-show="dialog.viewImages"
@@ -81,11 +61,6 @@
           <h1 class="pt-1 text-2xl">Pictures</h1>
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
-            <hip-button
-              :icon="true"
-              @click="viewSettings()"
-              class="el-icon-set-up text-2xl"
-            ></hip-button>
             <hip-button
               :icon="true"
               @click="addPicturesAdd()"
@@ -205,8 +180,7 @@ export default {
       imageFiles: [],
       imagePath: null,
       dialog: {
-        viewImages: false,
-        viewSettings: false
+        viewImages: false
       }
     }
   },
@@ -286,11 +260,6 @@ export default {
     viewImagesClose() {
       // Close images dialog.
       this.dialog.viewImages = !this.dialog.viewImages
-    },
-    // View settings.
-    viewSettings() {
-      // Close settings dialog.
-      this.dialog.viewSettings = !this.dialog.viewSettings
     }
   },
   computed: {
@@ -317,10 +286,6 @@ export default {
     imagesPicturesRemove: {
       get() { return this.$store.state.gameForm.gameRegion.images.pictures.remove },
       set(value) { this.$store.commit('setGameRegionImagesPicturesRemove', value) }
-    },
-    keepName: {
-      get() { return this.$store.state.gameForm.gameRegion.images.pictures.keepName },
-      set(value) { this.$store.state.gameForm.gameRegion.images.pictures.keepName = value }
     }
   }
 }

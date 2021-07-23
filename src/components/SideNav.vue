@@ -94,7 +94,7 @@
     <div class="bg-indigo-600 flex justify-between">
       <button
         @click="sidenavToggle()"
-        class="el-icon-s-fold font-semibold m-auto py-3 text-2xl text-gray-100"
+        class="el-icon-s-unfold font-semibold m-auto py-3 text-2xl text-gray-100"
       ></button>
     </div>
   </div>

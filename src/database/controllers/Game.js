@@ -111,8 +111,8 @@ async function storeImages(req, id) {
         copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
     }
     // Add pictures image files.
-    for (let image of req.images.pictures.add) {
-        copySync(image, imagesPath + '/' + (req.images.pictures.keepName ? basename(image) : generateID()))
+    for (let [i, image] of req.images.pictures.add.entries()) {
+        copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
     }
 }
 
@@ -162,8 +162,10 @@ async function updateImages(req, id) {
         removeSync(imagesPath + '/' + image)
     }
     // Add pictures image files.
+    let i = readdirSync(imagesPath).filter(res => !res.startsWith('0'.repeat(8))).length + 1
     for (let image of req.images.pictures.add) {
-        copySync(image, imagesPath + '/' + (req.images.pictures.keepName ? basename(image) : generateID()))
+        copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
+        i++
     }
 }
 
