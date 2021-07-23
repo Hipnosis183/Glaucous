@@ -1,7 +1,7 @@
 <template>
   <!-- View cover image. -->
   <hip-overlay
-    v-if="getCover"
+    v-if="getCover || getPictures[0]"
     v-show="dialog.viewImagesCover"
     @close="viewImagesCoverClose()"
     class="pos-initial z-10"
@@ -9,7 +9,7 @@
     <div class="flex">
       <img
         @click="imageZoom = !imageZoom"
-        :src="'file://' + imagePath + '/' + getCover"
+        :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
         class="cursor-pointer object-contain rounded-xl"
         :class="imageZoom ? 'h-full' : 'h-cover'"
       />
@@ -141,10 +141,10 @@
   <div class="ar-square justify-center w-full">
     <img
       ref="coverImage"
-      v-if="getCover"
+      v-if="getCover || getPictures[0]"
       @click="viewImagesCoverOpen()"
       @load="renderReady = true"
-      :src="'file://' + imagePath + '/' + getCover"
+      :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
       class="border-2 border-gray-200 cursor-pointer m-auto mb-4 object-contain rounded-md"
       :class="renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : ''"
     />

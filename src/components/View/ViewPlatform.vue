@@ -215,6 +215,10 @@ export default {
       let imagePath = app.getAppPath() + '/images/' + game._id + '/' + game.gameRegions[0]._id
       // Load images filenames and filter the cover image file.
       let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
+      // Load first picture image as cover if it doesn't exists.
+      if (!imageFile) {
+        imageFile = readdirSync(imagePath).filter(res => !res.startsWith('0'.repeat(8)))[0]
+      }
       // Return the cover if it exists.
       return imageFile ? (imagePath + '/' + imageFile) : false
     },
