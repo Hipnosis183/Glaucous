@@ -170,6 +170,7 @@ export default {
     // Create operations.
     createGamePlatformOpen() {
       // Restore the data on the store.
+      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
       // Save data of the current developer into the store.
       this.$store.commit('setGamePlatformDeveloper', this.$route.params.id)

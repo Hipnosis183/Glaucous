@@ -54,6 +54,7 @@ export default {
     // Create operations.
     createGamePlatformOpen() {
       // Restore the data on the store.
+      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
       // Open create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform

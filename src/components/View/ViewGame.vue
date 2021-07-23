@@ -324,6 +324,7 @@ export default {
     // Create operations.
     createGameRegionOpen() {
       // Restore the data on the store.
+      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
@@ -342,6 +343,7 @@ export default {
     // Edit operations.
     editGameOpen() {
       // Restore the data on the store.
+      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gamePlatform = this.gameInfo._id

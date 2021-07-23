@@ -47,6 +47,11 @@ export default createStore({
     }
   },
   mutations: {
+    resetGameSelected(state) {
+      state.gameSelected.gamePlatform = null
+      state.gameSelected.gameRegion = null
+      state.gameSelected.gameVersion = null
+    },
     resetGameForm(state) {
       state.gameForm.gamePlatform.developer = null
       state.gameForm.gamePlatform.platform = null
