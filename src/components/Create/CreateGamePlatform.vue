@@ -162,7 +162,7 @@ export default {
         .then(() => this.checkPlatform()
           .then(() => {
             // Save new game entry.
-            newGamePlatform(this.$store.state.gameForm)
+            newGamePlatform(this.$store.state.gameForm, this.$store.state.gameSelected.gamePlatform)
               .then(() => this.$emit('close'))
           }))
     },

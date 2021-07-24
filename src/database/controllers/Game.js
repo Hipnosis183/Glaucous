@@ -20,7 +20,7 @@ let Platform
 let Region
 let Version
 
-export async function newGamePlatform(req) {
+export async function newGamePlatform(req, id) {
     // Create a version for the game.
     await createGameVersion(req.gameVersion)
     // Create a region for the game.
@@ -29,6 +29,11 @@ export async function newGamePlatform(req) {
     await createGamePlatform(req.gamePlatform)
     // Store uploaded images for the game.
     await storeImages(req.gameRegion)
+    // Link to other games if an ID is given.
+    if (id) await getGamePlatform(Platform)
+        .then(async res => {
+            await linkGame(res, id)
+        })
 }
 
 export async function newGameRegion(req, id) {

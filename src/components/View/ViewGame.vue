@@ -1,4 +1,12 @@
 <template>
+  <!-- Create game platform dialog. -->
+  <hip-dialog
+    v-show="dialog.createGamePlatform"
+    @close="createGamePlatformClose()"
+  >
+    <!-- Insert create game platform form component. -->
+    <create-game-platform @close="createGamePlatformClose()" />
+  </hip-dialog>
   <!-- Create game region dialog. -->
   <hip-dialog
     v-show="dialog.createGameRegion"
@@ -97,6 +105,12 @@
   />
   <!-- Navigation bar. -->
   <hip-nav-bar>
+    <!-- Open create game platform dialog. -->
+    <hip-button-nb
+      v-show="$store.state.editMode"
+      @click="createGamePlatformOpen()"
+      class="el-icon-connection text-2xl"
+    ></hip-button-nb>
     <!-- Open create game region dialog. -->
     <hip-button-nb
       v-show="$store.state.editMode"
@@ -244,6 +258,7 @@
 
 <script>
 // Import form components.
+import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import CreateGameRegion from '../Create/CreateGameRegion.vue'
 import EditGame from '../Edit/EditGame.vue'
 import ViewGameDetails from './ViewGame/ViewGameDetails.vue'
@@ -269,6 +284,7 @@ export default {
   name: 'ViewGame',
   components: {
     // Form components.
+    CreateGamePlatform,
     CreateGameRegion,
     EditGame,
     ViewGameDetails,
@@ -306,6 +322,7 @@ export default {
       },
       regionIndex: 0,
       dialog: {
+        createGamePlatform: false,
         createGameRegion: false,
         editGame: false,
         deleteGameRegion: false,
@@ -322,6 +339,21 @@ export default {
         .then(res => this.gameInfo = res)
     },
     // Create operations.
+    createGamePlatformOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetGameSelected')
+      this.$store.commit('resetGameForm')
+      // Save current game IDs into the store.
+      this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
+      // Open create dialog.
+      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
+    },
+    createGamePlatformClose() {
+      // Reload game.
+      this.loadGame()
+      // Close create dialog.
+      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
+    },
     createGameRegionOpen() {
       // Restore the data on the store.
       this.$store.commit('resetGameSelected')
