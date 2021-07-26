@@ -21,6 +21,7 @@ let Platform
 let Region
 let Version
 
+// Create a new game platform.
 export async function newGamePlatform(req, id) {
     // Create a version for the game.
     await createGameVersion(req.gameVersion)
@@ -39,6 +40,7 @@ export async function newGamePlatform(req, id) {
         })
 }
 
+// Create a new game region.
 export async function newGameRegion(req, id) {
     // Create a version for the game.
     await createGameVersion(req.gameVersion)
@@ -106,39 +108,7 @@ async function createGameVersion(req) {
         .then(res => Version = res._id)
 }
 
-async function storeImages(req, id) {
-    // Set game platform ID.
-    Platform = id ? id : Platform
-    // Set image path for a specific game region.
-    let imagesPath = app.getAppPath() + '/images/' + Platform + '/' + Region
-    // Ensure images directory creation, even if there are no images.
-    ensureDirSync(imagesPath)
-    // Add cover image file.
-    if (req.images.cover.add) {
-        // Copy cover image file. It starts with eight zeroes, followed by eight random characters.
-        copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
-    }
-    // Add pictures image files.
-    for (let [i, image] of req.images.pictures.add.entries()) {
-        copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
-    }
-}
-
-async function storeLinks(req, id) {
-    // Set game platform ID.
-    Platform = id ? id : Platform
-    // Create links object.
-    let linksFile = ''
-    for (let link of req.links) {
-        // Add link to object.
-        linksFile += link + '\r\n'
-    }
-    // Ensure link icons directory creation.
-    ensureDirSync(app.getAppPath() + '/assets/links/')
-    // Create links file.
-    outputFileSync(app.getAppPath() + '/images/' + Platform + '/links', linksFile)
-}
-
+// Update the specified game.
 export async function updateGame(req, id) {
     // Update the game platform.
     await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
@@ -167,132 +137,6 @@ export async function updateGame(req, id) {
     await updateImages(req.gameRegion, id)
     // Update stored links for the game.
     await storeLinks(req.gamePlatform, id.gamePlatform)
-}
-
-async function updateImages(req, id) {
-    // Set image path for a specific game region.
-    let imagesPath = app.getAppPath() + '/images/' + id.gamePlatform + '/' + id.gameRegion
-    // Remove cover image file.
-    if (req.images.cover.remove) {
-        // The cover image file starts with eight zeroes, followed by eight random characters.
-        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter(res => res.startsWith('0'.repeat(8)))[0])
-    }
-    // Add cover image file.
-    if (req.images.cover.add) {
-        // Remove any previously stored cover image file.
-        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter(res => res.startsWith('0'.repeat(8)))[0])
-        // Copy cover image file, using cache busting for proper rendering update.
-        copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
-    }
-    // Remove pictures image files.
-    for (let image of req.images.pictures.remove) {
-        removeSync(imagesPath + '/' + image)
-    }
-    // Add pictures image files.
-    let i = readdirSync(imagesPath).filter(res => !res.startsWith('0'.repeat(8))).length + 1
-    for (let image of req.images.pictures.add) {
-        copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
-        i++
-    }
-}
-
-// Search for a specific game platform.
-export async function getGamePlatform(req) {
-    return await GamePlatformModel.findOne({ _id: req }, { populate: false })
-}
-
-// Search for a specific game platform.
-export async function getGamePlatformCountD(req) {
-    return await GamePlatformModel.count({ developer: req }, { populate: false })
-}
-
-// Search for a specific game platform.
-export async function getGamePlatformCountP(req) {
-    return await GamePlatformModel.count({ platform: req }, { populate: false })
-}
-
-// Search for a specific game region.
-export async function getGameRegion(req) {
-    return await GameRegionModel.findOne({ _id: req }, { populate: true })
-}
-
-// Search for a specific game version.
-export async function getGameVersion(req) {
-    return await GameVersionModel.findOne({ _id: req }, { populate: false })
-}
-
-// Search for a specific game.
-export async function getGame(req) {
-    // Since 'gameVersion' is the last object in the tree,
-    // there's no need to populate it manually.
-    let gameRegions = []
-    return await getGamePlatform(req)
-        .then(async res => {
-            // Loop through all the items in 'res.gameRegions[]'.
-            for (let gameRegion of res.gameRegions) {
-                await getGameRegion(gameRegion)
-                    // Populate each item with its data.
-                    .then(res => gameRegions.push(res))
-            }
-            await getDeveloper(res.developer)
-                .then(dev => res.developer = dev)
-            await getPlatform(res.platform)
-                .then(pla => res.platform = pla)
-            res.gameRegions = gameRegions
-            // Return populated object.
-            return res
-        })
-}
-
-// Search for all games on an array.
-export async function getGames(req) {
-    let games = []
-    for (let g of req) {
-        await getGame(g).then(res => games.push(res))
-    }
-    return games
-}
-
-// Search for all games by a specific developer.
-export async function getGamesD(req) {
-    let gamePlatforms = []
-    return await GamePlatformModel.find({ developer: req }, { populate: false })
-        .then(async res => {
-            // Loop through all the items in 'res'.
-            for (let gamePlatform of res) {
-                await getGame(gamePlatform._id)
-                    // Populate each item with its data.
-                    .then(res => gamePlatforms.push(res))
-            }
-            res = gamePlatforms
-            // Return populated object.
-            return res
-        })
-}
-
-// Search for all games by a specific platform.
-export async function getGamesP(req) {
-    let gamePlatforms = []
-    return await GamePlatformModel.find({ platform: req }, { populate: false })
-        .then(async res => {
-            // Loop through all the items in 'res'.
-            for (let gamePlatform of res) {
-                await getGame(gamePlatform._id)
-                    // Populate each item with its data.
-                    .then(res => gamePlatforms.push(res))
-            }
-            res = gamePlatforms
-            // Return populated object.
-            return res
-        })
-}
-
-// Get the name for the requested region code.
-export function getRegion(reg) {
-    // Filter code from array.
-    let region = Regions.filter(res => res.code == reg)
-    // Return the name property.
-    return region.length > 0 ? region[0].name : reg
 }
 
 // Delete the specified game platform and all its related data.
@@ -365,6 +209,200 @@ export async function deleteGamesP(req) {
         })
 }
 
+// Store images for a specific game.
+async function storeImages(req, id) {
+    // Set game platform ID.
+    Platform = id ? id : Platform
+    // Set image path for a specific game region.
+    let imagesPath = app.getAppPath() + '/images/' + Platform + '/' + Region
+    // Ensure images directory creation, even if there are no images.
+    ensureDirSync(imagesPath)
+    // Add cover image file.
+    if (req.images.cover.add) {
+        // Copy cover image file. It starts with eight zeroes, followed by eight random characters.
+        copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
+    }
+    // Add pictures image files.
+    for (let [i, image] of req.images.pictures.add.entries()) {
+        copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
+    }
+}
+
+// Update stored images for a specific game.
+async function updateImages(req, id) {
+    // Set image path for a specific game region.
+    let imagesPath = app.getAppPath() + '/images/' + id.gamePlatform + '/' + id.gameRegion
+    // Remove cover image file.
+    if (req.images.cover.remove) {
+        // The cover image file starts with eight zeroes, followed by eight random characters.
+        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter(res => res.startsWith('0'.repeat(8)))[0])
+    }
+    // Add cover image file.
+    if (req.images.cover.add) {
+        // Remove any previously stored cover image file.
+        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter(res => res.startsWith('0'.repeat(8)))[0])
+        // Copy cover image file, using cache busting for proper rendering update.
+        copySync(req.images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
+    }
+    // Remove pictures image files.
+    for (let image of req.images.pictures.remove) {
+        removeSync(imagesPath + '/' + image)
+    }
+    // Add pictures image files.
+    let i = readdirSync(imagesPath).filter(res => !res.startsWith('0'.repeat(8))).length + 1
+    for (let image of req.images.pictures.add) {
+        copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
+        i++
+    }
+}
+
+// Store links for a specific game.
+async function storeLinks(req, id) {
+    // Set game platform ID.
+    Platform = id ? id : Platform
+    // Create links object.
+    let linksFile = ''
+    for (let link of req.links) {
+        // Add link to object.
+        linksFile += link + '\r\n'
+    }
+    // Ensure link icons directory creation.
+    ensureDirSync(app.getAppPath() + '/assets/links/')
+    // Create links file.
+    outputFileSync(app.getAppPath() + '/images/' + Platform + '/links', linksFile)
+}
+
+// Manage game linking.
+export async function linkGame(req, sid) {
+    // Get selected game.
+    let sel = await getGamePlatform(sid)
+    // Concatenate the current and the selected games' game platforms.
+    let linkedGames = req.gamePlatforms.concat(sel.gamePlatforms)
+    // Update the game platforms of all the linked games.
+    for (let g of linkedGames) {
+        await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
+    }
+}
+
+// Manage game unlinking.
+export async function unlinkGame(req, del) {
+    // Get only the linked games.
+    let linkedGames = req.gamePlatforms.filter(res => res != req._id)
+    if (del) {
+        // Delete the game platform.
+        await GamePlatformModel.findOneAndDelete({ _id: req._id })
+    } else {
+        // Update the game platform.
+        await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gamePlatforms: new Array(req._id) })
+    }
+    // Delete the game platform from the linked games.
+    for (let g of linkedGames) {
+        await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
+    }
+}
+
+// Get a specific game platform.
+export async function getGamePlatform(req) {
+    return await GamePlatformModel.findOne({ _id: req }, { populate: false })
+}
+
+// Get the count of game platforms belonging to a specific developer.
+export async function getGamePlatformCountD(req) {
+    return await GamePlatformModel.count({ developer: req }, { populate: false })
+}
+
+// Get the count of game platforms belonging to a specific platform.
+export async function getGamePlatformCountP(req) {
+    return await GamePlatformModel.count({ platform: req }, { populate: false })
+}
+
+// Get a specific game region.
+export async function getGameRegion(req) {
+    return await GameRegionModel.findOne({ _id: req }, { populate: true })
+}
+
+// Get a specific game version.
+export async function getGameVersion(req) {
+    return await GameVersionModel.findOne({ _id: req }, { populate: false })
+}
+
+// Get a specific game.
+export async function getGame(req) {
+    // Since 'gameVersion' is the last object in the tree,
+    // there's no need to populate it manually.
+    let gameRegions = []
+    return await getGamePlatform(req)
+        .then(async res => {
+            // Loop through all the items in 'res.gameRegions[]'.
+            for (let gameRegion of res.gameRegions) {
+                await getGameRegion(gameRegion)
+                    // Populate each item with its data.
+                    .then(res => gameRegions.push(res))
+            }
+            await getDeveloper(res.developer)
+                .then(dev => res.developer = dev)
+            await getPlatform(res.platform)
+                .then(pla => res.platform = pla)
+            res.gameRegions = gameRegions
+            // Return populated object.
+            return res
+        })
+}
+
+// Get all games of an array of game platforms.
+export async function getGames(req) {
+    // Create games array.
+    let games = []
+    for (let g of req) {
+        // Get and add game data into the array.
+        await getGame(g).then(res => games.push(res))
+    }
+    // Return populated game array.
+    return games
+}
+
+// Get all games by a specific developer.
+export async function getGamesD(req) {
+    let gamePlatforms = []
+    return await GamePlatformModel.find({ developer: req }, { populate: false })
+        .then(async res => {
+            // Loop through all the items in 'res'.
+            for (let gamePlatform of res) {
+                await getGame(gamePlatform._id)
+                    // Populate each item with its data.
+                    .then(res => gamePlatforms.push(res))
+            }
+            res = gamePlatforms
+            // Return populated object.
+            return res
+        })
+}
+
+// Get all games by a specific platform.
+export async function getGamesP(req) {
+    let gamePlatforms = []
+    return await GamePlatformModel.find({ platform: req }, { populate: false })
+        .then(async res => {
+            // Loop through all the items in 'res'.
+            for (let gamePlatform of res) {
+                await getGame(gamePlatform._id)
+                    // Populate each item with its data.
+                    .then(res => gamePlatforms.push(res))
+            }
+            res = gamePlatforms
+            // Return populated object.
+            return res
+        })
+}
+
+// Get the name for the requested region code.
+export function getRegion(reg) {
+    // Filter code from array.
+    let region = Regions.filter(res => res.code == reg)
+    // Return the name property.
+    return region.length > 0 ? region[0].name : reg
+}
+
 // Search all the games in the database by a given title.
 export async function searchGameByTitle(q, req) {
     let query = new RegExp(q, 'i')
@@ -403,33 +441,4 @@ export async function searchGameByTitle(q, req) {
             // Return search results.
             return games
         })
-}
-
-// Manage game linking.
-export async function linkGame(req, sid) {
-    // Get selected game.
-    let sel = await getGamePlatform(sid)
-    // Concatenate the current and the selected games' game platforms.
-    let linkedGames = req.gamePlatforms.concat(sel.gamePlatforms)
-    // Update the game platforms of all the linked games.
-    for (let g of linkedGames) {
-        await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
-    }
-}
-
-// Manage game unlinking.
-export async function unlinkGame(req, del) {
-    // Get only the linked games.
-    let linkedGames = req.gamePlatforms.filter(res => res != req._id)
-    if (del) {
-        // Delete the game platform.
-        await GamePlatformModel.findOneAndDelete({ _id: req._id })
-    } else {
-        // Update the game platform.
-        await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gamePlatforms: new Array(req._id) })
-    }
-    // Delete the game platform from the linked games.
-    for (let g of linkedGames) {
-        await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
-    }
 }
