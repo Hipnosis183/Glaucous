@@ -262,9 +262,9 @@ async function storeLinks(req, id) {
     Platform = id ? id : Platform
     // Create links object.
     let linksFile = ''
-    for (let link of req.links) {
+    for (let [i, link] of req.links.entries()) {
         // Add link to object.
-        linksFile += link + '\r\n'
+        linksFile += link + (i != req.links.length - 1 ? '\n' : '')
     }
     // Ensure link icons directory creation.
     ensureDirSync(app.getAppPath() + '/assets/links/')
