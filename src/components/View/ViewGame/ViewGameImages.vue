@@ -192,10 +192,6 @@ export default {
     HipModal,
     HipOverlay
   },
-  props: [
-    'gameInfo',
-    'regionIndex'
-  ],
   data() {
     return {
       imageIndex: null,
@@ -213,6 +209,10 @@ export default {
       }
     }
   },
+  props: [
+    'gameInfo',
+    'regionIndex'
+  ],
   methods: {
     // Images management.
     getImages() {

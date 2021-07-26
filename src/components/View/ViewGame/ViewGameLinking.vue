@@ -171,10 +171,6 @@ export default {
     HipModal,
     HipOverlay
   },
-  props: [
-    'gameInfo',
-    'regionIndex'
-  ],
   data() {
     return {
       linkedGames: [],
@@ -186,7 +182,13 @@ export default {
       },
     }
   },
-  emits: ['reload'],
+  emits: [
+    'reload'
+  ],
+  props: [
+    'gameInfo',
+    'regionIndex'
+  ],
   methods: {
     // Game linking operations.
     linkGame() {
