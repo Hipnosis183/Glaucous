@@ -57,8 +57,10 @@
           <form-region />
           <form-serial />
         </div>
-        <form-developer :gameDeveloper="gameDeveloper" />
-        <form-platform :gamePlatform="gamePlatform" />
+        <div class="flex space-x-4">
+          <form-developer :gameDeveloper="gameDeveloper" />
+          <form-platform :gamePlatform="gamePlatform" />
+        </div>
         <div class="flex space-x-4">
           <form-release-year />
           <form-number-players />
@@ -68,6 +70,7 @@
           <form-latest-version />
         </div>
         <form-comments />
+        <form-links />
       </div>
     </div>
   </el-form>
@@ -81,6 +84,7 @@ import {
   FormDeveloper,
   FormImages,
   FormLatestVersion,
+  FormLinks,
   FormNumberPlayers,
   FormOriginalTitle,
   FormPlatform,
@@ -117,6 +121,7 @@ export default {
     FormDeveloper,
     FormImages,
     FormLatestVersion,
+    FormLinks,
     FormNumberPlayers,
     FormOriginalTitle,
     FormPlatform,

@@ -156,7 +156,7 @@
   <div class="flex m-6 space-x-6">
     <!-- Left card. -->
     <hip-modal class="h-content w-3/5">
-      <div class="flex max-h-content overflow-hidden">
+      <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll">
           <!-- Flag image. -->
           <img
@@ -238,6 +238,12 @@
             </div>
           </div>
         </div>
+        <!-- Insert game links component. -->
+        <view-game-links
+          :key="gameInfo"
+          :gameInfo="gameInfo"
+          @loaded="loadLinks($event)"
+        />
       </div>
     </hip-modal>
     <!-- Right card. -->
@@ -264,6 +270,7 @@ import EditGame from '../Edit/EditGame.vue'
 import ViewGameDetails from './ViewGame/ViewGameDetails.vue'
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameLinking from './ViewGame/ViewGameLinking.vue'
+import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
 // Import UI components.
 import {
   HipButton,
@@ -290,6 +297,7 @@ export default {
     ViewGameDetails,
     ViewGameImages,
     ViewGameLinking,
+    ViewGameLinks,
     // UI components.
     HipButton,
     HipButtonNb,
@@ -305,6 +313,7 @@ export default {
         releaseYear: null,
         numberPlayers: null,
         latestVersion: null,
+        links: [],
         gamePlatforms: [],
         gameRegions: [{
           title: null,
@@ -337,6 +346,10 @@ export default {
       // Get game.
       getGame(this.$route.params.id)
         .then(res => this.gameInfo = res)
+    },
+    loadLinks(res) {
+      // Get links.
+      this.gameInfo.links = res
     },
     // Create operations.
     createGamePlatformOpen() {
@@ -387,6 +400,7 @@ export default {
       this.$store.commit('setGamePlatformReleaseYear', this.gameInfo.releaseYear)
       this.$store.commit('setGamePlatformNumberPlayers', this.gameInfo.numberPlayers)
       this.$store.commit('setGamePlatformLatestVersion', this.gameInfo.latestVersion)
+      this.$store.commit('setGamePlatformLinks', this.gameInfo.links)
       this.$store.commit('setGameRegionTitle', this.gameInfo.gameRegions[this.regionIndex].title)
       this.$store.commit('setGameRegionSubTitle', this.gameInfo.gameRegions[this.regionIndex].subTitle)
       this.$store.commit('setGameRegionOriginalTitle', this.gameInfo.gameRegions[this.regionIndex].originalTitle)
@@ -487,6 +501,9 @@ export default {
 /* Calculations. */
 .h-content {
   height: calc(100vh - 6.25rem);
+}
+.min-h-content {
+  min-height: calc(100vh - 9.25rem);
 }
 .max-h-content {
   max-height: calc(100vh - 9.25rem);

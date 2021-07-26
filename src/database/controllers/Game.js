@@ -9,6 +9,7 @@ import { app } from '@electron/remote'
 import {
     copySync,
     ensureDirSync,
+    outputFileSync,
     readdirSync,
     remove,
     removeSync
@@ -29,6 +30,8 @@ export async function newGamePlatform(req, id) {
     await createGamePlatform(req.gamePlatform)
     // Store uploaded images for the game.
     await storeImages(req.gameRegion)
+    // Store links for the game.
+    await storeLinks(req.gamePlatform)
     // Link to other games if an ID is given.
     if (id) await getGamePlatform(Platform)
         .then(async res => {
@@ -121,6 +124,21 @@ async function storeImages(req, id) {
     }
 }
 
+async function storeLinks(req, id) {
+    // Set game platform ID.
+    Platform = id ? id : Platform
+    // Create links object.
+    let linksFile = ''
+    for (let link of req.links) {
+        // Add link to object.
+        linksFile += link + '\r\n'
+    }
+    // Ensure link icons directory creation.
+    ensureDirSync(app.getAppPath() + '/assets/links/')
+    // Create links file.
+    outputFileSync(app.getAppPath() + '/images/' + Platform + '/links', linksFile)
+}
+
 export async function updateGame(req, id) {
     // Update the game platform.
     await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
@@ -145,7 +163,10 @@ export async function updateGame(req, id) {
         currentVersion: req.gameVersion.currentVersion,
         comments: req.gameVersion.comments }
     )
+    // Update stored images for the game.
     await updateImages(req.gameRegion, id)
+    // Update stored links for the game.
+    await storeLinks(req.gamePlatform, id.gamePlatform)
 }
 
 async function updateImages(req, id) {

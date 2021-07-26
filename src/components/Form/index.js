@@ -3,6 +3,7 @@ import FormCurrentVersion from './FormCurrentVersion.vue'
 import FormDeveloper from './FormDeveloper.vue'
 import FormImages from './FormImages.vue'
 import FormLatestVersion from './FormLatestVersion.vue'
+import FormLinks from './FormLinks.vue'
 import FormName from './FormName.vue'
 import FormNumberPlayers from './FormNumberPlayers.vue'
 import FormOriginalTitle from './FormOriginalTitle.vue'
@@ -21,6 +22,7 @@ export {
     FormDeveloper,
     FormImages,
     FormLatestVersion,
+    FormLinks,
     FormName,
     FormNumberPlayers,
     FormOriginalTitle,

@@ -15,7 +15,8 @@ export default createStore({
         platform: null,
         releaseYear: null,
         numberPlayers: null,
-        latestVersion: null
+        latestVersion: null,
+        links: []
       },
       gameRegion: {
         title: null,
@@ -58,6 +59,7 @@ export default createStore({
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
       state.gameForm.gamePlatform.latestVersion = null
+      state.gameForm.gamePlatform.links = []
       state.gameForm.gameRegion.title = null
       state.gameForm.gameRegion.subTitle = null
       state.gameForm.gameRegion.originalTitle = null
@@ -86,6 +88,15 @@ export default createStore({
     },
     setGamePlatformLatestVersion(state, data) {
       state.gameForm.gamePlatform.latestVersion = data
+    },
+    setGamePlatformLinks(state, data) {
+      state.gameForm.gamePlatform.links = data
+    },
+    setGamePlatformLinksAdd(state, data) {
+      state.gameForm.gamePlatform.links.push(data)
+    },
+    setGamePlatformLinksRemove(state, data) {
+      state.gameForm.gamePlatform.links.splice(data, 1)
     },
     setGameRegionTitle(state, data) {
       state.gameForm.gameRegion.title = data
