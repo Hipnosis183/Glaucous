@@ -3,6 +3,7 @@
   <hip-dialog
     v-show="dialog.createDeveloper"
     @close="createDeveloperClose()"
+    class="z-10"
   >
     <!-- Insert create developer form component. -->
     <create-developer @close="createDeveloperClose()" />

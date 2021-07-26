@@ -3,6 +3,7 @@
   <hip-dialog
     v-show="dialog.createGamePlatform"
     @close="createGamePlatformClose()"
+    class="z-10"
   >
     <!-- Insert create game platform form component. -->
     <create-game-platform @close="createGamePlatformClose()" />
