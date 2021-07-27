@@ -4,7 +4,8 @@
     <hip-nav-bar>
       <!-- Padding. -->
       <div class="w-full"></div>
-      <p class="text-2xl m-auto mr-6">Settings</p>
+      <!-- Page title. -->
+      <p class="m-auto mr-6 text-xl whitespace-nowrap">Settings</p>
     </hip-nav-bar>
     <div class="flex m-6 space-x-6">
       <hip-modal class="h-content w-full">

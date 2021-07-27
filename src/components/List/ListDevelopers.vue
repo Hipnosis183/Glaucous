@@ -19,6 +19,8 @@
       ></hip-button-nb>
       <!-- Padding. -->
       <div class="w-full"></div>
+      <!-- Page title. -->
+      <p class="m-auto mr-6 text-xl whitespace-nowrap">Developers</p>
     </hip-nav-bar>
     <!-- Show developers list. -->
     <ul class="gap-4 grid grid-cols-4 m-6">
