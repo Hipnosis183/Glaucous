@@ -2,11 +2,15 @@
 
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import Store from 'electron-store'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Initialize external Electron remote module.
 require('@electron/remote/main').initialize()
+
+// Initialize electron-store.
+Store.initRenderer()
 
 // Scheme must be registered before the app is ready.
 protocol.registerSchemesAsPrivileged([

@@ -1,10 +1,14 @@
+import { app } from '@electron/remote'
 import { createStore } from 'vuex'
+import Store from 'electron-store'
+
+const localStore = new Store({ cwd: app.getAppPath() })
 
 export default createStore({
   state: {
     sidenavExpanded: false,
     slideBack: false,
-    editMode: true,
+    editMode: localStore.get('editMode'),
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -49,6 +53,10 @@ export default createStore({
     }
   },
   mutations: {
+    toggleEditMode(state) {
+      state.editMode = !state.editMode
+      localStore.set('editMode', state.editMode)
+    },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null
       state.gameSelected.gameRegion = null

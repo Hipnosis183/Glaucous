@@ -46,7 +46,7 @@
       <!-- Bottom bar. -->
       <div class="bg-indigo-600 flex justify-between">
         <el-switch
-          v-model="$store.state.editMode"
+          v-model="editMode"
           class="m-auto"
         ></el-switch>
         <button
@@ -125,6 +125,12 @@ export default {
       this.$store.state.slideBack = window.history.state.position > this.history ? false : true
       this.history = window.history.state.position
       this.$store.state.sidenavExpanded = false
+    }
+  },
+  computed: {
+    editMode: {
+      get() { return this.$store.state.editMode },
+      set() { this.$store.commit('toggleEditMode') }
     }
   }
 }
