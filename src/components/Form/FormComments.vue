@@ -19,7 +19,7 @@
             v-for="(comment, index) in $store.state.gameForm.gameVersion.comments"
             :key="index"
             :value="comment"
-            class="flex flex-inline items-center space-x-6"
+            class="flex items-center space-x-6"
           >
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->

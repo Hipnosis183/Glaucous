@@ -45,13 +45,13 @@
       </div>
       <!-- Bottom bar. -->
       <div class="bg-indigo-600 flex justify-between">
-        <el-switch
-          v-model="editMode"
-          class="m-auto"
-        ></el-switch>
+        <button
+          @click="$router.push({ name: 'Settings' })"
+          class="el-icon-s-tools m-auto py-3 text-2xl text-gray-100"
+        ></button>
         <button
           @click="sidenavToggle()"
-          class="el-icon-s-fold font-semibold m-auto py-3 text-2xl text-gray-100"
+          class="el-icon-s-fold m-auto py-3 text-2xl text-gray-100"
         ></button>
       </div>
     </div>
@@ -94,7 +94,7 @@
     <div class="bg-indigo-600 flex justify-between">
       <button
         @click="sidenavToggle()"
-        class="el-icon-s-unfold font-semibold m-auto py-3 text-2xl text-gray-100"
+        class="el-icon-s-unfold m-auto py-3 text-2xl text-gray-100"
       ></button>
     </div>
   </div>
@@ -125,12 +125,6 @@ export default {
       this.$store.state.slideBack = window.history.state.position > this.history ? false : true
       this.history = window.history.state.position
       this.$store.state.sidenavExpanded = false
-    }
-  },
-  computed: {
-    editMode: {
-      get() { return this.$store.state.editMode },
-      set() { this.$store.commit('toggleEditMode') }
     }
   }
 }

@@ -28,7 +28,7 @@
         class="h-gallery mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-gallery"
       >
         <transition
-          :name="slideBack ? 'slide-image-b' : 'slide-image-f'"
+          :name="slideBack ? 'slide-b' : 'slide-f'"
           class="absolute bottom-0 left-0 right-0 top-0"
         >
           <img
@@ -338,26 +338,5 @@ export default {
 }
 .w-gallery {
   width: calc(100vw - 7.5rem);
-}
-/* Transitions. */
-.slide-image-b-leave-active,
-.slide-image-b-enter-active {
-  transition: 0.5s;
-}
-.slide-image-b-enter-from {
-  transform: translate(-100vw, 0);
-}
-.slide-image-b-leave-to {
-  transform: translate(100vw, 0);
-}
-.slide-image-f-leave-active,
-.slide-image-f-enter-active {
-  transition: 0.5s;
-}
-.slide-image-f-enter-from {
-  transform: translate(100vw, 0);
-}
-.slide-image-f-leave-to {
-  transform: translate(-100vw, 0);
 }
 </style>

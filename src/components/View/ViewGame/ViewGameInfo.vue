@@ -40,7 +40,7 @@
     >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
   </div>
   <!-- Body contents. -->
-  <div class="flex flex-inline items-center mb-6 space-x-4">
+  <div class="flex items-center mb-6 space-x-4">
     <h1 class="data-title">Game Information</h1>
     <!-- Open view game details dialog. -->
     <hip-button @click="viewGameDetails()">Details</hip-button>

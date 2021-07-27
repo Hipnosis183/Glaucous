@@ -25,9 +25,27 @@ p, h1, h2, h3 {
 .el-button {
   font-weight: normal !important;
 }
-.el-form-item{
+.el-form-item {
   @apply -space-y-4;
   margin-bottom: 4px !important;
+}
+.el-switch__core {
+  align-items: center !important;
+  border-radius: 99px !important;
+  display: flex !important;
+  height: 30px !important;
+  width: 60px !important;
+}
+.el-switch__action {
+  height: 20px !important;
+  width: 20px !important;
+}
+.el-switch.is-checked .el-switch__action {
+  left: 85% !important;
+}
+.el-switch__core .el-switch__action {
+  left: 10% !important;
+  top: auto !important;
 }
 
 /* Transitions. */
@@ -38,4 +56,24 @@ p, h1, h2, h3 {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+.slide-b-leave-active,
+.slide-b-enter-active {
+  transition: 0.5s;
+}
+.slide-b-enter-from {
+  transform: translate(-100vw, 0);
+}
+.slide-b-leave-to {
+  transform: translate(100vw, 0);
+}
+.slide-f-leave-active,
+.slide-f-enter-active {
+  transition: 0.5s;
+}
+.slide-f-enter-from {
+  transform: translate(100vw, 0);
+}
+.slide-f-leave-to {
+  transform: translate(-100vw, 0);
 }

@@ -140,7 +140,7 @@
     <!-- Game information. -->
     <div class="relative">
       <transition
-        :name="slideBack ? 'slide-page-b' : 'slide-page-f'"
+        :name="slideBack ? 'slide-b' : 'slide-f'"
         class="absolute bottom-0 left-0 right-0 top-0"
       >
         <div
@@ -426,26 +426,5 @@ export default {
 }
 .max-h-content {
   max-height: calc(100vh - 9.25rem);
-}
-/* Transitions. */
-.slide-page-b-leave-active,
-.slide-page-b-enter-active {
-  transition: 0.5s;
-}
-.slide-page-b-enter-from {
-  transform: translate(-100vw, 0);
-}
-.slide-page-b-leave-to {
-  transform: translate(100vw, 0);
-}
-.slide-page-f-leave-active,
-.slide-page-f-enter-active {
-  transition: 0.5s;
-}
-.slide-page-f-enter-from {
-  transform: translate(100vw, 0);
-}
-.slide-page-f-leave-to {
-  transform: translate(-100vw, 0);
 }
 </style>

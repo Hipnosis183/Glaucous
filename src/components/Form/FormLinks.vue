@@ -38,7 +38,7 @@
             v-for="(link, index) in $store.state.gameForm.gamePlatform.links"
             :key="index"
             :value="link"
-            class="flex flex-inline items-center space-x-6"
+            class="flex items-center space-x-6"
           >
             <li class="text-justify">{{ link }}</li>
             <!-- Remove related link from the list. -->

@@ -11,6 +11,12 @@ const routes = [
     name: 'Index',
     component: () => import('../components/Index.vue')
   },
+  // Settings
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('../components/Settings.vue')
+  },
   // Games
   {
     path: '/games',
