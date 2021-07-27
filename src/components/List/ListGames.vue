@@ -1,24 +1,26 @@
 <template>
-  <!-- Create game platform dialog. -->
-  <hip-dialog
-    v-show="dialog.createGamePlatform"
-    @close="createGamePlatformClose()"
-    class="z-10"
-  >
-    <!-- Insert create game platform form component. -->
-    <create-game-platform @close="createGamePlatformClose()" />
-  </hip-dialog>
-  <!-- Navigation bar. -->
-  <hip-nav-bar>
-    <!-- Open create developer dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="createGamePlatformOpen()"
-      class="el-icon-circle-plus-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Padding. -->
-    <div class="w-full"></div>
-  </hip-nav-bar>
+  <div>
+    <!-- Create game platform dialog. -->
+    <hip-dialog
+      v-show="dialog.createGamePlatform"
+      @close="createGamePlatformClose()"
+      class="z-10"
+    >
+      <!-- Insert create game platform form component. -->
+      <create-game-platform @close="createGamePlatformClose()" />
+    </hip-dialog>
+    <!-- Navigation bar. -->
+    <hip-nav-bar>
+      <!-- Open create developer dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="createGamePlatformOpen()"
+        class="el-icon-circle-plus-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Padding. -->
+      <div class="w-full"></div>
+    </hip-nav-bar>
+  </div>
 </template>
 
 <script>

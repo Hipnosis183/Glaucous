@@ -1,113 +1,115 @@
 <template>
-  <!-- Create game platform dialog. -->
-  <hip-dialog
-    v-show="dialog.createGamePlatform"
-    @close="createGamePlatformClose()"
-    class="z-10"
-  >
-    <!-- Insert create game platform form component. -->
-    <create-game-platform
-      :gameDeveloper="$route.params.id"
+  <div>
+    <!-- Create game platform dialog. -->
+    <hip-dialog
+      v-show="dialog.createGamePlatform"
       @close="createGamePlatformClose()"
-    />
-  </hip-dialog>
-  <!-- Edit developer dialog. -->
-  <hip-dialog
-    v-show="dialog.editDeveloper"
-    @close="editDeveloperClose()"
-    class="z-10"
-  >
-    <!-- Insert edit developer form component. -->
-    <edit-developer @close="editDeveloperClose()" />
-  </hip-dialog>
-  <!-- Delete developer dialog. -->
-  <hip-dialog
-    v-show="dialog.deleteDeveloper"
-    @close="deleteDeveloperOpen()"
-    class="z-10"
-  >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Delete developer <b>'{{ developer.name }}'</b> ?
-      <br />
-      It will also delete all its game entries.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Confirm developer deletion. -->
-      <hip-button
-        :icon="true"
-        @click="deleteDeveloperClose()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
-      <!-- Cancel developer deletion. -->
-      <hip-button
-        :icon="true"
-        @click="deleteDeveloperOpen()"
-        class="el-icon-circle-close text-2xl"
-      ></hip-button>
-    </div>
-  </hip-dialog>
-  <!-- Navigation bar. -->
-  <hip-nav-bar>
-    <!-- Open create game platform dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="createGamePlatformOpen()"
-      class="el-icon-circle-plus-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Open edit developer dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="editDeveloperOpen()"
-      class="el-icon-edit-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Open delete developer dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="deleteDeveloperOpen()"
-      class="el-icon-remove-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Padding. -->
-    <div class="w-full"></div>
-  </hip-nav-bar>
-  <!-- Show developer's games list. -->
-  <ul class="gap-4 grid grid-cols-4 m-6">
-    <li
-      v-for="game in developer.games"
-      :key="game._id"
-      :value="game._id"
-      @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
+      class="z-10"
     >
-      <!-- Game card. -->
-      <hip-card-sq>
-        <!-- Game card image. -->
-        <img
-          v-if="getImage(game)"
-          :src="'file://' + getImage(game)"
-          class="absolute cursor-pointer h-40 left-0 object-cover rounded-t-xl top-0 w-full"
-        >
-        <div
-          v-else
-          class="absolute border-2 border-gray-200 cursor-pointer h-40 items-center left-0 rounded-t-xl top-0 w-full"
-        >
-          <div class="flex h-full items-center w-full">
-            <div class="el-icon-picture m-auto text-6xl text-gray-300"></div>
+      <!-- Insert create game platform form component. -->
+      <create-game-platform
+        :gameDeveloper="$route.params.id"
+        @close="createGamePlatformClose()"
+      />
+    </hip-dialog>
+    <!-- Edit developer dialog. -->
+    <hip-dialog
+      v-show="dialog.editDeveloper"
+      @close="editDeveloperClose()"
+      class="z-10"
+    >
+      <!-- Insert edit developer form component. -->
+      <edit-developer @close="editDeveloperClose()" />
+    </hip-dialog>
+    <!-- Delete developer dialog. -->
+    <hip-dialog
+      v-show="dialog.deleteDeveloper"
+      @close="deleteDeveloperOpen()"
+      class="z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Delete developer <b>'{{ developer.name }}'</b> ?
+        <br />
+        It will also delete all its game entries.
+      </p>
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Confirm developer deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteDeveloperClose()"
+          class="el-icon-circle-check text-2xl"
+        ></hip-button>
+        <!-- Cancel developer deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteDeveloperOpen()"
+          class="el-icon-circle-close text-2xl"
+        ></hip-button>
+      </div>
+    </hip-dialog>
+    <!-- Navigation bar. -->
+    <hip-nav-bar>
+      <!-- Open create game platform dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="createGamePlatformOpen()"
+        class="el-icon-circle-plus-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open edit developer dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="editDeveloperOpen()"
+        class="el-icon-edit-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open delete developer dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="deleteDeveloperOpen()"
+        class="el-icon-remove-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Padding. -->
+      <div class="w-full"></div>
+    </hip-nav-bar>
+    <!-- Show developer's games list. -->
+    <ul class="gap-4 grid grid-cols-4 m-6">
+      <li
+        v-for="game in developer.games"
+        :key="game._id"
+        :value="game._id"
+        @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
+      >
+        <!-- Game card. -->
+        <hip-card-sq>
+          <!-- Game card image. -->
+          <img
+            v-if="getImage(game)"
+            :src="'file://' + getImage(game)"
+            class="absolute cursor-pointer h-40 left-0 object-cover rounded-t-xl top-0 w-full"
+          >
+          <div
+            v-else
+            class="absolute border-2 border-gray-200 cursor-pointer h-40 items-center left-0 rounded-t-xl top-0 w-full"
+          >
+            <div class="flex h-full items-center w-full">
+              <div class="el-icon-picture m-auto text-6xl text-gray-300"></div>
+            </div>
           </div>
-        </div>
-        <!-- Game card information. -->
-        <div class="mt-40">
-          <div class="mb-2">
-            <h1 class="font-semibold text-xl text-blue-800">{{ game.gameRegions[0].title }}</h1>
-            <h2 class="font-normal text-base text-blue-600">{{ game.gameRegions[0].subTitle }}</h2>
+          <!-- Game card information. -->
+          <div class="mt-40">
+            <div class="mb-2">
+              <h1 class="font-semibold text-xl text-blue-800">{{ game.gameRegions[0].title }}</h1>
+              <h2 class="font-normal text-base text-blue-600">{{ game.gameRegions[0].subTitle }}</h2>
+            </div>
+            <div class="mb-2">
+              <h2 class="font-normal italic text-base text-gray-600">{{ game.gameRegions[0].originalTitle }}</h2>
+            </div>
+            <h3 class="font-normal text-base text-gray-600">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
           </div>
-          <div class="mb-2">
-            <h2 class="font-normal italic text-base text-gray-600">{{ game.gameRegions[0].originalTitle }}</h2>
-          </div>
-          <h3 class="font-normal text-base text-gray-600">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
-        </div>
-      </hip-card-sq>
-    </li>
-  </ul>
+        </hip-card-sq>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

@@ -1,39 +1,41 @@
 <template>
-  <!-- Create developer dialog. -->
-  <hip-dialog
-    v-show="dialog.createDeveloper"
-    @close="createDeveloperClose()"
-    class="z-10"
-  >
-    <!-- Insert create developer form component. -->
-    <create-developer @close="createDeveloperClose()" />
-  </hip-dialog>
-  <!-- Navigation bar. -->
-  <hip-nav-bar>
-    <!-- Open create developer dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="createDeveloperOpen()"
-      class="el-icon-circle-plus-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Padding. -->
-    <div class="w-full"></div>
-  </hip-nav-bar>
-  <!-- Show developers list. -->
-  <ul class="gap-4 grid grid-cols-4 m-6">
-    <li
-      v-for="developer in developers"
-      :key="developer._id"
-      :value="developer._id"
-      @click="$router.push({ name: 'ViewDeveloper', params: { id: developer._id } })"
+  <div>
+    <!-- Create developer dialog. -->
+    <hip-dialog
+      v-show="dialog.createDeveloper"
+      @close="createDeveloperClose()"
+      class="z-10"
     >
-      <!-- Developer card. -->
-      <hip-card-sq>
-        <h1 class="font-semibold text-blue-800 text-xl">{{ developer.name }}</h1>
-        <p class="text-indigo-400">{{ developer.titles }} Titles</p>
-      </hip-card-sq>
-    </li>
-  </ul>
+      <!-- Insert create developer form component. -->
+      <create-developer @close="createDeveloperClose()" />
+    </hip-dialog>
+    <!-- Navigation bar. -->
+    <hip-nav-bar>
+      <!-- Open create developer dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="createDeveloperOpen()"
+        class="el-icon-circle-plus-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Padding. -->
+      <div class="w-full"></div>
+    </hip-nav-bar>
+    <!-- Show developers list. -->
+    <ul class="gap-4 grid grid-cols-4 m-6">
+      <li
+        v-for="developer in developers"
+        :key="developer._id"
+        :value="developer._id"
+        @click="$router.push({ name: 'ViewDeveloper', params: { id: developer._id } })"
+      >
+        <!-- Developer card. -->
+        <hip-card-sq>
+          <h1 class="font-semibold text-blue-800 text-xl">{{ developer.name }}</h1>
+          <p class="text-indigo-400">{{ developer.titles }} Titles</p>
+        </hip-card-sq>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

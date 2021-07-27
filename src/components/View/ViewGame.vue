@@ -1,173 +1,190 @@
 <template>
-  <!-- Create game platform dialog. -->
-  <hip-dialog
-    v-show="dialog.createGamePlatform"
-    @close="createGamePlatformClose()"
-  >
-    <!-- Insert create game platform form component. -->
-    <create-game-platform @close="createGamePlatformClose()" />
-  </hip-dialog>
-  <!-- Create game region dialog. -->
-  <hip-dialog
-    v-show="dialog.createGameRegion"
-    @close="createGameRegionClose()"
-  >
-    <!-- Insert create game region form component. -->
-    <create-game-region @close="createGameRegionClose()" />
-  </hip-dialog>
-  <!-- Edit game dialog. -->
-  <hip-dialog
-    v-show="dialog.editGame"
-    @close="editGameClose()"
-  >
-    <!-- Insert edit game form component. -->
-    <edit-game
-      :gameDeveloper="gameInfo.developer._id"
-      :gamePlatform="gameInfo.platform._id"
+  <div>
+    <!-- Create game platform dialog. -->
+    <hip-dialog
+      v-show="dialog.createGamePlatform"
+      @close="createGamePlatformClose()"
+      class="z-10"
+    >
+      <!-- Insert create game platform form component. -->
+      <create-game-platform @close="createGamePlatformClose()" />
+    </hip-dialog>
+    <!-- Create game region dialog. -->
+    <hip-dialog
+      v-show="dialog.createGameRegion"
+      @close="createGameRegionClose()"
+      class="z-10"
+    >
+      <!-- Insert create game region form component. -->
+      <create-game-region @close="createGameRegionClose()" />
+    </hip-dialog>
+    <!-- Edit game dialog. -->
+    <hip-dialog
+      v-show="dialog.editGame"
       @close="editGameClose()"
-    />
-  </hip-dialog>
-  <!-- Delete game region dialog. -->
-  <hip-dialog
-    v-show="dialog.deleteGameRegion"
-    @close="deleteGameRegionOpen()"
-  >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Delete region <b>'{{ getRegion(regionIndex) }}'</b>
-      from game <b>'{{ fullTitle }}'</b> ?
-      <br />
-      It will also delete all its versions.
-    </p>
-    <!-- Dialog buttons. -->
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Confirm game deletion. -->
-      <hip-button
-        :icon="true"
-        @click="deleteGameRegionClose()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
-      <!-- Cancel game deletion. -->
-      <hip-button
-        :icon="true"
+      class="z-10"
+    >
+      <!-- Insert edit game form component. -->
+      <edit-game
+        :gameDeveloper="gameInfo.developer._id"
+        :gamePlatform="gameInfo.platform._id"
+        @close="editGameClose()"
+      />
+    </hip-dialog>
+    <!-- Delete game region dialog. -->
+    <hip-dialog
+      v-show="dialog.deleteGameRegion"
+      @close="deleteGameRegionOpen()"
+      class="z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Delete region <b>'{{ getRegion(regionIndex) }}'</b>
+        from game <b>'{{ fullTitle }}'</b> ?
+        <br />
+        It will also delete all its versions.
+      </p>
+      <!-- Dialog buttons. -->
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Confirm game deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteGameRegionClose()"
+          class="el-icon-circle-check text-2xl"
+        ></hip-button>
+        <!-- Cancel game deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteGameRegionOpen()"
+          class="el-icon-circle-close text-2xl"
+        ></hip-button>
+      </div>
+    </hip-dialog>
+    <!-- Delete game platform dialog. -->
+    <hip-dialog
+      v-show="dialog.deleteGamePlatform"
+      @close="deleteGamePlatformOpen()"
+      class="z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Delete game <b>'{{ fullTitle }}'</b> ?
+        <br />
+        It will also delete all its regions and versions.
+      </p>
+      <!-- Dialog buttons. -->
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Confirm game deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteGamePlatformClose()"
+          class="el-icon-circle-check text-2xl"
+        ></hip-button>
+        <!-- Cancel game deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteGamePlatformOpen()"
+          class="el-icon-circle-close text-2xl"
+        ></hip-button>
+      </div>
+    </hip-dialog>
+    <!-- Navigation bar. -->
+    <hip-nav-bar>
+      <!-- Open create game platform dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="createGamePlatformOpen()"
+        class="el-icon-connection text-2xl"
+      ></hip-button-nb>
+      <!-- Open create game region dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="createGameRegionOpen()"
+        class="el-icon-circle-plus-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open edit game dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="editGameOpen()"
+        class="el-icon-edit-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open delete game region dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
         @click="deleteGameRegionOpen()"
-        class="el-icon-circle-close text-2xl"
-      ></hip-button>
-    </div>
-  </hip-dialog>
-  <!-- Delete game platform dialog. -->
-  <hip-dialog
-    v-show="dialog.deleteGamePlatform"
-    @close="deleteGamePlatformOpen()"
-  >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Delete game <b>'{{ fullTitle }}'</b> ?
-      <br />
-      It will also delete all its regions and versions.
-    </p>
-    <!-- Dialog buttons. -->
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Confirm game deletion. -->
-      <hip-button
-        :icon="true"
-        @click="deleteGamePlatformClose()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
-      <!-- Cancel game deletion. -->
-      <hip-button
-        :icon="true"
+        class="el-icon-remove-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open delete game platform dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
         @click="deleteGamePlatformOpen()"
-        class="el-icon-circle-close text-2xl"
-      ></hip-button>
-    </div>
-  </hip-dialog>
-  <!-- Navigation bar. -->
-  <hip-nav-bar>
-    <!-- Open create game platform dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="createGamePlatformOpen()"
-      class="el-icon-connection text-2xl"
-    ></hip-button-nb>
-    <!-- Open create game region dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="createGameRegionOpen()"
-      class="el-icon-circle-plus-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Open edit game dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="editGameOpen()"
-      class="el-icon-edit-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Open delete game region dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="deleteGameRegionOpen()"
-      class="el-icon-remove-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Open delete game platform dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="deleteGamePlatformOpen()"
-      class="el-icon-delete text-2xl"
-    ></hip-button-nb>
-    <!-- Game region tabs. -->
-    <ul class="flex w-full">
-      <li
-        v-for="(region, index) in gameInfo.gameRegions"
-        :key="region._id"
-        :value="region._id"
-        class="w-full"
+        class="el-icon-delete text-2xl"
+      ></hip-button-nb>
+      <!-- Game region tabs. -->
+      <ul class="flex w-full">
+        <li
+          v-for="(region, index) in gameInfo.gameRegions"
+          :key="region._id"
+          :value="region._id"
+          class="w-full"
+        >
+          <!-- Region tab button. -->
+          <button
+            @click="changeRegion(index)"
+            class="py-3 w-full"
+            :class="index == regionIndex ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
+          >{{ getRegion(index) }}</button>
+        </li>
+      </ul>
+    </hip-nav-bar>
+    <!-- Game information. -->
+    <div class="relative">
+      <transition
+        :name="slideBack ? 'slide-page-b' : 'slide-page-f'"
+        class="absolute bottom-0 left-0 right-0 top-0"
       >
-        <!-- Region tab button. -->
-        <button
-          @click="changeRegion(index)"
-          class="py-3 w-full"
-          :class="index == regionIndex ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
-        >{{ getRegion(index) }}</button>
-      </li>
-    </ul>
-  </hip-nav-bar>
-  <!-- Game information. -->
-  <div class="flex m-6 space-x-6">
-    <!-- Left card. -->
-    <hip-modal class="h-content w-3/5">
-      <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-        <div class="flex-1 no-scrollbar overflow-y-scroll">
-          <!-- Insert game info component. -->
-          <view-game-info
-            :key="gameInfo"
-            :fullTitle="fullTitle"
-            :gameInfo="gameInfo"
-            :regionIndex="regionIndex"
-            :regionName="getRegion(regionIndex)"
-            @reload="loadGame()"
-          />
+        <div
+          :key="regionIndex"
+          class="flex m-6 space-x-6"
+        >
+          <!-- Left card. -->
+          <hip-modal class="h-content w-3/5">
+            <div class="flex flex-col max-h-content min-h-content overflow-hidden">
+              <div class="flex-1 no-scrollbar overflow-y-scroll">
+                <!-- Insert game info component. -->
+                <view-game-info
+                  :key="gameInfo"
+                  :fullTitle="fullTitle"
+                  :gameInfo="gameInfo"
+                  :regionIndex="regionIndex"
+                  :regionName="getRegion(regionIndex)"
+                  @reload="loadGame()"
+                />
+              </div>
+              <!-- Insert game links component. -->
+              <view-game-links
+                :key="gameInfo"
+                :gameInfo="gameInfo"
+                @loaded="loadLinks($event)"
+              />
+            </div>
+          </hip-modal>
+          <!-- Right card. -->
+          <hip-modal class="h-content w-2/5">
+            <div class="flex max-h-content overflow-hidden">
+              <div class="flex-1 no-scrollbar overflow-y-scroll">
+                <!-- Insert game images component. -->
+                <view-game-images
+                  :key="gameInfo"
+                  :gameInfo="gameInfo"
+                  :regionIndex="regionIndex"
+                />
+              </div>
+            </div>
+          </hip-modal>
         </div>
-        <!-- Insert game links component. -->
-        <view-game-links
-          :key="gameInfo"
-          :gameInfo="gameInfo"
-          @loaded="loadLinks($event)"
-        />
-      </div>
-    </hip-modal>
-    <!-- Right card. -->
-    <hip-modal class="h-content w-2/5">
-      <div class="flex max-h-content overflow-hidden">
-        <div class="flex-1 no-scrollbar overflow-y-scroll">
-          <!-- Insert game images component. -->
-          <view-game-images
-            :key="gameInfo"
-            :gameInfo="gameInfo"
-            :regionIndex="regionIndex"
-          />
-        </div>
-      </div>
-    </hip-modal>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -237,6 +254,7 @@ export default {
         }]
       },
       regionIndex: 0,
+      slideBack: false,
       dialog: {
         createGamePlatform: false,
         createGameRegion: false,
@@ -362,18 +380,24 @@ export default {
       return getRegion(this.gameInfo.gameRegions[index].region)
     },
     changeRegion(sel) {
+      // Set sliding transition orientation.
+      this.slideBack = sel < this.regionIndex ? true : false
       // Set region index.
       this.regionIndex = sel
     },
     nextRegion() {
-      // Increase region index.
       if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {
+        // Set sliding transition orientation.
+        this.slideBack = false
+        // Increase region index.
         this.regionIndex++
       }
     },
     prevRegion() {
-      // Decrease region index.
       if (this.regionIndex > 0) {
+        // Set sliding transition orientation.
+        this.slideBack = true
+        // Decrease region index.
         this.regionIndex--
       }
     }
@@ -402,5 +426,26 @@ export default {
 }
 .max-h-content {
   max-height: calc(100vh - 9.25rem);
+}
+/* Transitions. */
+.slide-page-b-leave-active,
+.slide-page-b-enter-active {
+  transition: 0.5s;
+}
+.slide-page-b-enter-from {
+  transform: translate(-100vw, 0);
+}
+.slide-page-b-leave-to {
+  transform: translate(100vw, 0);
+}
+.slide-page-f-leave-active,
+.slide-page-f-enter-active {
+  transition: 0.5s;
+}
+.slide-page-f-enter-from {
+  transform: translate(100vw, 0);
+}
+.slide-page-f-leave-to {
+  transform: translate(-100vw, 0);
 }
 </style>

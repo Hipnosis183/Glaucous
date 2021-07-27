@@ -122,6 +122,7 @@ export default {
   watch: {
     // Watch for route changes to display the back button.
     '$route'(to, from) {
+      this.$store.state.slideBack = window.history.state.position > this.history ? false : true
       this.history = window.history.state.position
       this.$store.state.sidenavExpanded = false
     }

@@ -2,7 +2,7 @@
   <!-- External links. -->
   <div
     v-if="links"
-    class="flex ml-auto space-x-2"
+    class="flex ml-auto pt-4 space-x-2"
   >
     <div
       v-for="(link, index) in links"

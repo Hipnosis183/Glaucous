@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     sidenavExpanded: false,
+    slideBack: false,
     editMode: true,
     gameSelected: {
       gamePlatform: null,

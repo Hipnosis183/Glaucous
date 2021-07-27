@@ -1,39 +1,41 @@
 <template>
-  <!-- Create platform dialog. -->
-  <hip-dialog
-    v-show="dialog.createPlatform"
-    @close="createPlatformClose()"
-    class="z-10"
-  >
-    <!-- Insert create platform form component. -->
-    <create-platform @close="createPlatformClose()" />
-  </hip-dialog>
-  <!-- Navigation bar. -->
-  <hip-nav-bar>
-    <!-- Open create platform dialog. -->
-    <hip-button-nb
-      v-show="$store.state.editMode"
-      @click="createPlatformOpen()"
-      class="el-icon-circle-plus-outline text-2xl"
-    ></hip-button-nb>
-    <!-- Padding. -->
-    <div class="w-full"></div>
-  </hip-nav-bar>
-  <!-- Show platforms list. -->
-  <ul class="gap-4 grid grid-cols-4 m-6">
-    <li
-      v-for="platform in platforms"
-      :key="platform._id"
-      :value="platform._id"
-      @click="$router.push({ name: 'ViewPlatform', params: { id: platform._id } })"
+  <div>
+    <!-- Create platform dialog. -->
+    <hip-dialog
+      v-show="dialog.createPlatform"
+      @close="createPlatformClose()"
+      class="z-10"
     >
-      <!-- Platform card. -->
-      <hip-card-sq>
-        <h1 class="font-semibold text-blue-800 text-xl">{{ platform.name }}</h1>
-        <p class="text-indigo-400">{{ platform.titles }} Titles</p>
-      </hip-card-sq>
-    </li>
-  </ul>
+      <!-- Insert create platform form component. -->
+      <create-platform @close="createPlatformClose()" />
+    </hip-dialog>
+    <!-- Navigation bar. -->
+    <hip-nav-bar>
+      <!-- Open create platform dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="createPlatformOpen()"
+        class="el-icon-circle-plus-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Padding. -->
+      <div class="w-full"></div>
+    </hip-nav-bar>
+    <!-- Show platforms list. -->
+    <ul class="gap-4 grid grid-cols-4 m-6">
+      <li
+        v-for="platform in platforms"
+        :key="platform._id"
+        :value="platform._id"
+        @click="$router.push({ name: 'ViewPlatform', params: { id: platform._id } })"
+      >
+        <!-- Platform card. -->
+        <hip-card-sq>
+          <h1 class="font-semibold text-blue-800 text-xl">{{ platform.name }}</h1>
+          <p class="text-indigo-400">{{ platform.titles }} Titles</p>
+        </hip-card-sq>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
