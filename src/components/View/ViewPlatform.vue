@@ -100,8 +100,8 @@
           <!-- Game card information. -->
           <div class="mt-40">
             <div class="mb-2">
-              <h1 class="font-semibold text-xl text-blue-800">{{ game.gameRegions[0].title }}</h1>
-              <h2 class="font-normal text-base text-blue-600">{{ game.gameRegions[0].subTitle }}</h2>
+              <h1 class="font-semibold text-xl text-theme-800">{{ game.gameRegions[0].title }}</h1>
+              <h2 class="font-normal text-base text-theme-600">{{ game.gameRegions[0].subTitle }}</h2>
             </div>
             <div class="mb-2">
               <h2 class="font-normal italic text-base text-gray-600">{{ game.gameRegions[0].originalTitle }}</h2>

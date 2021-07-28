@@ -9,6 +9,7 @@ export default createStore({
     sidenavExpanded: false,
     slideBack: false,
     editMode: localStore.get('editMode'),
+    selectedTheme: localStore.get('selectedTheme'),
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -56,6 +57,10 @@ export default createStore({
     toggleEditMode(state) {
       state.editMode = !state.editMode
       localStore.set('editMode', state.editMode)
+    },
+    selectTheme(state, data) {
+      state.selectedTheme = data
+      localStore.set('selectedTheme', state.selectedTheme)
     },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-300 flex max-h-screen min-h-screen relative">
+  <div class="bg-gray-100 flex max-h-screen min-h-screen relative">
     <side-nav />
     <div class="flex flex-1 overflow-hidden">
       <div class="flex-1 no-scrollbar overflow-y-scroll">
@@ -19,10 +19,22 @@
 </template>
 
 <script>
+// Import sidenav component.
 import SideNav from './components/SideNav.vue'
+// Import theme objects and functions.
+import {
+  colors,
+  selectTheme
+} from './theme'
 
 export default {
-  components: { SideNav }
+  components: {
+    SideNav
+  },
+  created() {
+    // Set theme stored in the configuration.
+    selectTheme(colors[this.$store.state.selectedTheme].codes)
+  }
 }
 </script>
 

@@ -132,7 +132,7 @@
           <button
             @click="changeRegion(index)"
             class="py-3 w-full"
-            :class="index == regionIndex ? 'bg-gray-200 border-b-4 border-indigo-400' : ''"
+            :class="index == regionIndex ? 'bg-theme-100 border-b-4 border-theme-400' : ''"
           >{{ getRegion(index) }}</button>
         </li>
       </ul>
@@ -172,7 +172,7 @@
           <!-- Right card. -->
           <hip-modal class="h-content w-2/5">
             <div class="flex max-h-content overflow-hidden">
-              <div class="flex-1 no-scrollbar overflow-y-scroll">
+              <div class="flex-1 no-scrollbar overflow-y-scroll p-0.5">
                 <!-- Insert game images component. -->
                 <view-game-images
                   :key="gameInfo"

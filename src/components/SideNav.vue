@@ -12,7 +12,7 @@
   <transition name="slide-nav">
     <div
       v-show="$store.state.sidenavExpanded"
-      class="absolute bg-indigo-500 flex flex-col inset-y-0 w-80 z-40"
+      class="absolute bg-theme-500 flex flex-col inset-y-0 w-80 z-40"
     >
       <div class="flex flex-col h-full justify-between">
         <div>
@@ -44,7 +44,7 @@
         </div>
       </div>
       <!-- Bottom bar. -->
-      <div class="bg-indigo-600 flex justify-between">
+      <div class="bg-theme-600 flex justify-between">
         <button
           @click="$router.push({ name: 'Settings' })"
           class="el-icon-s-tools m-auto py-3 text-2xl text-gray-100"
@@ -57,46 +57,56 @@
     </div>
   </transition>
   <!-- Small sidenav. -->
-  <div class="bg-indigo-500 flex flex-col justify-between relative w-14">
-    <div class="flex flex-col h-full justify-between">
-      <div>
-        <h1
-          @click="$router.push({ name: 'Index' })"
-          class="cursor-pointer font-semibold my-12 text-3xl text-center text-gray-100"
-        >F</h1>
-        <div class="mt-8 space-y-4">
-          <div class="flex">
-            <hip-button-sb @click="$router.push({ name: 'ListGames' })">G</hip-button-sb>
+  <div>
+    <transition
+      name="color"
+      mode="out-in"
+    >
+      <div
+        :key="$store.state.selectedTheme"
+        class="bg-theme-500 flex flex-col h-full justify-between relative w-14"
+      >
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <h1
+              @click="$router.push({ name: 'Index' })"
+              class="cursor-pointer font-semibold my-12 text-3xl text-center text-gray-100"
+            >F</h1>
+            <div class="mt-8 space-y-4">
+              <div class="flex">
+                <hip-button-sb @click="$router.push({ name: 'ListGames' })">G</hip-button-sb>
+              </div>
+              <div class="flex">
+                <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">D</hip-button-sb>
+              </div>
+              <div class="flex">
+                <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">P</hip-button-sb>
+              </div>
+            </div>
           </div>
-          <div class="flex">
-            <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">D</hip-button-sb>
+          <div class="mb-8 space-y-4">
+            <div class="flex">
+              <hip-button-sb class="el-icon-search h-12 text-xl"></hip-button-sb>
+            </div>
+            <div v-show="history > 0">
+              <div class="flex">
+                <hip-button-sb
+                  @click="$router.back()"
+                  class="el-icon-back h-12 text-xl"
+                ></hip-button-sb>
+              </div>
+            </div>
           </div>
-          <div class="flex">
-            <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">P</hip-button-sb>
-          </div>
+        </div>
+        <!-- Bottom bar. -->
+        <div class="bg-theme-600 flex justify-between">
+          <button
+            @click="sidenavToggle()"
+            class="el-icon-s-unfold m-auto py-3 text-2xl text-gray-100"
+          ></button>
         </div>
       </div>
-      <div class="mb-8 space-y-4">
-        <div class="flex">
-          <hip-button-sb class="el-icon-search h-12 text-xl"></hip-button-sb>
-        </div>
-        <div v-show="history > 0">
-          <div class="flex">
-            <hip-button-sb
-              @click="$router.back()"
-              class="el-icon-back h-12 text-xl"
-            ></hip-button-sb>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Bottom bar. -->
-    <div class="bg-indigo-600 flex justify-between">
-      <button
-        @click="sidenavToggle()"
-        class="el-icon-s-unfold m-auto py-3 text-2xl text-gray-100"
-      ></button>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -132,6 +142,9 @@ export default {
 
 <style scoped>
 /* Transitions. */
+div {
+  transition: background-color 1s;
+}
 .slide-nav-leave-active,
 .slide-nav-enter-active {
   transition: all 0.5s;
