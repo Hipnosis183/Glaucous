@@ -9,7 +9,10 @@
               :name="$store.state.slideBack ? 'slide-b' : 'slide-f'"
               class="absolute bottom-0 left-0 right-0 top-0"
             >
-              <component :is="Component" />
+              <component
+                :is="Component"
+                :key="$route.fullPath"
+              />
             </transition>
           </div>
         </router-view>
