@@ -106,11 +106,11 @@
           <img
             v-if="getImage(game)"
             :src="'file://' + getImage(game)"
-            class="ar-square cursor-pointer h-32 object-cover rounded-l-xl"
+            class="ar-square cursor-pointer h-40 object-cover rounded-l-xl"
           >
           <div
             v-else
-            class="ar-square bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 cursor-pointer h-32 items-center rounded-l-xl"
+            class="ar-square bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 cursor-pointer h-40 items-center rounded-l-xl"
           >
             <div class="flex h-full items-center w-full">
               <div class="el-icon-picture m-auto text-6xl text-theme-300"></div>
