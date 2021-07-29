@@ -10,17 +10,13 @@
       <create-game-platform @close="createGamePlatformClose()" />
     </hip-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar>
+    <hip-nav-bar title="Games">
       <!-- Open create developer dialog. -->
       <hip-button-nb
         v-show="$store.state.editMode"
         @click="createGamePlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
-      <!-- Padding. -->
-      <div class="w-full"></div>
-      <!-- Page title. -->
-      <p class="m-auto mr-6 text-xl whitespace-nowrap">Games</p>
     </hip-nav-bar>
   </div>
 </template>

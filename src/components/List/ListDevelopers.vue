@@ -10,17 +10,13 @@
       <create-developer @close="createDeveloperClose()" />
     </hip-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar>
+    <hip-nav-bar title="Developers">
       <!-- Open create developer dialog. -->
       <hip-button-nb
         v-show="$store.state.editMode"
         @click="createDeveloperOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
-      <!-- Padding. -->
-      <div class="w-full"></div>
-      <!-- Page title. -->
-      <p class="m-auto mr-6 text-xl whitespace-nowrap">Developers</p>
     </hip-nav-bar>
     <!-- Show developers list. -->
     <ul class="gap-4 grid grid-cols-4 m-6">

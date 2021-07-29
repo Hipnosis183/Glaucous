@@ -1,12 +1,7 @@
 <template>
   <div>
     <!-- Navigation bar. -->
-    <hip-nav-bar>
-      <!-- Padding. -->
-      <div class="w-full"></div>
-      <!-- Page title. -->
-      <p class="m-auto mr-6 text-xl whitespace-nowrap">Settings</p>
-    </hip-nav-bar>
+    <hip-nav-bar title="Settings" />
     <!-- Settings panel. -->
     <div class="flex m-6 space-x-6">
       <hip-modal class="h-content w-full">

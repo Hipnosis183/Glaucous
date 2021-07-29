@@ -49,7 +49,7 @@
       </div>
     </hip-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar>
+    <hip-nav-bar :title="developer.name">
       <!-- Open create game platform dialog. -->
       <hip-button-nb
         v-show="$store.state.editMode"
@@ -68,10 +68,6 @@
         @click="deleteDeveloperOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>
-      <!-- Padding. -->
-      <div class="w-full"></div>
-      <!-- Page title. -->
-      <p class="m-auto mr-6 text-xl whitespace-nowrap">{{ developer.name }}</p>
     </hip-nav-bar>
     <!-- Show developer's games list. -->
     <ul class="gap-4 grid grid-cols-4 m-6">
