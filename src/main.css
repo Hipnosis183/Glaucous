@@ -42,7 +42,7 @@ h1 {
   @apply text-color-800;
 }
 .dark h1 {
-  @apply text-color-600;
+  @apply text-color-500;
 }
 h2 {
   @apply text-color-600;

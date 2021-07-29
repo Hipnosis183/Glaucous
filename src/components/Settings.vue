@@ -39,10 +39,16 @@
                   :value="theme.i"
                 >
                   <div class="inline-flex items-center space-x-4">
-                    <div
-                      :style="{ backgroundColor: theme.codes[1] }"
-                      class="h-6 rounded-full w-6"
-                    />
+                    <div class="inline-flex space-x-2">
+                      <div
+                        :style="{ backgroundColor: theme.codes[2] }"
+                        class="h-6 rounded-full w-6"
+                      />
+                      <div
+                        :style="{ backgroundColor: theme.codes[8] }"
+                        class="h-6 rounded-full w-6"
+                      />
+                    </div>
                     <p>{{ theme.name }}</p>
                   </div>
                 </el-option>
