@@ -29,7 +29,7 @@
       <h1 class="font-bold text-xl">Links</h1>
     </div>
     <div class="mt-1 text-lg">
-      <ul class="list-disc list-inside">
+      <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
         <div
           v-if="$store.state.gameForm.gamePlatform.links.length > 0"
           class="space-y-4"

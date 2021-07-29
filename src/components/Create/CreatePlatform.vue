@@ -21,7 +21,7 @@
   <!-- Form header. -->
   <div class="flex justify-between mb-4 mx-2">
     <!-- Form title. -->
-    <h1 class="mr-10 pt-1 text-2xl">New Platform</h1>
+    <p class="mr-10 pt-1 text-2xl">New Platform</p>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button

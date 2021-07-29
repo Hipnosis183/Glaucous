@@ -126,14 +126,25 @@
           v-for="(region, index) in gameInfo.gameRegions"
           :key="region._id"
           :value="region._id"
-          class="w-full"
+          class="relative w-full"
         >
           <!-- Region tab button. -->
           <button
+            class="py-3 relative w-full"
+            :class="index == regionIndex ? 'border-b-4 border-color-400' : ''"
+          >
+            <div
+              class="absolute h-full top-0 w-full"
+              :class="index == regionIndex ? 'bg-color-500 opacity-50' : ''"
+            />
+            <div class="h-full relative">
+              <p>{{ getRegion(index) }}</p>
+            </div>
+          </button>
+          <div
             @click="changeRegion(index)"
-            class="py-3 w-full"
-            :class="index == regionIndex ? 'bg-theme-100 border-b-4 border-theme-400' : ''"
-          >{{ getRegion(index) }}</button>
+            class="absolute cursor-pointer h-full top-0 w-full"
+          />
         </li>
       </ul>
     </hip-nav-bar>

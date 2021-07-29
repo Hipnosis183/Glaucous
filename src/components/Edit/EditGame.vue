@@ -21,7 +21,7 @@
   <!-- Form header. -->
   <div class="flex justify-between mb-4 mx-2">
     <!-- Form title. -->
-    <h1 class="pt-1 text-2xl">Edit Game Entry</h1>
+    <p class="pt-1 text-2xl">Edit Game Entry</p>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button

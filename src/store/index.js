@@ -9,7 +9,9 @@ export default createStore({
     sidenavExpanded: false,
     slideBack: false,
     editMode: localStore.get('editMode'),
+    darkMode: localStore.get('darkMode'),
     selectedTheme: localStore.get('selectedTheme'),
+    selectedColor: localStore.get('selectedColor'),
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -58,9 +60,17 @@ export default createStore({
       state.editMode = !state.editMode
       localStore.set('editMode', state.editMode)
     },
+    toggleDarkMode(state) {
+      state.darkMode = !state.darkMode
+      localStore.set('darkMode', state.darkMode)
+    },
     selectTheme(state, data) {
       state.selectedTheme = data
       localStore.set('selectedTheme', state.selectedTheme)
+    },
+    selectColor(state, data) {
+      state.selectedColor = data
+      localStore.set('selectedColor', state.selectedColor)
     },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null

@@ -17,13 +17,41 @@
               <p class="text-xl">Enable edit mode</p>
               <el-switch
                 v-model="editMode"
-                active-color="var(--color-theme-400)"
+                active-color="var(--color-color-500)"
+              ></el-switch>
+            </div>
+            <!-- Dark mode. -->
+            <div class="option-content">
+              <p class="text-xl">Enable dark mode</p>
+              <el-switch
+                v-model="darkMode"
+                active-color="var(--color-color-500)"
               ></el-switch>
             </div>
             <!-- Theme select. -->
             <div class="option-content">
-              <p class="text-xl">Select color theme</p>
+              <p class="text-xl">Select theme</p>
               <el-select v-model="selectedTheme">
+                <el-option
+                  v-for="theme in themes"
+                  :key="theme.i"
+                  :label="theme.name"
+                  :value="theme.i"
+                >
+                  <div class="inline-flex items-center space-x-4">
+                    <div
+                      :style="{ backgroundColor: theme.codes[1] }"
+                      class="h-6 rounded-full w-6"
+                    />
+                    <p>{{ theme.name }}</p>
+                  </div>
+                </el-option>
+              </el-select>
+            </div>
+            <!-- Color theme select. -->
+            <div class="option-content">
+              <p class="text-xl">Select color theme</p>
+              <el-select v-model="selectedColor">
                 <el-option
                   v-for="color in colors"
                   :key="color.i"
@@ -56,7 +84,9 @@ import {
 // Import theme objects and functions.
 import {
   colors,
-  selectTheme
+  selectTheme,
+  selectColor,
+  themes
 } from '../theme'
 
 export default {
@@ -68,7 +98,8 @@ export default {
   },
   data() {
     return {
-      colors: colors
+      colors: colors,
+      themes: themes
     }
   },
   computed: {
@@ -76,13 +107,26 @@ export default {
       get() { return this.$store.state.editMode },
       set() { this.$store.commit('toggleEditMode') }
     },
+    darkMode: {
+      get() { return this.$store.state.darkMode },
+      set() { this.$store.commit('toggleDarkMode') }
+    },
     selectedTheme: {
       get() { return this.$store.state.selectedTheme },
       set(value) {
         // Set theme in the configuration file.
         this.$store.commit('selectTheme', value)
         // Set theme in the running application.
-        selectTheme(this.colors[this.selectedTheme].codes)
+        selectTheme(this.themes[this.selectedTheme].codes)
+      }
+    },
+    selectedColor: {
+      get() { return this.$store.state.selectedColor },
+      set(value) {
+        // Set color theme in the configuration file.
+        this.$store.commit('selectColor', value)
+        // Set color theme in the running application.
+        selectColor(this.colors[this.selectedColor].codes)
       }
     }
   }
@@ -100,5 +144,9 @@ export default {
 /* Styling. */
 .option-content {
   @apply flex items-center justify-between mx-8 my-6;
+}
+/* Transitions. */
+div {
+  transition: background-color 1s;
 }
 </style>

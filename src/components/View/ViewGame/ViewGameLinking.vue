@@ -54,7 +54,7 @@
       <!-- Form header. -->
       <div class="flex justify-between mb-6 mx-2">
         <!-- Form title. -->
-        <h1 class="mr-10 pt-1 text-2xl">Game Linking</h1>
+        <p class="mr-10 pt-1 text-2xl">Game Linking</p>
         <!-- Form buttons. -->
         <div class="h-10 space-x-4">
           <hip-button
@@ -110,22 +110,22 @@
           >
           <div
             v-else
-            class="ar-square bg-gray-100 border-2 border-gray-200 cursor-pointer h-32 items-center rounded-l-xl"
+            class="ar-square bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 cursor-pointer h-32 items-center rounded-l-xl"
           >
             <div class="flex h-full items-center w-full">
-              <div class="el-icon-picture m-auto text-6xl text-gray-300"></div>
+              <div class="el-icon-picture m-auto text-6xl text-theme-300"></div>
             </div>
           </div>
           <!-- Game card information. -->
           <hip-card-sq class="rounded-l-none w-full">
             <div class="mb-2">
-              <h1 class="font-semibold text-xl text-theme-800">{{ game.gameRegions[0].title }}</h1>
-              <h2 class="font-normal text-base text-theme-600">{{ game.gameRegions[0].subTitle }}</h2>
+              <h1 class="font-semibold text-xl">{{ game.gameRegions[0].title }}</h1>
+              <h2 class="font-normal text-base">{{ game.gameRegions[0].subTitle }}</h2>
             </div>
             <div class="mb-2">
-              <h2 class="font-normal italic text-base text-gray-600">{{ game.gameRegions[0].originalTitle }}</h2>
+              <h4 class="font-normal italic text-base">{{ game.gameRegions[0].originalTitle }}</h4>
             </div>
-            <h3 class="font-normal text-base text-gray-600">{{ game.platform.name }} - {{ game.releaseYear }}</h3>
+            <h4 class="font-normal text-base">{{ game.platform.name }} - {{ game.releaseYear }}</h4>
           </hip-card-sq>
         </li>
       </div>

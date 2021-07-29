@@ -53,21 +53,21 @@
               class="el-icon-circle-close text-2xl"
             ></hip-button>
             <!-- Control bar buttons. -->
-            <div class="border-2 divide-x-2 flex justify-between mx-4 rounded-full">
+            <div class="border-2 border-theme-200 dark:border-theme-600 divide-x-2 divide-theme-200 dark:divide-theme-600 flex justify-between mx-4 rounded-full">
               <!-- Previous image. -->
               <button
                 @click="prevImage()"
-                class="el-icon-d-arrow-left px-4 text-2xl"
+                class="el-icon-d-arrow-left px-4 text-2xl text-theme-900 dark:text-theme-100"
               ></button>
               <!-- Display image in its original size. -->
               <button
                 @click="imageZoom = !imageZoom"
-                class="el-icon-full-screen px-4 text-2xl"
+                class="el-icon-full-screen px-4 text-2xl text-theme-900 dark:text-theme-100"
               ></button>
               <!-- Next image. -->
               <button
                 @click="nextImage()"
-                class="el-icon-d-arrow-right px-4 text-2xl"
+                class="el-icon-d-arrow-right px-4 text-2xl text-theme-900 dark:text-theme-100"
               ></button>
             </div>
             <!-- Image counter. -->
@@ -145,15 +145,15 @@
       @click="viewImagesCoverOpen()"
       @load="renderReady = true"
       :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
-      class="border-2 border-gray-200 cursor-pointer m-auto mb-4 object-contain rounded-md"
+      class="border-2 border-theme-200 dark:border-theme-900 cursor-pointer m-auto mb-4 object-contain rounded-md"
       :class="renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : ''"
     />
     <div
       v-else
-      class="border-2 border-gray-200 flex h-full items-center mb-4 rounded-md w-full"
+      class="bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex h-full items-center mb-4 rounded-md w-full"
     >
       <div class="flex flex-col items-center m-auto">
-        <div class="el-icon-picture text-6xl mb-4 text-gray-300"></div>
+        <div class="el-icon-picture text-6xl mb-4 text-theme-300"></div>
         <p>No image available</p>
       </div>
     </div>

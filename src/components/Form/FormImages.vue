@@ -11,7 +11,7 @@
         <!-- Cover header. -->
         <div class="flex justify-between mb-6 mx-2">
           <!-- Cover title. -->
-          <h1 class="pt-1 text-2xl">Cover</h1>
+          <p class="pt-1 text-2xl">Cover</p>
           <!-- Cover buttons. -->
           <div class="flex h-10 space-x-4">
             <hip-button
@@ -30,19 +30,19 @@
         <img
           v-if="imagesCoverAdd"
           :src="'file://' + imagesCoverAdd"
-          class="border-2 border-gray-200 object-cover rounded-xl"
+          class="border-2 border-theme-200 dark:border-theme-900 object-cover rounded-xl"
         />
         <img
           v-else-if="getCover && !imagesCoverRemove"
           :src="'file://' + imagePath + '/' + getCover"
-          class="border-2 border-gray-200 object-cover rounded-xl"
+          class="border-2 border-theme-200 dark:border-theme-900 object-cover rounded-xl"
         />
         <div
           v-else
-          class="ar-square border-2 border-gray-200 flex items-center rounded-xl w-full"
+          class="ar-square bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex items-center rounded-xl w-full"
         >
           <div class="flex flex-col items-center m-auto">
-            <div class="el-icon-picture mb-4 text-6xl text-gray-300"></div>
+            <div class="el-icon-picture mb-4 text-6xl text-theme-300"></div>
             <p>No image available</p>
           </div>
         </div>
@@ -58,7 +58,7 @@
         <!-- Pictures header. -->
         <div class="flex justify-between mb-6 mx-2">
           <!-- Pictures title. -->
-          <h1 class="pt-1 text-2xl">Pictures</h1>
+          <p class="pt-1 text-2xl">Pictures</p>
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
             <hip-button
@@ -79,7 +79,7 @@
                 v-for="(image, index) in getPictures"
                 :key="index"
                 :value="image"
-                class="border-2 border-gray-200 h-full flex justify-center relative rounded-xl w-full"
+                class="border-2 border-theme-200 dark:border-theme-900 h-full flex justify-center relative rounded-xl w-full"
               >
                 <transition>
                   <div
@@ -87,7 +87,7 @@
                     @click="selectPicturesRemove(image)"
                     class="absolute bg-red-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
-                    <div class="el-icon-remove-outline m-auto text-6xl text-gray-200" />
+                    <div class="el-icon-remove-outline m-auto text-6xl text-theme-100" />
                   </div>
                 </transition>
                 <img
@@ -100,14 +100,14 @@
                 v-for="(image, index) in imagesPicturesAdd"
                 :key="index"
                 :value="image"
-                class="border-2 border-gray-200 flex h-full justify-center relative rounded-xl w-full"
+                class="border-2 border-theme-200 dark:border-theme-900 flex h-full justify-center relative rounded-xl w-full"
               >
                 <transition>
                   <div
                     @click="removePicturesAdd(image)"
                     class="absolute bg-green-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
-                    <div class="el-icon-circle-plus-outline m-auto text-6xl text-gray-200" />
+                    <div class="el-icon-circle-plus-outline m-auto text-6xl text-theme-100" />
                   </div>
                 </transition>
                 <img
@@ -119,10 +119,10 @@
           </div>
           <div
             v-else
-            class="border-2 border-gray-200 flex h-images items-center rounded-xl w-full"
+            class="bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex h-images items-center rounded-xl w-full"
           >
             <div class="flex flex-col items-center m-auto">
-              <div class="el-icon-picture mb-4 text-6xl text-gray-300"></div>
+              <div class="el-icon-picture mb-4 text-6xl text-theme-300"></div>
               <p>No images available</p>
             </div>
           </div>
@@ -131,7 +131,7 @@
     </div>
   </hip-overlay>
   <!-- Images form. -->
-  <p class="leading-10 -mb-1 text-gray-600 text-sm">Images</p>
+  <p class="leading-10 -mb-1 text-sm text-theme-600 dark:text-theme-100">Images</p>
   <el-button-group class="w-full">
     <el-button
       @click="addCover()"

@@ -43,7 +43,7 @@
     <h1 class="data-title">Comments</h1>
   </div>
   <div class="mt-1 text-lg">
-    <ul class="list-disc list-inside">
+    <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
       <div v-if="gameInfo.gameRegions[regionIndex].gameVersions[0].comments.length > 0">
         <li
           v-for="comment in gameInfo.gameRegions[regionIndex].gameVersions[0].comments"

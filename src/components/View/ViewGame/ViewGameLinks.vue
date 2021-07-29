@@ -16,7 +16,7 @@
         <!-- Link icon image. -->
         <img
           :src="getIcon(link)"
-          class="border-2 border-gray-200 h-12 object-cover rounded-full"
+          class="border-2 border-theme-200 dark:border-theme-800 h-12 object-cover rounded-full"
         />
       </div>
     </div>

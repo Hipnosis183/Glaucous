@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-gray-100 flex max-h-screen min-h-screen relative">
+<div :class="$store.state.darkMode ? 'dark' : ''">
+  <div class="bg-theme-100 dark:bg-theme-800 flex max-h-screen min-h-screen relative">
     <side-nav />
     <div class="flex flex-1 overflow-hidden">
       <div class="flex-1 no-scrollbar overflow-y-scroll">
@@ -19,6 +20,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -27,7 +29,9 @@ import SideNav from './components/SideNav.vue'
 // Import theme objects and functions.
 import {
   colors,
-  selectTheme
+  selectColor,
+  selectTheme,
+  themes
 } from './theme'
 
 export default {
@@ -36,10 +40,16 @@ export default {
   },
   created() {
     // Set theme stored in the configuration.
-    selectTheme(colors[this.$store.state.selectedTheme].codes)
+    selectTheme(themes[this.$store.state.selectedTheme].codes)
+    // Set color theme stored in the configuration.
+    selectColor(colors[this.$store.state.selectedColor].codes)
   }
 }
 </script>
 
-<style>
+<style scoped>
+/* Transitions. */
+div {
+  transition: background-color 1s;
+}
 </style>

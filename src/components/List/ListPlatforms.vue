@@ -32,8 +32,8 @@
       >
         <!-- Platform card. -->
         <hip-card-sq>
-          <h1 class="font-semibold text-theme-800 text-xl">{{ platform.name }}</h1>
-          <p class="text-theme-400">{{ platform.titles }} Titles</p>
+          <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
+          <h3>{{ platform.titles }} Titles</h3>
         </hip-card-sq>
       </li>
     </ul>

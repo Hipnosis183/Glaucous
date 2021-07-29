@@ -1,3 +1,15 @@
+// Theme dark/light values.
+export const themes = [
+    { i: 0, name: 'Default', codes: ['#FFFFFF', '#F4F4F5', '#E4E4E7', '#D4D4D8', '#A1A1AA', '#71717A', '#52525B', '#3F3F46', '#27272A', '#18181B'] },
+]
+
+// Set a theme given an array of dark/light colors.
+export async function selectTheme(codes) {
+    for (let [i, code] of codes.entries()) {
+        document.documentElement.style.setProperty('--color-theme-' + (i == 0 ? '0' : i + '00'), code)
+    }
+}
+
 // Theme color values.
 export const colors = [
     { i: 0, name: 'Cool Gray', codes: ['#F3F4F6', '#E5E7EB', '#D1D5DB', '#9CA3AF', '#6B7280', '#4B5563', '#374151', '#1F2937', '#111827'] },
@@ -17,11 +29,12 @@ export const colors = [
     { i: 14, name: 'Fuchsia', codes: ['#FAE8FF', '#F5D0FE', '#F0ABFC', '#E879F9', '#D946EF', '#C026D3', '#A21CAF', '#86198F', '#701A75'] },
     { i: 15, name: 'Pink', codes: ['#FCE7F3', '#FBCFE8', '#F9A8D4', '#F472B6', '#EC4899', '#DB2777', '#BE185D', '#9D174D', '#831843'] },
     { i: 16, name: 'Rose', codes: ['#FFE4E6', '#FECDD3', '#FDA4AF', '#FB7185', '#F43F5E', '#E11D48', '#BE123C', '#9F1239', '#881337'] },
+    { i: 17, name: 'Clear', codes: ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#AFD1D1', '#AFD1D1', '#AFD1D1', '#96C3C3', '#96C3C3', '#96C3C3'] }
 ]
 
-// Set a theme given an array of colors.
-export async function selectTheme(codes) {
+// Set a color theme given an array of colors.
+export async function selectColor(codes) {
     for (let [i, code] of codes.entries()) {
-        document.documentElement.style.setProperty('--color-theme-' + (i + 1) + '00', code)
+        document.documentElement.style.setProperty('--color-color-' + (i + 1) + '00', code)
     }
 }

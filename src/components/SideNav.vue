@@ -12,14 +12,18 @@
   <transition name="slide-nav">
     <div
       v-show="$store.state.sidenavExpanded"
-      class="absolute bg-theme-500 flex flex-col inset-y-0 w-80 z-40"
+      class="absolute bg-color-500 flex flex-col inset-y-0 w-80 z-40"
     >
+      <!-- Logo bar. -->
+      <div class="bg-color-700 text-center">
+        <h6
+          @click="$router.push({ name: 'Index' })"
+          class="cursor-pointer font-semibold my-8 text-3xl text-color-300"
+        >Frontend</h6>
+      </div>
+      <!-- Buttons. -->
       <div class="flex flex-col h-full justify-between">
         <div>
-          <h1
-            @click="$router.push({ name: 'Index' })"
-            class="cursor-pointer font-semibold my-12 text-3xl text-center text-gray-100"
-          >Frontend</h1>
           <div class="mt-8 space-y-4">
             <div class="flex">
               <hip-button-sb @click="$router.push({ name: 'ListGames' })">Games</hip-button-sb>
@@ -44,14 +48,14 @@
         </div>
       </div>
       <!-- Bottom bar. -->
-      <div class="bg-theme-600 flex justify-between">
+      <div class="bg-color-700 flex justify-between">
         <button
           @click="$router.push({ name: 'Settings' })"
-          class="el-icon-s-tools m-auto py-3 text-2xl text-gray-100"
+          class="el-icon-s-tools m-auto py-3 text-2xl text-color-300"
         ></button>
         <button
           @click="sidenavToggle()"
-          class="el-icon-s-fold m-auto py-3 text-2xl text-gray-100"
+          class="el-icon-s-fold m-auto py-3 text-2xl text-color-300"
         ></button>
       </div>
     </div>
@@ -64,14 +68,18 @@
     >
       <div
         :key="$store.state.selectedTheme"
-        class="bg-theme-500 flex flex-col h-full justify-between relative w-14"
+        class="bg-color-500 flex flex-col h-full justify-between relative w-14"
       >
+        <!-- Logo bar. -->
+        <div class="bg-color-700 text-center">
+          <h6
+            @click="$router.push({ name: 'Index' })"
+            class="cursor-pointer font-semibold my-8 text-3xl text-color-300"
+          >F</h6>
+        </div>
+        <!-- Buttons. -->
         <div class="flex flex-col h-full justify-between">
           <div>
-            <h1
-              @click="$router.push({ name: 'Index' })"
-              class="cursor-pointer font-semibold my-12 text-3xl text-center text-gray-100"
-            >F</h1>
             <div class="mt-8 space-y-4">
               <div class="flex">
                 <hip-button-sb @click="$router.push({ name: 'ListGames' })">G</hip-button-sb>
@@ -99,10 +107,10 @@
           </div>
         </div>
         <!-- Bottom bar. -->
-        <div class="bg-theme-600 flex justify-between">
+        <div class="bg-color-700 flex justify-between">
           <button
             @click="sidenavToggle()"
-            class="el-icon-s-unfold m-auto py-3 text-2xl text-gray-100"
+            class="el-icon-s-unfold m-auto py-3 text-2xl text-color-300"
           ></button>
         </div>
       </div>

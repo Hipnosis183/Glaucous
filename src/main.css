@@ -1,4 +1,6 @@
 :root {
+  /* Dark/Light values. */
+  --color-theme-0: '';
   --color-theme-100: '';
   --color-theme-200: '';
   --color-theme-300: '';
@@ -8,6 +10,16 @@
   --color-theme-700: '';
   --color-theme-800: '';
   --color-theme-900: '';
+  /* Color values. */
+  --color-color-100: '';
+  --color-color-200: '';
+  --color-color-300: '';
+  --color-color-400: '';
+  --color-color-500: '';
+  --color-color-600: '';
+  --color-color-700: '';
+  --color-color-800: '';
+  --color-color-900: '';
 }
 
 @tailwind base;
@@ -19,6 +31,36 @@
 }
 p, h1, h2, h3 {
   cursor: default;
+}
+p {
+  @apply text-theme-800;
+}
+.dark p {
+  @apply text-theme-100;
+}
+h1 {
+  @apply text-color-800;
+}
+.dark h1 {
+  @apply text-color-600;
+}
+h2 {
+  @apply text-color-600;
+}
+.dark h2 {
+  @apply text-color-400;
+}
+h3 {
+  @apply text-color-400;
+}
+.dark h3 {
+  @apply text-color-200;
+}
+h4 {
+  @apply text-theme-600;
+}
+.dark h4 {
+  @apply text-theme-200;
 }
 ::placeholder {
   @apply text-red-500 !important;
@@ -41,6 +83,12 @@ p, h1, h2, h3 {
   @apply -space-y-4;
   margin-bottom: 4px !important;
 }
+.el-form-item__label {
+  @apply text-theme-600 !important;
+}
+.dark .el-form-item__label {
+  @apply text-theme-100 !important;
+}
 .el-switch__core {
   align-items: center !important;
   border-width: 2px !important;
@@ -54,7 +102,7 @@ p, h1, h2, h3 {
   width: 20px !important;
 }
 .el-switch.is-checked .el-switch__core {
-  border-color: var(--color-theme-500) !important;
+  border-color: var(--color-color-500) !important;
 }
 .el-switch.is-checked .el-switch__action {
   left: 85% !important;

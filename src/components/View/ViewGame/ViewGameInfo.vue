@@ -25,7 +25,7 @@
   <!-- Flag image. -->
   <img
     :src="'./images/flags/' + gameInfo.gameRegions[regionIndex].region + '.svg'"
-    class="border-2 border-gray-200 float-right h-10 rounded-md"
+    class="border-2 border-theme-200 dark:border-theme-800 float-right h-10 rounded-md"
   />
   <!-- Header title. -->
   <div class="mb-10">
