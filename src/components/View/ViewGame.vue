@@ -175,7 +175,9 @@
               <!-- Insert game links component. -->
               <view-game-links
                 :key="gameInfo"
+                :fullTitle="fullTitle"
                 :gameInfo="gameInfo"
+                :gameRegion="gameInfo.gameRegions[regionIndex]"
                 @loaded="loadLinks($event)"
               />
             </div>
@@ -427,7 +429,7 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 /* Calculations. */
 .h-content {
   height: calc(100vh - 6.25rem);

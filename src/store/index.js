@@ -12,6 +12,8 @@ export default createStore({
     darkMode: localStore.get('darkMode'),
     selectedTheme: localStore.get('selectedTheme'),
     selectedColor: localStore.get('selectedColor'),
+    searchGoogle: localStore.get('searchGoogle'),
+    searchGoogleKey: localStore.get('searchGoogleKey'),
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -71,6 +73,14 @@ export default createStore({
     selectColor(state, data) {
       state.selectedColor = data
       localStore.set('selectedColor', state.selectedColor)
+    },
+    toggleSearchGoogle(state) {
+      state.searchGoogle = !state.searchGoogle
+      localStore.set('searchGoogle', state.searchGoogle)
+    },
+    selectSearchGoogleKey(state, data) {
+      state.searchGoogleKey = data
+      localStore.set('searchGoogleKey', state.searchGoogleKey)
     },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null

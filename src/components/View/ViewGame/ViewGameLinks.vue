@@ -1,24 +1,38 @@
 <template>
-  <!-- External links. -->
-  <div
-    v-if="links"
-    class="flex ml-auto pt-4 space-x-2"
-  >
+  <div class="flex ml-auto pt-4 space-x-2">
+    <!-- External links. -->
     <div
-      v-for="(link, index) in links"
-      :key="index"
-      :value="link"
+      v-if="links"
+      class="flex space-x-2"
     >
       <div
-        @click="openLink(link)"
-        class="cursor-pointer text-2xl"
+        v-for="(link, index) in links"
+        :key="index"
+        :value="link"
       >
-        <!-- Link icon image. -->
-        <img
-          :src="getIcon(link)"
-          class="border-2 border-theme-200 dark:border-theme-800 h-12 object-cover rounded-full"
-        />
+        <div
+          @click="openLink(link)"
+          class="cursor-pointer text-2xl"
+        >
+          <!-- Link icon image. -->
+          <img
+            :src="getIcon(link)"
+            class="link-icon"
+          />
+        </div>
       </div>
+    </div>
+    <!-- Google search. -->
+    <div
+      v-if="$store.state.searchGoogle"
+      @click="openGoogle()"
+      class="cursor-pointer text-2xl"
+    >
+      <!-- Link icon image. -->
+      <img
+        :src="'./images/links/google.com.svg'"
+        class="link-icon"
+      />
     </div>
   </div>
 </template>
@@ -40,13 +54,20 @@ export default {
   data() {
     return {
       links: [],
+      googleKeys: [
+        this.fullTitle,
+        this.gameRegion.originalTitle,
+        this.gameInfo.developer.name
+      ]
     }
   },
   emits: [
     'loaded'
   ],
   props: [
-    'gameInfo'
+    'fullTitle',
+    'gameInfo',
+    'gameRegion'
   ],
   methods: {
     // Links management.
@@ -82,6 +103,12 @@ export default {
     openLink(link) {
       // Open the selected link in the system default browser.
       shell.openExternal(link.href)
+    },
+    openGoogle() {
+      // Select key attribute to use as a query search parameter.
+      let query = this.googleKeys[this.$store.state.searchGoogleKey]
+      // Make a Google search with the selected parameter.
+      shell.openExternal('https://google.com/search?q=' + query)
     }
   },
   mounted() {
@@ -91,5 +118,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss" scoped>
+/* Styling. */
+.link-icon {
+  @apply border-2 border-theme-200 dark:border-theme-800 h-12 object-cover rounded-full;
+}
 </style>

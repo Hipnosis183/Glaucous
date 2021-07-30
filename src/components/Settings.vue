@@ -69,6 +69,28 @@
                 </el-option>
               </el-select>
             </div>
+            <!-- Google search. -->
+            <div class="option-content">
+              <p class="text-xl">Enable Google search icon</p>
+              <el-switch
+                v-model="searchGoogle"
+                active-color="var(--color-color-500)"
+              ></el-switch>
+            </div>
+            <!-- Google search key. -->
+            <div class="option-content">
+              <p class="text-xl">Select Google search key</p>
+              <el-select v-model="searchGoogleKey">
+                <el-option
+                  v-for="key in googleKeys"
+                  :key="key.i"
+                  :label="key.name"
+                  :value="key.i"
+                >
+                  <p>{{ key.name }}</p>
+                </el-option>
+              </el-select>
+            </div>
           </div>
         </div>
       </hip-modal>
@@ -100,7 +122,12 @@ export default {
   data() {
     return {
       colors: colors,
-      themes: themes
+      themes: themes,
+      googleKeys: [
+        { i: 0, name: 'Full Title' },
+        { i: 1, name: 'Original Title' },
+        { i: 2, name: 'Developer' }
+      ]
     }
   },
   computed: {
@@ -129,6 +156,14 @@ export default {
         // Set color theme in the running application.
         selectColor(this.colors[this.selectedColor].codes)
       }
+    },
+    searchGoogle: {
+      get() { return this.$store.state.searchGoogle },
+      set() { this.$store.commit('toggleSearchGoogle') }
+    },
+    searchGoogleKey: {
+      get() { return this.$store.state.searchGoogleKey },
+      set(value) { this.$store.commit('selectSearchGoogleKey', value) }
     }
   }
 }
