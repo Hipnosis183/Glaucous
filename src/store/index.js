@@ -8,12 +8,12 @@ export default createStore({
   state: {
     sidenavExpanded: false,
     slideBack: false,
-    editMode: localStore.get('editMode'),
-    darkMode: localStore.get('darkMode'),
-    selectedTheme: localStore.get('selectedTheme'),
-    selectedColor: localStore.get('selectedColor'),
-    searchGoogle: localStore.get('searchGoogle'),
-    searchGoogleKey: localStore.get('searchGoogleKey'),
+    editMode: localStore.get('editMode', true),
+    darkMode: localStore.get('darkMode', false),
+    selectedTheme: localStore.get('selectedTheme', 0),
+    selectedColor: localStore.get('selectedColor', 0),
+    searchGoogle: localStore.get('searchGoogle', true),
+    searchGoogleKey: localStore.get('searchGoogleKey', 0),
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
