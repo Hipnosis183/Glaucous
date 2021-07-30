@@ -70,7 +70,7 @@
       ></hip-button-nb>
     </hip-nav-bar>
     <!-- Show developer's games list. -->
-    <ul class="gap-4 grid grid-cols-4 m-6">
+    <ul class="gap-4 grid grid-cols-view m-6">
       <li
         v-for="game in developer.games"
         :key="game._id"

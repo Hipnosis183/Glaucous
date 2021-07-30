@@ -20,6 +20,8 @@
   --color-color-700: '';
   --color-color-800: '';
   --color-color-900: '';
+  /* Color values. */
+  --grid-cols-view: '';
 }
 
 @tailwind base;

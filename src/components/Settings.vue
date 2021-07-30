@@ -94,6 +94,15 @@
                 </el-option>
               </el-select>
             </div>
+            <!--  -->
+            <div class="option-content">
+              <p class="text-xl">Number of columns</p>
+              <el-input-number
+                v-model="gridCols"
+                :min="1"
+                :max="10"
+              ></el-input-number>
+            </div>
           </div>
         </div>
       </hip-modal>
@@ -114,6 +123,8 @@ import {
   selectColor,
   themes
 } from '../theme'
+// Import settings objects and functions.
+import { selectGridCols } from '../settings'
 
 export default {
   name: 'Settings',
@@ -167,7 +178,14 @@ export default {
     searchGoogleKey: {
       get() { return this.$store.state.searchGoogleKey },
       set(value) { this.$store.commit('selectSearchGoogleKey', value) }
-    }
+    },
+    gridCols: {
+      get() { return this.$store.state.gridCols },
+      set(value) {
+        this.$store.commit('selectGridCols', value)
+        selectGridCols(this.gridCols)
+      }
+    },
   }
 }
 </script>

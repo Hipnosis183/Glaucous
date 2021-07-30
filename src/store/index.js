@@ -14,6 +14,7 @@ export default createStore({
     selectedColor: localStore.get('selectedColor', 0),
     searchGoogle: localStore.get('searchGoogle', true),
     searchGoogleKey: localStore.get('searchGoogleKey', 0),
+    gridCols: 1,
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -81,6 +82,9 @@ export default createStore({
     selectSearchGoogleKey(state, data) {
       state.searchGoogleKey = data
       localStore.set('searchGoogleKey', state.searchGoogleKey)
+    },
+    selectGridCols(state, data) {
+      state.gridCols = data
     },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null

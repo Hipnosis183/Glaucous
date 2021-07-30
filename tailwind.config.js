@@ -30,6 +30,9 @@ module.exports = {
           800: 'var(--color-color-800)',
           900: 'var(--color-color-900)',
         }
+      },
+      gridTemplateColumns: {
+       'view': 'repeat(var(--grid-cols-view), minmax(0, 1fr))',
       }
     },
   },
