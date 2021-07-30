@@ -1,6 +1,6 @@
 <template>
 <div :class="$store.state.darkMode ? 'dark' : ''">
-  <div class="bg-theme-100 dark:bg-theme-800 flex max-h-screen min-h-screen relative">
+  <div class="bg-theme-100 dark:bg-theme-800 bg-transition flex max-h-screen min-h-screen relative">
     <side-nav />
     <div class="flex flex-1 overflow-hidden">
       <div class="flex-1 no-scrollbar overflow-y-scroll">
@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 /* Transitions. */
-div {
+.bg-transition {
   transition: background-color 1s;
 }
 </style>

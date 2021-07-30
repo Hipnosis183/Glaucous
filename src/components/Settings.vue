@@ -1,10 +1,13 @@
 <template>
   <div>
     <!-- Navigation bar. -->
-    <hip-nav-bar title="Settings" />
+    <hip-nav-bar
+      title="Settings"
+      class="bg-transition"
+    />
     <!-- Settings panel. -->
     <div class="flex m-6 space-x-6">
-      <hip-modal class="h-content w-full">
+      <hip-modal class="bg-transition h-content w-full">
         <div class="flex max-h-content overflow-hidden">
           <div class="flex-1 no-scrollbar overflow-y-scroll items-center">
             <!-- Edit mode. -->
@@ -182,7 +185,7 @@ export default {
   @apply flex items-center justify-between mx-8 my-6;
 }
 /* Transitions. */
-div {
+.bg-transition {
   transition: background-color 1s;
 }
 </style>
