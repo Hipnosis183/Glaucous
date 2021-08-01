@@ -19,22 +19,28 @@
       ></hip-button-nb>
     </hip-nav-bar>
     <!-- Show platforms list. -->
-    <ul class="gap-4 grid grid-cols-view m-6">
-      <li
-        v-for="platform in platforms"
-        :key="platform._id"
-        :value="platform._id"
-        @click="$router.push({ name: 'ViewPlatform', params: { id: platform._id } })"
-      >
-        <!-- Platform card. -->
-        <hip-card>
-          <div>
-            <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
-            <h3>{{ platform.titles }} Titles</h3>
-          </div>
-        </hip-card>
-      </li>
-    </ul>
+    <div class="h-content m-6">
+      <div class="flex flex-col max-h-content min-h-content overflow-hidden">
+        <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
+          <ul class="gap-4 grid grid-cols-view">
+            <li
+              v-for="platform in platforms"
+              :key="platform._id"
+              :value="platform._id"
+              @click="$router.push({ name: 'ViewPlatform', params: { id: platform._id } })"
+            >
+              <!-- Platform card. -->
+              <hip-card>
+                <div>
+                  <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
+                  <h3>{{ platform.titles }} Titles</h3>
+                </div>
+              </hip-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,5 +103,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+/* Calculations. */
+.h-content {
+  height: calc(100vh - 6.25rem);
+}
+.min-h-content {
+  min-height: calc(100vh - 6.25rem);
+}
+.max-h-content {
+  max-height: calc(100vh - 6.25rem);
+}
 </style>
