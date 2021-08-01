@@ -32,7 +32,10 @@ module.exports = {
         }
       },
       gridTemplateColumns: {
-       'view': 'repeat(var(--grid-cols-view), minmax(0, 1fr))',
+        'view': 'repeat(var(--grid-cols-view), minmax(0, 1fr))',
+      },
+      zIndex: {
+        5: 5
       }
     },
   },

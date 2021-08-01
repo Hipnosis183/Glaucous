@@ -27,10 +27,12 @@
         @click="$router.push({ name: 'ViewDeveloper', params: { id: developer._id } })"
       >
         <!-- Developer card. -->
-        <hip-card-sq>
-          <h1 class="font-semibold text-xl">{{ developer.name }}</h1>
-          <h3>{{ developer.titles }} Titles</h3>
-        </hip-card-sq>
+        <hip-card>
+          <div>
+            <h1 class="font-semibold text-xl">{{ developer.name }}</h1>
+            <h3>{{ developer.titles }} Titles</h3>
+          </div>
+        </hip-card>
       </li>
     </ul>
   </div>
@@ -42,7 +44,7 @@ import CreateDeveloper from '../Create/CreateDeveloper.vue'
 // Import UI components.
 import {
   HipButtonNb,
-  HipCardSq,
+  HipCard,
   HipDialog,
   HipNavBar
 } from '../Component'
@@ -56,7 +58,7 @@ export default {
     CreateDeveloper,
     // UI components.
     HipButtonNb,
-    HipCardSq,
+    HipCard,
     HipDialog,
     HipNavBar
   },

@@ -100,33 +100,12 @@
           :key="game._id"
           :value="game._id"
           @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
-          class="inline-flex"
         >
-          <!-- Game card image. -->
-          <img
-            v-if="getImage(game)"
-            :src="'file://' + getImage(game)"
-            class="ar-square cursor-pointer h-40 object-cover rounded-l-xl"
-          >
-          <div
-            v-else
-            class="ar-square bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 cursor-pointer h-40 items-center rounded-l-xl"
-          >
-            <div class="flex h-full items-center w-full">
-              <div class="el-icon-picture m-auto text-6xl text-theme-300"></div>
-            </div>
-          </div>
-          <!-- Game card information. -->
-          <hip-card-sq class="rounded-l-none w-full">
-            <div class="mb-2">
-              <h1 class="font-semibold text-xl">{{ game.gameRegions[0].title }}</h1>
-              <h2 class="font-normal text-base">{{ game.gameRegions[0].subTitle }}</h2>
-            </div>
-            <div class="mb-2">
-              <h4 class="font-normal italic text-base">{{ game.gameRegions[0].originalTitle }}</h4>
-            </div>
-            <h4 class="font-normal text-base">{{ game.platform.name }} - {{ game.releaseYear }}</h4>
-          </hip-card-sq>
+          <!-- Game card. -->
+          <hip-card-large
+            :gameInfo="game"
+            :gameImage="getImage(game)"
+          />
         </li>
       </div>
       <div v-else>
@@ -148,7 +127,7 @@ import { readdirSync } from 'fs-extra'
 // Import UI components.
 import {
   HipButton,
-  HipCardSq,
+  HipCardLarge,
   HipDialog,
   HipModal,
   HipOverlay
@@ -166,7 +145,7 @@ export default {
   components: {
     // UI components.
     HipButton,
-    HipCardSq,
+    HipCardLarge,
     HipDialog,
     HipModal,
     HipOverlay

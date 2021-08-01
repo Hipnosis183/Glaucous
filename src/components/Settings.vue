@@ -94,14 +94,72 @@
                 </el-option>
               </el-select>
             </div>
-            <!--  -->
+            <!-- Card view mode. -->
+            <div class="option-content">
+              <p class="text-xl">Card view mode</p>
+              <el-select v-model="cardMode">
+                <el-option
+                  v-for="val in modesViews"
+                  :key="val.i"
+                  :label="val.name"
+                  :value="val.i"
+                >
+                  <p>{{ val.name }}</p>
+                </el-option>
+              </el-select>
+            </div>
+            <!-- Select number of columns for card views. -->
             <div class="option-content">
               <p class="text-xl">Number of columns</p>
               <el-input-number
-                v-model="gridCols"
+                v-model="cardColumns"
                 :min="1"
                 :max="10"
               ></el-input-number>
+            </div>
+            <!-- Card image display. -->
+            <div class="option-content">
+              <p class="text-xl">Display card image</p>
+              <el-switch
+                v-model="cardImageDisplay"
+                active-color="var(--color-color-500)"
+              ></el-switch>
+            </div>
+            <!-- Card image position. -->
+            <div class="option-content">
+              <p class="text-xl">Card image position</p>
+              <el-select v-model="cardImagePosition">
+                <el-option
+                  v-for="val in imagePositions"
+                  :key="val.i"
+                  :label="val.name"
+                  :value="val.i"
+                >
+                  <p>{{ val.name }}</p>
+                </el-option>
+              </el-select>
+            </div>
+            <!-- Card text display. -->
+            <div class="option-content">
+              <p class="text-xl">Display card text</p>
+              <el-switch
+                v-model="cardTextDisplay"
+                active-color="var(--color-color-500)"
+              ></el-switch>
+            </div>
+            <!-- Card text position. -->
+            <div class="option-content">
+              <p class="text-xl">Card text position</p>
+              <el-select v-model="cardTextPosition">
+                <el-option
+                  v-for="val in textPositions"
+                  :key="val.i"
+                  :label="val.name"
+                  :value="val.i"
+                >
+                  <p>{{ val.name }}</p>
+                </el-option>
+              </el-select>
             </div>
           </div>
         </div>
@@ -124,7 +182,12 @@ import {
   themes
 } from '../theme'
 // Import settings objects and functions.
-import { selectGridCols } from '../settings'
+import {
+  modesViews,
+  imagePositions,
+  textPositions,
+  selectCardColumns
+} from '../settings'
 
 export default {
   name: 'Settings',
@@ -137,6 +200,9 @@ export default {
     return {
       colors: colors,
       themes: themes,
+      modesViews: modesViews,
+      imagePositions: imagePositions,
+      textPositions: textPositions,
       googleKeys: [
         { i: 0, name: 'Full Title' },
         { i: 1, name: 'Original Title' },
@@ -179,12 +245,32 @@ export default {
       get() { return this.$store.state.searchGoogleKey },
       set(value) { this.$store.commit('selectSearchGoogleKey', value) }
     },
-    gridCols: {
-      get() { return this.$store.state.gridCols },
+    cardMode: {
+      get() { return this.$store.state.cardMode },
+      set(value) { this.$store.commit('selectCardMode', value) }
+    },
+    cardColumns: {
+      get() { return this.$store.state.cardColumns },
       set(value) {
-        this.$store.commit('selectGridCols', value)
-        selectGridCols(this.gridCols)
+        this.$store.commit('selectCardColumns', value)
+        selectCardColumns(this.cardColumns)
       }
+    },
+    cardImageDisplay: {
+      get() { return this.$store.state.cardImageDisplay },
+      set() { this.$store.commit('toggleCardImageDisplay') }
+    },
+    cardImagePosition: {
+      get() { return this.$store.state.cardImagePosition },
+      set(value) { this.$store.commit('selectCardImagePosition', value) }
+    },
+    cardTextDisplay: {
+      get() { return this.$store.state.cardTextDisplay },
+      set() { this.$store.commit('toggleCardTextDisplay') }
+    },
+    cardTextPosition: {
+      get() { return this.$store.state.cardTextPosition },
+      set(value) { this.$store.commit('selectCardTextPosition', value) }
     },
   }
 }

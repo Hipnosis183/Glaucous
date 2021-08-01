@@ -27,10 +27,12 @@
         @click="$router.push({ name: 'ViewPlatform', params: { id: platform._id } })"
       >
         <!-- Platform card. -->
-        <hip-card-sq>
-          <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
-          <h3>{{ platform.titles }} Titles</h3>
-        </hip-card-sq>
+        <hip-card>
+          <div>
+            <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
+            <h3>{{ platform.titles }} Titles</h3>
+          </div>
+        </hip-card>
       </li>
     </ul>
   </div>
@@ -42,7 +44,7 @@ import CreatePlatform from '../Create/CreatePlatform.vue'
 // Import UI components.
 import {
   HipButtonNb,
-  HipCardSq,
+  HipCard,
   HipDialog,
   HipNavBar
 } from '../Component'
@@ -56,7 +58,7 @@ export default {
     CreatePlatform,
     // UI components.
     HipButtonNb,
-    HipCardSq,
+    HipCard,
     HipDialog,
     HipNavBar
   },

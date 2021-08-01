@@ -77,34 +77,22 @@
         :value="game._id"
         @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
       >
-        <!-- Game card. -->
-        <hip-card-sq>
-          <!-- Game card image. -->
-          <img
-            v-if="getImage(game)"
-            :src="'file://' + getImage(game)"
-            class="absolute cursor-pointer h-40 left-0 object-cover rounded-t-xl top-0 w-full"
-          >
-          <div
-            v-else
-            class="absolute border-2 border-theme-200 dark:border-theme-900 cursor-pointer h-40 items-center left-0 rounded-t-xl top-0 w-full"
-          >
-            <div class="flex h-full items-center w-full">
-              <div class="el-icon-picture m-auto text-6xl text-theme-300"></div>
-            </div>
-          </div>
-          <!-- Game card information. -->
-          <div class="mt-40">
-            <div class="mb-2">
-              <h1 class="font-semibold text-xl">{{ game.gameRegions[0].title }}</h1>
-              <h2 class="font-normal text-base">{{ game.gameRegions[0].subTitle }}</h2>
-            </div>
-            <div class="mb-2">
-              <h4 class="font-normal italic text-base">{{ game.gameRegions[0].originalTitle }}</h4>
-            </div>
-            <h4 class="font-normal text-base">{{ game.platform.name }} - {{ game.releaseYear }}</h4>
-          </div>
-        </hip-card-sq>
+        <!-- Game cards. -->
+        <hip-card-tall
+          v-if="$store.state.cardMode == 0"
+          :gameInfo="game"
+          :gameImage="getImage(game)"
+        />
+        <hip-card-large
+          v-else-if="$store.state.cardMode == 1"
+          :gameInfo="game"
+          :gameImage="getImage(game)"
+        />
+        <hip-card-compact
+          v-else-if="$store.state.cardMode == 2"
+          :gameInfo="game"
+          :gameImage="getImage(game)"
+        />
       </li>
     </ul>
   </div>
@@ -121,7 +109,10 @@ import { readdirSync } from 'fs-extra'
 import {
   HipButton,
   HipButtonNb,
-  HipCardSq,
+  HipCard,
+  HipCardCompact,
+  HipCardLarge,
+  HipCardTall,
   HipDialog,
   HipNavBar
 } from '../Component'
@@ -141,7 +132,10 @@ export default {
     // UI components.
     HipButton,
     HipButtonNb,
-    HipCardSq,
+    HipCard,
+    HipCardCompact,
+    HipCardLarge,
+    HipCardTall,
     HipDialog,
     HipNavBar
   },

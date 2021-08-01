@@ -14,7 +14,12 @@ export default createStore({
     selectedColor: localStore.get('selectedColor', 0),
     searchGoogle: localStore.get('searchGoogle', true),
     searchGoogleKey: localStore.get('searchGoogleKey', 0),
-    gridCols: 1,
+    cardMode: localStore.get('cardMode', 1),
+    cardColumns: localStore.get('cardColumns', 1),
+    cardImageDisplay: localStore.get('cardImageDisplay', true),
+    cardImagePosition: localStore.get('cardImagePosition', 0),
+    cardTextDisplay: localStore.get('cardTextDisplay', true),
+    cardTextPosition: localStore.get('cardTextPosition', 1),
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -83,8 +88,29 @@ export default createStore({
       state.searchGoogleKey = data
       localStore.set('searchGoogleKey', state.searchGoogleKey)
     },
-    selectGridCols(state, data) {
-      state.gridCols = data
+    selectCardMode(state, data) {
+      state.cardMode = data
+      localStore.set('cardMode', state.cardMode)
+    },
+    selectCardColumns(state, data) {
+      state.cardColumns = data
+      localStore.set('cardColumns', state.cardColumns)
+    },
+    toggleCardImageDisplay(state) {
+      state.cardImageDisplay = !state.cardImageDisplay
+      localStore.set('cardImageDisplay', state.cardImageDisplay)
+    },
+    selectCardImagePosition(state, data) {
+      state.cardImagePosition = data
+      localStore.set('cardImagePosition', state.cardImagePosition)
+    },
+    toggleCardTextDisplay(state) {
+      state.cardTextDisplay = !state.cardTextDisplay
+      localStore.set('cardTextDisplay', state.cardTextDisplay)
+    },
+    selectCardTextPosition(state, data) {
+      state.cardTextPosition = data
+      localStore.set('cardTextPosition', state.cardTextPosition)
     },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null
