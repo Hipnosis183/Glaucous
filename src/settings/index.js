@@ -1,5 +1,5 @@
 // Card view modes list.
-export const modesViews = [
+export const cardViews = [
     { i: 0, name: 'Tall' },
     { i: 1, name: 'Large' },
     { i: 2, name: 'Compact' }
@@ -15,6 +15,13 @@ export const imagePositions = [
 export const textPositions = [
     { i: 0, name: 'Center' },
     { i: 1, name: 'Left' }
+]
+
+// Google search key parameters.
+export const googleKeys = [
+    { i: 0, name: 'Full Title' },
+    { i: 1, name: 'Original Title' },
+    { i: 2, name: 'Developer' }
 ]
 
 // Set the amount of columns to be displayed on card views.
