@@ -6,6 +6,7 @@ export async function dbSeed() {
     const d = 'Developer'
     const p = 'Platform'
     const g = 'Game'
+    let n = 1
     // Set amount of platforms to create.
     for (let i = 0; i < 10; i++) {
         // Set platform name.
@@ -18,12 +19,13 @@ export async function dbSeed() {
                         for (let i = 0; i < 100; i++) {
                             // Set game data. Needs an existing developer.
                             await gameSeed(
-                                g, // Title
+                                g + ' ' + n, // Title
                                 g, // Subtitle
                                 g, // Original Title
                                 g, // Romanized Title
                                 g, // Translated Title
-                                g, // Region
+                                'eu', // Region
+                                g, // Serial
                                 dev._id, // Developer
                                 pla._id, // Platform
                                 g, // Release Year
@@ -32,6 +34,7 @@ export async function dbSeed() {
                                 g, // Current Version
                                 [g] // Comments
                             )
+                            n++
                         }
                     })
             })
@@ -52,14 +55,15 @@ async function platformSeed(a) {
     return await createPlatform(Platform)
 }
 
-async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m) {
+async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m, n) {
     let gameForm = {
         gamePlatform: {
-            developer: g,
-            platform: h,
-            releaseYear: i,
-            numberPlayers: j,
-            latestVersion: k
+            developer: h,
+            platform: i,
+            releaseYear: j,
+            numberPlayers: k,
+            latestVersion: l,
+            links: []
         },
         gameRegion: {
             title: a,
@@ -67,11 +71,16 @@ async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m) {
             originalTitle: c,
             romanizedTitle: d,
             translatedTitle: e,
-            region: f
+            region: f,
+            serial: g,
+            images: {
+                cover: { add: null, remove: false },
+                pictures: { add: [], remove: [] }
+            }
         },
         gameVersion: {
-            currentVersion: l,
-            comments: m
+            currentVersion: m,
+            comments: n
         }
     }
     await newGamePlatform(gameForm)

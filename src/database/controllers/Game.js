@@ -366,14 +366,11 @@ export async function getGamesD(req) {
     let gamePlatforms = []
     return await GamePlatformModel.find({ developer: req }, { populate: false })
         .then(async res => {
-            // Loop through all the items in 'res'.
             for (let gamePlatform of res) {
                 await getGame(gamePlatform._id)
-                    // Populate each item with its data.
                     .then(res => gamePlatforms.push(res))
             }
             res = gamePlatforms
-            // Return populated object.
             return res
         })
 }
@@ -383,15 +380,28 @@ export async function getGamesP(req) {
     let gamePlatforms = []
     return await GamePlatformModel.find({ platform: req }, { populate: false })
         .then(async res => {
-            // Loop through all the items in 'res'.
             for (let gamePlatform of res) {
                 await getGame(gamePlatform._id)
-                    // Populate each item with its data.
                     .then(res => gamePlatforms.push(res))
             }
             res = gamePlatforms
-            // Return populated object.
             return res
+        })
+}
+
+// Get all games.
+export async function getGamesAll(index, count) {
+    return await GameRegionModel.find({}, { skip: index, limit: count, sort: 'title', populate: false })
+        .then(async res => {
+            let gamePlatforms = []
+            for (let game of res) {
+                await GamePlatformModel.findOne({ gameRegions: game._id }, { populate: true })
+                    .then(async pla => {
+                        pla.gameRegions[0] = game
+                        gamePlatforms.push(pla)
+                    })
+            }
+            return gamePlatforms
         })
 }
 

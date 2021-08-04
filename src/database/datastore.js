@@ -3,14 +3,19 @@ const { connect } = require('marpat')
 
 let database
 const uri = 'nedb://database'
+// Connect to the database.
 connectDatastore()
 
 // Used as a hack to compact the database.
 // Mostly to avoid errors on delete operations.
-export async function connectDatastore(){
-    connect(uri).then(db => {
-        database = db
-    })
+export async function connectDatastore() {
+    connect(uri, { compareStrings: compareLocale })
+        .then(db => database = db)
+}
+
+// Compare function that returns natural ordered elements.
+function compareLocale(a, b) {
+    return a.localeCompare(b, navigator.language, { numeric: true, ignorePunctuation: true })
 }
 
 // Generate a random, 16 characters long ID.
