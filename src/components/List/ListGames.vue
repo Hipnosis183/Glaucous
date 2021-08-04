@@ -112,13 +112,16 @@ export default {
         })
     },
     loadGamesNext() {
-      // Get next batch of games.
-      getGamesAll(this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.games = this.games.concat(res)
-          // Set next pagination index.
-          this.pagination.index += this.pagination.count
-        })
+      // Check loaded games to avoid duplication.
+      if (this.games) {
+        // Get next batch of games.
+        getGamesAll(this.pagination.index, this.pagination.count)
+          .then(res => {
+            this.games = this.games.concat(res)
+            // Set next pagination index.
+            this.pagination.index += this.pagination.count
+          })
+      }
     },
     // Create operations.
     createGamePlatformOpen() {
