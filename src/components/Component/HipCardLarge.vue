@@ -30,7 +30,7 @@
     >
       <div
         class="my-auto"
-        :class="[$store.state.cardTextDisplay ? 'visible' : 'hidden',
+        :class="[$store.state.cardTextDisplay ? 'visible' : 'invisible',
         !$store.state.darkMode && $store.state.cardImageDisplay && $store.state.cardImagePosition == 1 ? 'text-light text-shadow' : '']"
       >
         <div class="mb-2">

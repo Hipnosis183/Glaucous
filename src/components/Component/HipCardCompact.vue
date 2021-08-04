@@ -25,12 +25,12 @@
     ></div>
     <!-- Game card information. -->
     <div
-      class="flex z-0"
+      class="flex h-16 z-0"
       :class="$store.state.cardImageDisplay ? $store.state.cardImagePosition == 0 ? 'ml-24' : '' : ''"
     >
       <div
-        class="flex flex-col h-16 my-auto"
-        :class="[$store.state.cardTextDisplay ? 'visible' : 'hidden',
+        class="flex flex-col my-auto"
+        :class="[$store.state.cardTextDisplay ? 'visible' : 'invisible',
         !$store.state.darkMode && $store.state.cardImageDisplay && $store.state.cardImagePosition == 1 ? 'text-light text-shadow' : '']"
       >
         <div
