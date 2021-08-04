@@ -22,7 +22,10 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <ul class="gap-4 grid grid-cols-view">
+          <ul
+            v-infinite-scroll="loadPlatformsNext"
+            class="gap-4 grid grid-cols-view"
+          >
             <li
               v-for="platform in platforms"
               :key="platform._id"
@@ -71,6 +74,10 @@ export default {
   data() {
     return {
       platforms: null,
+      pagination: {
+        index: 0,
+        count: 50
+      },
       dialog: {
         createPlatform: false
       }
@@ -78,9 +85,25 @@ export default {
   },
   methods: {
     loadPlatforms() {
-      // Get all platforms.
-      getPlatforms()
-        .then(res => this.platforms = res)
+      // Get first batch of platforms.
+      getPlatforms(this.pagination.index, this.pagination.count)
+        .then(res => {
+          this.platforms = res
+          // Set next pagination index.
+          this.pagination.index += this.pagination.count
+        })
+    },
+    loadPlatformsNext() {
+      // Check loaded platforms to avoid duplication.
+      if (this.platforms) {
+        // Get next batch of platforms.
+        getPlatforms(this.pagination.index, this.pagination.count)
+          .then(res => {
+            this.platforms = this.platforms.concat(res)
+            // Set next pagination index.
+            this.pagination.index += this.pagination.count
+          })
+      }
     },
     // Create operations.
     createPlatformOpen() {

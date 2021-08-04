@@ -22,7 +22,10 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <ul class="gap-4 grid grid-cols-view">
+          <ul
+            v-infinite-scroll="loadDevelopersNext"
+            class="gap-4 grid grid-cols-view"
+          >
             <li
               v-for="developer in developers"
               :key="developer._id"
@@ -71,6 +74,10 @@ export default {
   data() {
     return {
       developers: null,
+      pagination: {
+        index: 0,
+        count: 50
+      },
       dialog: {
         createDeveloper: false
       }
@@ -78,9 +85,25 @@ export default {
   },
   methods: {
     loadDevelopers() {
-      // Get all developers.
-      getDevelopers()
-        .then(res => this.developers = res)
+      // Get first batch of developers.
+      getDevelopers(this.pagination.index, this.pagination.count)
+        .then(res => {
+          this.developers = res
+          // Set next pagination index.
+          this.pagination.index += this.pagination.count
+        })
+    },
+    loadDevelopersNext() {
+      // Check loaded developers to avoid duplication.
+      if (this.developers) {
+        // Get next batch of developers.
+        getDevelopers(this.pagination.index, this.pagination.count)
+          .then(res => {
+            this.developers = this.developers.concat(res)
+            // Set next pagination index.
+            this.pagination.index += this.pagination.count
+          })
+      }
     },
     // Create operations.
     createDeveloperOpen() {

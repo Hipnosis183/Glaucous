@@ -361,52 +361,55 @@ export async function getGames(req) {
     return games
 }
 
-// Get all games by a specific developer.
-export async function getGamesD(req) {
-    let gamePlatforms = []
-    return await GamePlatformModel.find({ developer: req }, { populate: false })
-        .then(async res => {
-            for (let gamePlatform of res) {
-                await getGame(gamePlatform._id)
-                    .then(res => gamePlatforms.push(res))
-            }
-            res = gamePlatforms
-            return res
-        })
-}
-
-// Get all games by a specific platform.
-export async function getGamesP(req) {
-    let gamePlatforms = []
-    return await GamePlatformModel.find({ platform: req }, { populate: false })
-        .then(async res => {
-            for (let gamePlatform of res) {
-                await getGame(gamePlatform._id)
-                    .then(res => gamePlatforms.push(res))
-            }
-            res = gamePlatforms
-            return res
-        })
-}
-
 // Get all games.
-export async function getGamesAll(index, count) {
+export async function getGamesAll(index, count, gameRegions) {
+    const query = gameRegions ? { _id: { $in: gameRegions } } : {}
     // Search game regions first to be able to sort elements by title.
-    return await GameRegionModel.find({}, { skip: index, limit: count, sort: 'title', populate: false })
+    return await GameRegionModel.find(query, { skip: index, limit: count, sort: 'title', populate: false })
         .then(async res => {
             let gamePlatforms = []
-            for (let game of res) {
+            for (let gameRegion of res) {
                 // Populate the required game platform data for the region.
-                await GamePlatformModel.findOne({ gameRegions: game._id }, { populate: true })
+                await GamePlatformModel.findOne({ gameRegions: gameRegion._id }, { populate: true })
                     .then(async pla => {
                         // Avoid returning all regions of the game.
-                        if (pla.gameRegions[0]._id == game._id) {
-                            pla.gameRegions[0] = game
+                        if (pla.gameRegions[0]._id == gameRegion._id) {
+                            pla.gameRegions[0] = gameRegion
                             gamePlatforms.push(pla)
                         }
                     })
             }
             return gamePlatforms
+        })
+}
+
+// Get all games by a specific developer.
+export async function getGamesDeveloper(req, index, count) {
+    let gameRegions = []
+    // Search all game platforms for the selected developer.
+    return await GamePlatformModel.find({ developer: req }, { populate: false, select: ['gameRegions'] })
+        .then(async res => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+            // Get all game regions for the selected developer.
+            return await getGamesAll(index, count, gameRegions)
+        })
+}
+
+// Get all games by a specific platform.
+export async function getGamesPlatform(req, index, count) {
+    let gameRegions = []
+    // Search all game platforms for the selected platform.
+    return await GamePlatformModel.find({ platform: req }, { populate: false, select: ['gameRegions'] })
+        .then(async res => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+            // Get all game regions for the selected platform.
+            return await getGamesAll(index, count, gameRegions)
         })
 }
 

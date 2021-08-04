@@ -42,8 +42,8 @@ export async function getPlatformByName(q) {
 }
 
 // Search for all platforms.
-export async function getPlatforms() {
-    return await PlatformModel.find()
+export async function getPlatforms(index, count) {
+    return await PlatformModel.find({}, { skip: index, limit: count, sort: 'name' })
         .then(async res => {
             // Loop through all the items in 'res'.
             for (let platform of res) {

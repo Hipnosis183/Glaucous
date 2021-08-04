@@ -73,7 +73,10 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <ul class="gap-4 grid grid-cols-view">
+          <ul
+            v-infinite-scroll="loadDeveloperNext"
+            class="gap-4 grid grid-cols-view"
+          >
             <li
               v-for="game in developer.games"
               :key="game._id"
@@ -127,7 +130,7 @@ import {
   getDeveloper,
   deleteDeveloper
 } from '../../database/controllers/Developer'
-import { getGamesD } from '../../database/controllers/Game'
+import { getGamesDeveloper } from '../../database/controllers/Game'
 
 export default {
   name: 'ViewDeveloper',
@@ -151,6 +154,10 @@ export default {
         name: null,
         games: null
       },
+      pagination: {
+        index: 0,
+        count: 50
+      },
       dialog: {
         createGamePlatform: false,
         editDeveloper: false,
@@ -164,8 +171,24 @@ export default {
       getDeveloper(this.$route.params.id)
         .then(res => this.developer.name = res.name)
       // Get developer's games.
-      getGamesD(this.$route.params.id)
-        .then(res => this.developer.games = res)
+      getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count)
+        .then(res => {
+          this.developer.games = res
+          // Set next pagination index.
+          this.pagination.index += this.pagination.count
+        })
+    },
+    loadDeveloperNext() {
+      // Check loaded games to avoid duplication.
+      if (this.developer.games) {
+        // Get next batch of games.
+        getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count)
+          .then(res => {
+            this.developer.games = this.developer.games.concat(res)
+            // Set next pagination index.
+            this.pagination.index += this.pagination.count
+          })
+      }
     },
     // Create operations.
     createGamePlatformOpen() {

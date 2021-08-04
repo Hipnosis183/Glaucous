@@ -73,7 +73,10 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <ul class="gap-4 grid grid-cols-view">
+          <ul
+            v-infinite-scroll="loadPlatformNext"
+            class="gap-4 grid grid-cols-view"
+          >
             <li
               v-for="game in platform.games"
               :key="game._id"
@@ -127,7 +130,7 @@ import {
   getPlatform,
   deletePlatform
 } from '../../database/controllers/Platform'
-import { getGamesP } from '../../database/controllers/Game'
+import { getGamesPlatform } from '../../database/controllers/Game'
 
 export default {
   name: 'ViewPlatform',
@@ -151,6 +154,10 @@ export default {
         name: null,
         games: null
       },
+      pagination: {
+        index: 0,
+        count: 50
+      },
       dialog: {
         createGamePlatform: false,
         editPlatform: false,
@@ -164,8 +171,24 @@ export default {
       getPlatform(this.$route.params.id)
         .then(res => this.platform.name = res.name)
       // Get platform's games.
-      getGamesP(this.$route.params.id)
-        .then(res => this.platform.games = res)
+      getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
+        .then(res => {
+          this.platform.games = res
+          // Set next pagination index.
+          this.pagination.index += this.pagination.count
+        })
+    },
+    loadPlatformNext() {
+      // Check loaded games to avoid duplication.
+      if (this.platform.games) {
+        // Get next batch of games.
+        getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
+          .then(res => {
+            this.platform.games = this.platform.games.concat(res)
+            // Set next pagination index.
+            this.pagination.index += this.pagination.count
+          })
+      }
     },
     // Create operations.
     createGamePlatformOpen() {

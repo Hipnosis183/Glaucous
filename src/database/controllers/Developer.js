@@ -42,8 +42,8 @@ export async function getDeveloperByName(q) {
 }
 
 // Search for all developers.
-export async function getDevelopers() {
-    return await DeveloperModel.find()
+export async function getDevelopers(index, count) {
+    return await DeveloperModel.find({}, { skip: index, limit: count, sort: 'name' })
         .then(async res => {
             // Loop through all the items in 'res'.
             for (let developer of res) {
