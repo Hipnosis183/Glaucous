@@ -391,14 +391,19 @@ export async function getGamesP(req) {
 
 // Get all games.
 export async function getGamesAll(index, count) {
+    // Search game regions first to be able to sort elements by title.
     return await GameRegionModel.find({}, { skip: index, limit: count, sort: 'title', populate: false })
         .then(async res => {
             let gamePlatforms = []
             for (let game of res) {
+                // Populate the required game platform data for the region.
                 await GamePlatformModel.findOne({ gameRegions: game._id }, { populate: true })
                     .then(async pla => {
-                        pla.gameRegions[0] = game
-                        gamePlatforms.push(pla)
+                        // Avoid returning all regions of the game.
+                        if (pla.gameRegions[0]._id == game._id) {
+                            pla.gameRegions[0] = game
+                            gamePlatforms.push(pla)
+                        }
                     })
             }
             return gamePlatforms
