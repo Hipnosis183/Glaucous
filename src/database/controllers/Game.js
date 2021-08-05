@@ -28,7 +28,7 @@ export async function newGamePlatform(req, id) {
     // Create a region for the game.
     await createGameRegion(req.gameRegion)
     // Create platform for the game.
-    await createGamePlatform(req.gamePlatform)
+    await createGamePlatform(req.gamePlatform, req.gameRegion)
     // Store uploaded images for the game.
     await storeImages(req.gameRegion)
     // Store links for the game.
@@ -57,7 +57,7 @@ export async function newGameRegion(req, id) {
 }
 
 // Create a specific game for a determined platform.
-async function createGamePlatform(req) {
+async function createGamePlatform(req, reg) {
     Platform = generateID()
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
@@ -66,6 +66,7 @@ async function createGamePlatform(req) {
         gameRegions: new Array(Region),
         developer: req.developer,
         platform: req.platform,
+        defaultTitle: reg.title,
         releaseYear: req.releaseYear,
         numberPlayers: req.numberPlayers,
         latestVersion: req.latestVersion
@@ -109,7 +110,7 @@ async function createGameVersion(req) {
 }
 
 // Update the specified game.
-export async function updateGame(req, id) {
+export async function updateGame(req, id, index) {
     // Update the game platform.
     await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
         developer: req.gamePlatform.developer,
@@ -118,6 +119,12 @@ export async function updateGame(req, id) {
         numberPlayers: req.gamePlatform.numberPlayers,
         latestVersion: req.gamePlatform.latestVersion
     })
+    // Update the game default title.
+    if (index == 0) {
+        await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
+            defaultTitle: req.gameRegion.title
+        })
+    }
     // Update the game region.
     await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
         title: req.gameRegion.title,
@@ -170,7 +177,10 @@ export async function deleteGameRegion(req, i) {
             .then(async res => {
                 let index = res.gameRegions.indexOf(req.gameRegions[i]._id)
                 res.gameRegions.splice(index, 1)
-                await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: res.gameRegions })
+                await GamePlatformModel.findOneAndUpdate({ _id: req._id }, {
+                    gameRegions: res.gameRegions,
+                    defaultTitle: req.gameRegions.filter(res => res._id != req.gameRegions[i]._id)[0].title
+                })
             })
         // Remove game region's images.
         remove(app.getAppPath() + '/images/' + req._id + '/' + req.gameRegions[i]._id)
@@ -312,7 +322,10 @@ export async function selectGameRegion(req, index) {
     let gameRegionsSorted = new Array(gameRegions[index])
     gameRegionsSorted = gameRegionsSorted.concat(gameRegions.filter(res => res != gameRegions[index]))
     // Update the game platform.
-    await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: gameRegionsSorted })
+    await GamePlatformModel.findOneAndUpdate({ _id: req._id }, {
+        gameRegions: gameRegionsSorted,
+        defaultTitle: req.gameRegions[index].title
+    })
 }
 
 // Get a specific game platform.
