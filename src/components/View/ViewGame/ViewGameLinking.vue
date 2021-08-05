@@ -134,7 +134,7 @@ import {
 } from '../../Component'
 // Import database controllers functions.
 import {
-  getGames,
+  getGamesLinked,
   searchGameByTitle,
   linkGame,
   unlinkGame
@@ -237,7 +237,7 @@ export default {
   },
   mounted() {
     // Load linked games.
-    getGames(this.gameInfo.gamePlatforms)
+    getGamesLinked(this.gameInfo.gamePlatforms)
       // Exclude the selected game.
       .then(res => this.linkedGames = res.filter(res => res._id != this.gameInfo._id))
   }

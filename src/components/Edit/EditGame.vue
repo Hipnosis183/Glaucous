@@ -148,8 +148,7 @@ export default {
   ],
   props: [
     'gameDeveloper',
-    'gamePlatform',
-    'regionIndex'
+    'gamePlatform'
   ],
   methods: {
     onSubmit() {
@@ -170,7 +169,7 @@ export default {
         .then(() => this.checkPlatform()
           .then(() => {
             // Update game entry.
-            updateGame(this.$store.state.gameForm, this.$store.state.gameSelected, this.regionIndex)
+            updateGame(this.$store.state.gameForm, this.$store.state.gameSelected)
               .then(() => this.$emit('close'))
           }))
     },

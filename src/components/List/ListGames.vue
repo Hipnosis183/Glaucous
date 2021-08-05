@@ -104,7 +104,7 @@ export default {
   methods: {
     loadGames() {
       // Get first batch of games.
-      getGamesAll(this.pagination.index, this.pagination.count)
+      getGamesAll(this.pagination.index, this.pagination.count, true)
         .then(res => {
           this.games = res
           // Set next pagination index.
@@ -115,7 +115,7 @@ export default {
       // Check loaded games to avoid duplication.
       if (this.games) {
         // Get next batch of games.
-        getGamesAll(this.pagination.index, this.pagination.count)
+        getGamesAll(this.pagination.index, this.pagination.count, true)
           .then(res => {
             this.games = this.games.concat(res)
             // Set next pagination index.

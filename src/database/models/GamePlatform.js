@@ -11,7 +11,6 @@ class GamePlatformModel extends Document {
             gameRegions: { type: [ GameRegionModel ], required: true },
             developer: { type: DeveloperModel, required: true },
             platform: { type: PlatformModel, required: true },
-            defaultTitle: { type: String, required: true },
             releaseYear: { type: String, required: true },
             numberPlayers: { type: String },
             latestVersion: { type: String }

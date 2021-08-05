@@ -171,7 +171,7 @@ export default {
       getDeveloper(this.$route.params.id)
         .then(res => this.developer.name = res.name)
       // Get developer's games.
-      getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count)
+      getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count, true)
         .then(res => {
           this.developer.games = res
           // Set next pagination index.
@@ -182,7 +182,7 @@ export default {
       // Check loaded games to avoid duplication.
       if (this.developer.games) {
         // Get next batch of games.
-        getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count)
+        getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count, true)
           .then(res => {
             this.developer.games = this.developer.games.concat(res)
             // Set next pagination index.

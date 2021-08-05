@@ -28,7 +28,6 @@
       <edit-game
         :gameDeveloper="gameInfo.developer._id"
         :gamePlatform="gameInfo.platform._id"
-        :regionIndex="regionIndex"
         @close="editGameClose()"
       />
     </hip-dialog>

@@ -171,7 +171,7 @@ export default {
       getPlatform(this.$route.params.id)
         .then(res => this.platform.name = res.name)
       // Get platform's games.
-      getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
+      getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count, true)
         .then(res => {
           this.platform.games = res
           // Set next pagination index.
@@ -182,7 +182,7 @@ export default {
       // Check loaded games to avoid duplication.
       if (this.platform.games) {
         // Get next batch of games.
-        getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
+        getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count, true)
           .then(res => {
             this.platform.games = this.platform.games.concat(res)
             // Set next pagination index.
