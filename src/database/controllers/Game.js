@@ -116,8 +116,8 @@ export async function updateGame(req, id) {
         platform: req.gamePlatform.platform,
         releaseYear: req.gamePlatform.releaseYear,
         numberPlayers: req.gamePlatform.numberPlayers,
-        latestVersion: req.gamePlatform.latestVersion }
-    )
+        latestVersion: req.gamePlatform.latestVersion
+    })
     // Update the game region.
     await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
         title: req.gameRegion.title,
@@ -126,13 +126,13 @@ export async function updateGame(req, id) {
         romanizedTitle: req.gameRegion.romanizedTitle,
         translatedTitle: req.gameRegion.translatedTitle,
         region: req.gameRegion.region,
-        serial: req.gameRegion.serial }
-    )
+        serial: req.gameRegion.serial
+    })
     // Update the game version.
     await GameVersionModel.findOneAndUpdate({ _id: id.gameVersion }, {
         currentVersion: req.gameVersion.currentVersion,
-        comments: req.gameVersion.comments }
-    )
+        comments: req.gameVersion.comments
+    })
     // Update stored images for the game.
     await updateImages(req.gameRegion, id)
     // Update stored links for the game.
@@ -299,6 +299,20 @@ export async function unlinkGame(req, del) {
     for (let g of linkedGames) {
         await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
     }
+}
+
+// Reorder a game regions array to select one as the default.
+export async function selectGameRegion(req, index) {
+    let gameRegions = []
+    // Get all game regions IDs.
+    for (let gameRegion of req.gameRegions) {
+        gameRegions.push(gameRegion._id)
+    }
+    // Create new sorted array.
+    let gameRegionsSorted = new Array(gameRegions[index])
+    gameRegionsSorted = gameRegionsSorted.concat(gameRegions.filter(res => res != gameRegions[index]))
+    // Update the game platform.
+    await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: gameRegionsSorted })
 }
 
 // Get a specific game platform.

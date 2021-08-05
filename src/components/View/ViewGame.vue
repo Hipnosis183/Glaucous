@@ -120,6 +120,12 @@
         @click="deleteGamePlatformOpen()"
         class="el-icon-delete text-2xl"
       ></hip-button-nb>
+      <!-- Open delete game platform dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="selectGameRegion()"
+        class="el-icon-place text-2xl"
+      ></hip-button-nb>
       <!-- Game region tabs. -->
       <ul class="flex w-full">
         <li
@@ -222,7 +228,8 @@ import {
   getGame,
   getRegion,
   deleteGamePlatform,
-  deleteGameRegion
+  deleteGameRegion,
+  selectGameRegion
 } from '../../database/controllers/Game'
 
 export default {
@@ -413,6 +420,16 @@ export default {
         // Decrease region index.
         this.regionIndex--
       }
+    },
+    selectGameRegion() {
+      // Set the currently selected region as the default.
+      selectGameRegion(this.gameInfo, this.regionIndex)
+        .then(() => {
+          // Reload game.
+          this.loadGame()
+          // Reset region index.
+          this.regionIndex = 0
+        })
     }
   },
   mounted() {
