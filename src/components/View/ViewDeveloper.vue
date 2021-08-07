@@ -188,6 +188,8 @@ export default {
   },
   methods: {
     loadDeveloper() {
+      // Ensure pagination index is reset.
+      this.pagination.index = 0
       // Get developer.
       getDeveloper(this.$route.params.id)
         .then(res => this.developer.name = res.name)
@@ -235,8 +237,6 @@ export default {
     queryClear() {
       // A search hasn't been done yet.
       this.querySearched = false
-      // Ensure pagination index is reset.
-      this.pagination.index = 0
       // Reload games list.
       this.loadDeveloper()
     },

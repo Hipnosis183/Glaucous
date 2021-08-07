@@ -85,6 +85,8 @@ export default {
   },
   methods: {
     loadDevelopers() {
+      // Ensure pagination index is reset.
+      this.pagination.index = 0
       // Get first batch of developers.
       getDevelopers(this.pagination.index, this.pagination.count)
         .then(res => {

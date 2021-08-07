@@ -127,6 +127,8 @@ export default {
   },
   methods: {
     loadGames() {
+      // Ensure pagination index is reset.
+      this.pagination.index = 0
       // Get first batch of games.
       getGamesAll(this.pagination.index, this.pagination.count, true)
         .then(res => {
@@ -171,8 +173,6 @@ export default {
     queryClear() {
       // A search hasn't been done yet.
       this.querySearched = false
-      // Ensure pagination index is reset.
-      this.pagination.index = 0
       // Reload games list.
       this.loadGames()
     },
@@ -185,6 +185,8 @@ export default {
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
     },
     createGamePlatformClose() {
+      // Reload game list.
+      this.loadGames()
       // Close create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
     },

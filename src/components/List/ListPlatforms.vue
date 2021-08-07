@@ -85,6 +85,8 @@ export default {
   },
   methods: {
     loadPlatforms() {
+      // Ensure pagination index is reset.
+      this.pagination.index = 0
       // Get first batch of platforms.
       getPlatforms(this.pagination.index, this.pagination.count)
         .then(res => {
