@@ -72,8 +72,9 @@
       <!-- Game search bar. -->
       <el-select
         v-model="querySelected"
+        clearable
         filterable
-        placeholder="Required"
+        placeholder="Search..."
         remote
         :remote-method="querySearch"
         reserve-keyword
@@ -135,7 +136,7 @@ import {
 // Import database controllers functions.
 import {
   getGamesLinked,
-  searchGameByTitle,
+  getGamesLinkedSearch,
   linkGame,
   unlinkGame
 } from '../../../database/controllers/Game'
@@ -206,7 +207,7 @@ export default {
       // Only start search from three characters onwards.
       if (query !== '' && query.length > 2) {
         // Search for games matching the query.
-        searchGameByTitle(query, this.gameInfo.gamePlatforms)
+        getGamesLinkedSearch(this.gameInfo.gamePlatforms, query)
           .then(res => {
             // Store results.
             this.queryResults = res

@@ -68,12 +68,25 @@
         @click="deleteDeveloperOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>
+      <!-- Search bar. -->
+      <div class="ml-2 my-auto w-80">
+        <el-input
+          v-model="queryInput"
+          @clear="queryClear()"
+          @input="querySearch(queryInput)"
+          clearable
+          placeholder="Search..."
+          prefix-icon="el-icon-search"
+          size="medium"
+        />
+      </div>
     </hip-nav-bar>
     <!-- Show developer's games list. -->
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
           <ul
+            v-if="developer.games.length > 0"
             v-infinite-scroll="loadDeveloperNext"
             class="gap-4 grid grid-cols-view"
           >
@@ -101,6 +114,12 @@
               />
             </li>
           </ul>
+          <div
+            v-else-if="querySearched"
+            class="flex h-content w-full"
+          >
+            <p class="m-auto">No games found.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -152,8 +171,10 @@ export default {
     return {
       developer: {
         name: null,
-        games: null
+        games: []
       },
+      queryInput: null,
+      querySearched: false,
       pagination: {
         index: 0,
         count: 50
@@ -189,6 +210,35 @@ export default {
             this.pagination.index += this.pagination.count
           })
       }
+    },
+    // Query searching.
+    querySearch(query) {
+      // Only start search from three characters onwards.
+      if (query !== '' && query.length > 2) {
+        // Ensure pagination index is reset.
+        this.pagination.index = 0
+        // A search has been done.
+        this.querySearched = true
+        // Search for games matching the query.
+        getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count, true, query)
+          .then(res => {
+            this.developer.games = res
+            // Set next pagination index.
+            this.pagination.index += this.pagination.count
+          })
+      } else {
+        if (this.querySearched) {
+          this.queryClear()
+        }
+      }
+    },
+    queryClear() {
+      // A search hasn't been done yet.
+      this.querySearched = false
+      // Ensure pagination index is reset.
+      this.pagination.index = 0
+      // Reload games list.
+      this.loadDeveloper()
     },
     // Create operations.
     createGamePlatformOpen() {
