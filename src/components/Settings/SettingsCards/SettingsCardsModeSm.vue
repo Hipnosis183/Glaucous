@@ -1,5 +1,8 @@
 <template>
-  <el-select v-model="cardMode">
+  <el-select
+    v-model="cardMode"
+    size="medium"
+  >
     <el-option
       v-for="item in cardViews"
       :key="item.i"

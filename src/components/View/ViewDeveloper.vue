@@ -69,7 +69,7 @@
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>
       <!-- Search bar. -->
-      <div class="ml-2 my-auto w-80">
+      <div class="flex-shrink-0 ml-2 my-auto w-80">
         <el-input
           v-model="queryInput"
           @clear="queryClear()"
@@ -79,6 +79,9 @@
           prefix-icon="el-icon-search"
           size="medium"
         />
+      </div>
+      <div class="flex-shrink-0 ml-2 my-auto w-28">
+        <settings-cards-mode-sm />
       </div>
     </hip-nav-bar>
     <!-- Show developer's games list. -->
@@ -130,6 +133,7 @@
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditDeveloper from '../Edit/EditDeveloper.vue'
+import SettingsCardsModeSm from '../Settings/SettingsCards/SettingsCardsModeSm.vue'
 // Import functions from modules.
 import { app } from '@electron/remote'
 import { readdirSync } from 'fs-extra'
@@ -157,6 +161,7 @@ export default {
     // Form components.
     CreateGamePlatform,
     EditDeveloper,
+    SettingsCardsModeSm,
     // UI components.
     HipButton,
     HipButtonNb,
