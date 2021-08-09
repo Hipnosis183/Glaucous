@@ -234,7 +234,7 @@ export default {
       }
       // Return the cover if it exists.
       return imageFile ? (imagePath + '/' + imageFile) : false
-    },
+    }
   },
   mounted() {
     // Load linked games.

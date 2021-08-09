@@ -2,8 +2,14 @@ import GamePlatformModel from '../models/GamePlatform'
 import GameRegionModel from '../models/GameRegion'
 import GameVersionModel from '../models/GameVersion'
 import { generateID } from '../datastore'
-import { getDeveloper } from './Developer'
-import { getPlatform } from './Platform'
+import {
+    getDeveloper,
+    getDeveloperByName
+} from './Developer'
+import {
+    getPlatform,
+    getPlatformByName
+} from './Platform'
 
 import { app } from '@electron/remote'
 import {
@@ -437,6 +443,48 @@ export async function getGamesPlatform(req, index, count, ordered, query) {
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, ordered, search)
         })
+}
+
+// Get all games matching a given search query.
+export async function getGamesSearch(index, count, query) {
+    // Configure the search query.
+    const search = {
+        title: new RegExp(query.title, 'i'),
+        platform: new RegExp(query.platform, 'i'),
+        developer: new RegExp(query.developer, 'i'),
+        releaseYear: new RegExp(query.releaseYear, 'i')
+    }
+    let platforms = []
+    // Get all platforms matching the given query.
+    await getPlatformByName(search.platform)
+        .then(async res => {
+            for (let platform of res) {
+                // Store the platform IDs.
+                platforms.push(platform._id)
+            }
+        })
+    let developers = []
+    // Get all developers matching the given query.
+    await getDeveloperByName(search.developer)
+        .then(async res => {
+            for (let developer of res) {
+                // Store the developer IDs.
+                developers.push(developer._id)
+            }
+        })
+    let gameRegions = []
+    // Search all game platforms matching the selected developer and platform.
+    await GamePlatformModel.find({ $and: [{ platform: { $in: platforms }, developer: { $in: developers }, releaseYear: search.releaseYear }] }, { populate: false, select: ['gameRegions'] })
+        .then(async res => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+        })
+    // Configure the search query.
+    const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { subTitle: search.title }, { translatedTitle: search.title }] }
+    // Get all the game regions matching the search query.
+    return await getGamesAll(index, count, true, querySearch)
 }
 
 // Get all linked games of a specific game platform.

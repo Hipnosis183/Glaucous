@@ -1,65 +1,76 @@
 <template>
+  <!-- Open search dialog. -->
+  <transition>
+    <search
+      v-show="dialog.search"
+      @close="searchOpen()"
+      :key="dialog.search"
+      class="pos-initial z-10"
+    />
+  </transition>
   <!-- Expanded sidenav. -->
-  <!-- Sidenav overlay. -->
-  <transition v-show="$store.state.sidenavExpanded">
-    <div
-      @click="sidenavToggle()"
-      class="absolute bg-black bg-opacity-50 h-full w-full z-40"
-    >
-    </div>
-  </transition>
-  <!-- Sidenav contents. -->
-  <transition name="slide-nav">
-    <div
-      v-show="$store.state.sidenavExpanded"
-      class="absolute bg-color-500 flex flex-col inset-y-0 w-80 z-40"
-    >
-      <!-- Logo bar. -->
-      <div class="bg-color-700 text-center">
-        <h6
-          @click="$router.push({ name: 'Index' })"
-          class="cursor-pointer font-semibold my-8 text-3xl text-color-300"
-        >Frontend</h6>
+  <div>
+    <!-- Sidenav overlay. -->
+    <transition v-show="$store.state.sidenavExpanded">
+      <div
+        @click="sidenavToggle()"
+        class="absolute bg-black bg-opacity-50 h-full w-full z-40"
+      >
       </div>
-      <!-- Buttons. -->
-      <div class="flex flex-col h-full justify-between">
-        <div>
-          <div class="mt-8 space-y-4">
-            <div class="flex">
-              <hip-button-sb @click="$router.push({ name: 'ListGames' })">Games</hip-button-sb>
+    </transition>
+    <!-- Sidenav contents. -->
+    <transition name="slide-nav">
+      <div
+        v-show="$store.state.sidenavExpanded"
+        class="absolute bg-color-500 flex flex-col inset-y-0 w-80 z-40"
+      >
+        <!-- Logo bar. -->
+        <div class="bg-color-700 text-center">
+          <h6
+            @click="$router.push({ name: 'Index' })"
+            class="cursor-pointer font-semibold my-8 text-3xl text-color-300"
+          >Frontend</h6>
+        </div>
+        <!-- Buttons. -->
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <div class="mt-8 space-y-4">
+              <div class="flex">
+                <hip-button-sb @click="$router.push({ name: 'ListGames' })">Games</hip-button-sb>
+              </div>
+              <div class="flex">
+                <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">Developers</hip-button-sb>
+              </div>
+              <div class="flex">
+                <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">Platforms</hip-button-sb>
+              </div>
             </div>
+          </div>
+          <div class="mb-8 space-y-4">
             <div class="flex">
-              <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">Developers</hip-button-sb>
+              <hip-button-sb @click="searchOpen()">Search</hip-button-sb>
             </div>
-            <div class="flex">
-              <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">Platforms</hip-button-sb>
+            <div v-show="history > 0">
+              <div class="flex">
+                <hip-button-sb @click="$router.back()">Back</hip-button-sb>
+              </div>
             </div>
           </div>
         </div>
-        <div class="mb-8 space-y-4">
-          <div class="flex">
-            <hip-button-sb>Search</hip-button-sb>
-          </div>
-          <div v-show="history > 0">
-            <div class="flex">
-              <hip-button-sb @click="$router.back()">Back</hip-button-sb>
-            </div>
-          </div>
+        <!-- Bottom bar. -->
+        <div class="bg-color-700 flex justify-between">
+          <button
+            @click="$router.push({ name: 'Settings' })"
+            class="el-icon-s-tools m-auto py-3 text-2xl text-color-300"
+          ></button>
+          <button
+            @click="sidenavToggle()"
+            class="el-icon-s-fold m-auto py-3 text-2xl text-color-300"
+          ></button>
         </div>
       </div>
-      <!-- Bottom bar. -->
-      <div class="bg-color-700 flex justify-between">
-        <button
-          @click="$router.push({ name: 'Settings' })"
-          class="el-icon-s-tools m-auto py-3 text-2xl text-color-300"
-        ></button>
-        <button
-          @click="sidenavToggle()"
-          class="el-icon-s-fold m-auto py-3 text-2xl text-color-300"
-        ></button>
-      </div>
-    </div>
-  </transition>
+    </transition>
+  </div>
   <!-- Small sidenav. -->
   <div>
     <transition
@@ -94,7 +105,10 @@
           </div>
           <div class="mb-8 space-y-4">
             <div class="flex">
-              <hip-button-sb class="el-icon-search h-12 text-xl"></hip-button-sb>
+              <hip-button-sb
+                @click="searchOpen()"
+                class="el-icon-search h-12 text-xl"
+              ></hip-button-sb>
             </div>
             <div v-show="history > 0">
               <div class="flex">
@@ -119,22 +133,36 @@
 </template>
 
 <script>
+// Import search component.
+import Search from './Search.vue'
 // Import UI components.
 import { HipButtonSb } from './Component'
 
 export default {
   components: {
-    // UI components.
+    Search,
     HipButtonSb
   },
   data() {
     return {
-      history: window.history.state.position
+      history: window.history.state.position,
+      dialog: {
+        search: false
+      }
     }
   },
   methods: {
     sidenavToggle() {
+      // Toggle sidenav visibility.
       this.$store.state.sidenavExpanded = !this.$store.state.sidenavExpanded
+    },
+    searchOpen() {
+      // Open search dialog.
+      this.dialog.search = !this.dialog.search
+      // Close sidenav.
+      if (this.$store.state.sidenavExpanded) {
+        this.sidenavToggle()
+      }
     }
   },
   watch: {
@@ -151,7 +179,7 @@ export default {
 <style scoped>
 /* Transitions. */
 div {
-  transition: background-color 1s;
+  transition: background-color 1s, opacity 0.5s ease;
 }
 .slide-nav-leave-active,
 .slide-nav-enter-active {
