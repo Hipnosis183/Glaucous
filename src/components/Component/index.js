@@ -5,6 +5,7 @@ import HipCard from './HipCard.vue'
 import HipCardCompact from './HipCardCompact.vue'
 import HipCardLarge from './HipCardLarge.vue'
 import HipCardTall from './HipCardTall.vue'
+import HipChip from './HipChip.vue'
 import HipDialog from './HipDialog.vue'
 import HipModal from './HipModal.vue'
 import HipNavBar from './HipNavBar.vue'
@@ -18,6 +19,7 @@ export {
     HipCardCompact,
     HipCardLarge,
     HipCardTall,
+    HipChip,
     HipDialog,
     HipModal,
     HipNavBar,

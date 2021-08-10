@@ -2,7 +2,7 @@
   <hip-overlay>
     <div class="space-y-4 w-search">
       <!-- Search dialog. -->
-      <hip-modal class="justify-center">
+      <hip-modal>
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
           <el-input
@@ -42,15 +42,19 @@
           ></hip-button>
         </div>
         <!-- Search filters. -->
-        <ul v-if="queryFilters.length > 0">
+        <ul
+          v-if="queryFilters.length > 0"
+          class="flex mt-4 space-x-4"
+        >
           <li
             v-for="game in queryFilters"
             :key="game.value"
             :value="game.value"
-            @click="queryRemove(game.name)"
           >
             <!-- Filter chip. -->
-            <p>{{ game.name }}: {{ game.value }}</p>
+            <hip-chip @remove="queryRemove(game.name)">
+              {{ game.name }}: {{ game.value }}
+            </hip-chip>
           </li>
         </ul>
       </hip-modal>
@@ -85,6 +89,7 @@ import { readdirSync } from 'fs-extra'
 import {
   HipButton,
   HipCardCompact,
+  HipChip,
   HipModal,
   HipOverlay
 } from './Component'
@@ -96,6 +101,7 @@ export default {
     // UI components.
     HipButton,
     HipCardCompact,
+    HipChip,
     HipModal,
     HipOverlay
   },
