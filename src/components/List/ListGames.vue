@@ -135,7 +135,7 @@ export default {
       // Ensure pagination index is reset.
       this.pagination.index = 0
       // Get first batch of games.
-      getGamesAll(this.pagination.index, this.pagination.count, true)
+      getGamesAll(this.pagination.index, this.pagination.count)
         .then(res => {
           this.games = res
           // Set next pagination index.
@@ -146,7 +146,7 @@ export default {
       // Check loaded games to avoid duplication.
       if (this.games) {
         // Get next batch of games.
-        getGamesAll(this.pagination.index, this.pagination.count, true)
+        getGamesAll(this.pagination.index, this.pagination.count)
           .then(res => {
             this.games = this.games.concat(res)
             // Set next pagination index.
@@ -163,7 +163,7 @@ export default {
         // A search has been done.
         this.querySearched = true
         // Search for games matching the query.
-        getGamesAllSearch(this.pagination.index, this.pagination.count, true, query)
+        getGamesAllSearch(this.pagination.index, this.pagination.count, query)
           .then(res => {
             this.games = res
             // Set next pagination index.
