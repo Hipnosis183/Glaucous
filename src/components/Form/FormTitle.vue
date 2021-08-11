@@ -1,18 +1,23 @@
 <template>
-  <el-form-item
+  <!-- Title input. -->
+  <hip-input
+    v-model="title"
     label="Title"
-    prop="title"
-  >
-    <el-input
-      v-model="title"
-      placeholder="Required"
-    ></el-input>
-  </el-form-item>
+    placeholder="Required"
+    required
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormTitle',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     title: {
       get() { return this.$store.state.gameForm.gameRegion.title },

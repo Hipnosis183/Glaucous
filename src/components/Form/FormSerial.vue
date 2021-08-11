@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Serial input. -->
+  <hip-input
+    v-model="serial"
     label="Serial | Code | Game ID"
-    prop="serial"
-  >
-    <el-input v-model="serial"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormSerial',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     serial: {
       get() { return this.$store.state.gameForm.gameRegion.serial },

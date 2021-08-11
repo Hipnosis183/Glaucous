@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Original title input. -->
+  <hip-input
+    v-model="originalTitle"
     label="Original Title"
-    prop="originalTitle"
-  >
-    <el-input v-model="originalTitle"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormOriginalTitle',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     originalTitle: {
       get() { return this.$store.state.gameForm.gameRegion.originalTitle },

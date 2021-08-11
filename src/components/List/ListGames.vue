@@ -19,14 +19,13 @@
       ></hip-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
-        <el-input
+        <hip-input
           v-model="queryInput"
-          @clear="queryClear()"
-          @input="querySearch(queryInput)"
           clearable
           placeholder="Search..."
-          prefix-icon="el-icon-search"
-          size="medium"
+          icon-prefix="el-icon-search"
+          @clear="queryClear()"
+          @input="querySearch(queryInput)"
         />
       </div>
       <div class="flex-shrink-0 ml-2 my-auto w-28">
@@ -93,6 +92,7 @@ import {
   HipCardLarge,
   HipCardTall,
   HipDialog,
+  HipInput,
   HipNavBar
 } from '../Component'
 // Import database controllers functions.
@@ -114,6 +114,7 @@ export default {
     HipCardLarge,
     HipCardTall,
     HipDialog,
+    HipInput,
     HipNavBar
   },
   data() {

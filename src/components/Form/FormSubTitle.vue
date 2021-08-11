@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Sub title input. -->
+  <hip-input
+    v-model="subTitle"
     label="Subtitle"
-    prop="subTitle"
-  >
-    <el-input v-model="subTitle"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormSubTitle',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     subTitle: {
       get() { return this.$store.state.gameForm.gameRegion.subTitle },

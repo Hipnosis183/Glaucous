@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Number of players input. -->
+  <hip-input
+    v-model="numberPlayers"
     label="Number of Players"
-    prop="numberPlayers"
-  >
-    <el-input v-model="numberPlayers"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormNumberPlayers',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     numberPlayers: {
       get() { return this.$store.state.gameForm.gamePlatform.numberPlayers },

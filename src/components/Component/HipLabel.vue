@@ -1,0 +1,11 @@
+<template>
+  <p class="mb-1 ml-1 mt-4 text-theme-800">
+    <slot></slot>
+  </p>
+</template>
+
+<script>
+export default {
+  name: 'HipLabel'
+}
+</script>

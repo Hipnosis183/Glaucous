@@ -131,21 +131,22 @@
     </div>
   </hip-overlay>
   <!-- Images form. -->
-  <p class="leading-10 -mb-1 text-sm text-theme-600 dark:text-theme-100">Images</p>
-  <el-button-group class="w-full">
-    <el-button
+  <hip-input-group label="Images">
+    <hip-input-button
+      first-element
       @click="addCover()"
-      class="w-2/5"
-    >Cover</el-button>
-    <el-button
+      class="w-1/3"
+    >Cover</hip-input-button>
+    <hip-input-button
       @click="addPicturesAdd()"
-      class="w-2/5"
-    >Pictures</el-button>
-    <el-button
+      class="w-1/3"
+    >Pictures</hip-input-button>
+    <hip-input-button
+      last-element
       @click="viewImagesOpen()"
-      class="el-icon-picture-outline w-1/5"
-    ></el-button>
-  </el-button-group>
+      class="el-icon-picture-outline text-xl w-1/3"
+    ></hip-input-button>
+  </hip-input-group>
 </template>
 
 <script>
@@ -162,6 +163,8 @@ import {
 import {
   HipButton,
   HipDialog,
+  HipInputButton,
+  HipInputGroup,
   HipModal,
   HipOverlay
 } from '../Component'
@@ -172,6 +175,8 @@ export default {
     // UI components.
     HipButton,
     HipDialog,
+    HipInputButton,
+    HipInputGroup,
     HipModal,
     HipOverlay
   },

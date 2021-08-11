@@ -37,14 +37,10 @@
     </div>
   </div>
   <!-- Edit platform form. -->
-  <el-form
-    label-position="top"
-    :model="$store.state.otherForm"
-    :show-message="false"
-  >
+  <form>
     <!-- Form components. -->
     <form-name />
-  </el-form>
+  </form>
 </template>
 
 <script>

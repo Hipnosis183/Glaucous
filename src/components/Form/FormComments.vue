@@ -36,36 +36,34 @@
       </ul>
     </div>
   </hip-dialog>
-  <!-- Comment form. -->
-  <div class="flex space-x-2">
-    <el-form-item
-      label="Comments"
-      prop="comment"
-      class="w-full"
-    >
-      <el-input v-model="comment">
-        <template #append>
-          <!-- View comments list dialog. -->
-          <el-button
-            icon="el-icon-notebook-2"
-            @click="viewComments()"
-          ></el-button>
-          <!-- Add input comment to the list. -->
-          <el-button
-            icon="el-icon-circle-plus-outline"
-            @click="addComment()"
-          ></el-button>
-        </template>
-      </el-input>
-    </el-form-item>
-  </div>
+  <!-- Comments input. -->
+  <hip-input
+    v-model="comment"
+    label="Comments"
+  >
+    <template #append>
+      <!-- View comments list dialog. -->
+      <hip-input-button
+        @click="viewComments()"
+        class="el-icon-notebook-2 text-xl"
+      ></hip-input-button>
+      <!-- Add input comment to the list. -->
+      <hip-input-button
+        last-element
+        @click="addComment()"
+        class="el-icon-circle-plus-outline text-xl"
+      ></hip-input-button>
+    </template>
+  </hip-input>
 </template>
 
 <script>
 // Import UI components.
 import {
   HipButton,
-  HipDialog
+  HipDialog,
+  HipInput,
+  HipInputButton
 } from '../Component'
 
 export default {
@@ -73,7 +71,9 @@ export default {
   components: {
     // UI components.
     HipButton,
-    HipDialog
+    HipDialog,
+    HipInput,
+    HipInputButton
   },
   data() {
     return {

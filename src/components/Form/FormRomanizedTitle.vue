@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Romanized title input. -->
+  <hip-input
+    v-model="romanizedTitle"
     label="Romanized Title"
-    prop="romanizedTitle"
-  >
-    <el-input v-model="romanizedTitle"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormRomanizedTitle',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     romanizedTitle: {
       get() { return this.$store.state.gameForm.gameRegion.romanizedTitle },

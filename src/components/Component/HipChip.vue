@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-theme-100 dark:bg-theme-800 cursor-default flex h-full px-4 py-2 rounded-full shadow text-base text-color-800 dark:text-color-500 w-max"
+    class="bg-theme-100 dark:bg-theme-800 cursor-default flex h-full px-4 py-2 rounded-full shadow text-base text-color-800 dark:text-color-500"
     :class="$store.state.darkMode ? 'text-shadow' : ''"
   >
     <slot></slot>

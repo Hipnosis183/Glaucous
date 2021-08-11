@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Translated title input. -->
+  <hip-input
+    v-model="translatedTitle"
     label="Translated Title"
-    prop="translatedTitle"
-  >
-    <el-input v-model="translatedTitle"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormTranslatedTitle',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     translatedTitle: {
       get() { return this.$store.state.gameForm.gameRegion.translatedTitle },

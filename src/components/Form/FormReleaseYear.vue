@@ -1,18 +1,23 @@
 <template>
-  <el-form-item
+  <!-- Release year input. -->
+  <hip-input
+    v-model="releaseYear"
     label="Release Year"
-    prop="releaseYear"
-  >
-    <el-input
-      v-model="releaseYear"
-      placeholder="Required"
-    ></el-input>
-  </el-form-item>
+    placeholder="Required"
+    required
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormReleaseYear',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     releaseYear: {
       get() { return this.$store.state.gameForm.gamePlatform.releaseYear },

@@ -7,6 +7,10 @@ import HipCardLarge from './HipCardLarge.vue'
 import HipCardTall from './HipCardTall.vue'
 import HipChip from './HipChip.vue'
 import HipDialog from './HipDialog.vue'
+import HipInput from './HipInput.vue'
+import HipInputButton from './HipInputButton.vue'
+import HipInputGroup from './HipInputGroup.vue'
+import HipLabel from './HipLabel.vue'
 import HipModal from './HipModal.vue'
 import HipNavBar from './HipNavBar.vue'
 import HipOverlay from './HipOverlay.vue'
@@ -21,6 +25,10 @@ export {
     HipCardTall,
     HipChip,
     HipDialog,
+    HipInput,
+    HipInputButton,
+    HipInputGroup,
+    HipLabel,
     HipModal,
     HipNavBar,
     HipOverlay

@@ -55,36 +55,34 @@
       </ul>
     </div>
   </hip-dialog>
-  <!-- Link form. -->
-  <div class="flex space-x-2">
-    <el-form-item
-      label="Links"
-      prop="link"
-      class="w-full"
-    >
-      <el-input v-model="link">
-        <template #append>
-          <!-- View links list dialog. -->
-          <el-button
-            icon="el-icon-notebook-2"
-            @click="viewLinks()"
-          ></el-button>
-          <!-- Add input link to the list. -->
-          <el-button
-            icon="el-icon-circle-plus-outline"
-            @click="addLink()"
-          ></el-button>
-        </template>
-      </el-input>
-    </el-form-item>
-  </div>
+  <!-- Links input. -->
+  <hip-input
+    v-model="link"
+    label="Links"
+  >
+    <template #append>
+      <!-- View links list dialog. -->
+      <hip-input-button
+        @click="viewLinks()"
+        class="el-icon-notebook-2 text-xl"
+      ></hip-input-button>
+      <!-- Add input link to the list. -->
+      <hip-input-button
+        last-element
+        @click="addLink()"
+        class="el-icon-circle-plus-outline text-xl"
+      ></hip-input-button>
+    </template>
+  </hip-input>
 </template>
 
 <script>
 // Import UI components.
 import {
   HipButton,
-  HipDialog
+  HipDialog,
+  HipInput,
+  HipInputButton
 } from '../Component'
 
 export default {
@@ -92,7 +90,9 @@ export default {
   components: {
     // UI components.
     HipButton,
-    HipDialog
+    HipDialog,
+    HipInput,
+    HipInputButton
   },
   data() {
     return {

@@ -5,7 +5,7 @@
       v-show="dialog.search"
       @close="searchOpen()"
       :key="dialog.search"
-      class="pos-initial z-10"
+      class="pos-initial z-30"
     />
   </transition>
   <!-- Expanded sidenav. -->

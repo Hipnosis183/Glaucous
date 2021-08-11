@@ -49,7 +49,7 @@
     <!-- Game linking dialog. -->
     <hip-modal
       v-show="$store.state.editMode"
-      class="justify-center mb-4 pt-8"
+      class="justify-center mb-4"
     >
       <!-- Form header. -->
       <div class="flex justify-between mb-6 mx-2">

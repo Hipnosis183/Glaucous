@@ -2,14 +2,14 @@
   <hip-overlay>
     <div class="space-y-4 w-search">
       <!-- Search dialog. -->
-      <hip-modal>
+      <hip-modal class="rounded-3xl">
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
-          <el-input
+          <hip-input
             v-model="queryInput"
             clearable
+            icon-prefix="el-icon-search"
             placeholder="Search..."
-            prefix-icon="el-icon-search"
           >
             <!-- Search category select. -->
             <template #append>
@@ -27,7 +27,7 @@
                 </el-option>
               </el-select>
             </template>
-          </el-input>
+          </hip-input>
           <!-- Add query button. -->
           <hip-button
             :icon="true"
@@ -44,12 +44,13 @@
         <!-- Search filters. -->
         <ul
           v-if="queryFilters.length > 0"
-          class="flex mt-4 space-x-4"
+          class="flex flex-wrap mt-2"
         >
           <li
             v-for="game in queryFilters"
             :key="game.value"
             :value="game.value"
+            class="mr-2 mt-2"
           >
             <!-- Filter chip. -->
             <hip-chip @remove="queryRemove(game.name)">
@@ -90,6 +91,7 @@ import {
   HipButton,
   HipCardCompact,
   HipChip,
+  HipInput,
   HipModal,
   HipOverlay
 } from './Component'
@@ -102,6 +104,7 @@ export default {
     HipButton,
     HipCardCompact,
     HipChip,
+    HipInput,
     HipModal,
     HipOverlay
   },

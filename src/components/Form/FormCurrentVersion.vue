@@ -1,15 +1,21 @@
 <template>
-  <el-form-item
+  <!-- Current version input. -->
+  <hip-input
+    v-model="currentVersion"
     label="Current Version"
-    prop="currentVersion"
-  >
-    <el-input v-model="currentVersion"></el-input>
-  </el-form-item>
+  ></hip-input>
 </template>
 
 <script>
+// Import UI components.
+import { HipInput } from '../Component'
+
 export default {
   name: 'FormCurrentVersion',
+  components: {
+    // UI components.
+    HipInput
+  },
   computed: {
     currentVersion: {
       get() { return this.$store.state.gameForm.gameVersion.currentVersion },
