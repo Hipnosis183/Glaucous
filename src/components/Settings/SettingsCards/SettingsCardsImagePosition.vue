@@ -1,23 +1,35 @@
 <template>
   <p class="text-xl">Image position</p>
-  <el-select v-model="cardImagePosition">
-    <el-option
+  <hip-select
+    v-model="cardImagePosition"
+    class="w-max"
+  >
+    <hip-option
       v-for="item in imagePositions"
       :key="item.i"
       :label="item.name"
       :value="item.i"
     >
-      <p>{{ item.name }}</p>
-    </el-option>
-  </el-select>
+    </hip-option>
+  </hip-select>
 </template>
 
 <script>
+// Import UI components.
+import {
+  HipOption,
+  HipSelect
+} from '../../Component'
 // Import settings objects and functions.
 import { imagePositions } from '../../../settings'
 
 export default {
   name: 'SettingsCardsImagePosition',
+  components: {
+    // UI components.
+    HipOption,
+    HipSelect
+  },
   data() {
     return {
       imagePositions: imagePositions

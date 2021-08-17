@@ -52,7 +52,7 @@
         :class="$slots.append ? '' : 'rounded-r-xl'"
       >
         <div
-          class=" my-auto text-xl text-theme-600 dark:text-theme-400"
+          class="my-auto text-xl text-theme-600 dark:text-theme-400"
           :class="iconSuffix"
         />
       </div>
@@ -89,8 +89,7 @@ export default {
     iconSuffix: { type: String },
     label: { type: String },
     placeholder: { type: String },
-    required: { type: Boolean, default: false },
-    rounded: { type: Boolean, default: false }
+    required: { type: Boolean, default: false }
   },
   methods: {
     // Input value functions.

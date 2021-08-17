@@ -1,43 +1,53 @@
 <template>
-  <el-form-item
+  <!-- Region select. -->
+  <hip-select
+    v-model="region"
     label="Region"
-    prop="region"
+    placeholder="Required"
+    required
+    class="w-full"
   >
-    <el-select
-      v-model="region"
-      filterable
-      placeholder="Required"
-      class="w-full"
+    <hip-option-group
+      v-for="flags in regions"
+      :key="flags.group"
+      :label="flags.group"
     >
-      <el-option-group
-        v-for="flags in regions"
-        :key="flags.group"
-        :label="flags.group"
+      <hip-option
+        v-for="flag in flags.items"
+        :key="flag.code"
+        :label="flag.name"
+        :value="flag.code"
       >
-        <el-option
-          v-for="flag in flags.items"
-          :key="flag.code"
-          :label="flag.name"
-          :value="flag.code"
-        >
-          <div class="inline-flex space-x-4">
-            <img
-              :src="'./images/flags/' + flag.code + '.svg'"
-              class="w-8"
-            />
-            <p>{{ flag.name }}</p>
-          </div>
-        </el-option>
-      </el-option-group>
-    </el-select>
-  </el-form-item>
+        <div class="align-middle inline-flex px-2 space-x-4">
+          <img
+            :src="'./images/flags/' + flag.code + '.svg'"
+            class="my-auto w-10"
+          />
+          <p class="my-auto">{{ flag.name }}</p>
+        </div>
+      </hip-option>
+    </hip-option-group>
+  </hip-select>
 </template>
 
 <script>
+// Import region data.
 import Regions from '../../../public/files/flags-g.json'
+// Import UI components.
+import {
+  HipOption,
+  HipOptionGroup,
+  HipSelect
+} from '../Component'
 
 export default {
   name: 'FormRegion',
+  components: {
+    // UI components.
+    HipOption,
+    HipOptionGroup,
+    HipSelect
+  },
   data() {
     return {
       regions: Regions

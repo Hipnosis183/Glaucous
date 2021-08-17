@@ -1,24 +1,32 @@
 <template>
   <p class="text-xl">Color theme</p>
-  <el-select v-model="selectedColor">
-    <el-option
+  <hip-select
+    v-model="selectedColor"
+    class="w-max"
+  >
+    <hip-option
       v-for="color in colors"
       :key="color.i"
       :label="color.name"
       :value="color.i"
     >
-      <div class="inline-flex items-center space-x-4">
+      <div class="align-middle inline-flex items-center space-x-4">
         <div
           :style="{ backgroundColor: color.codes[4] }"
           class="h-6 rounded-full w-6"
         />
         <p>{{ color.name }}</p>
       </div>
-    </el-option>
-  </el-select>
+    </hip-option>
+  </hip-select>
 </template>
 
 <script>
+// Import UI components.
+import {
+  HipOption,
+  HipSelect
+} from '../../Component'
 // Import theme objects and functions.
 import {
   selectColor,
@@ -27,6 +35,11 @@ import {
 
 export default {
   name: 'SettingsThemesThemeColor',
+  components: {
+    // UI components.
+    HipOption,
+    HipSelect
+  },
   data() {
     return {
       colors: colors

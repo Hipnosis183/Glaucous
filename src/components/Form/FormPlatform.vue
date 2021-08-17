@@ -1,31 +1,32 @@
 <template>
-  <el-form-item
+  <!-- Platform input select. -->
+  <hip-select
+    v-model="platform"
+    allow-create
     label="Platform"
-    prop="platform"
+    placeholder="Required"
+    remote
+    :remote-method="querySearch"
+    required
+    class="w-full"
   >
-    <el-select
-      v-model="platform"
-      allow-create
-      default-first-option
-      filterable
-      placeholder="Required"
-      remote
-      :remote-method="querySearch"
-      reserve-keyword
-      class="w-full"
+    <hip-option
+      v-for="item in queryResults"
+      :key="item._id"
+      :label="item.name"
+      :value="item._id"
     >
-      <el-option
-        v-for="item in queryResults"
-        :key="item._id"
-        :label="item.name"
-        :value="item._id"
-      >
-      </el-option>
-    </el-select>
-  </el-form-item>
+    </hip-option>
+  </hip-select>
 </template>
 
 <script>
+// Import UI components.
+import {
+  HipOption,
+  HipSelect
+} from '../Component'
+// Import database platform functions.
 import {
   getPlatform,
   getPlatformByName
@@ -33,6 +34,11 @@ import {
 
 export default {
   name: 'FormPlatform',
+  components: {
+    // UI components.
+    HipOption,
+    HipSelect
+  },
   data() {
     return {
       queryResults: []

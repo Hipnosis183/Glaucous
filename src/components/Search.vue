@@ -5,29 +5,28 @@
       <hip-modal class="rounded-3xl">
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
-          <hip-input
-            v-model="queryInput"
-            clearable
-            icon-prefix="el-icon-search"
-            placeholder="Search..."
-          >
+          <div class="flex space-x-2 w-full">
+            <!-- Search query input. -->
+            <hip-input
+              v-model="queryInput"
+              clearable
+              icon-prefix="el-icon-search"
+              placeholder="Search..."
+            />
             <!-- Search category select. -->
-            <template #append>
-              <el-select
-                v-model="searchSelect"
-                class="w-40"
+            <hip-select
+              v-model="searchSelect"
+              class="w-max"
+            >
+              <hip-option
+                v-for="item in searchOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               >
-                <el-option
-                  v-for="item in searchOptions"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.value"
-                >
-                  <p>{{ item.name }}</p>
-                </el-option>
-              </el-select>
-            </template>
-          </hip-input>
+              </hip-option>
+            </hip-select>
+          </div>
           <!-- Add query button. -->
           <hip-button
             :icon="true"
@@ -53,8 +52,8 @@
             class="mr-2 mt-2"
           >
             <!-- Filter chip. -->
-            <hip-chip @remove="queryRemove(game.name)">
-              {{ game.name }}: {{ game.value }}
+            <hip-chip @remove="queryRemove(game.label)">
+              {{ game.label }}: {{ game.value }}
             </hip-chip>
           </li>
         </ul>
@@ -93,7 +92,9 @@ import {
   HipChip,
   HipInput,
   HipModal,
-  HipOverlay
+  HipOption,
+  HipOverlay,
+  HipSelect
 } from './Component'
 // Import database controllers functions.
 import { getGamesSearch } from '../database/controllers/Game'
@@ -106,7 +107,9 @@ export default {
     HipChip,
     HipInput,
     HipModal,
-    HipOverlay
+    HipOption,
+    HipOverlay,
+    HipSelect
   },
   data() {
     return {
@@ -121,10 +124,10 @@ export default {
       },
       searchSelect: 'title',
       searchOptions: [
-        { name: 'Title', value: 'title' },
-        { name: 'Platform', value: 'platform' },
-        { name: 'Developer', value: 'developer' },
-        { name: 'Year', value: 'releaseYear' }
+        { label: 'Title', value: 'title' },
+        { label: 'Platform', value: 'platform' },
+        { label: 'Developer', value: 'developer' },
+        { label: 'Year', value: 'releaseYear' }
       ],
       pagination: {
         index: 0,
@@ -184,7 +187,7 @@ export default {
           }
         }
         // Add query as a search filter to show in the UI.
-        this.queryFilters.push({ name: select, value: input })
+        this.queryFilters.push({ label: select, value: input })
         // Ensure pagination index is reset.
         this.pagination.index = 0
         // Make search with newly added filter.
@@ -206,7 +209,7 @@ export default {
         case 'releaseYear': this.queryObject.releaseYear = ''; break
       }
       // Remove query from search filters.
-      let queryIndex = this.queryFilters.findIndex(res => res.name == name)
+      let queryIndex = this.queryFilters.findIndex(res => res.label == name)
       this.queryFilters.splice(queryIndex, 1)
       // Ensure pagination index is reset.
       this.pagination.index = 0
@@ -243,6 +246,6 @@ export default {
 <style scoped>
 /* Styling. */
 .w-search {
-  width: calc(100vw - 20rem);
+  width: calc(100vw / 1.6);
 }
 </style>

@@ -69,26 +69,22 @@
           ></hip-button>
         </div>
       </div>
-      <!-- Game search bar. -->
-      <el-select
+      <hip-select
         v-model="querySelected"
         clearable
-        filterable
         placeholder="Search..."
         remote
         :remote-method="querySearch"
-        reserve-keyword
         class="w-full"
       >
-        <!-- Game search results. -->
-        <el-option
+        <hip-option
           v-for="item in queryResults"
           :key="item._id"
           :label="item.child.title + ' (' + item.releaseYear + ') - ' + item.platforms.join(' / ')"
           :value="item._id"
         >
-        </el-option>
-      </el-select>
+        </hip-option>
+      </hip-select>
     </hip-modal>
     <!-- Show linked games list. -->
     <ul>
@@ -131,7 +127,9 @@ import {
   HipCardLarge,
   HipDialog,
   HipModal,
-  HipOverlay
+  HipOption,
+  HipOverlay,
+  HipSelect
 } from '../../Component'
 // Import database controllers functions.
 import {
@@ -149,13 +147,15 @@ export default {
     HipCardLarge,
     HipDialog,
     HipModal,
-    HipOverlay
+    HipOption,
+    HipOverlay,
+    HipSelect
   },
   data() {
     return {
       linkedGames: [],
       queryResults: [],
-      querySelected: [],
+      querySelected: '',
       dialog: {
         unlinkGame: false,
         validationError: false

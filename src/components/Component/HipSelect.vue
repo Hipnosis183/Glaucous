@@ -1,0 +1,357 @@
+<template>
+  <div class="w-full">
+    <!-- Label. -->
+    <hip-label v-if="label">{{ label }}</hip-label>
+    <!-- Container. -->
+    <div class="flex flex-col h-10 rounded-xl shadow">
+      <!-- Select container. -->
+      <div
+        :ref="`select-${selectID}`"
+        @click.stop="openDropMenu()"
+        class="flex h-full rounded-xl w-full"
+      >
+        <!-- Prefix icon. -->
+        <div
+          v-if="iconPrefix"
+          class="bg-theme-100 dark:bg-theme-800 flex pl-3 rounded-l-xl w-max"
+        >
+          <div
+            class="my-auto text-xl text-theme-600 dark:text-theme-400"
+            :class="iconPrefix"
+          />
+        </div>
+        <!-- Remote input element. -->
+        <div
+          v-if="remote"
+          class="bg-theme-100 dark:bg-theme-800 cursor-pointer relative rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
+          :class="[
+            { 'rounded-l-none' : iconPrefix },
+            { 'rounded-r-none' : iconSuffix || modelValue || !remote }
+          ]"
+        >
+          <!-- Label placeholder. -->
+          <div class="absolute flex h-full overflow-x-hidden px-4 w-full whitespace-nowrap">
+            <p
+              v-if="!labelHide && labelPlaceholder && labelSelected == ''"
+              class="my-auto"
+            >{{ labelPlaceholder }}</p>
+          </div>
+          <!-- Label input. -->
+          <input
+            v-model="labelSelected"
+            :disabled="!remote"
+            :placeholder="labelHide || !labelPlaceholder ? placeholder : ''"
+            @blur="labelSelected = labelPlaceholder"
+            @input="updateValue()"
+            class="absolute bg-transparent cursor-pointer h-full px-4"
+            :class="{ 'input-error' : required }"
+          />
+        </div>
+        <!-- Normal input element. -->
+        <input
+          v-else
+          v-model="labelSelected"
+          :disabled="!remote"
+          :placeholder="placeholder"
+          @input="updateValue()"
+          class="bg-theme-100 dark:bg-theme-800 cursor-pointer px-4 rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
+          :class="[
+            { 'input-error' : required },
+            { 'rounded-l-none' : iconPrefix },
+            { 'rounded-r-none' : iconSuffix || !remote }
+          ]"
+        />
+        <!-- Clear select icon. -->
+        <div
+          v-if="modelValue && remote"
+          class="bg-theme-100 dark:bg-theme-800 flex w-max z-0"
+          :class="{ 'rounded-r-xl' : !iconSuffix }"
+        >
+          <div
+            @click="clearValue()"
+            class="cursor-pointer el-icon-circle-close ml-2 mr-4 my-auto text-lg text-theme-700 dark:text-theme-300"
+          />
+        </div>
+        <!-- Open select menu icon. -->
+        <div
+          v-if="!remote"
+          class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex pr-3 rounded-r-xl w-max"
+        >
+          <div class="el-icon-arrow-down my-auto text-xl text-theme-600 dark:text-theme-400" />
+        </div>
+      </div>
+      <!-- Dropdown menu. -->
+      <div
+        v-show="openMenu"
+        class="relative whitespace-nowrap"
+      >
+        <!-- Menu card. -->
+        <div
+          :ref="`menu-${selectID}`"
+          class="bg-theme-100 dark:bg-theme-800 fixed list-none max-h-64 mt-2 overflow-y-auto py-2 rounded-xl shadow z-50"
+        >
+          <!-- Select created option. -->
+          <hip-option
+            v-show="allowCreate && labelPlaceholder != '' && labelSelected != ''"
+            :key="labelCached"
+            :label="labelCached"
+            :value="labelCached"
+          >
+          </hip-option>
+          <!-- Select options list. -->
+          <slot>
+            <li
+              v-if="!allowCreate"
+              class="cursor-none flex justify-center px-4 py-2"
+            >
+              <p class="cursor-none">No results</p>
+            </li>
+          </slot>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { computed } from 'vue'
+import { generateID } from '../../database/datastore'
+import HipLabel from './HipLabel.vue'
+import HipOption from './HipOption.vue'
+
+export default {
+  name: 'HipSelect',
+  components: {
+    HipLabel,
+    HipOption
+  },
+  data() {
+    return {
+      selectID: generateID(),
+      labelCached: '',
+      labelHide: false,
+      labelSelected: '',
+      labelPlaceholder: '',
+      listenEmitter: false,
+      openMenu: false,
+      optionsCache: {
+        labels: [],
+        values: []
+      }
+    }
+  },
+  provide() {
+    return {
+      listenEmitter: computed(() => this.listenEmitter),
+      selectID: computed(() => this.selectID),
+      selectValue: computed(() => this.modelValue)
+    }
+  },
+  emits: [
+    'update:modelValue'
+  ],
+  props: {
+    modelValue: { type: [Array, String, Number, Boolean, Object], default: '' },
+    allowCreate: { type: Boolean, default: false },
+    iconPrefix: { type: String },
+    iconSuffix: { type: String },
+    label: { type: [String, Number] },
+    placeholder: { type: String },
+    remote: { type: Boolean, default: false },
+    remoteMethod: { type: Function },
+    required: { type: Boolean, default: false },
+  },
+  methods: {
+    // Menu functions.
+    openDropMenu() {
+      // Close menu if it's already open.
+      if (this.openMenu === true) {
+        this.closeDropMenu(closeListener)
+        return
+      }
+      // Open menu.
+      this.openMenu = true
+      // Passthrough context.
+      let _this = this
+      // Menu close listener.
+      const closeListener = (event) => {
+        // Ensure the menu is rendered.
+        if (_this.$refs[`menu-${this.selectID}`]) {
+          // Return if menu is clicked.
+          if (_this.$refs[`menu-${this.selectID}`] == event.target || _this.$refs[`menu-${this.selectID}`].contains(event.target)) {
+            return
+          }
+          // Close menu if anything outside is clicked.
+          if (_this.openMenu && (_this.$refs[`menu-${this.selectID}`] != event.target || !_this.$refs[`menu-${this.selectID}`].contains(event.target))) {
+            _this.closeDropMenu(closeListener)
+          }
+        } else {
+          _this.closeDropMenu(closeListener)
+        }
+      }
+      // Add click listener.
+      window.addEventListener('click', closeListener)
+      // Open option click event listener.
+      this.emitter.on('setOption', (item) => {
+        // Set option label as select label.
+        this.labelSelected = this.remote ? '' : item.label
+        this.labelPlaceholder = item.label
+        // Show label placeholder.
+        this.labelHide = false
+        // Update parent component model value.
+        this.$emit('update:modelValue', item.value)
+        this.closeDropMenu(closeListener)
+      })
+    },
+    closeDropMenu(listener) {
+      // Close menu.
+      this.openMenu = false
+      // Clear all emit listeners.
+      this.emitter.all.clear()
+      // Remove click listener.
+      window.removeEventListener('click', listener)
+    },
+    // Input value functions.
+    clearValue() {
+      // Clear parent component model value.
+      this.$emit('update:modelValue', '')
+      // Clear input value.
+      this.labelSelected = ''
+      if (this.remote) {
+        // Hide (not clear) label placeholder.
+        this.labelHide = true
+        // Clear options.
+        this.remoteMethod(this.labelSelected)
+      }
+    },
+    updateValue() {
+      // Update parent component model value.
+      this.$emit('update:modelValue', this.modelValue)
+      if (this.allowCreate) {
+        // Cache input label.
+        this.labelCached = this.labelSelected
+      }
+      if (this.remote) {
+        // Hide label placeholder.
+        this.labelHide = true
+        // Update options with new query.
+        this.remoteMethod(this.labelSelected)
+      }
+    },
+    // Set current label when the select value changes.
+    setOptionLabel() {
+      // Avoid triggering during normal operation.
+      if (!this.openMenu) {
+        // Continue if there's a value.
+        if (this.modelValue != null) {
+          if (this.modelValue.toString().length > 0) {
+            // Open option click event listener for the select.
+            this.emitter.on(this.selectID, (item) => {
+              if (item.length > 0) {
+                // Set option label as select label.
+                if (this.remote) {
+                  this.labelPlaceholder = item
+                  this.labelHide = false
+                  // Store results in options cache.
+                  if (!this.optionsCache.values.includes(this.modelValue)) {
+                    this.optionsCache.values.push(this.modelValue)
+                    this.optionsCache.labels.push(this.labelPlaceholder)
+                  }
+                } else {
+                  this.labelSelected = item
+                }
+                // Remove select option listener.
+                this.emitter.off(this.selectID)
+              }
+            })
+            // Trigger emitter listener.
+            this.listenEmitter = !this.listenEmitter
+          }
+        } else {
+          this.labelSelected = ''
+        }
+      }
+    },
+    setMenuPlacement() {
+      // Manage horizontal placement.
+      // Reset menu position.
+      this.$refs[`menu-${this.selectID}`].style.left = ''
+      // Set menu min height based on parent input.
+      this.$refs[`menu-${this.selectID}`].style.minWidth = this.$refs[`select-${this.selectID}`].clientWidth + 'px'
+      // Get the horizontal space left available from the select to the end of the screen.
+      let widthLeft = window.innerWidth - this.$refs[`menu-${this.selectID}`].getBoundingClientRect().left
+      // If the width of the menu is greater than the space left.
+      if (this.$refs[`menu-${this.selectID}`].clientWidth > widthLeft) {
+        // Shift the position to the left to fit the element in the screen.
+        this.$refs[`menu-${this.selectID}`].style.left = window.innerWidth - this.$refs[`menu-${this.selectID}`].clientWidth - 10 + 'px'
+        // Check if now it's cliping on the left side.
+        if (this.$refs[`menu-${this.selectID}`].getBoundingClientRect().left < 0) {
+          // Prioritize left to right readability.
+          this.$refs[`menu-${this.selectID}`].style.left = '10px'
+        }
+      }
+      // Manage vertical placement.
+      // Get the vertical space left available from the select to the end of the screen.
+      let heightLeft = window.innerHeight - this.$refs[`menu-${this.selectID}`].getBoundingClientRect().top
+      // If the height of the menu is greater than the space left.
+      if (this.$refs[`menu-${this.selectID}`].clientHeight > heightLeft) {
+        // Change the position above the input to fit the element in the screen.
+        this.$refs[`menu-${this.selectID}`].style.top = this.$refs[`select-${this.selectID}`].getBoundingClientRect().top - this.$refs[`menu-${this.selectID}`].clientHeight - 20 + 'px'
+      }
+    }
+  },
+  mounted() {
+    // Load option label.
+    this.setOptionLabel()
+  },
+  unmounted() {
+    // Clear all emit listeners.
+    this.emitter.all.clear()
+  },
+  updated() {
+    // Load option label.
+    this.setOptionLabel()
+    // Manage menu placement.
+    this.setMenuPlacement()
+  },
+  computed: {
+    selectValue() {
+      return this.modelValue
+    }
+  },
+  watch: {
+    selectValue(value) {
+      // Avoid carrying a previous label when there's no value.
+      if (value == null) {
+        this.labelPlaceholder = ''
+      }
+      // Apply only for remote searches.
+      if (this.remote) {
+        // Set label if the option has been cached before.
+        if (this.optionsCache.values.includes(value)) {
+          this.labelPlaceholder = this.optionsCache.labels[this.optionsCache.values.indexOf(value)]
+        }
+        if (value == '') {
+          // Empty options results.
+          this.remoteMethod('')
+        } else if (this.labelPlaceholder) {
+          // Get label option.
+          this.remoteMethod(this.labelPlaceholder)
+          // Show label placeholder.
+          this.labelHide = false
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style lang="postcss" scoped>
+/* Styling. */
+::placeholder {
+  @apply text-theme-500 !important;
+}
+.input-error::placeholder {
+  @apply text-red-500 !important;
+}
+</style>

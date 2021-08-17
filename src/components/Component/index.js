@@ -13,7 +13,10 @@ import HipInputGroup from './HipInputGroup.vue'
 import HipLabel from './HipLabel.vue'
 import HipModal from './HipModal.vue'
 import HipNavBar from './HipNavBar.vue'
+import HipOption from './HipOption.vue'
+import HipOptionGroup from './HipOptionGroup.vue'
 import HipOverlay from './HipOverlay.vue'
+import HipSelect from './HipSelect.vue'
 
 export {
     HipButton,
@@ -31,5 +34,8 @@ export {
     HipLabel,
     HipModal,
     HipNavBar,
-    HipOverlay
+    HipOption,
+    HipOptionGroup,
+    HipOverlay,
+    HipSelect
 }

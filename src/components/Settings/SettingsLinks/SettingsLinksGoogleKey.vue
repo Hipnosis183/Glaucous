@@ -1,23 +1,35 @@
 <template>
   <p class="text-xl">Google search key</p>
-  <el-select v-model="searchGoogleKey">
-    <el-option
+  <hip-select
+    v-model="searchGoogleKey"
+    class="w-max"
+  >
+    <hip-option
       v-for="key in googleKeys"
       :key="key.i"
       :label="key.name"
       :value="key.i"
     >
-      <p>{{ key.name }}</p>
-    </el-option>
-  </el-select>
+    </hip-option>
+  </hip-select>
 </template>
 
 <script>
+// Import UI components.
+import {
+  HipOption,
+  HipSelect
+} from '../../Component'
 // Import settings objects and functions.
 import { googleKeys } from '../../../settings'
 
 export default {
   name: 'SettingsLinksGoogleKey',
+  components: {
+    // UI components.
+    HipOption,
+    HipSelect
+  },
   data() {
     return {
       googleKeys: googleKeys

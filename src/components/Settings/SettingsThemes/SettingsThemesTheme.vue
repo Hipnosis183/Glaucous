@@ -1,13 +1,16 @@
 <template>
   <p class="text-xl">Theme</p>
-  <el-select v-model="selectedTheme">
-    <el-option
+  <hip-select
+    v-model="selectedTheme"
+    class="w-max"
+  >
+    <hip-option
       v-for="theme in themes"
       :key="theme.i"
       :label="theme.name"
       :value="theme.i"
     >
-      <div class="inline-flex items-center space-x-4">
+      <div class="align-middle inline-flex items-center space-x-4">
         <div class="inline-flex space-x-2">
           <div
             :style="{ backgroundColor: theme.codes[2] }"
@@ -20,11 +23,16 @@
         </div>
         <p>{{ theme.name }}</p>
       </div>
-    </el-option>
-  </el-select>
+    </hip-option>
+  </hip-select>
 </template>
 
 <script>
+// Import UI components.
+import {
+  HipOption,
+  HipSelect
+} from '../../Component'
 // Import theme objects and functions.
 import {
   selectTheme,
@@ -33,6 +41,11 @@ import {
 
 export default {
   name: 'SettingsThemesTheme',
+  components: {
+    // UI components.
+    HipOption,
+    HipSelect
+  },
   data() {
     return {
       themes: themes
