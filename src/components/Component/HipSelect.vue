@@ -82,32 +82,37 @@
       </div>
       <!-- Dropdown menu. -->
       <div
-        v-show="openMenu"
-        class="relative whitespace-nowrap"
+        :ref="`tooltip-${selectID}`"
+        role="tooltip"
+        class="z-100"
       >
-        <!-- Menu card. -->
-        <div
-          :ref="`menu-${selectID}`"
-          class="bg-theme-100 dark:bg-theme-800 fixed list-none max-h-64 mt-2 overflow-y-auto py-2 rounded-xl shadow z-50"
-        >
-          <!-- Select created option. -->
-          <hip-option
-            v-show="allowCreate && labelPlaceholder != '' && labelSelected != ''"
-            :key="labelCached"
-            :label="labelCached"
-            :value="labelCached"
+        <transition name="slide-pop">
+          <!-- Menu card. -->
+          <div
+            v-show="openMenu"
+            :ref="`menu-${selectID}`"
+            :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
+            class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
           >
-          </hip-option>
-          <!-- Select options list. -->
-          <slot>
-            <li
-              v-if="!allowCreate"
-              class="cursor-none flex justify-center px-4 py-2"
+            <!-- Select created option. -->
+            <hip-option
+              v-show="allowCreate && labelPlaceholder != '' && labelSelected != ''"
+              :key="labelCached"
+              :label="labelCached"
+              :value="labelCached"
             >
-              <p class="cursor-none">No results</p>
-            </li>
-          </slot>
-        </div>
+            </hip-option>
+            <!-- Select options list. -->
+            <slot>
+              <li
+                v-if="!allowCreate"
+                class="cursor-none flex justify-center px-4 py-2"
+              >
+                <p class="cursor-none">No results</p>
+              </li>
+            </slot>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -115,6 +120,7 @@
 
 <script>
 import { computed } from 'vue'
+import { createPopper } from '@popperjs/core'
 import { generateID } from '../../database/datastore'
 import HipLabel from './HipLabel.vue'
 import HipOption from './HipOption.vue'
@@ -137,7 +143,10 @@ export default {
       optionsCache: {
         labels: [],
         values: []
-      }
+      },
+      popperInstance: '',
+      popperPlacement: '',
+      popperIntersect: false
     }
   },
   provide() {
@@ -171,6 +180,7 @@ export default {
       }
       // Open menu.
       this.openMenu = true
+      this.updateDropMenu()
       // Passthrough context.
       let _this = this
       // Menu close listener.
@@ -202,14 +212,25 @@ export default {
         this.$emit('update:modelValue', item.value)
         this.closeDropMenu(closeListener)
       })
+      // Set menu width to match parent input select.
+      this.$refs[`menu-${this.selectID}`].style.minWidth = this.$refs[`select-${this.selectID}`].clientWidth + 'px'
     },
     closeDropMenu(listener) {
       // Close menu.
       this.openMenu = false
+      this.updateDropMenu()
       // Clear all emit listeners.
       this.emitter.all.clear()
       // Remove click listener.
       window.removeEventListener('click', listener)
+    },
+    updateDropMenu() {
+      // Update popper instance.
+      this.popperInstance.update()
+      this.$nextTick(() => {
+        // Set current popper placement.
+        this.popperPlacement = this.popperInstance.state.placement
+      })
     },
     // Input value functions.
     clearValue() {
@@ -273,36 +294,33 @@ export default {
       }
     },
     setMenuPlacement() {
-      // Manage horizontal placement.
-      // Reset menu position.
-      this.$refs[`menu-${this.selectID}`].style.left = ''
-      // Set menu min height based on parent input.
-      this.$refs[`menu-${this.selectID}`].style.minWidth = this.$refs[`select-${this.selectID}`].clientWidth + 'px'
-      // Get the horizontal space left available from the select to the end of the screen.
-      let widthLeft = window.innerWidth - this.$refs[`menu-${this.selectID}`].getBoundingClientRect().left
-      // If the width of the menu is greater than the space left.
-      if (this.$refs[`menu-${this.selectID}`].clientWidth > widthLeft) {
-        // Shift the position to the left to fit the element in the screen.
-        this.$refs[`menu-${this.selectID}`].style.left = window.innerWidth - this.$refs[`menu-${this.selectID}`].clientWidth - 10 + 'px'
-        // Check if now it's cliping on the left side.
-        if (this.$refs[`menu-${this.selectID}`].getBoundingClientRect().left < 0) {
-          // Prioritize left to right readability.
-          this.$refs[`menu-${this.selectID}`].style.left = '10px'
-        }
-      }
-      // Manage vertical placement.
-      // Get the vertical space left available from the select to the end of the screen.
-      let heightLeft = window.innerHeight - this.$refs[`menu-${this.selectID}`].getBoundingClientRect().top
-      // If the height of the menu is greater than the space left.
-      if (this.$refs[`menu-${this.selectID}`].clientHeight > heightLeft) {
-        // Change the position above the input to fit the element in the screen.
-        this.$refs[`menu-${this.selectID}`].style.top = this.$refs[`select-${this.selectID}`].getBoundingClientRect().top - this.$refs[`menu-${this.selectID}`].clientHeight - 20 + 'px'
-      }
+      this.$nextTick(() => {
+        // Create a new PopperJS instance.
+        this.popperInstance = createPopper(this.$refs[`select-${this.selectID}`], this.$refs[`tooltip-${this.selectID}`], {
+          strategy: 'fixed',
+          modifiers: [
+            // Set the padding for vertical boundary.
+            { name: 'flip', options: { padding: { top: 60, bottom: 30 } } },
+            // Set distance between the select and the menu.
+            { name: 'offset', options: { offset: [0, 10] } }
+          ]
+        })
+      })
+    },
+    setMenuObserver() {
+      // Observe the select, closing the menu when it goes off-screen.
+      new window.IntersectionObserver((entries) => {
+        this.popperIntersect = entries[0].isIntersecting ? false : true
+      }).observe(this.$refs[`select-${this.selectID}`])
     }
   },
   mounted() {
     // Load option label.
     this.setOptionLabel()
+    // Manage menu placement.
+    this.setMenuPlacement()
+    // Manage menu interception.
+    this.setMenuObserver()
   },
   unmounted() {
     // Clear all emit listeners.
@@ -311,8 +329,6 @@ export default {
   updated() {
     // Load option label.
     this.setOptionLabel()
-    // Manage menu placement.
-    this.setMenuPlacement()
   },
   computed: {
     selectValue() {
@@ -320,6 +336,12 @@ export default {
     }
   },
   watch: {
+    popperIntersect(value) {
+      // Close menu if the select ended intersecting the viewport.
+      if (value) {
+        this.closeDropMenu()
+      }
+    },
     selectValue(value) {
       // Avoid carrying a previous label when there's no value.
       if (value == null) {
@@ -353,5 +375,21 @@ export default {
 }
 .input-error::placeholder {
   @apply text-red-500 !important;
+}
+/* Transitions. */
+div,
+input {
+  transition: background-color 1s;
+}
+.slide-pop-leave-to,
+.slide-pop-enter-active {
+  transform: scaleY(0);
+}
+.slide-pop-enter-from,
+.slide-pop-leave-to {
+  opacity: 0;
+}
+.transition-menu {
+  transition: transform 0.2s ease-in-out, opacity 0.1s ease-in-out;
 }
 </style>

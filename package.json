@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@popperjs/core": "^2.9.3",
     "core-js": "^3.6.5",
     "electron-store": "^8.0.0",
     "element-plus": "^1.0.2-beta.28",

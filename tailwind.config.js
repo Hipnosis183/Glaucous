@@ -35,7 +35,12 @@ module.exports = {
         'view': 'repeat(var(--grid-cols-view), minmax(0, 1fr))',
       },
       zIndex: {
-        5: 5
+        5: 5,
+        60: 60,
+        70: 70,
+        80: 80,
+        90: 90,
+        100: 100
       }
     },
   },
