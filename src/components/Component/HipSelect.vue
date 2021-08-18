@@ -7,7 +7,7 @@
       <!-- Select container. -->
       <div
         :ref="`select-${selectID}`"
-        @click.stop="openDropMenu()"
+        @click="openDropMenu()"
         class="flex h-full rounded-xl w-full"
       >
         <!-- Prefix icon. -->
@@ -178,9 +178,6 @@ export default {
         this.closeDropMenu(closeListener)
         return
       }
-      // Open menu.
-      this.openMenu = true
-      this.updateDropMenu()
       // Passthrough context.
       let _this = this
       // Menu close listener.
@@ -199,8 +196,16 @@ export default {
           _this.closeDropMenu(closeListener)
         }
       }
-      // Add click listener.
-      window.addEventListener('click', closeListener)
+      // Avoid menu re-triggering while maintaining the event propagation.
+      setTimeout(() => {
+        if (!this.openMenu) {
+          // Open menu.
+          this.openMenu = true
+          this.updateDropMenu()
+          // Add click listener.
+          window.addEventListener('click', closeListener)
+        }
+      }, 10)
       // Open option click event listener.
       this.emitter.on('setOption', (item) => {
         // Set option label as select label.
