@@ -179,21 +179,21 @@ export default {
         return
       }
       // Passthrough context.
-      let _this = this
+      let that = this
       // Menu close listener.
       const closeListener = (event) => {
         // Ensure the menu is rendered.
-        if (_this.$refs[`menu-${this.selectID}`]) {
+        if (that.$refs[`menu-${this.selectID}`] && that.openMenu) {
           // Return if menu is clicked.
-          if (_this.$refs[`menu-${this.selectID}`] == event.target || _this.$refs[`menu-${this.selectID}`].contains(event.target)) {
+          if (that.$refs[`menu-${this.selectID}`] == event.target || that.$refs[`menu-${this.selectID}`].contains(event.target)) {
             return
           }
           // Close menu if anything outside is clicked.
-          if (_this.openMenu && (_this.$refs[`menu-${this.selectID}`] != event.target || !_this.$refs[`menu-${this.selectID}`].contains(event.target))) {
-            _this.closeDropMenu(closeListener)
+          if (that.openMenu && (that.$refs[`menu-${this.selectID}`] != event.target || !that.$refs[`menu-${this.selectID}`].contains(event.target))) {
+            that.closeDropMenu(closeListener)
           }
         } else {
-          _this.closeDropMenu(closeListener)
+          that.closeDropMenu(closeListener)
         }
       }
       // Avoid menu re-triggering while maintaining the event propagation.
