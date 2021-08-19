@@ -75,6 +75,12 @@ h4 {
 .text-shadow {
   text-shadow: 1.5px 1px var(--color-theme-900);
 }
+::-webkit-scrollbar {
+  @apply bg-transparent w-6 !important;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-theme-200 dark:bg-theme-600 bg-clip-content border-8 border-solid border-transparent rounded-full !important;
+}
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
