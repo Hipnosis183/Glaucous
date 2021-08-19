@@ -145,6 +145,7 @@ import {
   HipCardLarge,
   HipCardTall,
   HipDialog,
+  HipInput,
   HipNavBar
 } from '../Component'
 // Import database controllers functions.
@@ -169,6 +170,7 @@ export default {
     HipCardLarge,
     HipCardTall,
     HipDialog,
+    HipInput,
     HipNavBar
   },
   data() {
