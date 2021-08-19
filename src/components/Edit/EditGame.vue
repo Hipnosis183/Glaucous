@@ -37,11 +37,7 @@
     </div>
   </div>
   <!-- Edit game form. -->
-  <el-form
-    label-position="top"
-    :model="$store.state.gameForm"
-    :show-message="false"
-  >
+  <form>
     <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
@@ -73,7 +69,7 @@
         <form-links />
       </div>
     </div>
-  </el-form>
+  </form>
 </template>
 
 <script>
