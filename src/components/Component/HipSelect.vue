@@ -320,6 +320,10 @@ export default {
     }
   },
   mounted() {
+    // Reset model value to correctly trigger the label setting.
+    if (this.remote) {
+      this.$emit('update:modelValue', null)
+    }
     // Load option label.
     this.setOptionLabel()
     // Manage menu placement.
