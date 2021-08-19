@@ -118,9 +118,6 @@
 </template>
 
 <script>
-// Import functions from modules.
-import { app } from '@electron/remote'
-import { readdirSync } from 'fs-extra'
 // Import UI components.
 import {
   HipButton,
@@ -135,6 +132,7 @@ import {
 import {
   getGamesLinked,
   getGamesLinkedSearch,
+  getImage,
   linkGame,
   unlinkGame
 } from '../../../database/controllers/Game'
@@ -224,16 +222,7 @@ export default {
     },
     // Get games cover image.
     getImage(game) {
-      // Set the image directory path of the game region.
-      let imagePath = app.getAppPath() + '/images/' + game._id + '/' + game.gameRegions[0]._id
-      // Load images filenames and filter the cover image file.
-      let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
-      // Load first picture image as cover if it doesn't exists.
-      if (!imageFile) {
-        imageFile = readdirSync(imagePath).filter(res => !res.startsWith('0'.repeat(8)))[0]
-      }
-      // Return the cover if it exists.
-      return imageFile ? (imagePath + '/' + imageFile) : false
+      return getImage(game)
     }
   },
   mounted() {

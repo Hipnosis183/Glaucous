@@ -133,9 +133,6 @@
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditPlatform from '../Edit/EditPlatform.vue'
 import SettingsCardsModeSm from '../Settings/SettingsCards/SettingsCardsModeSm.vue'
-// Import functions from modules.
-import { app } from '@electron/remote'
-import { readdirSync } from 'fs-extra'
 // Import UI components.
 import {
   HipButton,
@@ -153,7 +150,10 @@ import {
   getPlatform,
   deletePlatform
 } from '../../database/controllers/Platform'
-import { getGamesPlatform } from '../../database/controllers/Game'
+import {
+  getGamesPlatform,
+  getImage
+} from '../../database/controllers/Game'
 
 export default {
   name: 'ViewPlatform',
@@ -291,16 +291,7 @@ export default {
     },
     // Get games cover image.
     getImage(game) {
-      // Set the image directory path of the game region.
-      let imagePath = app.getAppPath() + '/images/' + game._id + '/' + game.gameRegions[0]._id
-      // Load images filenames and filter the cover image file.
-      let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
-      // Load first picture image as cover if it doesn't exists.
-      if (!imageFile) {
-        imageFile = readdirSync(imagePath).filter(res => !res.startsWith('0'.repeat(8)))[0]
-      }
-      // Return the cover if it exists.
-      return imageFile ? (imagePath + '/' + imageFile) : false
+      return getImage(game)
     }
   },
   mounted() {
