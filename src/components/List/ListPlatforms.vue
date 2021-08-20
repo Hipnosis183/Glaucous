@@ -22,10 +22,7 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <ul
-            v-infinite-scroll="loadPlatformsNext"
-            class="gap-4 grid grid-cols-view"
-          >
+          <hip-list :remote-method="loadPlatformsNext">
             <li
               v-for="platform in platforms"
               :key="platform._id"
@@ -40,7 +37,7 @@
                 </div>
               </hip-card>
             </li>
-          </ul>
+          </hip-list>
         </div>
       </div>
     </div>
@@ -55,6 +52,7 @@ import {
   HipButtonNb,
   HipCard,
   HipDialog,
+  HipList,
   HipNavBar
 } from '../Component'
 // Import database controllers functions.
@@ -69,6 +67,7 @@ export default {
     HipButtonNb,
     HipCard,
     HipDialog,
+    HipList,
     HipNavBar
   },
   data() {

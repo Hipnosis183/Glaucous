@@ -59,10 +59,9 @@
         </ul>
       </hip-modal>
       <!-- Search results. -->
-      <ul
+      <hip-list
         v-if="queryResults.length > 0"
-        v-infinite-scroll="querySearchNext"
-        class="gap-4 grid grid-flow-row"
+        :remote-method="querySearchNext"
       >
         <li
           v-for="game in queryResults"
@@ -76,7 +75,7 @@
             :gameImage="getImage(game)"
           />
         </li>
-      </ul>
+      </hip-list>
     </div>
   </hip-overlay>
 </template>
@@ -88,6 +87,7 @@ import {
   HipCardCompact,
   HipChip,
   HipInput,
+  HipList,
   HipModal,
   HipOption,
   HipOverlay,
@@ -106,6 +106,7 @@ export default {
     HipCardCompact,
     HipChip,
     HipInput,
+    HipList,
     HipModal,
     HipOption,
     HipOverlay,

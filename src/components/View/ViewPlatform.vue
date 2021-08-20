@@ -87,10 +87,9 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <ul
+          <hip-list
             v-if="platform.games.length > 0"
-            v-infinite-scroll="loadPlatformNext"
-            class="gap-4 grid grid-cols-view"
+            :remote-method="loadPlatformNext"
           >
             <li
               v-for="game in platform.games"
@@ -115,7 +114,7 @@
                 :gameImage="getImage(game)"
               />
             </li>
-          </ul>
+          </hip-list>
           <div
             v-else-if="querySearched"
             class="flex h-content w-full"
@@ -143,6 +142,7 @@ import {
   HipCardTall,
   HipDialog,
   HipInput,
+  HipList,
   HipNavBar
 } from '../Component'
 // Import database controllers functions.
@@ -171,6 +171,7 @@ export default {
     HipCardTall,
     HipDialog,
     HipInput,
+    HipList,
     HipNavBar
   },
   data() {
