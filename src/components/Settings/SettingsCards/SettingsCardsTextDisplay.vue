@@ -1,14 +1,18 @@
 <template>
   <p class="text-xl">Text display</p>
-  <el-switch
-    v-model="cardTextDisplay"
-    active-color="var(--color-color-500)"
-  ></el-switch>
+  <hip-switch v-model="cardTextDisplay" />
 </template>
 
 <script>
+// Import UI components.
+import { HipSwitch } from '../../Component'
+
 export default {
   name: 'SettingsCardsTextDisplay',
+  components: {
+    // UI components.
+    HipSwitch
+  },
   computed: {
     cardTextDisplay: {
       get() { return this.$store.state.cardTextDisplay },

@@ -17,6 +17,7 @@ import HipOption from './HipOption.vue'
 import HipOptionGroup from './HipOptionGroup.vue'
 import HipOverlay from './HipOverlay.vue'
 import HipSelect from './HipSelect.vue'
+import HipSwitch from './HipSwitch.vue'
 
 export {
     HipButton,
@@ -37,5 +38,6 @@ export {
     HipOption,
     HipOptionGroup,
     HipOverlay,
-    HipSelect
+    HipSelect,
+    HipSwitch
 }

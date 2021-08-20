@@ -1,14 +1,18 @@
 <template>
   <p class="text-xl">Google search icon</p>
-  <el-switch
-    v-model="searchGoogle"
-    active-color="var(--color-color-500)"
-  ></el-switch>
+  <hip-switch v-model="searchGoogle" />
 </template>
 
 <script>
+// Import UI components.
+import { HipSwitch } from '../../Component'
+
 export default {
   name: 'SettingsLinksGoogleSearch',
+  components: {
+    // UI components.
+    HipSwitch
+  },
   computed: {
     searchGoogle: {
       get() { return this.$store.state.searchGoogle },
