@@ -146,7 +146,8 @@ export default {
       },
       popperInstance: '',
       popperPlacement: '',
-      popperIntersect: false
+      popperIntersect: false,
+      intersectionObserver: null
     }
   },
   provide() {
@@ -199,6 +200,10 @@ export default {
       // Avoid menu re-triggering while maintaining the event propagation.
       setTimeout(() => {
         if (!this.openMenu) {
+          // Manage menu placement.
+          this.setMenuPlacement()
+          // Manage menu interception.
+          this.setMenuObserver()
           // Open menu.
           this.openMenu = true
           this.updateDropMenu()
@@ -228,11 +233,20 @@ export default {
       this.emitter.all.clear()
       // Remove click listener.
       window.removeEventListener('click', listener)
+      this.$nextTick(() => {
+        // Disconnect the observer watcher.
+        this.intersectionObserver.disconnect()
+        // Delay to wait for the animation to finish.
+        setTimeout(() => {
+          // Destroy Popper instance.
+          this.popperInstance.destroy()
+        }, 300)
+      })
     },
     updateDropMenu() {
-      // Update popper instance.
-      this.popperInstance.update()
       this.$nextTick(() => {
+        // Update popper instance.
+        this.popperInstance.update()
         // Set current popper placement.
         this.popperPlacement = this.popperInstance.state.placement
       })
@@ -312,11 +326,15 @@ export default {
         })
       })
     },
+    // Observe the select, closing the menu when it goes off-screen.
     setMenuObserver() {
-      // Observe the select, closing the menu when it goes off-screen.
-      new window.IntersectionObserver((entries) => {
+      // Define and instantiate observer.
+      this.intersectionObserver = new window.IntersectionObserver((entries) => {
+        // Middleware to ensure only one intersection triggering.
         this.popperIntersect = entries[0].isIntersecting ? false : true
-      }).observe(this.$refs[`select-${this.selectID}`])
+      })
+      // Initiate the observer watcher.
+      this.intersectionObserver.observe(this.$refs[`select-${this.selectID}`])
     }
   },
   mounted() {
@@ -326,10 +344,6 @@ export default {
     }
     // Load option label.
     this.setOptionLabel()
-    // Manage menu placement.
-    this.setMenuPlacement()
-    // Manage menu interception.
-    this.setMenuObserver()
   },
   unmounted() {
     // Clear all emit listeners.
