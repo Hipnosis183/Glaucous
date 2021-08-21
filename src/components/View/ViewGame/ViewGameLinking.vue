@@ -27,6 +27,25 @@
         ></hip-button>
       </div>
     </hip-dialog>
+    <!-- Unlink error dialog. -->
+    <hip-dialog
+      v-show="dialog.unlinkError"
+      @close="unlinkError()"
+      class="pos-initial z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        This game is not linked with any other.
+      </p>
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Close message. -->
+        <hip-button
+          :icon="true"
+          @click="unlinkError()"
+          class="el-icon-circle-check text-2xl"
+        ></hip-button>
+      </div>
+    </hip-dialog>
     <!-- Validation error dialog. -->
     <hip-dialog
       v-show="dialog.validationError"
@@ -156,6 +175,7 @@ export default {
       querySelected: '',
       dialog: {
         unlinkGame: false,
+        unlinkError: false,
         validationError: false
       },
     }
@@ -185,8 +205,13 @@ export default {
       })
     },
     unlinkGameOpen() {
-      // Open unlink dialog.
-      this.dialog.unlinkGame = !this.dialog.unlinkGame
+      if (this.linkedGames.length > 0) {
+        // Open unlink dialog.
+        this.dialog.unlinkGame = !this.dialog.unlinkGame
+      } else {
+        // Open unlink error dialog.
+        this.unlinkError()
+      }
     },
     unlinkGameClose() {
       // Unlink current from associated game(s).
@@ -215,9 +240,13 @@ export default {
         this.queryResults = []
       }
     },
-    // Show validation errors.
+    // Show errors.
+    unlinkError() {
+      // Open unlink error dialog.
+      this.dialog.unlinkError = !this.dialog.unlinkError
+    },
     validationError() {
-      // Open error dialog.
+      // Open validation error dialog.
       this.dialog.validationError = !this.dialog.validationError
     },
     // Get games cover image.
