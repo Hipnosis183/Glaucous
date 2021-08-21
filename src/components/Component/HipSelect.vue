@@ -379,6 +379,8 @@ export default {
         if (value == '') {
           // Empty options results.
           this.remoteMethod('')
+          // Hide label placeholder.
+          this.labelHide = true
         } else if (this.labelPlaceholder) {
           // Get label option.
           this.remoteMethod(this.labelPlaceholder)

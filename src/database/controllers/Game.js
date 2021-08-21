@@ -288,6 +288,8 @@ export async function linkGame(req, sid) {
     for (let g of linkedGames) {
         await GamePlatformModel.findOneAndUpdate({ _id: g }, { gamePlatforms: linkedGames })
     }
+    // Return list to display in UI.
+    return linkedGames
 }
 
 // Manage game unlinking.

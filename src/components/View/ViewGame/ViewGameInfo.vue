@@ -15,10 +15,8 @@
   <!-- Insert view game linking component. -->
   <view-game-linking
     v-show="dialog.viewGameLinking"
-    :key="gameInfo"
     :gameInfo="gameInfo"
     :regionIndex="regionIndex"
-    @reload="$emit('reload')"
     @close="viewGameLinking()"
     class="pos-initial z-10"
   />
@@ -131,9 +129,6 @@ export default {
       }
     }
   },
-  emits: [
-    'reload'
-  ],
   props: [
     'fullTitle',
     'gameInfo',

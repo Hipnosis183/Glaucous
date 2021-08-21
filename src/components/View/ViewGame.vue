@@ -175,7 +175,6 @@
                   :gameInfo="gameInfo"
                   :regionIndex="regionIndex"
                   :regionName="getRegion(regionIndex)"
-                  @reload="loadGame()"
                 />
               </div>
               <!-- Insert game links component. -->

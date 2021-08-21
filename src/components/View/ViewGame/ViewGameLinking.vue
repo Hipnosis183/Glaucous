@@ -171,6 +171,7 @@ export default {
   data() {
     return {
       linkedGames: [],
+      linkedGamesSearch: [],
       queryResults: [],
       querySelected: '',
       dialog: {
@@ -180,9 +181,6 @@ export default {
       },
     }
   },
-  emits: [
-    'reload'
-  ],
   props: [
     'gameInfo',
     'regionIndex'
@@ -196,13 +194,14 @@ export default {
         return
       }
       // Link current to selected game(s).
-      linkGame(this.gameInfo, this.querySelected).then(() => {
-        // Reload updated game entry.
-        this.$emit('reload')
-        // Reset query.
-        this.queryResults = []
-        this.querySelected = ''
-      })
+      linkGame(this.gameInfo, this.querySelected)
+        .then(res => {
+          // Reload linked games.
+          this.getGamesLinked(res)
+          // Reset query.
+          this.queryResults = []
+          this.querySelected = ''
+        })
     },
     unlinkGameOpen() {
       if (this.linkedGames.length > 0) {
@@ -215,22 +214,41 @@ export default {
     },
     unlinkGameClose() {
       // Unlink current from associated game(s).
-      unlinkGame(this.gameInfo).then(() => {
-        // Reload updated game entry.
-        this.$emit('reload')
-        // Reset query.
-        this.queryResults = []
-        this.querySelected = ''
-        // Close unlink dialog.
-        this.dialog.unlinkGame = !this.dialog.unlinkGame
-      })
+      unlinkGame(this.gameInfo)
+        .then(() => {
+          // Reset linked games list.
+          this.linkedGames = []
+          this.linkedGamesSearch = [this.gameInfo._id]
+          // Reset query.
+          this.queryResults = []
+          this.querySelected = ''
+          // Close unlink dialog.
+          this.dialog.unlinkGame = !this.dialog.unlinkGame
+        })
+    },
+    // Get linked games.
+    getGamesLinked(games) {
+      getGamesLinked(games)
+        .then(res => {
+          // Set linked games, exclude the selected game.
+          this.linkedGames = res.filter(res => res._id != this.gameInfo._id)
+          // Set linked games IDs for search.
+          this.linkedGamesSearch = []
+          res.forEach(game => {
+            this.linkedGamesSearch.push(game._id)
+          })
+        })
+    },
+    // Get games cover image.
+    getImage(game) {
+      return getImage(game)
     },
     // Query searching.
     querySearch(query) {
       // Only start search from three characters onwards.
       if (query !== '' && query.length > 2) {
         // Search for games matching the query.
-        getGamesLinkedSearch(this.gameInfo.gamePlatforms, query)
+        getGamesLinkedSearch(this.linkedGamesSearch, query)
           .then(res => {
             // Store results.
             this.queryResults = res
@@ -248,17 +266,11 @@ export default {
     validationError() {
       // Open validation error dialog.
       this.dialog.validationError = !this.dialog.validationError
-    },
-    // Get games cover image.
-    getImage(game) {
-      return getImage(game)
     }
   },
   mounted() {
     // Load linked games.
-    getGamesLinked(this.gameInfo.gamePlatforms)
-      // Exclude the selected game.
-      .then(res => this.linkedGames = res.filter(res => res._id != this.gameInfo._id))
+    this.getGamesLinked(this.gameInfo.gamePlatforms)
   }
 }
 </script>
