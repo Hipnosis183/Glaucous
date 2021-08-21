@@ -45,7 +45,7 @@
       <div class="mx-auto max-w-max">
         <!-- Control bar. -->
         <hip-modal class="ml-8 p-gallery rounded-full">
-          <div class="flex h-10 justify-between mx-1">
+          <div class="flex h-10 justify-between mx-1 space-x-2">
             <!-- Close dialog. -->
             <hip-button
               :icon="true"
@@ -53,22 +53,24 @@
               class="el-icon-circle-close text-2xl"
             ></hip-button>
             <!-- Control bar buttons. -->
-            <div class="border-2 border-theme-200 dark:border-theme-600 divide-x-2 divide-theme-200 dark:divide-theme-600 flex justify-between mx-4 rounded-full">
+            <div class="flex h-10 rounded-full shadow">
               <!-- Previous image. -->
-              <button
+              <hip-button-group
+                firstElement
                 @click="prevImage()"
-                class="el-icon-d-arrow-left px-4 text-2xl text-theme-900 dark:text-theme-100"
-              ></button>
+                class="el-icon-d-arrow-left"
+              ></hip-button-group>
               <!-- Display image in its original size. -->
-              <button
+              <hip-button-group
                 @click="imageZoom = !imageZoom"
-                class="el-icon-full-screen px-4 text-2xl text-theme-900 dark:text-theme-100"
-              ></button>
+                class="el-icon-full-screen"
+              ></hip-button-group>
               <!-- Next image. -->
-              <button
+              <hip-button-group
+                lastElement
                 @click="nextImage()"
-                class="el-icon-d-arrow-right px-4 text-2xl text-theme-900 dark:text-theme-100"
-              ></button>
+                class="el-icon-d-arrow-right"
+              ></hip-button-group>
             </div>
             <!-- Image counter. -->
             <hip-button class="cursor-default">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</hip-button>
@@ -180,6 +182,7 @@ import {
 // Import UI components.
 import {
   HipButton,
+  HipButtonGroup,
   HipModal,
   HipOverlay
 } from '../../Component'
@@ -189,6 +192,7 @@ export default {
   components: {
     // UI components.
     HipButton,
+    HipButtonGroup,
     HipModal,
     HipOverlay
   },

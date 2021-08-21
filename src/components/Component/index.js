@@ -1,4 +1,5 @@
 import HipButton from './HipButton.vue'
+import HipButtonGroup from './HipButtonGroup.vue'
 import HipButtonNb from './HipButtonNb.vue'
 import HipButtonSb from './HipButtonSb.vue'
 import HipCard from './HipCard.vue'
@@ -22,6 +23,7 @@ import HipSwitch from './HipSwitch.vue'
 
 export {
     HipButton,
+    HipButtonGroup,
     HipButtonNb,
     HipButtonSb,
     HipCard,
