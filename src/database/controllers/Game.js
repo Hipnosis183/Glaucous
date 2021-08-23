@@ -8,7 +8,8 @@ import {
 } from './Developer'
 import {
     getPlatform,
-    getPlatformByName
+    getPlatformByName,
+    getPlatformsGroup
 } from './Platform'
 
 import { app } from '@electron/remote'
@@ -442,6 +443,8 @@ export async function getGamesPlatform(req, index, count, query) {
         })
 }
 
+let platforms = []
+
 // Get all games matching a given search query.
 export async function getGamesSearch(index, count, query) {
     // Configure the search parameters.
@@ -451,14 +454,11 @@ export async function getGamesSearch(index, count, query) {
         developer: new RegExp(query.developer, 'i'),
         releaseYear: new RegExp(query.releaseYear, 'i')
     }
-    let platforms = []
+    platforms = []
     // Get all platforms matching the given query.
     await getPlatformByName(search.platform)
         .then(async res => {
-            for (let platform of res) {
-                // Store the platform IDs.
-                platforms.push(platform._id)
-            }
+            await getGamesSearchPlatform(res)
         })
     let developers = []
     // Get all developers matching the given query.
@@ -482,6 +482,23 @@ export async function getGamesSearch(index, count, query) {
     const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { subTitle: search.title }, { translatedTitle: search.title }] }
     // Get all the game regions matching the search query.
     return await getGamesAll(index, count, querySearch)
+}
+
+// Get all (nested) platforms for a specific search query.
+async function getGamesSearchPlatform(res) {
+    for (let platform of res) {
+        // Check if the platform is a group.
+        if (platform.group) {
+            await getPlatformsGroup(platform._id)
+                .then(async res => {
+                    // Recurse the function to get nested platforms.
+                    await getGamesSearchPlatform(res)
+                })
+        } else {
+            // Store the platform IDs.
+            platforms.push(platform._id)
+        }
+    }
 }
 
 // Get all linked games of a specific game platform.
