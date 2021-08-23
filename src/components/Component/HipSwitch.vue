@@ -1,31 +1,47 @@
 <template>
-  <div
-    @click="switchValue()"
-    class="cursor-pointer"
-  >
-    <input
-      v-model="modelValue"
-      type="checkbox"
-      class="hidden"
-    />
+  <div>
+    <!-- Label. -->
+    <hip-label
+      v-if="label"
+      class="mb-2"
+    >{{ label }}</hip-label>
+    <!-- Switch container. -->
     <div
-      class="flex rounded-full shadow switch-slider"
-      :class="modelValue ? 'bg-color-500' : 'bg-theme-200 dark:bg-theme-800'"
+      @click="switchValue()"
+      class="cursor-pointer"
     >
+      <input
+        v-model="modelValue"
+        type="checkbox"
+        class="hidden"
+      />
+      <!-- Switch slider. -->
       <div
-        :style="{ marginLeft: modelValue ? '34px' : '6px'}"
-        class="bg-theme-0 h-5 my-auto rounded-full shadow switch-button w-5"
+        class="flex rounded-full shadow switch-slider"
+        :class="modelValue ? 'bg-color-500' : 'bg-theme-200 dark:bg-theme-800'"
       >
+        <!-- Switch button. -->
+        <div
+          :style="{ marginLeft: modelValue ? '34px' : '6px'}"
+          class="bg-theme-0 h-5 my-auto rounded-full shadow switch-button w-5"
+        >
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import HipLabel from './HipLabel.vue'
+
 export default {
   name: 'HipSwitch',
+  components: {
+    HipLabel
+  },
   props: {
-    modelValue: { type: Boolean, default: false }
+    modelValue: { type: Boolean, default: false },
+    label: { type: [String, Number] }
   },
   methods: {
     switchValue() {

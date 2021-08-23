@@ -1,13 +1,16 @@
 import FormComments from './FormComments.vue'
 import FormCurrentVersion from './FormCurrentVersion.vue'
 import FormDeveloper from './FormDeveloper.vue'
+import FormDeveloperName from './FormDeveloperName.vue'
 import FormImages from './FormImages.vue'
 import FormLatestVersion from './FormLatestVersion.vue'
 import FormLinks from './FormLinks.vue'
-import FormName from './FormName.vue'
 import FormNumberPlayers from './FormNumberPlayers.vue'
 import FormOriginalTitle from './FormOriginalTitle.vue'
 import FormPlatform from './FormPlatform.vue'
+import FormPlatformName from './FormPlatformName.vue'
+import FormPlatformParent from './FormPlatformParent.vue'
+import FormPlatformGroup from './FormPlatformGroup.vue'
 import FormRegion from './FormRegion.vue'
 import FormReleaseYear from './FormReleaseYear.vue'
 import FormRomanizedTitle from './FormRomanizedTitle.vue'
@@ -20,13 +23,16 @@ export {
     FormComments,
     FormCurrentVersion,
     FormDeveloper,
+    FormDeveloperName,
     FormImages,
     FormLatestVersion,
     FormLinks,
-    FormName,
     FormNumberPlayers,
     FormOriginalTitle,
     FormPlatform,
+    FormPlatformName,
+    FormPlatformParent,
+    FormPlatformGroup,
     FormRegion,
     FormReleaseYear,
     FormRomanizedTitle,

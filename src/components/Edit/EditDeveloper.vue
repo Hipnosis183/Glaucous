@@ -39,13 +39,13 @@
   <!-- Edit developer form. -->
   <form>
     <!-- Form components. -->
-    <form-name />
+    <form-developer-name />
   </form>
 </template>
 
 <script>
 // Import form components.
-import { FormName } from '../Form'
+import { FormDeveloperName } from '../Form'
 // Import UI components.
 import {
   HipButton,
@@ -58,7 +58,7 @@ export default {
   name: 'EditDeveloper',
   components: {
     // Form components.
-    FormName,
+    FormDeveloperName,
     // UI components.
     HipButton,
     HipDialog
@@ -76,12 +76,12 @@ export default {
   methods: {
     onSubmit() {
       // Validate required fields.
-      if (!this.$store.state.otherForm.name) {
+      if (!this.$store.state.developerForm.name) {
         this.validationError()
         return
       }
       // Update developer entry.
-      updateDeveloper(this.$store.state.otherForm, this.$store.state.otherSelected)
+      updateDeveloper(this.$store.state.developerForm, this.$store.state.developerSelected)
         .then(() => this.$emit('close'))
     },
     // Show validation errors.

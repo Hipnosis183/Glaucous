@@ -58,9 +58,15 @@ export default createStore({
         comments: []
       }
     },
-    otherSelected: null,
-    otherForm: {
+    developerSelected: null,
+    developerForm: {
       name: null
+    },
+    platformSelected: null,
+    platformForm: {
+      group: false,
+      name: null,
+      parent: null
     }
   },
   mutations: {
@@ -207,12 +213,26 @@ export default createStore({
     setGameVersionCommentsRemove(state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
     },
-    resetOtherForm(state) {
-      state.otherForm.name = null
+    resetDeveloperForm(state) {
+      state.developerForm.name = null
     },
-    setOtherName(state, data) {
-      state.otherForm.name = data
+    setDeveloperName(state, data) {
+      state.developerForm.name = data
     },
+    resetPlatformForm(state) {
+      state.platformForm.group = false
+      state.platformForm.name = null
+      state.platformForm.parent = null
+    },
+    setPlatformGroup(state, data) {
+      state.platformForm.group = data
+    },
+    setPlatformName(state, data) {
+      state.platformForm.name = data
+    },
+    setPlatformParent(state, data) {
+      state.platformForm.parent = data
+    }
   },
   actions: {
   },

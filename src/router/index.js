@@ -35,6 +35,11 @@ const routes = [
     component: () => import('../components/List/ListPlatforms.vue')
   },
   {
+    path: '/platforms/group/:id',
+    name: 'ListPlatformsGroup',
+    component: () => import('../components/List/ListPlatformsGroup.vue')
+  },
+  {
     path: '/platforms/:id',
     name: 'ViewPlatform',
     component: () => import('../components/View/ViewPlatform.vue')

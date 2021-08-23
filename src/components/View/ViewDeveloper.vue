@@ -266,11 +266,11 @@ export default {
     // Edit operations.
     editDeveloperOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
+      this.$store.commit('resetDeveloperForm')
       // Save current developer ID into the store.
-      this.$store.state.otherSelected = this.$route.params.id
+      this.$store.state.developerSelected = this.$route.params.id
       // Save data of the current developer into the store.
-      this.$store.commit('setOtherName', this.developer.name)
+      this.$store.commit('setDeveloperName', this.developer.name)
       // Open edit dialog.
       this.dialog.editDeveloper = !this.dialog.editDeveloper
     },

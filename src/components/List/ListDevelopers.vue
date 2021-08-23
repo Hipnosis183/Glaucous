@@ -109,7 +109,7 @@ export default {
     // Create operations.
     createDeveloperOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
+      this.$store.commit('resetDeveloperForm')
       // Open create dialog.
       this.dialog.createDeveloper = !this.dialog.createDeveloper
     },

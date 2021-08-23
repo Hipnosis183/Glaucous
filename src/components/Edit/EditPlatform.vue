@@ -39,13 +39,17 @@
   <!-- Edit platform form. -->
   <form>
     <!-- Form components. -->
-    <form-name />
+    <form-platform-name />
+    <form-platform-parent :groupPlatform="groupPlatform" />
   </form>
 </template>
 
 <script>
 // Import form components.
-import { FormName } from '../Form'
+import {
+  FormPlatformName,
+  FormPlatformParent,
+} from '../Form'
 // Import UI components.
 import {
   HipButton,
@@ -58,7 +62,8 @@ export default {
   name: 'EditPlatform',
   components: {
     // Form components.
-    FormName,
+    FormPlatformName,
+    FormPlatformParent,
     // UI components.
     HipButton,
     HipDialog
@@ -73,15 +78,18 @@ export default {
   emits: [
     'close'
   ],
+  props: [
+    'groupPlatform'
+  ],
   methods: {
     onSubmit() {
       // Validate required fields.
-      if (!this.$store.state.otherForm.name) {
+      if (!this.$store.state.platformForm.name) {
         this.validationError()
         return
       }
       // Update platform entry.
-      updatePlatform(this.$store.state.otherForm, this.$store.state.otherSelected)
+      updatePlatform(this.$store.state.platformForm, this.$store.state.platformSelected)
         .then(() => this.$emit('close'))
     },
     // Show validation errors.

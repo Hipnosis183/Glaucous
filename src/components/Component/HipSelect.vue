@@ -43,7 +43,7 @@
             :placeholder="labelHide || !labelPlaceholder ? placeholder : ''"
             @blur="labelSelected = labelPlaceholder"
             @input="updateValue()"
-            class="absolute bg-transparent cursor-pointer h-full px-4"
+            class="absolute bg-transparent cursor-pointer h-full px-4 w-full"
             :class="{ 'input-error' : required }"
           />
         </div>

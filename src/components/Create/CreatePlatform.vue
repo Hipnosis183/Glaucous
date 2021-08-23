@@ -39,13 +39,24 @@
   <!-- Create platform form. -->
   <form>
     <!-- Form components. -->
-    <form-name />
+    <div class="flex space-x-4">
+      <form-platform-name />
+      <form-platform-group />
+    </div>
+    <form-platform-parent
+      v-show="!groupPlatform"
+      :groupPlatform="groupPlatform"
+    />
   </form>
 </template>
 
 <script>
 // Import form components.
-import { FormName } from '../Form'
+import {
+  FormPlatformGroup,
+  FormPlatformName,
+  FormPlatformParent,
+} from '../Form'
 // Import UI components.
 import {
   HipButton,
@@ -58,7 +69,9 @@ export default {
   name: "CreatePlatform",
   components: {
     // Form components.
-    FormName,
+    FormPlatformGroup,
+    FormPlatformName,
+    FormPlatformParent,
     // UI components.
     HipButton,
     HipDialog
@@ -73,15 +86,18 @@ export default {
   emits: [
     'close'
   ],
+  props: [
+    'groupPlatform'
+  ],
   methods: {
     onSubmit() {
       // Validate required fields.
-      if (!this.$store.state.otherForm.name) {
+      if (!this.$store.state.platformForm.name) {
         this.validationError()
         return
       }
       // Save new platform entry.
-      createPlatform(this.$store.state.otherForm)
+      createPlatform(this.$store.state.platformForm)
         .then(() => this.$emit('close'))
     },
     // Show validation errors.

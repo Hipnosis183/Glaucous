@@ -27,13 +27,14 @@
               v-for="platform in platforms"
               :key="platform._id"
               :value="platform._id"
-              @click="$router.push({ name: 'ViewPlatform', params: { id: platform._id } })"
+              @click="$router.push({ name: platform.group ? 'ListPlatformsGroup' : 'ViewPlatform', params: { id: platform._id } })"
             >
               <!-- Platform card. -->
               <hip-card>
                 <div>
                   <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
-                  <h3>{{ platform.titles }} Titles</h3>
+                  <h3 v-if="platform.group">{{ platform.titles }} Platforms</h3>
+                  <h3 v-else>{{ platform.titles }} Titles</h3>
                 </div>
               </hip-card>
             </li>
@@ -109,7 +110,7 @@ export default {
     // Create operations.
     createPlatformOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
+      this.$store.commit('resetPlatformForm')
       // Open create dialog.
       this.dialog.createPlatform = !this.dialog.createPlatform
     },

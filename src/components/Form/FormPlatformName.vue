@@ -13,15 +13,15 @@
 import { HipInput } from '../Component'
 
 export default {
-  name: 'FormName',
+  name: 'FormPlatformName',
   components: {
     // UI components.
     HipInput
   },
   computed: {
     name: {
-      get() { return this.$store.state.otherForm.name },
-      set(value) { this.$store.commit('setOtherName', value) }
+      get() { return this.$store.state.platformForm.name },
+      set(value) { this.$store.commit('setPlatformName', value) }
     }
   }
 }

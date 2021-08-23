@@ -19,7 +19,10 @@
       class="z-10"
     >
       <!-- Insert edit platform form component. -->
-      <edit-platform @close="editPlatformClose()" />
+      <edit-platform
+        :groupPlatform="platform.parent"
+        @close="editPlatformClose()"
+      />
     </hip-dialog>
     <!-- Delete platform dialog. -->
     <hip-dialog
@@ -178,6 +181,7 @@ export default {
     return {
       platform: {
         name: null,
+        parent: null,
         games: []
       },
       queryInput: null,
@@ -199,7 +203,10 @@ export default {
       this.pagination.index = 0
       // Get platform.
       getPlatform(this.$route.params.id)
-        .then(res => this.platform.name = res.name)
+        .then(res => {
+          this.platform.name = res.name
+          this.platform.parent = res.parent ? res.parent._id : ''
+        })
       // Get platform's games.
       getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
         .then(res => {
@@ -266,11 +273,12 @@ export default {
     // Edit operations.
     editPlatformOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetOtherForm')
+      this.$store.commit('resetPlatformForm')
       // Save current platform ID into the store.
-      this.$store.state.otherSelected = this.$route.params.id
+      this.$store.state.platformSelected = this.$route.params.id
       // Save data of the current platform into the store.
-      this.$store.commit('setOtherName', this.platform.name)
+      this.$store.commit('setPlatformName', this.platform.name)
+      this.$store.commit('setPlatformParent', this.platform.parent)
       // Open edit dialog.
       this.dialog.editPlatform = !this.dialog.editPlatform
     },

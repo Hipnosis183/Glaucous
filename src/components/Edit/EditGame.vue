@@ -175,9 +175,9 @@ export default {
         .then(async res => {
           if (!res) {
             // Populate new developer form.
-            this.$store.commit('setOtherName', this.developer)
+            this.$store.commit('setDeveloperName', this.developer)
             // Save new developer entry.
-            await createDeveloper(this.$store.state.otherForm)
+            await createDeveloper(this.$store.state.developerForm)
               // Set the new developer in the game form.
               .then(res => this.developer = res._id)
           }
@@ -189,9 +189,9 @@ export default {
         .then(async res => {
           if (!res) {
             // Populate new platform form.
-            this.$store.commit('setOtherName', this.platform)
+            this.$store.commit('setPlatformName', this.platform)
             // Save new platform entry.
-            await createPlatform(this.$store.state.otherForm)
+            await createPlatform(this.$store.state.platformForm)
               // Set the new platform in the game form.
               .then(res => this.platform = res._id)
           }

@@ -4,7 +4,9 @@ class PlatformModel extends Document {
     constructor() {
         super()
         this.schema({
-            name: { type: String, required: true }
+            group: { type: Boolean },
+            name: { type: String, required: true },
+            parent: { type: PlatformModel }
         })
     }
     static collectionName() {
