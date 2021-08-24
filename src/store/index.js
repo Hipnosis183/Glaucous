@@ -12,6 +12,7 @@ export default createStore({
     darkMode: localStore.get('darkMode', false),
     selectedTheme: localStore.get('selectedTheme', 0),
     selectedColor: localStore.get('selectedColor', 0),
+    groupsView: localStore.get('groupsView', true),
     searchGoogle: localStore.get('searchGoogle', true),
     searchGoogleKey: localStore.get('searchGoogleKey', 0),
     cardMode: localStore.get('cardMode', 1),
@@ -85,6 +86,10 @@ export default createStore({
     selectColor(state, data) {
       state.selectedColor = data
       localStore.set('selectedColor', state.selectedColor)
+    },
+    toggleGroupsView(state) {
+      state.groupsView = !state.groupsView
+      localStore.set('groupsView', state.groupsView)
     },
     toggleSearchGoogle(state) {
       state.searchGoogle = !state.searchGoogle

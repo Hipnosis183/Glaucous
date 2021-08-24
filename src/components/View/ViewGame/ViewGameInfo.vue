@@ -81,9 +81,14 @@
     <div class="data-content">
       <p class="font-semibold">Platform:</p>
       <!-- Go to the platform page. -->
-      <p @click="$router.push({ name: 'ViewPlatform', params: { id: gameInfo.platform._id } })">
-        {{ gameInfo.platform.name }}
-      </p>
+      <div @click="$router.push({ name: 'ViewPlatform', params: { id: gameInfo.platform._id } })">
+        <p v-if="gameInfo.platform.parent && $store.state.groupsView">
+          {{ gameInfo.platform.parent.name }} ({{ gameInfo.platform.name }})
+        </p>
+        <p v-else>
+          {{ gameInfo.platform.name }}
+        </p>
+      </div>
       <!-- Open view game linking dialog. -->
       <hip-button @click="viewGameLinking()">Also On</hip-button>
     </div>

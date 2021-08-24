@@ -12,6 +12,8 @@
           <div class="flex-1 no-scrollbar overflow-y-scroll items-center">
             <!-- General options. -->
             <settings-general />
+            <!-- Games options. -->
+            <settings-games />
             <!-- Theme options. -->
             <settings-themes />
             <!-- Links options. -->
@@ -34,6 +36,7 @@ import {
 // Import settings components.
 import SettingsCards from './Settings/SettingsCards.vue'
 import SettingsGeneral from './Settings/SettingsGeneral.vue'
+import SettingsGames from './Settings/SettingsGames.vue'
 import SettingsLinks from './Settings/SettingsLinks.vue'
 import SettingsThemes from './Settings/SettingsThemes.vue'
 
@@ -46,6 +49,7 @@ export default {
     // Settings components.
     SettingsCards,
     SettingsGeneral,
+    SettingsGames,
     SettingsLinks,
     SettingsThemes
   }

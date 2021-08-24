@@ -41,7 +41,14 @@
           <h4 class="data-content">{{ gameInfo.gameRegions[0].originalTitle }}</h4>
         </div>
         <div class="inline-flex">
-          <h4 class="data-content">{{ gameInfo.platform.name }}</h4>
+          <div v-if="gameInfo.platform.parent && $store.state.groupsView">
+            <h4 class="data-content">
+              {{ parentName }} ({{ gameInfo.platform.name }})
+            </h4>
+          </div>
+          <div v-else>
+            <h4 class="data-content">{{ gameInfo.platform.name }}</h4>
+          </div>
           <p class="text-xl mx-2 my-auto">-</p>
           <h4 class="data-content">{{ gameInfo.releaseYear }}</h4>
         </div>
@@ -52,16 +59,30 @@
 
 <script>
 import HipCard from './HipCard.vue'
+import { getPlatform } from '../../database/controllers/Platform'
 
 export default {
   name: 'HipCardTall',
   components: {
     HipCard
   },
+  data() {
+    return {
+      parentName: null
+    }
+  },
   props: [
     'gameImage',
     'gameInfo'
-  ]
+  ],
+  mounted() {
+    // Check if the platform has a parent group.
+    if (this.gameInfo.platform.parent) {
+      // Get parent platform name.
+      getPlatform(this.gameInfo.platform.parent)
+        .then(res => this.parentName = res.name)
+    }
+  }
 }
 </script>
 
