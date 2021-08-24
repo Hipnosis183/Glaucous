@@ -96,7 +96,7 @@
           >
             <!-- Select created option. -->
             <hip-option
-              v-show="allowCreate && labelPlaceholder != '' && labelSelected != ''"
+              v-show="allowCreate && labelCached != ''"
               :key="labelCached"
               :label="labelCached"
               :value="labelCached"
