@@ -8,7 +8,7 @@ import {
 } from './Developer'
 import {
     getPlatform,
-    getPlatformByName,
+    getPlatformAllByName,
     getPlatformsGroup
 } from './Platform'
 
@@ -456,7 +456,7 @@ export async function getGamesSearch(index, count, query) {
     }
     platforms = []
     // Get all platforms matching the given query.
-    await getPlatformByName(search.platform)
+    await getPlatformAllByName(search.platform)
         .then(async res => {
             await getGamesSearchPlatform(res)
         })

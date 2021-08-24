@@ -49,6 +49,13 @@ export async function getPlatformGroupCount(req) {
 export async function getPlatformByName(query) {
     const search = new RegExp(query, 'i')
     // Search through platforms, case insensitive.
+    return await PlatformModel.find({ name: search, group: false })
+}
+
+// Search for a specific platform by name.
+export async function getPlatformAllByName(query) {
+    const search = new RegExp(query, 'i')
+    // Search through platforms, case insensitive.
     return await PlatformModel.find({ name: search })
 }
 
