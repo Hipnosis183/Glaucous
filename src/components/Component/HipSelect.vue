@@ -26,7 +26,7 @@
           class="bg-theme-100 dark:bg-theme-800 cursor-pointer relative rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
           :class="[
             { 'rounded-l-none' : iconPrefix },
-            { 'rounded-r-none' : iconSuffix || modelValue || !remote }
+            { 'rounded-r-none' : !required && (iconSuffix || modelValue || !remote) }
           ]"
         >
           <!-- Label placeholder. -->
@@ -63,12 +63,12 @@
         />
         <!-- Clear select icon. -->
         <div
-          v-if="modelValue && remote"
+          v-if="modelValue && remote && !required"
           class="bg-theme-100 dark:bg-theme-800 flex w-max z-0"
           :class="{ 'rounded-r-xl' : !iconSuffix }"
         >
           <div
-            @click="clearValue()"
+            @click.stop="clearValue()"
             class="cursor-pointer el-icon-circle-close ml-2 mr-4 my-auto text-lg text-theme-700 dark:text-theme-300"
           />
         </div>
@@ -140,6 +140,7 @@ export default {
       labelPlaceholder: '',
       listenEmitter: false,
       openMenu: false,
+      optionsClear: false,
       optionsCache: {
         labels: [],
         values: []
@@ -232,7 +233,7 @@ export default {
         // Show label placeholder.
         this.labelHide = false
         // If there's an option cached.
-        if (this.optionsCache.labels.includes(this.labelPlaceholder)) {
+        if (this.optionsCache.labels.includes(this.labelPlaceholder) && !this.optionsClear) {
           let index = this.optionsCache.labels.indexOf(this.labelPlaceholder)
           // Update parent component model value.
           this.$emit('update:modelValue', this.optionsCache.values[index])
@@ -287,15 +288,15 @@ export default {
     },
     // Input value functions.
     clearValue() {
-      // Clear parent component model value.
-      this.$emit('update:modelValue', '')
       // Clear input value.
       this.labelSelected = ''
+      // Clear parent component model value.
+      this.$emit('update:modelValue', '')
       if (this.remote) {
-        // Hide (not clear) label placeholder.
-        this.labelHide = true
-        // Clear options.
-        this.remoteMethod(this.labelSelected)
+        // Clear label placeholder.
+        this.labelPlaceholder = ''
+        // Toggle options clear.
+        this.optionsClear = true
       }
     },
     updateValue() {
@@ -326,6 +327,8 @@ export default {
                 if (this.remote) {
                   this.labelPlaceholder = item
                   this.labelHide = false
+                  // Toggle options clear.
+                  this.optionsClear = false
                   // Store results in options cache.
                   if (!this.optionsCache.values.includes(this.modelValue)) {
                     this.optionsCache.values.push(this.modelValue)
@@ -409,6 +412,8 @@ export default {
         // Set label if the option has been cached before.
         if (this.optionsCache.values.includes(value)) {
           this.labelPlaceholder = this.optionsCache.labels[this.optionsCache.values.indexOf(value)]
+          // Toggle options clear.
+          this.optionsClear = false
         }
         if (value == '') {
           // Empty options results.
