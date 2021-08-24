@@ -105,7 +105,7 @@
             <!-- Select options list. -->
             <slot>
               <li
-                v-if="!allowCreate"
+                v-if="!allowCreate || labelCached == ''"
                 class="cursor-none flex justify-center px-4 py-2"
               >
                 <p class="cursor-none">No results</p>
@@ -220,12 +220,46 @@ export default {
         this.labelHide = false
         // Update parent component model value.
         this.$emit('update:modelValue', item.value)
-        this.closeDropMenu(closeListener)
+        this.selectDropMenu(closeListener)
       })
       // Set menu width to match parent input select.
       this.$refs[`menu-${this.selectID}`].style.minWidth = this.$refs[`select-${this.selectID}`].clientWidth + 'px'
     },
     closeDropMenu(listener) {
+      if (this.remote) {
+        // Clear input value.
+        this.labelSelected = ''
+        // Show label placeholder.
+        this.labelHide = false
+        // If there's an option cached.
+        if (this.optionsCache.labels.includes(this.labelPlaceholder)) {
+          let index = this.optionsCache.labels.indexOf(this.labelPlaceholder)
+          // Update parent component model value.
+          this.$emit('update:modelValue', this.optionsCache.values[index])
+          // Check if the option selected was created or not.
+          if (this.optionsCache.values[index] == this.optionsCache.labels[index]) {
+            // Cache input label.
+            this.labelCached = this.labelPlaceholder
+            // Clear options.
+            this.remoteMethod('')
+          } else {
+            // Clear cache input label.
+            this.labelCached = ''
+            // Update options with new query.
+            this.remoteMethod(this.labelPlaceholder)
+          }
+        } else {
+          // Clear cache input label.
+          this.labelCached = ''
+          // Clear parent component model value.
+          this.$emit('update:modelValue', '')
+          // Clear options.
+          this.remoteMethod('')
+        }
+      }
+      this.selectDropMenu(listener)
+    },
+    selectDropMenu(listener) {
       // Close menu.
       this.openMenu = false
       this.updateDropMenu()
@@ -382,10 +416,18 @@ export default {
           // Hide label placeholder.
           this.labelHide = true
         } else if (this.labelPlaceholder) {
-          // Get label option.
-          this.remoteMethod(this.labelPlaceholder)
           // Show label placeholder.
           this.labelHide = false
+          // Check if the option selected was created or not.
+          if (this.labelCached == this.labelPlaceholder) {
+            // Clear options.
+            this.remoteMethod('')
+          } else {
+            // Clear cache input label.
+            this.labelCached = ''
+            // Get label option.
+            this.remoteMethod(this.labelPlaceholder)
+          }
         }
       }
     }
