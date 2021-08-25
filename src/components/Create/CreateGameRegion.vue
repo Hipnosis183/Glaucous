@@ -44,6 +44,7 @@
         <form-images />
         <form-region />
         <form-title />
+        <form-pre-title />
         <form-sub-title />
       </div>
       <div class="w-1/2">
@@ -67,6 +68,7 @@ import {
   FormCurrentVersion,
   FormImages,
   FormOriginalTitle,
+  FormPreTitle,
   FormRegion,
   FormRomanizedTitle,
   FormSerial,
@@ -90,6 +92,7 @@ export default {
     FormCurrentVersion,
     FormImages,
     FormOriginalTitle,
+    FormPreTitle,
     FormRegion,
     FormRomanizedTitle,
     FormSerial,

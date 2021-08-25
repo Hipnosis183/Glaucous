@@ -1,5 +1,8 @@
 <template>
-  <ul class="gap-4 grid grid-cols-view">
+  <ul
+    class="gap-4 grid"
+    :class="{ 'grid-cols-view' : !manual }"
+  >
     <slot />
   </ul>
   <div
@@ -18,7 +21,8 @@ export default {
     }
   },
   props: {
-    remoteMethod: { type: Function },
+    manual: { type: Boolean },
+    remoteMethod: { type: Function }
   },
   mounted() {
     // Define and instantiate observer.

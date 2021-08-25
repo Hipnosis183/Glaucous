@@ -61,6 +61,7 @@
       <!-- Search results. -->
       <hip-list
         v-if="queryResults.length > 0"
+        manual
         :remote-method="querySearchNext"
       >
         <li

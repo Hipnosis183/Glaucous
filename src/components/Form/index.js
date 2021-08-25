@@ -12,6 +12,7 @@ import FormPlatformName from './FormPlatformName.vue'
 import FormPlatformParent from './FormPlatformParent.vue'
 import FormPlatformGroup from './FormPlatformGroup.vue'
 import FormRegion from './FormRegion.vue'
+import FormPreTitle from './FormPreTitle.vue'
 import FormReleaseYear from './FormReleaseYear.vue'
 import FormRomanizedTitle from './FormRomanizedTitle.vue'
 import FormSerial from './FormSerial.vue'
@@ -33,6 +34,7 @@ export {
     FormPlatformName,
     FormPlatformParent,
     FormPlatformGroup,
+    FormPreTitle,
     FormRegion,
     FormReleaseYear,
     FormRomanizedTitle,

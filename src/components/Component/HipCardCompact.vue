@@ -26,7 +26,7 @@
     <!-- Game card information. -->
     <div
       class="flex h-16 z-0"
-      :class="$store.state.cardImageDisplay ? $store.state.cardImagePosition == 0 ? 'ml-24' : '' : ''"
+      :class="$store.state.cardImageDisplay ? $store.state.cardImagePosition == 0 ? 'ml-24 mr-4' : '' : ''"
     >
       <div
         class="flex flex-col my-auto"
@@ -34,17 +34,10 @@
         !$store.state.darkMode && $store.state.cardImageDisplay && $store.state.cardImagePosition == 1 ? 'text-light text-shadow' : '']"
       >
         <div
-          class="inline-flex mb-2"
+          class="mb-2"
           :class="$store.state.cardTextPosition == 0 ? 'justify-center' : ''"
         >
-          <h1 class="data-title">{{ gameInfo.gameRegions[0].title }}</h1>
-          <div
-            v-if="gameInfo.gameRegions[0].subTitle"
-            class="flex"
-          >
-            <h2 class="text-xl mx-2 my-auto">-</h2>
-            <h2 class="data-content">{{ gameInfo.gameRegions[0].subTitle }}</h2>
-          </div>
+          <h1 class="data-title">{{ fullTitle }}</h1>
         </div>
         <div
           class="inline-flex"
@@ -57,14 +50,14 @@
             <h4 class="data-content">{{ gameInfo.gameRegions[0].originalTitle }}</h4>
             <p class="text-xl mx-2 my-auto">-</p>
           </div>
-          <div v-if="gameInfo.platform.parent && $store.state.groupsView">
-            <h4 class="data-content">
-              {{ parentName }} ({{ gameInfo.platform.name }})
-            </h4>
-          </div>
-          <div v-else>
-            <h4 class="data-content">{{ gameInfo.platform.name }}</h4>
-          </div>
+          <h4
+            v-if="gameInfo.platform.parent && $store.state.groupsView"
+            class="data-content"
+          >{{ parentName }} ({{ gameInfo.platform.name }})</h4>
+          <h4
+            v-else
+            class="data-content"
+          >{{ gameInfo.platform.name }}</h4>
           <p class="text-xl mx-2 my-auto">-</p>
           <h4 class="data-content">{{ gameInfo.releaseYear }}</h4>
         </div>
@@ -97,6 +90,18 @@ export default {
       // Get parent platform name.
       getPlatform(this.gameInfo.platform.parent)
         .then(res => this.parentName = res.name)
+    }
+  },
+  computed: {
+    fullTitle() {
+      let fullTitle = this.gameInfo.gameRegions[0].title
+      if (this.gameInfo.gameRegions[0].subTitle) {
+        fullTitle = fullTitle + ' ' + this.gameInfo.gameRegions[0].subTitle
+      }
+      if (this.gameInfo.gameRegions[0].preTitle) {
+        fullTitle = this.gameInfo.gameRegions[0].preTitle + ' ' + fullTitle
+      }
+      return fullTitle
     }
   }
 }

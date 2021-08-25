@@ -7,6 +7,7 @@ class GameRegionModel extends Document {
         this.schema({
             gameVersions: { type: [ GameVersionModel ], required: true },
             title: { type: String, required: true },
+            preTitle: { type: String },
             subTitle: { type: String },
             originalTitle: { type: String },
             romanizedTitle: { type: String },

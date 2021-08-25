@@ -118,7 +118,7 @@
           @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
         >
           <!-- Game card. -->
-          <hip-card-large
+          <hip-card-compact
             :gameInfo="game"
             :gameImage="getImage(game)"
           />
@@ -140,7 +140,7 @@
 // Import UI components.
 import {
   HipButton,
-  HipCardLarge,
+  HipCardCompact,
   HipDialog,
   HipModal,
   HipOption,
@@ -161,7 +161,7 @@ export default {
   components: {
     // UI components.
     HipButton,
-    HipCardLarge,
+    HipCardCompact,
     HipDialog,
     HipModal,
     HipOption,

@@ -26,7 +26,11 @@
     class="border-2 border-theme-200 dark:border-theme-800 float-right h-10 rounded-md"
   />
   <!-- Header title. -->
-  <div class="mb-10">
+  <div class="mb-8">
+    <p
+      v-show="gameInfo.gameRegions[regionIndex].preTitle"
+      class="text-lg"
+    >{{ gameInfo.gameRegions[regionIndex].preTitle }}</p>
     <p class="text-4xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
     <p
       v-show="gameInfo.gameRegions[regionIndex].subTitle"
@@ -34,7 +38,7 @@
     >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
     <p
       v-show="gameInfo.gameRegions[regionIndex].originalTitle"
-      class="text-xl"
+      class="mt-2 text-xl"
     >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
   </div>
   <!-- Body contents. -->

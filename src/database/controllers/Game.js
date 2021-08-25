@@ -88,6 +88,7 @@ async function createGameRegion(req) {
         _id: generateID(),
         gameVersions: new Array(Version),
         title: req.title,
+        preTitle: req.preTitle,
         subTitle: req.subTitle,
         originalTitle: req.originalTitle,
         romanizedTitle: req.romanizedTitle,
@@ -128,6 +129,7 @@ export async function updateGame(req, id) {
     // Update the game region.
     await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
         title: req.gameRegion.title,
+        preTitle: req.gameRegion.preTitle,
         subTitle: req.gameRegion.subTitle,
         originalTitle: req.gameRegion.originalTitle,
         romanizedTitle: req.gameRegion.romanizedTitle,
@@ -400,7 +402,7 @@ export async function getGamesAllSearch(index, count, query) {
     // Configure the search parameters.
     const search = new RegExp(query, 'i')
     // Configure the search query.
-    const querySearch = { $or: [{ title: search }, { subTitle: search }, { translatedTitle: search }] }
+    const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
     // Get all game regions for the selected platform.
     return await getGamesAll(index, count, querySearch)
 }
@@ -418,7 +420,7 @@ export async function getGamesDeveloper(req, index, count, query) {
             // Configure the search parameters.
             const search = new RegExp(query, 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, querySearch)
         })
@@ -437,7 +439,7 @@ export async function getGamesPlatform(req, index, count, query) {
             // Configure the search parameters.
             const search = new RegExp(query, 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, querySearch)
         })
@@ -479,7 +481,7 @@ export async function getGamesSearch(index, count, query) {
             }
         })
     // Configure the search query.
-    const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { subTitle: search.title }, { translatedTitle: search.title }] }
+    const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { preTitle: search.title }, { subTitle: search.title }, { translatedTitle: search.title }] }
     // Get all the game regions matching the search query.
     return await getGamesAll(index, count, querySearch)
 }
@@ -511,7 +513,7 @@ export async function getGamesLinkedSearch(req, query) {
     // Configure the search parameters.
     const search = new RegExp(query, 'i')
     // Configure the search query.
-    const querySearch = { $or: [{ title: search }, { subTitle: search }, { translatedTitle: search }] }
+    const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
     // Search through game regions, case insensitive.
     return await GameRegionModel.find(querySearch)
         .then(async res => {

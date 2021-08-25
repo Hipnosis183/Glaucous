@@ -25,8 +25,8 @@
     ></div>
     <!-- Game card information. -->
     <div
-      class="flex h-32 z-0"
-      :class="$store.state.cardImageDisplay ? $store.state.cardImagePosition == 0 ? 'ml-40' : '' : ''"
+      class="flex h-36 z-0"
+      :class="$store.state.cardImageDisplay ? $store.state.cardImagePosition == 0 ? 'ml-44 mr-4' : '' : ''"
     >
       <div
         class="my-auto"
@@ -34,21 +34,22 @@
         !$store.state.darkMode && $store.state.cardImageDisplay && $store.state.cardImagePosition == 1 ? 'text-light text-shadow' : '']"
       >
         <div class="mb-2">
+          <h2 class="data-content text-sm">{{ gameInfo.gameRegions[0].preTitle }}</h2>
           <h1 class="data-title">{{ gameInfo.gameRegions[0].title }}</h1>
-          <h2 class="data-content">{{ gameInfo.gameRegions[0].subTitle }}</h2>
+          <h2 class="data-content text-lg">{{ gameInfo.gameRegions[0].subTitle }}</h2>
         </div>
         <div class="mb-2">
           <h4 class="data-content">{{ gameInfo.gameRegions[0].originalTitle }}</h4>
         </div>
         <div class="inline-flex">
-          <div v-if="gameInfo.platform.parent && $store.state.groupsView">
-            <h4 class="data-content">
-              {{ parentName }} ({{ gameInfo.platform.name }})
-            </h4>
-          </div>
-          <div v-else>
-            <h4 class="data-content">{{ gameInfo.platform.name }}</h4>
-          </div>
+          <h4
+            v-if="gameInfo.platform.parent && $store.state.groupsView"
+            class="data-content"
+          >{{ parentName }} ({{ gameInfo.platform.name }})</h4>
+          <h4
+            v-else
+            class="data-content"
+          >{{ gameInfo.platform.name }}</h4>
           <p class="text-xl mx-2 my-auto">-</p>
           <h4 class="data-content">{{ gameInfo.releaseYear }}</h4>
         </div>
@@ -95,7 +96,7 @@ export default {
   @apply font-semibold text-xl;
 }
 .data-content {
-  @apply font-normal my-auto text-base;
+  @apply font-normal my-auto;
 }
 .image-content {
   @apply absolute ar-square cursor-pointer h-full left-0 object-cover rounded-l-xl top-0;

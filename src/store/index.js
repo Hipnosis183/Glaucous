@@ -37,6 +37,7 @@ export default createStore({
       },
       gameRegion: {
         title: null,
+        preTitle: null,
         subTitle: null,
         originalTitle: null,
         romanizedTitle: null,
@@ -136,6 +137,7 @@ export default createStore({
       state.gameForm.gamePlatform.latestVersion = null
       state.gameForm.gamePlatform.links = []
       state.gameForm.gameRegion.title = null
+      state.gameForm.gameRegion.preTitle = null
       state.gameForm.gameRegion.subTitle = null
       state.gameForm.gameRegion.originalTitle = null
       state.gameForm.gameRegion.romanizedTitle = null
@@ -175,6 +177,9 @@ export default createStore({
     },
     setGameRegionTitle(state, data) {
       state.gameForm.gameRegion.title = data
+    },
+    setGameRegionPreTitle(state, data) {
+      state.gameForm.gameRegion.preTitle = data
     },
     setGameRegionSubTitle(state, data) {
       state.gameForm.gameRegion.subTitle = data

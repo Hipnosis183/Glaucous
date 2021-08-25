@@ -43,6 +43,7 @@
       <div class="w-1/2">
         <form-images />
         <form-title />
+        <form-pre-title />
         <form-sub-title />
         <form-original-title />
         <form-romanized-title />
@@ -84,6 +85,7 @@ import {
   FormNumberPlayers,
   FormOriginalTitle,
   FormPlatform,
+  FormPreTitle,
   FormRegion,
   FormReleaseYear,
   FormRomanizedTitle,
@@ -121,6 +123,7 @@ export default {
     FormNumberPlayers,
     FormOriginalTitle,
     FormPlatform,
+    FormPreTitle,
     FormRegion,
     FormReleaseYear,
     FormRomanizedTitle,

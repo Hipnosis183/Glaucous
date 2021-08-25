@@ -344,6 +344,7 @@ export default {
       this.$store.commit('setGamePlatformLatestVersion', this.gameInfo.latestVersion)
       this.$store.commit('setGamePlatformLinks', this.gameInfo.links)
       this.$store.commit('setGameRegionTitle', this.gameInfo.gameRegions[this.regionIndex].title)
+      this.$store.commit('setGameRegionPreTitle', this.gameInfo.gameRegions[this.regionIndex].preTitle)
       this.$store.commit('setGameRegionSubTitle', this.gameInfo.gameRegions[this.regionIndex].subTitle)
       this.$store.commit('setGameRegionOriginalTitle', this.gameInfo.gameRegions[this.regionIndex].originalTitle)
       this.$store.commit('setGameRegionRomanizedTitle', this.gameInfo.gameRegions[this.regionIndex].romanizedTitle)
@@ -437,9 +438,14 @@ export default {
   },
   computed: {
     fullTitle() {
-      return this.gameInfo.gameRegions[this.regionIndex].subTitle ?
-        this.gameInfo.gameRegions[this.regionIndex].title + ' ' + this.gameInfo.gameRegions[this.regionIndex].subTitle :
-        this.gameInfo.gameRegions[this.regionIndex].title
+      let fullTitle = this.gameInfo.gameRegions[this.regionIndex].title
+      if (this.gameInfo.gameRegions[this.regionIndex].subTitle) {
+        fullTitle = fullTitle + ' ' + this.gameInfo.gameRegions[this.regionIndex].subTitle
+      }
+      if (this.gameInfo.gameRegions[this.regionIndex].preTitle) {
+        fullTitle = this.gameInfo.gameRegions[this.regionIndex].preTitle + ' ' + fullTitle
+      }
+      return fullTitle
     }
   }
 }
