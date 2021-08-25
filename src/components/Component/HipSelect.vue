@@ -42,7 +42,7 @@
             :ref="`input-${selectID}`"
             :placeholder="labelHide || !labelPlaceholder ? placeholder : ''"
             @blur="labelSelected = labelPlaceholder"
-            @input="updateValue()"
+            @input="updateValueD"
             class="absolute bg-transparent cursor-pointer h-full px-4 w-full"
             :class="{ 'input-error' : required }"
           />
@@ -51,7 +51,7 @@
         <input
           v-else
           v-model="labelSelected"
-          :disabled="!remote"
+          :disabled="true"
           :placeholder="placeholder"
           @input="updateValue()"
           class="bg-theme-100 dark:bg-theme-800 cursor-pointer px-4 rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
@@ -121,6 +121,7 @@
 <script>
 import { computed } from 'vue'
 import { createPopper } from '@popperjs/core'
+import { debounce } from '../../utils/debounce'
 import { generateID } from '../../database/datastore'
 import HipLabel from './HipLabel.vue'
 import HipOption from './HipOption.vue'
@@ -148,7 +149,8 @@ export default {
       popperInstance: '',
       popperPlacement: '',
       popperIntersect: false,
-      intersectionObserver: null
+      intersectionObserver: null,
+      updateValueD: debounce(() => this.updateValue(), 1000)
     }
   },
   provide() {
