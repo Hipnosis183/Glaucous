@@ -21,12 +21,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <hip-input
           v-model="queryInput"
-          clearable
           icon-prefix="el-icon-search"
           placeholder="Search..."
           remote
           :remote-method="querySearch"
-          @clear="queryClear()"
         />
       </div>
       <div class="flex-shrink-0 ml-2 my-auto w-28">

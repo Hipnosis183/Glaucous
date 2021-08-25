@@ -31,7 +31,7 @@
         class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-theme-800 dark:text-theme-200 w-full"
         :class="[
           iconPrefix || $slots.prepend ? '' : 'rounded-l-xl',
-          iconSuffix || $slots.append || (clearable && modelValue) ? '' : 'rounded-r-xl',
+          iconSuffix || $slots.append || (remote && modelValue) ? '' : 'rounded-r-xl',
           required ? 'input-error' : ''
         ]"
       />
@@ -45,13 +45,13 @@
         class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-theme-800 dark:text-theme-200 w-full"
         :class="[
           iconPrefix || $slots.prepend ? '' : 'rounded-l-xl',
-          iconSuffix || $slots.append || (clearable && modelValue) ? '' : 'rounded-r-xl',
+          iconSuffix || $slots.append || (remote && modelValue) ? '' : 'rounded-r-xl',
           required ? 'input-error' : ''
         ]"
       />
       <!-- Clear input icon. -->
       <div
-        v-if="clearable && modelValue"
+        v-if="remote && modelValue"
         class="bg-theme-100 dark:bg-theme-800 flex w-max"
         :class="iconSuffix || $slots.append ? '' : 'rounded-r-xl'"
       >
@@ -98,12 +98,10 @@ export default {
     }
   },
   emits: [
-    'clear',
     'update:modelValue'
   ],
   props: {
     modelValue: { type: String, default: '' },
-    clearable: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
     iconPrefix: { type: String },
     iconSuffix: { type: String },
@@ -118,8 +116,10 @@ export default {
     clearValue() {
       // Clear parent component model value.
       this.$emit('update:modelValue', '')
-      // Emit event for the clear button.
-      this.$emit('clear')
+      if (this.remote) {
+        // Clear results.
+        this.remoteMethod('')
+      }
     },
     updateValue() {
       // Update parent component model value.
