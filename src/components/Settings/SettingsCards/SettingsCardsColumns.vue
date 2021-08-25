@@ -1,18 +1,26 @@
 <template>
   <p class="text-xl">Columns</p>
-  <el-input-number
+  <hip-input-num
     v-model="cardColumns"
     :min="1"
     :max="10"
-  ></el-input-number>
+    position-side
+  >
+  </hip-input-num>
 </template>
 
 <script>
+// Import UI components.
+import { HipInputNum } from '../../Component'
 // Import settings objects and functions.
 import { selectCardColumns } from '../../../settings'
 
 export default {
   name: 'SettingsCardsColumns',
+  components: {
+    // UI components.
+    HipInputNum
+  },
   computed: {
     cardColumns: {
       get() { return this.$store.state.cardColumns },

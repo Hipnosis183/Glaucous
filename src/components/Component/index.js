@@ -11,6 +11,7 @@ import HipDialog from './HipDialog.vue'
 import HipInput from './HipInput.vue'
 import HipInputButton from './HipInputButton.vue'
 import HipInputGroup from './HipInputGroup.vue'
+import HipInputNum from './HipInputNum.vue'
 import HipLabel from './HipLabel.vue'
 import HipList from './HipList.vue'
 import HipModal from './HipModal.vue'
@@ -35,6 +36,7 @@ export {
     HipInput,
     HipInputButton,
     HipInputGroup,
+    HipInputNum,
     HipLabel,
     HipList,
     HipModal,
