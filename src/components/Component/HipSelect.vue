@@ -39,7 +39,7 @@
           <!-- Label input. -->
           <input
             v-model="labelSelected"
-            :disabled="!remote"
+            :ref="`input-${selectID}`"
             :placeholder="labelHide || !labelPlaceholder ? placeholder : ''"
             @blur="labelSelected = labelPlaceholder"
             @input="updateValue()"
@@ -178,6 +178,10 @@ export default {
       // Close menu if it's already open.
       if (this.openMenu === true) {
         this.closeDropMenu(closeListener)
+        if (this.remote) {
+          // Remove focus from the input element.
+          this.$refs[`input-${this.selectID}`].blur()
+        }
         return
       }
       // Passthrough context.
