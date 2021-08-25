@@ -76,10 +76,11 @@
         <hip-input
           v-model="queryInput"
           clearable
-          placeholder="Search..."
           icon-prefix="el-icon-search"
+          placeholder="Search..."
+          remote
+          :remote-method="querySearch"
           @clear="queryClear()"
-          @input="querySearch(queryInput)"
         />
       </div>
       <div class="flex-shrink-0 ml-2 my-auto w-28">
@@ -229,8 +230,8 @@ export default {
     },
     // Query searching.
     querySearch(query) {
-      // Only start search from three characters onwards.
-      if (query !== '' && query.length > 2) {
+      // Only start search from two characters onwards.
+      if (query !== '' && query.length > 1) {
         // Ensure pagination index is reset.
         this.pagination.index = 0
         // A search has been done.

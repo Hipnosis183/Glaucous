@@ -21,8 +21,23 @@
           :class="iconPrefix"
         />
       </div>
-      <!-- Input element. -->
+      <!-- Remote input element. -->
       <input
+        v-if="remote"
+        v-model="modelValue"
+        :disabled="disabled"
+        :placeholder="placeholder"
+        @input="updateValueD"
+        class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-theme-800 dark:text-theme-200 w-full"
+        :class="[
+          iconPrefix || $slots.prepend ? '' : 'rounded-l-xl',
+          iconSuffix || $slots.append || (clearable && modelValue) ? '' : 'rounded-r-xl',
+          required ? 'input-error' : ''
+        ]"
+      />
+      <!-- Normal input element. -->
+      <input
+        v-else
         v-model="modelValue"
         :disabled="disabled"
         :placeholder="placeholder"
@@ -69,6 +84,7 @@
 </template>
 
 <script>
+import { debounce } from '../../utils/debounce'
 import HipInputGroup from './HipInputGroup.vue'
 
 export default {
@@ -76,9 +92,13 @@ export default {
   components: {
     HipInputGroup
   },
+  data() {
+    return {
+      updateValueD: debounce(() => this.updateValue(), 1000)
+    }
+  },
   emits: [
     'clear',
-    'input',
     'update:modelValue'
   ],
   props: {
@@ -89,6 +109,8 @@ export default {
     iconSuffix: { type: String },
     label: { type: String },
     placeholder: { type: String },
+    remote: { type: Boolean, default: false },
+    remoteMethod: { type: Function },
     required: { type: Boolean, default: false }
   },
   methods: {
@@ -102,8 +124,10 @@ export default {
     updateValue() {
       // Update parent component model value.
       this.$emit('update:modelValue', this.modelValue)
-      // Passthrough input event.
-      this.$emit('input')
+      if (this.remote) {
+        // Update results with new query.
+        this.remoteMethod(this.modelValue)
+      }
     }
   }
 }
