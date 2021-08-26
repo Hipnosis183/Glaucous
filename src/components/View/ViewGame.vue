@@ -92,37 +92,37 @@
     <hip-nav-bar>
       <!-- Open create game platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createGamePlatformOpen()"
         class="el-icon-connection text-2xl"
       ></hip-button-nb>
       <!-- Open create game region dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createGameRegionOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
       <!-- Open edit game dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editGameOpen()"
         class="el-icon-edit-outline text-2xl"
       ></hip-button-nb>
       <!-- Open delete game region dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deleteGameRegionOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>
       <!-- Open delete game platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deleteGamePlatformOpen()"
         class="el-icon-delete text-2xl"
       ></hip-button-nb>
       <!-- Open delete game platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="selectGameRegion()"
         class="el-icon-place text-2xl"
       ></hip-button-nb>

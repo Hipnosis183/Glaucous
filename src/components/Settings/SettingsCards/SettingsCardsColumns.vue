@@ -23,9 +23,9 @@ export default {
   },
   computed: {
     cardColumns: {
-      get() { return this.$store.state.cardColumns },
+      get() { return this.$store.getters.getSettingsCardsCardColumns },
       set(value) {
-        this.$store.commit('selectCardColumns', value)
+        this.$store.commit('setSettingsCardsCardColumns', value)
         selectCardColumns(this.cardColumns)
       }
     }

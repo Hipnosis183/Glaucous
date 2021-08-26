@@ -37,8 +37,8 @@ export default {
   },
   computed: {
     cardImagePosition: {
-      get() { return this.$store.state.cardImagePosition },
-      set(value) { this.$store.commit('selectCardImagePosition', value) }
+      get() { return this.$store.getters.getSettingsCardsCardImagePosition },
+      set(value) { this.$store.commit('setSettingsCardsCardImagePosition', value) }
     }
   }
 }

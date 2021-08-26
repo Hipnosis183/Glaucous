@@ -13,7 +13,7 @@
     <hip-nav-bar title="Platforms">
       <!-- Open create platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>

@@ -24,7 +24,7 @@
     </div>
     <!-- Google search. -->
     <div
-      v-if="$store.state.searchGoogle"
+      v-if="$store.getters.getSettingsLinksSearchGoogle"
       @click="openGoogle()"
       class="cursor-pointer text-2xl"
     >
@@ -106,7 +106,7 @@ export default {
     },
     openGoogle() {
       // Select key attribute to use as a query search parameter.
-      let query = this.googleKeys[this.$store.state.searchGoogleKey]
+      let query = this.googleKeys[this.$store.getters.getSettingsLinksSearchGoogleKey]
       // Make a Google search with the selected parameter.
       shell.openExternal('https://google.com/search?q=' + query)
     }

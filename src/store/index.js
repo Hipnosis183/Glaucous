@@ -2,26 +2,40 @@ import { app } from '@electron/remote'
 import { createStore } from 'vuex'
 import Store from 'electron-store'
 
+// App settings store.
 const localStore = new Store({ cwd: app.getAppPath() })
+// Platform settings store.
 let platformStore
 
 export default createStore({
   state: {
     sidenavExpanded: false,
     slideBack: false,
-    editMode: localStore.get('editMode', true),
-    darkMode: localStore.get('darkMode', false),
-    selectedTheme: localStore.get('selectedTheme', 0),
-    selectedColor: localStore.get('selectedColor', 0),
-    groupsView: localStore.get('groupsView', true),
-    searchGoogle: localStore.get('searchGoogle', true),
-    searchGoogleKey: localStore.get('searchGoogleKey', 0),
-    cardMode: localStore.get('cardMode', 1),
-    cardColumns: localStore.get('cardColumns', 1),
-    cardImageDisplay: localStore.get('cardImageDisplay', true),
-    cardImagePosition: localStore.get('cardImagePosition', 0),
-    cardTextDisplay: localStore.get('cardTextDisplay', true),
-    cardTextPosition: localStore.get('cardTextPosition', 1),
+    settingsApp: {
+      settingsGeneral: {
+        editMode: localStore.get('settingsGeneral.editMode', true)
+      },
+      settingsGames: {
+        groupsView: localStore.get('settingsGames.groupsView', true)
+      },
+      settingsThemes: {
+        darkMode: localStore.get('settingsThemes.darkMode', false),
+        selectedTheme: localStore.get('settingsThemes.selectedTheme', 0),
+        selectedColor: localStore.get('settingsThemes.selectedColor', 0)
+      },
+      settingsLinks: {
+        searchGoogle: localStore.get('settingsLinks.searchGoogle', true),
+        searchGoogleKey: localStore.get('settingsLinks.searchGoogleKey', 0)
+      },
+      settingsCards: {
+        cardMode: localStore.get('settingsCards.cardMode', 1),
+        cardColumns: localStore.get('settingsCards.cardColumns', 1),
+        cardImageDisplay: localStore.get('settingsCards.cardImageDisplay', true),
+        cardImagePosition: localStore.get('settingsCards.cardImagePosition', 0),
+        cardTextDisplay: localStore.get('settingsCards.cardTextDisplay', true),
+        cardTextPosition: localStore.get('settingsCards.cardTextPosition', 1)
+      }
+    },
     selectedPlatform: null,
     settingsPlatform: {
       path: null,
@@ -76,69 +90,114 @@ export default createStore({
       parent: null
     }
   },
+  getters: {
+    // App settings.
+    getSettingsGeneralEditMode(state) {
+      return state.settingsApp.settingsGeneral.editMode
+    },
+    getSettingsThemesDarkMode(state) {
+      return state.settingsApp.settingsThemes.darkMode
+    },
+    getSettingsThemesSelectedTheme(state) {
+      return state.settingsApp.settingsThemes.selectedTheme
+    },
+    getSettingsThemesSelectedColor(state) {
+      return state.settingsApp.settingsThemes.selectedColor
+    },
+    getSettingsGamesGroupsView(state) {
+      return state.settingsApp.settingsGames.groupsView
+    },
+    getSettingsLinksSearchGoogle(state) {
+      return state.settingsApp.settingsLinks.searchGoogle
+    },
+    getSettingsLinksSearchGoogleKey(state) {
+      return state.settingsApp.settingsLinks.searchGoogleKey
+    },
+    getSettingsCardsCardMode(state) {
+      return state.settingsApp.settingsCards.cardMode
+    },
+    getSettingsCardsCardColumns(state) {
+      return state.settingsApp.settingsCards.cardColumns
+    },
+    getSettingsCardsCardImageDisplay(state) {
+      return state.settingsApp.settingsCards.cardImageDisplay
+    },
+    getSettingsCardsCardImagePosition(state) {
+      return state.settingsApp.settingsCards.cardImagePosition
+    },
+    getSettingsCardsCardTextDisplay(state) {
+      return state.settingsApp.settingsCards.cardTextDisplay
+    },
+    getSettingsCardsCardTextPosition(state) {
+      return state.settingsApp.settingsCards.cardTextPosition
+    }
+  },
   mutations: {
-    toggleEditMode(state) {
-      state.editMode = !state.editMode
-      localStore.set('editMode', state.editMode)
+    // App settings.
+    setSettingsGeneralEditMode(state) {
+      state.settingsApp.settingsGeneral.editMode = !state.settingsApp.settingsGeneral.editMode
+      localStore.set('settingsGeneral.editMode', state.settingsApp.settingsGeneral.editMode)
     },
-    toggleDarkMode(state) {
-      state.darkMode = !state.darkMode
-      localStore.set('darkMode', state.darkMode)
+    setSettingsThemesDarkMode(state) {
+      state.settingsApp.settingsThemes.darkMode = !state.settingsApp.settingsThemes.darkMode
+      localStore.set('settingsThemes.darkMode', state.settingsApp.settingsThemes.darkMode)
     },
-    selectTheme(state, data) {
-      state.selectedTheme = data
-      localStore.set('selectedTheme', state.selectedTheme)
+    setSettingsThemesSelectedTheme(state, data) {
+      state.settingsApp.settingsThemes.selectedTheme = data
+      localStore.set('settingsThemes.selectedTheme', state.settingsApp.settingsThemes.selectedTheme)
     },
-    selectColor(state, data) {
-      state.selectedColor = data
-      localStore.set('selectedColor', state.selectedColor)
+    setSettingsThemesSelectedColor(state, data) {
+      state.settingsApp.settingsThemes.selectedColor = data
+      localStore.set('settingsThemes.selectedColor', state.settingsApp.settingsThemes.selectedColor)
     },
-    toggleGroupsView(state) {
-      state.groupsView = !state.groupsView
-      localStore.set('groupsView', state.groupsView)
+    setSettingsGamesGroupsView(state) {
+      state.settingsApp.settingsGames.groupsView = !state.settingsApp.settingsGames.groupsView
+      localStore.set('settingsGames.groupsView', state.settingsApp.settingsGames.groupsView)
     },
-    toggleSearchGoogle(state) {
-      state.searchGoogle = !state.searchGoogle
-      localStore.set('searchGoogle', state.searchGoogle)
+    setSettingsLinksSearchGoogle(state) {
+      state.settingsApp.settingsLinks.searchGoogle = !state.settingsApp.settingsLinks.searchGoogle
+      localStore.set('settingsLinks.searchGoogle', state.settingsApp.settingsLinks.searchGoogle)
     },
-    selectSearchGoogleKey(state, data) {
-      state.searchGoogleKey = data
-      localStore.set('searchGoogleKey', state.searchGoogleKey)
+    setSettingsLinksSearchGoogleKey(state, data) {
+      state.settingsApp.settingsLinks.searchGoogleKey = data
+      localStore.set('settingsLinks.searchGoogleKey', state.settingsApp.settingsLinks.searchGoogleKey)
     },
-    selectCardMode(state, data) {
-      state.cardMode = data
-      localStore.set('cardMode', state.cardMode)
+    setSettingsCardsCardMode(state, data) {
+      state.settingsApp.settingsCards.cardMode = data
+      localStore.set('settingsCards.cardMode', state.settingsApp.settingsCards.cardMode)
     },
-    selectCardColumns(state, data) {
-      state.cardColumns = data
-      localStore.set('cardColumns', state.cardColumns)
+    setSettingsCardsCardColumns(state, data) {
+      state.settingsApp.settingsCards.cardColumns = data
+      localStore.set('settingsCards.cardColumns', state.settingsApp.settingsCards.cardColumns)
     },
-    toggleCardImageDisplay(state) {
-      state.cardImageDisplay = !state.cardImageDisplay
-      localStore.set('cardImageDisplay', state.cardImageDisplay)
+    setSettingsCardsCardImageDisplay(state) {
+      state.settingsApp.settingsCards.cardImageDisplay = !state.settingsApp.settingsCards.cardImageDisplay
+      localStore.set('settingsCards.cardImageDisplay', state.settingsApp.settingsCards.cardImageDisplay)
     },
-    selectCardImagePosition(state, data) {
-      state.cardImagePosition = data
-      localStore.set('cardImagePosition', state.cardImagePosition)
+    setSettingsCardsCardImagePosition(state, data) {
+      state.settingsApp.settingsCards.cardImagePosition = data
+      localStore.set('settingsCards.cardImagePosition', state.settingsApp.settingsCards.cardImagePosition)
     },
-    toggleCardTextDisplay(state) {
-      state.cardTextDisplay = !state.cardTextDisplay
-      localStore.set('cardTextDisplay', state.cardTextDisplay)
+    setSettingsCardsCardTextDisplay(state) {
+      state.settingsApp.settingsCards.cardTextDisplay = !state.settingsApp.settingsCards.cardTextDisplay
+      localStore.set('settingsCards.cardTextDisplay', state.settingsApp.settingsCards.cardTextDisplay)
     },
-    selectCardTextPosition(state, data) {
-      state.cardTextPosition = data
-      localStore.set('cardTextPosition', state.cardTextPosition)
+    setSettingsCardsCardTextPosition(state, data) {
+      state.settingsApp.settingsCards.cardTextPosition = data
+      localStore.set('settingsCards.cardTextPosition', state.settingsApp.settingsCards.cardTextPosition)
     },
+    // Platform settings.
     setPlatformStore(state, data) {
       platformStore = new Store({ cwd: app.getAppPath() + '/' + data })
       state.settingsPlatform.path = platformStore.get('path', '')
     },
-    resetPlatformStore(state, data) {
+    resetPlatformStore(state) {
       state.settingsPlatform.path = platformStore.get('path', '')
     },
-    settingsPlatformPath(state, data) {
+    settingsPlatformPath(state) {
       platformStore.set('path', state.settingsPlatform.path)
     },
+    // Game form.
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null
       state.gameSelected.gameRegion = null
@@ -238,12 +297,14 @@ export default createStore({
     setGameVersionCommentsRemove(state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
     },
+    // Developer form.
     resetDeveloperForm(state) {
       state.developerForm.name = null
     },
     setDeveloperName(state, data) {
       state.developerForm.name = data
     },
+    // Platform form.
     resetPlatformForm(state) {
       state.platformForm.group = false
       state.platformForm.name = null
@@ -258,9 +319,5 @@ export default createStore({
     setPlatformParent(state, data) {
       state.platformForm.parent = data
     }
-  },
-  actions: {
-  },
-  modules: {
   }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div :class="$store.state.darkMode ? 'dark' : ''">
+  <div :class="$store.getters.getSettingsThemesDarkMode ? 'dark' : ''">
     <div class="bg-theme-100 dark:bg-theme-800 bg-transition flex max-h-screen min-h-screen relative">
       <side-nav />
       <div class="flex flex-1 overflow-hidden">
@@ -42,11 +42,11 @@ export default {
   },
   created() {
     // Set theme stored in the configuration.
-    selectTheme(themes[this.$store.state.selectedTheme].codes)
+    selectTheme(themes[this.$store.getters.getSettingsThemesSelectedTheme].codes)
     // Set color theme stored in the configuration.
-    selectColor(colors[this.$store.state.selectedColor].codes)
+    selectColor(colors[this.$store.getters.getSettingsThemesSelectedColor].codes)
     // Set number of columns of lists in the configuration.
-    selectCardColumns(this.$store.state.cardColumns)
+    selectCardColumns(this.$store.getters.getSettingsCardsCardColumns)
   }
 }
 </script>

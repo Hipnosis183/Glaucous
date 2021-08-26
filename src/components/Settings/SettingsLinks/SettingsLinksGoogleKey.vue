@@ -37,8 +37,8 @@ export default {
   },
   computed: {
     searchGoogleKey: {
-      get() { return this.$store.state.searchGoogleKey },
-      set(value) { this.$store.commit('selectSearchGoogleKey', value) }
+      get() { return this.$store.getters.getSettingsLinksSearchGoogleKey },
+      set(value) { this.$store.commit('setSettingsLinksSearchGoogleKey', value) }
     }
   }
 }

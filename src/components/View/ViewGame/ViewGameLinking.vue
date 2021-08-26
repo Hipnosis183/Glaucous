@@ -67,7 +67,7 @@
     </hip-dialog>
     <!-- Game linking dialog. -->
     <hip-modal
-      v-show="$store.state.editMode"
+      v-show="$store.getters.getSettingsGeneralEditMode"
       class="justify-center mb-4"
     >
       <!-- Form header. -->

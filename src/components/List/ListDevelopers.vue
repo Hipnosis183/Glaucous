@@ -13,7 +13,7 @@
     <hip-nav-bar title="Developers">
       <!-- Open create developer dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createDeveloperOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>

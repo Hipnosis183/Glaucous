@@ -86,7 +86,7 @@
       <p class="font-semibold">Platform:</p>
       <!-- Go to the platform page. -->
       <div @click="$router.push({ name: 'ViewPlatform', params: { id: gameInfo.platform._id } })">
-        <p v-if="gameInfo.platform.parent && $store.state.groupsView">
+        <p v-if="gameInfo.platform.parent && $store.getters.getSettingsGamesGroupsView">
           {{ gameInfo.platform.parent.name }} ({{ gameInfo.platform.name }})
         </p>
         <p v-else>

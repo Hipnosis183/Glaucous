@@ -47,10 +47,10 @@ export default {
   },
   computed: {
     selectedColor: {
-      get() { return this.$store.state.selectedColor },
+      get() { return this.$store.getters.getSettingsThemesSelectedColor },
       set(value) {
         // Set color theme in the configuration file.
-        this.$store.commit('selectColor', value)
+        this.$store.commit('setSettingsThemesSelectedColor', value)
         // Set color theme in the running application.
         selectColor(this.colors[this.selectedColor].codes)
       }

@@ -2,7 +2,7 @@
   <button
     class="bg-theme-100 dark:bg-theme-800 font-semibold h-full px-4 py-2 text-2xl text-color-800 dark:text-color-500"
     :class="[
-      $store.state.darkMode ? 'text-shadow' : '',
+      $store.getters.getSettingsThemesDarkMode ? 'text-shadow' : '',
       firstElement ? 'rounded-l-full' : '',
       lastElement ? 'rounded-r-full' : ''
     ]"

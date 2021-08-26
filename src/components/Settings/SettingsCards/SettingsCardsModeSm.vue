@@ -36,8 +36,8 @@ export default {
   },
   computed: {
     cardMode: {
-      get() { return this.$store.state.cardMode },
-      set(value) { this.$store.commit('selectCardMode', value) }
+      get() { return this.$store.getters.getSettingsCardsCardMode },
+      set(value) { this.$store.commit('setSettingsCardsCardMode', value) }
     }
   }
 }

@@ -53,10 +53,10 @@ export default {
   },
   computed: {
     selectedTheme: {
-      get() { return this.$store.state.selectedTheme },
+      get() { return this.$store.getters.getSettingsThemesSelectedTheme },
       set(value) {
         // Set theme in the configuration file.
-        this.$store.commit('selectTheme', value)
+        this.$store.commit('setSettingsThemesSelectedTheme', value)
         // Set theme in the running application.
         selectTheme(this.themes[this.selectedTheme].codes)
       }

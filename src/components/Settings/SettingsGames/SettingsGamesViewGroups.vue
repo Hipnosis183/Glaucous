@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     groupsView: {
-      get() { return this.$store.state.groupsView },
-      set() { this.$store.commit('toggleGroupsView') }
+      get() { return this.$store.getters.getSettingsGamesGroupsView },
+      set() { this.$store.commit('setSettingsGamesGroupsView') }
     }
   }
 }

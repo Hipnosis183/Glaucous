@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     darkMode: {
-      get() { return this.$store.state.darkMode },
-      set() { this.$store.commit('toggleDarkMode') }
+      get() { return this.$store.getters.getSettingsThemesDarkMode },
+      set() { this.$store.commit('setSettingsThemesDarkMode') }
     }
   }
 }

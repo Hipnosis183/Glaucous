@@ -37,8 +37,8 @@ export default {
   },
   computed: {
     cardTextPosition: {
-      get() { return this.$store.state.cardTextPosition },
-      set(value) { this.$store.commit('selectCardTextPosition', value) }
+      get() { return this.$store.getters.getSettingsCardsCardTextPosition },
+      set(value) { this.$store.commit('setSettingsCardsCardTextPosition', value) }
     }
   }
 }

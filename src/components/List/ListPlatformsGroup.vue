@@ -73,19 +73,19 @@
     <hip-nav-bar :title="platform.name">
       <!-- Open create platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
       <!-- Open edit platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editPlatformOpen()"
         class="el-icon-edit-outline text-2xl"
       ></hip-button-nb>
       <!-- Open delete platform dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deletePlatformOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>

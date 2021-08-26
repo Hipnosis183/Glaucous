@@ -78,7 +78,7 @@
       mode="out-in"
     >
       <div
-        :key="$store.state.selectedTheme"
+        :key="$store.getters.getSettingsThemesSelectedTheme"
         class="bg-color-500 flex flex-col h-full justify-between relative w-14"
       >
         <!-- Logo bar. -->

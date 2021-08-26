@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     cardTextDisplay: {
-      get() { return this.$store.state.cardTextDisplay },
-      set() { this.$store.commit('toggleCardTextDisplay') }
+      get() { return this.$store.getters.getSettingsCardsCardTextDisplay },
+      set() { this.$store.commit('setSettingsCardsCardTextDisplay') }
     }
   }
 }

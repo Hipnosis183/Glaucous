@@ -13,7 +13,7 @@
     <hip-nav-bar title="Games">
       <!-- Open create developer dialog. -->
       <hip-button-nb
-        v-show="$store.state.editMode"
+        v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createGamePlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
@@ -47,17 +47,17 @@
             >
               <!-- Game cards. -->
               <hip-card-tall
-                v-if="$store.state.cardMode == 0"
+                v-if="$store.getters.getSettingsCardsCardMode == 0"
                 :gameInfo="game"
                 :gameImage="getImage(game)"
               />
               <hip-card-large
-                v-else-if="$store.state.cardMode == 1"
+                v-else-if="$store.getters.getSettingsCardsCardMode == 1"
                 :gameInfo="game"
                 :gameImage="getImage(game)"
               />
               <hip-card-compact
-                v-else-if="$store.state.cardMode == 2"
+                v-else-if="$store.getters.getSettingsCardsCardMode == 2"
                 :gameInfo="game"
                 :gameImage="getImage(game)"
               />

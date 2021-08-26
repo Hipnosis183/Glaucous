@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     editMode: {
-      get() { return this.$store.state.editMode },
-      set() { this.$store.commit('toggleEditMode') }
+      get() { return this.$store.getters.getSettingsGeneralEditMode },
+      set() { this.$store.commit('setSettingsGeneralEditMode') }
     }
   }
 }

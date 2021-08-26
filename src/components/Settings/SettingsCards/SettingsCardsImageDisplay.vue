@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     cardImageDisplay: {
-      get() { return this.$store.state.cardImageDisplay },
-      set() { this.$store.commit('toggleCardImageDisplay') }
+      get() { return this.$store.getters.getSettingsCardsCardImageDisplay },
+      set() { this.$store.commit('setSettingsCardsCardImageDisplay') }
     }
   }
 }

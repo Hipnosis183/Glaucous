@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     searchGoogle: {
-      get() { return this.$store.state.searchGoogle },
-      set() { this.$store.commit('toggleSearchGoogle') }
+      get() { return this.$store.getters.getSettingsLinksSearchGoogle },
+      set() { this.$store.commit('setSettingsLinksSearchGoogle') }
     }
   }
 }
