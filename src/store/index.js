@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 import Store from 'electron-store'
 
 const localStore = new Store({ cwd: app.getAppPath() })
+let platformStore
 
 export default createStore({
   state: {
@@ -21,6 +22,10 @@ export default createStore({
     cardImagePosition: localStore.get('cardImagePosition', 0),
     cardTextDisplay: localStore.get('cardTextDisplay', true),
     cardTextPosition: localStore.get('cardTextPosition', 1),
+    selectedPlatform: null,
+    settingsPlatform: {
+      path: null,
+    },
     gameSelected: {
       gamePlatform: null,
       gameRegion: null,
@@ -123,6 +128,16 @@ export default createStore({
     selectCardTextPosition(state, data) {
       state.cardTextPosition = data
       localStore.set('cardTextPosition', state.cardTextPosition)
+    },
+    setPlatformStore(state, data) {
+      platformStore = new Store({ cwd: app.getAppPath() + '/' + data })
+      state.settingsPlatform.path = platformStore.get('path', '')
+    },
+    resetPlatformStore(state, data) {
+      state.settingsPlatform.path = platformStore.get('path', '')
+    },
+    settingsPlatformPath(state, data) {
+      platformStore.set('path', state.settingsPlatform.path)
     },
     resetGameSelected(state) {
       state.gameSelected.gamePlatform = null

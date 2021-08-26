@@ -51,6 +51,15 @@
         ></hip-button>
       </div>
     </hip-dialog>
+    <!-- Platform settings dialog. -->
+    <hip-dialog
+      v-show="dialog.settingsPlatform"
+      @close="settingsPlatformClose()"
+      width="w-2/3"
+      class="z-10"
+    >
+      <view-platform-settings @close="settingsPlatformClose()" />
+    </hip-dialog>
     <!-- Navigation bar. -->
     <hip-nav-bar :title="platform.name">
       <!-- Open create game platform dialog. -->
@@ -70,6 +79,12 @@
         v-show="$store.state.editMode"
         @click="deletePlatformOpen()"
         class="el-icon-remove-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open platform settings dialog. -->
+      <hip-button-nb
+        v-show="$store.state.editMode"
+        @click="settingsPlatformOpen()"
+        class="el-icon-setting text-2xl"
       ></hip-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
@@ -134,6 +149,7 @@
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditPlatform from '../Edit/EditPlatform.vue'
 import SettingsCardsModeSm from '../Settings/SettingsCards/SettingsCardsModeSm.vue'
+import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
 // Import UI components.
 import {
   HipButton,
@@ -164,6 +180,7 @@ export default {
     CreateGamePlatform,
     EditPlatform,
     SettingsCardsModeSm,
+    ViewPlatformSettings,
     // UI components.
     HipButton,
     HipButtonNb,
@@ -192,7 +209,8 @@ export default {
       dialog: {
         createGamePlatform: false,
         editPlatform: false,
-        deletePlatform: false
+        deletePlatform: false,
+        settingsPlatform: false
       }
     }
   },
@@ -296,6 +314,18 @@ export default {
       // Delete platform.
       deletePlatform(this.$route.params.id)
         .then(() => this.$router.back())
+    },
+    // Settings operations.
+    settingsPlatformOpen() {
+      // Load stored data.
+      this.$store.commit('resetPlatformStore')
+      // Open settings dialog.
+      this.dialog.settingsPlatform = !this.dialog.settingsPlatform
+    },
+    // Settings operations.
+    settingsPlatformClose() {
+      // Close settings dialog.
+      this.dialog.settingsPlatform = !this.dialog.settingsPlatform
     },
     // Get games cover image.
     getImage(game) {

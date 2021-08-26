@@ -6,7 +6,10 @@
         class="bg-black bg-opacity-50 h-full w-full"
       >
       </div>
-      <div class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll rounded-xl">
+      <div
+        class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll rounded-xl"
+        :class="width ? width : ''"
+      >
         <slot></slot>
       </div>
     </div>
@@ -18,7 +21,10 @@ export default {
   name: 'HipOverlay',
   emits: [
     'close'
-  ]
+  ],
+  props: {
+    width: { type: [Boolean, String] }
+  }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <hip-overlay>
+  <hip-overlay :width="width ? width : false">
     <hip-modal>
       <slot></slot>
     </hip-modal>
@@ -15,6 +15,9 @@ export default {
   components: {
     HipModal,
     HipOverlay
+  },
+  props: {
+    width: { type: String }
   }
 }
 </script>
