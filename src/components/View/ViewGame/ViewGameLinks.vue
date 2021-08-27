@@ -73,7 +73,7 @@ export default {
     // Links management.
     getLinks() {
       // Set the links file path for the game platform.
-      let linksPath = app.getAppPath() + '/images/' + this.gameInfo._id + '/links'
+      let linksPath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/games/' + this.gameInfo._id + '/links'
       if (existsSync(linksPath)) {
         // Load links file.
         readFile(linksPath, 'utf8')
