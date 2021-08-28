@@ -2,7 +2,7 @@
   <div class="flex max-h-content overflow-hidden">
     <div class="flex-1 no-scrollbar overflow-y-scroll items-center">
       <!-- Header. -->
-      <div class="flex justify-between mb-6 mx-2">
+      <div class="flex justify-between mb-10 mx-2">
         <!-- Title. -->
         <p class="mr-10 pt-1 text-2xl">Platform Settings</p>
         <!-- Buttons. -->
@@ -21,14 +21,18 @@
           ></hip-button>
         </div>
       </div>
-      <!-- Settings. -->
-      <div class="flex items-center justify-between space-x-10">
-        <p class="text-xl">Path</p>
-        <hip-input v-model="executablePath" />
-      </div>
-      <div class="flex items-center justify-between space-x-10">
-        <p class="text-xl">Image Filtering</p>
-        <hip-switch v-model="imageFiltering" />
+      <div class="space-y-6">
+        <!-- Settings. -->
+        <hip-section-content>
+          <!-- Executable path. -->
+          <p class="text-xl whitespace-nowrap">Executable Path</p>
+          <hip-input v-model="executablePath" />
+        </hip-section-content>
+        <hip-section-content>
+          <!-- Image Filtering. -->
+          <p class="text-xl">Image Filtering</p>
+          <hip-switch v-model="imageFiltering" />
+        </hip-section-content>
       </div>
     </div>
   </div>
@@ -39,6 +43,8 @@
 import {
   HipButton,
   HipInput,
+  HipSectionContent,
+  HipSectionHeader,
   HipSwitch
 } from '../../Component'
 
@@ -48,6 +54,8 @@ export default {
     // UI components.
     HipButton,
     HipInput,
+    HipSectionContent,
+    HipSectionHeader,
     HipSwitch
   },
   methods: {

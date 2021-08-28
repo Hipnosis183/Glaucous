@@ -19,6 +19,8 @@ import HipNavBar from './HipNavBar.vue'
 import HipOption from './HipOption.vue'
 import HipOptionGroup from './HipOptionGroup.vue'
 import HipOverlay from './HipOverlay.vue'
+import HipSectionContent from './HipSectionContent.vue'
+import HipSectionHeader from './HipSectionHeader.vue'
 import HipSelect from './HipSelect.vue'
 import HipSwitch from './HipSwitch.vue'
 
@@ -44,6 +46,8 @@ export {
     HipOption,
     HipOptionGroup,
     HipOverlay,
+    HipSectionContent,
+    HipSectionHeader,
     HipSelect,
     HipSwitch
 }
