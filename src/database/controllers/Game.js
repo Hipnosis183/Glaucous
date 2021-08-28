@@ -18,6 +18,7 @@ import {
     ensureDirSync,
     outputFileSync,
     readdirSync,
+    readJSONSync,
     remove,
     removeSync
 } from 'fs-extra'
@@ -371,6 +372,8 @@ export async function getGame(req) {
             await getPlatform(res.platform)
                 .then(pla => res.platform = pla)
             res.gameRegions = gameRegions
+            // Get game configuration.
+            res.config = getConfig(res)
             // Return populated object.
             return res
         })
@@ -391,6 +394,8 @@ export async function getGamesAll(index, count, query) {
                         // Avoid returning all regions of the game.
                         if (pla.gameRegions[0]._id == gameRegion._id) {
                             pla.gameRegions[0] = gameRegion
+                            // Get game configuration.
+                            pla.config = getConfig(pla)
                             gamePlatforms.push(pla)
                         }
                     })
@@ -508,6 +513,15 @@ async function getGamesSearchPlatform(res) {
 // Get all linked games of a specific game platform.
 export async function getGamesLinked(req) {
     return await GamePlatformModel.find({ _id: { $in: req } }, { populate: true })
+        .then(async res => {
+            let gamePlatforms = []
+            for (let gameLinked of res) {
+                // Get game configuration.
+                gameLinked.config = getConfig(gameLinked)
+                gamePlatforms.push(gameLinked)
+            }
+            return gamePlatforms
+        })
 }
 
 // Get all linked games matching a given search query.
@@ -551,6 +565,19 @@ export async function getGamesLinkedSearch(req, query) {
             // Return search results.
             return gamePlatforms
         })
+}
+
+// Get configuration settings for a specific game.
+export function getConfig(game) {
+    // Set the platform configuration file path for the game.
+    let configPlatformPath = app.getAppPath() + '/data/' + game.platform._id + '/config.json'
+    try {
+        // Return configuration settings object.
+        return readJSONSync(configPlatformPath).settingsPlatform
+    } catch {
+        // Return empty configuration object.
+        return {}
+    }
 }
 
 // Get cover image for a specific game.

@@ -7,7 +7,10 @@
         v-if="gameImage"
         :src="'file://' + gameImage"
         class="image-content"
-        :class="$store.getters.getSettingsCardsCardImagePosition == 1 ? 'w-full' : ''"
+        :class="[
+          $store.getters.getSettingsCardsCardImagePosition == 1 ? 'w-full' : '',
+          { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !gameImage }
+        ]"
       >
       <div
         v-else
@@ -100,5 +103,8 @@ export default {
 }
 .image-content {
   @apply absolute ar-square cursor-pointer h-full left-0 object-cover rounded-l-xl top-0;
+}
+.rendering-pixelated {
+  image-rendering: pixelated;
 }
 </style>

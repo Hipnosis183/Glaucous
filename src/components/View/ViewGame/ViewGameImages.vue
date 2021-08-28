@@ -11,7 +11,10 @@
         @click="imageZoom = !imageZoom"
         :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
         class="cursor-pointer object-contain rounded-xl"
-        :class="imageZoom ? 'h-full' : 'h-cover'"
+        :class="[
+          imageZoom ? 'h-full' : 'h-cover',
+          { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }
+        ]"
       />
     </div>
   </hip-overlay>
@@ -38,7 +41,12 @@
             @load="viewImagesPicturesLoad()"
             :src="'file://' + imagePath + '/' + getPictures[imageIndex]"
             class="object-contain rounded-xl"
-            :class="imageZoom ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ] : ['m-auto', imageLoaded ? 'h-gallery' : '']"
+            :class="[
+              imageZoom
+                ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ]
+                : ['m-auto', imageLoaded ? 'h-gallery' : ''],
+              { 'rendering-pixelated' : gameInfo.config.imageFiltering == false }
+            ]"
           />
         </transition>
       </div>
@@ -125,6 +133,7 @@
               @click="viewImagesPicturesOpen(index)"
               :src="'file://' + imagePath + '/' + image"
               class="cursor-pointer object-cover rounded-xl"
+              :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false }"
             />
           </div>
         </div>
@@ -148,7 +157,10 @@
       @load="renderReady = true"
       :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
       class="border-2 border-theme-200 dark:border-theme-900 cursor-pointer m-auto mb-4 object-contain rounded-md"
-      :class="renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : ''"
+      :class="[
+        renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : '',
+        { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }
+      ]"
     />
     <div
       v-else
@@ -342,5 +354,9 @@ export default {
 }
 .w-gallery {
   width: calc(100vw - 7.5rem);
+}
+/* Styling. */
+.rendering-pixelated {
+  image-rendering: pixelated;
 }
 </style>

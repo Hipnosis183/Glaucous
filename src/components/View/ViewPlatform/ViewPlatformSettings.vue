@@ -24,7 +24,11 @@
       <!-- Settings. -->
       <div class="flex items-center justify-between space-x-10">
         <p class="text-xl">Path</p>
-        <hip-input v-model="path" />
+        <hip-input v-model="executablePath" />
+      </div>
+      <div class="flex items-center justify-between space-x-10">
+        <p class="text-xl">Image Filtering</p>
+        <hip-switch v-model="imageFiltering" />
       </div>
     </div>
   </div>
@@ -34,7 +38,8 @@
 // Import UI components.
 import {
   HipButton,
-  HipInput
+  HipInput,
+  HipSwitch
 } from '../../Component'
 
 export default {
@@ -42,12 +47,14 @@ export default {
   components: {
     // UI components.
     HipButton,
-    HipInput
+    HipInput,
+    HipSwitch
   },
   methods: {
     storeSettings() {
       // Store updated settings.
-      this.$store.commit('settingsPlatformPath')
+      this.$store.commit('setSettingsPlatformExecutablePath')
+      this.$store.commit('setSettingsPlatformImageFiltering')
       this.$emit('close')
     }
   },
@@ -59,9 +66,13 @@ export default {
     }
   },
   computed: {
-    path: {
-      get() { return this.$store.state.settingsPlatform.path },
-      set(value) { this.$store.state.settingsPlatform.path = value }
+    executablePath: {
+      get() { return this.$store.state.settingsPlatform.executablePath },
+      set(value) { this.$store.state.settingsPlatform.executablePath = value }
+    },
+    imageFiltering: {
+      get() { return this.$store.state.settingsPlatform.imageFiltering },
+      set(value) { this.$store.state.settingsPlatform.imageFiltering = value }
     }
   }
 }
