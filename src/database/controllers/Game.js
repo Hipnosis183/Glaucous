@@ -365,7 +365,10 @@ export async function getGame(req) {
             for (let gameRegion of res.gameRegions) {
                 await getGameRegion(gameRegion)
                     // Populate each item with its data.
-                    .then(res => gameRegions.push(res))
+                    .then(res => {
+                        res.regionName = getRegion(res.region)
+                        gameRegions.push(res)
+                    })
             }
             await getDeveloper(res.developer)
                 .then(dev => res.developer = dev)
@@ -600,7 +603,7 @@ function getImage(game) {
 }
 
 // Get the name for the requested region code.
-export function getRegion(reg) {
+function getRegion(reg) {
     // Filter code from array.
     let region = Regions.filter(res => res.code == reg)
     // Return the name property.

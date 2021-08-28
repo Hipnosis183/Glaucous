@@ -39,7 +39,7 @@
     >
       <!-- Dialog message. -->
       <p class="text-center text-lg">
-        Delete region <b>'{{ getRegion(regionIndex) }}'</b>
+        Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
         from game <b>'{{ fullTitle }}'</b> ?
         <br />
         It will also delete all its versions.
@@ -144,7 +144,7 @@
               :class="index == regionIndex ? 'bg-color-500 opacity-50' : ''"
             />
             <div class="h-full relative">
-              <p>{{ getRegion(index) }}</p>
+              <p>{{ gameInfo.gameRegions[index].regionName }}</p>
             </div>
           </button>
           <div
@@ -174,7 +174,6 @@
                   :fullTitle="fullTitle"
                   :gameInfo="gameInfo"
                   :regionIndex="regionIndex"
-                  :regionName="getRegion(regionIndex)"
                 />
               </div>
               <!-- Insert game links component. -->
@@ -225,7 +224,6 @@ import {
 // Import database controllers functions.
 import {
   getGame,
-  getRegion,
   deleteGamePlatform,
   deleteGameRegion,
   selectGameRegion
@@ -393,11 +391,6 @@ export default {
       // Delete game platform.
       deleteGamePlatform(this.gameInfo)
         .then(() => this.$router.back())
-    },
-    // Region management.
-    getRegion(index) {
-      // Get region name.
-      return getRegion(this.gameInfo.gameRegions[index].region)
     },
     changeRegion(sel) {
       // Set sliding transition orientation.

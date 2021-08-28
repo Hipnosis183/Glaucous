@@ -7,7 +7,7 @@
     <div>
       <div class="data-content">
         <p class="font-semibold">Region:</p>
-        <p>{{ regionName }}</p>
+        <p>{{ gameInfo.gameRegions[regionIndex].regionName }}</p>
       </div>
       <div class="data-content">
         <p class="font-semibold">Format:</p>
@@ -64,8 +64,7 @@ export default {
   name: 'ViewGameDetails',
   props: [
     'gameInfo',
-    'regionIndex',
-    'regionName'
+    'regionIndex'
   ]
 }
 </script>

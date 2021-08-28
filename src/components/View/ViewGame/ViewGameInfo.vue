@@ -9,7 +9,6 @@
     <view-game-details
       :gameInfo="gameInfo"
       :regionIndex="regionIndex"
-      :regionName="regionName"
     />
   </hip-dialog>
   <!-- Insert view game linking component. -->
@@ -141,8 +140,7 @@ export default {
   props: [
     'fullTitle',
     'gameInfo',
-    'regionIndex',
-    'regionName'
+    'regionIndex'
   ],
   methods: {
     // View details.
