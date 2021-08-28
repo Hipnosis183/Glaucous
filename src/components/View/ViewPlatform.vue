@@ -118,17 +118,14 @@
               <hip-card-tall
                 v-if="$store.getters.getSettingsCardsCardMode == 0"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
               <hip-card-large
                 v-else-if="$store.getters.getSettingsCardsCardMode == 1"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
               <hip-card-compact
                 v-else-if="$store.getters.getSettingsCardsCardMode == 2"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
             </li>
           </hip-list>
@@ -168,10 +165,7 @@ import {
   getPlatform,
   deletePlatform
 } from '../../database/controllers/Platform'
-import {
-  getGamesPlatform,
-  getImage
-} from '../../database/controllers/Game'
+import { getGamesPlatform } from '../../database/controllers/Game'
 
 export default {
   name: 'ViewPlatform',
@@ -326,10 +320,6 @@ export default {
     settingsPlatformClose() {
       // Close settings dialog.
       this.dialog.settingsPlatform = !this.dialog.settingsPlatform
-    },
-    // Get games cover image.
-    getImage(game) {
-      return getImage(game)
     }
   },
   mounted() {

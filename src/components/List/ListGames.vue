@@ -49,17 +49,14 @@
               <hip-card-tall
                 v-if="$store.getters.getSettingsCardsCardMode == 0"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
               <hip-card-large
                 v-else-if="$store.getters.getSettingsCardsCardMode == 1"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
               <hip-card-compact
                 v-else-if="$store.getters.getSettingsCardsCardMode == 2"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
             </li>
           </hip-list>
@@ -94,8 +91,7 @@ import {
 // Import database controllers functions.
 import {
   getGamesAll,
-  getGamesAllSearch,
-  getImage
+  getGamesAllSearch
 } from '../../database/controllers/Game'
 
 export default {
@@ -193,10 +189,6 @@ export default {
       this.loadGames()
       // Close create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    // Get games cover image.
-    getImage(game) {
-      return getImage(game)
     }
   },
   mounted() {

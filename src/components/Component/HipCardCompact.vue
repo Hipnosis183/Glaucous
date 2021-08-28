@@ -4,12 +4,12 @@
     <!-- Game card image. -->
     <div v-if="$store.getters.getSettingsCardsCardImageDisplay">
       <img
-        v-if="gameImage"
-        :src="'file://' + gameImage"
+        v-if="gameInfo.image.path"
+        :src="'file://' + gameInfo.image.path"
         class="image-content"
         :class="[
           $store.getters.getSettingsCardsCardImagePosition == 1 ? 'w-full' : '',
-          { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !gameImage }
+          { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !gameInfo.image.cover }
         ]"
       >
       <div
@@ -84,7 +84,6 @@ export default {
     }
   },
   props: [
-    'gameImage',
     'gameInfo'
   ],
   mounted() {

@@ -372,8 +372,8 @@ export async function getGame(req) {
             await getPlatform(res.platform)
                 .then(pla => res.platform = pla)
             res.gameRegions = gameRegions
-            // Get game configuration.
             res.config = getConfig(res)
+            res.image = getImage(res)
             // Return populated object.
             return res
         })
@@ -394,8 +394,8 @@ export async function getGamesAll(index, count, query) {
                         // Avoid returning all regions of the game.
                         if (pla.gameRegions[0]._id == gameRegion._id) {
                             pla.gameRegions[0] = gameRegion
-                            // Get game configuration.
                             pla.config = getConfig(pla)
+                            pla.image = getImage(pla)
                             gamePlatforms.push(pla)
                         }
                     })
@@ -518,6 +518,7 @@ export async function getGamesLinked(req) {
             for (let gameLinked of res) {
                 // Get game configuration.
                 gameLinked.config = getConfig(gameLinked)
+                gameLinked.image = getImage(gameLinked)
                 gamePlatforms.push(gameLinked)
             }
             return gamePlatforms
@@ -568,7 +569,7 @@ export async function getGamesLinkedSearch(req, query) {
 }
 
 // Get configuration settings for a specific game.
-export function getConfig(game) {
+function getConfig(game) {
     // Set the platform configuration file path for the game.
     let configPlatformPath = app.getAppPath() + '/data/' + game.platform._id + '/config.json'
     try {
@@ -581,7 +582,9 @@ export function getConfig(game) {
 }
 
 // Get cover image for a specific game.
-export function getImage(game) {
+function getImage(game) {
+    // Create image object.
+    let image = { cover: true }
     // Set the image directory path of the game region.
     let imagePath = app.getAppPath() + '/data/' + game.platform._id + '/games/' + game._id + '/regions/' + game.gameRegions[0]._id + '/images'
     // Load images filenames and filter the cover image file.
@@ -589,9 +592,11 @@ export function getImage(game) {
     // Load first picture image as cover if it doesn't exists.
     if (!imageFile) {
         imageFile = readdirSync(imagePath).filter(res => !res.startsWith('0'.repeat(8)))[0]
+        image.cover = false
     }
-    // Return the cover if it exists.
-    return imageFile ? (imagePath + '/' + imageFile) : false
+    // Set full image cover path.
+    image.path = imageFile ? (imagePath + '/' + imageFile) : false
+    return image
 }
 
 // Get the name for the requested region code.

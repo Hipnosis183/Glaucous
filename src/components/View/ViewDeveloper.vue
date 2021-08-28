@@ -100,17 +100,14 @@
               <hip-card-tall
                 v-if="$store.getters.getSettingsCardsCardMode == 0"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
               <hip-card-large
                 v-else-if="$store.getters.getSettingsCardsCardMode == 1"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
               <hip-card-compact
                 v-else-if="$store.getters.getSettingsCardsCardMode == 2"
                 :gameInfo="game"
-                :gameImage="getImage(game)"
               />
             </li>
           </hip-list>
@@ -149,10 +146,7 @@ import {
   getDeveloper,
   deleteDeveloper
 } from '../../database/controllers/Developer'
-import {
-  getGamesDeveloper,
-  getImage
-} from '../../database/controllers/Game'
+import { getGamesDeveloper } from '../../database/controllers/Game'
 
 export default {
   name: 'ViewDeveloper',
@@ -288,10 +282,6 @@ export default {
       // Delete developer.
       deleteDeveloper(this.$route.params.id)
         .then(() => this.$router.back())
-    },
-    // Get games cover image.
-    getImage(game) {
-      return getImage(game)
     }
   },
   mounted() {

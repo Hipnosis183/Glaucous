@@ -71,10 +71,7 @@
           @click="viewGame(game._id)"
         >
           <!-- Game card. -->
-          <hip-card-compact
-            :gameInfo="game"
-            :gameImage="getImage(game)"
-          />
+          <hip-card-compact :gameInfo="game" />
         </li>
       </hip-list>
     </div>
@@ -95,10 +92,7 @@ import {
   HipSelect
 } from './Component'
 // Import database controllers functions.
-import {
-  getGamesSearch,
-  getImage
-} from '../database/controllers/Game'
+import { getGamesSearch } from '../database/controllers/Game'
 
 export default {
   components: {
@@ -222,10 +216,6 @@ export default {
         // Empty results.
         this.queryResults = []
       }
-    },
-    // Get games cover image.
-    getImage(game) {
-      return getImage(game)
     },
     // Go to the selected game page.
     viewGame(game) {

@@ -118,10 +118,7 @@
           @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
         >
           <!-- Game card. -->
-          <hip-card-compact
-            :gameInfo="game"
-            :gameImage="getImage(game)"
-          />
+          <hip-card-compact :gameInfo="game" />
         </li>
       </div>
       <div v-else>
@@ -151,7 +148,6 @@ import {
 import {
   getGamesLinked,
   getGamesLinkedSearch,
-  getImage,
   linkGame,
   unlinkGame
 } from '../../../database/controllers/Game'
@@ -238,10 +234,6 @@ export default {
             this.linkedGamesSearch.push(game._id)
           })
         })
-    },
-    // Get games cover image.
-    getImage(game) {
-      return getImage(game)
     },
     // Query searching.
     querySearch(query) {
