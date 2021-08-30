@@ -210,7 +210,7 @@ export default createStore({
     },
     // Game settings.
     setGameStore(state) {
-      gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/games/' + state.gameSelected.gamePlatform + '/regions/' + state.gameSelected.gameRegion + '/' + state.gameSelected.gameVersion })
+      gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
     },
     resetGameStore(state) {

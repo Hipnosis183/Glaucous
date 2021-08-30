@@ -233,7 +233,7 @@ export default {
     // Images management.
     getImages() {
       // Set the image directory path of the game region.
-      this.imagePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/games/' + this.gameInfo._id + '/regions/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/images'
+      this.imagePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/images'
       if (existsSync(this.imagePath)) {
         // Load images filenames.
         this.imageFiles = readdirSync(this.imagePath)

@@ -193,7 +193,7 @@ export default {
     // Images management.
     getImages() {
       // Set the image directory path of the game region.
-      this.imagePath = app.getAppPath() + '/data/' + this.$store.state.gameForm.gamePlatform.platform + '/games/' + this.$store.state.gameSelected.gamePlatform + '/regions/' + this.$store.state.gameSelected.gameRegion + '/images'
+      this.imagePath = app.getAppPath() + '/data/' + this.$store.state.gameForm.gamePlatform.platform + '/' + this.$store.state.gameSelected.gamePlatform + '/' + this.$store.state.gameSelected.gameRegion + '/images'
       if (existsSync(this.imagePath)) {
         // Load images filenames.
         this.imageFiles = readdirSync(this.imagePath)

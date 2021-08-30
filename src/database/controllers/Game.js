@@ -162,7 +162,7 @@ export async function deleteGamePlatform(req, p) {
     // Unlink game.
     await unlinkGame(req, true)
     // Remove game platform's data.
-    remove(app.getAppPath() + '/data/' + req.platform._id + '/games/' + req._id)
+    remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id)
 }
 
 // Delete the specified game region and all its related data.
@@ -183,7 +183,7 @@ export async function deleteGameRegion(req, i) {
                 await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: res.gameRegions })
             })
         // Remove game region data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/games/' + req._id + '/regions/' + req.gameRegions[i]._id)
+        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
         // There are other regions for the platform.
         return true
     }
@@ -191,7 +191,7 @@ export async function deleteGameRegion(req, i) {
         // Unlink game.
         await unlinkGame(req, true)
         // Remove game platform data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/games/' + req._id)
+        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id)
         // There are no other regions for the platform.
         return false
     }
@@ -226,7 +226,7 @@ async function storeImages(images, platform, game) {
     // Set game platform ID.
     gamePlatform = game ? game : gamePlatform
     // Set image path for a specific game region.
-    let imagesPath = app.getAppPath() + '/data/' + platform + '/games/' + gamePlatform + '/regions/' + gameRegion + '/images'
+    let imagesPath = app.getAppPath() + '/data/' + platform + '/' + gamePlatform + '/' + gameRegion + '/images'
     // Ensure images directory creation, even if there are no images.
     ensureDirSync(imagesPath)
     // Add cover image file.
@@ -243,7 +243,7 @@ async function storeImages(images, platform, game) {
 // Update stored images for a specific game.
 async function updateImages(images, platform, game) {
     // Set image path for a specific game region.
-    let imagesPath = app.getAppPath() + '/data/' + platform + '/games/' + game.gamePlatform + '/regions/' + game.gameRegion + '/images'
+    let imagesPath = app.getAppPath() + '/data/' + platform + '/' + game.gamePlatform + '/' + game.gameRegion + '/images'
     // Remove cover image file.
     if (images.cover.remove) {
         // The cover image file starts with eight zeroes, followed by eight random characters.
@@ -281,7 +281,7 @@ async function storeLinks(req, id) {
     // Ensure link icons directory creation.
     ensureDirSync(app.getAppPath() + '/assets/links/')
     // Create links file.
-    outputFileSync(app.getAppPath() + '/data/' + req.platform + '/games/' + gamePlatform + '/links', linksFile)
+    outputFileSync(app.getAppPath() + '/data/' + req.platform + '/' + gamePlatform + '/links', linksFile)
 }
 
 // Manage game linking.
@@ -589,7 +589,7 @@ function getImage(game) {
     // Create image object.
     let image = { cover: true }
     // Set the image directory path of the game region.
-    let imagePath = app.getAppPath() + '/data/' + game.platform._id + '/games/' + game._id + '/regions/' + game.gameRegions[0]._id + '/images'
+    let imagePath = app.getAppPath() + '/data/' + game.platform._id + '/' + game._id + '/' + game.gameRegions[0]._id + '/images'
     // Load images filenames and filter the cover image file.
     let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
     // Load first picture image as cover if it doesn't exists.
