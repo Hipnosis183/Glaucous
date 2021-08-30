@@ -6,6 +6,8 @@ import Store from 'electron-store'
 const localStore = new Store({ cwd: app.getAppPath() })
 // Platform settings store.
 let platformStore
+// Game settings store.
+let gameStore
 
 export default createStore({
   state: {
@@ -40,6 +42,9 @@ export default createStore({
     settingsPlatform: {
       executablePath: null,
       imageFiltering: true,
+    },
+    settingsGame: {
+      gamePath: null
     },
     gameSelected: {
       gamePlatform: null,
@@ -188,8 +193,8 @@ export default createStore({
       localStore.set('settingsCards.cardTextPosition', state.settingsApp.settingsCards.cardTextPosition)
     },
     // Platform settings.
-    setPlatformStore(state, data) {
-      platformStore = new Store({ cwd: app.getAppPath() + '/' + data })
+    setPlatformStore(state) {
+      platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
       state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
@@ -202,6 +207,17 @@ export default createStore({
     },
     setSettingsPlatformImageFiltering(state) {
       platformStore.set('settingsPlatform.imageFiltering', state.settingsPlatform.imageFiltering)
+    },
+    // Game settings.
+    setGameStore(state) {
+      gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/games/' + state.gameSelected.gamePlatform + '/regions/' + state.gameSelected.gameRegion + '/' + state.gameSelected.gameVersion })
+      state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+    },
+    resetGameStore(state) {
+      state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+    },
+    setSettingsGameGamePath(state) {
+      gameStore.set('settingsGame.gamePath', state.settingsGame.gamePath)
     },
     // Game form.
     resetGameSelected(state) {

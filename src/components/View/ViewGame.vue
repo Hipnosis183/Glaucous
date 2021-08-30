@@ -88,6 +88,19 @@
         ></hip-button>
       </div>
     </hip-dialog>
+    <!-- Game settings dialog. -->
+    <hip-dialog
+      v-show="dialog.settingsGame"
+      @close="settingsGameClose()"
+      width="w-2/3"
+      class="z-10"
+    >
+      <view-game-settings
+        v-if="$store.state.gameSelected.gameVersion"
+        :key="$store.state.gameSelected.gameVersion"
+        @close="settingsGameClose()"
+      />
+    </hip-dialog>
     <!-- Navigation bar. -->
     <hip-nav-bar>
       <!-- Open create game platform dialog. -->
@@ -125,6 +138,12 @@
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="selectGameRegion()"
         class="el-icon-place text-2xl"
+      ></hip-button-nb>
+      <!-- Open game settings dialog. -->
+      <hip-button-nb
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        @click="settingsGameOpen()"
+        class="el-icon-setting text-2xl"
       ></hip-button-nb>
       <!-- Game region tabs. -->
       <ul class="flex w-full">
@@ -213,6 +232,7 @@ import EditGame from '../Edit/EditGame.vue'
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
+import ViewGameSettings from './ViewGame/ViewGameSettings.vue'
 // Import UI components.
 import {
   HipButton,
@@ -239,6 +259,7 @@ export default {
     ViewGameImages,
     ViewGameInfo,
     ViewGameLinks,
+    ViewGameSettings,
     // UI components.
     HipButton,
     HipButtonNb,
@@ -277,7 +298,8 @@ export default {
         createGameRegion: false,
         editGame: false,
         deleteGameRegion: false,
-        deleteGamePlatform: false
+        deleteGamePlatform: false,
+        settingsGame: false
       }
     }
   },
@@ -285,7 +307,15 @@ export default {
     loadGame() {
       // Get game.
       getGame(this.$route.params.id)
-        .then(res => this.gameInfo = res)
+        .then(res => {
+          this.gameInfo = res
+          // Save current platform ID into the store.
+          this.$store.state.selectedPlatform = res.platform._id
+          // Save current game IDs into the store.
+          this.$store.state.gameSelected.gamePlatform = res._id
+          this.$store.state.gameSelected.gameRegion = res.gameRegions[0]._id
+          this.$store.state.gameSelected.gameVersion = res.gameRegions[0].gameVersions[0]._id
+        })
     },
     loadLinks(res) {
       // Get links.
@@ -294,10 +324,7 @@ export default {
     // Create operations.
     createGamePlatformOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
-      // Save current game IDs into the store.
-      this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
       // Open create dialog.
       this.dialog.createGamePlatform = !this.dialog.createGamePlatform
     },
@@ -309,10 +336,7 @@ export default {
     },
     createGameRegionOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
-      // Save current game IDs into the store.
-      this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
       // Save data of the current game region into the store.
       this.$store.commit('setGameRegionTitle', this.gameInfo.gameRegions[this.regionIndex].title)
       this.$store.commit('setGameRegionSubTitle', this.gameInfo.gameRegions[this.regionIndex].subTitle)
@@ -328,12 +352,7 @@ export default {
     // Edit operations.
     editGameOpen() {
       // Restore the data on the store.
-      this.$store.commit('resetGameSelected')
       this.$store.commit('resetGameForm')
-      // Save current game IDs into the store.
-      this.$store.state.gameSelected.gamePlatform = this.gameInfo._id
-      this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[this.regionIndex]._id
-      this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[this.regionIndex].gameVersions[0]._id
       // Save data of the current game into the store.
       this.$store.commit('setGamePlatformDeveloper', this.gameInfo.developer._id)
       this.$store.commit('setGamePlatformPlatform', this.gameInfo.platform._id)
@@ -392,11 +411,25 @@ export default {
       deleteGamePlatform(this.gameInfo)
         .then(() => this.$router.back())
     },
+    // Settings operations.
+    settingsGameOpen() {
+      // Load stored data.
+      this.$store.commit('resetGameStore')
+      // Open settings dialog.
+      this.dialog.settingsGame = !this.dialog.settingsGame
+    },
+    settingsGameClose() {
+      // Close settings dialog.
+      this.dialog.settingsGame = !this.dialog.settingsGame
+    },
     changeRegion(sel) {
       // Set sliding transition orientation.
       this.slideBack = sel < this.regionIndex ? true : false
       // Set region index.
       this.regionIndex = sel
+      // Save current game IDs into the store.
+      this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[sel]._id
+      this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[0]._id
     },
     nextRegion() {
       if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {

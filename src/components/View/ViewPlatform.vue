@@ -58,7 +58,11 @@
       width="w-2/3"
       class="z-10"
     >
-      <view-platform-settings @close="settingsPlatformClose()" />
+      <view-platform-settings
+        v-if="$store.state.selectedPlatform"
+        :key="$store.state.selectedPlatform"
+        @close="settingsPlatformClose()"
+      />
     </hip-dialog>
     <!-- Navigation bar. -->
     <hip-nav-bar :title="platform.name">
@@ -217,6 +221,8 @@ export default {
         .then(res => {
           this.platform.name = res.name
           this.platform.parent = res.parent ? res.parent._id : ''
+          // Save current platform ID into the store.
+          this.$store.state.selectedPlatform = res._id
         })
       // Get platform's games.
       getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
@@ -316,7 +322,6 @@ export default {
       // Open settings dialog.
       this.dialog.settingsPlatform = !this.dialog.settingsPlatform
     },
-    // Settings operations.
     settingsPlatformClose() {
       // Close settings dialog.
       this.dialog.settingsPlatform = !this.dialog.settingsPlatform

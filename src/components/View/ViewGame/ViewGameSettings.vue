@@ -4,7 +4,7 @@
       <!-- Header. -->
       <div class="flex justify-between mb-10 mx-2">
         <!-- Title. -->
-        <p class="mr-10 pt-1 text-2xl">Platform Settings</p>
+        <p class="mr-10 pt-1 text-2xl">Game Settings</p>
         <!-- Buttons. -->
         <div class="h-10 space-x-4">
           <!-- Store settings. -->
@@ -25,13 +25,8 @@
         <!-- Settings. -->
         <hip-section-content>
           <!-- Executable path. -->
-          <p class="text-xl whitespace-nowrap">Executable Path</p>
-          <hip-input v-model="executablePath" />
-        </hip-section-content>
-        <hip-section-content>
-          <!-- Image Filtering. -->
-          <p class="text-xl">Image Filtering</p>
-          <hip-switch v-model="imageFiltering" />
+          <p class="text-xl whitespace-nowrap">Game Path</p>
+          <hip-input v-model="gamePath" />
         </hip-section-content>
       </div>
     </div>
@@ -49,7 +44,7 @@ import {
 } from '../../Component'
 
 export default {
-  name: 'ViewPlatformSettings',
+  name: 'ViewGameSettings',
   components: {
     // UI components.
     HipButton,
@@ -61,23 +56,18 @@ export default {
   methods: {
     storeSettings() {
       // Store updated settings.
-      this.$store.commit('setSettingsPlatformExecutablePath')
-      this.$store.commit('setSettingsPlatformImageFiltering')
+      this.$store.commit('setSettingsGameGamePath')
       this.$emit('close')
     }
   },
   mounted() {
-    // Initialize the current platform settings on the store.
-    this.$store.commit('setPlatformStore')
+    // Initialize the current game settings on the store.
+    this.$store.commit('setGameStore')
   },
   computed: {
-    executablePath: {
-      get() { return this.$store.state.settingsPlatform.executablePath },
-      set(value) { this.$store.state.settingsPlatform.executablePath = value }
-    },
-    imageFiltering: {
-      get() { return this.$store.state.settingsPlatform.imageFiltering },
-      set(value) { this.$store.state.settingsPlatform.imageFiltering = value }
+    gamePath: {
+      get() { return this.$store.state.settingsGame.gamePath },
+      set(value) { this.$store.state.settingsGame.gamePath = value }
     }
   }
 }

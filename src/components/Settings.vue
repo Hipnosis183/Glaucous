@@ -9,7 +9,7 @@
     <div class="flex m-6 space-x-6">
       <hip-modal class="bg-transition py-8 h-content w-full">
         <div class="flex max-h-content overflow-hidden">
-          <div class="flex-1 no-scrollbar overflow-y-scroll items-center">
+          <div class="flex-1 no-scrollbar overflow-y-scroll">
             <!-- General options. -->
             <settings-general />
             <!-- Games options. -->
