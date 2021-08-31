@@ -29,6 +29,11 @@
           <hip-input v-model="executablePath" />
         </hip-section-content>
         <hip-section-content>
+          <!-- Executable command. -->
+          <p class="text-xl whitespace-nowrap">Executable Command</p>
+          <hip-input v-model="executableCommand" />
+        </hip-section-content>
+        <hip-section-content>
           <!-- Image Filtering. -->
           <p class="text-xl">Image Filtering</p>
           <hip-switch v-model="imageFiltering" />
@@ -62,6 +67,7 @@ export default {
     storeSettings() {
       // Store updated settings.
       this.$store.commit('setSettingsPlatformExecutablePath')
+      this.$store.commit('setSettingsPlatformExecutableCommand')
       this.$store.commit('setSettingsPlatformImageFiltering')
       this.$emit('close')
     }
@@ -74,6 +80,10 @@ export default {
     executablePath: {
       get() { return this.$store.state.settingsPlatform.executablePath },
       set(value) { this.$store.state.settingsPlatform.executablePath = value }
+    },
+    executableCommand: {
+      get() { return this.$store.state.settingsPlatform.executableCommand },
+      set(value) { this.$store.state.settingsPlatform.executableCommand = value }
     },
     imageFiltering: {
       get() { return this.$store.state.settingsPlatform.imageFiltering },

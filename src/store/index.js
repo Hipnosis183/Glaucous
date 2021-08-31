@@ -41,6 +41,7 @@ export default createStore({
     selectedPlatform: null,
     settingsPlatform: {
       executablePath: null,
+      executableCommand: null,
       imageFiltering: true,
     },
     settingsGame: {
@@ -196,14 +197,19 @@ export default createStore({
     setPlatformStore(state) {
       platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
       state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
+      state.settingsPlatform.executableCommand = platformStore.get('settingsPlatform.executableCommand', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     resetPlatformStore(state) {
       state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
+      state.settingsPlatform.executableCommand = platformStore.get('settingsPlatform.executableCommand', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     setSettingsPlatformExecutablePath(state) {
       platformStore.set('settingsPlatform.executablePath', state.settingsPlatform.executablePath)
+    },
+    setSettingsPlatformExecutableCommand(state) {
+      platformStore.set('settingsPlatform.executableCommand', state.settingsPlatform.executableCommand)
     },
     setSettingsPlatformImageFiltering(state) {
       platformStore.set('settingsPlatform.imageFiltering', state.settingsPlatform.imageFiltering)

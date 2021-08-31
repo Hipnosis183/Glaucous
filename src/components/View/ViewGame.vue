@@ -207,7 +207,7 @@
           </hip-modal>
           <!-- Right card. -->
           <hip-modal class="h-content w-2/5">
-            <div class="flex max-h-content overflow-hidden">
+            <div class="flex flex-col max-h-content min-h-content overflow-hidden">
               <div class="flex-1 no-scrollbar overflow-y-scroll p-0.5">
                 <!-- Insert game images component. -->
                 <view-game-images
@@ -216,6 +216,13 @@
                   :regionIndex="regionIndex"
                 />
               </div>
+              <!-- Insert game launcher component. -->
+              <view-game-launcher
+                :key="gameInfo"
+                :gameInfo="gameInfo"
+                :regionIndex="regionIndex"
+                :selectedVersion="selectedVersion"
+              />
             </div>
           </hip-modal>
         </div>
@@ -231,6 +238,7 @@ import CreateGameRegion from '../Create/CreateGameRegion.vue'
 import EditGame from '../Edit/EditGame.vue'
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
+import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
 import ViewGameSettings from './ViewGame/ViewGameSettings.vue'
 // Import UI components.
@@ -258,6 +266,7 @@ export default {
     EditGame,
     ViewGameImages,
     ViewGameInfo,
+    ViewGameLauncher,
     ViewGameLinks,
     ViewGameSettings,
     // UI components.
@@ -292,6 +301,7 @@ export default {
         }]
       },
       regionIndex: 0,
+      selectedVersion: null,
       slideBack: false,
       dialog: {
         createGamePlatform: false,
@@ -311,10 +321,13 @@ export default {
           this.gameInfo = res
           // Save current platform ID into the store.
           this.$store.state.selectedPlatform = res.platform._id
+          this.$store.commit('setPlatformStore')
           // Save current game IDs into the store.
           this.$store.state.gameSelected.gamePlatform = res._id
           this.$store.state.gameSelected.gameRegion = res.gameRegions[0]._id
           this.$store.state.gameSelected.gameVersion = res.gameRegions[0].gameVersions[0]._id
+          // Select first game version as the default.
+          this.selectedVersion = res.gameRegions[0].gameVersions[0]._id
         })
     },
     loadLinks(res) {
@@ -422,6 +435,7 @@ export default {
       // Close settings dialog.
       this.dialog.settingsGame = !this.dialog.settingsGame
     },
+    // Region selection operations.
     changeRegion(sel) {
       // Set sliding transition orientation.
       this.slideBack = sel < this.regionIndex ? true : false
@@ -430,6 +444,8 @@ export default {
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[sel]._id
       this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[0]._id
+      // Select first game version as the default.
+      this.selectedVersion = this.gameInfo.gameRegions[sel].gameVersions[0]._id
     },
     nextRegion() {
       if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {
