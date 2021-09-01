@@ -28,6 +28,12 @@
           <p class="text-xl whitespace-nowrap">Game Path</p>
           <hip-input v-model="gamePath" />
         </hip-section-content>
+        <hip-section-header label="Preview">
+          <!-- Command preview. -->
+          <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow w-full">
+            <div class="cursor-default">{{ gameCommand }}</div>
+          </div>
+        </hip-section-header>
       </div>
     </div>
   </div>
@@ -53,6 +59,9 @@ export default {
     HipSectionHeader,
     HipSwitch
   },
+  props: [
+    'gameCommand'
+  ],
   methods: {
     storeSettings() {
       // Store updated settings.
