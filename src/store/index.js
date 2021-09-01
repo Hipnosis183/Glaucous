@@ -42,10 +42,12 @@ export default createStore({
     settingsPlatform: {
       executablePath: null,
       executableCommand: null,
+      relativeGamesPath: null,
       imageFiltering: true,
     },
     settingsGame: {
-      gamePath: null
+      gamePath: null,
+      relativePath: false,
     },
     gameSelected: {
       gamePlatform: null,
@@ -198,11 +200,13 @@ export default createStore({
       platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
       state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
       state.settingsPlatform.executableCommand = platformStore.get('settingsPlatform.executableCommand', '')
+      state.settingsPlatform.relativeGamesPath = platformStore.get('settingsPlatform.relativeGamesPath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     resetPlatformStore(state) {
       state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
       state.settingsPlatform.executableCommand = platformStore.get('settingsPlatform.executableCommand', '')
+      state.settingsPlatform.relativeGamesPath = platformStore.get('settingsPlatform.relativeGamesPath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     setSettingsPlatformExecutablePath(state) {
@@ -211,6 +215,9 @@ export default createStore({
     setSettingsPlatformExecutableCommand(state) {
       platformStore.set('settingsPlatform.executableCommand', state.settingsPlatform.executableCommand)
     },
+    setSettingsPlatformRelativeGamesPath(state) {
+      platformStore.set('settingsPlatform.relativeGamesPath', state.settingsPlatform.relativeGamesPath)
+    },
     setSettingsPlatformImageFiltering(state) {
       platformStore.set('settingsPlatform.imageFiltering', state.settingsPlatform.imageFiltering)
     },
@@ -218,12 +225,17 @@ export default createStore({
     setGameStore(state) {
       gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', false)
     },
     resetGameStore(state) {
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', false)
     },
     setSettingsGameGamePath(state) {
       gameStore.set('settingsGame.gamePath', state.settingsGame.gamePath)
+    },
+    setSettingsGameRelativePath(state) {
+      gameStore.set('settingsGame.relativePath', state.settingsGame.relativePath)
     },
     // Game form.
     resetGameSelected(state) {

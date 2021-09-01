@@ -28,6 +28,11 @@
           <p class="text-xl whitespace-nowrap">Game Path</p>
           <hip-input v-model="gamePath" />
         </hip-section-content>
+        <hip-section-content class="flex">
+          <!-- Relative path. -->
+          <p class="text-xl whitespace-nowrap">Relative Path</p>
+          <hip-switch v-model="relativePath" />
+        </hip-section-content>
         <hip-section-header label="Preview">
           <!-- Command preview. -->
           <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow w-full">
@@ -66,6 +71,7 @@ export default {
     storeSettings() {
       // Store updated settings.
       this.$store.commit('setSettingsGameGamePath')
+      this.$store.commit('setSettingsGameRelativePath')
       this.$emit('close')
     }
   },
@@ -77,6 +83,10 @@ export default {
     gamePath: {
       get() { return this.$store.state.settingsGame.gamePath },
       set(value) { this.$store.state.settingsGame.gamePath = value }
+    },
+    relativePath: {
+      get() { return this.$store.state.settingsGame.relativePath },
+      set(value) { this.$store.state.settingsGame.relativePath = value }
     }
   }
 }

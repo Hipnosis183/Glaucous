@@ -133,8 +133,10 @@ export default {
   },
   computed: {
     gameCommand() {
+      let platformPath = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand
+      let gamePath = ' "' + (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + this.$store.state.settingsGame.gamePath + '"'
       // Return command to execute.
-      return this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand + ' "' + this.$store.state.settingsGame.gamePath + '"'
+      return platformPath + gamePath
     }
   }
 }
