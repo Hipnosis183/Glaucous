@@ -1,4 +1,18 @@
 <template>
+  <!-- Game settings dialog. -->
+  <hip-dialog
+    v-show="dialog.settingsGame"
+    @close="settingsGameClose()"
+    width="w-2/3"
+    class="pos-initial z-10"
+  >
+    <view-game-settings
+      v-if="$store.state.gameSelected.gameVersion"
+      :key="$store.state.gameSelected.gameVersion"
+      :gameCommand="gameCommand"
+      @close="settingsGameClose()"
+    />
+  </hip-dialog>
   <!-- Launcher error dialog. -->
   <hip-dialog
     v-show="dialog.launcherError"
@@ -21,7 +35,16 @@
     </div>
   </hip-dialog>
   <div class="pt-4 space-y-4">
-    <h1 class="font-bold ml-2 text-xl">Launch Game</h1>
+    <div class="flex items-center">
+      <h1 class="font-bold ml-2 text-xl">Start Game</h1>
+      <!-- Open game settings dialog. -->
+      <hip-button
+        @click="runGame()"
+        class="ml-auto"
+      >
+        <span class="el-icon-caret-right" /> Launch
+      </hip-button>
+    </div>
     <div class="flex space-x-4">
       <hip-select v-model="selectedVersion">
         <hip-option
@@ -33,9 +56,10 @@
         </hip-option>
       </hip-select>
       <hip-button
+        v-show="$store.getters.getSettingsGeneralEditMode"
         :icon="true"
-        @click="runGame()"
-        class="el-icon-video-play text-2xl"
+        @click="settingsGameOpen()"
+        class="el-icon-s-tools text-xl"
       ></hip-button>
     </div>
   </div>
@@ -44,6 +68,8 @@
 <script>
 // Import functions from modules.
 import { exec } from 'child_process'
+// Import form components.
+import ViewGameSettings from './ViewGameSettings.vue'
 // Import UI components.
 import {
   HipButton,
@@ -55,6 +81,8 @@ import {
 export default {
   name: 'ViewGameLauncher',
   components: {
+    // Form components.
+    ViewGameSettings,
     // UI components.
     HipButton,
     HipDialog,
@@ -64,7 +92,8 @@ export default {
   data() {
     return {
       dialog: {
-        launcherError: false
+        launcherError: false,
+        settingsGame: false
       }
     }
   },
@@ -76,14 +105,12 @@ export default {
   methods: {
     // Launch game.
     runGame() {
-      // Define command to execute.
-      let gameCommand = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand + ' "' + this.$store.state.settingsGame.gamePath + '"'
       // Define execution options.
       let gameOptions = {
         cwd: this.$store.state.settingsPlatform.executablePath
       }
       // Execute command.
-      exec(gameCommand, gameOptions, (error, stdout, stderr) => {
+      exec(this.gameCommand, gameOptions, (error, stdout, stderr) => {
         if (error) { console.log(error); this.launcherError() }
       })
     },
@@ -91,6 +118,23 @@ export default {
     launcherError() {
       // Open game launch error dialog.
       this.dialog.launcherError = !this.dialog.launcherError
+    },
+    // Settings operations.
+    settingsGameOpen() {
+      // Load stored data.
+      this.$store.commit('resetGameStore')
+      // Open settings dialog.
+      this.dialog.settingsGame = !this.dialog.settingsGame
+    },
+    settingsGameClose() {
+      // Close settings dialog.
+      this.dialog.settingsGame = !this.dialog.settingsGame
+    }
+  },
+  computed: {
+    gameCommand() {
+      // Return command to execute.
+      return this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand + ' "' + this.$store.state.settingsGame.gamePath + '"'
     }
   }
 }

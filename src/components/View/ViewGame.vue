@@ -88,19 +88,6 @@
         ></hip-button>
       </div>
     </hip-dialog>
-    <!-- Game settings dialog. -->
-    <hip-dialog
-      v-show="dialog.settingsGame"
-      @close="settingsGameClose()"
-      width="w-2/3"
-      class="z-10"
-    >
-      <view-game-settings
-        v-if="$store.state.gameSelected.gameVersion"
-        :key="$store.state.gameSelected.gameVersion"
-        @close="settingsGameClose()"
-      />
-    </hip-dialog>
     <!-- Navigation bar. -->
     <hip-nav-bar>
       <!-- Open create game platform dialog. -->
@@ -138,12 +125,6 @@
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="selectGameRegion()"
         class="el-icon-place text-2xl"
-      ></hip-button-nb>
-      <!-- Open game settings dialog. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="settingsGameOpen()"
-        class="el-icon-setting text-2xl"
       ></hip-button-nb>
       <!-- Game region tabs. -->
       <ul class="flex w-full">
@@ -240,7 +221,6 @@ import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
-import ViewGameSettings from './ViewGame/ViewGameSettings.vue'
 // Import UI components.
 import {
   HipButton,
@@ -268,7 +248,6 @@ export default {
     ViewGameInfo,
     ViewGameLauncher,
     ViewGameLinks,
-    ViewGameSettings,
     // UI components.
     HipButton,
     HipButtonNb,
@@ -308,8 +287,7 @@ export default {
         createGameRegion: false,
         editGame: false,
         deleteGameRegion: false,
-        deleteGamePlatform: false,
-        settingsGame: false
+        deleteGamePlatform: false
       }
     }
   },
@@ -423,17 +401,6 @@ export default {
       // Delete game platform.
       deleteGamePlatform(this.gameInfo)
         .then(() => this.$router.back())
-    },
-    // Settings operations.
-    settingsGameOpen() {
-      // Load stored data.
-      this.$store.commit('resetGameStore')
-      // Open settings dialog.
-      this.dialog.settingsGame = !this.dialog.settingsGame
-    },
-    settingsGameClose() {
-      // Close settings dialog.
-      this.dialog.settingsGame = !this.dialog.settingsGame
     },
     // Region selection operations.
     changeRegion(sel) {

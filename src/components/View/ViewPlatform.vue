@@ -84,12 +84,6 @@
         @click="deletePlatformOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>
-      <!-- Open platform settings dialog. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="settingsPlatformOpen()"
-        class="el-icon-setting text-2xl"
-      ></hip-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <hip-input
@@ -103,6 +97,15 @@
       <div class="flex-shrink-0 ml-2 my-auto w-28">
         <settings-cards-mode-sm />
       </div>
+      <!-- Horizontal padding. -->
+      <div class="w-full"></div>
+      <!-- Open platform settings dialog. -->
+      <hip-button
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        :icon="true"
+        @click="settingsPlatformOpen()"
+        class="el-icon-s-tools mr-4 my-auto text-xl"
+      ></hip-button>
     </hip-nav-bar>
     <!-- Show platform's games list. -->
     <div class="h-content m-6">
