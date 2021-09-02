@@ -14,6 +14,8 @@ import HipInputGroup from './HipInputGroup.vue'
 import HipInputNum from './HipInputNum.vue'
 import HipLabel from './HipLabel.vue'
 import HipList from './HipList.vue'
+import HipMenuButton from './HipMenuButton.vue'
+import HipMenuOption from './HipMenuOption.vue'
 import HipModal from './HipModal.vue'
 import HipNavBar from './HipNavBar.vue'
 import HipOption from './HipOption.vue'
@@ -41,6 +43,8 @@ export {
     HipInputNum,
     HipLabel,
     HipList,
+    HipMenuButton,
+    HipMenuOption,
     HipModal,
     HipNavBar,
     HipOption,
