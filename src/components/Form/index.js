@@ -1,9 +1,7 @@
 import FormComments from './FormComments.vue'
-import FormCurrentVersion from './FormCurrentVersion.vue'
 import FormDeveloper from './FormDeveloper.vue'
 import FormDeveloperName from './FormDeveloperName.vue'
 import FormImages from './FormImages.vue'
-import FormLatestVersion from './FormLatestVersion.vue'
 import FormLinks from './FormLinks.vue'
 import FormNumberPlayers from './FormNumberPlayers.vue'
 import FormOriginalTitle from './FormOriginalTitle.vue'
@@ -19,14 +17,15 @@ import FormSerial from './FormSerial.vue'
 import FormSubTitle from './FormSubTitle.vue'
 import FormTitle from './FormTitle.vue'
 import FormTranslatedTitle from './FormTranslatedTitle.vue'
+import FormVersionName from './FormVersionName.vue'
+import FormVersionLatest from './FormVersionLatest.vue'
+import FormVersionNumber from './FormVersionNumber.vue'
 
 export {
     FormComments,
-    FormCurrentVersion,
     FormDeveloper,
     FormDeveloperName,
     FormImages,
-    FormLatestVersion,
     FormLinks,
     FormNumberPlayers,
     FormOriginalTitle,
@@ -41,5 +40,8 @@ export {
     FormSerial,
     FormSubTitle,
     FormTitle,
-    FormTranslatedTitle
+    FormTranslatedTitle,
+    FormVersionName,
+    FormVersionLatest,
+    FormVersionNumber
 }

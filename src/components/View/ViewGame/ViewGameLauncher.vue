@@ -39,19 +39,20 @@
       <h1 class="font-bold ml-2 text-xl">Start Game</h1>
       <!-- Open game settings dialog. -->
       <hip-button
-        @click="runGame()"
+        @click="launchGame()"
         class="ml-auto"
       >
         <span class="el-icon-caret-right" /> Launch
       </hip-button>
     </div>
     <div class="flex space-x-4">
-      <hip-select v-model="selectedVersion">
+      <hip-select v-model="$store.state.gameSelected.gameVersion">
         <hip-option
-          v-for="item in gameInfo.gameRegions[regionIndex].gameVersions"
+          v-for="(item, index) in gameInfo.gameRegions[regionIndex].gameVersions"
           :key="item._id"
-          :label="gameInfo.gameRegions[regionIndex].title + (item.currentVersion ? ' (' + item.currentVersion + ')' : '')"
+          :label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
           :value="item._id"
+          @click="changeVersion(index)"
         >
         </hip-option>
       </hip-select>
@@ -91,6 +92,7 @@ export default {
   },
   data() {
     return {
+      changedVersion: false,
       dialog: {
         launcherError: false,
         settingsGame: false
@@ -99,12 +101,14 @@ export default {
   },
   props: [
     'gameInfo',
-    'regionIndex',
-    'selectedVersion'
+    'regionIndex'
+  ],
+  emits: [
+    'updated'
   ],
   methods: {
     // Launch game.
-    runGame() {
+    launchGame() {
       // Define execution options.
       let gameOptions = {
         cwd: this.$store.state.settingsPlatform.executablePath
@@ -119,10 +123,21 @@ export default {
       // Open game launch error dialog.
       this.dialog.launcherError = !this.dialog.launcherError
     },
+    changeVersion(index) {
+      this.changedVersion = true
+      // Send selected game version index to parent component.
+      this.$emit('updated', index)
+    },
     // Settings operations.
     settingsGameOpen() {
-      // Load stored data.
-      this.$store.commit('resetGameStore')
+      if (this.changedVersion) {
+        // Update the store with the new game version selected.
+        this.$store.commit('setGameStore')
+        this.changedVersion = false
+      } else {
+        // Load stored data.
+        this.$store.commit('resetGameStore')
+      }
       // Open settings dialog.
       this.dialog.settingsGame = !this.dialog.settingsGame
     },

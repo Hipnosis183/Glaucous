@@ -64,6 +64,18 @@ export async function newGameRegion(req, id) {
         })
 }
 
+// Create a new game version.
+export async function newGameVersion(req, id) {
+    // Create a version for the game.
+    await createGameVersion(req.gameVersion)
+    // Update region for the game.
+    await GameRegionModel.findOne({ _id: id }, { populate: false })
+        .then(async res => {
+            res.gameVersions.push(gameVersion)
+            await GameRegionModel.findOneAndUpdate({ _id: id }, { gameVersions: res.gameVersions })
+        })
+}
+
 // Create a specific game for a determined platform.
 async function createGamePlatform(req) {
     gamePlatform = generateID()
@@ -75,8 +87,7 @@ async function createGamePlatform(req) {
         developer: req.developer,
         platform: req.platform,
         releaseYear: req.releaseYear,
-        numberPlayers: req.numberPlayers,
-        latestVersion: req.latestVersion
+        numberPlayers: req.numberPlayers
     })
     // Save model to database.
     await GamePlatform.save()
@@ -108,7 +119,9 @@ async function createGameVersion(req) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
         _id: generateID(),
-        currentVersion: req.currentVersion,
+        name: req.name,
+        number: req.number,
+        latest: req.latest,
         comments: req.comments
     })
     // Save model to database.
@@ -124,8 +137,7 @@ export async function updateGame(req, id) {
         developer: req.gamePlatform.developer,
         platform: req.gamePlatform.platform,
         releaseYear: req.gamePlatform.releaseYear,
-        numberPlayers: req.gamePlatform.numberPlayers,
-        latestVersion: req.gamePlatform.latestVersion
+        numberPlayers: req.gamePlatform.numberPlayers
     })
     // Update the game region.
     await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
@@ -140,7 +152,9 @@ export async function updateGame(req, id) {
     })
     // Update the game version.
     await GameVersionModel.findOneAndUpdate({ _id: id.gameVersion }, {
-        currentVersion: req.gameVersion.currentVersion,
+        name: req.gameVersion.name,
+        number: req.gameVersion.number,
+        latest: req.gameVersion.latest,
         comments: req.gameVersion.comments
     })
     // Update stored images for the game.
@@ -150,14 +164,16 @@ export async function updateGame(req, id) {
 }
 
 // Delete the specified game platform and all its related data.
-export async function deleteGamePlatform(req, p) {
-    // Delete all the game regions of the game platform.
-    for (let r of req.gameRegions) {
-        // Delete all the game versions of the game region.
-        for (let v of r.gameVersions) {
-            await GameVersionModel.findOneAndDelete({ _id: p ? v : v._id })
+export async function deleteGamePlatform(req, p, del) {
+    if (!del) {
+        // Delete all the game regions of the game platform.
+        for (let r of req.gameRegions) {
+            // Delete all the game versions of the game region.
+            for (let v of r.gameVersions) {
+                await GameVersionModel.findOneAndDelete({ _id: p ? v : v._id })
+            }
+            await GameRegionModel.findOneAndDelete({ _id: r._id })
         }
-        await GameRegionModel.findOneAndDelete({ _id: r._id })
     }
     // Unlink game.
     await unlinkGame(req, true)
@@ -166,10 +182,12 @@ export async function deleteGamePlatform(req, p) {
 }
 
 // Delete the specified game region and all its related data.
-export async function deleteGameRegion(req, i) {
-    // Delete all the game versions of the game region.
-    for (let v of req.gameRegions[i].gameVersions) {
-        await GameVersionModel.findOneAndDelete({ _id: v._id })
+export async function deleteGameRegion(req, i, del) {
+    if (!del) {
+        // Delete all the game versions of the game region.
+        for (let v of req.gameRegions[i].gameVersions) {
+            await GameVersionModel.findOneAndDelete({ _id: v._id })
+        }
     }
     // Delete the game region.
     await GameRegionModel.findOneAndDelete({ _id: req.gameRegions[i]._id })
@@ -188,12 +206,34 @@ export async function deleteGameRegion(req, i) {
         return true
     }
     else {
-        // Unlink game.
-        await unlinkGame(req, true)
-        // Remove game platform data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id)
+        // Delete game platform.
+        await deleteGamePlatform(req, true, true)
         // There are no other regions for the platform.
         return false
+    }
+}
+
+// Delete the specified game version and all its related data.
+export async function deleteGameVersion(req, r, v) {
+    // Delete the game version.
+    await GameVersionModel.findOneAndDelete({ _id: req.gameRegions[r].gameVersions[v]._id })
+
+    if ((req.gameRegions[r].gameVersions.length - 1) > 0) {
+        // Update region for the game.
+        await GameRegionModel.findOne({ _id: req.gameRegions[r]._id }, { populate: false })
+            .then(async res => {
+                let index = res.gameVersions.indexOf(req.gameRegions[r].gameVersions[v]._id)
+                res.gameVersions.splice(index, 1)
+                await GameRegionModel.findOneAndUpdate({ _id: res._id }, { gameVersions: res.gameVersions })
+            })
+        // Remove game version data.
+        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/games/' + req.gameRegions[r].gameVersions[v]._id)
+        // There are other versions for the region.
+        return true
+    }
+    else {
+        // Delete game region.
+        return await deleteGameRegion(req, r, true)
     }
 }
 

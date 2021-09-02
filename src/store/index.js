@@ -47,7 +47,7 @@ export default createStore({
     },
     settingsGame: {
       gamePath: null,
-      relativePath: false,
+      relativePath: true,
     },
     gameSelected: {
       gamePlatform: null,
@@ -60,7 +60,6 @@ export default createStore({
         platform: null,
         releaseYear: null,
         numberPlayers: null,
-        latestVersion: null,
         links: []
       },
       gameRegion: {
@@ -84,7 +83,9 @@ export default createStore({
         }
       },
       gameVersion: {
-        currentVersion: null,
+        name: null,
+        number: null,
+        latest: null,
         comments: []
       }
     },
@@ -225,11 +226,11 @@ export default createStore({
     setGameStore(state) {
       gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
-      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', false)
+      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
     },
     resetGameStore(state) {
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
-      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', false)
+      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
     },
     setSettingsGameGamePath(state) {
       gameStore.set('settingsGame.gamePath', state.settingsGame.gamePath)
@@ -248,7 +249,6 @@ export default createStore({
       state.gameForm.gamePlatform.platform = null
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
-      state.gameForm.gamePlatform.latestVersion = null
       state.gameForm.gamePlatform.links = []
       state.gameForm.gameRegion.title = null
       state.gameForm.gameRegion.preTitle = null
@@ -262,7 +262,9 @@ export default createStore({
       state.gameForm.gameRegion.images.cover.remove = false
       state.gameForm.gameRegion.images.pictures.add = []
       state.gameForm.gameRegion.images.pictures.remove = []
-      state.gameForm.gameVersion.currentVersion = null
+      state.gameForm.gameVersion.name = null
+      state.gameForm.gameVersion.number = null
+      state.gameForm.gameVersion.latest = null
       state.gameForm.gameVersion.comments = []
     },
     setGamePlatformDeveloper(state, data) {
@@ -276,9 +278,6 @@ export default createStore({
     },
     setGamePlatformNumberPlayers(state, data) {
       state.gameForm.gamePlatform.numberPlayers = data
-    },
-    setGamePlatformLatestVersion(state, data) {
-      state.gameForm.gamePlatform.latestVersion = data
     },
     setGamePlatformLinks(state, data) {
       state.gameForm.gamePlatform.links = data
@@ -325,8 +324,14 @@ export default createStore({
     setGameRegionImagesPicturesRemove(state, data) {
       state.gameForm.gameRegion.images.pictures.remove.push(data)
     },
-    setGameVersionCurrentVersion(state, data) {
-      state.gameForm.gameVersion.currentVersion = data
+    setGameVersionName(state, data) {
+      state.gameForm.gameVersion.name = data
+    },
+    setGameVersionNumber(state, data) {
+      state.gameForm.gameVersion.number = data
+    },
+    setGameVersionLatest(state, data) {
+      state.gameForm.gameVersion.latest = data
     },
     setGameVersionComments(state, data) {
       state.gameForm.gameVersion.comments = data

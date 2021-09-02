@@ -5,7 +5,7 @@ class GameRegionModel extends Document {
     constructor() {
         super()
         this.schema({
-            gameVersions: { type: [ GameVersionModel ], required: true },
+            gameVersions: { type: [GameVersionModel], required: true },
             title: { type: String, required: true },
             preTitle: { type: String },
             subTitle: { type: String },

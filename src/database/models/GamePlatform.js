@@ -7,13 +7,12 @@ class GamePlatformModel extends Document {
     constructor() {
         super()
         this.schema({
-            gamePlatforms: { type: [ GamePlatformModel ], required: true },
-            gameRegions: { type: [ GameRegionModel ], required: true },
+            gamePlatforms: { type: [GamePlatformModel], required: true },
+            gameRegions: { type: [GameRegionModel], required: true },
             developer: { type: DeveloperModel, required: true },
             platform: { type: PlatformModel, required: true },
             releaseYear: { type: String, required: true },
-            numberPlayers: { type: String },
-            latestVersion: { type: String }
+            numberPlayers: { type: String }
         })
     }
     static collectionName() {

@@ -23,9 +23,21 @@
     <div>
       <div class="data-content">
         <p class="font-semibold">Version:</p>
-        <p v-if="!gameInfo.gameRegions[regionIndex].gameVersions[0].currentVersion">-</p>
-        <p v-else>{{ gameInfo.gameRegions[regionIndex].gameVersions[0].currentVersion }}</p>
-        <p v-if="gameInfo.latestVersion">({{ gameInfo.latestVersion }})</p>
+        <p v-if="!gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name && !gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">-</p>
+        <div
+          v-else
+          class="flex space-x-1"
+        >
+          <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name">
+            {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name }}
+          </p>
+          <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">
+            {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number }}
+          </p>
+          <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest">
+            ({{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest }})
+          </p>
+        </div>
       </div>
       <div class="data-content">
         <p class="font-semibold">Serial | Game ID:</p>
@@ -44,9 +56,9 @@
   </div>
   <div class="mt-1 text-lg">
     <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
-      <div v-if="gameInfo.gameRegions[regionIndex].gameVersions[0].comments.length > 0">
+      <div v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].comments.length > 0">
         <li
-          v-for="comment in gameInfo.gameRegions[regionIndex].gameVersions[0].comments"
+          v-for="comment in gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].comments"
           :key="comment"
           :value="comment"
           class="text-justify"
@@ -64,7 +76,8 @@ export default {
   name: 'ViewGameDetails',
   props: [
     'gameInfo',
-    'regionIndex'
+    'regionIndex',
+    'versionIndex'
   ]
 }
 </script>

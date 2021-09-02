@@ -30,8 +30,9 @@ export async function dbSeed() {
                                 pla._id, // Platform
                                 g, // Release Year
                                 g, // Number of Players
+                                g, // Version Name
+                                g, // Version Number
                                 g, // Latest Version
-                                g, // Current Version
                                 [g] // Comments
                             )
                             n++
@@ -55,14 +56,13 @@ async function platformSeed(a) {
     return await createPlatform(Platform)
 }
 
-async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m, n) {
+async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) {
     let gameForm = {
         gamePlatform: {
             developer: h,
             platform: i,
             releaseYear: j,
             numberPlayers: k,
-            latestVersion: l,
             links: []
         },
         gameRegion: {
@@ -79,8 +79,10 @@ async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m, n) {
             }
         },
         gameVersion: {
-            currentVersion: m,
-            comments: n
+            name: l,
+            number: m,
+            latest: n,
+            comments: o
         }
     }
     await newGamePlatform(gameForm)

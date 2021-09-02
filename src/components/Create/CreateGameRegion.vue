@@ -53,7 +53,11 @@
         <form-translated-title />
         <div class="flex space-x-4">
           <form-serial />
-          <form-current-version />
+          <form-version-name />
+        </div>
+        <div class="flex space-x-4">
+          <form-version-number />
+          <form-version-latest />
         </div>
       </div>
     </div>
@@ -65,7 +69,6 @@
 // Import form components.
 import {
   FormComments,
-  FormCurrentVersion,
   FormImages,
   FormOriginalTitle,
   FormPreTitle,
@@ -74,7 +77,10 @@ import {
   FormSerial,
   FormSubTitle,
   FormTitle,
-  FormTranslatedTitle
+  FormTranslatedTitle,
+  FormVersionName,
+  FormVersionNumber,
+  FormVersionLatest
 } from '../Form'
 // Import UI components.
 import {
@@ -89,7 +95,6 @@ export default {
   components: {
     // Form components.
     FormComments,
-    FormCurrentVersion,
     FormImages,
     FormOriginalTitle,
     FormPreTitle,
@@ -99,6 +104,9 @@ export default {
     FormSubTitle,
     FormTitle,
     FormTranslatedTitle,
+    FormVersionName,
+    FormVersionNumber,
+    FormVersionLatest,
     // UI components.
     HipButton,
     HipDialog

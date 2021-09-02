@@ -18,6 +18,15 @@
       <!-- Insert create game region form component. -->
       <create-game-region @close="createGameRegionClose()" />
     </hip-dialog>
+    <!-- Create game version dialog. -->
+    <hip-dialog
+      v-show="dialog.createGameVersion"
+      @close="createGameVersionClose()"
+      class="z-10"
+    >
+      <!-- Insert create game version form component. -->
+      <create-game-version @close="createGameVersionClose()" />
+    </hip-dialog>
     <!-- Edit game dialog. -->
     <hip-dialog
       v-show="dialog.editGame"
@@ -56,6 +65,34 @@
         <hip-button
           :icon="true"
           @click="deleteGameRegionOpen()"
+          class="el-icon-circle-close text-2xl"
+        ></hip-button>
+      </div>
+    </hip-dialog>
+    <!-- Delete game version dialog. -->
+    <hip-dialog
+      v-show="dialog.deleteGameVersion"
+      @close="deleteGameVersionOpen()"
+      class="z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
+        <br />
+        If it's the only version, it will also delete the region.
+      </p>
+      <!-- Dialog buttons. -->
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Confirm game deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteGameVersionClose()"
+          class="el-icon-circle-check text-2xl"
+        ></hip-button>
+        <!-- Cancel game deletion. -->
+        <hip-button
+          :icon="true"
+          @click="deleteGameVersionOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
@@ -102,6 +139,12 @@
         @click="createGameRegionOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
+      <!-- Open create game version dialog. -->
+      <hip-button-nb
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        @click="createGameVersionOpen()"
+        class="el-icon-circle-plus-outline text-2xl"
+      ></hip-button-nb>
       <!-- Open edit game dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
@@ -112,6 +155,12 @@
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deleteGameRegionOpen()"
+        class="el-icon-remove-outline text-2xl"
+      ></hip-button-nb>
+      <!-- Open delete game version dialog. -->
+      <hip-button-nb
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        @click="deleteGameVersionOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button-nb>
       <!-- Open delete game platform dialog. -->
@@ -174,6 +223,7 @@
                   :fullTitle="fullTitle"
                   :gameInfo="gameInfo"
                   :regionIndex="regionIndex"
+                  :versionIndex="versionIndex"
                 />
               </div>
               <!-- Insert game links component. -->
@@ -202,7 +252,7 @@
                 :key="gameInfo"
                 :gameInfo="gameInfo"
                 :regionIndex="regionIndex"
-                :selectedVersion="selectedVersion"
+                @updated="versionIndex = $event"
               />
             </div>
           </hip-modal>
@@ -216,6 +266,7 @@
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import CreateGameRegion from '../Create/CreateGameRegion.vue'
+import CreateGameVersion from '../Create/CreateGameVersion.vue'
 import EditGame from '../Edit/EditGame.vue'
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
@@ -234,6 +285,7 @@ import {
   getGame,
   deleteGamePlatform,
   deleteGameRegion,
+  deleteGameVersion,
   selectGameRegion
 } from '../../database/controllers/Game'
 
@@ -243,6 +295,7 @@ export default {
     // Form components.
     CreateGamePlatform,
     CreateGameRegion,
+    CreateGameVersion,
     EditGame,
     ViewGameImages,
     ViewGameInfo,
@@ -262,7 +315,6 @@ export default {
         platform: { name: null },
         releaseYear: null,
         numberPlayers: null,
-        latestVersion: null,
         links: [],
         gamePlatforms: [],
         gameRegions: [{
@@ -274,19 +326,23 @@ export default {
           region: null,
           serial: null,
           gameVersions: [{
-            currentVersion: null,
+            name: null,
+            number: null,
+            latest: null,
             comments: []
           }]
         }]
       },
       regionIndex: 0,
-      selectedVersion: null,
+      versionIndex: 0,
       slideBack: false,
       dialog: {
         createGamePlatform: false,
         createGameRegion: false,
+        createGameVersion: false,
         editGame: false,
         deleteGameRegion: false,
+        deleteGameVersion: false,
         deleteGamePlatform: false
       }
     }
@@ -302,10 +358,8 @@ export default {
           this.$store.commit('setPlatformStore')
           // Save current game IDs into the store.
           this.$store.state.gameSelected.gamePlatform = res._id
-          this.$store.state.gameSelected.gameRegion = res.gameRegions[0]._id
-          this.$store.state.gameSelected.gameVersion = res.gameRegions[0].gameVersions[0]._id
-          // Select first game version as the default.
-          this.selectedVersion = res.gameRegions[0].gameVersions[0]._id
+          this.$store.state.gameSelected.gameRegion = res.gameRegions[this.regionIndex]._id
+          this.$store.state.gameSelected.gameVersion = res.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id
         })
     },
     loadLinks(res) {
@@ -340,6 +394,18 @@ export default {
       // Close create dialog.
       this.dialog.createGameRegion = !this.dialog.createGameRegion
     },
+    createGameVersionOpen() {
+      // Restore the data on the store.
+      this.$store.commit('resetGameForm')
+      // Open create dialog.
+      this.dialog.createGameVersion = !this.dialog.createGameVersion
+    },
+    createGameVersionClose() {
+      // Reload game.
+      this.loadGame()
+      // Close create dialog.
+      this.dialog.createGameVersion = !this.dialog.createGameVersion
+    },
     // Edit operations.
     editGameOpen() {
       // Restore the data on the store.
@@ -349,7 +415,6 @@ export default {
       this.$store.commit('setGamePlatformPlatform', this.gameInfo.platform._id)
       this.$store.commit('setGamePlatformReleaseYear', this.gameInfo.releaseYear)
       this.$store.commit('setGamePlatformNumberPlayers', this.gameInfo.numberPlayers)
-      this.$store.commit('setGamePlatformLatestVersion', this.gameInfo.latestVersion)
       this.$store.commit('setGamePlatformLinks', this.gameInfo.links)
       this.$store.commit('setGameRegionTitle', this.gameInfo.gameRegions[this.regionIndex].title)
       this.$store.commit('setGameRegionPreTitle', this.gameInfo.gameRegions[this.regionIndex].preTitle)
@@ -359,8 +424,10 @@ export default {
       this.$store.commit('setGameRegionTranslatedTitle', this.gameInfo.gameRegions[this.regionIndex].translatedTitle)
       this.$store.commit('setGameRegionRegion', this.gameInfo.gameRegions[this.regionIndex].region)
       this.$store.commit('setGameRegionSerial', this.gameInfo.gameRegions[this.regionIndex].serial)
-      this.$store.commit('setGameVersionCurrentVersion', this.gameInfo.gameRegions[this.regionIndex].gameVersions[0].currentVersion)
-      this.$store.commit('setGameVersionComments', this.gameInfo.gameRegions[this.regionIndex].gameVersions[0].comments)
+      this.$store.commit('setGameVersionName', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].name)
+      this.$store.commit('setGameVersionNumber', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].number)
+      this.$store.commit('setGameVersionLatest', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].latest)
+      this.$store.commit('setGameVersionComments', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].comments)
       // Open edit dialog.
       this.dialog.editGame = !this.dialog.editGame
     },
@@ -385,8 +452,32 @@ export default {
             this.loadGame()
             // Reset selected region.
             this.regionIndex = 0
+            // Reset selected version.
+            this.versionIndex = 0
             // Close delete dialog.
             this.dialog.deleteGameRegion = !this.dialog.deleteGameRegion
+          } else {
+            // If the game only had one region.
+            this.$router.back()
+          }
+        })
+    },
+    deleteGameVersionOpen() {
+      // Open delete dialog.
+      this.dialog.deleteGameVersion = !this.dialog.deleteGameVersion
+    },
+    deleteGameVersionClose() {
+      // Delete game region.
+      deleteGameVersion(this.gameInfo, this.regionIndex, this.versionIndex)
+        .then(res => {
+          // If the game had multiple regions.
+          if (res) {
+            // Reload updated game entry.
+            this.loadGame()
+            // Reset selected version.
+            this.versionIndex = 0
+            // Close delete dialog.
+            this.dialog.deleteGameVersion = !this.dialog.deleteGameVersion
           } else {
             // If the game only had one region.
             this.$router.back()
@@ -406,13 +497,13 @@ export default {
     changeRegion(sel) {
       // Set sliding transition orientation.
       this.slideBack = sel < this.regionIndex ? true : false
+      // Reset version index.
+      this.versionIndex = 0
       // Set region index.
       this.regionIndex = sel
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[sel]._id
-      this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[0]._id
-      // Select first game version as the default.
-      this.selectedVersion = this.gameInfo.gameRegions[sel].gameVersions[0]._id
+      this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[this.versionIndex]._id
     },
     nextRegion() {
       if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {
@@ -438,6 +529,8 @@ export default {
           this.loadGame()
           // Reset region index.
           this.regionIndex = 0
+          // Reset version index.
+          this.versionIndex = 0
         })
     }
   },

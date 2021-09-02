@@ -9,6 +9,7 @@
     <view-game-details
       :gameInfo="gameInfo"
       :regionIndex="regionIndex"
+      :versionIndex="versionIndex"
     />
   </hip-dialog>
   <!-- Insert view game linking component. -->
@@ -140,7 +141,8 @@ export default {
   props: [
     'fullTitle',
     'gameInfo',
-    'regionIndex'
+    'regionIndex',
+    'versionIndex'
   ],
   methods: {
     // View details.

@@ -1,7 +1,7 @@
 <template>
   <!-- Latest version input. -->
   <hip-input
-    v-model="latestVersion"
+    v-model="latest"
     label="Latest Version"
   ></hip-input>
 </template>
@@ -11,15 +11,15 @@
 import { HipInput } from '../Component'
 
 export default {
-  name: 'FormLatestVersion',
+  name: 'FormVersionLatest',
   components: {
     // UI components.
     HipInput
   },
   computed: {
-    latestVersion: {
-      get() { return this.$store.state.gameForm.gamePlatform.latestVersion },
-      set(value) { this.$store.commit('setGamePlatformLatestVersion', value) }
+    latest: {
+      get() { return this.$store.state.gameForm.gameVersion.latest },
+      set(value) { this.$store.commit('setGameVersionLatest', value) }
     }
   }
 }
