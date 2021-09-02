@@ -127,49 +127,55 @@
     </hip-dialog>
     <!-- Navigation bar. -->
     <hip-nav-bar>
-      <!-- Open create game platform dialog. -->
-      <hip-button-nb
+      <!-- Create games menu dialog. -->
+      <hip-menu-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createGamePlatformOpen()"
-        class="el-icon-connection text-2xl"
-      ></hip-button-nb>
-      <!-- Open create game region dialog. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createGameRegionOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button-nb>
-      <!-- Open create game version dialog. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createGameVersionOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button-nb>
+        icon="el-icon-circle-plus-outline text-2xl"
+      >
+        <!-- Open create game platform dialog. -->
+        <hip-menu-option
+          label="Create Game Platform"
+          :method="createGamePlatformOpen"
+        />
+        <!-- Open create game region dialog. -->
+        <hip-menu-option
+          label="Create Game Region"
+          :method="createGameRegionOpen"
+        />
+        <!-- Open create game version dialog. -->
+        <hip-menu-option
+          label="Create Game Version"
+          :method="createGameVersionOpen"
+        />
+      </hip-menu-button>
       <!-- Open edit game dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editGameOpen()"
         class="el-icon-edit-outline text-2xl"
       ></hip-button-nb>
-      <!-- Open delete game region dialog. -->
-      <hip-button-nb
+      <!-- Delete games menu dialog. -->
+      <hip-menu-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deleteGameRegionOpen()"
-        class="el-icon-remove-outline text-2xl"
-      ></hip-button-nb>
-      <!-- Open delete game version dialog. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deleteGameVersionOpen()"
-        class="el-icon-remove-outline text-2xl"
-      ></hip-button-nb>
-      <!-- Open delete game platform dialog. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deleteGamePlatformOpen()"
-        class="el-icon-delete text-2xl"
-      ></hip-button-nb>
-      <!-- Open delete game platform dialog. -->
+        icon="el-icon-remove-outline text-2xl"
+      >
+        <!-- Open create game platform dialog. -->
+        <hip-menu-option
+          label="Delete Game Platform"
+          :method="deleteGamePlatformOpen"
+        />
+        <!-- Open create game region dialog. -->
+        <hip-menu-option
+          label="Delete Game Region"
+          :method="deleteGameRegionOpen"
+        />
+        <!-- Open create game version dialog. -->
+        <hip-menu-option
+          label="Delete Game Version"
+          :method="deleteGameVersionOpen"
+        />
+      </hip-menu-button>
+      <!-- Set selected game region as the main region. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="selectGameRegion()"
@@ -277,6 +283,8 @@ import {
   HipButton,
   HipButtonNb,
   HipDialog,
+  HipMenuButton,
+  HipMenuOption,
   HipModal,
   HipNavBar
 } from '../Component'
@@ -305,6 +313,8 @@ export default {
     HipButton,
     HipButtonNb,
     HipDialog,
+    HipMenuButton,
+    HipMenuOption,
     HipModal,
     HipNavBar
   },
