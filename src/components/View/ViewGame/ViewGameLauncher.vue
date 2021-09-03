@@ -148,10 +148,18 @@ export default {
   },
   computed: {
     gameCommand() {
-      let platformPath = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand
-      let gamePath = ' "' + (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + this.$store.state.settingsGame.gamePath + '"'
-      // Return command to execute.
-      return platformPath + gamePath
+      if (this.$store.state.settingsGame.gamePath) {
+        let platformPath = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand + ' '
+        // Empty platform full path if the executable path is empty as well.
+        platformPath = this.$store.state.settingsPlatform.executablePath ? platformPath : ''
+        // Check and parse the '{relative}' variable.
+        let parsePath = this.$store.state.settingsGame.gamePath.replaceAll('{relative}', this.$store.state.settingsPlatform.relativeGamesPath)
+        let gamePath = (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + parsePath
+        // Automate string quoting if the path is not being modified manually.
+        gamePath = this.$store.state.settingsGame.gamePath.includes('{relative}') ? gamePath : '"' + gamePath + '"'
+        // Return command to execute.
+        return platformPath + gamePath
+      }
     }
   }
 }

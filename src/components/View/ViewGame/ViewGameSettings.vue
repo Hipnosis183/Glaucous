@@ -30,15 +30,29 @@
         </hip-section-content>
         <hip-section-content class="flex">
           <!-- Relative path. -->
-          <p class="text-xl whitespace-nowrap">Relative Path</p>
+          <div class="flex items-center overflow-x-hidden space-x-2">
+            <p class="text-xl whitespace-nowrap">Relative Path</p>
+            <div class="flex space-x-1 text-sm whitespace-nowrap">
+              <p class="my-auto">(Or use the variable</p>
+              <p class="bg-theme-800 my-auto px-1.5 py-1 rounded-lg whitespace-nowrap">{relative}</p>
+              <p class="my-auto">, which also disables auto quoting)</p>
+            </div>
+          </div>
           <hip-switch v-model="relativePath" />
         </hip-section-content>
+        <!-- Command preview. -->
         <hip-section-header label="Preview">
-          <!-- Command preview. -->
-          <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow w-full">
-            <div class="cursor-default">{{ gameCommand }}</div>
-          </div>
         </hip-section-header>
+        <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow w-full">
+          <div
+            v-if="gameCommand"
+            class="cursor-default"
+          >{{ gameCommand }}</div>
+          <div
+            v-else
+            class="invisible"
+          >.</div>
+        </div>
       </div>
     </div>
   </div>
