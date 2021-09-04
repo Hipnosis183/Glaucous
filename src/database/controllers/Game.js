@@ -16,6 +16,7 @@ import { app } from '@electron/remote'
 import {
     copySync,
     ensureDirSync,
+    moveSync,
     outputFileSync,
     readdirSync,
     readJSONSync,
@@ -132,6 +133,8 @@ async function createGameVersion(req) {
 
 // Update the specified game.
 export async function updateGame(req, id) {
+    // Store current game object state before updating the data.
+    const old = await GamePlatformModel.findOne({ _id: id.gamePlatform }, { populate: false })
     // Update the game platform.
     await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
         developer: req.gamePlatform.developer,
@@ -158,9 +161,11 @@ export async function updateGame(req, id) {
         comments: req.gameVersion.comments
     })
     // Update stored images for the game.
-    await updateImages(req.gameRegion.images, req.gamePlatform.platform, id)
+    await updateImages(req.gameRegion.images, old.platform, id)
     // Update stored links for the game.
     await storeLinks(req.gamePlatform, id.gamePlatform)
+    // Update game store directory.
+    await updateStore(req.gamePlatform.platform, old.platform, id.gamePlatform)
 }
 
 // Delete the specified game platform and all its related data.
@@ -322,6 +327,15 @@ async function storeLinks(req, id) {
     ensureDirSync(app.getAppPath() + '/assets/links/')
     // Create links file.
     outputFileSync(app.getAppPath() + '/data/' + req.platform + '/' + gamePlatform + '/links', linksFile)
+}
+
+// Move the game directory if the developer has changed.
+async function updateStore(platform, old, game) {
+    if (platform != old) {
+        let pathOld = app.getAppPath() + '/data/' + old + '/' + game
+        let pathNew = app.getAppPath() + '/data/' + platform + '/' + game
+        moveSync(pathOld, pathNew, { overwrite: true })
+    }
 }
 
 // Manage game linking.
