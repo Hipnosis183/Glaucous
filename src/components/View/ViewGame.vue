@@ -181,6 +181,27 @@
         @click="selectGameRegion()"
         class="el-icon-place text-2xl"
       ></hip-button-nb>
+      <!-- Create games menu dialog. -->
+      <hip-menu-button
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        icon="el-icon-folder-opened text-2xl"
+      >
+        <!-- Open create game region dialog. -->
+        <hip-menu-option
+          label="Open Game Directory"
+          :method="openGamePath"
+        />
+        <!-- Open create game platform dialog. -->
+        <hip-menu-option
+          label="Open Store Directory"
+          :method="openStorePath"
+        />
+        <!-- Open create game version dialog. -->
+        <hip-menu-option
+          label="Open Images Directory"
+          :method="openImagesPath"
+        />
+      </hip-menu-button>
       <!-- Game region tabs. -->
       <ul class="flex w-full">
         <li
@@ -269,6 +290,11 @@
 </template>
 
 <script>
+// Import functions from modules.
+import {
+  app,
+  shell
+} from '@electron/remote'
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import CreateGameRegion from '../Create/CreateGameRegion.vue'
@@ -343,6 +369,7 @@ export default {
           }]
         }]
       },
+      gamePath: null,
       regionIndex: 0,
       versionIndex: 0,
       slideBack: false,
@@ -370,6 +397,8 @@ export default {
           this.$store.state.gameSelected.gamePlatform = res._id
           this.$store.state.gameSelected.gameRegion = res.gameRegions[this.regionIndex]._id
           this.$store.state.gameSelected.gameVersion = res.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id
+          // Set game store path.
+          this.gamePath = app.getAppPath() + '/data/' + res.platform._id + '/' + res._id + '/' + res.gameRegions[this.regionIndex]._id
         })
     },
     loadLinks(res) {
@@ -514,6 +543,8 @@ export default {
       // Save current game IDs into the store.
       this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[sel]._id
       this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[this.versionIndex]._id
+      // Update game store path.
+      this.gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[sel]._id
     },
     nextRegion() {
       if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {
@@ -542,6 +573,19 @@ export default {
           // Reset version index.
           this.versionIndex = 0
         })
+    },
+    // Open external directories.
+    openGamePath() {
+      // Open game file location path in the file manager.
+      shell.openPath((this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + this.$store.state.settingsGame.gamePath)
+    },
+    openStorePath() {
+      // Open game store location path in the file manager.
+      shell.openPath(this.gamePath)
+    },
+    openImagesPath() {
+      // Open images location path in the file manager.
+      shell.openPath(this.gamePath + '/images')
     }
   },
   mounted() {

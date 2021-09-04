@@ -100,11 +100,10 @@
     >
       <!-- Gallery buttons. -->
       <div class="flex h-10 justify-between mx-1">
-        <!-- Open images folder. -->
+        <!-- Padding. -->
         <hip-button
           :icon="true"
-          @click="viewImagesFolder()"
-          class="el-icon-folder-opened text-2xl"
+          class="el-icon-circle-close invisible"
         ></hip-button>
         <!-- Header title. -->
         <p class="pt-1 text-2xl">Gallery</p>
@@ -183,10 +182,7 @@
 
 <script>
 // Import functions from modules.
-import {
-  app,
-  shell
-} from '@electron/remote'
+import { app } from '@electron/remote'
 import {
   existsSync,
   readdirSync
@@ -300,10 +296,6 @@ export default {
       this.imageCenter = (this.$refs.pictureImage.clientHeight < this.$refs.imageContainer.clientHeight) ? true : false
       // Load image.
       this.imageLoaded = true
-    },
-    viewImagesFolder() {
-      // Open images location path in the file manager.
-      shell.openPath(this.imagePath)
     }
   },
   mounted() {
