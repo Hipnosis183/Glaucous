@@ -6,12 +6,16 @@
     <slot></slot>
     <div
       v-if="title"
-      class="inline-flex w-full"
+      class="inline-flex"
+      :class="{ 'w-full' : !button }"
     >
       <!-- Horizontal padding. -->
-      <div class="w-full"></div>
+      <div
+        v-if="!button"
+        class="w-full"
+      ></div>
       <!-- Page title. -->
-      <p class="m-auto mr-6 text-xl whitespace-nowrap">{{ title }}</p>
+      <p class="my-auto mr-6 text-xl whitespace-nowrap">{{ title }}</p>
     </div>
   </div>
 </template>
@@ -20,6 +24,7 @@
 export default {
   name: 'HipNavBar',
   props: [
+    'button',
     'title'
   ]
 }

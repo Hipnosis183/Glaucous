@@ -65,7 +65,10 @@
       />
     </hip-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar :title="platform.name">
+    <hip-nav-bar
+      :button="true"
+      :title="platform.name"
+    >
       <!-- Open create game platform dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
