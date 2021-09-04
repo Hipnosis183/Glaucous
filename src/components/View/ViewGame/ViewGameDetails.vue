@@ -31,8 +31,11 @@
           <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name">
             {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name }}
           </p>
-          <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">
+          <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number && gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest">
             {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number }}
+          </p>
+          <p v-else-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">
+            ({{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number }})
           </p>
           <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest">
             ({{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest }})

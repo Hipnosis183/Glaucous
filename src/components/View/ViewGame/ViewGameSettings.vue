@@ -28,16 +28,19 @@
           <p class="text-xl whitespace-nowrap">Game Path</p>
           <hip-input v-model="gamePath" />
         </hip-section-content>
+        <hip-section-content>
+          <!-- Executable command. -->
+          <p class="text-xl whitespace-nowrap">Game File</p>
+          <hip-input v-model="gameFile" />
+        </hip-section-content>
+        <hip-section-content>
+          <!-- Executable parameters. -->
+          <p class="text-xl whitespace-nowrap">Game Parameters *</p>
+          <hip-input v-model="gameParams" />
+        </hip-section-content>
         <hip-section-content class="flex">
           <!-- Relative path. -->
-          <div class="flex items-center overflow-x-hidden space-x-2">
-            <p class="text-xl whitespace-nowrap">Relative Path</p>
-            <div class="flex space-x-1 text-sm whitespace-nowrap">
-              <p class="my-auto">(Or use the variable</p>
-              <p class="bg-theme-800 my-auto px-1.5 py-1 rounded-lg whitespace-nowrap">{relative}</p>
-              <p class="my-auto">, which also disables auto quoting)</p>
-            </div>
-          </div>
+          <p class="text-xl whitespace-nowrap">Relative Path</p>
           <hip-switch v-model="relativePath" />
         </hip-section-content>
         <!-- Command preview. -->
@@ -45,13 +48,21 @@
         </hip-section-header>
         <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow w-full">
           <div
-            v-if="gameCommand"
+            v-if="fullCommand"
             class="cursor-default"
-          >{{ gameCommand }}</div>
+          >{{ fullCommand }}</div>
           <div
             v-else
             class="invisible"
           >.</div>
+        </div>
+        <!-- Parameters aclaration. -->
+        <div class="flex space-x-1 text-sm whitespace-nowrap">
+          <p class="my-auto">* You can use the variables </p>
+          <p class="bg-theme-100 dark:bg-theme-800 my-auto px-1.5 py-1 rounded-lg shadow">{relative}</p>
+          <p class="my-auto"> to insert the platform's relative path, and </p>
+          <p class="bg-theme-100 dark:bg-theme-800 my-auto px-1.5 py-1 rounded-lg shadow">{game}</p>
+          <p class="my-auto"> to insert the full game path.</p>
         </div>
       </div>
     </div>
@@ -79,12 +90,14 @@ export default {
     HipSwitch
   },
   props: [
-    'gameCommand'
+    'fullCommand'
   ],
   methods: {
     storeSettings() {
       // Store updated settings.
       this.$store.commit('setSettingsGameGamePath')
+      this.$store.commit('setSettingsGameGameFile')
+      this.$store.commit('setSettingsGameGameParams')
       this.$store.commit('setSettingsGameRelativePath')
       this.$emit('close')
     }
@@ -97,6 +110,14 @@ export default {
     gamePath: {
       get() { return this.$store.state.settingsGame.gamePath },
       set(value) { this.$store.state.settingsGame.gamePath = value }
+    },
+    gameFile: {
+      get() { return this.$store.state.settingsGame.gameFile },
+      set(value) { this.$store.state.settingsGame.gameFile = value }
+    },
+    gameParams: {
+      get() { return this.$store.state.settingsGame.gameParams },
+      set(value) { this.$store.state.settingsGame.gameParams = value }
     },
     relativePath: {
       get() { return this.$store.state.settingsGame.relativePath },

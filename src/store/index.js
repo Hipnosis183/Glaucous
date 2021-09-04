@@ -47,6 +47,8 @@ export default createStore({
     },
     settingsGame: {
       gamePath: null,
+      gameFile: null,
+      gameParams: null,
       relativePath: true,
     },
     gameSelected: {
@@ -226,14 +228,24 @@ export default createStore({
     setGameStore(state) {
       gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+      state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')
+      state.settingsGame.gameParams = gameStore.get('settingsGame.gameParams', '')
       state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
     },
     resetGameStore(state) {
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+      state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')
+      state.settingsGame.gameParams = gameStore.get('settingsGame.gameParams', '')
       state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
     },
     setSettingsGameGamePath(state) {
       gameStore.set('settingsGame.gamePath', state.settingsGame.gamePath)
+    },
+    setSettingsGameGameFile(state) {
+      gameStore.set('settingsGame.gameFile', state.settingsGame.gameFile)
+    },
+    setSettingsGameGameParams(state) {
+      gameStore.set('settingsGame.gameParams', state.settingsGame.gameParams)
     },
     setSettingsGameRelativePath(state) {
       gameStore.set('settingsGame.relativePath', state.settingsGame.relativePath)

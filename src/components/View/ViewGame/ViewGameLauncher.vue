@@ -9,7 +9,7 @@
     <view-game-settings
       v-if="$store.state.gameSelected.gameVersion"
       :key="$store.state.gameSelected.gameVersion"
-      :gameCommand="gameCommand"
+      :fullCommand="fullCommand"
       @close="settingsGameClose()"
     />
   </hip-dialog>
@@ -93,6 +93,8 @@ export default {
   data() {
     return {
       changedVersion: false,
+      gamePath: null,
+      platformPath: null,
       dialog: {
         launcherError: false,
         settingsGame: false
@@ -111,10 +113,10 @@ export default {
     launchGame() {
       // Define execution options.
       let gameOptions = {
-        cwd: this.$store.state.settingsPlatform.executablePath
+        cwd: this.platformPath.length > 0 ? this.platformPath : this.gamePath
       }
       // Execute command.
-      exec(this.gameCommand, gameOptions, (error, stdout, stderr) => {
+      exec(this.fullCommand, gameOptions, (error, stdout, stderr) => {
         if (error) { console.log(error); this.launcherError() }
       })
     },
@@ -147,18 +149,28 @@ export default {
     }
   },
   computed: {
-    gameCommand() {
-      if (this.$store.state.settingsGame.gamePath) {
-        let platformPath = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand + ' '
-        // Empty platform full path if the executable path is empty as well.
-        platformPath = this.$store.state.settingsPlatform.executablePath ? platformPath : ''
-        // Check and parse the '{relative}' variable.
-        let parsePath = this.$store.state.settingsGame.gamePath.replaceAll('{relative}', this.$store.state.settingsPlatform.relativeGamesPath)
-        let gamePath = (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + parsePath
-        // Automate string quoting if the path is not being modified manually.
-        gamePath = this.$store.state.settingsGame.gamePath.includes('{relative}') ? gamePath : '"' + gamePath + '"'
-        // Return command to execute.
-        return platformPath + gamePath
+    fullCommand() {
+      // Return command to execute.
+      return this.fullPlatformPath + this.fullGamePath
+    },
+    fullPlatformPath() {
+      let platformPath = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand
+      // Set the platform executable path as the current working directory.
+      this.platformPath = this.$store.state.settingsPlatform.executablePath
+      // Empty platform full path if the executable path is empty as well.
+      return this.$store.state.settingsPlatform.executablePath ? platformPath + ' ' : ''
+    },
+    fullGamePath() {
+      // Wait for the settings to be loaded.
+      if (this.$store.state.settingsGame.gamePath != null) {
+        let gamePath = (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + this.$store.state.settingsGame.gamePath
+        // Set the game path as the current working directory.
+        this.gamePath = gamePath
+        // Check and replace the '{relative}' and '{game}' variables.
+        let gameParams = this.$store.state.settingsGame.gameParams.replaceAll('{relative}', this.$store.state.settingsPlatform.relativeGamesPath)
+        gameParams = gameParams.replaceAll('{game}', gamePath)
+        // Return full game command.
+        return (this.$store.state.settingsGame.gameFile ? '"' + gamePath + (this.$store.state.settingsGame.gamePath ? '/' : '') + this.$store.state.settingsGame.gameFile + '" ' : '') + gameParams
       }
     }
   }
