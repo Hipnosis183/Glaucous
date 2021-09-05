@@ -30,16 +30,16 @@
         <img
           v-if="imagesCoverAdd"
           :src="'file://' + imagesCoverAdd"
-          class="border-2 border-theme-200 dark:border-theme-900 object-cover rounded-xl"
+          class="object-cover rounded-xl shadow"
         />
         <img
           v-else-if="getCover && !imagesCoverRemove"
           :src="'file://' + imagePath + '/' + getCover"
-          class="border-2 border-theme-200 dark:border-theme-900 object-cover rounded-xl"
+          class="object-cover rounded-xl shadow"
         />
         <div
           v-else
-          class="ar-square bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex items-center rounded-xl w-full"
+          class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-xl shadow w-full"
         >
           <div class="flex flex-col items-center m-auto">
             <div class="el-icon-picture mb-4 text-6xl text-theme-300"></div>
@@ -79,7 +79,7 @@
                 v-for="(image, index) in getPictures"
                 :key="index"
                 :value="image"
-                class="border-2 border-theme-200 dark:border-theme-900 h-full flex justify-center relative rounded-xl w-full"
+                class="flex h-full justify-center relative rounded-xl shadow w-full"
               >
                 <transition>
                   <div
@@ -100,7 +100,7 @@
                 v-for="(image, index) in imagesPicturesAdd"
                 :key="index"
                 :value="image"
-                class="border-2 border-theme-200 dark:border-theme-900 flex h-full justify-center relative rounded-xl w-full"
+                class="flex h-full justify-center relative rounded-xl shadow w-full"
               >
                 <transition>
                   <div
@@ -119,7 +119,7 @@
           </div>
           <div
             v-else
-            class="bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex h-images items-center rounded-xl w-full"
+            class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-xl shadow w-full"
           >
             <div class="flex flex-col items-center m-auto">
               <div class="el-icon-picture mb-4 text-6xl text-theme-300"></div>
@@ -131,22 +131,11 @@
     </div>
   </hip-overlay>
   <!-- Images form. -->
-  <hip-input-group label="Images">
-    <hip-input-button
-      first-element
-      @click="addCover()"
-      class="w-1/3"
-    >Cover</hip-input-button>
-    <hip-input-button
-      @click="addPicturesAdd()"
-      class="w-1/3"
-    >Pictures</hip-input-button>
-    <hip-input-button
-      last-element
-      @click="viewImagesOpen()"
-      class="el-icon-picture-outline text-xl w-1/3"
-    ></hip-input-button>
-  </hip-input-group>
+  <hip-input-button
+    :icon="true"
+    @click="viewImagesOpen()"
+    class="el-icon-picture rounded-xl shadow text-2xl"
+  ></hip-input-button>
 </template>
 
 <script>
@@ -164,7 +153,6 @@ import {
   HipButton,
   HipDialog,
   HipInputButton,
-  HipInputGroup,
   HipModal,
   HipOverlay
 } from '../Component'
@@ -176,7 +164,6 @@ export default {
     HipButton,
     HipDialog,
     HipInputButton,
-    HipInputGroup,
     HipModal,
     HipOverlay
   },
