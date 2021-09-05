@@ -1,14 +1,26 @@
 <template>
+  <!-- Show game platform images dialog. -->
+  <form-images-view
+    v-show="dialog.viewImagesPlatform"
+    :show="dialog.viewImagesPlatform"
+    :editForm="editForm"
+    gameType="gamePlatform"
+    @close="viewImagesPlatformOpen()"
+  />
   <!-- Show game region images dialog. -->
-  <form-images-region
+  <form-images-view
     v-show="dialog.viewImagesRegion"
     :show="dialog.viewImagesRegion"
+    :editForm="editForm"
+    gameType="gameRegion"
     @close="viewImagesRegionOpen()"
   />
   <!-- Show game version images dialog. -->
-  <form-images-version
+  <form-images-view
     v-show="dialog.viewImagesVersion"
     :show="dialog.viewImagesVersion"
+    :editForm="editForm"
+    gameType="gameVersion"
     @close="viewImagesVersionOpen()"
   />
   <!-- Images form. -->
@@ -17,6 +29,10 @@
       firstElement
       class="cursor-default el-icon-picture text-2xl"
     ></hip-input-button>
+    <hip-input-button
+      v-if="showPlatform"
+      @click="viewImagesPlatformOpen()"
+    >Platform</hip-input-button>
     <hip-input-button
       v-if="showRegion"
       @click="viewImagesRegionOpen()"
@@ -31,8 +47,7 @@
 
 <script>
 // Import form components.
-import FormImagesRegion from './FormImagesRegion.vue'
-import FormImagesVersion from './FormImagesVersion.vue'
+import FormImagesView from './FormImagesView.vue'
 // Import UI components.
 import { HipInputButton } from '../Component'
 
@@ -40,25 +55,31 @@ export default {
   name: 'FormImages',
   components: {
     // Form components.
-    FormImagesRegion,
-    FormImagesVersion,
+    FormImagesView,
     // UI components.
     HipInputButton
   },
   data() {
     return {
       dialog: {
+        viewImagesPlatform: false,
         viewImagesRegion: false,
         viewImagesVersion: false
       }
     }
   },
   props: {
+    editForm: { type: Boolean, default: false },
+    showPlatform: { type: Boolean, default: false },
     showRegion: { type: Boolean, default: false },
     showVersion: { type: Boolean, default: false }
   },
   methods: {
     // View images.
+    viewImagesPlatformOpen() {
+      // Open game platform images dialog.
+      this.dialog.viewImagesPlatform = !this.dialog.viewImagesPlatform
+    },
     viewImagesRegionOpen() {
       // Open game region images dialog.
       this.dialog.viewImagesRegion = !this.dialog.viewImagesRegion

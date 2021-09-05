@@ -2,8 +2,7 @@ import FormComments from './FormComments.vue'
 import FormDeveloper from './FormDeveloper.vue'
 import FormDeveloperName from './FormDeveloperName.vue'
 import FormImages from './FormImages.vue'
-import FormImagesRegion from './FormImagesRegion.vue'
-import FormImagesVersion from './FormImagesVersion.vue'
+import FormImagesView from './FormImagesView.vue'
 import FormLinks from './FormLinks.vue'
 import FormNumberPlayers from './FormNumberPlayers.vue'
 import FormOriginalTitle from './FormOriginalTitle.vue'
@@ -28,8 +27,7 @@ export {
     FormDeveloper,
     FormDeveloperName,
     FormImages,
-    FormImagesRegion,
-    FormImagesVersion,
+    FormImagesView,
     FormLinks,
     FormNumberPlayers,
     FormOriginalTitle,

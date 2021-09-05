@@ -24,6 +24,8 @@
     <div class="flex h-10 space-x-4">
       <p class="pt-1 text-2xl">Edit Game Entry</p>
       <form-images
+        editForm
+        showPlatform
         showRegion
         showVersion
       />

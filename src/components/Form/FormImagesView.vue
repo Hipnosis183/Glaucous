@@ -149,7 +149,7 @@ import {
 } from '../Component'
 
 export default {
-  name: 'FormImagesVersion',
+  name: 'FormImagesView',
   components: {
     // UI components.
     HipButton,
@@ -159,21 +159,45 @@ export default {
   data() {
     return {
       imageFiles: [],
-      imagePath: null
+      imagePath: null,
+      gameTypeName: null
     }
   },
   emit: [
     'close'
   ],
   props: {
+    gameType: { type: String },
+    editForm: { type: Boolean, default: false },
     show: { type: Boolean, default: false }
   },
   methods: {
     // Images management.
     getImages() {
-      // Set the image directory path of the game region.
-      this.imagePath = app.getAppPath() + '/data/' + this.$store.state.gameForm.gamePlatform.platform + '/' + this.$store.state.gameSelected.gamePlatform + '/' + this.$store.state.gameSelected.gameRegion + '/games/' + this.$store.state.gameSelected.gameVersion + '/images'
-      if (existsSync(this.imagePath)) {
+      // Set the base image directory path of the game.
+      let basePath = app.getAppPath() + '/data/' + this.$store.state.gameForm.gamePlatform.platform + '/' + this.$store.state.gameSelected.gamePlatform
+      switch (this.gameType) {
+        // Set the working variables for the game platform images.
+        case 'gamePlatform': {
+          this.imagePath = basePath + '/images'
+          this.gameTypeName = 'Platform'
+          break
+        }
+        // Set the working variables for the game region images.
+        case 'gameRegion': {
+          this.imagePath = basePath + '/' + this.$store.state.gameSelected.gameRegion + '/images'
+          this.gameTypeName = 'Region'
+          break
+        }
+        // Set the working variables for the game version images.
+        case 'gameVersion': {
+          this.imagePath = basePath + '/' + this.$store.state.gameSelected.gameRegion + '/games/' + this.$store.state.gameSelected.gameVersion + '/images'
+          this.gameTypeName = 'Version'
+          break
+        }
+      }
+      // Avoid showing the images of the selected game if not in an edit form.
+      if (existsSync(this.imagePath) && this.editForm) {
         // Load images filenames.
         this.imageFiles = readdirSync(this.imagePath)
       }
@@ -245,24 +269,24 @@ export default {
       return this.imageFiles.filter(res => !res.startsWith('0'.repeat(8)))
     },
     imagesCoverAdd: {
-      get() { return this.$store.state.gameForm.gameVersion.images.cover.add },
-      set(value) { this.$store.commit('setGameVersionImagesCoverAdd', value) }
+      get() { return this.$store.state.gameForm[this.gameType].images.cover.add },
+      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesCoverAdd', value) }
     },
     imagesCoverRemove: {
-      get() { return this.$store.state.gameForm.gameVersion.images.cover.remove },
-      set(value) { this.$store.commit('setGameVersionImagesCoverRemove', value) }
+      get() { return this.$store.state.gameForm[this.gameType].images.cover.remove },
+      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesCoverRemove', value) }
     },
     imagesPicturesAdd: {
-      get() { return this.$store.state.gameForm.gameVersion.images.pictures.add },
-      set(value) { this.$store.commit('setGameVersionImagesPicturesAdd', value) }
+      get() { return this.$store.state.gameForm[this.gameType].images.pictures.add },
+      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesPicturesAdd', value) }
     },
     imagesPicturesRemove: {
-      get() { return this.$store.state.gameForm.gameVersion.images.pictures.remove },
-      set(value) { this.$store.commit('setGameVersionImagesPicturesRemove', value) }
+      get() { return this.$store.state.gameForm[this.gameType].images.pictures.remove },
+      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesPicturesRemove', value) }
     }
   },
   watch: {
-    // Watch for game version selection changes.
+    // Watch for game selection changes.
     show(value) {
       if (value) {
         // Load images.

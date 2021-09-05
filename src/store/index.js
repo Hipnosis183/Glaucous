@@ -62,7 +62,17 @@ export default createStore({
         platform: null,
         releaseYear: null,
         numberPlayers: null,
-        links: []
+        links: [],
+        images: {
+          cover: {
+            add: null,
+            remove: false
+          },
+          pictures: {
+            add: [],
+            remove: []
+          }
+        }
       },
       gameRegion: {
         title: null,
@@ -272,6 +282,10 @@ export default createStore({
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
       state.gameForm.gamePlatform.links = []
+      state.gameForm.gamePlatform.images.cover.add = null
+      state.gameForm.gamePlatform.images.cover.remove = false
+      state.gameForm.gamePlatform.images.pictures.add = []
+      state.gameForm.gamePlatform.images.pictures.remove = []
       state.gameForm.gameRegion.title = null
       state.gameForm.gameRegion.preTitle = null
       state.gameForm.gameRegion.subTitle = null
@@ -313,6 +327,18 @@ export default createStore({
     },
     setGamePlatformLinksRemove(state, data) {
       state.gameForm.gamePlatform.links.splice(data, 1)
+    },
+    setGamePlatformImagesCoverAdd(state, data) {
+      state.gameForm.gamePlatform.images.cover.add = data
+    },
+    setGamePlatformImagesCoverRemove(state, data) {
+      state.gameForm.gamePlatform.images.cover.remove = data
+    },
+    setGamePlatformImagesPicturesAdd(state, data) {
+      state.gameForm.gamePlatform.images.pictures.add.push(data)
+    },
+    setGamePlatformImagesPicturesRemove(state, data) {
+      state.gameForm.gamePlatform.images.pictures.remove.push(data)
     },
     setGameRegionTitle(state, data) {
       state.gameForm.gameRegion.title = data

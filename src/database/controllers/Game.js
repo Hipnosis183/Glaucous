@@ -39,9 +39,10 @@ export async function newGamePlatform(req, id) {
     // Create platform for the game.
     await createGamePlatform(req.gamePlatform)
     // Store uploaded images for the game.
-    let imagesPath = req.gamePlatform.platform + '/' + gamePlatform + '/' + gameRegion
-    await storeImages(req.gameRegion.images, imagesPath)
-    await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameVersion)
+    let imagesPath = req.gamePlatform.platform + '/' + gamePlatform
+    await storeImages(req.gamePlatform.images, imagesPath)
+    await storeImages(req.gameRegion.images, imagesPath + '/' + gameRegion)
+    await storeImages(req.gameVersion.images, imagesPath + '/' + gameRegion + '/games/' + gameVersion)
     // Store links for the game.
     await storeLinks(req.gamePlatform)
     // Link to other games if an ID is given.
@@ -168,9 +169,10 @@ export async function updateGame(req, id) {
         comments: req.gameVersion.comments
     })
     // Update stored images for the game.
-    let imagesPath = old.platform + '/' + id.gamePlatform + '/' + id.gameRegion
-    await updateImages(req.gameRegion.images, imagesPath)
-    await updateImages(req.gameVersion.images, imagesPath + '/games/' + id.gameVersion)
+    let imagesPath = old.platform + '/' + id.gamePlatform
+    await updateImages(req.gamePlatform.images, imagesPath)
+    await updateImages(req.gameRegion.images, imagesPath + '/' + id.gameRegion)
+    await updateImages(req.gameVersion.images, imagesPath + '/' + id.gameRegion + '/games/' + id.gameVersion)
     // Update stored links for the game.
     await storeLinks(req.gamePlatform, id.gamePlatform)
     // Update game store directory.
@@ -651,8 +653,22 @@ function getConfig(game) {
 function getImage(game) {
     // Create image object.
     let image = { cover: true }
-    // Set the image directory path of the game region.
-    let imagePath = app.getAppPath() + '/data/' + game.platform._id + '/' + game._id + '/' + game.gameRegions[0]._id + '/images'
+    // Define game version ID variable depending on the context.
+    let gameVer = game.gameRegions[0].gameVersions[0]._id ? game.gameRegions[0].gameVersions[0]._id : game.gameRegions[0].gameVersions[0]
+    // Set the image directory path of the game platform.
+    let gamePath = app.getAppPath() + '/data/' + game.platform._id + '/' + game._id
+    let imagePath = gamePath + '/' + game.gameRegions[0]._id + '/games/' + gameVer + '/images'
+    ensureDirSync(imagePath)
+    // Check if there are images for the selected game version.
+    if (!readdirSync(imagePath).length > 0) {
+        imagePath = gamePath + '/' + game.gameRegions[0]._id + '/images'
+        ensureDirSync(imagePath)
+        // Check if there are images for the selected game region.
+        if (!readdirSync(imagePath).length > 0) {
+            imagePath = gamePath + '/images'
+            ensureDirSync(imagePath)
+        }
+    }
     // Load images filenames and filter the cover image file.
     let imageFile = readdirSync(imagePath).filter(res => res.startsWith('0'.repeat(8)))[0]
     // Load first picture image as cover if it doesn't exists.
