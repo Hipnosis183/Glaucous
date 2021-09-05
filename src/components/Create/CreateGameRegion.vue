@@ -23,7 +23,10 @@
     <!-- Form title. -->
     <div class="flex h-10 space-x-4">
       <p class="pt-1 text-2xl">New Game Region</p>
-      <form-images />
+      <form-images
+        showRegion
+        showVersion
+      />
     </div>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
@@ -134,7 +137,7 @@ export default {
         return
       }
       // Save new game entry.
-      newGameRegion(this.$store.state.gameForm, this.$store.state.gameSelected.gamePlatform)
+      newGameRegion(this.$store.state.gameForm, this.$store.state.gameSelected)
         .then(() => this.$emit('close'))
     },
     // Show validation errors.

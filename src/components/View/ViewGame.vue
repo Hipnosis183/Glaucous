@@ -272,6 +272,7 @@
                   :key="gameInfo"
                   :gameInfo="gameInfo"
                   :regionIndex="regionIndex"
+                  :versionIndex="versionIndex"
                 />
               </div>
               <!-- Insert game launcher component. -->

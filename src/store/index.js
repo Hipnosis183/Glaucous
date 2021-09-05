@@ -88,7 +88,17 @@ export default createStore({
         name: null,
         number: null,
         latest: null,
-        comments: []
+        comments: [],
+        images: {
+          cover: {
+            add: null,
+            remove: false
+          },
+          pictures: {
+            add: [],
+            remove: []
+          }
+        }
       }
     },
     developerSelected: null,
@@ -278,6 +288,10 @@ export default createStore({
       state.gameForm.gameVersion.number = null
       state.gameForm.gameVersion.latest = null
       state.gameForm.gameVersion.comments = []
+      state.gameForm.gameVersion.images.cover.add = null
+      state.gameForm.gameVersion.images.cover.remove = false
+      state.gameForm.gameVersion.images.pictures.add = []
+      state.gameForm.gameVersion.images.pictures.remove = []
     },
     setGamePlatformDeveloper(state, data) {
       state.gameForm.gamePlatform.developer = data
@@ -353,6 +367,18 @@ export default createStore({
     },
     setGameVersionCommentsRemove(state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
+    },
+    setGameVersionImagesCoverAdd(state, data) {
+      state.gameForm.gameVersion.images.cover.add = data
+    },
+    setGameVersionImagesCoverRemove(state, data) {
+      state.gameForm.gameVersion.images.cover.remove = data
+    },
+    setGameVersionImagesPicturesAdd(state, data) {
+      state.gameForm.gameVersion.images.pictures.add.push(data)
+    },
+    setGameVersionImagesPicturesRemove(state, data) {
+      state.gameForm.gameVersion.images.pictures.remove.push(data)
     },
     // Developer form.
     resetDeveloperForm(state) {

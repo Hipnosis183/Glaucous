@@ -23,7 +23,10 @@
     <!-- Form title. -->
     <div class="flex h-10 space-x-4">
       <p class="pt-1 text-2xl">New Game Entry</p>
-      <form-images />
+      <form-images
+        showRegion
+        showVersion
+      />
     </div>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">

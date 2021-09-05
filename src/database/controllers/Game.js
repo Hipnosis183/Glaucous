@@ -39,7 +39,9 @@ export async function newGamePlatform(req, id) {
     // Create platform for the game.
     await createGamePlatform(req.gamePlatform)
     // Store uploaded images for the game.
-    await storeImages(req.gameRegion.images, req.gamePlatform.platform)
+    let imagesPath = req.gamePlatform.platform + '/' + gamePlatform + '/' + gameRegion
+    await storeImages(req.gameRegion.images, imagesPath)
+    await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameVersion)
     // Store links for the game.
     await storeLinks(req.gamePlatform)
     // Link to other games if an ID is given.
@@ -56,24 +58,29 @@ export async function newGameRegion(req, id) {
     // Create a region for the game.
     await createGameRegion(req.gameRegion)
     // Update platform for the game.
-    await getGamePlatform(id)
+    await getGamePlatform(id.gamePlatform)
         .then(async res => {
             res.gameRegions.push(gameRegion)
-            await GamePlatformModel.findOneAndUpdate({ _id: id }, { gameRegions: res.gameRegions })
+            await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, { gameRegions: res.gameRegions })
             // Store uploaded images for the game.
-            await storeImages(req.gameRegion.images, res.platform, id)
+            let imagesPath = res.platform + '/' + id.gamePlatform + '/' + gameRegion
+            await storeImages(req.gameRegion.images, imagesPath)
+            await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameVersion)
         })
 }
 
 // Create a new game version.
-export async function newGameVersion(req, id) {
+export async function newGameVersion(req, pla, id) {
     // Create a version for the game.
     await createGameVersion(req.gameVersion)
     // Update region for the game.
-    await GameRegionModel.findOne({ _id: id }, { populate: false })
+    await GameRegionModel.findOne({ _id: id.gameRegion }, { populate: false })
         .then(async res => {
             res.gameVersions.push(gameVersion)
-            await GameRegionModel.findOneAndUpdate({ _id: id }, { gameVersions: res.gameVersions })
+            await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, { gameVersions: res.gameVersions })
+            // Store uploaded images for the game.
+            let imagesPath = pla + '/' + id.gamePlatform + '/' + id.gameRegion + '/games/' + gameVersion
+            await storeImages(req.gameVersion.images, imagesPath)
         })
 }
 
@@ -161,7 +168,9 @@ export async function updateGame(req, id) {
         comments: req.gameVersion.comments
     })
     // Update stored images for the game.
-    await updateImages(req.gameRegion.images, old.platform, id)
+    let imagesPath = old.platform + '/' + id.gamePlatform + '/' + id.gameRegion
+    await updateImages(req.gameRegion.images, imagesPath)
+    await updateImages(req.gameVersion.images, imagesPath + '/games/' + id.gameVersion)
     // Update stored links for the game.
     await storeLinks(req.gamePlatform, id.gamePlatform)
     // Update game store directory.
@@ -267,11 +276,9 @@ export async function deleteGamesP(req) {
 }
 
 // Store images for a specific game.
-async function storeImages(images, platform, game) {
-    // Set game platform ID.
-    gamePlatform = game ? game : gamePlatform
-    // Set image path for a specific game region.
-    let imagesPath = app.getAppPath() + '/data/' + platform + '/' + gamePlatform + '/' + gameRegion + '/images'
+async function storeImages(images, path) {
+    // Set image path for a specific game.
+    let imagesPath = app.getAppPath() + '/data/' + path + '/images'
     // Ensure images directory creation, even if there are no images.
     ensureDirSync(imagesPath)
     // Add cover image file.
@@ -286,9 +293,11 @@ async function storeImages(images, platform, game) {
 }
 
 // Update stored images for a specific game.
-async function updateImages(images, platform, game) {
-    // Set image path for a specific game region.
-    let imagesPath = app.getAppPath() + '/data/' + platform + '/' + game.gamePlatform + '/' + game.gameRegion + '/images'
+async function updateImages(images, path) {
+    // Set image path for a specific game.
+    let imagesPath = app.getAppPath() + '/data/' + path + '/images'
+    // Ensure images directory creation, even if there are no images.
+    ensureDirSync(imagesPath)
     // Remove cover image file.
     if (images.cover.remove) {
         // The cover image file starts with eight zeroes, followed by eight random characters.

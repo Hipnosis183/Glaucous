@@ -153,9 +153,9 @@
       ref="coverImage"
       v-if="getCover || getPictures[0]"
       @click="viewImagesCoverOpen()"
-      @load="renderReady = true"
+      @load="loadImage()"
       :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
-      class="border-2 border-theme-200 dark:border-theme-900 cursor-pointer m-auto mb-4 object-contain rounded-md"
+      class="cursor-pointer m-auto mb-4 object-contain rounded-md"
       :class="[
         renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : '',
         { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }
@@ -206,6 +206,8 @@ export default {
   },
   data() {
     return {
+      coverWidth: 0,
+      coverHeight: 0,
       imageIndex: null,
       imageFiles: [],
       imagePath: null,
@@ -223,22 +225,48 @@ export default {
   },
   props: [
     'gameInfo',
-    'regionIndex'
+    'regionIndex',
+    'versionIndex'
   ],
   methods: {
     // Images management.
     getImages() {
+      // Store currently selected cover image.
+      let coverOld = this.getCover ? this.getCover : this.getPictures[0]
       // Set the image directory path of the game region.
-      this.imagePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/images'
-      if (existsSync(this.imagePath)) {
+      let gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[this.regionIndex]._id
+      // Check if there are images for the selected game version.
+      this.imagePath = gamePath + '/games/' + this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id + '/images'
+      if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
         // Load images filenames.
         this.imageFiles = readdirSync(this.imagePath)
       }
       else {
-        // Empty image variables.
-        this.imagePath = null
-        this.imageFiles = []
+        // Check if there are images for the selected game region.
+        this.imagePath = gamePath + '/images'
+        if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
+          // Load images filenames.
+          this.imageFiles = readdirSync(this.imagePath)
+        }
+        else {
+          // Empty image variables.
+          this.imagePath = null
+          this.imageFiles = []
+        }
       }
+      // Store newly selected cover image.
+      let coverNew = this.getCover ? this.getCover : this.getPictures[0]
+      // Disable the image resizing.
+      if (coverOld != coverNew) {
+        this.renderReady = false
+      }
+    },
+    loadImage() {
+      // Get image width and height.
+      this.coverWidth = this.$refs.coverImage.clientWidth
+      this.coverHeight = this.$refs.coverImage.clientHeight
+      // Enable the image resizing.
+      this.renderReady = true
     },
     nextImage() {
       if (this.imageIndex < this.getPictures.length - 1) {
@@ -303,14 +331,6 @@ export default {
     this.getImages()
   },
   computed: {
-    coverWidth() {
-      // Dynamically get parent's width.
-      return this.$refs.coverImage.clientWidth
-    },
-    coverHeight() {
-      // Dynamically get parent's height.
-      return this.$refs.coverImage.clientHeight
-    },
     getCover() {
       // Get cover image.
       return this.imageFiles.filter(res => res.startsWith('0'.repeat(8)))[0]
@@ -323,6 +343,11 @@ export default {
   watch: {
     // Watch for game region selection changes.
     regionIndex() {
+      // Load images.
+      this.getImages()
+    },
+    // Watch for game version selection changes.
+    versionIndex() {
       // Load images.
       this.getImages()
     }

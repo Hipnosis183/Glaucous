@@ -2,7 +2,10 @@
   <!-- Form header. -->
   <div class="flex justify-between mb-4 mx-2">
     <!-- Form title. -->
-    <p class="pt-1 text-2xl">New Game Version</p>
+    <div class="flex h-10 space-x-4">
+      <p class="pt-1 text-2xl">New Game Version</p>
+      <form-images showVersion />
+    </div>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
@@ -39,6 +42,7 @@
 // Import form components.
 import {
   FormComments,
+  FormImages,
   FormVersionName,
   FormVersionNumber,
   FormVersionLatest
@@ -53,6 +57,7 @@ export default {
   components: {
     // Form components.
     FormComments,
+    FormImages,
     FormVersionName,
     FormVersionNumber,
     FormVersionLatest,
@@ -65,7 +70,7 @@ export default {
   methods: {
     onSubmit() {
       // Save new game entry.
-      newGameVersion(this.$store.state.gameForm, this.$store.state.gameSelected.gameRegion)
+      newGameVersion(this.$store.state.gameForm, this.$store.state.selectedPlatform, this.$store.state.gameSelected)
         .then(() => this.$emit('close'))
     }
   }
