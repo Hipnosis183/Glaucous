@@ -21,8 +21,8 @@
   <!-- Form header. -->
   <div class="flex justify-between mb-4 mx-2">
     <!-- Form title. -->
-    <div class="flex h-10 space-x-4">
-      <p class="pt-1 text-2xl">New Game Region</p>
+    <div class="flex h-10">
+      <p class="mr-4 pt-1 text-2xl">New Game Region</p>
       <form-images
         showRegion
         showVersion
