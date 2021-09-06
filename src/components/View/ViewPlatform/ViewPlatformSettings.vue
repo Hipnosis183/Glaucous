@@ -24,13 +24,13 @@
       <!-- Settings. -->
       <div class="mb-6">
         <!-- Emulator. -->
-        <view-settings-emulator />
+        <view-settings-emulator settingsType="Platform" />
       </div>
       <div class="space-y-6">
         <!-- Relative games path. -->
         <hip-section-content>
           <p class="text-xl whitespace-nowrap">Relative Games Path</p>
-          <hip-input v-model="relativeGamesPath" />
+          <hip-input v-model="relativePath" />
         </hip-section-content>
         <!-- Image Filtering. -->
         <hip-section-content>
@@ -73,7 +73,7 @@ export default {
     storeSettings() {
       // Store updated settings.
       this.$store.commit('setSettingsPlatformEmulator')
-      this.$store.commit('setSettingsPlatformRelativeGamesPath')
+      this.$store.commit('setSettingsPlatformRelativePath')
       this.$store.commit('setSettingsPlatformImageFiltering')
       this.$emit('close')
     }
@@ -83,9 +83,9 @@ export default {
     this.$store.commit('setPlatformStore')
   },
   computed: {
-    relativeGamesPath: {
-      get() { return this.$store.state.settingsPlatform.relativeGamesPath },
-      set(value) { this.$store.state.settingsPlatform.relativeGamesPath = value }
+    relativePath: {
+      get() { return this.$store.state.settingsPlatform.relativePath },
+      set(value) { this.$store.state.settingsPlatform.relativePath = value }
     },
     imageFiltering: {
       get() { return this.$store.state.settingsPlatform.imageFiltering },

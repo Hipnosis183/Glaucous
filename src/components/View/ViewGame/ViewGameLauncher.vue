@@ -98,7 +98,8 @@ export default {
   data() {
     return {
       changedVersion: false,
-      emulator: null,
+      emulatorGame: null,
+      emulatorPlatform: null,
       emulatorPath: null,
       emulatorFile: app.getAppPath() + '/data/emulators.json',
       gamePath: null,
@@ -127,10 +128,23 @@ export default {
         if (error) { console.log(error); this.launcherError() }
       })
     },
-    // Show errors.
-    launcherError() {
-      // Open game launch error dialog.
-      this.dialog.launcherError = !this.dialog.launcherError
+    loadEmulator() {
+      // Reset emulators.
+      this.emulatorPlatform = null
+      this.emulatorGame = null
+      // Read emulator file.
+      if (existsSync(this.emulatorFile)) {
+        readJSONSync(this.emulatorFile).forEach(res => {
+          if (res.id == this.$store.state.settingsPlatform.emulator) {
+            // Load emulator configuration for the selected platform.
+            this.emulatorPlatform = res
+          }
+          if (res.id == this.$store.state.settingsGame.emulator) {
+            // Load emulator configuration for the selected game.
+            this.emulatorGame = res
+          }
+        })
+      }
     },
     changeVersion(index) {
       this.changedVersion = true
@@ -153,31 +167,33 @@ export default {
     settingsGameClose() {
       // Close settings dialog.
       this.dialog.settingsGame = !this.dialog.settingsGame
+    },
+    // Show errors.
+    launcherError() {
+      // Open game launch error dialog.
+      this.dialog.launcherError = !this.dialog.launcherError
     }
   },
   created() {
-    // Read emulator file.
-    if (existsSync(this.emulatorFile)) {
-      readJSONSync(this.emulatorFile).forEach(res => {
-        if (res.id == this.$store.state.settingsPlatform.emulator) {
-          // Load emulator configuration for the selected game.
-          this.emulator = res
-        }
-      })
-    }
+    // Load emulator.
+    this.loadEmulator()
   },
   computed: {
+    emulator() {
+      return this.$store.state.settingsGame.emulator
+    },
     fullCommand() {
       // Return command to execute.
       return this.fullEmulatorPath + this.fullGamePath
     },
     fullEmulatorPath() {
-      if (this.emulator != null) {
-        let emulatorPath = this.emulator.path + '/' + this.emulator.file
+      let emulator = this.emulatorGame ? this.emulatorGame : this.emulatorPlatform
+      if (emulator != null) {
+        let emulatorPath = emulator.path + '/' + emulator.file
         // Set the platform executable path as the current working directory.
-        this.emulatorPath = this.emulator.path
+        this.emulatorPath = emulator.path
         // Return full platform command.
-        return '"' + emulatorPath + '" ' + (this.emulator.params ? this.emulator.params + ' ' : '')
+        return '"' + emulatorPath + '" ' + (emulator.params ? emulator.params + ' ' : '')
       } else {
         return ''
       }
@@ -185,15 +201,22 @@ export default {
     fullGamePath() {
       // Wait for the settings to be loaded.
       if (this.$store.state.settingsGame.gamePath != null) {
-        let gamePath = (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + this.$store.state.settingsGame.gamePath
+        let gamePath = (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativePath + '/' : '') + this.$store.state.settingsGame.gamePath
         // Set the game path as the current working directory.
         this.gamePath = gamePath
         // Check and replace the '{relative}' and '{game}' variables.
-        let gameParams = this.$store.state.settingsGame.gameParams.replaceAll('{relative}', this.$store.state.settingsPlatform.relativeGamesPath)
+        let gameParams = this.$store.state.settingsGame.gameParams.replaceAll('{relative}', this.$store.state.settingsPlatform.relativePath)
         gameParams = gameParams.replaceAll('{game}', gamePath)
         // Return full game command.
         return (this.$store.state.settingsGame.gameFile ? '"' + gamePath + (this.$store.state.settingsGame.gamePath ? '/' : '') + this.$store.state.settingsGame.gameFile + '" ' : '') + gameParams
       }
+    }
+  },
+  watch: {
+    // Watch for changes on the selected emulator.
+    emulator() {
+      // Reload emulator.
+      this.loadEmulator()
     }
   }
 }

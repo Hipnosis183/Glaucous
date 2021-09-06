@@ -41,10 +41,11 @@ export default createStore({
     selectedPlatform: null,
     settingsPlatform: {
       emulator: null,
-      relativeGamesPath: null,
+      relativePath: null,
       imageFiltering: true,
     },
     settingsGame: {
+      emulator: null,
       gamePath: null,
       gameFile: null,
       gameParams: null,
@@ -227,20 +228,20 @@ export default createStore({
     // Platform settings.
     setPlatformStore(state) {
       platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
-      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', '')
-      state.settingsPlatform.relativeGamesPath = platformStore.get('settingsPlatform.relativeGamesPath', '')
+      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
+      state.settingsPlatform.relativePath = platformStore.get('settingsPlatform.relativePath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     resetPlatformStore(state) {
-      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', '')
-      state.settingsPlatform.relativeGamesPath = platformStore.get('settingsPlatform.relativeGamesPath', '')
+      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
+      state.settingsPlatform.relativePath = platformStore.get('settingsPlatform.relativePath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     setSettingsPlatformEmulator(state) {
       platformStore.set('settingsPlatform.emulator', state.settingsPlatform.emulator)
     },
-    setSettingsPlatformRelativeGamesPath(state) {
-      platformStore.set('settingsPlatform.relativeGamesPath', state.settingsPlatform.relativeGamesPath)
+    setSettingsPlatformRelativePath(state) {
+      platformStore.set('settingsPlatform.relativePath', state.settingsPlatform.relativePath)
     },
     setSettingsPlatformImageFiltering(state) {
       platformStore.set('settingsPlatform.imageFiltering', state.settingsPlatform.imageFiltering)
@@ -248,16 +249,21 @@ export default createStore({
     // Game settings.
     setGameStore(state) {
       gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
+      state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
       state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')
       state.settingsGame.gameParams = gameStore.get('settingsGame.gameParams', '')
       state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
     },
     resetGameStore(state) {
+      state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
       state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')
       state.settingsGame.gameParams = gameStore.get('settingsGame.gameParams', '')
       state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
+    },
+    setSettingsGameEmulator(state) {
+      gameStore.set('settingsGame.emulator', state.settingsGame.emulator)
     },
     setSettingsGameGamePath(state) {
       gameStore.set('settingsGame.gamePath', state.settingsGame.gamePath)

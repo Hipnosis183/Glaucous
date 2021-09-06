@@ -54,7 +54,14 @@
   </hip-dialog>
   <!-- Emulator Setting. -->
   <hip-section-content>
-    <p class="text-xl whitespace-nowrap">Emulator</p>
+    <p
+      v-if="settingsType == 'Platform'"
+      class="text-xl whitespace-nowrap"
+    >Emulator</p>
+    <p
+      v-else
+      class="text-xl whitespace-nowrap"
+    >Emulator Override</p>
     <div class="flex space-x-2 w-full">
       <!-- Create emulator. -->
       <hip-button
@@ -123,9 +130,9 @@ export default {
     HipSectionContent,
     HipSelect
   },
-  emits: [
-    'close'
-  ],
+  props: {
+    settingsType: { type: String }
+  },
   data() {
     return {
       emulatorList: [],
@@ -160,7 +167,7 @@ export default {
     // Edit operations.
     editEmulatorOpen() {
       // Save data of the current emulator into the store.
-      let index = this.emulatorList.findIndex(res => res.id == this.$store.state.settingsPlatform.emulator)
+      let index = this.emulatorList.findIndex(res => res.id == this.emulator)
       this.$store.commit('setEmulatorForm', this.emulatorList[index])
       // Open edit dialog.
       this.dialog.editEmulator = !this.dialog.editEmulator
@@ -192,19 +199,19 @@ export default {
       return a.name.localeCompare(b.name, navigator.language, { numeric: true, ignorePunctuation: true })
     }
   },
-  mounted() {
+  created() {
     // Load emulator list.
     this.loadEmulatorList()
   },
   computed: {
     emulator: {
-      get() { return this.$store.state.settingsPlatform.emulator },
-      set(value) { this.$store.state.settingsPlatform.emulator = value }
+      get() { return this.$store.state['settings' + this.settingsType].emulator },
+      set(value) { this.$store.state['settings' + this.settingsType].emulator = value }
     },
     emulatorName() {
-      if (this.emulator) {
+      if (this.emulator && this.emulatorList.length > 0) {
         let index = this.emulatorList.findIndex(res => res.id == this.emulator)
-        return this.emulatorList[index].name
+        return this.emulatorList[index] ? this.emulatorList[index].name : ''
       }
     }
   }

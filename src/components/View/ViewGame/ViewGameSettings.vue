@@ -23,6 +23,8 @@
       </div>
       <!-- Settings. -->
       <div class="space-y-6">
+        <!-- Emulator override. -->
+        <view-settings-emulator settingsType="Game" />
         <!-- Executable path. -->
         <hip-section-content>
           <p class="text-xl whitespace-nowrap">Game Path</p>
@@ -70,6 +72,8 @@
 </template>
 
 <script>
+// Import form components.
+import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
 // Import UI components.
 import {
   HipButton,
@@ -82,6 +86,8 @@ import {
 export default {
   name: 'ViewGameSettings',
   components: {
+    // Form components.
+    ViewSettingsEmulator,
     // UI components.
     HipButton,
     HipInput,
@@ -95,6 +101,7 @@ export default {
   methods: {
     storeSettings() {
       // Store updated settings.
+      this.$store.commit('setSettingsGameEmulator')
       this.$store.commit('setSettingsGameGamePath')
       this.$store.commit('setSettingsGameGameFile')
       this.$store.commit('setSettingsGameGameParams')

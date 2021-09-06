@@ -578,7 +578,7 @@ export default {
     // Open external directories.
     openGamePath() {
       // Open game file location path in the file manager.
-      shell.openPath((this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativeGamesPath + '/' : '') + this.$store.state.settingsGame.gamePath)
+      shell.openPath((this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativePath + '/' : '') + this.$store.state.settingsGame.gamePath)
     },
     openStorePath() {
       // Open game store location path in the file manager.
