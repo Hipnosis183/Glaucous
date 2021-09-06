@@ -63,9 +63,9 @@
         />
         <!-- Clear select icon. -->
         <div
-          v-if="modelValue && remote && !required"
+          v-if="(modelValue && (remote || (!remote && clearable)) && !required)"
           class="bg-theme-100 dark:bg-theme-800 flex w-max z-0"
-          :class="{ 'rounded-r-xl' : !iconSuffix }"
+          :class="{ 'rounded-r-xl' : remote && !iconSuffix }"
         >
           <div
             @click.stop="clearValue()"
@@ -166,6 +166,7 @@ export default {
   props: {
     modelValue: { type: [Array, String, Number, Boolean, Object], default: '' },
     allowCreate: { type: Boolean, default: false },
+    clearable: { type: Boolean, default: false },
     iconPrefix: { type: String },
     iconSuffix: { type: String },
     label: { type: [String, Number] },
