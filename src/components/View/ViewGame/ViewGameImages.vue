@@ -270,11 +270,13 @@ export default {
       }
     },
     loadImage() {
-      // Get image width and height.
-      this.coverWidth = this.$refs.coverImage.clientWidth
-      this.coverHeight = this.$refs.coverImage.clientHeight
-      // Enable the image resizing.
-      this.renderReady = true
+      if (this.$refs.coverImage) {
+        // Get image width and height.
+        this.coverWidth = this.$refs.coverImage.clientWidth
+        this.coverHeight = this.$refs.coverImage.clientHeight
+        // Enable the image resizing.
+        this.renderReady = true
+      }
     },
     nextImage() {
       if (this.imageIndex < this.getPictures.length - 1) {
