@@ -84,6 +84,7 @@
       <!-- Emulator select. -->
       <hip-select
         v-model="emulator"
+        clearable
         :key="emulatorList"
       >
         <hip-option
