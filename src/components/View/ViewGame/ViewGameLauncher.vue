@@ -68,7 +68,12 @@
 
 <script>
 // Import functions from modules.
+import { app } from '@electron/remote'
 import { exec } from 'child_process'
+import {
+  existsSync,
+  readJSONSync
+} from 'fs-extra'
 // Import form components.
 import ViewGameSettings from './ViewGameSettings.vue'
 // Import UI components.
@@ -93,8 +98,10 @@ export default {
   data() {
     return {
       changedVersion: false,
+      emulator: null,
+      emulatorPath: null,
+      emulatorFile: app.getAppPath() + '/data/emulators.json',
       gamePath: null,
-      platformPath: null,
       dialog: {
         launcherError: false,
         settingsGame: false
@@ -113,7 +120,7 @@ export default {
     launchGame() {
       // Define execution options.
       let gameOptions = {
-        cwd: this.platformPath.length > 0 ? this.platformPath : this.gamePath
+        cwd: this.emulatorPath ? this.emulatorPath.length > 0 ? this.emulatorPath : this.gamePath : this.gamePath
       }
       // Execute command.
       exec(this.fullCommand, gameOptions, (error, stdout, stderr) => {
@@ -148,17 +155,32 @@ export default {
       this.dialog.settingsGame = !this.dialog.settingsGame
     }
   },
+  created() {
+    // Read emulator file.
+    if (existsSync(this.emulatorFile)) {
+      readJSONSync(this.emulatorFile).forEach(res => {
+        if (res.id == this.$store.state.settingsPlatform.emulator) {
+          // Load emulator configuration for the selected game.
+          this.emulator = res
+        }
+      })
+    }
+  },
   computed: {
     fullCommand() {
       // Return command to execute.
-      return this.fullPlatformPath + this.fullGamePath
+      return this.fullEmulatorPath + this.fullGamePath
     },
-    fullPlatformPath() {
-      let platformPath = this.$store.state.settingsPlatform.executablePath + '/' + this.$store.state.settingsPlatform.executableCommand
-      // Set the platform executable path as the current working directory.
-      this.platformPath = this.$store.state.settingsPlatform.executablePath
-      // Empty platform full path if the executable path is empty as well.
-      return this.$store.state.settingsPlatform.executablePath ? platformPath + ' ' : ''
+    fullEmulatorPath() {
+      if (this.emulator != null) {
+        let emulatorPath = this.emulator.path + '/' + this.emulator.file
+        // Set the platform executable path as the current working directory.
+        this.emulatorPath = this.emulator.path
+        // Return full platform command.
+        return '"' + emulatorPath + '" ' + (this.emulator.params ? this.emulator.params + ' ' : '')
+      } else {
+        return ''
+      }
     },
     fullGamePath() {
       // Wait for the settings to be loaded.

@@ -40,8 +40,7 @@ export default createStore({
     },
     selectedPlatform: null,
     settingsPlatform: {
-      executablePath: null,
-      executableCommand: null,
+      emulator: null,
       relativeGamesPath: null,
       imageFiltering: true,
     },
@@ -120,6 +119,13 @@ export default createStore({
       group: false,
       name: null,
       parent: null
+    },
+    emulatorForm: {
+      id: null,
+      name: null,
+      path: null,
+      file: null,
+      params: null
     }
   },
   getters: {
@@ -221,22 +227,17 @@ export default createStore({
     // Platform settings.
     setPlatformStore(state) {
       platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
-      state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
-      state.settingsPlatform.executableCommand = platformStore.get('settingsPlatform.executableCommand', '')
+      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', '')
       state.settingsPlatform.relativeGamesPath = platformStore.get('settingsPlatform.relativeGamesPath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
     resetPlatformStore(state) {
-      state.settingsPlatform.executablePath = platformStore.get('settingsPlatform.executablePath', '')
-      state.settingsPlatform.executableCommand = platformStore.get('settingsPlatform.executableCommand', '')
+      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', '')
       state.settingsPlatform.relativeGamesPath = platformStore.get('settingsPlatform.relativeGamesPath', '')
       state.settingsPlatform.imageFiltering = platformStore.get('settingsPlatform.imageFiltering', true)
     },
-    setSettingsPlatformExecutablePath(state) {
-      platformStore.set('settingsPlatform.executablePath', state.settingsPlatform.executablePath)
-    },
-    setSettingsPlatformExecutableCommand(state) {
-      platformStore.set('settingsPlatform.executableCommand', state.settingsPlatform.executableCommand)
+    setSettingsPlatformEmulator(state) {
+      platformStore.set('settingsPlatform.emulator', state.settingsPlatform.emulator)
     },
     setSettingsPlatformRelativeGamesPath(state) {
       platformStore.set('settingsPlatform.relativeGamesPath', state.settingsPlatform.relativeGamesPath)
@@ -427,6 +428,21 @@ export default createStore({
     },
     setPlatformParent(state, data) {
       state.platformForm.parent = data
+    },
+    // Emulator form.
+    setEmulatorForm(state, data) {
+      state.emulatorForm.id = data.id
+      state.emulatorForm.name = data.name
+      state.emulatorForm.path = data.path
+      state.emulatorForm.file = data.file
+      state.emulatorForm.params = data.params
+    },
+    resetEmulatorForm(state) {
+      state.emulatorForm.id = null
+      state.emulatorForm.name = null
+      state.emulatorForm.path = null
+      state.emulatorForm.file = null
+      state.emulatorForm.params = null
     }
   }
 })

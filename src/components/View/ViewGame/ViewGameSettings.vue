@@ -21,25 +21,25 @@
           ></hip-button>
         </div>
       </div>
+      <!-- Settings. -->
       <div class="space-y-6">
-        <!-- Settings. -->
+        <!-- Executable path. -->
         <hip-section-content>
-          <!-- Executable path. -->
           <p class="text-xl whitespace-nowrap">Game Path</p>
           <hip-input v-model="gamePath" />
         </hip-section-content>
+        <!-- Executable command. -->
         <hip-section-content>
-          <!-- Executable command. -->
           <p class="text-xl whitespace-nowrap">Game File</p>
           <hip-input v-model="gameFile" />
         </hip-section-content>
+        <!-- Executable parameters. -->
         <hip-section-content>
-          <!-- Executable parameters. -->
           <p class="text-xl whitespace-nowrap">Game Parameters *</p>
           <hip-input v-model="gameParams" />
         </hip-section-content>
+        <!-- Relative path. -->
         <hip-section-content class="flex">
-          <!-- Relative path. -->
           <p class="text-xl whitespace-nowrap">Relative Path</p>
           <hip-switch v-model="relativePath" />
         </hip-section-content>

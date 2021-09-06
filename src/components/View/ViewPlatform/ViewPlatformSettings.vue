@@ -21,25 +21,19 @@
           ></hip-button>
         </div>
       </div>
+      <!-- Settings. -->
+      <div class="mb-6">
+        <!-- Emulator. -->
+        <view-settings-emulator />
+      </div>
       <div class="space-y-6">
-        <!-- Settings. -->
+        <!-- Relative games path. -->
         <hip-section-content>
-          <!-- Executable path. -->
-          <p class="text-xl whitespace-nowrap">Executable Path</p>
-          <hip-input v-model="executablePath" />
-        </hip-section-content>
-        <hip-section-content>
-          <!-- Executable command. -->
-          <p class="text-xl whitespace-nowrap">Executable Command</p>
-          <hip-input v-model="executableCommand" />
-        </hip-section-content>
-        <hip-section-content>
-          <!-- Relative games path. -->
           <p class="text-xl whitespace-nowrap">Relative Games Path</p>
           <hip-input v-model="relativeGamesPath" />
         </hip-section-content>
+        <!-- Image Filtering. -->
         <hip-section-content>
-          <!-- Image Filtering. -->
           <p class="text-xl">Image Filtering</p>
           <hip-switch v-model="imageFiltering" />
         </hip-section-content>
@@ -49,6 +43,8 @@
 </template>
 
 <script>
+// Import form components.
+import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
 // Import UI components.
 import {
   HipButton,
@@ -61,6 +57,8 @@ import {
 export default {
   name: 'ViewPlatformSettings',
   components: {
+    // Form components.
+    ViewSettingsEmulator,
     // UI components.
     HipButton,
     HipInput,
@@ -68,11 +66,13 @@ export default {
     HipSectionHeader,
     HipSwitch
   },
+  emits: [
+    'close'
+  ],
   methods: {
     storeSettings() {
       // Store updated settings.
-      this.$store.commit('setSettingsPlatformExecutablePath')
-      this.$store.commit('setSettingsPlatformExecutableCommand')
+      this.$store.commit('setSettingsPlatformEmulator')
       this.$store.commit('setSettingsPlatformRelativeGamesPath')
       this.$store.commit('setSettingsPlatformImageFiltering')
       this.$emit('close')
@@ -83,14 +83,6 @@ export default {
     this.$store.commit('setPlatformStore')
   },
   computed: {
-    executablePath: {
-      get() { return this.$store.state.settingsPlatform.executablePath },
-      set(value) { this.$store.state.settingsPlatform.executablePath = value }
-    },
-    executableCommand: {
-      get() { return this.$store.state.settingsPlatform.executableCommand },
-      set(value) { this.$store.state.settingsPlatform.executableCommand = value }
-    },
     relativeGamesPath: {
       get() { return this.$store.state.settingsPlatform.relativeGamesPath },
       set(value) { this.$store.state.settingsPlatform.relativeGamesPath = value }
