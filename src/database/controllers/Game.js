@@ -41,8 +41,8 @@ export async function newGamePlatform(req, id) {
     // Store uploaded images for the game.
     let imagesPath = req.gamePlatform.platform + '/' + gamePlatform
     await storeImages(req.gamePlatform.images, imagesPath)
-    await storeImages(req.gameRegion.images, imagesPath + '/' + gameRegion)
-    await storeImages(req.gameVersion.images, imagesPath + '/' + gameRegion + '/games/' + gameVersion)
+    await storeImages(req.gameRegion.images, imagesPath + '/games/' + gameRegion)
+    await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameRegion + '/games/' + gameVersion)
     // Store links for the game.
     await storeLinks(req.gamePlatform)
     // Link to other games if an ID is given.
@@ -64,7 +64,7 @@ export async function newGameRegion(req, id) {
             res.gameRegions.push(gameRegion)
             await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, { gameRegions: res.gameRegions })
             // Store uploaded images for the game.
-            let imagesPath = res.platform + '/' + id.gamePlatform + '/' + gameRegion
+            let imagesPath = res.platform + '/' + id.gamePlatform + '/games/' + gameRegion
             await storeImages(req.gameRegion.images, imagesPath)
             await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameVersion)
         })
@@ -80,7 +80,7 @@ export async function newGameVersion(req, pla, id) {
             res.gameVersions.push(gameVersion)
             await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, { gameVersions: res.gameVersions })
             // Store uploaded images for the game.
-            let imagesPath = pla + '/' + id.gamePlatform + '/' + id.gameRegion + '/games/' + gameVersion
+            let imagesPath = pla + '/' + id.gamePlatform + '/games/' + id.gameRegion + '/games/' + gameVersion
             await storeImages(req.gameVersion.images, imagesPath)
         })
 }
@@ -171,8 +171,8 @@ export async function updateGame(req, id) {
     // Update stored images for the game.
     let imagesPath = old.platform + '/' + id.gamePlatform
     await updateImages(req.gamePlatform.images, imagesPath)
-    await updateImages(req.gameRegion.images, imagesPath + '/' + id.gameRegion)
-    await updateImages(req.gameVersion.images, imagesPath + '/' + id.gameRegion + '/games/' + id.gameVersion)
+    await updateImages(req.gameRegion.images, imagesPath + '/games/' + id.gameRegion)
+    await updateImages(req.gameVersion.images, imagesPath + '/games/' + id.gameRegion + '/games/' + id.gameVersion)
     // Update stored links for the game.
     await storeLinks(req.gamePlatform, id.gamePlatform)
     // Update game store directory.
@@ -217,7 +217,7 @@ export async function deleteGameRegion(req, i, del) {
                 await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: res.gameRegions })
             })
         // Remove game region data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
+        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/games/' + req.gameRegions[i]._id)
         // There are other regions for the platform.
         return true
     }
@@ -243,7 +243,7 @@ export async function deleteGameVersion(req, r, v) {
                 await GameRegionModel.findOneAndUpdate({ _id: res._id }, { gameVersions: res.gameVersions })
             })
         // Remove game version data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/games/' + req.gameRegions[r].gameVersions[v]._id)
+        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/games/' + req.gameRegions[r]._id + '/games/' + req.gameRegions[r].gameVersions[v]._id)
         // There are other versions for the region.
         return true
     }
@@ -657,11 +657,11 @@ function getImage(game) {
     let gameVer = game.gameRegions[0].gameVersions[0]._id ? game.gameRegions[0].gameVersions[0]._id : game.gameRegions[0].gameVersions[0]
     // Set the image directory path of the game platform.
     let gamePath = app.getAppPath() + '/data/' + game.platform._id + '/' + game._id
-    let imagePath = gamePath + '/' + game.gameRegions[0]._id + '/games/' + gameVer + '/images'
+    let imagePath = gamePath + '/games/' + game.gameRegions[0]._id + '/games/' + gameVer + '/images'
     ensureDirSync(imagePath)
     // Check if there are images for the selected game version.
     if (!readdirSync(imagePath).length > 0) {
-        imagePath = gamePath + '/' + game.gameRegions[0]._id + '/images'
+        imagePath = gamePath + '/games/' + game.gameRegions[0]._id + '/images'
         ensureDirSync(imagePath)
         // Check if there are images for the selected game region.
         if (!readdirSync(imagePath).length > 0) {

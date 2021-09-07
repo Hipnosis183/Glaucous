@@ -236,14 +236,14 @@ export default {
       // Set the image directory path of the game platform.
       let gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id
       // Check if there are images for the selected game version.
-      this.imagePath = gamePath + '/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/games/' + this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id + '/images'
+      this.imagePath = gamePath + '/games/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/games/' + this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id + '/images'
       if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
         // Load images filenames.
         this.imageFiles = readdirSync(this.imagePath)
       }
       else {
         // Check if there are images for the selected game region.
-        this.imagePath = gamePath + '/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/images'
+        this.imagePath = gamePath + '/games/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/images'
         if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
           // Load images filenames.
           this.imageFiles = readdirSync(this.imagePath)

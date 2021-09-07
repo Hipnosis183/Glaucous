@@ -185,13 +185,13 @@ export default {
         }
         // Set the working variables for the game region images.
         case 'gameRegion': {
-          this.imagePath = basePath + '/' + this.$store.state.gameSelected.gameRegion + '/images'
+          this.imagePath = basePath + '/games/' + this.$store.state.gameSelected.gameRegion + '/images'
           this.gameTypeName = 'Region'
           break
         }
         // Set the working variables for the game version images.
         case 'gameVersion': {
-          this.imagePath = basePath + '/' + this.$store.state.gameSelected.gameRegion + '/games/' + this.$store.state.gameSelected.gameVersion + '/images'
+          this.imagePath = basePath + '/games/' + this.$store.state.gameSelected.gameRegion + '/games/' + this.$store.state.gameSelected.gameVersion + '/images'
           this.gameTypeName = 'Version'
           break
         }

@@ -248,7 +248,7 @@ export default createStore({
     },
     // Game settings.
     setGameStore(state) {
-      gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
+      gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/games/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
       state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
       state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
       state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')

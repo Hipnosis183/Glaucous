@@ -399,7 +399,7 @@ export default {
           this.$store.state.gameSelected.gameRegion = res.gameRegions[this.regionIndex]._id
           this.$store.state.gameSelected.gameVersion = res.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id
           // Set game store path.
-          this.gamePath = app.getAppPath() + '/data/' + res.platform._id + '/' + res._id + '/' + res.gameRegions[this.regionIndex]._id
+          this.gamePath = app.getAppPath() + '/data/' + res.platform._id + '/' + res._id + '/games/' + res.gameRegions[this.regionIndex]._id
         })
     },
     loadLinks(res) {
@@ -545,7 +545,7 @@ export default {
       this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[sel]._id
       this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[this.versionIndex]._id
       // Update game store path.
-      this.gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/' + this.gameInfo.gameRegions[sel]._id
+      this.gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/games/' + this.gameInfo.gameRegions[sel]._id
     },
     nextRegion() {
       if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {
