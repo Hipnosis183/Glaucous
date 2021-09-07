@@ -98,7 +98,7 @@
         />
       </div>
       <div class="flex-shrink-0 ml-2 my-auto w-28">
-        <settings-cards-mode-sm />
+        <settings-cards-mode />
       </div>
       <!-- Horizontal padding. -->
       <div class="w-full"></div>
@@ -155,7 +155,7 @@
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditPlatform from '../Edit/EditPlatform.vue'
-import SettingsCardsModeSm from '../Settings/SettingsCards/SettingsCardsModeSm.vue'
+import SettingsCardsMode from '../Settings/SettingsCards/SettingsCardsMode.vue'
 import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
 // Import UI components.
 import {
@@ -183,7 +183,7 @@ export default {
     // Form components.
     CreateGamePlatform,
     EditPlatform,
-    SettingsCardsModeSm,
+    SettingsCardsMode,
     ViewPlatformSettings,
     // UI components.
     HipButton,

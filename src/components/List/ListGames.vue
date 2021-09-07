@@ -28,7 +28,7 @@
         />
       </div>
       <div class="flex-shrink-0 ml-2 my-auto w-28">
-        <settings-cards-mode-sm />
+        <settings-cards-mode />
       </div>
     </hip-nav-bar>
     <!-- Show games list. -->
@@ -75,7 +75,7 @@
 <script>
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import SettingsCardsModeSm from '../Settings/SettingsCards/SettingsCardsModeSm.vue'
+import SettingsCardsMode from '../Settings/SettingsCards/SettingsCardsMode.vue'
 // Import UI components.
 import {
   HipButtonNb,
@@ -99,7 +99,7 @@ export default {
   components: {
     // Form components.
     CreateGamePlatform,
-    SettingsCardsModeSm,
+    SettingsCardsMode,
     // UI components.
     HipButtonNb,
     HipCard,

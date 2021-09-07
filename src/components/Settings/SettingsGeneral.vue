@@ -1,10 +1,10 @@
 <template>
   <!-- Header. -->
   <hip-section-header label="General Options">
-    <!-- Options. -->
+    <!-- Edit mode. -->
     <hip-section-content>
-      <!-- Edit mode. -->
-      <settings-general-edit-mode />
+      <p class="text-xl">Edit mode</p>
+      <hip-switch v-model="editMode" />
     </hip-section-content>
   </hip-section-header>
 </template>
@@ -13,10 +13,9 @@
 // Import UI components.
 import {
   HipSectionContent,
-  HipSectionHeader
+  HipSectionHeader,
+  HipSwitch
 } from '../Component'
-// Import settings components.
-import SettingsGeneralEditMode from './SettingsGeneral/SettingsGeneralEditMode.vue'
 
 export default {
   name: 'SettingsGeneral',
@@ -24,8 +23,13 @@ export default {
     // UI components.
     HipSectionContent,
     HipSectionHeader,
-    // Settings components.
-    SettingsGeneralEditMode
+    HipSwitch
+  },
+  computed: {
+    editMode: {
+      get() { return this.$store.getters.getSettingsGeneralEditMode },
+      set() { this.$store.commit('setSettingsGeneralEditMode') }
+    }
   }
 }
 </script>

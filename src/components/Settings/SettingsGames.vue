@@ -1,10 +1,10 @@
 <template>
   <!-- Header. -->
   <hip-section-header label="Games Options">
-    <!-- Options. -->
+    <!-- View platform groups. -->
     <hip-section-content>
-      <!-- View platform groups. -->
-      <settings-games-view-groups />
+      <p class="text-xl">View platform groups</p>
+      <hip-switch v-model="groupsView" />
     </hip-section-content>
   </hip-section-header>
 </template>
@@ -13,10 +13,9 @@
 // Import UI components.
 import {
   HipSectionContent,
-  HipSectionHeader
+  HipSectionHeader,
+  HipSwitch
 } from '../Component'
-// Import settings components.
-import SettingsGamesViewGroups from './SettingsGames/SettingsGamesViewGroups.vue'
 
 export default {
   name: 'SettingsGames',
@@ -24,8 +23,13 @@ export default {
     // UI components.
     HipSectionContent,
     HipSectionHeader,
-    // Settings components.
-    SettingsGamesViewGroups
+    HipSwitch
+  },
+  computed: {
+    groupsView: {
+      get() { return this.$store.getters.getSettingsGamesGroupsView },
+      set() { this.$store.commit('setSettingsGamesGroupsView') }
+    }
   }
 }
 </script>

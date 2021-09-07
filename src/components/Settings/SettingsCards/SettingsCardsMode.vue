@@ -1,8 +1,7 @@
 <template>
-  <p class="text-xl">View mode</p>
   <hip-select
     v-model="cardMode"
-    class="w-max"
+    class="w-auto"
   >
     <hip-option
       v-for="item in cardViews"
