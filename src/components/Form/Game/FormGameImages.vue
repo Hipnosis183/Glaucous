@@ -1,6 +1,6 @@
 <template>
   <!-- Show game platform images dialog. -->
-  <form-images-view
+  <form-game-images-view
     v-show="dialog.viewImagesPlatform"
     :show="dialog.viewImagesPlatform"
     :editForm="editForm"
@@ -8,7 +8,7 @@
     @close="viewImagesPlatformOpen()"
   />
   <!-- Show game region images dialog. -->
-  <form-images-view
+  <form-game-images-view
     v-show="dialog.viewImagesRegion"
     :show="dialog.viewImagesRegion"
     :editForm="editForm"
@@ -16,7 +16,7 @@
     @close="viewImagesRegionOpen()"
   />
   <!-- Show game version images dialog. -->
-  <form-images-view
+  <form-game-images-view
     v-show="dialog.viewImagesVersion"
     :show="dialog.viewImagesVersion"
     :editForm="editForm"
@@ -47,15 +47,15 @@
 
 <script>
 // Import form components.
-import FormImagesView from './FormImagesView.vue'
+import FormGameImagesView from './FormGameImagesView.vue'
 // Import UI components.
-import { HipInputButton } from '../Component'
+import { HipInputButton } from '../../Component'
 
 export default {
-  name: 'FormImages',
+  name: 'FormGameImages',
   components: {
     // Form components.
-    FormImagesView,
+    FormGameImagesView,
     // UI components.
     HipInputButton
   },

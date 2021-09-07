@@ -22,12 +22,12 @@
 import {
   HipOption,
   HipSelect
-} from '../Component'
+} from '../../Component'
 // Import database platform functions.
 import {
   getPlatform,
   getPlatformGroupByName
-} from '../../database/controllers/Platform'
+} from '../../../database/controllers/Platform'
 
 export default {
   name: 'FormPlatformParent',

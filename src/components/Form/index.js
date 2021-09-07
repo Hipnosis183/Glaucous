@@ -1,57 +1,71 @@
-import FormComments from './FormComments.vue'
-import FormDeveloper from './FormDeveloper.vue'
-import FormDeveloperName from './FormDeveloperName.vue'
-import FormEmulatorFile from './FormEmulatorFile.vue'
-import FormEmulatorName from './FormEmulatorName.vue'
-import FormEmulatorParams from './FormEmulatorParams.vue'
-import FormEmulatorPath from './FormEmulatorPath.vue'
-import FormImages from './FormImages.vue'
-import FormImagesView from './FormImagesView.vue'
-import FormLinks from './FormLinks.vue'
-import FormNumberPlayers from './FormNumberPlayers.vue'
-import FormOriginalTitle from './FormOriginalTitle.vue'
-import FormPlatform from './FormPlatform.vue'
-import FormPlatformName from './FormPlatformName.vue'
-import FormPlatformParent from './FormPlatformParent.vue'
-import FormPlatformGroup from './FormPlatformGroup.vue'
-import FormRegion from './FormRegion.vue'
-import FormPreTitle from './FormPreTitle.vue'
-import FormReleaseYear from './FormReleaseYear.vue'
-import FormRomanizedTitle from './FormRomanizedTitle.vue'
-import FormSerial from './FormSerial.vue'
-import FormSubTitle from './FormSubTitle.vue'
-import FormTitle from './FormTitle.vue'
-import FormTranslatedTitle from './FormTranslatedTitle.vue'
-import FormVersionName from './FormVersionName.vue'
-import FormVersionLatest from './FormVersionLatest.vue'
-import FormVersionNumber from './FormVersionNumber.vue'
+// Developer form.
+import FormDeveloperName from './Developer/FormDeveloperName.vue'
+// Emulator form.
+import FormEmulatorFile from './Emulator/FormEmulatorFile.vue'
+import FormEmulatorName from './Emulator/FormEmulatorName.vue'
+import FormEmulatorParams from './Emulator/FormEmulatorParams.vue'
+import FormEmulatorPath from './Emulator/FormEmulatorPath.vue'
+// Platform form.
+import FormPlatformGroup from './Platform/FormPlatformGroup.vue'
+import FormPlatformName from './Platform/FormPlatformName.vue'
+import FormPlatformParent from './Platform/FormPlatformParent.vue'
+// Game form.
+import FormGameImages from './Game/FormGameImages.vue'
+import FormGameImagesView from './Game/FormGameImagesView.vue'
+// Game platform form.
+import FormGamePlatformDeveloper from './Game/Platform/FormGamePlatformDeveloper.vue'
+import FormGamePlatformLinks from './Game/Platform/FormGamePlatformLinks.vue'
+import FormGamePlatformNumberPlayers from './Game/Platform/FormGamePlatformNumberPlayers.vue'
+import FormGamePlatformPlatform from './Game/Platform/FormGamePlatformPlatform.vue'
+import FormGamePlatformReleaseYear from './Game/Platform/FormGamePlatformReleaseYear.vue'
+import FormGamePlatformSerial from './Game/Platform/FormGamePlatformSerial.vue'
+// Game region form.
+import FormGameRegionOriginalTitle from './Game/Region/FormGameRegionOriginalTitle.vue'
+import FormGameRegionPreTitle from './Game/Region/FormGameRegionPreTitle.vue'
+import FormGameRegionRegion from './Game/Region/FormGameRegionRegion.vue'
+import FormGameRegionRomanizedTitle from './Game/Region/FormGameRegionRomanizedTitle.vue'
+import FormGameRegionSubTitle from './Game/Region/FormGameRegionSubTitle.vue'
+import FormGameRegionTitle from './Game/Region/FormGameRegionTitle.vue'
+import FormGameRegionTranslatedTitle from './Game/Region/FormGameRegionTranslatedTitle.vue'
+// Game version form.
+import FormGameVersionComments from './Game/Version/FormGameVersionComments.vue'
+import FormGameVersionLatest from './Game/Version/FormGameVersionLatest.vue'
+import FormGameVersionName from './Game/Version/FormGameVersionName.vue'
+import FormGameVersionNumber from './Game/Version/FormGameVersionNumber.vue'
 
 export {
-    FormComments,
-    FormDeveloper,
+    // Developer form.
     FormDeveloperName,
+    // Emulator form.
     FormEmulatorFile,
     FormEmulatorName,
     FormEmulatorParams,
     FormEmulatorPath,
-    FormImages,
-    FormImagesView,
-    FormLinks,
-    FormNumberPlayers,
-    FormOriginalTitle,
-    FormPlatform,
+    // Platform form.
+    FormPlatformGroup,
     FormPlatformName,
     FormPlatformParent,
-    FormPlatformGroup,
-    FormPreTitle,
-    FormRegion,
-    FormReleaseYear,
-    FormRomanizedTitle,
-    FormSerial,
-    FormSubTitle,
-    FormTitle,
-    FormTranslatedTitle,
-    FormVersionName,
-    FormVersionLatest,
-    FormVersionNumber
+    // Game form.
+    FormGameImages,
+    FormGameImagesView,
+    // Game platform form.
+    FormGamePlatformDeveloper,
+    FormGamePlatformLinks,
+    FormGamePlatformNumberPlayers,
+    FormGamePlatformPlatform,
+    FormGamePlatformReleaseYear,
+    FormGamePlatformSerial,
+    // Game region form.
+    FormGameRegionOriginalTitle,
+    FormGameRegionPreTitle,
+    FormGameRegionRegion,
+    FormGameRegionRomanizedTitle,
+    FormGameRegionSubTitle,
+    FormGameRegionTitle,
+    FormGameRegionTranslatedTitle,
+    // Game version form.
+    FormGameVersionComments,
+    FormGameVersionLatest,
+    FormGameVersionName,
+    FormGameVersionNumber
 }

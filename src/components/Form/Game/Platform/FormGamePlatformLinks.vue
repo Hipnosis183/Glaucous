@@ -83,10 +83,10 @@ import {
   HipDialog,
   HipInput,
   HipInputButton
-} from '../Component'
+} from '../../../Component'
 
 export default {
-  name: 'FormLinks',
+  name: 'FormGamePlatformLinks',
   components: {
     // UI components.
     HipButton,

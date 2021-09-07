@@ -64,10 +64,10 @@ import {
   HipDialog,
   HipInput,
   HipInputButton
-} from '../Component'
+} from '../../../Component'
 
 export default {
-  name: 'FormComments',
+  name: 'FormGameVersionComments',
   components: {
     // UI components.
     HipButton,

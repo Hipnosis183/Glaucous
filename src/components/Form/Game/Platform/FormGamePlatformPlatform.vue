@@ -25,15 +25,15 @@
 import {
   HipOption,
   HipSelect
-} from '../Component'
+} from '../../../Component'
 // Import database platform functions.
 import {
   getPlatform,
   getPlatformByName
-} from '../../database/controllers/Platform'
+} from '../../../../database/controllers/Platform'
 
 export default {
-  name: 'FormPlatform',
+  name: 'FormGamePlatformPlatform',
   components: {
     // UI components.
     HipOption,

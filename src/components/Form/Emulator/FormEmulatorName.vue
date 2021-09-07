@@ -1,27 +1,27 @@
 <template>
-  <!-- Name input. -->
+  <!-- Emulator name input. -->
   <hip-input
     v-model="name"
     label="Name"
     placeholder="Required"
     required
-  ></hip-input>
+  />
 </template>
 
 <script>
 // Import UI components.
-import { HipInput } from '../Component'
+import { HipInput } from '../../Component'
 
 export default {
-  name: 'FormPlatformName',
+  name: 'FormEmulatorName',
   components: {
     // UI components.
     HipInput
   },
   computed: {
     name: {
-      get() { return this.$store.state.platformForm.name },
-      set(value) { this.$store.commit('setPlatformName', value) }
+      get() { return this.$store.state.emulatorForm.name },
+      set(value) { this.$store.state.emulatorForm.name = value }
     }
   }
 }

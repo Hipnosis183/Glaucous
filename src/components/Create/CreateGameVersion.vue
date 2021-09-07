@@ -4,7 +4,7 @@
     <!-- Form title. -->
     <div class="flex h-10">
       <p class="mr-4 pt-1 text-2xl">New Game Version</p>
-      <form-images showVersion />
+      <form-game-images showVersion />
     </div>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
@@ -25,27 +25,27 @@
     <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
-        <form-version-name />
+        <form-game-version-name />
       </div>
       <div class="w-1/2">
         <div class="flex space-x-4">
-          <form-version-number />
-          <form-version-latest />
+          <form-game-version-number />
+          <form-game-version-latest />
         </div>
       </div>
     </div>
-    <form-comments />
+    <form-game-version-comments />
   </form>
 </template>
 
 <script>
 // Import form components.
 import {
-  FormComments,
-  FormImages,
-  FormVersionName,
-  FormVersionNumber,
-  FormVersionLatest
+  FormGameImages,
+  FormGameVersionComments,
+  FormGameVersionLatest,
+  FormGameVersionName,
+  FormGameVersionNumber
 } from '../Form'
 // Import UI components.
 import { HipButton } from '../Component'
@@ -56,11 +56,11 @@ export default {
   name: 'CreateGameRegion',
   components: {
     // Form components.
-    FormComments,
-    FormImages,
-    FormVersionName,
-    FormVersionNumber,
-    FormVersionLatest,
+    FormGameImages,
+    FormGameVersionComments,
+    FormGameVersionLatest,
+    FormGameVersionName,
+    FormGameVersionNumber,
     // UI components.
     HipButton
   },

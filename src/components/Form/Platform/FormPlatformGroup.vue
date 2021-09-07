@@ -8,7 +8,7 @@
 
 <script>
 // Import UI components.
-import { HipSwitch } from '../Component'
+import { HipSwitch } from '../../Component'
 
 export default {
   name: 'FormPlatformGroup',

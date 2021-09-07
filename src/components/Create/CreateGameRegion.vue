@@ -23,7 +23,7 @@
     <!-- Form title. -->
     <div class="flex h-10">
       <p class="mr-4 pt-1 text-2xl">New Game Region</p>
-      <form-images
+      <form-game-images
         showRegion
         showVersion
       />
@@ -47,45 +47,45 @@
     <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
-        <form-region />
-        <form-title />
-        <form-pre-title />
-        <form-sub-title />
+        <form-game-region-region />
+        <form-game-region-title />
+        <form-game-region-pre-title />
+        <form-game-region-sub-title />
       </div>
       <div class="w-1/2">
-        <form-original-title />
-        <form-romanized-title />
-        <form-translated-title />
+        <form-game-region-original-title />
+        <form-game-region-romanized-title />
+        <form-game-region-translated-title />
         <div class="flex space-x-4">
-          <form-serial />
-          <form-version-name />
+          <form-game-platform-serial />
+          <form-game-version-name />
         </div>
         <div class="flex space-x-4">
-          <form-version-number />
-          <form-version-latest />
+          <form-game-version-number />
+          <form-game-version-latest />
         </div>
       </div>
     </div>
-    <form-comments />
+    <form-game-version-comments />
   </form>
 </template>
 
 <script>
 // Import form components.
 import {
-  FormComments,
-  FormImages,
-  FormOriginalTitle,
-  FormPreTitle,
-  FormRegion,
-  FormRomanizedTitle,
-  FormSerial,
-  FormSubTitle,
-  FormTitle,
-  FormTranslatedTitle,
-  FormVersionName,
-  FormVersionNumber,
-  FormVersionLatest
+  FormGameImages,
+  FormGamePlatformSerial,
+  FormGameRegionOriginalTitle,
+  FormGameRegionPreTitle,
+  FormGameRegionRegion,
+  FormGameRegionRomanizedTitle,
+  FormGameRegionSubTitle,
+  FormGameRegionTitle,
+  FormGameRegionTranslatedTitle,
+  FormGameVersionComments,
+  FormGameVersionLatest,
+  FormGameVersionName,
+  FormGameVersionNumber
 } from '../Form'
 // Import UI components.
 import {
@@ -99,19 +99,19 @@ export default {
   name: 'CreateGameRegion',
   components: {
     // Form components.
-    FormComments,
-    FormImages,
-    FormOriginalTitle,
-    FormPreTitle,
-    FormRegion,
-    FormRomanizedTitle,
-    FormSerial,
-    FormSubTitle,
-    FormTitle,
-    FormTranslatedTitle,
-    FormVersionName,
-    FormVersionNumber,
-    FormVersionLatest,
+    FormGameImages,
+    FormGamePlatformSerial,
+    FormGameRegionOriginalTitle,
+    FormGameRegionPreTitle,
+    FormGameRegionRegion,
+    FormGameRegionRomanizedTitle,
+    FormGameRegionSubTitle,
+    FormGameRegionTitle,
+    FormGameRegionTranslatedTitle,
+    FormGameVersionComments,
+    FormGameVersionLatest,
+    FormGameVersionName,
+    FormGameVersionNumber,
     // UI components.
     HipButton,
     HipDialog

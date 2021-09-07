@@ -8,10 +8,10 @@
 
 <script>
 // Import UI components.
-import { HipInput } from '../Component'
+import { HipInput } from '../../../Component'
 
 export default {
-  name: 'FormRomanizedTitle',
+  name: 'FormGameRegionRomanizedTitle',
   components: {
     // UI components.
     HipInput

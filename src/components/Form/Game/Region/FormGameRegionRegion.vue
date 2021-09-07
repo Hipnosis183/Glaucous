@@ -32,16 +32,16 @@
 
 <script>
 // Import region data.
-import Regions from '../../../public/files/flags-g.json'
+import Regions from '../../../../../public/files/flags-g.json'
 // Import UI components.
 import {
   HipOption,
   HipOptionGroup,
   HipSelect
-} from '../Component'
+} from '../../../Component'
 
 export default {
-  name: 'FormRegion',
+  name: 'FormGameRegionRegion',
   components: {
     // UI components.
     HipOption,

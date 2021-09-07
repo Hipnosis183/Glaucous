@@ -146,10 +146,10 @@ import {
   HipButton,
   HipModal,
   HipOverlay
-} from '../Component'
+} from '../../Component'
 
 export default {
-  name: 'FormImagesView',
+  name: 'FormGameImagesView',
   components: {
     // UI components.
     HipButton,

@@ -25,15 +25,15 @@
 import {
   HipOption,
   HipSelect
-} from '../Component'
+} from '../../../Component'
 // Import database developer functions.
 import {
   getDeveloper,
   getDeveloperByName
-} from '../../database/controllers/Developer'
+} from '../../../../database/controllers/Developer'
 
 export default {
-  name: 'FormDeveloper',
+  name: 'FormGamePlatformDeveloper',
   components: {
     // UI components.
     HipOption,

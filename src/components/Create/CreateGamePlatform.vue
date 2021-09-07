@@ -23,7 +23,7 @@
     <!-- Form title. -->
     <div class="flex h-10">
       <p class="mr-4 pt-1 text-2xl">New Game Entry</p>
-      <form-images
+      <form-game-images
         showPlatform
         showRegion
         showVersion
@@ -48,33 +48,33 @@
     <!-- Form components. -->
     <div class="flex space-x-4">
       <div class="w-1/2">
-        <form-title />
-        <form-pre-title />
-        <form-sub-title />
-        <form-original-title />
-        <form-romanized-title />
-        <form-translated-title />
+        <form-game-region-title />
+        <form-game-region-pre-title />
+        <form-game-region-sub-title />
+        <form-game-region-original-title />
+        <form-game-region-romanized-title />
+        <form-game-region-translated-title />
       </div>
       <div class="w-1/2">
         <div class="flex space-x-4">
-          <form-region />
-          <form-serial />
+          <form-game-region-region />
+          <form-game-platform-serial />
         </div>
         <div class="flex space-x-4">
-          <form-developer :gameDeveloper="gameDeveloper" />
-          <form-platform :gamePlatform="gamePlatform" />
+          <form-game-platform-developer :gameDeveloper="gameDeveloper" />
+          <form-game-platform-platform :gamePlatform="gamePlatform" />
         </div>
         <div class="flex space-x-4">
-          <form-release-year />
-          <form-number-players />
+          <form-game-platform-release-year />
+          <form-game-platform-number-players />
         </div>
-        <form-version-name />
+        <form-game-version-name />
         <div class="flex space-x-4">
-          <form-version-number />
-          <form-version-latest />
+          <form-game-version-number />
+          <form-game-version-latest />
         </div>
-        <form-comments />
-        <form-links />
+        <form-game-version-comments />
+        <form-game-platform-links />
       </div>
     </div>
   </form>
@@ -83,24 +83,24 @@
 <script>
 // Import form components.
 import {
-  FormComments,
-  FormDeveloper,
-  FormImages,
-  FormLinks,
-  FormNumberPlayers,
-  FormOriginalTitle,
-  FormPlatform,
-  FormPreTitle,
-  FormRegion,
-  FormReleaseYear,
-  FormRomanizedTitle,
-  FormSerial,
-  FormSubTitle,
-  FormTitle,
-  FormTranslatedTitle,
-  FormVersionName,
-  FormVersionNumber,
-  FormVersionLatest
+  FormGameImages,
+  FormGamePlatformDeveloper,
+  FormGamePlatformLinks,
+  FormGamePlatformNumberPlayers,
+  FormGamePlatformPlatform,
+  FormGamePlatformReleaseYear,
+  FormGamePlatformSerial,
+  FormGameRegionOriginalTitle,
+  FormGameRegionPreTitle,
+  FormGameRegionRegion,
+  FormGameRegionRomanizedTitle,
+  FormGameRegionSubTitle,
+  FormGameRegionTitle,
+  FormGameRegionTranslatedTitle,
+  FormGameVersionComments,
+  FormGameVersionLatest,
+  FormGameVersionName,
+  FormGameVersionNumber
 } from '../Form'
 // Import UI components.
 import {
@@ -122,24 +122,24 @@ export default {
   name: 'CreateGamePlatform',
   components: {
     // Form components.
-    FormComments,
-    FormDeveloper,
-    FormImages,
-    FormLinks,
-    FormNumberPlayers,
-    FormOriginalTitle,
-    FormPlatform,
-    FormPreTitle,
-    FormRegion,
-    FormReleaseYear,
-    FormRomanizedTitle,
-    FormSerial,
-    FormSubTitle,
-    FormTitle,
-    FormTranslatedTitle,
-    FormVersionName,
-    FormVersionNumber,
-    FormVersionLatest,
+    FormGameImages,
+    FormGamePlatformDeveloper,
+    FormGamePlatformLinks,
+    FormGamePlatformNumberPlayers,
+    FormGamePlatformPlatform,
+    FormGamePlatformReleaseYear,
+    FormGamePlatformSerial,
+    FormGameRegionOriginalTitle,
+    FormGameRegionPreTitle,
+    FormGameRegionRegion,
+    FormGameRegionRomanizedTitle,
+    FormGameRegionSubTitle,
+    FormGameRegionTitle,
+    FormGameRegionTranslatedTitle,
+    FormGameVersionComments,
+    FormGameVersionLatest,
+    FormGameVersionName,
+    FormGameVersionNumber,
     // UI components.
     HipButton,
     HipDialog
