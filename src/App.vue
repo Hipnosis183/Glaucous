@@ -25,28 +25,32 @@
 
 <script>
 // Import sidenav component.
-import SideNav from './components/SideNav.vue'
+import SideNav from '@/components/SideNav.vue'
 // Import settings objects and functions.
-import { selectCardColumns } from './settings'
+import { selectCardColumns } from '@/settings'
 // Import theme objects and functions.
 import {
-  colors,
   selectColor,
-  selectTheme,
-  themes
-} from './theme'
+  selectTheme
+} from '@/theme'
+
+// Import Vue functions.
+import { useStore } from 'vuex'
 
 export default {
   components: {
     SideNav
   },
-  created() {
+  setup() {
+    // Instantiate Vuex store.
+    const store = useStore()
+
     // Set theme stored in the configuration.
-    selectTheme(themes[this.$store.getters.getSettingsThemesSelectedTheme].codes)
+    selectTheme(store.getters.getSettingsThemesSelectedTheme)
     // Set color theme stored in the configuration.
-    selectColor(colors[this.$store.getters.getSettingsThemesSelectedColor].codes)
+    selectColor(store.getters.getSettingsThemesSelectedColor)
     // Set number of columns of lists in the configuration.
-    selectCardColumns(this.$store.getters.getSettingsCardsCardColumns)
+    selectCardColumns(store.getters.getSettingsCardsCardColumns)
   }
 }
 </script>

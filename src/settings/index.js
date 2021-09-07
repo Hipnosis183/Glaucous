@@ -25,6 +25,6 @@ export const googleKeys = [
 ]
 
 // Set the amount of columns to be displayed on card views.
-export async function selectCardColumns(col) {
+export const selectCardColumns = (col) => {
     document.documentElement.style.setProperty('--grid-cols-view', col)
 }
