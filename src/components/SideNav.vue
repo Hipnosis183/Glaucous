@@ -142,6 +142,8 @@ import { HipButtonSb } from '@/components/Component'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+// Import utility functions.
+import { throttle } from '@/utils/throttle'
 
 export default {
   components: {
@@ -168,9 +170,9 @@ export default {
     })
 
     // Toggle sidenav visibility.
-    const sidenavToggle = () => {
+    const sidenavToggle = throttle(() => {
       expand.value = !expand.value
-    }
+    }, 500)
 
     // Manage search dialog display.
     let searchDialog = ref(false)
@@ -198,7 +200,7 @@ export default {
 <style scoped>
 /* Transitions. */
 div {
-  transition: background-color 1s, opacity 0.5s ease;
+  transition: background-color 0.5s, opacity 0.5s ease;
 }
 .slide-nav-leave-active,
 .slide-nav-enter-active {
