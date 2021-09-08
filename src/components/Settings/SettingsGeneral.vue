@@ -15,7 +15,11 @@ import {
   HipSectionContent,
   HipSectionHeader,
   HipSwitch
-} from '../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'SettingsGeneral',
@@ -25,10 +29,18 @@ export default {
     HipSectionHeader,
     HipSwitch
   },
-  computed: {
-    editMode: {
-      get() { return this.$store.getters.getSettingsGeneralEditMode },
-      set() { this.$store.commit('setSettingsGeneralEditMode') }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage settings in the store.
+    const editMode = computed({
+      get() { return store.getters.getSettingsGeneralEditMode },
+      set() { store.commit('setSettingsGeneralEditMode') }
+    })
+
+    return {
+      editMode
     }
   }
 }

@@ -1,5 +1,5 @@
 // Theme color values.
-const colors = [
+export const colors = [
     { i: 0, name: 'Red', codes: ['#FEE2E2', '#FECACA', '#FCA5A5', '#F87171', '#EF4444', '#DC2626', '#B91C1C', '#991B1B', '#7F1D1D'] },
     { i: 1, name: 'Orange', codes: ['#FFEDD5', '#FED7AA', '#FDBA74', '#FB923C', '#F97316', '#EA580C', '#C2410C', '#9A3412', '#7C2D12'] },
     { i: 2, name: 'Amber', codes: ['#FEF3C7', '#FDE68A', '#FCD34D', '#FBBF24', '#F59E0B', '#D97706', '#B45309', '#92400E', '#78350F'] },
@@ -22,7 +22,7 @@ const colors = [
 ]
 
 // Theme dark/light values.
-const themes = [
+export const themes = [
     { i: 0, name: 'Default', codes: ['#FFFFFF', '#F4F4F5', '#E4E4E7', '#D4D4D8', '#A1A1AA', '#71717A', '#52525B', '#3F3F46', '#27272A', '#18181B'] },
     { i: 1, name: 'Dark', codes: ['#F0F6FC', '#C9D1D9', '#B1BAC4', '#8B949E', '#6E7681', '#484F58', '#30363D', '#21262D', '#161B22', '#0D1117'] },
     { i: 2, name: 'Cool Gray', codes: ['#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB', '#9CA3AF', '#6B7280', '#4B5563', '#374151', '#1F2937', '#111827'] },

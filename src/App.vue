@@ -58,6 +58,6 @@ export default {
 <style scoped>
 /* Transitions. */
 .bg-transition {
-  transition: background-color 1s;
+  transition: background-color 0.5s;
 }
 </style>
