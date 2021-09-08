@@ -146,6 +146,7 @@ import { useStore } from 'vuex'
 import { throttle } from '@/utils/throttle'
 
 export default {
+  name: 'SideNav',
   components: {
     // UI components.
     HipButtonSb,

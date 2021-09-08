@@ -68,7 +68,7 @@
           v-for="game in queryResults"
           :key="game._id"
           :value="game._id"
-          @click="viewGame(game._id)"
+          @click="gameOpen(game._id)"
         >
           <!-- Game card. -->
           <hip-card-compact :gameInfo="game" />
@@ -90,11 +90,16 @@ import {
   HipOption,
   HipOverlay,
   HipSelect
-} from './Component'
+} from '@/components/Component'
 // Import database controllers functions.
-import { getGamesSearch } from '../database/controllers/Game'
+import { getGamesSearch } from '@/database/controllers/Game'
+
+// Import Vue functions.
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
+  name: 'Search',
   components: {
     // UI components.
     HipButton,
@@ -107,120 +112,137 @@ export default {
     HipOverlay,
     HipSelect
   },
-  data() {
-    return {
-      queryInput: '',
-      queryFilters: [],
-      queryResults: [],
-      queryObject: {
-        title: '',
-        platform: '',
-        developer: '',
-        releaseYear: ''
-      },
-      searchSelect: 'title',
-      searchOptions: [
-        { label: 'Title', value: 'title' },
-        { label: 'Platform', value: 'platform' },
-        { label: 'Developer', value: 'developer' },
-        { label: 'Year', value: 'releaseYear' }
-      ],
-      pagination: {
-        index: 0,
-        count: 50
-      },
+  setup({ emit }) {
+    // Instantiate Vue elements.
+    const router = useRouter()
+
+    // Manage search select and options data.
+    let searchSelect = ref('title')
+    const searchOptions = [
+      { label: 'Title', value: 'title' },
+      { label: 'Platform', value: 'platform' },
+      { label: 'Developer', value: 'developer' },
+      { label: 'Year', value: 'releaseYear' }
+    ]
+
+    // Go to the selected game page.
+    const gameOpen = (game) => {
+      router.push({ name: 'ViewGame', params: { id: game } })
+      emit('close')
     }
-  },
-  methods: {
-    // Query searching.
-    querySearch() {
+
+    // Manage search queries.
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    let queryInput = ref('')
+    let queryFilters = ref([])
+    let queryResults = ref([])
+    let queryObject = ref({
+      title: '',
+      platform: '',
+      developer: '',
+      releaseYear: ''
+    })
+    const querySearch = () => {
       // Get games matching the query.
-      getGamesSearch(this.pagination.index, this.pagination.count, this.queryObject)
+      getGamesSearch(paginationIndex.value, paginationCount, queryObject.value)
         .then(res => {
           // Store results.
-          this.queryResults = res
+          queryResults.value = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    querySearchNext() {
+    }
+    const querySearchNext = () => {
       // Check game results to avoid replacement.
-      if (this.queryResults.length > this.pagination.index - 1) {
+      if (queryResults.value.length > paginationIndex.value - 1) {
         // Get next batch of games.
-        getGamesSearch(this.pagination.index, this.pagination.count, this.queryObject)
+        getGamesSearch(paginationIndex.value, paginationCount, queryObject.value)
           .then(res => {
             // Append results to already stored.
-            this.queryResults = this.queryResults.concat(res)
+            queryResults.value = queryResults.value.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    queryAdd(input, select) {
+    }
+    const queryAdd = (input, select) => {
       // Only search with a minimum of two characters.
       if (input !== '' && select !== '' && input.length > 1) {
         // Set the selected search query field.
         switch (select) {
           // Set title search parameter.
           case 'title': {
-            if (this.queryObject.title != '') return
-            else this.queryObject.title = input; break
+            if (queryObject.value.title != '') return
+            else queryObject.value.title = input; break
           }
           // Set platform search parameter.
           case 'platform': {
-            if (this.queryObject.platform != '') return
-            else this.queryObject.platform = input; break
+            if (queryObject.value.platform != '') return
+            else queryObject.value.platform = input; break
           }
           // Set developer search parameter.
           case 'developer': {
-            if (this.queryObject.developer != '') return
-            else this.queryObject.developer = input; break
+            if (queryObject.value.developer != '') return
+            else queryObject.value.developer = input; break
           }
           // Set release year search parameter.
           case 'releaseYear': {
-            if (this.queryObject.releaseYear != '') return
-            else this.queryObject.releaseYear = input; break
+            if (queryObject.value.releaseYear != '') return
+            else queryObject.value.releaseYear = input; break
           }
         }
         // Add query as a search filter to show in the UI.
-        this.queryFilters.push({ label: select, value: input })
+        queryFilters.value.push({ label: select, value: input })
         // Ensure pagination index is reset.
-        this.pagination.index = 0
+        paginationIndex.value = 0
         // Make search with newly added filter.
-        this.querySearch()
+        querySearch()
         // Reset search input.
-        this.queryInput = ''
+        queryInput.value = ''
       }
-    },
-    queryRemove(name) {
+    }
+    const queryRemove = (name) => {
       // Remove the selected search query field.
       switch (name) {
         // Remove title search parameter.
-        case 'title': this.queryObject.title = ''; break
+        case 'title': queryObject.value.title = ''
+          break
         // Remove platform search parameter.
-        case 'platform': this.queryObject.platform = ''; break
+        case 'platform': queryObject.value.platform = ''
+          break
         // Remove developer search parameter.
-        case 'developer': this.queryObject.developer = ''; break
+        case 'developer': queryObject.value.developer = ''
+          break
         // Remove release year search parameter.
-        case 'releaseYear': this.queryObject.releaseYear = ''; break
+        case 'releaseYear': queryObject.value.releaseYear = ''
+          break
       }
       // Remove query from search filters.
-      let queryIndex = this.queryFilters.findIndex(res => res.label == name)
-      this.queryFilters.splice(queryIndex, 1)
+      let queryIndex = queryFilters.value.findIndex(res => res.label == name)
+      queryFilters.value.splice(queryIndex, 1)
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Control filters to avoid an empty search, getting all games.
-      if (this.queryFilters.length) {
-        this.querySearch()
+      if (queryFilters.value.length) {
+        querySearch()
       } else {
         // Empty results.
-        this.queryResults = []
+        queryResults.value = []
       }
-    },
-    // Go to the selected game page.
-    viewGame(game) {
-      this.$router.push({ name: 'ViewGame', params: { id: game } })
-      this.$emit('close')
+    }
+
+    return {
+      gameOpen,
+      queryInput,
+      queryFilters,
+      queryResults,
+      queryAdd,
+      queryRemove,
+      querySearch,
+      querySearchNext,
+      searchOptions,
+      searchSelect
     }
   }
 }
