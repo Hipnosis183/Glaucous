@@ -11,7 +11,6 @@ let gameStore
 
 export default createStore({
   state: {
-    sidenavExpanded: false,
     slideBack: false,
     settingsApp: {
       settingsGeneral: {

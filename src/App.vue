@@ -42,7 +42,7 @@ export default {
     SideNav
   },
   setup() {
-    // Instantiate Vuex store.
+    // Instantiate Vue elements.
     const store = useStore()
 
     // Set theme stored in the configuration.
