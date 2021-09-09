@@ -2,7 +2,7 @@
   <hip-overlay>
     <!-- Unlink game dialog. -->
     <hip-dialog
-      v-show="dialog.unlinkGame"
+      v-show="unlinkGameDialog"
       @close="unlinkGameOpen()"
       class="pos-initial z-10"
     >
@@ -29,8 +29,8 @@
     </hip-dialog>
     <!-- Unlink error dialog. -->
     <hip-dialog
-      v-show="dialog.unlinkError"
-      @close="unlinkError()"
+      v-show="unlinkErrorDialog"
+      @close="unlinkErrorShow()"
       class="pos-initial z-10"
     >
       <!-- Dialog message. -->
@@ -41,15 +41,15 @@
         <!-- Close message. -->
         <hip-button
           :icon="true"
-          @click="unlinkError()"
+          @click="unlinkErrorShow()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
       </div>
     </hip-dialog>
     <!-- Validation error dialog. -->
     <hip-dialog
-      v-show="dialog.validationError"
-      @close="validationError()"
+      v-show="validationErrorDialog"
+      @close="validationErrorShow()"
       class="pos-initial z-10"
     >
       <!-- Dialog message. -->
@@ -60,7 +60,7 @@
         <!-- Close message. -->
         <hip-button
           :icon="true"
-          @click="validationError()"
+          @click="validationErrorShow()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
       </div>
@@ -78,7 +78,7 @@
         <div class="h-10 space-x-4">
           <hip-button
             :icon="true"
-            @click="linkGame()"
+            @click="linkGame_()"
             class="el-icon-circle-plus-outline text-2xl"
           ></hip-button>
           <hip-button
@@ -143,14 +143,17 @@ import {
   HipOption,
   HipOverlay,
   HipSelect
-} from '../../Component'
+} from '@/components/Component'
 // Import database controllers functions.
 import {
   getGamesLinked,
   getGamesLinkedSearch,
   linkGame,
   unlinkGame
-} from '../../../database/controllers/Game'
+} from '@/database/controllers/Game'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
 
 export default {
   name: 'ViewGameLinking',
@@ -164,105 +167,116 @@ export default {
     HipOverlay,
     HipSelect
   },
-  data() {
-    return {
-      linkedGames: [],
-      linkedGamesSearch: [],
-      queryResults: [],
-      querySelected: '',
-      dialog: {
-        unlinkGame: false,
-        unlinkError: false,
-        validationError: false
-      },
-    }
+  props: {
+    gameInfo: { type: Object },
+    regionIndex: { type: Number }
   },
-  props: [
-    'gameInfo',
-    'regionIndex'
-  ],
-  methods: {
-    // Game linking operations.
-    linkGame() {
-      // Validate required fields.
-      if (!this.querySelected) {
-        this.validationError()
-        return
-      }
-      // Link current to selected game(s).
-      linkGame(this.gameInfo, this.querySelected)
-        .then(res => {
-          // Reload linked games.
-          this.getGamesLinked(res)
-          // Reset query.
-          this.queryResults = []
-          this.querySelected = ''
-        })
-    },
-    unlinkGameOpen() {
-      if (this.linkedGames.length > 0) {
-        // Open unlink dialog.
-        this.dialog.unlinkGame = !this.dialog.unlinkGame
-      } else {
-        // Open unlink error dialog.
-        this.unlinkError()
-      }
-    },
-    unlinkGameClose() {
-      // Unlink current from associated game(s).
-      unlinkGame(this.gameInfo)
-        .then(() => {
-          // Reset linked games list.
-          this.linkedGames = []
-          this.linkedGamesSearch = [this.gameInfo._id]
-          // Reset query.
-          this.queryResults = []
-          this.querySelected = ''
-          // Close unlink dialog.
-          this.dialog.unlinkGame = !this.dialog.unlinkGame
-        })
-    },
+  setup(props) {
+    // Load linked games on mounting.
+    onMounted(() => { getLinkedGames(props.gameInfo.gamePlatforms) })
+
     // Get linked games.
-    getGamesLinked(games) {
+    let linkedGames = ref([])
+    let linkedGamesSearch = ref([])
+    const getLinkedGames = (games) => {
       getGamesLinked(games)
-        .then(res => {
+        .then((res) => {
           // Set linked games, exclude the selected game.
-          this.linkedGames = res.filter(res => res._id != this.gameInfo._id)
+          linkedGames.value = res.filter((res) => res._id != props.gameInfo._id)
           // Set linked games IDs for search.
-          this.linkedGamesSearch = []
-          res.forEach(game => {
-            this.linkedGamesSearch.push(game._id)
+          linkedGamesSearch.value = []
+          res.forEach((game) => {
+            linkedGamesSearch.value.push(game._id)
           })
         })
-    },
-    // Query searching.
-    querySearch(query) {
+    }
+
+    // Manage search queries.
+    let queryResults = ref([])
+    let querySelected = ref('')
+    const querySearch = (query) => {
       // Only start search from three characters onwards.
       if (query !== '' && query.length > 2) {
         // Search for games matching the query.
-        getGamesLinkedSearch(this.linkedGamesSearch, query)
-          .then(res => {
+        getGamesLinkedSearch(linkedGamesSearch.value, query)
+          .then((res) => {
             // Store results.
-            this.queryResults = res
+            queryResults.value = res
           })
       } else {
         // Keep results empty.
-        this.queryResults = []
+        queryResults.value = []
       }
-    },
-    // Show errors.
-    unlinkError() {
-      // Open unlink error dialog.
-      this.dialog.unlinkError = !this.dialog.unlinkError
-    },
-    validationError() {
-      // Open validation error dialog.
-      this.dialog.validationError = !this.dialog.validationError
     }
-  },
-  mounted() {
-    // Load linked games.
-    this.getGamesLinked(this.gameInfo.gamePlatforms)
+
+    // Manage game linking.
+    const linkGame_ = () => {
+      // Validate required fields.
+      if (!querySelected.value) {
+        validationErrorShow()
+        return
+      }
+      // Link current to selected game(s).
+      linkGame(props.gameInfo, querySelected.value)
+        .then((res) => {
+          // Reload linked games.
+          getLinkedGames(res)
+          // Reset query.
+          queryResults.value = []
+          querySelected.value = ''
+        })
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Open validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    // Manage game unlinking.
+    let unlinkGameDialog = ref(false)
+    const unlinkGameOpen = () => {
+      if (linkedGames.value.length > 0) {
+        // Open unlink dialog.
+        unlinkGameDialog.value = !unlinkGameDialog.value
+      } else {
+        // Open unlink error dialog.
+        unlinkErrorShow()
+      }
+    }
+    const unlinkGameClose = () => {
+      // Unlink current from associated game(s).
+      unlinkGame(props.gameInfo)
+        .then(() => {
+          // Reset linked games list.
+          linkedGames.value = []
+          linkedGamesSearch.value = [props.gameInfo._id]
+          // Reset query.
+          queryResults.value = []
+          querySelected.value = ''
+          // Close unlink dialog.
+          unlinkGameDialog.value = !unlinkGameDialog.value
+        })
+    }
+    let unlinkErrorDialog = ref(false)
+    const unlinkErrorShow = () => {
+      // Open unlink error dialog.
+      unlinkErrorDialog.value = !unlinkErrorDialog.value
+    }
+
+    return {
+      linkGame_,
+      linkedGames,
+      queryResults,
+      querySearch,
+      querySelected,
+      unlinkErrorDialog,
+      unlinkErrorShow,
+      unlinkGameClose,
+      unlinkGameDialog,
+      unlinkGameOpen,
+      validationErrorDialog,
+      validationErrorShow
+    }
   }
 }
 </script>

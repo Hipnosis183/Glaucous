@@ -3,7 +3,7 @@
   <transition>
     <search
       v-show="searchDialog"
-      @close="searchOpen()"
+      @close="searchShow()"
       :key="searchDialog"
       class="pos-initial z-30"
     />
@@ -48,7 +48,7 @@
           </div>
           <div class="mb-8 space-y-4">
             <div class="flex">
-              <hip-button-sb @click="searchOpen()">Search</hip-button-sb>
+              <hip-button-sb @click="searchShow()">Search</hip-button-sb>
             </div>
             <div v-show="history > 0">
               <div class="flex">
@@ -106,7 +106,7 @@
           <div class="mb-8 space-y-4">
             <div class="flex">
               <hip-button-sb
-                @click="searchOpen()"
+                @click="searchShow()"
                 class="el-icon-search h-12 text-xl"
               ></hip-button-sb>
             </div>
@@ -177,8 +177,8 @@ export default {
 
     // Manage search dialog display.
     let searchDialog = ref(false)
-    const searchOpen = () => {
-      // Open search dialog.
+    const searchShow = () => {
+      // Toggle search dialog.
       searchDialog.value = !searchDialog.value
       // Close sidenav.
       if (expand.value) {
@@ -191,7 +191,7 @@ export default {
       expand,
       history,
       searchDialog,
-      searchOpen,
+      searchShow,
       sidenavToggle
     }
   }

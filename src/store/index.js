@@ -282,6 +282,25 @@ export default createStore({
       state.gameSelected.gameRegion = null
       state.gameSelected.gameVersion = null
     },
+    setGameForm(state, game) {
+      state.gameForm.gamePlatform.developer = game.platform.developer._id
+      state.gameForm.gamePlatform.platform = game.platform.platform._id
+      state.gameForm.gamePlatform.releaseYear = game.platform.releaseYear
+      state.gameForm.gamePlatform.numberPlayers = game.platform.numberPlayers
+      state.gameForm.gamePlatform.links = game.platform.links
+      state.gameForm.gameRegion.title = game.region.title
+      state.gameForm.gameRegion.preTitle = game.region.preTitle
+      state.gameForm.gameRegion.subTitle = game.region.subTitle
+      state.gameForm.gameRegion.originalTitle = game.region.originalTitle
+      state.gameForm.gameRegion.romanizedTitle = game.region.romanizedTitle
+      state.gameForm.gameRegion.translatedTitle = game.region.translatedTitle
+      state.gameForm.gameRegion.region = game.region.region
+      state.gameForm.gameRegion.serial = game.region.serial
+      state.gameForm.gameVersion.name = game.version.name
+      state.gameForm.gameVersion.number = game.version.number
+      state.gameForm.gameVersion.latest = game.version.latest
+      state.gameForm.gameVersion.comments = game.version.comments
+    },
     resetGameForm(state) {
       state.gameForm.gamePlatform.developer = null
       state.gameForm.gamePlatform.platform = null

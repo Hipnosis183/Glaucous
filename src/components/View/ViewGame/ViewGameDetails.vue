@@ -77,11 +77,11 @@
 <script>
 export default {
   name: 'ViewGameDetails',
-  props: [
-    'gameInfo',
-    'regionIndex',
-    'versionIndex'
-  ]
+  props: {
+    gameInfo: { type: Object },
+    regionIndex: { type: Number },
+    versionIndex: { type: Number }
+  }
 }
 </script>
 

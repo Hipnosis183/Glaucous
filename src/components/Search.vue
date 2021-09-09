@@ -112,7 +112,7 @@ export default {
     HipOverlay,
     HipSelect
   },
-  setup({ emit }) {
+  setup(props, { emit }) {
     // Instantiate Vue elements.
     const router = useRouter()
 
@@ -146,7 +146,7 @@ export default {
     const querySearch = () => {
       // Get games matching the query.
       getGamesSearch(paginationIndex.value, paginationCount, queryObject.value)
-        .then(res => {
+        .then((res) => {
           // Store results.
           queryResults.value = res
           // Set next pagination index.
@@ -158,7 +158,7 @@ export default {
       if (queryResults.value.length > paginationIndex.value - 1) {
         // Get next batch of games.
         getGamesSearch(paginationIndex.value, paginationCount, queryObject.value)
-          .then(res => {
+          .then((res) => {
             // Append results to already stored.
             queryResults.value = queryResults.value.concat(res)
             // Set next pagination index.

@@ -1,8 +1,8 @@
 <template>
   <!-- View game details dialog. -->
   <hip-dialog
-    v-show="dialog.viewGameDetails"
-    @close="viewGameDetails()"
+    v-show="gameDetailsDialog"
+    @close="gameDetailsShow()"
     class="pos-initial z-10"
   >
     <!-- Insert view game details component. -->
@@ -14,10 +14,10 @@
   </hip-dialog>
   <!-- Insert view game linking component. -->
   <view-game-linking
-    v-show="dialog.viewGameLinking"
+    v-show="gameLinkingDialog"
     :gameInfo="gameInfo"
     :regionIndex="regionIndex"
-    @close="viewGameLinking()"
+    @close="gameLinkingShow()"
     class="pos-initial z-10"
   />
   <!-- Flag image. -->
@@ -45,7 +45,7 @@
   <div class="flex items-center mb-6 space-x-4">
     <h1 class="data-title">Game Information</h1>
     <!-- Open view game details dialog. -->
-    <hip-button @click="viewGameDetails()">Details</hip-button>
+    <hip-button @click="gameDetailsShow()">Details</hip-button>
   </div>
   <div class="mb-6">
     <div class="data-content">
@@ -94,7 +94,7 @@
         </p>
       </div>
       <!-- Open view game linking dialog. -->
-      <hip-button @click="viewGameLinking()">Also On</hip-button>
+      <hip-button @click="gameLinkingShow()">Also On</hip-button>
     </div>
     <div class="data-content">
       <p class="font-semibold">Release Year:</p>
@@ -118,7 +118,10 @@ import ViewGameLinking from './ViewGameLinking.vue'
 import {
   HipButton,
   HipDialog
-} from '../../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { ref } from 'vue'
 
 export default {
   name: 'ViewGame',
@@ -130,30 +133,32 @@ export default {
     HipButton,
     HipDialog
   },
-  data() {
-    return {
-      dialog: {
-        viewGameDetails: false,
-        viewGameLinking: false
-      }
-    }
+  props: {
+    fullTitle: { type: String },
+    gameInfo: { type: Object },
+    regionIndex: { type: Number },
+    versionIndex: { type: Number }
   },
-  props: [
-    'fullTitle',
-    'gameInfo',
-    'regionIndex',
-    'versionIndex'
-  ],
-  methods: {
-    // View details.
-    viewGameDetails() {
-      // Open details dialog.
-      this.dialog.viewGameDetails = !this.dialog.viewGameDetails
-    },
-    // View and manage linked games.
-    viewGameLinking() {
-      // Open game linking dialog.
-      this.dialog.viewGameLinking = !this.dialog.viewGameLinking
+  setup() {
+    // Manage details display.
+    let gameDetailsDialog = ref(false)
+    const gameDetailsShow = () => {
+      // Toggle details dialog.
+      gameDetailsDialog.value = !gameDetailsDialog.value
+    }
+
+    // Manage linked games.
+    let gameLinkingDialog = ref(false)
+    const gameLinkingShow = () => {
+      // Toggle game linking dialog.
+      gameLinkingDialog.value = !gameLinkingDialog.value
+    }
+
+    return {
+      gameDetailsDialog,
+      gameDetailsShow,
+      gameLinkingDialog,
+      gameLinkingShow
     }
   }
 }
