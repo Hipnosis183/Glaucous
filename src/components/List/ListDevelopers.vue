@@ -2,7 +2,7 @@
   <div>
     <!-- Create developer dialog. -->
     <hip-dialog
-      v-show="dialog.createDeveloper"
+      v-show="createDeveloperDialog"
       @close="createDeveloperClose()"
       class="z-10"
     >
@@ -54,9 +54,13 @@ import {
   HipDialog,
   HipList,
   HipNavBar
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
-import { getDevelopers } from '../../database/controllers/Developer'
+import { getDevelopers } from '@/database/controllers/Developer'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ListDevelopers',
@@ -70,59 +74,63 @@ export default {
     HipList,
     HipNavBar
   },
-  data() {
-    return {
-      developers: null,
-      pagination: {
-        index: 0,
-        count: 50
-      },
-      dialog: {
-        createDeveloper: false
-      }
-    }
-  },
-  methods: {
-    loadDevelopers() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Load developers list on mounting.
+    onMounted(() => { loadDevelopers() })
+
+    // Load developers list.
+    let developers = ref(null)
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    const loadDevelopers = () => {
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Get first batch of developers.
-      getDevelopers(this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.developers = res
+      getDevelopers(paginationIndex.value, paginationCount)
+        .then((res) => {
+          developers.value = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    loadDevelopersNext() {
+    }
+    const loadDevelopersNext = () => {
       // Check loaded developers to avoid duplication.
-      if (this.developers) {
+      if (developers.value) {
         // Get next batch of developers.
-        getDevelopers(this.pagination.index, this.pagination.count)
-          .then(res => {
-            this.developers = this.developers.concat(res)
+        getDevelopers(paginationIndex.value, paginationCount)
+          .then((res) => {
+            developers.value = developers.value.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    // Create operations.
-    createDeveloperOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetDeveloperForm')
-      // Open create dialog.
-      this.dialog.createDeveloper = !this.dialog.createDeveloper
-    },
-    createDeveloperClose() {
-      // Reload developers.
-      this.loadDevelopers()
-      // Close create dialog.
-      this.dialog.createDeveloper = !this.dialog.createDeveloper
     }
-  },
-  mounted() {
-    // Load developers list.
-    this.loadDevelopers()
+
+    // Manage developer operations.
+    let createDeveloperDialog = ref(false)
+    const createDeveloperOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetDeveloperForm')
+      // Open create dialog.
+      createDeveloperDialog.value = !createDeveloperDialog.value
+    }
+    const createDeveloperClose = () => {
+      // Reload developers.
+      loadDevelopers()
+      // Close create dialog.
+      createDeveloperDialog.value = !createDeveloperDialog.value
+    }
+
+    return {
+      createDeveloperClose,
+      createDeveloperDialog,
+      createDeveloperOpen,
+      developers,
+      loadDevelopersNext
+    }
   }
 }
 </script>

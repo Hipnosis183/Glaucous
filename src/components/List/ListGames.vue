@@ -2,19 +2,19 @@
   <div>
     <!-- Create game platform dialog. -->
     <hip-dialog
-      v-show="dialog.createGamePlatform"
-      @close="createGamePlatformClose()"
+      v-show="createPlatformDialog"
+      @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create game platform form component. -->
-      <create-game-platform @close="createGamePlatformClose()" />
+      <create-game-platform @close="createPlatformClose()" />
     </hip-dialog>
     <!-- Navigation bar. -->
     <hip-nav-bar title="Games">
       <!-- Open create developer dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createGamePlatformOpen()"
+        @click="createPlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
       <!-- Search bar. -->
@@ -87,12 +87,16 @@ import {
   HipInput,
   HipList,
   HipNavBar
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
 import {
   getGamesAll,
   getGamesAllSearch
-} from '../../database/controllers/Game'
+} from '@/database/controllers/Game'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ListGames',
@@ -111,89 +115,97 @@ export default {
     HipList,
     HipNavBar
   },
-  data() {
-    return {
-      games: [],
-      queryInput: null,
-      querySearched: false,
-      pagination: {
-        index: 0,
-        count: 50
-      },
-      dialog: {
-        createGamePlatform: false
-      }
-    }
-  },
-  methods: {
-    loadGames() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Load games list on mounting.
+    onMounted(() => { loadGames() })
+
+    // Load games list.
+    let games = ref([])
+    const loadGames = () => {
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Get first batch of games.
-      getGamesAll(this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.games = res
+      getGamesAll(paginationIndex.value, paginationCount)
+        .then((res) => {
+          games.value = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    loadGamesNext() {
+    }
+    const loadGamesNext = () => {
       // Check loaded games to avoid duplication.
-      if (this.games) {
+      if (games.value) {
         // Get next batch of games.
-        getGamesAll(this.pagination.index, this.pagination.count)
-          .then(res => {
-            this.games = this.games.concat(res)
+        getGamesAll(paginationIndex.value, paginationCount)
+          .then((res) => {
+            games.value = games.value.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    // Query searching.
-    querySearch(query) {
+    }
+
+    // Manage game platform operations.
+    let createPlatformDialog = ref(false)
+    const createPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameSelected')
+      store.commit('resetGameForm')
+      // Open create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    const createPlatformClose = () => {
+      // Reload game list.
+      loadGames()
+      // Close create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+
+    // Manage search queries.
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    let queryInput = ref('')
+    let querySearched = ref(false)
+    const querySearch = (query) => {
       // Only start search from two characters onwards.
       if (query !== '' && query.length > 1) {
         // Ensure pagination index is reset.
-        this.pagination.index = 0
+        paginationIndex.value = 0
         // A search has been done.
-        this.querySearched = true
+        querySearched.value = true
         // Search for games matching the query.
-        getGamesAllSearch(this.pagination.index, this.pagination.count, query)
-          .then(res => {
-            this.games = res
+        getGamesAllSearch(paginationIndex.value, paginationCount, query)
+          .then((res) => {
+            games.value = res
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       } else {
-        if (this.querySearched) {
-          this.queryClear()
+        if (querySearched.value) {
+          queryClear()
         }
       }
-    },
-    queryClear() {
-      // A search hasn't been done yet.
-      this.querySearched = false
-      // Reload games list.
-      this.loadGames()
-    },
-    // Create operations.
-    createGamePlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameSelected')
-      this.$store.commit('resetGameForm')
-      // Open create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    createGamePlatformClose() {
-      // Reload game list.
-      this.loadGames()
-      // Close create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
     }
-  },
-  mounted() {
-    // Load games list.
-    this.loadGames()
+    const queryClear = () => {
+      // A search hasn't been done yet.
+      querySearched.value = false
+      // Reload games list.
+      loadGames()
+    }
+
+    return {
+      createPlatformClose,
+      createPlatformDialog,
+      createPlatformOpen,
+      games,
+      loadGamesNext,
+      queryInput,
+      querySearched,
+      querySearch
+    }
   }
 }
 </script>

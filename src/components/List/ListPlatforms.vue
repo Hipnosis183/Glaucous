@@ -2,7 +2,7 @@
   <div>
     <!-- Create platform dialog. -->
     <hip-dialog
-      v-show="dialog.createPlatform"
+      v-show="createPlatformDialog"
       @close="createPlatformClose()"
       class="z-10"
     >
@@ -55,9 +55,13 @@ import {
   HipDialog,
   HipList,
   HipNavBar
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
-import { getPlatforms } from '../../database/controllers/Platform'
+import { getPlatforms } from '@/database/controllers/Platform'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ListPlatforms',
@@ -71,59 +75,63 @@ export default {
     HipList,
     HipNavBar
   },
-  data() {
-    return {
-      platforms: null,
-      pagination: {
-        index: 0,
-        count: 50
-      },
-      dialog: {
-        createPlatform: false
-      }
-    }
-  },
-  methods: {
-    loadPlatforms() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Load platforms list on mounting.
+    onMounted(() => { loadPlatforms() })
+
+    // Load platforms list.
+    let platforms = ref(null)
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    const loadPlatforms = () => {
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Get first batch of platforms.
-      getPlatforms(this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.platforms = res
+      getPlatforms(paginationIndex.value, paginationCount)
+        .then((res) => {
+          platforms.value = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    loadPlatformsNext() {
+    }
+    const loadPlatformsNext = () => {
       // Check loaded platforms to avoid duplication.
-      if (this.platforms) {
+      if (platforms.value) {
         // Get next batch of platforms.
-        getPlatforms(this.pagination.index, this.pagination.count)
-          .then(res => {
-            this.platforms = this.platforms.concat(res)
+        getPlatforms(paginationIndex.value, paginationCount)
+          .then((res) => {
+            platforms.value = platforms.value.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    // Create operations.
-    createPlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetPlatformForm')
-      // Open create dialog.
-      this.dialog.createPlatform = !this.dialog.createPlatform
-    },
-    createPlatformClose() {
-      // Reload platforms.
-      this.loadPlatforms()
-      // Close create dialog.
-      this.dialog.createPlatform = !this.dialog.createPlatform
     }
-  },
-  mounted() {
-    // Load platforms list.
-    this.loadPlatforms()
+
+    // Manage platform operations.
+    let createPlatformDialog = ref(false)
+    const createPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetPlatformForm')
+      // Open create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    const createPlatformClose = () => {
+      // Reload platforms.
+      loadPlatforms()
+      // Close create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+
+    return {
+      createPlatformClose,
+      createPlatformDialog,
+      createPlatformOpen,
+      loadPlatformsNext,
+      platforms
+    }
   }
 }
 </script>

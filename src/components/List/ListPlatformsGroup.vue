@@ -2,7 +2,7 @@
   <div>
     <!-- Create platform dialog. -->
     <hip-dialog
-      v-show="dialog.createPlatform"
+      v-show="createPlatformDialog"
       @close="createPlatformClose()"
       class="z-10"
     >
@@ -14,7 +14,7 @@
     </hip-dialog>
     <!-- Edit platform dialog. -->
     <hip-dialog
-      v-show="dialog.editPlatform"
+      v-show="editPlatformDialog"
       @close="editPlatformClose()"
       class="z-10"
     >
@@ -26,7 +26,7 @@
     </hip-dialog>
     <!-- Delete platform dialog. -->
     <hip-dialog
-      v-show="dialog.deletePlatform"
+      v-show="deletePlatformDialog"
       @close="deletePlatformOpen()"
       class="z-10"
     >
@@ -129,13 +129,18 @@ import {
   HipDialog,
   HipList,
   HipNavBar
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
 import {
   getPlatform,
   getPlatformsGroup,
   deletePlatform
-} from '../../database/controllers/Platform'
+} from '@/database/controllers/Platform'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ListPlatformsGroup',
@@ -151,101 +156,111 @@ export default {
     HipList,
     HipNavBar
   },
-  data() {
-    return {
-      platform: {
-        name: null,
-        parent: null,
-        platforms: []
-      },
-      pagination: {
-        index: 0,
-        count: 50
-      },
-      dialog: {
-        createPlatform: false,
-        editPlatform: false,
-        deletePlatform: false
-      }
-    }
-  },
-  methods: {
-    loadPlatform() {
+  setup() {
+    // Instantiate Vue elements.
+    const route = useRoute()
+    const router = useRouter()
+    const store = useStore()
+
+    // Load platforms list on mounting.
+    onMounted(() => { loadPlatform() })
+
+    // Load platforms list.
+    let platform = ref({
+      name: null,
+      parent: null,
+      platforms: []
+    })
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    const loadPlatform = () => {
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Get platform group.
-      getPlatform(this.$route.params.id)
-        .then(res => {
-          this.platform.name = res.name
-          this.platform.parent = res.parent ? res.parent._id : ''
+      getPlatform(route.params.id)
+        .then((res) => {
+          platform.value.name = res.name
+          platform.value.parent = res.parent ? res.parent._id : ''
         })
       // Get first batch of platforms.
-      getPlatformsGroup(this.$route.params.id, this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.platform.platforms = res
+      getPlatformsGroup(route.params.id, paginationIndex.value, paginationCount)
+        .then((res) => {
+          platform.value.platforms = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    loadPlatformNext() {
+    }
+    const loadPlatformNext = () => {
       // Check loaded platforms to avoid duplication.
-      if (this.platform.platforms) {
+      if (platform.value.platforms) {
         // Get next batch of platforms.
-        getPlatformsGroup(this.$route.params.id, this.pagination.index, this.pagination.count)
-          .then(res => {
-            this.platform.platforms = this.platform.platforms.concat(res)
+        getPlatformsGroup(route.params.id, paginationIndex.value, paginationCount)
+          .then((res) => {
+            platform.value.platforms = platform.value.platforms.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    // Create operations.
-    createPlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetPlatformForm')
-      // Save data of the current platform group into the store.
-      this.$store.commit('setPlatformParent', this.$route.params.id)
-      // Open create dialog.
-      this.dialog.createPlatform = !this.dialog.createPlatform
-    },
-    createPlatformClose() {
-      // Reload platforms.
-      this.loadPlatform()
-      // Close create dialog.
-      this.dialog.createPlatform = !this.dialog.createPlatform
-    },
-    // Edit operations.
-    editPlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetPlatformForm')
-      // Save current platform group ID into the store.
-      this.$store.state.platformSelected = this.$route.params.id
-      // Save data of the current platform group into the store.
-      this.$store.commit('setPlatformName', this.platform.name)
-      this.$store.commit('setPlatformParent', this.platform.parent)
-      // Open edit dialog.
-      this.dialog.editPlatform = !this.dialog.editPlatform
-    },
-    editPlatformClose() {
-      // Reload platforms.
-      this.loadPlatform()
-      // Close edit dialog.
-      this.dialog.editPlatform = !this.dialog.editPlatform
-    },
-    // Delete operations.
-    deletePlatformOpen() {
-      // Open delete dialog.
-      this.dialog.deletePlatform = !this.dialog.deletePlatform
-    },
-    deletePlatformClose() {
-      // Delete platform group.
-      deletePlatform(this.$route.params.id)
-        .then(() => this.$router.back())
     }
-  },
-  mounted() {
-    // Load platforms list.
-    this.loadPlatform()
+
+    // Manage platform operations.
+    let createPlatformDialog = ref(false)
+    const createPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetPlatformForm')
+      // Save data of the current platform group into the store.
+      store.commit('setPlatformParent', route.params.id)
+      // Open create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    const createPlatformClose = () => {
+      // Reload platforms.
+      loadPlatform()
+      // Close create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    let editPlatformDialog = ref(false)
+    const editPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetPlatformForm')
+      // Save current platform group ID into the store.
+      store.state.platformSelected = route.params.id
+      // Save data of the current platform group into the store.
+      store.commit('setPlatformName', platform.value.name)
+      store.commit('setPlatformParent', platform.value.parent)
+      // Open edit dialog.
+      editPlatformDialog.value = !editPlatformDialog.value
+    }
+    const editPlatformClose = () => {
+      // Reload platforms.
+      loadPlatform()
+      // Close edit dialog.
+      editPlatformDialog.value = !editPlatformDialog.value
+    }
+    let deletePlatformDialog = ref(false)
+    const deletePlatformOpen = () => {
+      // Open delete dialog.
+      deletePlatformDialog.value = !deletePlatformDialog.value
+    }
+    const deletePlatformClose = () => {
+      // Delete platform group.
+      deletePlatform(route.params.id)
+        .then(() => router.back())
+    }
+
+    return {
+      createPlatformClose,
+      createPlatformDialog,
+      createPlatformOpen,
+      deletePlatformClose,
+      deletePlatformDialog,
+      deletePlatformOpen,
+      editPlatformClose,
+      editPlatformDialog,
+      editPlatformOpen,
+      loadPlatformNext,
+      platform
+    }
   }
 }
 </script>
