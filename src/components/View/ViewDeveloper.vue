@@ -2,19 +2,19 @@
   <div>
     <!-- Create game platform dialog. -->
     <hip-dialog
-      v-show="dialog.createGamePlatform"
-      @close="createGamePlatformClose()"
+      v-show="createPlatformDialog"
+      @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create game platform form component. -->
       <create-game-platform
         :gameDeveloper="$route.params.id"
-        @close="createGamePlatformClose()"
+        @close="createPlatformClose()"
       />
     </hip-dialog>
     <!-- Edit developer dialog. -->
     <hip-dialog
-      v-show="dialog.editDeveloper"
+      v-show="editDeveloperDialog"
       @close="editDeveloperClose()"
       class="z-10"
     >
@@ -23,7 +23,7 @@
     </hip-dialog>
     <!-- Delete developer dialog. -->
     <hip-dialog
-      v-show="dialog.deleteDeveloper"
+      v-show="deleteDeveloperDialog"
       @close="deleteDeveloperOpen()"
       class="z-10"
     >
@@ -53,7 +53,7 @@
       <!-- Open create game platform dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createGamePlatformOpen()"
+        @click="createPlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
       <!-- Open edit developer dialog. -->
@@ -140,13 +140,18 @@ import {
   HipInput,
   HipList,
   HipNavBar
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
 import {
   getDeveloper,
   deleteDeveloper
-} from '../../database/controllers/Developer'
-import { getGamesDeveloper } from '../../database/controllers/Game'
+} from '@/database/controllers/Developer'
+import { getGamesDeveloper } from '@/database/controllers/Game'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ViewDeveloper',
@@ -167,126 +172,142 @@ export default {
     HipList,
     HipNavBar
   },
-  data() {
-    return {
-      developer: {
-        name: null,
-        games: []
-      },
-      queryInput: null,
-      querySearched: false,
-      pagination: {
-        index: 0,
-        count: 50
-      },
-      dialog: {
-        createGamePlatform: false,
-        editDeveloper: false,
-        deleteDeveloper: false
-      }
-    }
-  },
-  methods: {
-    loadDeveloper() {
+  setup() {
+    // Instantiate Vue elements.
+    const route = useRoute()
+    const router = useRouter()
+    const store = useStore()
+
+    // Load developer games list on mounting.
+    onMounted(() => { loadDeveloper() })
+
+    // Load and manage developer information.
+    let developer = ref({
+      name: null,
+      games: []
+    })
+    const loadDeveloper = () => {
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Get developer.
-      getDeveloper(this.$route.params.id)
-        .then(res => this.developer.name = res.name)
+      getDeveloper(route.params.id)
+        .then((res) => developer.value.name = res.name)
       // Get developer's games.
-      getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.developer.games = res
+      getGamesDeveloper(route.params.id, paginationIndex.value, paginationCount)
+        .then((res) => {
+          developer.value.games = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    loadDeveloperNext() {
+    }
+    const loadDeveloperNext = () => {
       // Check loaded games to avoid duplication.
-      if (this.developer.games) {
+      if (developer.value.games) {
         // Get next batch of games.
-        getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count)
-          .then(res => {
-            this.developer.games = this.developer.games.concat(res)
+        getGamesDeveloper(route.params.id, paginationIndex.value, paginationCount)
+          .then((res) => {
+            developer.value.games = developer.value.games.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    // Query searching.
-    querySearch(query) {
+    }
+
+    // Manage game platform operations.
+    let createPlatformDialog = ref(false)
+    const createPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameSelected')
+      store.commit('resetGameForm')
+      // Save data of the current developer into the store.
+      store.commit('setGamePlatformDeveloper', route.params.id)
+      // Open create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    const createPlatformClose = () => {
+      // Reload developer.
+      loadDeveloper()
+      // Close create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+
+    // Manage developer operations.
+    let editDeveloperDialog = ref(false)
+    const editDeveloperOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetDeveloperForm')
+      // Save current developer ID into the store.
+      store.state.developerSelected = route.params.id
+      // Save data of the current developer into the store.
+      store.commit('setDeveloperName', developer.value.name)
+      // Open edit dialog.
+      editDeveloperDialog.value = !editDeveloperDialog.value
+    }
+    const editDeveloperClose = () => {
+      // Reload developer.
+      loadDeveloper()
+      // Close edit dialog.
+      editDeveloperDialog.value = !editDeveloperDialog.value
+    }
+    let deleteDeveloperDialog = ref(false)
+    const deleteDeveloperOpen = () => {
+      // Open delete dialog.
+      deleteDeveloperDialog.value = !deleteDeveloperDialog.value
+    }
+    const deleteDeveloperClose = () => {
+      // Delete developer.
+      deleteDeveloper(route.params.id)
+        .then(() => router.back())
+    }
+
+    // Manage search queries.
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    let queryInput = ref('')
+    let querySearched = ref(false)
+    const querySearch = (query) => {
       // Only start search from two characters onwards.
       if (query !== '' && query.length > 1) {
         // Ensure pagination index is reset.
-        this.pagination.index = 0
+        paginationIndex.value = 0
         // A search has been done.
-        this.querySearched = true
+        querySearched.value = true
         // Search for games matching the query.
-        getGamesDeveloper(this.$route.params.id, this.pagination.index, this.pagination.count, query)
-          .then(res => {
-            this.developer.games = res
+        getGamesDeveloper(route.params.id, paginationIndex.value, paginationCount, query)
+          .then((res) => {
+            developer.value.games = res
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       } else {
-        if (this.querySearched) {
-          this.queryClear()
+        if (querySearched.value) {
+          queryClear()
         }
       }
-    },
-    queryClear() {
-      // A search hasn't been done yet.
-      this.querySearched = false
-      // Reload games list.
-      this.loadDeveloper()
-    },
-    // Create operations.
-    createGamePlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameSelected')
-      this.$store.commit('resetGameForm')
-      // Save data of the current developer into the store.
-      this.$store.commit('setGamePlatformDeveloper', this.$route.params.id)
-      // Open create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    createGamePlatformClose() {
-      // Reload developer.
-      this.loadDeveloper()
-      // Close create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    // Edit operations.
-    editDeveloperOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetDeveloperForm')
-      // Save current developer ID into the store.
-      this.$store.state.developerSelected = this.$route.params.id
-      // Save data of the current developer into the store.
-      this.$store.commit('setDeveloperName', this.developer.name)
-      // Open edit dialog.
-      this.dialog.editDeveloper = !this.dialog.editDeveloper
-    },
-    editDeveloperClose() {
-      // Reload developer.
-      this.loadDeveloper()
-      // Close edit dialog.
-      this.dialog.editDeveloper = !this.dialog.editDeveloper
-    },
-    // Delete operations.
-    deleteDeveloperOpen() {
-      // Open delete dialog.
-      this.dialog.deleteDeveloper = !this.dialog.deleteDeveloper
-    },
-    deleteDeveloperClose() {
-      // Delete developer.
-      deleteDeveloper(this.$route.params.id)
-        .then(() => this.$router.back())
     }
-  },
-  mounted() {
-    // Load developer's games list.
-    this.loadDeveloper()
+    const queryClear = () => {
+      // A search hasn't been done yet.
+      querySearched.value = false
+      // Reload games list.
+      loadDeveloper()
+    }
+
+    return {
+      createPlatformClose,
+      createPlatformDialog,
+      createPlatformOpen,
+      deleteDeveloperClose,
+      deleteDeveloperDialog,
+      deleteDeveloperOpen,
+      developer,
+      editDeveloperClose,
+      editDeveloperDialog,
+      editDeveloperOpen,
+      loadDeveloperNext,
+      queryInput,
+      querySearched,
+      querySearch
+    }
   }
 }
 </script>

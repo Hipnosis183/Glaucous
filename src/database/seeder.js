@@ -40,6 +40,7 @@ export async function dbSeed() {
                     })
             })
     }
+    console.log('Seeding done!')
 }
 
 async function developerSeed(a) {

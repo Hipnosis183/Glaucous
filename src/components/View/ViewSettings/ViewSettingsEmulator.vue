@@ -1,7 +1,7 @@
 <template>
   <!-- Create emulator dialog. -->
   <hip-dialog
-    v-show="dialog.createEmulator"
+    v-show="createEmulatorDialog"
     @close="createEmulatorClose()"
     width="w-2/3"
     class="pos-initial z-10"
@@ -15,7 +15,7 @@
   </hip-dialog>
   <!-- Edit emulator dialog. -->
   <hip-dialog
-    v-show="dialog.editEmulator"
+    v-show="editEmulatorDialog"
     @close="editEmulatorClose()"
     width="w-2/3"
     class="pos-initial z-10"
@@ -29,7 +29,7 @@
   </hip-dialog>
   <!-- Delete emulator dialog. -->
   <hip-dialog
-    v-show="dialog.deleteEmulator"
+    v-show="deleteEmulatorDialog"
     @close="deleteEmulatorOpen()"
     class="pos-initial z-10"
   >
@@ -83,7 +83,7 @@
       ></hip-button>
       <!-- Emulator select. -->
       <hip-select
-        v-model="emulator"
+        v-model="emulatorStore"
         clearable
         :key="emulatorList"
       >
@@ -116,7 +116,11 @@ import {
   HipOption,
   HipSectionContent,
   HipSelect
-} from '../../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ViewSettingsEmulator',
@@ -134,86 +138,97 @@ export default {
   props: {
     settingsType: { type: String }
   },
-  data() {
-    return {
-      emulatorList: [],
-      emulatorPath: app.getAppPath() + '/data/emulators.json',
-      dialog: {
-        createEmulator: false,
-        editEmulator: false,
-        deleteEmulator: false
+  setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage emulators list.
+    let emulatorList = ref([])
+    const emulatorName = computed(() => {
+      if (emulatorStore.value && emulatorList.value.length > 0) {
+        let index = emulatorList.value.findIndex((res) => res.id == emulatorStore.value)
+        return emulatorList.value[index] ? emulatorList.value[index].name : ''
+      }
+    })
+    const emulatorPath = app.getAppPath() + '/data/emulators.json'
+    const emulatorStore = computed({
+      get() { return store.state['settings' + props.settingsType].emulator },
+      set(value) { store.state['settings' + props.settingsType].emulator = value }
+    })
+    const loadEmulatorList = () => {
+      // Read and load emulator file.
+      if (existsSync(emulatorPath)) {
+        emulatorList.value = readJSONSync(emulatorPath)
       }
     }
-  },
-  methods: {
-    loadEmulatorList() {
-      // Read and load emulator file.
-      if (existsSync(this.emulatorPath)) {
-        this.emulatorList = readJSONSync(this.emulatorPath)
-      }
-    },
-    // Create operations.
-    createEmulatorOpen() {
-      // Clear the data on the store.
-      this.$store.commit('resetEmulatorForm')
-      // Open create dialog.
-      this.dialog.createEmulator = !this.dialog.createEmulator
-    },
-    createEmulatorClose() {
-      // Reload emulator list.
-      this.loadEmulatorList()
-      // Close create dialog.
-      this.dialog.createEmulator = !this.dialog.createEmulator
-    },
-    // Edit operations.
-    editEmulatorOpen() {
-      // Save data of the current emulator into the store.
-      let index = this.emulatorList.findIndex(res => res.id == this.emulator)
-      this.$store.commit('setEmulatorForm', this.emulatorList[index])
-      // Open edit dialog.
-      this.dialog.editEmulator = !this.dialog.editEmulator
-    },
-    editEmulatorClose() {
-      // Reload emulator list.
-      this.loadEmulatorList()
-      // Close edit dialog.
-      this.dialog.editEmulator = !this.dialog.editEmulator
-    },
-    // Delete operations.
-    deleteEmulatorOpen() {
-      // Open delete dialog.
-      this.dialog.deleteEmulator = !this.dialog.deleteEmulator
-    },
-    deleteEmulatorClose() {
-      // Find entry and update the list.
-      let index = this.emulatorList.findIndex(res => res.id == this.emulator)
-      this.emulatorList.splice(index, 1)
-      // Save updated list back to file.
-      outputJSONSync(this.emulatorPath, this.emulatorList)
-      // Reload emulator list.
-      this.loadEmulatorList()
-      // Close delete dialog.
-      this.dialog.deleteEmulator = !this.dialog.deleteEmulator
-    },
-    // Compare function that returns natural ordered elements.
-    sortEmulatorList(a, b) {
+    const sortEmulatorList = (a, b) => {
+      // Compare function that returns natural ordered elements.
       return a.name.localeCompare(b.name, navigator.language, { numeric: true, ignorePunctuation: true })
     }
-  },
-  created() {
-    // Load emulator list.
-    this.loadEmulatorList()
-  },
-  computed: {
-    emulator: {
-      get() { return this.$store.state['settings' + this.settingsType].emulator },
-      set(value) { this.$store.state['settings' + this.settingsType].emulator = value }
-    },
-    emulatorName() {
-      if (this.emulator && this.emulatorList.length > 0) {
-        let index = this.emulatorList.findIndex(res => res.id == this.emulator)
-        return this.emulatorList[index] ? this.emulatorList[index].name : ''
-      }
+
+    // Load emulators list on component creation.
+    loadEmulatorList()
+
+    // Manage emulator operations.
+    let createEmulatorDialog = ref(false)
+    const createEmulatorOpen = () => {
+      // Clear the data on the store.
+      store.commit('resetEmulatorForm')
+      // Open create dialog.
+      createEmulatorDialog.value = !createEmulatorDialog.value
+    }
+    const createEmulatorClose = () => {
+      // Reload emulator list.
+      loadEmulatorList()
+      // Close create dialog.
+      createEmulatorDialog.value = !createEmulatorDialog.value
+    }
+    let editEmulatorDialog = ref(false)
+    const editEmulatorOpen = () => {
+      // Save data of the current emulator into the store.
+      let index = emulatorList.value.findIndex((res) => res.id == emulatorStore.value)
+      store.commit('setEmulatorForm', emulatorList.value[index])
+      // Open edit dialog.
+      editEmulatorDialog.value = !editEmulatorDialog.value
+    }
+    const editEmulatorClose = () => {
+      // Reload emulator list.
+      loadEmulatorList()
+      // Close edit dialog.
+      editEmulatorDialog.value = !editEmulatorDialog.value
+    }
+    let deleteEmulatorDialog = ref(false)
+    const deleteEmulatorOpen = () => {
+      // Open delete dialog.
+      deleteEmulatorDialog.value = !deleteEmulatorDialog.value
+    }
+    const deleteEmulatorClose = () => {
+      // Find entry and update the list.
+      let index = emulatorList.value.findIndex((res) => res.id == emulatorStore.value)
+      emulatorList.value.splice(index, 1)
+      // Save updated list back to file.
+      outputJSONSync(emulatorPath, emulatorList.value)
+      // Reload emulator list.
+      loadEmulatorList()
+      // Close delete dialog.
+      deleteEmulatorDialog.value = !deleteEmulatorDialog.value
+    }
+
+    return {
+      createEmulatorClose,
+      createEmulatorDialog,
+      createEmulatorOpen,
+      editEmulatorClose,
+      editEmulatorDialog,
+      editEmulatorOpen,
+      emulatorList,
+      emulatorName,
+      emulatorPath,
+      emulatorStore,
+      deleteEmulatorClose,
+      deleteEmulatorDialog,
+      deleteEmulatorOpen,
+      sortEmulatorList,
     }
   }
 }

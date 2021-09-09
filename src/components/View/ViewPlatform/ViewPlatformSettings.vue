@@ -52,7 +52,11 @@ import {
   HipSectionContent,
   HipSectionHeader,
   HipSwitch
-} from '../../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ViewPlatformSettings',
@@ -69,27 +73,34 @@ export default {
   emits: [
     'close'
   ],
-  methods: {
-    storeSettings() {
-      // Store updated settings.
-      this.$store.commit('setSettingsPlatformEmulator')
-      this.$store.commit('setSettingsPlatformRelativePath')
-      this.$store.commit('setSettingsPlatformImageFiltering')
-      this.$emit('close')
-    }
-  },
-  mounted() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Initialize the current platform settings on the store.
-    this.$store.commit('setPlatformStore')
-  },
-  computed: {
-    relativePath: {
-      get() { return this.$store.state.settingsPlatform.relativePath },
-      set(value) { this.$store.state.settingsPlatform.relativePath = value }
-    },
-    imageFiltering: {
-      get() { return this.$store.state.settingsPlatform.imageFiltering },
-      set(value) { this.$store.state.settingsPlatform.imageFiltering = value }
+    onMounted(() => { store.commit('setPlatformStore') })
+
+    // Manage settings in the store.
+    const relativePath = computed({
+      get() { return store.state.settingsPlatform.relativePath },
+      set(value) { store.state.settingsPlatform.relativePath = value }
+    })
+    const imageFiltering = computed({
+      get() { return store.state.settingsPlatform.imageFiltering },
+      set(value) { store.state.settingsPlatform.imageFiltering = value }
+    })
+    const storeSettings = () => {
+      // Store updated settings.
+      store.commit('setSettingsPlatformEmulator')
+      store.commit('setSettingsPlatformRelativePath')
+      store.commit('setSettingsPlatformImageFiltering')
+      emit('close')
+    }
+
+    return {
+      imageFiltering,
+      relativePath,
+      storeSettings
     }
   }
 }
