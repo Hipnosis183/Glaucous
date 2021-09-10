@@ -1,27 +1,27 @@
 <template>
   <!-- Show game platform images dialog. -->
   <form-game-images-view
-    v-show="dialog.viewImagesPlatform"
-    :show="dialog.viewImagesPlatform"
+    v-show="imagesPlatformDisplay"
+    :show="imagesPlatformDisplay"
     :editForm="editForm"
     gameType="gamePlatform"
-    @close="viewImagesPlatformOpen()"
+    @close="imagesPlatformShow()"
   />
   <!-- Show game region images dialog. -->
   <form-game-images-view
-    v-show="dialog.viewImagesRegion"
-    :show="dialog.viewImagesRegion"
+    v-show="imagesRegionDisplay"
+    :show="imagesRegionDisplay"
     :editForm="editForm"
     gameType="gameRegion"
-    @close="viewImagesRegionOpen()"
+    @close="imagesRegionShow()"
   />
   <!-- Show game version images dialog. -->
   <form-game-images-view
-    v-show="dialog.viewImagesVersion"
-    :show="dialog.viewImagesVersion"
+    v-show="imagesVersionDisplay"
+    :show="imagesVersionDisplay"
     :editForm="editForm"
     gameType="gameVersion"
-    @close="viewImagesVersionOpen()"
+    @close="imagesVersionShow()"
   />
   <!-- Images form. -->
   <div class="flex rounded-xl shadow">
@@ -31,16 +31,16 @@
     ></hip-input-button>
     <hip-input-button
       v-if="showPlatform"
-      @click="viewImagesPlatformOpen()"
+      @click="imagesPlatformShow()"
     >Platform</hip-input-button>
     <hip-input-button
       v-if="showRegion"
-      @click="viewImagesRegionOpen()"
+      @click="imagesRegionShow()"
     >Region</hip-input-button>
     <hip-input-button
       v-if="showVersion"
       lastElement
-      @click="viewImagesVersionOpen()"
+      @click="imagesVersionShow()"
     >Version</hip-input-button>
   </div>
 </template>
@@ -49,7 +49,10 @@
 // Import form components.
 import FormGameImagesView from './FormGameImagesView.vue'
 // Import UI components.
-import { HipInputButton } from '../../Component'
+import { HipInputButton } from '@/components/Component'
+
+// Import Vue functions.
+import { ref } from 'vue'
 
 export default {
   name: 'FormGameImages',
@@ -59,34 +62,37 @@ export default {
     // UI components.
     HipInputButton
   },
-  data() {
-    return {
-      dialog: {
-        viewImagesPlatform: false,
-        viewImagesRegion: false,
-        viewImagesVersion: false
-      }
-    }
-  },
   props: {
     editForm: { type: Boolean, default: false },
     showPlatform: { type: Boolean, default: false },
     showRegion: { type: Boolean, default: false },
     showVersion: { type: Boolean, default: false }
   },
-  methods: {
-    // View images.
-    viewImagesPlatformOpen() {
-      // Open game platform images dialog.
-      this.dialog.viewImagesPlatform = !this.dialog.viewImagesPlatform
-    },
-    viewImagesRegionOpen() {
-      // Open game region images dialog.
-      this.dialog.viewImagesRegion = !this.dialog.viewImagesRegion
-    },
-    viewImagesVersionOpen() {
-      // Open game version images dialog.
-      this.dialog.viewImagesVersion = !this.dialog.viewImagesVersion
+  setup() {
+    // Manage image form.
+    const imagesPlatformDisplay = ref(false)
+    const imagesPlatformShow = () => {
+      // Toggle game platform images dialog.
+      imagesPlatformDisplay.value = !imagesPlatformDisplay.value
+    }
+    const imagesRegionDisplay = ref(false)
+    const imagesRegionShow = () => {
+      // Toggle game region images dialog.
+      imagesRegionDisplay.value = !imagesRegionDisplay.value
+    }
+    const imagesVersionDisplay = ref(false)
+    const imagesVersionShow = () => {
+      // Toggle game version images dialog.
+      imagesVersionDisplay.value = !imagesVersionDisplay.value
+    }
+
+    return {
+      imagesPlatformDisplay,
+      imagesPlatformShow,
+      imagesRegionDisplay,
+      imagesRegionShow,
+      imagesVersionDisplay,
+      imagesVersionShow
     }
   }
 }

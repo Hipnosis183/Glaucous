@@ -15,24 +15,24 @@
           <div class="flex h-10 space-x-4">
             <hip-button
               :icon="true"
-              @click="addCover()"
+              @click="coverAdd()"
               class="el-icon-circle-plus-outline text-2xl"
             ></hip-button>
             <hip-button
               :icon="true"
-              @click="removeCover()"
+              @click="coverRemove()"
               class="el-icon-remove-outline text-2xl"
             ></hip-button>
           </div>
         </div>
         <!-- Cover image. -->
         <img
-          v-if="imagesCoverAdd"
-          :src="'file://' + imagesCoverAdd"
+          v-if="coverAddImages"
+          :src="'file://' + coverAddImages"
           class="object-cover rounded-xl shadow"
         />
         <img
-          v-else-if="getCover && !imagesCoverRemove"
+          v-else-if="getCover && !coverRemoveImages"
           :src="'file://' + imagePath + '/' + getCover"
           class="object-cover rounded-xl shadow"
         />
@@ -62,7 +62,7 @@
           <div class="flex h-10 space-x-4">
             <hip-button
               :icon="true"
-              @click="addPicturesAdd()"
+              @click="picturesAdd()"
               class="el-icon-circle-plus-outline text-2xl"
             ></hip-button>
           </div>
@@ -70,7 +70,7 @@
         <!-- Pictures grid. -->
         <div class="flex flex-1 max-h-images overflow-hidden rounded-xl">
           <div
-            v-if="getPictures[0] || imagesPicturesAdd[0]"
+            v-if="getPictures[0] || picturesAddImages[0]"
             class="flex-1 no-scrollbar overflow-y-scroll"
           >
             <div class="gap-4 grid grid-cols-4">
@@ -82,28 +82,28 @@
               >
                 <transition>
                   <div
-                    v-show="toDelete(image)"
-                    @click="selectPicturesRemove(image)"
+                    v-show="picturesRemoveList(image)"
+                    @click="picturesRemoveSelect(image)"
                     class="absolute bg-red-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
                     <div class="el-icon-remove-outline m-auto text-6xl text-theme-100" />
                   </div>
                 </transition>
                 <img
-                  @click="selectPicturesRemove(image)"
+                  @click="picturesRemoveSelect(image)"
                   :src="'file://' + imagePath + '/' + image"
                   class="cursor-pointer object-cover rounded-xl"
                 />
               </div>
               <div
-                v-for="(image, index) in imagesPicturesAdd"
+                v-for="(image, index) in picturesAddImages"
                 :key="index"
                 :value="image"
                 class="flex h-full justify-center relative rounded-xl shadow w-full"
               >
                 <transition>
                   <div
-                    @click="removePicturesAdd(image)"
+                    @click="picturesRemove(image)"
                     class="absolute bg-green-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
                     <div class="el-icon-circle-plus-outline m-auto text-6xl text-theme-100" />
@@ -146,7 +146,11 @@ import {
   HipButton,
   HipModal,
   HipOverlay
-} from '../../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { computed, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGameImagesView',
@@ -156,13 +160,6 @@ export default {
     HipModal,
     HipOverlay
   },
-  data() {
-    return {
-      imageFiles: [],
-      imagePath: null,
-      gameTypeName: null
-    }
-  },
   emit: [
     'close'
   ],
@@ -171,66 +168,101 @@ export default {
     editForm: { type: Boolean, default: false },
     show: { type: Boolean, default: false }
   },
-  methods: {
-    // Images management.
-    getImages() {
+  setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Watch for game selection changes.
+    watch(() => props.show, (value) => {
+      // Load images.
+      if (value) { getImages() }
+    })
+
+    // Manage images loading.
+    let imageFiles = ref([])
+    let imagePath = ref(null)
+    let gameTypeName = ref(null)
+    const getCover = computed(() => {
+      // Get cover image.
+      return imageFiles.value.filter((res) => res.startsWith('0'.repeat(8)))[0]
+    })
+    const getPictures = computed(() => {
+      // Get array of pictures.
+      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)))
+    })
+    const getImages = () => {
       // Set the base image directory path of the game.
-      let basePath = app.getAppPath() + '/data/' + this.$store.state.gameForm.gamePlatform.platform + '/' + this.$store.state.gameSelected.gamePlatform
-      switch (this.gameType) {
+      let basePath = app.getAppPath() + '/data/' + store.state.gameForm.gamePlatform.platform + '/' + store.state.gameSelected.gamePlatform
+      switch (props.gameType) {
         // Set the working variables for the game platform images.
         case 'gamePlatform': {
-          this.imagePath = basePath + '/images'
-          this.gameTypeName = 'Platform'
+          imagePath.value = basePath + '/images'
+          gameTypeName.value = 'Platform'
           break
         }
         // Set the working variables for the game region images.
         case 'gameRegion': {
-          this.imagePath = basePath + '/games/' + this.$store.state.gameSelected.gameRegion + '/images'
-          this.gameTypeName = 'Region'
+          imagePath.value = basePath + '/games/' + store.state.gameSelected.gameRegion + '/images'
+          gameTypeName.value = 'Region'
           break
         }
         // Set the working variables for the game version images.
         case 'gameVersion': {
-          this.imagePath = basePath + '/games/' + this.$store.state.gameSelected.gameRegion + '/games/' + this.$store.state.gameSelected.gameVersion + '/images'
-          this.gameTypeName = 'Version'
+          imagePath.value = basePath + '/games/' + store.state.gameSelected.gameRegion + '/games/' + store.state.gameSelected.gameVersion + '/images'
+          gameTypeName.value = 'Version'
           break
         }
       }
       // Avoid showing the images of the selected game if not in an edit form.
-      if (existsSync(this.imagePath) && this.editForm) {
+      if (existsSync(imagePath.value) && props.editForm) {
         // Load images filenames.
-        this.imageFiles = readdirSync(this.imagePath)
+        imageFiles.value = readdirSync(imagePath.value)
       }
       else {
         // Empty image variables.
-        this.imagePath = null
-        this.imageFiles = []
+        imagePath.value = null
+        imageFiles.value = []
       }
-    },
-    addCover() {
+    }
+
+    // Manage cover image operations.
+    const coverAddImages = computed({
+      get() { return store.state.gameForm[props.gameType].images.cover.add },
+      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesCoverAdd', value) }
+    })
+    const coverRemoveImages = computed({
+      get() { return store.state.gameForm[props.gameType].images.cover.remove },
+      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesCoverRemove', value) }
+    })
+    const coverAdd = () => {
       // Open dialog to select an image.
-      this.imagesCoverAdd = dialog.showOpenDialogSync({
-        properties: [
-          'openFile'
-        ],
+      coverAddImages.value = dialog.showOpenDialogSync({
+        properties: ['openFile'],
         filters: [{
           name: 'Images',
           extensions: ['bmp', 'jpg', 'png']
         }]
       })
-    },
-    removeCover() {
+    }
+    const coverRemove = () => {
       // Remove image from the store.
-      this.imagesCoverAdd = null
-      this.imagesCoverRemove = true
-    },
-    addPicturesAdd() {
+      coverAddImages.value = null
+      coverRemoveImages.value = true
+    }
+
+    // Manage picture images operations.
+    const picturesAddImages = computed({
+      get() { return store.state.gameForm[props.gameType].images.pictures.add },
+      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesPicturesAdd', value) }
+    })
+    const picturesRemoveImages = computed({
+      get() { return store.state.gameForm[props.gameType].images.pictures.remove },
+      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesPicturesRemove', value) }
+    })
+    const picturesAdd = () => {
       // Open dialog to select images.
       let dialogResult = dialog.showOpenDialogSync({
-        properties: [
-          'openFile',
-          'multiSelections'
-        ],
+        properties: ['openFile', 'multiSelections'],
         filters: [{
           name: 'Images',
           extensions: ['bmp', 'jpg', 'png']
@@ -238,60 +270,40 @@ export default {
       })
       if (dialogResult) {
         // Save images into the store.
-        dialogResult.forEach(res => this.imagesPicturesAdd = res)
+        dialogResult.forEach((res) => picturesAddImages.value = res)
       }
-    },
-    removePicturesAdd(image) {
+    }
+    const picturesRemove = (image) => {
       // Remove image from the store.
-      this.imagesPicturesAdd.splice(this.imagesPicturesAdd.indexOf(image), 1)
-    },
-    selectPicturesRemove(image) {
-      if (this.toDelete(image)) {
-        // Remove image from the delete list.
-        this.imagesPicturesRemove.splice(this.imagesPicturesRemove.indexOf(image), 1)
+      picturesAddImages.value.splice(picturesAddImages.value.indexOf(image), 1)
+    }
+    const picturesRemoveList = (image) => {
+      // Check if the image is in the remove list.
+      return picturesRemoveImages.value.includes(image)
+    }
+    const picturesRemoveSelect = (image) => {
+      if (picturesRemoveList(image)) {
+        // Remove image from the remove list.
+        picturesRemoveImages.value.splice(picturesRemoveImages.value.indexOf(image), 1)
       } else {
-        // Add image to the delete list.
-        this.imagesPicturesRemove = image
+        // Add image to the remove list.
+        picturesRemoveImages.value = image
       }
-    },
-    toDelete(image) {
-      // Check if the image is in the delete list.
-      return this.imagesPicturesRemove.includes(image)
     }
-  },
-  computed: {
-    getCover() {
-      // Get cover image.
-      return this.imageFiles.filter(res => res.startsWith('0'.repeat(8)))[0]
-    },
-    getPictures() {
-      // Get array of pictures.
-      return this.imageFiles.filter(res => !res.startsWith('0'.repeat(8)))
-    },
-    imagesCoverAdd: {
-      get() { return this.$store.state.gameForm[this.gameType].images.cover.add },
-      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesCoverAdd', value) }
-    },
-    imagesCoverRemove: {
-      get() { return this.$store.state.gameForm[this.gameType].images.cover.remove },
-      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesCoverRemove', value) }
-    },
-    imagesPicturesAdd: {
-      get() { return this.$store.state.gameForm[this.gameType].images.pictures.add },
-      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesPicturesAdd', value) }
-    },
-    imagesPicturesRemove: {
-      get() { return this.$store.state.gameForm[this.gameType].images.pictures.remove },
-      set(value) { this.$store.commit('setGame' + this.gameTypeName + 'ImagesPicturesRemove', value) }
-    }
-  },
-  watch: {
-    // Watch for game selection changes.
-    show(value) {
-      if (value) {
-        // Load images.
-        this.getImages()
-      }
+
+    return {
+      coverAdd,
+      coverAddImages,
+      coverRemove,
+      coverRemoveImages,
+      getCover,
+      getPictures,
+      imagePath,
+      picturesAdd,
+      picturesAddImages,
+      picturesRemove,
+      picturesRemoveList,
+      picturesRemoveSelect
     }
   }
 }

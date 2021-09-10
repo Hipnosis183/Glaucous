@@ -228,7 +228,7 @@ export default {
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
-      // Open validation error dialog.
+      // Toggle validation error dialog.
       validationErrorDialog.value = !validationErrorDialog.value
     }
 
@@ -259,7 +259,7 @@ export default {
     }
     let unlinkErrorDialog = ref(false)
     const unlinkErrorShow = () => {
-      // Open unlink error dialog.
+      // Toggle unlink error dialog.
       unlinkErrorDialog.value = !unlinkErrorDialog.value
     }
 

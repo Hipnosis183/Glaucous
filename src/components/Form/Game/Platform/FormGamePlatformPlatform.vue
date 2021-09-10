@@ -25,12 +25,16 @@
 import {
   HipOption,
   HipSelect
-} from '../../../Component'
+} from '@/components/Component'
 // Import database platform functions.
 import {
   getPlatform,
   getPlatformByName
-} from '../../../../database/controllers/Platform'
+} from '@/database/controllers/Platform'
+
+// Import Vue functions.
+import { computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGamePlatformPlatform',
@@ -39,55 +43,60 @@ export default {
     HipOption,
     HipSelect
   },
-  data() {
-    return {
-      queryResults: []
-    }
+  props: {
+    gamePlatform: { type: String }
   },
-  props: [
-    'gamePlatform'
-  ],
-  methods: {
-    // Query searching.
-    querySearch(query) {
+  setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage selected platform.
+    onMounted(() => {
+      // Load selected platform on mounting.
+      if (props.gamePlatform) {
+        selectPlatform()
+      }
+    })
+    watch(() => props.gamePlatform, () => {
+      // Watch for platform ID to be loaded.
+      selectPlatform()
+    })
+
+    // Platform input operations.
+    let platform = computed({
+      get() { return store.state.gameForm.gamePlatform.platform },
+      set(value) { store.commit('setGamePlatformPlatform', value) }
+    })
+    const selectPlatform = () => {
+      // Get platform from parent page.
+      getPlatform(props.gamePlatform)
+        .then((res) => {
+          platform.value = props.gamePlatform
+          queryResults.value = new Array(res)
+        })
+    }
+
+    // Manage search queries.
+    let queryResults = ref([])
+    const querySearch = (query) => {
       // Only start search from two characters onwards.
       if (query !== '' && query.length > 1) {
         // Search for platforms matching the query.
         getPlatformByName(query)
-          .then(res => {
+          .then((res) => {
             // Store results.
-            this.queryResults = res
+            queryResults.value = res
           })
       } else {
         // Keep results empty.
-        this.queryResults = []
+        queryResults.value = []
       }
-    },
-    // Autocomplete platform input field.
-    selectPlatform() {
-      // Get platform from parent page.
-      getPlatform(this.gamePlatform)
-        .then(res => {
-          this.platform = this.gamePlatform
-          this.queryResults = new Array(res)
-        })
     }
-  },
-  mounted() {
-    if (this.gamePlatform) {
-      this.selectPlatform()
-    }
-  },
-  computed: {
-    platform: {
-      get() { return this.$store.state.gameForm.gamePlatform.platform },
-      set(value) { this.$store.commit('setGamePlatformPlatform', value) }
-    }
-  },
-  watch: {
-    // Watch for platform ID to be loaded.
-    gamePlatform() {
-      this.selectPlatform()
+
+    return {
+      platform,
+      queryResults,
+      querySearch
     }
   }
 }

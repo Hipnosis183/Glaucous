@@ -25,12 +25,16 @@
 import {
   HipOption,
   HipSelect
-} from '../../../Component'
+} from '@/components/Component'
 // Import database developer functions.
 import {
   getDeveloper,
   getDeveloperByName
-} from '../../../../database/controllers/Developer'
+} from '@/database/controllers/Developer'
+
+// Import Vue functions.
+import { computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGamePlatformDeveloper',
@@ -39,55 +43,60 @@ export default {
     HipOption,
     HipSelect
   },
-  data() {
-    return {
-      queryResults: []
-    }
+  props: {
+    gameDeveloper: { type: String }
   },
-  props: [
-    'gameDeveloper'
-  ],
-  methods: {
-    // Query searching.
-    querySearch(query) {
+  setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage selected developer.
+    onMounted(() => {
+      // Load selected developer on mounting.
+      if (props.gameDeveloper) {
+        selectDeveloper()
+      }
+    })
+    watch(() => props.gameDeveloper, () => {
+      // Watch for developer ID to be loaded.
+      selectDeveloper()
+    })
+
+    // Developer input operations.
+    let developer = computed({
+      get() { return store.state.gameForm.gamePlatform.developer },
+      set(value) { store.commit('setGamePlatformDeveloper', value) }
+    })
+    const selectDeveloper = () => {
+      // Get developer from parent page.
+      getDeveloper(props.gameDeveloper)
+        .then((res) => {
+          developer.value = props.gameDeveloper
+          queryResults.value = new Array(res)
+        })
+    }
+
+    // Manage search queries.
+    let queryResults = ref([])
+    const querySearch = (query) => {
       // Only start search from two characters onwards.
       if (query !== '' && query.length > 1) {
         // Search for developers matching the query.
         getDeveloperByName(query)
-          .then(res => {
+          .then((res) => {
             // Store results.
-            this.queryResults = res
+            queryResults.value = res
           })
       } else {
         // Keep results empty.
-        this.queryResults = []
+        queryResults.value = []
       }
-    },
-    // Autocomplete developer input field.
-    selectDeveloper() {
-      // Get developer from parent page.
-      getDeveloper(this.gameDeveloper)
-        .then(res => {
-          this.developer = this.gameDeveloper
-          this.queryResults = new Array(res)
-        })
     }
-  },
-  mounted() {
-    if (this.gameDeveloper) {
-      this.selectDeveloper()
-    }
-  },
-  computed: {
-    developer: {
-      get() { return this.$store.state.gameForm.gamePlatform.developer },
-      set(value) { this.$store.commit('setGamePlatformDeveloper', value) }
-    }
-  },
-  watch: {
-    // Watch for developer ID to be loaded.
-    gameDeveloper() {
-      this.selectDeveloper()
+
+    return {
+      developer,
+      queryResults,
+      querySearch
     }
   }
 }

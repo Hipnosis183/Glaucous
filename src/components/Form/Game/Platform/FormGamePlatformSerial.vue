@@ -8,7 +8,11 @@
 
 <script>
 // Import UI components.
-import { HipInput } from '../../../Component'
+import { HipInput } from '@/components/Component'
+
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGamePlatformSerial',
@@ -16,10 +20,18 @@ export default {
     // UI components.
     HipInput
   },
-  computed: {
-    serial: {
-      get() { return this.$store.state.gameForm.gameRegion.serial },
-      set(value) { this.$store.commit('setGameRegionSerial', value) }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const serial = computed({
+      get() { return store.state.gameForm.gameRegion.serial },
+      set(value) { store.commit('setGameRegionSerial', value) }
+    })
+
+    return {
+      serial
     }
   }
 }

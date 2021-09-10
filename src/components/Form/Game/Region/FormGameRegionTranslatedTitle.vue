@@ -8,7 +8,11 @@
 
 <script>
 // Import UI components.
-import { HipInput } from '../../../Component'
+import { HipInput } from '@/components/Component'
+
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGameRegionTranslatedTitle',
@@ -16,10 +20,18 @@ export default {
     // UI components.
     HipInput
   },
-  computed: {
-    translatedTitle: {
-      get() { return this.$store.state.gameForm.gameRegion.translatedTitle },
-      set(value) { this.$store.commit('setGameRegionTranslatedTitle', value) }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const translatedTitle = computed({
+      get() { return store.state.gameForm.gameRegion.translatedTitle },
+      set(value) { store.commit('setGameRegionTranslatedTitle', value) }
+    })
+
+    return {
+      translatedTitle
     }
   }
 }

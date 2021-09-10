@@ -32,13 +32,17 @@
 
 <script>
 // Import region data.
-import Regions from '../../../../../public/files/flags-g.json'
+import regions from '@/../public/files/flags-g.json'
 // Import UI components.
 import {
   HipOption,
   HipOptionGroup,
   HipSelect
-} from '../../../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGameRegionRegion',
@@ -48,15 +52,19 @@ export default {
     HipOptionGroup,
     HipSelect
   },
-  data() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const region = computed({
+      get() { return store.state.gameForm.gameRegion.region },
+      set(value) { store.commit('setGameRegionRegion', value) }
+    })
+
     return {
-      regions: Regions
-    }
-  },
-  computed: {
-    region: {
-      get() { return this.$store.state.gameForm.gameRegion.region },
-      set(value) { this.$store.commit('setGameRegionRegion', value) }
+      region,
+      regions
     }
   }
 }
