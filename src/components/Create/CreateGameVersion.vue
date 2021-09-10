@@ -46,11 +46,15 @@ import {
   FormGameVersionLatest,
   FormGameVersionName,
   FormGameVersionNumber
-} from '../Form'
+} from '@/components/Form'
 // Import UI components.
-import { HipButton } from '../Component'
+import { HipButton } from '@/components/Component'
 // Import database controllers functions.
-import { newGameVersion } from '../../database/controllers/Game'
+import { newGameVersion } from '@/database/controllers/Game'
+
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'CreateGameRegion',
@@ -67,11 +71,19 @@ export default {
   emits: [
     'close'
   ],
-  methods: {
-    onSubmit() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage game version creation.
+    const onSubmit = () => {
       // Save new game entry.
-      newGameVersion(this.$store.state.gameForm, this.$store.state.selectedPlatform, this.$store.state.gameSelected)
-        .then(() => this.$emit('close'))
+      newGameVersion(store.state.gameForm, store.state.selectedPlatform, store.state.gameSelected)
+        .then(() => emit('close'))
+    }
+
+    return {
+      onSubmit
     }
   }
 }

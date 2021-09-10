@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -13,7 +13,7 @@
       <!-- Close message. -->
       <hip-button
         :icon="true"
-        @click="validationError()"
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -56,14 +56,18 @@ import {
   FormPlatformGroup,
   FormPlatformName,
   FormPlatformParent,
-} from '../Form'
+} from '@/components/Form'
 // Import UI components.
 import {
   HipButton,
   HipDialog
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
-import { createPlatform } from '../../database/controllers/Platform'
+import { createPlatform } from '@/database/controllers/Platform'
+
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: "CreatePlatform",
@@ -76,34 +80,37 @@ export default {
     HipButton,
     HipDialog
   },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
-  },
   emits: [
     'close'
   ],
-  props: [
-    'groupPlatform'
-  ],
-  methods: {
-    onSubmit() {
+  props: {
+    groupPlatform: { type: String }
+  },
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage platform editing.
+    const onSubmit = () => {
       // Validate required fields.
-      if (!this.$store.state.platformForm.name) {
-        this.validationError()
+      if (!store.state.platformForm.name) {
+        validationErrorShow()
         return
       }
       // Save new platform entry.
-      createPlatform(this.$store.state.platformForm)
-        .then(() => this.$emit('close'))
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      createPlatform(store.state.platformForm)
+        .then(() => emit('close'))
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

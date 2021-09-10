@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -13,7 +13,7 @@
       <!-- Close message. -->
       <hip-button
         :icon="true"
-        @click="validationError()"
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -45,14 +45,18 @@
 
 <script>
 // Import form components.
-import { FormDeveloperName } from '../Form'
+import { FormDeveloperName } from '@/components/Form'
 // Import UI components.
 import {
   HipButton,
   HipDialog
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
-import { createDeveloper } from '../../database/controllers/Developer'
+import { createDeveloper } from '@/database/controllers/Developer'
+
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: "CreateDeveloper",
@@ -63,31 +67,34 @@ export default {
     HipButton,
     HipDialog
   },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
-  },
   emits: [
     'close'
   ],
-  methods: {
-    onSubmit() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage developer creation.
+    const onSubmit = () => {
       // Validate required fields.
-      if (!this.$store.state.developerForm.name) {
-        this.validationError()
+      if (!store.state.developerForm.name) {
+        validationErrorShow()
         return
       }
       // Save new developer entry.
-      createDeveloper(this.$store.state.developerForm)
-        .then(() => this.$emit('close'))
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      createDeveloper(store.state.developerForm)
+        .then(() => emit('close'))
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }
