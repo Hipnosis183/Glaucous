@@ -22,12 +22,17 @@
 import {
   HipOption,
   HipSelect
-} from '../../Component'
+} from '@/components/Component'
 // Import database platform functions.
 import {
   getPlatform,
   getPlatformGroupByName
-} from '../../../database/controllers/Platform'
+} from '@/database/controllers/Platform'
+
+// Import Vue functions.
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormPlatformParent',
@@ -36,56 +41,62 @@ export default {
     HipOption,
     HipSelect
   },
-  data() {
-    return {
-      queryResults: []
-    }
+  props: {
+    groupPlatform: { type: String }
   },
-  props: [
-    'groupPlatform'
-  ],
-  methods: {
-    // Query searching.
-    querySearch(query) {
+  setup(props) {
+    // Instantiate Vue elements.
+    const route = useRoute()
+    const store = useStore()
+
+    // Manage selected platform group.
+    onMounted(() => {
+      // Load selected platform group on mounting.
+      if (props.groupPlatform) {
+        selectPlatformGroup()
+      }
+    })
+    watch(() => props.groupPlatform, () => {
+      // Watch for platform group ID to be loaded.
+      selectPlatformGroup()
+    })
+
+    // Platform group input operations.
+    let parent = computed({
+      get() { return store.state.platformForm.parent },
+      set(value) { store.commit('setPlatformParent', value) }
+    })
+    const selectPlatformGroup = () => {
+      // Get platform group from parent page.
+      getPlatform(props.groupPlatform)
+        .then((res) => {
+          parent.value = props.groupPlatform
+          // Check if it has a value or not, since it's not a required field.
+          queryResults.value = res ? [res] : []
+        })
+    }
+
+    // Manage search queries.
+    let queryResults = ref([])
+    const querySearch = (query) => {
       // Only start search from two characters onwards.
       if (query !== '' && query.length > 1) {
         // Search for platform groups matching the query.
-        getPlatformGroupByName(query, this.$route.params.id)
-          .then(res => {
+        getPlatformGroupByName(query, route.params.id)
+          .then((res) => {
             // Store results.
-            this.queryResults = res
+            queryResults.value = res
           })
       } else {
         // Keep results empty.
-        this.queryResults = []
+        queryResults.value = []
       }
-    },
-    // Autocomplete platform group input field.
-    selectPlatformGroup() {
-      // Get platform group from parent page.
-      getPlatform(this.groupPlatform)
-        .then(res => {
-          this.parent = this.groupPlatform
-          // Check if it has a value or not, since it's not a required field.
-          this.queryResults = res ? [res] : []
-        })
     }
-  },
-  mounted() {
-    if (this.groupPlatform) {
-      this.selectPlatformGroup()
-    }
-  },
-  computed: {
-    parent: {
-      get() { return this.$store.state.platformForm.parent },
-      set(value) { this.$store.commit('setPlatformParent', value) }
-    }
-  },
-  watch: {
-    // Watch for platform group ID to be loaded.
-    groupPlatform() {
-      this.selectPlatformGroup()
+
+    return {
+      parent,
+      queryResults,
+      querySearch
     }
   }
 }

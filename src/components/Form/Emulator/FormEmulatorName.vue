@@ -10,7 +10,11 @@
 
 <script>
 // Import UI components.
-import { HipInput } from '../../Component'
+import { HipInput } from '@/components/Component'
+
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormEmulatorName',
@@ -18,10 +22,18 @@ export default {
     // UI components.
     HipInput
   },
-  computed: {
-    name: {
-      get() { return this.$store.state.emulatorForm.name },
-      set(value) { this.$store.state.emulatorForm.name = value }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const name = computed({
+      get() { return store.state.emulatorForm.name },
+      set(value) { store.state.emulatorForm.name = value }
+    })
+
+    return {
+      name
     }
   }
 }
