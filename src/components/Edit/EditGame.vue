@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -13,7 +13,7 @@
       <!-- Close message. -->
       <hip-button
         :icon="true"
-        @click="validationError()"
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -102,22 +102,26 @@ import {
   FormGameVersionLatest,
   FormGameVersionName,
   FormGameVersionNumber
-} from '../Form'
+} from '@/components/Form'
 // Import UI components.
 import {
   HipButton,
   HipDialog
-} from '../Component'
+} from '@/components/Component'
 // Import database controllers functions.
-import { updateGame } from '../../database/controllers/Game'
+import { updateGame } from '@/database/controllers/Game'
 import {
   createDeveloper,
   getDeveloper
-} from '../../database/controllers/Developer'
+} from '@/database/controllers/Developer'
 import {
   createPlatform,
   getPlatform
-} from '../../database/controllers/Platform'
+} from '@/database/controllers/Platform'
+
+// Import Vue functions.
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'EditGame',
@@ -145,85 +149,88 @@ export default {
     HipButton,
     HipDialog
   },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
-  },
   emits: [
     'close'
   ],
-  props: [
-    'gameDeveloper',
-    'gamePlatform'
-  ],
-  methods: {
-    onSubmit() {
+  props: {
+    gameDeveloper: { type: String },
+    gamePlatform: { type: String }
+  },
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage game editing.
+    const onSubmit = () => {
       // Validate required fields.
       if (
-        !this.$store.state.gameForm.gameRegion.title ||
-        !this.$store.state.gameForm.gameRegion.region ||
-        !this.$store.state.gameForm.gamePlatform.developer ||
-        !this.$store.state.gameForm.gamePlatform.platform ||
-        !this.$store.state.gameForm.gamePlatform.releaseYear
+        !store.state.gameForm.gameRegion.title ||
+        !store.state.gameForm.gameRegion.region ||
+        !store.state.gameForm.gamePlatform.developer ||
+        !store.state.gameForm.gamePlatform.platform ||
+        !store.state.gameForm.gamePlatform.releaseYear
       ) {
-        this.validationError()
+        validationErrorShow()
         return
       }
       // Check developer existance.
-      this.checkDeveloper()
+      checkDeveloper()
         // Check platform existance.
-        .then(() => this.checkPlatform()
+        .then(() => checkPlatform()
           .then(() => {
             // Update game entry.
-            updateGame(this.$store.state.gameForm, this.$store.state.gameSelected)
-              .then(() => this.$emit('close'))
+            updateGame(store.state.gameForm, store.state.gameSelected)
+              .then(() => emit('close'))
           }))
-    },
-    async checkDeveloper() {
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    // Manage developer and platform field inputs.
+    const developer = computed({
+      get() { return store.state.gameForm.gamePlatform.developer },
+      set(value) { store.commit('setGamePlatformDeveloper', value) }
+    })
+    const checkDeveloper = async () => {
       // Check if the developer entered exists.
-      await getDeveloper(this.developer)
-        .then(async res => {
+      await getDeveloper(developer.value)
+        .then(async (res) => {
           if (!res) {
             // Populate new developer form.
-            this.$store.commit('setDeveloperName', this.developer)
+            store.commit('setDeveloperName', developer.value)
             // Save new developer entry.
-            await createDeveloper(this.$store.state.developerForm)
+            await createDeveloper(store.state.developerForm)
               // Set the new developer in the game form.
-              .then(res => this.developer = res._id)
+              .then((res) => developer.value = res._id)
           }
         })
-    },
-    async checkPlatform() {
+    }
+    const platform = computed({
+      get() { return store.state.gameForm.gamePlatform.platform },
+      set(value) { store.commit('setGamePlatformPlatform', value) }
+    })
+    const checkPlatform = async () => {
       // Check if the platform entered exists.
-      await getPlatform(this.platform)
-        .then(async res => {
+      await getPlatform(platform.value)
+        .then(async (res) => {
           if (!res) {
             // Populate new platform form.
-            this.$store.commit('setPlatformName', this.platform)
+            store.commit('setPlatformName', platform.value)
             // Save new platform entry.
-            await createPlatform(this.$store.state.platformForm)
+            await createPlatform(store.state.platformForm)
               // Set the new platform in the game form.
-              .then(res => this.platform = res._id)
+              .then((res) => platform.value = res._id)
           }
         })
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
     }
-  },
-  computed: {
-    developer: {
-      get() { return this.$store.state.gameForm.gamePlatform.developer },
-      set(value) { this.$store.commit('setGamePlatformDeveloper', value) }
-    },
-    platform: {
-      get() { return this.$store.state.gameForm.gamePlatform.platform },
-      set(value) { this.$store.commit('setGamePlatformPlatform', value) }
+
+    return {
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

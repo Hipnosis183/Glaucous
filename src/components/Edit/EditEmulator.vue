@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -13,7 +13,7 @@
       <!-- Close message. -->
       <hip-button
         :icon="true"
-        @click="validationError()"
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -76,13 +76,17 @@ import {
   FormEmulatorName,
   FormEmulatorParams,
   FormEmulatorPath
-} from '../Form'
+} from '@/components/Form'
 // Import UI components.
 import {
   HipButton,
   HipDialog,
   HipSectionHeader
-} from '../Component'
+} from '@/components/Component'
+
+// Import Vue functions.
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'EditEmulator',
@@ -97,50 +101,52 @@ export default {
     HipDialog,
     HipSectionHeader
   },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
-  },
+  emits: [
+    'close'
+  ],
   props: {
     emulatorList: { type: Array, default: [] },
     emulatorPath: { type: String, default: '' }
   },
-  emits: [
-    'close'
-  ],
-  methods: {
-    onSubmit() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage emulator editing.
+    const fullCommand = computed(() => {
+      // Get the emulator form values.
+      let emu = store.state.emulatorForm
+      // Return command to execute.
+      return '"' + (emu.path ? emu.path : '') + '/' + (emu.file ? emu.file : '') + '" ' + (emu.params ? emu.params : '')
+    })
+    const onSubmit = () => {
       // Validate required fields.
       if (
-        !this.$store.state.emulatorForm.name ||
-        !this.$store.state.emulatorForm.path ||
-        !this.$store.state.emulatorForm.file
+        !store.state.emulatorForm.name ||
+        !store.state.emulatorForm.path ||
+        !store.state.emulatorForm.file
       ) {
-        this.validationError()
+        validationErrorShow()
         return
       }
       // Find entry and update the list.
-      let index = this.emulatorList.findIndex(res => res.id == this.$store.state.emulatorForm.id)
-      this.emulatorList[index] = this.$store.state.emulatorForm
+      let index = props.emulatorList.findIndex((res) => res.id == store.state.emulatorForm.id)
+      props.emulatorList[index] = store.state.emulatorForm
       // Save updated list back to file.
-      outputJSONSync(this.emulatorPath, this.emulatorList)
-      this.$emit('close')
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      outputJSONSync(props.emulatorPath, props.emulatorList)
+      emit('close')
     }
-  },
-  computed: {
-    fullCommand() {
-      // Get the emulator form values.
-      let emu = this.$store.state.emulatorForm
-      // Return command to execute.
-      return '"' + (emu.path ? emu.path : '') + '/' + (emu.file ? emu.file : '') + '" ' + (emu.params ? emu.params : '')
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      fullCommand,
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }
