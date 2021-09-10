@@ -1,7 +1,7 @@
 <template>
   <!-- Option item. -->
   <li
-    @click="setOption(item)"
+    @click="setOption()"
     class="hover:bg-theme-200 dark:hover:bg-theme-600 relative"
     :class="{ 'bg-color-300 dark:bg-color-700' : selectedItem }"
   >
@@ -20,46 +20,50 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, getCurrentInstance, inject, watch } from 'vue'
+
 export default {
   name: 'HipOption',
-  data() {
-    return {
-      item: {
-        label: this.label,
-        value: this.value
-      }
-    }
-  },
-  inject: [
-    'listenEmitter',
-    'selectID',
-    'selectValue'
-  ],
   props: {
     label: { type: [String, Number] },
-    value: { type: [String, Number, Boolean, Object] }
+    value: { type: [String, Number, Object] }
   },
-  methods: {
-    setOption(item) {
+  setup(props) {
+    // Instantiate Mitt.
+    const emitter = getCurrentInstance().appContext.config.globalProperties.emitter
+
+    // Manage value communication with select component.
+    const item = {
+      label: props.label,
+      value: props.value
+    }
+    const setOption = () => {
       // Emit option data to select component.
-      this.emitter.emit('setOption', item)
+      emitter.emit('setOption', item)
     }
-  },
-  computed: {
-    selectedItem() {
-      return this.selectValue.value == this.item.value ? true : false
-    },
-    catchEmitter() {
-      return this.listenEmitter.value
-    }
-  },
-  watch: {
-    catchEmitter() {
+
+    // Manage label communication with select component.
+    const listenEmitter = inject('listenEmitter')
+    const selectID = inject('selectID')
+    const selectValue = inject('selectValue', '')
+    const selectedItem = computed(() => {
+      return selectValue.value == item.value ? true : false
+    })
+    const catchEmitter = computed(() => {
+      return listenEmitter.value
+    })
+    watch(() => catchEmitter.value, () => {
       // Intercept the selected value.
-      if (this.selectedItem) {
+      if (selectedItem.value) {
         // Emit response with the selected option label.
-        this.emitter.emit(this.selectID.value, this.item.label)
+        emitter.emit(selectID.value, item.label)
       }
+    })
+
+    return {
+      selectedItem,
+      setOption
     }
   }
 }

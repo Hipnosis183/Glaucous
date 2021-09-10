@@ -6,7 +6,7 @@
     <div class="flex flex-col h-10 rounded-xl shadow">
       <!-- Select container. -->
       <div
-        :ref="`select-${selectID}`"
+        ref="refSelect"
         @click="openDropMenu()"
         class="flex h-full rounded-xl w-full"
       >
@@ -39,10 +39,10 @@
           <!-- Label input. -->
           <input
             v-model="labelSelected"
-            :ref="`input-${selectID}`"
+            ref="refInput"
             :placeholder="labelHide || !labelPlaceholder ? placeholder : ''"
             @blur="labelSelected = labelPlaceholder"
-            @input="updateValueD"
+            @input="updateValueDebounced"
             class="absolute bg-transparent cursor-pointer h-full px-4 w-full"
             :class="{ 'input-error' : required }"
           />
@@ -82,7 +82,7 @@
       </div>
       <!-- Dropdown menu. -->
       <div
-        :ref="`tooltip-${selectID}`"
+        ref="refTooltip"
         role="tooltip"
         class="z-100"
       >
@@ -90,7 +90,7 @@
           <!-- Menu card. -->
           <div
             v-show="openMenu"
-            :ref="`menu-${selectID}`"
+            ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
             class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
           >
@@ -119,12 +119,18 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { createPopper } from '@popperjs/core'
-import { debounce } from '../../utils/debounce'
-import { generateID } from '../../database/datastore'
+// Import UI components.
 import HipLabel from './HipLabel.vue'
 import HipOption from './HipOption.vue'
+
+// Import Vue functions.
+import { computed, getCurrentInstance, nextTick, onMounted, onUnmounted, onUpdated, provide, ref, watch } from 'vue'
+// Import PopperJS functions.
+import { createPopper } from '@popperjs/core'
+// Import utility functions.
+import { debounce } from '@/utils/debounce'
+// Import database controllers functions.
+import { generateID } from '@/database/datastore'
 
 export default {
   name: 'HipSelect',
@@ -132,234 +138,287 @@ export default {
     HipLabel,
     HipOption
   },
-  data() {
-    return {
-      selectID: generateID(),
-      labelCached: '',
-      labelHide: false,
-      labelSelected: '',
-      labelPlaceholder: '',
-      listenEmitter: false,
-      openMenu: false,
-      optionsClear: false,
-      optionsCache: {
-        labels: [],
-        values: []
-      },
-      popperInstance: '',
-      popperPlacement: '',
-      popperIntersect: false,
-      intersectionObserver: null,
-      updateValueD: debounce(() => this.updateValue(), 1000)
-    }
-  },
-  provide() {
-    return {
-      listenEmitter: computed(() => this.listenEmitter),
-      selectID: computed(() => this.selectID),
-      selectValue: computed(() => this.modelValue)
-    }
-  },
   emits: [
     'update:modelValue'
   ],
   props: {
-    modelValue: { type: [Array, String, Number, Boolean, Object], default: '' },
     allowCreate: { type: Boolean, default: false },
     clearable: { type: Boolean, default: false },
     iconPrefix: { type: String },
     iconSuffix: { type: String },
     label: { type: [String, Number] },
+    modelValue: { type: [Array, String, Number, Object] },
     placeholder: { type: String },
     remote: { type: Boolean, default: false },
     remoteMethod: { type: Function },
-    required: { type: Boolean, default: false },
+    required: { type: Boolean, default: false }
   },
-  methods: {
-    // Menu functions.
-    openDropMenu() {
+  setup(props, { emit }) {
+    // Instantiate Mitt.
+    const emitter = getCurrentInstance().appContext.config.globalProperties.emitter
+
+    // Declare template refs.
+    const refInput = ref(null)
+    const refMenu = ref(null)
+    const refSelect = ref(null)
+    const refTooltip = ref(null)
+
+    // Setup select label on mounting.
+    onMounted(() => {
+      if (props.remote) {
+        // Reset model value to correctly trigger the label setting.
+        emit('update:modelValue', null)
+      } setOptionLabel()
+    })
+    // Update selected label when the value changes.
+    onUpdated(() => { setOptionLabel() })
+    // Clear all Mitt events.
+    onUnmounted(() => { emitter.all.clear() })
+
+    // Manage input value.
+    let labelCached = ref('')
+    let labelHide = ref(false)
+    let labelSelected = ref('')
+    let labelPlaceholder = ref('')
+    let optionsClear = ref(false)
+    let optionsCache = ref({
+      labels: [],
+      values: []
+    })
+    const updateValue = () => {
+      // Update parent component model value.
+      emit('update:modelValue', props.modelValue)
+      if (props.allowCreate) {
+        // Cache input label.
+        labelCached.value = labelSelected.value
+      }
+      if (props.remote) {
+        // Hide label placeholder.
+        labelHide.value = true
+        // Update options with new query.
+        props.remoteMethod(labelSelected.value)
+      }
+    }
+    const updateValueDebounced = debounce(() => updateValue(), 1000)
+    const clearValue = () => {
+      // Clear input value.
+      labelSelected.value = ''
+      // Clear parent component model value.
+      emit('update:modelValue', '')
+      if (props.remote) {
+        // Clear label placeholder.
+        labelPlaceholder.value = ''
+        // Toggle options clear.
+        optionsClear.value = true
+      }
+    }
+    watch(() => props.modelValue, (value) => {
+      // Avoid carrying a previous label when there's no value.
+      if (value == null) {
+        labelPlaceholder.value = ''
+      }
+      // Apply only for remote searches.
+      if (props.remote) {
+        // Set label if the option has been cached before.
+        if (optionsCache.value.values.includes(value)) {
+          labelPlaceholder.value = optionsCache.value.labels[optionsCache.value.values.indexOf(value)]
+          // Toggle options clear.
+          optionsClear.value = false
+        }
+        if (value == '') {
+          // Empty options results.
+          props.remoteMethod('')
+          // Hide label placeholder.
+          labelHide.value = true
+        } else if (labelPlaceholder.value) {
+          // Show label placeholder.
+          labelHide.value = false
+          // Check if the option selected was created or not.
+          if (labelCached.value == labelPlaceholder.value) {
+            // Clear options.
+            props.remoteMethod('')
+          } else {
+            // Clear cache input label.
+            labelCached.value = ''
+            // Get label option.
+            props.remoteMethod(labelPlaceholder.value)
+          }
+        }
+      }
+    })
+
+    // Manage communication with options component.
+    const selectID = generateID()
+    provide('selectID', computed(() => selectID))
+    let listenEmitter = ref(false)
+    provide('listenEmitter', computed(() => listenEmitter.value))
+    provide('selectValue', computed(() => props.modelValue))
+    // Set current label when the select value changes.
+    const setOptionLabel = () => {
+      // Avoid triggering during normal operation.
+      if (!openMenu.value) {
+        // Continue if there's a value.
+        if (props.modelValue != null) {
+          if (props.modelValue.toString().length > 0) {
+            // Open option click event listener for the select.
+            emitter.on(selectID, (item) => {
+              if (item.length > 0) {
+                // Set option label as select label.
+                if (props.remote) {
+                  labelPlaceholder.value = item
+                  labelHide.value = false
+                  // Toggle options clear.
+                  optionsClear.value = false
+                  // Store results in options cache.
+                  if (!optionsCache.value.values.includes(props.modelValue)) {
+                    optionsCache.value.values.push(props.modelValue)
+                    optionsCache.value.labels.push(labelPlaceholder.value)
+                  }
+                } else {
+                  labelSelected.value = item
+                }
+                // Remove select option listener.
+                emitter.off(selectID)
+              }
+            })
+            // Trigger emitter listener.
+            listenEmitter.value = !listenEmitter.value
+          }
+        } else {
+          labelSelected.value = ''
+        }
+      }
+    }
+
+    // Manage drop menu functions.
+    let openMenu = ref(false)
+    const openDropMenu = () => {
       // Close menu if it's already open.
-      if (this.openMenu === true) {
-        this.closeDropMenu(closeListener)
-        if (this.remote) {
+      if (openMenu.value === true) {
+        closeDropMenu(closeListener)
+        if (props.remote) {
           // Remove focus from the input element.
-          this.$refs[`input-${this.selectID}`].blur()
+          refInput.value.blur()
         }
         return
       }
-      // Passthrough context.
-      let that = this
       // Menu close listener.
       const closeListener = (event) => {
         // Ensure the menu is rendered.
-        if (that.$refs[`menu-${this.selectID}`] && that.openMenu) {
+        if (refMenu.value && openMenu.value) {
           // Return if menu is clicked.
-          if (that.$refs[`menu-${this.selectID}`] == event.target || that.$refs[`menu-${this.selectID}`].contains(event.target)) {
+          if (refMenu.value == event.target || refMenu.value.contains(event.target)) {
             return
           }
           // Close menu if anything outside is clicked.
-          if (that.openMenu && (that.$refs[`menu-${this.selectID}`] != event.target || !that.$refs[`menu-${this.selectID}`].contains(event.target))) {
-            that.closeDropMenu(closeListener)
+          if (openMenu.value && (refMenu.value != event.target || !refMenu.value.contains(event.target))) {
+            closeDropMenu(closeListener)
           }
         } else {
-          that.closeDropMenu(closeListener)
+          closeDropMenu(closeListener)
         }
       }
       // Avoid menu re-triggering while maintaining the event propagation.
       setTimeout(() => {
-        if (!this.openMenu) {
+        if (!openMenu.value) {
           // Manage menu placement.
-          this.setMenuPlacement()
+          setMenuPlacement()
           // Manage menu interception.
-          this.setMenuObserver()
+          setMenuObserver()
           // Open menu.
-          this.openMenu = true
-          this.updateDropMenu()
+          openMenu.value = true
+          updateDropMenu()
           // Add click listener.
           window.addEventListener('click', closeListener)
         }
       }, 10)
       // Open option click event listener.
-      this.emitter.on('setOption', (item) => {
+      emitter.on('setOption', (item) => {
         // Set option label as select label.
-        this.labelSelected = this.remote ? '' : item.label
-        this.labelPlaceholder = item.label
+        labelSelected.value = props.remote ? '' : item.label
+        labelPlaceholder.value = item.label
         // Show label placeholder.
-        this.labelHide = false
+        labelHide.value = false
         // Update parent component model value.
-        this.$emit('update:modelValue', item.value)
-        this.selectDropMenu(closeListener)
+        emit('update:modelValue', item.value)
+        selectDropMenu()
       })
       // Set menu width to match parent input select.
-      this.$refs[`menu-${this.selectID}`].style.minWidth = this.$refs[`select-${this.selectID}`].clientWidth + 'px'
-    },
-    closeDropMenu(listener) {
-      if (this.remote) {
+      refMenu.value.style.minWidth = refSelect.value.clientWidth + 'px'
+    }
+    const closeDropMenu = (listener) => {
+      if (props.remote) {
         // Clear input value.
-        this.labelSelected = ''
+        labelSelected.value = ''
         // Show label placeholder.
-        this.labelHide = false
+        labelHide.value = false
         // If there's an option cached.
-        if (this.optionsCache.labels.includes(this.labelPlaceholder) && !this.optionsClear) {
-          let index = this.optionsCache.labels.indexOf(this.labelPlaceholder)
+        if (optionsCache.value.labels.includes(labelPlaceholder.value) && !optionsClear.value) {
+          let index = optionsCache.value.labels.indexOf(labelPlaceholder.value)
           // Update parent component model value.
-          this.$emit('update:modelValue', this.optionsCache.values[index])
+          emit('update:modelValue', optionsCache.value.values[index])
           // Check if the option selected was created or not.
-          if (this.optionsCache.values[index] == this.optionsCache.labels[index]) {
+          if (optionsCache.value.values[index] == optionsCache.value.labels[index]) {
             // Cache input label.
-            this.labelCached = this.labelPlaceholder
+            labelCached.value = labelPlaceholder.value
             // Clear options.
-            this.remoteMethod('')
+            props.remoteMethod('')
           } else {
             // Clear cache input label.
-            this.labelCached = ''
+            labelCached.value = ''
             // Update options with new query.
-            this.remoteMethod(this.labelPlaceholder)
+            props.remoteMethod(labelPlaceholder.value)
           }
         } else {
           // Clear cache input label.
-          this.labelCached = ''
+          labelCached.value = ''
           // Clear parent component model value.
-          this.$emit('update:modelValue', '')
+          emit('update:modelValue', '')
           // Clear options.
-          this.remoteMethod('')
+          props.remoteMethod('')
         }
       }
-      this.selectDropMenu(listener)
-    },
-    selectDropMenu(listener) {
+      selectDropMenu(listener)
+    }
+    const selectDropMenu = (listener) => {
       // Close menu.
-      this.openMenu = false
-      this.updateDropMenu()
+      openMenu.value = false
+      updateDropMenu()
       // Clear all emit listeners.
-      this.emitter.all.clear()
+      emitter.all.clear()
       // Remove click listener.
       window.removeEventListener('click', listener)
-      this.$nextTick(() => {
+      nextTick(() => {
         // Disconnect the observer watcher.
-        this.intersectionObserver.disconnect()
+        intersectionObserver.value.disconnect()
         // Delay to wait for the animation to finish.
         setTimeout(() => {
           // Destroy Popper instance.
-          this.popperInstance.destroy()
+          popperInstance.value.destroy()
         }, 300)
       })
-    },
-    updateDropMenu() {
-      this.$nextTick(() => {
+    }
+    const updateDropMenu = () => {
+      nextTick(() => {
         // Update popper instance.
-        this.popperInstance.update()
+        popperInstance.value.update()
         // Set current popper placement.
-        this.popperPlacement = this.popperInstance.state.placement
+        popperPlacement.value = popperInstance.value.state.placement
       })
-    },
-    // Input value functions.
-    clearValue() {
-      // Clear input value.
-      this.labelSelected = ''
-      // Clear parent component model value.
-      this.$emit('update:modelValue', '')
-      if (this.remote) {
-        // Clear label placeholder.
-        this.labelPlaceholder = ''
-        // Toggle options clear.
-        this.optionsClear = true
-      }
-    },
-    updateValue() {
-      // Update parent component model value.
-      this.$emit('update:modelValue', this.modelValue)
-      if (this.allowCreate) {
-        // Cache input label.
-        this.labelCached = this.labelSelected
-      }
-      if (this.remote) {
-        // Hide label placeholder.
-        this.labelHide = true
-        // Update options with new query.
-        this.remoteMethod(this.labelSelected)
-      }
-    },
-    // Set current label when the select value changes.
-    setOptionLabel() {
-      // Avoid triggering during normal operation.
-      if (!this.openMenu) {
-        // Continue if there's a value.
-        if (this.modelValue != null) {
-          if (this.modelValue.toString().length > 0) {
-            // Open option click event listener for the select.
-            this.emitter.on(this.selectID, (item) => {
-              if (item.length > 0) {
-                // Set option label as select label.
-                if (this.remote) {
-                  this.labelPlaceholder = item
-                  this.labelHide = false
-                  // Toggle options clear.
-                  this.optionsClear = false
-                  // Store results in options cache.
-                  if (!this.optionsCache.values.includes(this.modelValue)) {
-                    this.optionsCache.values.push(this.modelValue)
-                    this.optionsCache.labels.push(this.labelPlaceholder)
-                  }
-                } else {
-                  this.labelSelected = item
-                }
-                // Remove select option listener.
-                this.emitter.off(this.selectID)
-              }
-            })
-            // Trigger emitter listener.
-            this.listenEmitter = !this.listenEmitter
-          }
-        } else {
-          this.labelSelected = ''
-        }
-      }
-    },
-    setMenuPlacement() {
-      this.$nextTick(() => {
+    }
+
+    // Manage options menu popper.
+    let popperInstance = ref('')
+    let popperPlacement = ref('')
+    let popperIntersect = ref(false)
+    watch(() => popperIntersect.value, (value) => {
+      // Close menu if the select ended intersecting the viewport.
+      if (value) { closeDropMenu() }
+    })
+    const setMenuPlacement = () => {
+      nextTick(() => {
         // Create a new PopperJS instance.
-        this.popperInstance = createPopper(this.$refs[`select-${this.selectID}`], this.$refs[`tooltip-${this.selectID}`], {
+        popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
           modifiers: [
             // Set the padding for vertical boundary.
@@ -369,79 +428,34 @@ export default {
           ]
         })
       })
-    },
+    }
     // Observe the select, closing the menu when it goes off-screen.
-    setMenuObserver() {
+    let intersectionObserver = ref(null)
+    const setMenuObserver = () => {
       // Define and instantiate observer.
-      this.intersectionObserver = new window.IntersectionObserver((entries) => {
+      intersectionObserver.value = new window.IntersectionObserver((entries) => {
         // Middleware to ensure only one intersection triggering.
-        this.popperIntersect = entries[0].isIntersecting ? false : true
+        popperIntersect.value = entries[0].isIntersecting ? false : true
       })
       // Initiate the observer watcher.
-      this.intersectionObserver.observe(this.$refs[`select-${this.selectID}`])
+      intersectionObserver.value.observe(refSelect.value)
     }
-  },
-  mounted() {
-    // Reset model value to correctly trigger the label setting.
-    if (this.remote) {
-      this.$emit('update:modelValue', null)
-    }
-    // Load option label.
-    this.setOptionLabel()
-  },
-  unmounted() {
-    // Clear all emit listeners.
-    this.emitter.all.clear()
-  },
-  updated() {
-    // Load option label.
-    this.setOptionLabel()
-  },
-  computed: {
-    selectValue() {
-      return this.modelValue
-    }
-  },
-  watch: {
-    popperIntersect(value) {
-      // Close menu if the select ended intersecting the viewport.
-      if (value) {
-        this.closeDropMenu()
-      }
-    },
-    selectValue(value) {
-      // Avoid carrying a previous label when there's no value.
-      if (value == null) {
-        this.labelPlaceholder = ''
-      }
-      // Apply only for remote searches.
-      if (this.remote) {
-        // Set label if the option has been cached before.
-        if (this.optionsCache.values.includes(value)) {
-          this.labelPlaceholder = this.optionsCache.labels[this.optionsCache.values.indexOf(value)]
-          // Toggle options clear.
-          this.optionsClear = false
-        }
-        if (value == '') {
-          // Empty options results.
-          this.remoteMethod('')
-          // Hide label placeholder.
-          this.labelHide = true
-        } else if (this.labelPlaceholder) {
-          // Show label placeholder.
-          this.labelHide = false
-          // Check if the option selected was created or not.
-          if (this.labelCached == this.labelPlaceholder) {
-            // Clear options.
-            this.remoteMethod('')
-          } else {
-            // Clear cache input label.
-            this.labelCached = ''
-            // Get label option.
-            this.remoteMethod(this.labelPlaceholder)
-          }
-        }
-      }
+
+    return {
+      clearValue,
+      labelCached,
+      labelHide,
+      labelSelected,
+      labelPlaceholder,
+      openDropMenu,
+      openMenu,
+      popperPlacement,
+      refInput,
+      refMenu,
+      refSelect,
+      refTooltip,
+      updateValue,
+      updateValueDebounced
     }
   }
 }
@@ -458,7 +472,7 @@ export default {
 /* Transitions. */
 div,
 input {
-  transition: background-color 1s;
+  transition: background-color 0.5s;
 }
 .slide-pop-leave-to,
 .slide-pop-enter-active {
