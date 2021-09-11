@@ -56,7 +56,7 @@
           <div class="flex h-10 justify-between mx-1 space-x-2">
             <!-- Close dialog. -->
             <hip-button
-              :icon="true"
+              icon
               @click="imagesPicturesClose()"
               class="el-icon-circle-close text-2xl"
             ></hip-button>
@@ -102,14 +102,14 @@
       <div class="flex h-10 justify-between mx-1">
         <!-- Padding. -->
         <hip-button
-          :icon="true"
+          icon
           class="el-icon-circle-close invisible"
         ></hip-button>
         <!-- Header title. -->
         <p class="pt-1 text-2xl">Gallery</p>
         <!-- Close dialog. -->
         <hip-button
-          :icon="true"
+          icon
           @click="imagesGalleryShow()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
@@ -173,7 +173,7 @@
     <!-- Open gallery. -->
     <div class="flex w-full">
       <hip-button
-        :large="true"
+        large
         @click="imagesGalleryShow()"
       >Gallery</hip-button>
     </div>

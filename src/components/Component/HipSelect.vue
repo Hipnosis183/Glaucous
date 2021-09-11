@@ -146,7 +146,7 @@ export default {
     clearable: { type: Boolean, default: false },
     iconPrefix: { type: String },
     iconSuffix: { type: String },
-    label: { type: [String, Number] },
+    label: { type: String },
     modelValue: { type: [Array, String, Number, Object] },
     placeholder: { type: String },
     remote: { type: Boolean, default: false },

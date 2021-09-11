@@ -26,7 +26,7 @@ import { computed, getCurrentInstance, inject, watch } from 'vue'
 export default {
   name: 'HipOption',
   props: {
-    label: { type: [String, Number] },
+    label: { type: String },
     value: { type: [String, Number, Object] }
   },
   setup(props) {

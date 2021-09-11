@@ -57,13 +57,13 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deleteRegionClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deleteRegionOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
@@ -85,13 +85,13 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deleteVersionClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deleteVersionOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
@@ -113,13 +113,13 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deletePlatformClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deletePlatformOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>

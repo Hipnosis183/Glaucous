@@ -12,7 +12,7 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
+        icon
         @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
@@ -25,12 +25,12 @@
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        :icon="true"
+        icon
         @click="onSubmit()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        :icon="true"
+        icon
         @click="$emit('close')"
         class="el-icon-circle-close text-2xl"
       ></hip-button>

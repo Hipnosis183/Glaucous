@@ -29,13 +29,13 @@
           </div>
           <!-- Add query button. -->
           <hip-button
-            :icon="true"
+            icon
             @click="queryAdd(queryInput.trim(), searchSelect)"
             class="el-icon-circle-plus-outline text-2xl"
           ></hip-button>
           <!-- Remove query button. -->
           <hip-button
-            :icon="true"
+            icon
             @click="$emit('close')"
             class="el-icon-circle-close text-2xl"
           ></hip-button>

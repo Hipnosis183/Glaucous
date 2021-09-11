@@ -40,13 +40,13 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm emulator deletion. -->
       <hip-button
-        :icon="true"
+        icon
         @click="deleteEmulatorClose()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <!-- Cancel emulator deletion. -->
       <hip-button
-        :icon="true"
+        icon
         @click="deleteEmulatorOpen()"
         class="el-icon-circle-close text-2xl"
       ></hip-button>
@@ -65,19 +65,19 @@
     <div class="flex space-x-2 w-full">
       <!-- Create emulator. -->
       <hip-button
-        :icon="true"
+        icon
         @click="createEmulatorOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button>
       <!-- Edit emulator. -->
       <hip-button
-        :icon="true"
+        icon
         @click="editEmulatorOpen()"
         class="el-icon-edit-outline text-2xl"
       ></hip-button>
       <!-- Delete emulator. -->
       <hip-button
-        :icon="true"
+        icon
         @click="deleteEmulatorOpen()"
         class="el-icon-remove-outline text-2xl"
       ></hip-button>

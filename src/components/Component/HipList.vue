@@ -12,37 +12,44 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+
 export default {
   name: 'HipList',
-  data() {
-    return {
-      intersectionObserver: null,
-      isIntersecting: false
-    }
-  },
   props: {
-    manual: { type: Boolean },
+    manual: { type: Boolean, default: false },
     remoteMethod: { type: Function }
   },
-  mounted() {
-    // Define and instantiate observer.
-    this.intersectionObserver = new window.IntersectionObserver((entries) => {
-      // Middleware to ensure only one intersection triggering.
-      this.isIntersecting = entries[0].isIntersecting ? true : false
+  setup(props) {
+    // Declare template refs.
+    const sentinel = ref(null)
+
+    // Manage infinite scrolling.
+    let intersectionObserver = ref(null)
+    let isIntersecting = ref(false)
+    onMounted(() => {
+      // Define and instantiate observer.
+      intersectionObserver.value = new window.IntersectionObserver((entries) => {
+        // Middleware to ensure only one intersection triggering.
+        isIntersecting.value = entries[0].isIntersecting ? true : false
+      })
+      // Initiate the observer watcher.
+      intersectionObserver.value.observe(sentinel.value)
     })
-    // Initiate the observer watcher.
-    this.intersectionObserver.observe(this.$refs['sentinel'])
-  },
-  unmounted() {
-    // Disconnect the observer watcher.
-    this.intersectionObserver.disconnect()
-  },
-  watch: {
-    isIntersecting(value) {
+    onUnmounted(() => {
+      // Disconnect the observer watcher.
+      intersectionObserver.value.disconnect()
+    })
+    watch(() => isIntersecting, (value) => {
       // Execute remote method when reaching the end of the list.
       if (value) {
-        this.remoteMethod()
+        props.remoteMethod()
       }
+    })
+
+    return {
+      sentinel
     }
   }
 }

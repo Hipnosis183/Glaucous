@@ -70,40 +70,48 @@
 </template>
 
 <script>
+// Import UI components.
 import HipCard from './HipCard.vue'
-import { getPlatform } from '../../database/controllers/Platform'
+
+// Import Vue functions.
+import { computed, onMounted, ref } from 'vue'
+// Import database controllers functions.
+import { getPlatform } from '@/database/controllers/Platform'
 
 export default {
   name: 'HipCardCompact',
   components: {
     HipCard
   },
-  data() {
-    return {
-      parentName: null
-    }
+  props: {
+    gameInfo: { type: Object }
   },
-  props: [
-    'gameInfo'
-  ],
-  mounted() {
-    // Check if the platform has a parent group.
-    if (this.gameInfo.platform.parent) {
-      // Get parent platform name.
-      getPlatform(this.gameInfo.platform.parent)
-        .then(res => this.parentName = res.name)
-    }
-  },
-  computed: {
-    fullTitle() {
-      let fullTitle = this.gameInfo.gameRegions[0].title
-      if (this.gameInfo.gameRegions[0].subTitle) {
-        fullTitle = fullTitle + ' ' + this.gameInfo.gameRegions[0].subTitle
+  setup(props) {
+    onMounted(() => {
+      // Check if the platform has a parent group.
+      if (props.gameInfo.platform.parent) {
+        // Get parent platform name.
+        getPlatform(props.gameInfo.platform.parent)
+          .then((res) => parentName.value = res.name)
       }
-      if (this.gameInfo.gameRegions[0].preTitle) {
-        fullTitle = this.gameInfo.gameRegions[0].preTitle + ' ' + fullTitle
+    })
+
+    // Get additional game properties.
+    let parentName = ref(null)
+    const fullTitle = computed(() => {
+      let fullTitle = props.gameInfo.gameRegions[0].title
+      if (props.gameInfo.gameRegions[0].subTitle) {
+        fullTitle = fullTitle + ' ' + props.gameInfo.gameRegions[0].subTitle
+      }
+      if (props.gameInfo.gameRegions[0].preTitle) {
+        fullTitle = props.gameInfo.gameRegions[0].preTitle + ' ' + fullTitle
       }
       return fullTitle
+    })
+
+    return {
+      fullTitle,
+      parentName
     }
   }
 }

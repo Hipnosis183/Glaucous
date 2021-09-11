@@ -9,3 +9,6 @@ export default {
   name: 'HipButtonNb'
 }
 </script>
+
+<style>
+</style>

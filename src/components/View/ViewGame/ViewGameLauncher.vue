@@ -28,7 +28,7 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
+        icon
         @click="launchErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
@@ -58,7 +58,7 @@
       </hip-select>
       <hip-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        :icon="true"
+        icon
         @click="settingsGameOpen()"
         class="el-icon-s-tools text-xl"
       ></hip-button>

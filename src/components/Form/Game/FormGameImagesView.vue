@@ -14,12 +14,12 @@
           <!-- Cover buttons. -->
           <div class="flex h-10 space-x-4">
             <hip-button
-              :icon="true"
+              icon
               @click="coverAdd()"
               class="el-icon-circle-plus-outline text-2xl"
             ></hip-button>
             <hip-button
-              :icon="true"
+              icon
               @click="coverRemove()"
               class="el-icon-remove-outline text-2xl"
             ></hip-button>
@@ -47,7 +47,7 @@
         </div>
         <!-- Back button. -->
         <hip-button
-          :large="true"
+          large
           @click="$emit('close')"
           class="mt-6"
         >Back</hip-button>
@@ -61,7 +61,7 @@
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
             <hip-button
-              :icon="true"
+              icon
               @click="picturesAdd()"
               class="el-icon-circle-plus-outline text-2xl"
             ></hip-button>

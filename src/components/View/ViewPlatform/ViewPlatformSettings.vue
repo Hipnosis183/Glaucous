@@ -9,13 +9,13 @@
         <div class="h-10 space-x-4">
           <!-- Store settings. -->
           <hip-button
-            :icon="true"
+            icon
             @click="storeSettings()"
             class="el-icon-circle-check text-2xl"
           ></hip-button>
           <!-- Close dialog. -->
           <hip-button
-            :icon="true"
+            icon
             @click="$emit('close')"
             class="el-icon-circle-close text-2xl"
           ></hip-button>

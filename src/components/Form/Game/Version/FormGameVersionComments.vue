@@ -24,7 +24,7 @@
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->
             <hip-button
-              :icon="true"
+              icon
               @click="commentRemove(index)"
               class="el-icon-remove-outline text-2xl"
             ></hip-button>

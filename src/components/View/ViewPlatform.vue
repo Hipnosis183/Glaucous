@@ -39,13 +39,13 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm platform deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deletePlatformClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel platform deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deletePlatformOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
@@ -105,7 +105,7 @@
       <!-- Open platform settings dialog. -->
       <hip-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        :icon="true"
+        icon
         @click="settingsPlatformOpen()"
         class="el-icon-s-tools mr-4 my-auto text-xl"
       ></hip-button>

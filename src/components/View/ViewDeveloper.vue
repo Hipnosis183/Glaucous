@@ -36,13 +36,13 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm developer deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deleteDeveloperClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel developer deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deleteDeveloperOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>

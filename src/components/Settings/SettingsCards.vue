@@ -119,7 +119,7 @@ export default {
       get() { return store.getters.getSettingsCardsCardColumns },
       set(value) {
         store.commit('setSettingsCardsCardColumns', value)
-        selectCardColumns(cardColumns)
+        selectCardColumns(cardColumns.value)
       }
     })
     const cardImageDisplay = computed({

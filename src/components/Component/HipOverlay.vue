@@ -22,16 +22,19 @@ import { throttle } from '@/utils/throttle'
 
 export default {
   name: 'HipOverlay',
-  data() {
-    return {
-      close: throttle(() => { this.$emit('close') }, 1000)
-    }
-  },
   emits: [
     'close'
   ],
   props: {
     width: { type: [Boolean, String] }
+  },
+  setup(props, { emit }) {
+    // Throttle overlay closing function.
+    const close = throttle(() => { emit('close') }, 1000)
+
+    return {
+      close
+    }
   }
 }
 </script>

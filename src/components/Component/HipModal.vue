@@ -11,3 +11,6 @@ export default {
   name: 'HipModal'
 }
 </script>
+
+<style>
+</style>

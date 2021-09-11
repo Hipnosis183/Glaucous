@@ -12,7 +12,7 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
+        icon
         @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
@@ -43,7 +43,7 @@
             <li class="text-justify">{{ link }}</li>
             <!-- Remove related link from the list. -->
             <hip-button
-              :icon="true"
+              icon
               @click="linkRemove(index)"
               class="el-icon-remove-outline text-2xl"
             ></hip-button>

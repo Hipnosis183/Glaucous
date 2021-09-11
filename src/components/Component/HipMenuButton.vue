@@ -2,14 +2,14 @@
   <div>
     <!-- Button container. -->
     <div
-      :ref="`select-${selectID}`"
+      ref="refSelect"
       @click="openDropMenu()"
     >
       <hip-button-nb :class="icon" />
     </div>
     <!-- Dropdown menu. -->
     <div
-      :ref="`tooltip-${selectID}`"
+      ref="refTooltip"
       role="tooltip"
       class="z-100"
     >
@@ -17,7 +17,7 @@
         <!-- Menu card. -->
         <div
           v-show="openMenu"
-          :ref="`menu-${selectID}`"
+          ref="refMenu"
           :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
           class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
         >
@@ -30,91 +30,93 @@
 </template>
 
 <script>
-import { createPopper } from '@popperjs/core'
-import { generateID } from '../../database/datastore'
+// Import UI components.
 import HipButtonNb from './HipButtonNb.vue'
+
+// Import Vue functions.
+import { nextTick, ref } from 'vue'
+// Import PopperJS functions.
+import { createPopper } from '@popperjs/core'
 
 export default {
   name: 'HipMenuButton',
   components: {
     HipButtonNb
   },
-  data() {
-    return {
-      selectID: generateID(),
-      openMenu: false,
-      popperInstance: '',
-      popperPlacement: ''
-    }
-  },
   props: {
-    icon: { type: String },
+    icon: { type: String }
   },
-  methods: {
-    // Menu functions.
-    openDropMenu() {
+  setup() {
+    // Declare template refs.
+    const refMenu = ref(null)
+    const refSelect = ref(null)
+    const refTooltip = ref(null)
+
+    // Manage drop menu functions.
+    let openMenu = ref(false)
+    let popperInstance = ref('')
+    let popperPlacement = ref('')
+    const openDropMenu = () => {
       // Close menu if it's already open.
-      if (this.openMenu === true) {
-        this.closeDropMenu(closeListener)
+      if (openMenu.value === true) {
+        closeDropMenu(closeListener)
         return
       }
-      // Passthrough context.
-      let that = this
       // Menu close listener.
       const closeListener = (event) => {
         // Ensure the menu is rendered.
-        if (that.$refs[`menu-${this.selectID}`] && that.openMenu) {
+        if (refMenu.value && openMenu.value) {
           // Return if menu is clicked.
-          if (that.$refs[`menu-${this.selectID}`] == event.target) {
+          if (refMenu.value == event.target) {
             return
           }
           // Close menu if anything outside is clicked.
-          if (that.openMenu && (that.$refs[`menu-${this.selectID}`] != event.target || !that.$refs[`menu-${this.selectID}`].contains(event.target))) {
-            that.closeDropMenu(closeListener)
+          if (openMenu.value && (refMenu.value != event.target || !refMenu.value.contains(event.target))) {
+            closeDropMenu(closeListener)
           }
         } else {
-          that.closeDropMenu(closeListener)
+          closeDropMenu(closeListener)
         }
       }
       // Avoid menu re-triggering while maintaining the event propagation.
       setTimeout(() => {
-        if (!this.openMenu) {
+        if (!openMenu.value) {
           // Manage menu placement.
-          this.setMenuPlacement()
+          setMenuPlacement()
           // Open menu.
-          this.openMenu = true
-          this.updateDropMenu()
+          openMenu.value = true
+          updateDropMenu()
           // Add click listener.
           window.addEventListener('click', closeListener)
         }
       }, 10)
-    },
-    closeDropMenu(listener) {
+    }
+    const closeDropMenu = (listener) => {
       // Close menu.
-      this.openMenu = false
-      this.updateDropMenu()
+      openMenu.value = false
+      updateDropMenu()
       // Remove click listener.
       window.removeEventListener('click', listener)
-      this.$nextTick(() => {
+      nextTick(() => {
         // Delay to wait for the animation to finish.
         setTimeout(() => {
           // Destroy Popper instance.
-          this.popperInstance.destroy()
+          popperInstance.value.destroy()
         }, 300)
       })
-    },
-    updateDropMenu() {
-      this.$nextTick(() => {
+    }
+    const updateDropMenu = () => {
+      nextTick(() => {
         // Update popper instance.
-        this.popperInstance.update()
+        popperInstance.value.update()
         // Set current popper placement.
-        this.popperPlacement = this.popperInstance.state.placement
+        popperPlacement.value = popperInstance.value.state.placement
       })
-    },
-    setMenuPlacement() {
-      this.$nextTick(() => {
+    }
+    const setMenuPlacement = () => {
+      nextTick(() => {
         // Create a new PopperJS instance.
-        this.popperInstance = createPopper(this.$refs[`select-${this.selectID}`], this.$refs[`tooltip-${this.selectID}`], {
+        popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
           placement: 'bottom-start',
           modifiers: [
@@ -123,6 +125,15 @@ export default {
           ]
         })
       })
+    }
+
+    return {
+      openDropMenu,
+      openMenu,
+      popperPlacement,
+      refMenu,
+      refSelect,
+      refTooltip
     }
   }
 }

@@ -44,6 +44,7 @@
 </template>
 
 <script>
+// Import UI components.
 import HipInputButton from './HipInputButton.vue'
 
 export default {
@@ -60,19 +61,28 @@ export default {
     min: { type: Number, default: -Infinity },
     positionSide: { type: Boolean, default: false }
   },
-  methods: {
-    increaseValue() {
-      if (this.modelValue < this.max) {
+  setup(props, { emit }) {
+    // Manage input value.
+    const increaseValue = () => {
+      if (props.modelValue < props.max) {
         // Increase component model value.
-        this.$emit('update:modelValue', this.modelValue + 1)
+        emit('update:modelValue', props.modelValue + 1)
       }
-    },
-    decreaseValue() {
-      if (this.modelValue > this.min) {
+    }
+    const decreaseValue = () => {
+      if (props.modelValue > props.min) {
         // Decrease component model value.
-        this.$emit('update:modelValue', this.modelValue - 1)
+        emit('update:modelValue', props.modelValue - 1)
       }
+    }
+
+    return {
+      decreaseValue,
+      increaseValue
     }
   }
 }
 </script>
+
+<style>
+</style>

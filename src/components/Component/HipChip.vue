@@ -16,3 +16,6 @@ export default {
   name: 'HipChip'
 }
 </script>
+
+<style>
+</style>
