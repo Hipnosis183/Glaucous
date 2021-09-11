@@ -291,11 +291,14 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 // Import functions from modules.
-import {
-  app,
-  shell
-} from '@electron/remote'
+import { app, shell } from '@electron/remote'
+// Import database controllers functions.
+import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
@@ -306,51 +309,18 @@ import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonNb,
-  HipDialog,
-  HipMenuButton,
-  HipMenuOption,
-  HipModal,
-  HipNavBar
-} from '@/components/Component'
-// Import database controllers functions.
-import {
-  getGame,
-  deleteGamePlatform,
-  deleteGameRegion,
-  deleteGameVersion,
-  selectGameRegion
-} from '@/database/controllers/Game'
-
-// Import Vue functions.
-import { computed, onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 
 export default {
   name: 'ViewGame',
   components: {
-    // Form components.
     CreateGamePlatform,
     CreateGameRegion,
     CreateGameVersion,
     EditGame,
-    // Game page components.
     ViewGameImages,
     ViewGameInfo,
     ViewGameLauncher,
-    ViewGameLinks,
-    // UI components.
-    HipButton,
-    HipButtonNb,
-    HipDialog,
-    HipMenuButton,
-    HipMenuOption,
-    HipModal,
-    HipNavBar
+    ViewGameLinks
   },
   setup() {
     // Instantiate Vue elements.
@@ -360,7 +330,7 @@ export default {
 
     // Load game information on mounting.
     onMounted(() => { loadGame() })
-    
+
     // Load and manage game information.
     let regionIndex = ref(0)
     let versionIndex = ref(0)

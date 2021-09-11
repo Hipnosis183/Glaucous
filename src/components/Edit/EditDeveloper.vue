@@ -44,28 +44,18 @@
 </template>
 
 <script>
-// Import form components.
-import { FormDeveloperName } from '@/components/Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '@/components/Component'
-// Import database controllers functions.
-import { updateDeveloper } from '@/database/controllers/Developer'
-
 // Import Vue functions.
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { updateDeveloper } from '@/database/controllers/Developer'
+// Import form components.
+import { FormDeveloperName } from '@/components/Form'
 
 export default {
   name: 'EditDeveloper',
   components: {
-    // Form components.
-    FormDeveloperName,
-    // UI components.
-    HipButton,
-    HipDialog
+    FormDeveloperName
   },
   emits: [
     'close'

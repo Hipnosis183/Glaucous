@@ -46,34 +46,18 @@
 </template>
 
 <script>
-// Import form components.
-import CreatePlatform from '../Create/CreatePlatform.vue'
-// Import UI components.
-import {
-  HipButtonNb,
-  HipCard,
-  HipDialog,
-  HipList,
-  HipNavBar
-} from '@/components/Component'
-// Import database controllers functions.
-import { getPlatforms } from '@/database/controllers/Platform'
-
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { getPlatforms } from '@/database/controllers/Platform'
+// Import form components.
+import CreatePlatform from '@/components/Create/CreatePlatform.vue'
 
 export default {
   name: 'ListPlatforms',
   components: {
-    // Form components.
-    CreatePlatform,
-    // UI components.
-    HipButtonNb,
-    HipCard,
-    HipDialog,
-    HipList,
-    HipNavBar
+    CreatePlatform
   },
   setup() {
     // Instantiate Vue elements.

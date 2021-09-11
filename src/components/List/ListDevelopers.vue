@@ -45,34 +45,18 @@
 </template>
 
 <script>
-// Import form components.
-import CreateDeveloper from '../Create/CreateDeveloper.vue'
-// Import UI components.
-import {
-  HipButtonNb,
-  HipCard,
-  HipDialog,
-  HipList,
-  HipNavBar
-} from '@/components/Component'
-// Import database controllers functions.
-import { getDevelopers } from '@/database/controllers/Developer'
-
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { getDevelopers } from '@/database/controllers/Developer'
+// Import form components.
+import CreateDeveloper from '@/components/Create/CreateDeveloper.vue'
 
 export default {
   name: 'ListDevelopers',
   components: {
-    // Form components.
-    CreateDeveloper,
-    // UI components.
-    HipButtonNb,
-    HipCard,
-    HipDialog,
-    HipList,
-    HipNavBar
+    CreateDeveloper
   },
   setup() {
     // Instantiate Vue elements.

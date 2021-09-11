@@ -73,47 +73,20 @@
 </template>
 
 <script>
-// Import form components.
-import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import SettingsCardsMode from '../Settings/SettingsCards/SettingsCardsMode.vue'
-// Import UI components.
-import {
-  HipButtonNb,
-  HipCard,
-  HipCardCompact,
-  HipCardLarge,
-  HipCardTall,
-  HipDialog,
-  HipInput,
-  HipList,
-  HipNavBar
-} from '@/components/Component'
-// Import database controllers functions.
-import {
-  getGamesAll,
-  getGamesAllSearch
-} from '@/database/controllers/Game'
-
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { getGamesAll, getGamesAllSearch } from '@/database/controllers/Game'
+// Import form components.
+import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
+import SettingsCardsMode from '@/components/Settings/SettingsCards/SettingsCardsMode.vue'
 
 export default {
   name: 'ListGames',
   components: {
-    // Form components.
     CreateGamePlatform,
-    SettingsCardsMode,
-    // UI components.
-    HipButtonNb,
-    HipCard,
-    HipCardCompact,
-    HipCardLarge,
-    HipCardTall,
-    HipDialog,
-    HipInput,
-    HipList,
-    HipNavBar
+    SettingsCardsMode
   },
   setup() {
     // Instantiate Vue elements.

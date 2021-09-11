@@ -10,25 +10,12 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipSectionContent,
-  HipSectionHeader,
-  HipSwitch
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'SettingsGames',
-  components: {
-    // UI components.
-    HipSectionContent,
-    HipSectionHeader,
-    HipSwitch
-  },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()

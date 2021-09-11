@@ -38,20 +38,12 @@
 </template>
 
 <script>
-// Import functions from modules.
-import {
-  app,
-  shell
-} from '@electron/remote'
-import {
-  existsSync,
-  readdirSync,
-  readFile
-} from 'fs-extra'
-
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { app, shell } from '@electron/remote'
+import { existsSync, readdirSync, readFile } from 'fs-extra'
 
 export default {
   name: 'ViewGameLinks',

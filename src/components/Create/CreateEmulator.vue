@@ -68,8 +68,13 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
 import { outputJSONSync } from 'fs-extra'
+// Import database functions.
+import { generateID } from '@/database/datastore'
 // Import form components.
 import {
   FormEmulatorFile,
@@ -77,31 +82,14 @@ import {
   FormEmulatorParams,
   FormEmulatorPath
 } from '@/components/Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipSectionHeader
-} from '@/components/Component'
-// Import database functions.
-import { generateID } from '@/database/datastore'
-
-// Import Vue functions.
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
 
 export default {
   name: 'CreateEmulator',
   components: {
-    // Form components.
     FormEmulatorFile,
     FormEmulatorName,
     FormEmulatorParams,
-    FormEmulatorPath,
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipSectionHeader
+    FormEmulatorPath
   },
   emits: [
     'close'

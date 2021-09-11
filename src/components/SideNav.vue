@@ -133,24 +133,18 @@
 </template>
 
 <script>
-// Import search component.
-import Search from './Search.vue'
-// Import UI components.
-import { HipButtonSb } from '@/components/Component'
-
 // Import Vue functions.
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 // Import utility functions.
 import { throttle } from '@/utils/throttle'
+// Import search component.
+import Search from './Search.vue'
 
 export default {
   name: 'SideNav',
   components: {
-    // UI components.
-    HipButtonSb,
-    // Search component.
     Search
   },
   setup() {

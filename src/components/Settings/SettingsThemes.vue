@@ -62,36 +62,14 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipOption,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSelect,
-  HipSwitch
-} from '@/components/Component'
-// Import theme objects and functions.
-import {
-  colors,
-  selectColor,
-  selectTheme,
-  themes
-} from '@/theme'
-
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+// Import theme objects and functions.
+import { colors, selectColor, selectTheme, themes } from '@/theme'
 
 export default {
   name: 'SettingsThemes',
-  components: {
-    // UI components.
-    HipOption,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSelect,
-    HipSwitch
-  },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()

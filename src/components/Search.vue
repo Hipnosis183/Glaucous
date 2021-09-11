@@ -79,39 +79,14 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipButton,
-  HipCardCompact,
-  HipChip,
-  HipInput,
-  HipList,
-  HipModal,
-  HipOption,
-  HipOverlay,
-  HipSelect
-} from '@/components/Component'
-// Import database controllers functions.
-import { getGamesSearch } from '@/database/controllers/Game'
-
 // Import Vue functions.
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+// Import database controllers functions.
+import { getGamesSearch } from '@/database/controllers/Game'
 
 export default {
   name: 'Search',
-  components: {
-    // UI components.
-    HipButton,
-    HipCardCompact,
-    HipChip,
-    HipInput,
-    HipList,
-    HipModal,
-    HipOption,
-    HipOverlay,
-    HipSelect
-  },
   setup(props, { emit }) {
     // Instantiate Vue elements.
     const router = useRouter()

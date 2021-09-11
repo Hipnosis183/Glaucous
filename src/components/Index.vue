@@ -5,17 +5,11 @@
 </template>
 
 <script>
-// Import UI components.
-import { HipButtonSb } from '@/components/Component'
 // Import database functions.
 import { dbSeed } from '@/database/seeder'
 
 export default {
   name: 'Index',
-  components: {
-    // UI components.
-    HipButtonSb
-  },
   setup() {
     return {
       dbSeed

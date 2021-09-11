@@ -21,28 +21,14 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipOption,
-  HipSelect
-} from '@/components/Component'
-// Import database developer functions.
-import {
-  getDeveloper,
-  getDeveloperByName
-} from '@/database/controllers/Developer'
-
 // Import Vue functions.
 import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+// Import database developer functions.
+import { getDeveloper, getDeveloperByName } from '@/database/controllers/Developer'
 
 export default {
   name: 'FormGamePlatformDeveloper',
-  components: {
-    // UI components.
-    HipOption,
-    HipSelect
-  },
   props: {
     gameDeveloper: { type: String }
   },

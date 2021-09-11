@@ -67,37 +67,20 @@
 </template>
 
 <script>
-// Import functions from modules.
-import { app } from '@electron/remote'
-import { exec } from 'child_process'
-import {
-  existsSync,
-  readJSONSync
-} from 'fs-extra'
-// Import form components.
-import ViewGameSettings from './ViewGameSettings.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipOption,
-  HipSelect
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { exec } from 'child_process'
+import { existsSync, readJSONSync } from 'fs-extra'
+// Import form components.
+import ViewGameSettings from './ViewGameSettings.vue'
 
 export default {
   name: 'ViewGameLauncher',
   components: {
-    // Form components.
-    ViewGameSettings,
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipOption,
-    HipSelect
+    ViewGameSettings
   },
   emits: [
     'updated'

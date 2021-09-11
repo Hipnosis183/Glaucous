@@ -134,16 +134,8 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipButton,
-  HipCardCompact,
-  HipDialog,
-  HipModal,
-  HipOption,
-  HipOverlay,
-  HipSelect
-} from '@/components/Component'
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
 // Import database controllers functions.
 import {
   getGamesLinked,
@@ -152,21 +144,8 @@ import {
   unlinkGame
 } from '@/database/controllers/Game'
 
-// Import Vue functions.
-import { onMounted, ref } from 'vue'
-
 export default {
   name: 'ViewGameLinking',
-  components: {
-    // UI components.
-    HipButton,
-    HipCardCompact,
-    HipDialog,
-    HipModal,
-    HipOption,
-    HipOverlay,
-    HipSelect
-  },
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number }

@@ -46,21 +46,15 @@
 </template>
 
 <script>
-// Import form components.
-import FormGameImagesView from './FormGameImagesView.vue'
-// Import UI components.
-import { HipInputButton } from '@/components/Component'
-
 // Import Vue functions.
 import { ref } from 'vue'
+// Import form components.
+import FormGameImagesView from './FormGameImagesView.vue'
 
 export default {
   name: 'FormGameImages',
   components: {
-    // Form components.
-    FormGameImagesView,
-    // UI components.
-    HipInputButton
+    FormGameImagesView
   },
   props: {
     editForm: { type: Boolean, default: false },

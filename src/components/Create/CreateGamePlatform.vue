@@ -81,6 +81,13 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+// Import database controllers functions.
+import { newGamePlatform } from '@/database/controllers/Game'
+import { createDeveloper, getDeveloper } from '@/database/controllers/Developer'
+import { createPlatform, getPlatform } from '@/database/controllers/Platform'
 // Import form components.
 import {
   FormGameImages,
@@ -102,30 +109,10 @@ import {
   FormGameVersionName,
   FormGameVersionNumber
 } from '@/components/Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '@/components/Component'
-// Import database controllers functions.
-import { newGamePlatform } from '@/database/controllers/Game'
-import {
-  createDeveloper,
-  getDeveloper
-} from '@/database/controllers/Developer'
-import {
-  createPlatform,
-  getPlatform
-} from '@/database/controllers/Platform'
-
-// Import Vue functions.
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
 
 export default {
   name: 'CreateGamePlatform',
   components: {
-    // Form components.
     FormGameImages,
     FormGamePlatformDeveloper,
     FormGamePlatformLinks,
@@ -143,10 +130,7 @@ export default {
     FormGameVersionComments,
     FormGameVersionLatest,
     FormGameVersionName,
-    FormGameVersionNumber,
-    // UI components.
-    HipButton,
-    HipDialog
+    FormGameVersionNumber
   },
   emits: [
     'close'

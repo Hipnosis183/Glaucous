@@ -58,27 +58,12 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipInput,
-  HipInputButton
-} from '@/components/Component'
-
 // Import Vue functions.
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'FormGameVersionComments',
-  components: {
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipInput,
-    HipInputButton
-  },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()

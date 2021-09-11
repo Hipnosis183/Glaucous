@@ -24,18 +24,14 @@
 </template>
 
 <script>
-// Import sidenav component.
-import SideNav from '@/components/SideNav.vue'
+// Import Vue functions.
+import { useStore } from 'vuex'
 // Import settings objects and functions.
 import { selectCardColumns } from '@/settings'
 // Import theme objects and functions.
-import {
-  selectColor,
-  selectTheme
-} from '@/theme'
-
-// Import Vue functions.
-import { useStore } from 'vuex'
+import { selectColor, selectTheme } from '@/theme'
+// Import sidenav component.
+import SideNav from '@/components/SideNav.vue'
 
 export default {
   components: {

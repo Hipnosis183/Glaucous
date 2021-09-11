@@ -74,38 +74,14 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipInputNum,
-  HipOption,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSelect,
-  HipSwitch
-} from '@/components/Component'
-// Import settings objects and functions.
-import {
-  cardViews,
-  imagePositions,
-  selectCardColumns,
-  textPositions
-} from '@/settings'
-
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+// Import settings objects and functions.
+import { cardViews, imagePositions, selectCardColumns, textPositions } from '@/settings'
 
 export default {
   name: 'SettingsCards',
-  components: {
-    // UI components.
-    HipInputNum,
-    HipOption,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSelect,
-    HipSwitch
-  },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()

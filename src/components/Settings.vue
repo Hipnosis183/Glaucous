@@ -28,11 +28,6 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipModal,
-  HipNavBar
-} from '@/components/Component'
 // Import settings components.
 import SettingsCards from './Settings/SettingsCards.vue'
 import SettingsGeneral from './Settings/SettingsGeneral.vue'
@@ -43,10 +38,6 @@ import SettingsThemes from './Settings/SettingsThemes.vue'
 export default {
   name: 'Settings',
   components: {
-    // UI components.
-    HipModal,
-    HipNavBar,
-    // Settings components.
     SettingsCards,
     SettingsGeneral,
     SettingsGames,

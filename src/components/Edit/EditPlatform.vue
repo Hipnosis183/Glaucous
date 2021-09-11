@@ -45,32 +45,19 @@
 </template>
 
 <script>
-// Import form components.
-import {
-  FormPlatformName,
-  FormPlatformParent,
-} from '@/components/Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '@/components/Component'
-// Import database controllers functions.
-import { updatePlatform } from '@/database/controllers/Platform'
-
 // Import Vue functions.
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { updatePlatform } from '@/database/controllers/Platform'
+// Import form components.
+import { FormPlatformName, FormPlatformParent } from '@/components/Form'
 
 export default {
   name: 'EditPlatform',
   components: {
-    // Form components.
     FormPlatformName,
-    FormPlatformParent,
-    // UI components.
-    HipButton,
-    HipDialog
+    FormPlatformParent
   },
   emits: [
     'close'

@@ -46,11 +46,6 @@
 <script>
 // Import form components.
 import { FormDeveloperName } from '@/components/Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '@/components/Component'
 // Import database controllers functions.
 import { createDeveloper } from '@/database/controllers/Developer'
 
@@ -61,11 +56,7 @@ import { useStore } from 'vuex'
 export default {
   name: "CreateDeveloper",
   components: {
-    // Form components.
-    FormDeveloperName,
-    // UI components.
-    HipButton,
-    HipDialog
+    FormDeveloperName
   },
   emits: [
     'close'

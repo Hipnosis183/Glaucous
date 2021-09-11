@@ -132,34 +132,15 @@
 </template>
 
 <script>
-// Import functions from modules.
-import {
-  app,
-  dialog
-} from '@electron/remote'
-import {
-  existsSync,
-  readdirSync
-} from 'fs-extra'
-// Import UI components.
-import {
-  HipButton,
-  HipModal,
-  HipOverlay
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { app, dialog } from '@electron/remote'
+import { existsSync, readdirSync } from 'fs-extra'
 
 export default {
   name: 'FormGameImagesView',
-  components: {
-    // UI components.
-    HipButton,
-    HipModal,
-    HipOverlay
-  },
   emit: [
     'close'
   ],

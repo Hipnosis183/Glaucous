@@ -7,19 +7,12 @@
 </template>
 
 <script>
-// Import UI components.
-import { HipSwitch } from '@/components/Component'
-
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'FormPlatformGroup',
-  components: {
-    // UI components.
-    HipSwitch
-  },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()

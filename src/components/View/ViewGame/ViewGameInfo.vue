@@ -111,27 +111,17 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { ref } from 'vue'
 // Import form components.
 import ViewGameDetails from './ViewGameDetails.vue'
 import ViewGameLinking from './ViewGameLinking.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '@/components/Component'
-
-// Import Vue functions.
-import { ref } from 'vue'
 
 export default {
   name: 'ViewGame',
   components: {
-    // Form components.
     ViewGameDetails,
-    ViewGameLinking,
-    // UI components.
-    HipButton,
-    HipDialog
+    ViewGameLinking
   },
   props: {
     fullTitle: { type: String },

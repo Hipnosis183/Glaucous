@@ -152,55 +152,26 @@
 </template>
 
 <script>
-// Import form components.
-import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import EditPlatform from '../Edit/EditPlatform.vue'
-import SettingsCardsMode from '../Settings/SettingsCards/SettingsCardsMode.vue'
-import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonNb,
-  HipCard,
-  HipCardCompact,
-  HipCardLarge,
-  HipCardTall,
-  HipDialog,
-  HipInput,
-  HipList,
-  HipNavBar
-} from '@/components/Component'
-// Import database controllers functions.
-import {
-  getPlatform,
-  deletePlatform
-} from '@/database/controllers/Platform'
-import { getGamesPlatform } from '@/database/controllers/Game'
-
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { getPlatform, deletePlatform } from '@/database/controllers/Platform'
+import { getGamesPlatform } from '@/database/controllers/Game'
+// Import form components.
+import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
+import EditPlatform from '@/components/Edit/EditPlatform.vue'
+import SettingsCardsMode from '@/components/Settings/SettingsCards/SettingsCardsMode.vue'
+import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
 
 export default {
   name: 'ViewPlatform',
   components: {
-    // Form components.
     CreateGamePlatform,
     EditPlatform,
     SettingsCardsMode,
-    ViewPlatformSettings,
-    // UI components.
-    HipButton,
-    HipButtonNb,
-    HipCard,
-    HipCardCompact,
-    HipCardLarge,
-    HipCardTall,
-    HipDialog,
-    HipInput,
-    HipList,
-    HipNavBar
+    ViewPlatformSettings
   },
   setup() {
     // Instantiate Vue elements.

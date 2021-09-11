@@ -18,29 +18,15 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipOption,
-  HipSelect
-} from '@/components/Component'
-// Import database platform functions.
-import {
-  getPlatform,
-  getPlatformGroupByName
-} from '@/database/controllers/Platform'
-
 // Import Vue functions.
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+// Import database platform functions.
+import { getPlatform, getPlatformGroupByName } from '@/database/controllers/Platform'
 
 export default {
   name: 'FormPlatformParent',
-  components: {
-    // UI components.
-    HipOption,
-    HipSelect
-  },
   props: {
     groupPlatform: { type: String }
   },

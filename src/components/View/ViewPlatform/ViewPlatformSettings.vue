@@ -43,32 +43,16 @@
 </template>
 
 <script>
-// Import form components.
-import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipInput,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSwitch
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+// Import form components.
+import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
 
 export default {
   name: 'ViewPlatformSettings',
   components: {
-    // Form components.
-    ViewSettingsEmulator,
-    // UI components.
-    HipButton,
-    HipInput,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSwitch
+    ViewSettingsEmulator
   },
   emits: [
     'close'

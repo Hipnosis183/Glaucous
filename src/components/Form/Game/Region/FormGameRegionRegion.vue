@@ -31,27 +31,14 @@
 </template>
 
 <script>
-// Import region data.
-import regions from '@/../public/files/flags-g.json'
-// Import UI components.
-import {
-  HipOption,
-  HipOptionGroup,
-  HipSelect
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+// Import region data.
+import regions from '@/../public/files/flags-g.json'
 
 export default {
   name: 'FormGameRegionRegion',
-  components: {
-    // UI components.
-    HipOption,
-    HipOptionGroup,
-    HipSelect
-  },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()

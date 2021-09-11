@@ -181,32 +181,14 @@
 </template>
 
 <script>
-// Import functions from modules.
-import { app } from '@electron/remote'
-import {
-  existsSync,
-  readdirSync
-} from 'fs-extra'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonGroup,
-  HipModal,
-  HipOverlay
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed, onMounted, ref, watch } from 'vue'
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { existsSync, readdirSync } from 'fs-extra'
 
 export default {
   name: 'ViewGameImages',
-  components: {
-    // UI components.
-    HipButton,
-    HipButtonGroup,
-    HipModal,
-    HipOverlay
-  },
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number },

@@ -118,43 +118,21 @@
 </template>
 
 <script>
-// Import form components.
-import CreatePlatform from '../Create/CreatePlatform.vue'
-import EditPlatform from '../Edit/EditPlatform.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonNb,
-  HipCard,
-  HipDialog,
-  HipList,
-  HipNavBar
-} from '@/components/Component'
-// Import database controllers functions.
-import {
-  getPlatform,
-  getPlatformsGroup,
-  deletePlatform
-} from '@/database/controllers/Platform'
-
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+// Import database controllers functions.
+import { deletePlatform, getPlatform, getPlatformsGroup } from '@/database/controllers/Platform'
+// Import form components.
+import CreatePlatform from '@/components/Create/CreatePlatform.vue'
+import EditPlatform from '@/components/Edit/EditPlatform.vue'
 
 export default {
   name: 'ListPlatformsGroup',
   components: {
-    // Form components.
     CreatePlatform,
-    EditPlatform,
-    // UI components.
-    HipButton,
-    HipButtonNb,
-    HipCard,
-    HipDialog,
-    HipList,
-    HipNavBar
+    EditPlatform
   },
   setup() {
     // Instantiate Vue elements.

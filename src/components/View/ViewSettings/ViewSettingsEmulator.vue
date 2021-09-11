@@ -99,41 +99,21 @@
 </template>
 
 <script>
-// Import functions from modules.
-import { app } from '@electron/remote'
-import {
-  existsSync,
-  readJSONSync,
-  outputJSONSync
-} from 'fs-extra'
-// Import form components.
-import CreateEmulator from '../../Create/CreateEmulator.vue'
-import EditEmulator from '../../Edit/EditEmulator.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipOption,
-  HipSectionContent,
-  HipSelect
-} from '@/components/Component'
-
 // Import Vue functions.
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { existsSync, readJSONSync, outputJSONSync } from 'fs-extra'
+// Import form components.
+import CreateEmulator from '@/components/Create/CreateEmulator.vue'
+import EditEmulator from '@/components/Edit/EditEmulator.vue'
 
 export default {
   name: 'ViewSettingsEmulator',
   components: {
-    // Form components.
     CreateEmulator,
-    EditEmulator,
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipOption,
-    HipSectionContent,
-    HipSelect
+    EditEmulator
   },
   props: {
     settingsType: { type: String }
