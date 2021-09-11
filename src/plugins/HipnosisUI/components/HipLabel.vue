@@ -9,3 +9,6 @@ export default {
   name: 'HipLabel'
 }
 </script>
+
+<style>
+</style>

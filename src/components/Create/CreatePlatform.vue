@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -12,8 +12,8 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
-        @click="validationError()"
+        icon
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -25,12 +25,12 @@
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        :icon="true"
+        icon
         @click="onSubmit()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        :icon="true"
+        icon
         @click="$emit('close')"
         class="el-icon-circle-close text-2xl"
       ></hip-button>
@@ -51,59 +51,56 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+// Import database controllers functions.
+import { createPlatform } from '@/database/controllers/Platform'
 // Import form components.
 import {
   FormPlatformGroup,
   FormPlatformName,
   FormPlatformParent,
-} from '../Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '../Component'
-// Import database controllers functions.
-import { createPlatform } from '../../database/controllers/Platform'
+} from '@/components/Form'
 
 export default {
   name: "CreatePlatform",
   components: {
-    // Form components.
     FormPlatformGroup,
     FormPlatformName,
-    FormPlatformParent,
-    // UI components.
-    HipButton,
-    HipDialog
-  },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
+    FormPlatformParent
   },
   emits: [
     'close'
   ],
-  props: [
-    'groupPlatform'
-  ],
-  methods: {
-    onSubmit() {
+  props: {
+    groupPlatform: { type: String }
+  },
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage platform editing.
+    const onSubmit = () => {
       // Validate required fields.
-      if (!this.$store.state.platformForm.name) {
-        this.validationError()
+      if (!store.state.platformForm.name) {
+        validationErrorShow()
         return
       }
       // Save new platform entry.
-      createPlatform(this.$store.state.platformForm)
-        .then(() => this.$emit('close'))
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      createPlatform(store.state.platformForm)
+        .then(() => emit('close'))
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

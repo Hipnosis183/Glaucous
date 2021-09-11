@@ -7,19 +7,24 @@
 </template>
 
 <script>
-// Import UI components.
-import { HipInput } from '../../../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGameVersionNumber',
-  components: {
-    // UI components.
-    HipInput
-  },
-  computed: {
-    number: {
-      get() { return this.$store.state.gameForm.gameVersion.number },
-      set(value) { this.$store.commit('setGameVersionNumber', value) }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const number = computed({
+      get() { return store.state.gameForm.gameVersion.number },
+      set(value) { store.commit('setGameVersionNumber', value) }
+    })
+
+    return {
+      number
     }
   }
 }

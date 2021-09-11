@@ -7,6 +7,7 @@
 </template>
 
 <script>
+// Import UI components.
 import HipModal from './HipModal.vue'
 import HipOverlay from './HipOverlay.vue'
 
@@ -21,3 +22,6 @@ export default {
   }
 }
 </script>
+
+<style>
+</style>

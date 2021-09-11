@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -12,8 +12,8 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
-        @click="validationError()"
+        icon
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -25,12 +25,12 @@
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        :icon="true"
+        icon
         @click="onSubmit()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        :icon="true"
+        icon
         @click="$emit('close')"
         class="el-icon-circle-close text-2xl"
       ></hip-button>
@@ -44,50 +44,47 @@
 </template>
 
 <script>
-// Import form components.
-import { FormDeveloperName } from '../Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '../Component'
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 // Import database controllers functions.
-import { updateDeveloper } from '../../database/controllers/Developer'
+import { updateDeveloper } from '@/database/controllers/Developer'
+// Import form components.
+import { FormDeveloperName } from '@/components/Form'
 
 export default {
   name: 'EditDeveloper',
   components: {
-    // Form components.
-    FormDeveloperName,
-    // UI components.
-    HipButton,
-    HipDialog
-  },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
+    FormDeveloperName
   },
   emits: [
     'close'
   ],
-  methods: {
-    onSubmit() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage developer editing.
+    const onSubmit = () => {
       // Validate required fields.
-      if (!this.$store.state.developerForm.name) {
-        this.validationError()
+      if (!store.state.developerForm.name) {
+        validationErrorShow()
         return
       }
       // Update developer entry.
-      updateDeveloper(this.$store.state.developerForm, this.$store.state.developerSelected)
-        .then(() => this.$emit('close'))
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      updateDeveloper(store.state.developerForm, store.state.developerSelected)
+        .then(() => emit('close'))
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

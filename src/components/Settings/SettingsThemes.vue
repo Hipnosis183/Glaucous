@@ -62,60 +62,48 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipOption,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSelect,
-  HipSwitch
-} from '../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 // Import theme objects and functions.
-import {
-  colors,
-  selectColor,
-  selectTheme,
-  themes
-} from '../../theme'
+import { colors, selectColor, selectTheme, themes } from '@/theme'
 
 export default {
   name: 'SettingsThemes',
-  components: {
-    // UI components.
-    HipOption,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSelect,
-    HipSwitch
-  },
-  data() {
-    return {
-      colors: colors,
-      themes: themes
-    }
-  },
-  computed: {
-    darkMode: {
-      get() { return this.$store.getters.getSettingsThemesDarkMode },
-      set() { this.$store.commit('setSettingsThemesDarkMode') }
-    },
-    selectedTheme: {
-      get() { return this.$store.getters.getSettingsThemesSelectedTheme },
-      set(value) {
-        // Set theme in the configuration file.
-        this.$store.commit('setSettingsThemesSelectedTheme', value)
-        // Set theme in the running application.
-        selectTheme(this.themes[this.selectedTheme].codes)
-      }
-    },
-    selectedColor: {
-      get() { return this.$store.getters.getSettingsThemesSelectedColor },
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage settings in the store.
+    const darkMode = computed({
+      get() { return store.getters.getSettingsThemesDarkMode },
+      set() { store.commit('setSettingsThemesDarkMode') }
+    })
+    const selectedColor = computed({
+      get() { return store.getters.getSettingsThemesSelectedColor },
       set(value) {
         // Set color theme in the configuration file.
-        this.$store.commit('setSettingsThemesSelectedColor', value)
+        store.commit('setSettingsThemesSelectedColor', value)
         // Set color theme in the running application.
-        selectColor(this.colors[this.selectedColor].codes)
+        selectColor(selectedColor.value)
       }
+    })
+    const selectedTheme = computed({
+      get() { return store.getters.getSettingsThemesSelectedTheme },
+      set(value) {
+        // Set theme in the configuration file.
+        store.commit('setSettingsThemesSelectedTheme', value)
+        // Set theme in the running application.
+        selectTheme(selectedTheme.value)
+      }
+    })
+
+    return {
+      colors,
+      darkMode,
+      selectedColor,
+      selectedTheme,
+      themes
     }
   }
 }

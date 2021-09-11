@@ -2,19 +2,19 @@
   <div>
     <!-- Create game platform dialog. -->
     <hip-dialog
-      v-show="dialog.createGamePlatform"
-      @close="createGamePlatformClose()"
+      v-show="createPlatformDialog"
+      @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create game platform form component. -->
       <create-game-platform
         :gamePlatform="$route.params.id"
-        @close="createGamePlatformClose()"
+        @close="createPlatformClose()"
       />
     </hip-dialog>
     <!-- Edit platform dialog. -->
     <hip-dialog
-      v-show="dialog.editPlatform"
+      v-show="editPlatformDialog"
       @close="editPlatformClose()"
       class="z-10"
     >
@@ -26,7 +26,7 @@
     </hip-dialog>
     <!-- Delete platform dialog. -->
     <hip-dialog
-      v-show="dialog.deletePlatform"
+      v-show="deletePlatformDialog"
       @close="deletePlatformOpen()"
       class="z-10"
     >
@@ -39,13 +39,13 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm platform deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deletePlatformClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel platform deletion. -->
         <hip-button
-          :icon="true"
+          icon
           @click="deletePlatformOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
@@ -53,7 +53,7 @@
     </hip-dialog>
     <!-- Platform settings dialog. -->
     <hip-dialog
-      v-show="dialog.settingsPlatform"
+      v-show="settingsPlatformDialog"
       @close="settingsPlatformClose()"
       width="w-2/3"
       class="z-10"
@@ -72,7 +72,7 @@
       <!-- Open create game platform dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createGamePlatformOpen()"
+        @click="createPlatformOpen()"
         class="el-icon-circle-plus-outline text-2xl"
       ></hip-button-nb>
       <!-- Open edit platform dialog. -->
@@ -105,7 +105,7 @@
       <!-- Open platform settings dialog. -->
       <hip-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        :icon="true"
+        icon
         @click="settingsPlatformOpen()"
         class="el-icon-s-tools mr-4 my-auto text-xl"
       ></hip-button>
@@ -152,190 +152,186 @@
 </template>
 
 <script>
-// Import form components.
-import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import EditPlatform from '../Edit/EditPlatform.vue'
-import SettingsCardsMode from '../Settings/SettingsCards/SettingsCardsMode.vue'
-import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonNb,
-  HipCard,
-  HipCardCompact,
-  HipCardLarge,
-  HipCardTall,
-  HipDialog,
-  HipInput,
-  HipList,
-  HipNavBar
-} from '../Component'
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 // Import database controllers functions.
-import {
-  getPlatform,
-  deletePlatform
-} from '../../database/controllers/Platform'
-import { getGamesPlatform } from '../../database/controllers/Game'
+import { getPlatform, deletePlatform } from '@/database/controllers/Platform'
+import { getGamesPlatform } from '@/database/controllers/Game'
+// Import form components.
+import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
+import EditPlatform from '@/components/Edit/EditPlatform.vue'
+import SettingsCardsMode from '@/components/Settings/SettingsCards/SettingsCardsMode.vue'
+import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
 
 export default {
   name: 'ViewPlatform',
   components: {
-    // Form components.
     CreateGamePlatform,
     EditPlatform,
     SettingsCardsMode,
-    ViewPlatformSettings,
-    // UI components.
-    HipButton,
-    HipButtonNb,
-    HipCard,
-    HipCardCompact,
-    HipCardLarge,
-    HipCardTall,
-    HipDialog,
-    HipInput,
-    HipList,
-    HipNavBar
+    ViewPlatformSettings
   },
-  data() {
-    return {
-      platform: {
-        name: null,
-        parent: null,
-        games: []
-      },
-      queryInput: null,
-      querySearched: false,
-      pagination: {
-        index: 0,
-        count: 50
-      },
-      dialog: {
-        createGamePlatform: false,
-        editPlatform: false,
-        deletePlatform: false,
-        settingsPlatform: false
-      }
-    }
-  },
-  methods: {
-    loadPlatform() {
+  setup() {
+    // Instantiate Vue elements.
+    const route = useRoute()
+    const router = useRouter()
+    const store = useStore()
+
+    // Load platform games list on mounting.
+    onMounted(() => { loadPlatform() })
+
+    // Load and manage platform information.
+    let platform = ref({
+      name: null,
+      parent: null,
+      games: []
+    })
+    const loadPlatform = () => {
       // Ensure pagination index is reset.
-      this.pagination.index = 0
+      paginationIndex.value = 0
       // Get platform.
-      getPlatform(this.$route.params.id)
-        .then(res => {
-          this.platform.name = res.name
-          this.platform.parent = res.parent ? res.parent._id : ''
+      getPlatform(route.params.id)
+        .then((res) => {
+          platform.value.name = res.name
+          platform.value.parent = res.parent ? res.parent._id : ''
           // Save current platform ID into the store.
-          this.$store.state.selectedPlatform = res._id
+          store.state.selectedPlatform = res._id
         })
       // Get platform's games.
-      getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
-        .then(res => {
-          this.platform.games = res
+      getGamesPlatform(route.params.id, paginationIndex.value, paginationCount)
+        .then((res) => {
+          platform.value.games = res
           // Set next pagination index.
-          this.pagination.index += this.pagination.count
+          paginationIndex.value += paginationCount
         })
-    },
-    loadPlatformNext() {
+    }
+    const loadPlatformNext = () => {
       // Check loaded games to avoid duplication.
-      if (this.platform.games) {
+      if (platform.value.games) {
         // Get next batch of games.
-        getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count)
-          .then(res => {
-            this.platform.games = this.platform.games.concat(res)
+        getGamesPlatform(route.params.id, paginationIndex.value, paginationCount)
+          .then((res) => {
+            platform.value.games = platform.value.games.concat(res)
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       }
-    },
-    // Query searching.
-    querySearch(query) {
+    }
+
+    // Manage game platform operations.
+    let createPlatformDialog = ref(false)
+    const createPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameSelected')
+      store.commit('resetGameForm')
+      // Save data of the current platform into the store.
+      store.commit('setGamePlatformPlatform', route.params.id)
+      // Open create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    const createPlatformClose = () => {
+      // Reload platform.
+      loadPlatform()
+      // Close create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+
+    // Manage platform operations.
+    let editPlatformDialog = ref(false)
+    const editPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetPlatformForm')
+      // Save current platform ID into the store.
+      store.state.platformSelected = route.params.id
+      // Save data of the current platform into the store.
+      store.commit('setPlatformName', platform.value.name)
+      store.commit('setPlatformParent', platform.value.parent)
+      // Open edit dialog.
+      editPlatformDialog.value = !editPlatformDialog.value
+    }
+    const editPlatformClose = () => {
+      // Reload platform.
+      loadPlatform()
+      // Close edit dialog.
+      editPlatformDialog.value = !editPlatformDialog.value
+    }
+    let deletePlatformDialog = ref(false)
+    const deletePlatformOpen = () => {
+      // Open delete dialog.
+      deletePlatformDialog.value = !deletePlatformDialog.value
+    }
+    const deletePlatformClose = () => {
+      // Delete platform.
+      deletePlatform(route.params.id)
+        .then(() => router.back())
+    }
+
+    // Manage platform settings.
+    let settingsPlatformDialog = ref(false)
+    const settingsPlatformOpen = () => {
+      // Load stored data.
+      store.commit('resetPlatformStore')
+      // Open settings dialog.
+      settingsPlatformDialog.value = !settingsPlatformDialog.value
+    }
+    const settingsPlatformClose = () => {
+      // Close settings dialog.
+      settingsPlatformDialog.value = !settingsPlatformDialog.value
+    }
+
+    // Manage search queries.
+    const paginationCount = 50
+    let paginationIndex = ref(0)
+    let queryInput = ref('')
+    let querySearched = ref(false)
+    const querySearch = (query) => {
       // Only start search from two characters onwards.
       if (query !== '' && query.length > 1) {
         // Ensure pagination index is reset.
-        this.pagination.index = 0
+        paginationIndex.value = 0
         // A search has been done.
-        this.querySearched = true
+        querySearched.value = true
         // Search for games matching the query.
-        getGamesPlatform(this.$route.params.id, this.pagination.index, this.pagination.count, query)
-          .then(res => {
-            this.platform.games = res
+        getGamesPlatform(route.params.id, paginationIndex.value, paginationCount, query)
+          .then((res) => {
+            platform.value.games = res
             // Set next pagination index.
-            this.pagination.index += this.pagination.count
+            paginationIndex.value += paginationCount
           })
       } else {
-        if (this.querySearched) {
-          this.queryClear()
+        if (querySearched.value) {
+          queryClear()
         }
       }
-    },
-    queryClear() {
-      // A search hasn't been done yet.
-      this.querySearched = false
-      // Reload games list.
-      this.loadPlatform()
-    },
-    // Create operations.
-    createGamePlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameSelected')
-      this.$store.commit('resetGameForm')
-      // Save data of the current platform into the store.
-      this.$store.commit('setGamePlatformPlatform', this.$route.params.id)
-      // Open create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    createGamePlatformClose() {
-      // Reload platform.
-      this.loadPlatform()
-      // Close create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    // Edit operations.
-    editPlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetPlatformForm')
-      // Save current platform ID into the store.
-      this.$store.state.platformSelected = this.$route.params.id
-      // Save data of the current platform into the store.
-      this.$store.commit('setPlatformName', this.platform.name)
-      this.$store.commit('setPlatformParent', this.platform.parent)
-      // Open edit dialog.
-      this.dialog.editPlatform = !this.dialog.editPlatform
-    },
-    editPlatformClose() {
-      // Reload platform.
-      this.loadPlatform()
-      // Close edit dialog.
-      this.dialog.editPlatform = !this.dialog.editPlatform
-    },
-    // Delete operations.
-    deletePlatformOpen() {
-      // Open delete dialog.
-      this.dialog.deletePlatform = !this.dialog.deletePlatform
-    },
-    deletePlatformClose() {
-      // Delete platform.
-      deletePlatform(this.$route.params.id)
-        .then(() => this.$router.back())
-    },
-    // Settings operations.
-    settingsPlatformOpen() {
-      // Load stored data.
-      this.$store.commit('resetPlatformStore')
-      // Open settings dialog.
-      this.dialog.settingsPlatform = !this.dialog.settingsPlatform
-    },
-    settingsPlatformClose() {
-      // Close settings dialog.
-      this.dialog.settingsPlatform = !this.dialog.settingsPlatform
     }
-  },
-  mounted() {
-    // Load platform's games list.
-    this.loadPlatform()
+    const queryClear = () => {
+      // A search hasn't been done yet.
+      querySearched.value = false
+      // Reload games list.
+      loadPlatform()
+    }
+
+    return {
+      createPlatformClose,
+      createPlatformDialog,
+      createPlatformOpen,
+      deletePlatformClose,
+      deletePlatformDialog,
+      deletePlatformOpen,
+      platform,
+      editPlatformClose,
+      editPlatformDialog,
+      editPlatformOpen,
+      loadPlatformNext,
+      queryInput,
+      querySearched,
+      querySearch,
+      settingsPlatformClose,
+      settingsPlatformDialog,
+      settingsPlatformOpen
+    }
   }
 }
 </script>

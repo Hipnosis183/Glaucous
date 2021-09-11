@@ -62,28 +62,37 @@
 </template>
 
 <script>
+// Import UI components.
 import HipCard from './HipCard.vue'
-import { getPlatform } from '../../database/controllers/Platform'
+
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+// Import database controllers functions.
+import { getPlatform } from '@/database/controllers/Platform'
 
 export default {
   name: 'HipCardTall',
   components: {
     HipCard
   },
-  data() {
-    return {
-      parentName: null
-    }
+  props: {
+    gameInfo: { type: Object }
   },
-  props: [
-    'gameInfo'
-  ],
-  mounted() {
-    // Check if the platform has a parent group.
-    if (this.gameInfo.platform.parent) {
-      // Get parent platform name.
-      getPlatform(this.gameInfo.platform.parent)
-        .then(res => this.parentName = res.name)
+  setup(props) {
+    onMounted(() => {
+      // Check if the platform has a parent group.
+      if (props.gameInfo.platform.parent) {
+        // Get parent platform name.
+        getPlatform(props.gameInfo.platform.parent)
+          .then((res) => parentName.value = res.name)
+      }
+    })
+
+    // Get additional game properties.
+    let parentName = ref(null)
+
+    return {
+      parentName
     }
   }
 }

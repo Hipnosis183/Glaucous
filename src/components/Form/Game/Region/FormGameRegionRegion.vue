@@ -31,32 +31,27 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 // Import region data.
-import Regions from '../../../../../public/files/flags-g.json'
-// Import UI components.
-import {
-  HipOption,
-  HipOptionGroup,
-  HipSelect
-} from '../../../Component'
+import regions from '@/../public/files/flags-g.json'
 
 export default {
   name: 'FormGameRegionRegion',
-  components: {
-    // UI components.
-    HipOption,
-    HipOptionGroup,
-    HipSelect
-  },
-  data() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const region = computed({
+      get() { return store.state.gameForm.gameRegion.region },
+      set(value) { store.commit('setGameRegionRegion', value) }
+    })
+
     return {
-      regions: Regions
-    }
-  },
-  computed: {
-    region: {
-      get() { return this.$store.state.gameForm.gameRegion.region },
-      set(value) { this.$store.commit('setGameRegionRegion', value) }
+      region,
+      regions
     }
   }
 }

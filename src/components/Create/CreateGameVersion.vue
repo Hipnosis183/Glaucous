@@ -9,12 +9,12 @@
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        :icon="true"
+        icon
         @click="onSubmit()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        :icon="true"
+        icon
         @click="$emit('close')"
         class="el-icon-circle-close text-2xl"
       ></hip-button>
@@ -39,6 +39,10 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { useStore } from 'vuex'
+// Import database controllers functions.
+import { newGameVersion } from '@/database/controllers/Game'
 // Import form components.
 import {
   FormGameImages,
@@ -46,32 +50,33 @@ import {
   FormGameVersionLatest,
   FormGameVersionName,
   FormGameVersionNumber
-} from '../Form'
-// Import UI components.
-import { HipButton } from '../Component'
-// Import database controllers functions.
-import { newGameVersion } from '../../database/controllers/Game'
+} from '@/components/Form'
 
 export default {
   name: 'CreateGameRegion',
   components: {
-    // Form components.
     FormGameImages,
     FormGameVersionComments,
     FormGameVersionLatest,
     FormGameVersionName,
-    FormGameVersionNumber,
-    // UI components.
-    HipButton
+    FormGameVersionNumber
   },
   emits: [
     'close'
   ],
-  methods: {
-    onSubmit() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage game version creation.
+    const onSubmit = () => {
       // Save new game entry.
-      newGameVersion(this.$store.state.gameForm, this.$store.state.selectedPlatform, this.$store.state.gameSelected)
-        .then(() => this.$emit('close'))
+      newGameVersion(store.state.gameForm, store.state.selectedPlatform, store.state.gameSelected)
+        .then(() => emit('close'))
+    }
+
+    return {
+      onSubmit
     }
   }
 }

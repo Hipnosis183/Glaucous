@@ -2,34 +2,34 @@
   <div>
     <!-- Create game platform dialog. -->
     <hip-dialog
-      v-show="dialog.createGamePlatform"
-      @close="createGamePlatformClose()"
+      v-show="createPlatformDialog"
+      @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create game platform form component. -->
-      <create-game-platform @close="createGamePlatformClose()" />
+      <create-game-platform @close="createPlatformClose()" />
     </hip-dialog>
     <!-- Create game region dialog. -->
     <hip-dialog
-      v-show="dialog.createGameRegion"
-      @close="createGameRegionClose()"
+      v-show="createRegionDialog"
+      @close="createRegionClose()"
       class="z-10"
     >
       <!-- Insert create game region form component. -->
-      <create-game-region @close="createGameRegionClose()" />
+      <create-game-region @close="createRegionClose()" />
     </hip-dialog>
     <!-- Create game version dialog. -->
     <hip-dialog
-      v-show="dialog.createGameVersion"
-      @close="createGameVersionClose()"
+      v-show="createVersionDialog"
+      @close="createVersionClose()"
       class="z-10"
     >
       <!-- Insert create game version form component. -->
-      <create-game-version @close="createGameVersionClose()" />
+      <create-game-version @close="createVersionClose()" />
     </hip-dialog>
     <!-- Edit game dialog. -->
     <hip-dialog
-      v-show="dialog.editGame"
+      v-show="editGameDialog"
       @close="editGameClose()"
       class="z-10"
     >
@@ -42,8 +42,8 @@
     </hip-dialog>
     <!-- Delete game region dialog. -->
     <hip-dialog
-      v-show="dialog.deleteGameRegion"
-      @close="deleteGameRegionOpen()"
+      v-show="deleteRegionDialog"
+      @close="deleteRegionOpen()"
       class="z-10"
     >
       <!-- Dialog message. -->
@@ -57,22 +57,22 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
         <hip-button
-          :icon="true"
-          @click="deleteGameRegionClose()"
+          icon
+          @click="deleteRegionClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
-          :icon="true"
-          @click="deleteGameRegionOpen()"
+          icon
+          @click="deleteRegionOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
     </hip-dialog>
     <!-- Delete game version dialog. -->
     <hip-dialog
-      v-show="dialog.deleteGameVersion"
-      @close="deleteGameVersionOpen()"
+      v-show="deleteVersionDialog"
+      @close="deleteVersionOpen()"
       class="z-10"
     >
       <!-- Dialog message. -->
@@ -85,22 +85,22 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
         <hip-button
-          :icon="true"
-          @click="deleteGameVersionClose()"
+          icon
+          @click="deleteVersionClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
-          :icon="true"
-          @click="deleteGameVersionOpen()"
+          icon
+          @click="deleteVersionOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
     </hip-dialog>
     <!-- Delete game platform dialog. -->
     <hip-dialog
-      v-show="dialog.deleteGamePlatform"
-      @close="deleteGamePlatformOpen()"
+      v-show="deletePlatformDialog"
+      @close="deletePlatformOpen()"
       class="z-10"
     >
       <!-- Dialog message. -->
@@ -113,14 +113,14 @@
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
         <hip-button
-          :icon="true"
-          @click="deleteGamePlatformClose()"
+          icon
+          @click="deletePlatformClose()"
           class="el-icon-circle-check text-2xl"
         ></hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
-          :icon="true"
-          @click="deleteGamePlatformOpen()"
+          icon
+          @click="deletePlatformOpen()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
@@ -135,17 +135,17 @@
         <!-- Open create game platform dialog. -->
         <hip-menu-option
           label="Create Game Platform"
-          :method="createGamePlatformOpen"
+          :method="createPlatformOpen"
         />
         <!-- Open create game region dialog. -->
         <hip-menu-option
           label="Create Game Region"
-          :method="createGameRegionOpen"
+          :method="createRegionOpen"
         />
         <!-- Open create game version dialog. -->
         <hip-menu-option
           label="Create Game Version"
-          :method="createGameVersionOpen"
+          :method="createVersionOpen"
         />
       </hip-menu-button>
       <!-- Open edit game dialog. -->
@@ -162,23 +162,23 @@
         <!-- Open create game platform dialog. -->
         <hip-menu-option
           label="Delete Game Platform"
-          :method="deleteGamePlatformOpen"
+          :method="deletePlatformOpen"
         />
         <!-- Open create game region dialog. -->
         <hip-menu-option
           label="Delete Game Region"
-          :method="deleteGameRegionOpen"
+          :method="deleteRegionOpen"
         />
         <!-- Open create game version dialog. -->
         <hip-menu-option
           label="Delete Game Version"
-          :method="deleteGameVersionOpen"
+          :method="deleteVersionOpen"
         />
       </hip-menu-button>
       <!-- Set selected game region as the main region. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="selectGameRegion()"
+        @click="setGameRegion()"
         class="el-icon-place text-2xl"
       ></hip-button-nb>
       <!-- Create games menu dialog. -->
@@ -291,43 +291,28 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 // Import functions from modules.
-import {
-  app,
-  shell
-} from '@electron/remote'
+import { app, shell } from '@electron/remote'
+// Import database controllers functions.
+import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion } from '@/database/controllers/Game'
 // Import form components.
-import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import CreateGameRegion from '../Create/CreateGameRegion.vue'
-import CreateGameVersion from '../Create/CreateGameVersion.vue'
-import EditGame from '../Edit/EditGame.vue'
+import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
+import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
+import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
+import EditGame from '@/components/Edit/EditGame.vue'
+// Import game page components.
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonNb,
-  HipDialog,
-  HipMenuButton,
-  HipMenuOption,
-  HipModal,
-  HipNavBar
-} from '../Component'
-// Import database controllers functions.
-import {
-  getGame,
-  deleteGamePlatform,
-  deleteGameRegion,
-  deleteGameVersion,
-  selectGameRegion
-} from '../../database/controllers/Game'
 
 export default {
   name: 'ViewGame',
   components: {
-    // Form components.
     CreateGamePlatform,
     CreateGameRegion,
     CreateGameVersion,
@@ -335,274 +320,297 @@ export default {
     ViewGameImages,
     ViewGameInfo,
     ViewGameLauncher,
-    ViewGameLinks,
-    // UI components.
-    HipButton,
-    HipButtonNb,
-    HipDialog,
-    HipMenuButton,
-    HipMenuOption,
-    HipModal,
-    HipNavBar
+    ViewGameLinks
   },
-  data() {
-    return {
-      gameInfo: {
-        developer: { name: null },
-        platform: { name: null },
-        releaseYear: null,
-        numberPlayers: null,
-        links: [],
-        gamePlatforms: [],
-        gameRegions: [{
-          title: null,
-          subTitle: null,
-          originalTitle: null,
-          romanizedTitle: null,
-          translatedTitle: null,
-          region: null,
-          serial: null,
-          gameVersions: [{
-            name: null,
-            number: null,
-            latest: null,
-            comments: []
-          }]
+  setup() {
+    // Instantiate Vue elements.
+    const route = useRoute()
+    const router = useRouter()
+    const store = useStore()
+
+    // Load game information on mounting.
+    onMounted(() => { loadGame() })
+
+    // Load and manage game information.
+    let regionIndex = ref(0)
+    let versionIndex = ref(0)
+    let gameInfo = ref({
+      developer: { name: null },
+      platform: { name: null },
+      releaseYear: null,
+      numberPlayers: null,
+      links: [],
+      gamePlatforms: [],
+      gameRegions: [{
+        title: null,
+        subTitle: null,
+        originalTitle: null,
+        romanizedTitle: null,
+        translatedTitle: null,
+        region: null,
+        serial: null,
+        gameVersions: [{
+          name: null,
+          number: null,
+          latest: null,
+          comments: []
         }]
-      },
-      gamePath: null,
-      regionIndex: 0,
-      versionIndex: 0,
-      slideBack: false,
-      dialog: {
-        createGamePlatform: false,
-        createGameRegion: false,
-        createGameVersion: false,
-        editGame: false,
-        deleteGameRegion: false,
-        deleteGameVersion: false,
-        deleteGamePlatform: false
+      }]
+    })
+    const fullTitle = computed(() => {
+      let fullTitle = gameInfo.value.gameRegions[regionIndex.value].title
+      if (gameInfo.value.gameRegions[regionIndex.value].subTitle) {
+        fullTitle = fullTitle + ' ' + gameInfo.value.gameRegions[regionIndex.value].subTitle
       }
-    }
-  },
-  methods: {
-    loadGame() {
-      // Get game.
-      getGame(this.$route.params.id)
-        .then(res => {
-          this.gameInfo = res
-          // Save current platform ID into the store.
-          this.$store.state.selectedPlatform = res.platform._id
-          this.$store.commit('setPlatformStore')
-          // Save current game IDs into the store.
-          this.$store.state.gameSelected.gamePlatform = res._id
-          this.$store.state.gameSelected.gameRegion = res.gameRegions[this.regionIndex]._id
-          this.$store.state.gameSelected.gameVersion = res.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id
-          // Set game store path.
-          this.gamePath = app.getAppPath() + '/data/' + res.platform._id + '/' + res._id + '/games/' + res.gameRegions[this.regionIndex]._id
-        })
-    },
-    loadLinks(res) {
-      // Get links.
-      this.gameInfo.links = res
-    },
-    // Create operations.
-    createGamePlatformOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
-      // Open create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    createGamePlatformClose() {
-      // Reload game.
-      this.loadGame()
-      // Close create dialog.
-      this.dialog.createGamePlatform = !this.dialog.createGamePlatform
-    },
-    createGameRegionOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
-      // Save data of the current game region into the store.
-      this.$store.commit('setGameRegionTitle', this.gameInfo.gameRegions[this.regionIndex].title)
-      this.$store.commit('setGameRegionSubTitle', this.gameInfo.gameRegions[this.regionIndex].subTitle)
-      // Open create dialog.
-      this.dialog.createGameRegion = !this.dialog.createGameRegion
-    },
-    createGameRegionClose() {
-      // Reload game.
-      this.loadGame()
-      // Close create dialog.
-      this.dialog.createGameRegion = !this.dialog.createGameRegion
-    },
-    createGameVersionOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
-      // Open create dialog.
-      this.dialog.createGameVersion = !this.dialog.createGameVersion
-    },
-    createGameVersionClose() {
-      // Reload game.
-      this.loadGame()
-      // Close create dialog.
-      this.dialog.createGameVersion = !this.dialog.createGameVersion
-    },
-    // Edit operations.
-    editGameOpen() {
-      // Restore the data on the store.
-      this.$store.commit('resetGameForm')
-      // Save data of the current game into the store.
-      this.$store.commit('setGamePlatformDeveloper', this.gameInfo.developer._id)
-      this.$store.commit('setGamePlatformPlatform', this.gameInfo.platform._id)
-      this.$store.commit('setGamePlatformReleaseYear', this.gameInfo.releaseYear)
-      this.$store.commit('setGamePlatformNumberPlayers', this.gameInfo.numberPlayers)
-      this.$store.commit('setGamePlatformLinks', this.gameInfo.links)
-      this.$store.commit('setGameRegionTitle', this.gameInfo.gameRegions[this.regionIndex].title)
-      this.$store.commit('setGameRegionPreTitle', this.gameInfo.gameRegions[this.regionIndex].preTitle)
-      this.$store.commit('setGameRegionSubTitle', this.gameInfo.gameRegions[this.regionIndex].subTitle)
-      this.$store.commit('setGameRegionOriginalTitle', this.gameInfo.gameRegions[this.regionIndex].originalTitle)
-      this.$store.commit('setGameRegionRomanizedTitle', this.gameInfo.gameRegions[this.regionIndex].romanizedTitle)
-      this.$store.commit('setGameRegionTranslatedTitle', this.gameInfo.gameRegions[this.regionIndex].translatedTitle)
-      this.$store.commit('setGameRegionRegion', this.gameInfo.gameRegions[this.regionIndex].region)
-      this.$store.commit('setGameRegionSerial', this.gameInfo.gameRegions[this.regionIndex].serial)
-      this.$store.commit('setGameVersionName', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].name)
-      this.$store.commit('setGameVersionNumber', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].number)
-      this.$store.commit('setGameVersionLatest', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].latest)
-      this.$store.commit('setGameVersionComments', this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex].comments)
-      // Open edit dialog.
-      this.dialog.editGame = !this.dialog.editGame
-    },
-    editGameClose() {
-      // Reload game.
-      this.loadGame()
-      // Close edit dialog.
-      this.dialog.editGame = !this.dialog.editGame
-    },
-    // Delete operations.
-    deleteGameRegionOpen() {
-      // Open delete dialog.
-      this.dialog.deleteGameRegion = !this.dialog.deleteGameRegion
-    },
-    deleteGameRegionClose() {
-      // Delete game region.
-      deleteGameRegion(this.gameInfo, this.regionIndex)
-        .then(res => {
-          // If the game had multiple regions.
-          if (res) {
-            // Reload updated game entry.
-            this.loadGame()
-            // Reset selected region.
-            this.regionIndex = 0
-            // Reset selected version.
-            this.versionIndex = 0
-            // Close delete dialog.
-            this.dialog.deleteGameRegion = !this.dialog.deleteGameRegion
-          } else {
-            // If the game only had one region.
-            this.$router.back()
-          }
-        })
-    },
-    deleteGameVersionOpen() {
-      // Open delete dialog.
-      this.dialog.deleteGameVersion = !this.dialog.deleteGameVersion
-    },
-    deleteGameVersionClose() {
-      // Delete game region.
-      deleteGameVersion(this.gameInfo, this.regionIndex, this.versionIndex)
-        .then(res => {
-          // If the game had multiple regions.
-          if (res) {
-            // Reload updated game entry.
-            this.loadGame()
-            // Reset selected version.
-            this.versionIndex = 0
-            // Close delete dialog.
-            this.dialog.deleteGameVersion = !this.dialog.deleteGameVersion
-          } else {
-            // If the game only had one region.
-            this.$router.back()
-          }
-        })
-    },
-    deleteGamePlatformOpen() {
-      // Open delete dialog.
-      this.dialog.deleteGamePlatform = !this.dialog.deleteGamePlatform
-    },
-    deleteGamePlatformClose() {
-      // Delete game platform.
-      deleteGamePlatform(this.gameInfo)
-        .then(() => this.$router.back())
-    },
-    // Region selection operations.
-    changeRegion(sel) {
-      // Set sliding transition orientation.
-      this.slideBack = sel < this.regionIndex ? true : false
-      // Reset version index.
-      this.versionIndex = 0
-      // Set region index.
-      this.regionIndex = sel
-      // Save current game IDs into the store.
-      this.$store.state.gameSelected.gameRegion = this.gameInfo.gameRegions[sel]._id
-      this.$store.state.gameSelected.gameVersion = this.gameInfo.gameRegions[sel].gameVersions[this.versionIndex]._id
-      // Update game store path.
-      this.gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id + '/games/' + this.gameInfo.gameRegions[sel]._id
-    },
-    nextRegion() {
-      if (this.regionIndex < this.gameInfo.gameRegions.length - 1) {
-        // Set sliding transition orientation.
-        this.slideBack = false
-        // Increase region index.
-        this.regionIndex++
-      }
-    },
-    prevRegion() {
-      if (this.regionIndex > 0) {
-        // Set sliding transition orientation.
-        this.slideBack = true
-        // Decrease region index.
-        this.regionIndex--
-      }
-    },
-    selectGameRegion() {
-      // Set the currently selected region as the default.
-      selectGameRegion(this.gameInfo, this.regionIndex)
-        .then(() => {
-          // Reload game.
-          this.loadGame()
-          // Reset region index.
-          this.regionIndex = 0
-          // Reset version index.
-          this.versionIndex = 0
-        })
-    },
-    // Open external directories.
-    openGamePath() {
-      // Open game file location path in the file manager.
-      shell.openPath((this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativePath + '/' : '') + this.$store.state.settingsGame.gamePath)
-    },
-    openStorePath() {
-      // Open game store location path in the file manager.
-      shell.openPath(this.gamePath)
-    },
-    openImagesPath() {
-      // Open images location path in the file manager.
-      shell.openPath(this.gamePath + '/images')
-    }
-  },
-  mounted() {
-    // Load game entry.
-    this.loadGame()
-  },
-  computed: {
-    fullTitle() {
-      let fullTitle = this.gameInfo.gameRegions[this.regionIndex].title
-      if (this.gameInfo.gameRegions[this.regionIndex].subTitle) {
-        fullTitle = fullTitle + ' ' + this.gameInfo.gameRegions[this.regionIndex].subTitle
-      }
-      if (this.gameInfo.gameRegions[this.regionIndex].preTitle) {
-        fullTitle = this.gameInfo.gameRegions[this.regionIndex].preTitle + ' ' + fullTitle
+      if (gameInfo.value.gameRegions[regionIndex.value].preTitle) {
+        fullTitle = gameInfo.value.gameRegions[regionIndex.value].preTitle + ' ' + fullTitle
       }
       return fullTitle
+    })
+    const loadGame = () => {
+      // Get game.
+      getGame(route.params.id)
+        .then((res) => {
+          gameInfo.value = res
+          // Save current platform ID into the store.
+          store.state.selectedPlatform = res.platform._id
+          store.commit('setPlatformStore')
+          // Save current game IDs into the store.
+          store.state.gameSelected.gamePlatform = res._id
+          store.state.gameSelected.gameRegion = res.gameRegions[regionIndex.value]._id
+          store.state.gameSelected.gameVersion = res.gameRegions[regionIndex.value].gameVersions[versionIndex.value]._id
+          // Set game store path.
+          setGamePath(res.platform._id + '/' + res._id + '/games/' + res.gameRegions[regionIndex.value]._id)
+        })
+    }
+    const loadLinks = (res) => {
+      // Get links.
+      gameInfo.value.links = res
+    }
+
+    // Manage game editing operations.
+    let editGameDialog = ref(false)
+    const editGameOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameForm')
+      // Save data of the current game into the store.
+      store.commit('setGameForm', {
+        platform: gameInfo.value,
+        region: gameInfo.value.gameRegions[regionIndex.value],
+        version: gameInfo.value.gameRegions[regionIndex.value].gameVersions[versionIndex.value]
+      })
+      // Open edit dialog.
+      editGameDialog.value = !editGameDialog.value
+    }
+    const editGameClose = () => {
+      // Reload game.
+      loadGame()
+      // Close edit dialog.
+      editGameDialog.value = !editGameDialog.value
+    }
+
+    // Manage game platform operations.
+    let createPlatformDialog = ref(false)
+    const createPlatformOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameForm')
+      // Open create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    const createPlatformClose = () => {
+      // Reload game.
+      loadGame()
+      // Close create dialog.
+      createPlatformDialog.value = !createPlatformDialog.value
+    }
+    let deletePlatformDialog = ref(false)
+    const deletePlatformOpen = () => {
+      // Open delete dialog.
+      deletePlatformDialog.value = !deletePlatformDialog.value
+    }
+    const deletePlatformClose = () => {
+      // Delete game platform.
+      deleteGamePlatform(gameInfo.value)
+        .then(() => router.back())
+    }
+
+    // Manage game region operations.
+    let createRegionDialog = ref(false)
+    const createRegionOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameForm')
+      // Save data of the current game region into the store.
+      store.commit('setGameRegionTitle', gameInfo.value.gameRegions[regionIndex.value].title)
+      store.commit('setGameRegionSubTitle', gameInfo.value.gameRegions[regionIndex.value].subTitle)
+      // Open create dialog.
+      createRegionDialog.value = !createRegionDialog.value
+    }
+    const createRegionClose = () => {
+      // Reload game.
+      loadGame()
+      // Close create dialog.
+      createRegionDialog.value = !createRegionDialog.value
+    }
+    let deleteRegionDialog = ref(false)
+    const deleteRegionOpen = () => {
+      // Open delete dialog.
+      deleteRegionDialog.value = !deleteRegionDialog.value
+    }
+    const deleteRegionClose = () => {
+      // Delete game region.
+      deleteGameRegion(gameInfo.value, regionIndex.value)
+        .then((res) => {
+          // If the game had multiple regions.
+          if (res) {
+            // Reload updated game entry.
+            loadGame()
+            // Reset selected region.
+            regionIndex.value = 0
+            // Reset selected version.
+            versionIndex.value = 0
+            // Close delete dialog.
+            deleteRegionDialog.value = !deleteRegionDialog.value
+          } else {
+            // If the game only had one region.
+            router.back()
+          }
+        })
+    }
+
+    // Manage game version operations.
+    let createVersionDialog = ref(false)
+    const createVersionOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetGameForm')
+      // Open create dialog.
+      createVersionDialog.value = !createVersionDialog.value
+    }
+    const createVersionClose = () => {
+      // Reload game.
+      loadGame()
+      // Close create dialog.
+      createVersionDialog.value = !createVersionDialog.value
+    }
+    let deleteVersionDialog = ref(false)
+    const deleteVersionOpen = () => {
+      // Open delete dialog.
+      deleteVersionDialog.value = !deleteVersionDialog.value
+    }
+    const deleteVersionClose = () => {
+      // Delete game region.
+      deleteGameVersion(gameInfo.value, regionIndex.value, versionIndex.value)
+        .then((res) => {
+          // If the game had multiple regions.
+          if (res) {
+            // Reload updated game entry.
+            loadGame()
+            // Reset selected version.
+            versionIndex.value = 0
+            // Close delete dialog.
+            deleteVersionDialog.value = !deleteVersionDialog.value
+          } else {
+            // If the game only had one region.
+            router.back()
+          }
+        })
+    }
+
+    // Manage game directories opening.
+    let gamePath = null
+    const setGamePath = (path) => {
+      gamePath = app.getAppPath() + '/data/' + path
+    }
+    const openGamePath = () => {
+      // Open game file location path in the file manager.
+      shell.openPath((store.state.settingsGame.relativePath ? store.state.settingsPlatform.relativePath + '/' : '') + store.state.settingsGame.gamePath)
+    }
+    const openStorePath = () => {
+      // Open game store location path in the file manager.
+      shell.openPath(gamePath)
+    }
+    const openImagesPath = () => {
+      // Open images location path in the file manager.
+      shell.openPath(gamePath + '/images')
+    }
+
+    // Region selection operations.
+    let slideBack = ref(false)
+    const changeRegion = (sel) => {
+      // Set sliding transition orientation.
+      slideBack.value = sel < regionIndex.value ? true : false
+      // Reset version index.
+      versionIndex.value = 0
+      // Set region index.
+      regionIndex.value = sel
+      // Save current game IDs into the store.
+      store.state.gameSelected.gameRegion = gameInfo.value.gameRegions[sel]._id
+      store.state.gameSelected.gameVersion = gameInfo.value.gameRegions[sel].gameVersions[versionIndex.value]._id
+      // Update game store path.
+      setGamePath(gameInfo.value.platform._id + '/' + gameInfo.value._id + '/games/' + gameInfo.value.gameRegions[sel]._id)
+    }
+    const nextRegion = () => {
+      if (regionIndex.value < gameInfo.value.gameRegions.length - 1) {
+        // Set sliding transition orientation.
+        slideBack.value = false
+        // Increase region index.
+        regionIndex.value++
+      }
+    }
+    const prevRegion = () => {
+      if (regionIndex.value > 0) {
+        // Set sliding transition orientation.
+        slideBack.value = true
+        // Decrease region index.
+        regionIndex.value--
+      }
+    }
+    const setGameRegion = () => {
+      // Set the currently selected region as the default.
+      selectGameRegion(gameInfo.value, regionIndex.value)
+        .then(() => {
+          // Reload game.
+          loadGame()
+          // Reset region index.
+          regionIndex.value = 0
+          // Reset version index.
+          versionIndex.value = 0
+        })
+    }
+
+    // Return values to use on template.
+    return {
+      changeRegion,
+      createPlatformClose,
+      createPlatformDialog,
+      createPlatformOpen,
+      createRegionClose,
+      createRegionDialog,
+      createRegionOpen,
+      createVersionClose,
+      createVersionDialog,
+      createVersionOpen,
+      deletePlatformClose,
+      deletePlatformDialog,
+      deletePlatformOpen,
+      deleteRegionClose,
+      deleteRegionDialog,
+      deleteRegionOpen,
+      deleteVersionClose,
+      deleteVersionDialog,
+      deleteVersionOpen,
+      editGameClose,
+      editGameDialog,
+      editGameOpen,
+      fullTitle,
+      gameInfo,
+      loadLinks,
+      openGamePath,
+      openImagesPath,
+      openStorePath,
+      regionIndex,
+      setGameRegion,
+      slideBack,
+      versionIndex,
     }
   }
 }

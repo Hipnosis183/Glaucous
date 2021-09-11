@@ -74,68 +74,57 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipInputNum,
-  HipOption,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSelect,
-  HipSwitch
-} from '../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 // Import settings objects and functions.
-import {
-  cardViews,
-  imagePositions,
-  selectCardColumns,
-  textPositions
-} from '../../settings'
+import { cardViews, imagePositions, selectCardColumns, textPositions } from '@/settings'
 
 export default {
   name: 'SettingsCards',
-  components: {
-    // UI components.
-    HipInputNum,
-    HipOption,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSelect,
-    HipSwitch
-  },
-  data() {
-    return {
-      cardViews: cardViews,
-      imagePositions: imagePositions,
-      textPositions: textPositions
-    }
-  },
-  computed: {
-    cardMode: {
-      get() { return this.$store.getters.getSettingsCardsCardMode },
-      set(value) { this.$store.commit('setSettingsCardsCardMode', value) }
-    },
-    cardColumns: {
-      get() { return this.$store.getters.getSettingsCardsCardColumns },
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage settings in the store.
+    const cardMode = computed({
+      get() { return store.getters.getSettingsCardsCardMode },
+      set(value) { store.commit('setSettingsCardsCardMode', value) }
+    })
+    const cardColumns = computed({
+      get() { return store.getters.getSettingsCardsCardColumns },
       set(value) {
-        this.$store.commit('setSettingsCardsCardColumns', value)
-        selectCardColumns(this.cardColumns)
+        store.commit('setSettingsCardsCardColumns', value)
+        selectCardColumns(cardColumns.value)
       }
-    },
-    cardImageDisplay: {
-      get() { return this.$store.getters.getSettingsCardsCardImageDisplay },
-      set() { this.$store.commit('setSettingsCardsCardImageDisplay') }
-    },
-    cardImagePosition: {
-      get() { return this.$store.getters.getSettingsCardsCardImagePosition },
-      set(value) { this.$store.commit('setSettingsCardsCardImagePosition', value) }
-    },
-    cardTextDisplay: {
-      get() { return this.$store.getters.getSettingsCardsCardTextDisplay },
-      set() { this.$store.commit('setSettingsCardsCardTextDisplay') }
-    },
-    cardTextPosition: {
-      get() { return this.$store.getters.getSettingsCardsCardTextPosition },
-      set(value) { this.$store.commit('setSettingsCardsCardTextPosition', value) }
+    })
+    const cardImageDisplay = computed({
+      get() { return store.getters.getSettingsCardsCardImageDisplay },
+      set() { store.commit('setSettingsCardsCardImageDisplay') }
+    })
+    const cardImagePosition = computed({
+      get() { return store.getters.getSettingsCardsCardImagePosition },
+      set(value) { store.commit('setSettingsCardsCardImagePosition', value) }
+    })
+    const cardTextDisplay = computed({
+      get() { return store.getters.getSettingsCardsCardTextDisplay },
+      set() { store.commit('setSettingsCardsCardTextDisplay') }
+    })
+    const cardTextPosition = computed({
+      get() { return store.getters.getSettingsCardsCardTextPosition },
+      set(value) { store.commit('setSettingsCardsCardTextPosition', value) }
+    })
+
+    return {
+      cardMode,
+      cardColumns,
+      cardImageDisplay,
+      cardImagePosition,
+      cardTextDisplay,
+      cardTextPosition,
+      cardViews,
+      imagePositions,
+      textPositions
     }
   }
 }

@@ -9,13 +9,13 @@
         <div class="h-10 space-x-4">
           <!-- Store settings. -->
           <hip-button
-            :icon="true"
+            icon
             @click="storeSettings()"
             class="el-icon-circle-check text-2xl"
           ></hip-button>
           <!-- Close dialog. -->
           <hip-button
-            :icon="true"
+            icon
             @click="$emit('close')"
             class="el-icon-circle-close text-2xl"
           ></hip-button>
@@ -72,63 +72,63 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 // Import form components.
 import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipInput,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSwitch
-} from '../../Component'
 
 export default {
   name: 'ViewGameSettings',
   components: {
-    // Form components.
-    ViewSettingsEmulator,
-    // UI components.
-    HipButton,
-    HipInput,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSwitch
+    ViewSettingsEmulator
   },
-  props: [
-    'fullCommand'
+  emits: [
+    'close'
   ],
-  methods: {
-    storeSettings() {
-      // Store updated settings.
-      this.$store.commit('setSettingsGameEmulator')
-      this.$store.commit('setSettingsGameGamePath')
-      this.$store.commit('setSettingsGameGameFile')
-      this.$store.commit('setSettingsGameGameParams')
-      this.$store.commit('setSettingsGameRelativePath')
-      this.$emit('close')
-    }
+  props: {
+    fullCommand: { type: String }
   },
-  mounted() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Initialize the current game settings on the store.
-    this.$store.commit('setGameStore')
-  },
-  computed: {
-    gamePath: {
-      get() { return this.$store.state.settingsGame.gamePath },
-      set(value) { this.$store.state.settingsGame.gamePath = value }
-    },
-    gameFile: {
-      get() { return this.$store.state.settingsGame.gameFile },
-      set(value) { this.$store.state.settingsGame.gameFile = value }
-    },
-    gameParams: {
-      get() { return this.$store.state.settingsGame.gameParams },
-      set(value) { this.$store.state.settingsGame.gameParams = value }
-    },
-    relativePath: {
-      get() { return this.$store.state.settingsGame.relativePath },
-      set(value) { this.$store.state.settingsGame.relativePath = value }
+    onMounted(() => { store.commit('setGameStore') })
+
+    // Manage settings in the store.
+    const gamePath = computed({
+      get() { return store.state.settingsGame.gamePath },
+      set(value) { store.state.settingsGame.gamePath = value }
+    })
+    const gameFile = computed({
+      get() { return store.state.settingsGame.gameFile },
+      set(value) { store.state.settingsGame.gameFile = value }
+    })
+    const gameParams = computed({
+      get() { return store.state.settingsGame.gameParams },
+      set(value) { store.state.settingsGame.gameParams = value }
+    })
+    const relativePath = computed({
+      get() { return store.state.settingsGame.relativePath },
+      set(value) { store.state.settingsGame.relativePath = value }
+    })
+    const storeSettings = () => {
+      // Store updated settings.
+      store.commit('setSettingsGameEmulator')
+      store.commit('setSettingsGameGamePath')
+      store.commit('setSettingsGameGameFile')
+      store.commit('setSettingsGameGameParams')
+      store.commit('setSettingsGameRelativePath')
+      emit('close')
+    }
+
+    return {
+      gameFile,
+      gameParams,
+      gamePath,
+      relativePath,
+      storeSettings
     }
   }
 }

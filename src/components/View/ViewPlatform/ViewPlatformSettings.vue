@@ -9,13 +9,13 @@
         <div class="h-10 space-x-4">
           <!-- Store settings. -->
           <hip-button
-            :icon="true"
+            icon
             @click="storeSettings()"
             class="el-icon-circle-check text-2xl"
           ></hip-button>
           <!-- Close dialog. -->
           <hip-button
-            :icon="true"
+            icon
             @click="$emit('close')"
             class="el-icon-circle-close text-2xl"
           ></hip-button>
@@ -43,53 +43,48 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 // Import form components.
 import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipInput,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSwitch
-} from '../../Component'
 
 export default {
   name: 'ViewPlatformSettings',
   components: {
-    // Form components.
-    ViewSettingsEmulator,
-    // UI components.
-    HipButton,
-    HipInput,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSwitch
+    ViewSettingsEmulator
   },
   emits: [
     'close'
   ],
-  methods: {
-    storeSettings() {
-      // Store updated settings.
-      this.$store.commit('setSettingsPlatformEmulator')
-      this.$store.commit('setSettingsPlatformRelativePath')
-      this.$store.commit('setSettingsPlatformImageFiltering')
-      this.$emit('close')
-    }
-  },
-  mounted() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Initialize the current platform settings on the store.
-    this.$store.commit('setPlatformStore')
-  },
-  computed: {
-    relativePath: {
-      get() { return this.$store.state.settingsPlatform.relativePath },
-      set(value) { this.$store.state.settingsPlatform.relativePath = value }
-    },
-    imageFiltering: {
-      get() { return this.$store.state.settingsPlatform.imageFiltering },
-      set(value) { this.$store.state.settingsPlatform.imageFiltering = value }
+    onMounted(() => { store.commit('setPlatformStore') })
+
+    // Manage settings in the store.
+    const relativePath = computed({
+      get() { return store.state.settingsPlatform.relativePath },
+      set(value) { store.state.settingsPlatform.relativePath = value }
+    })
+    const imageFiltering = computed({
+      get() { return store.state.settingsPlatform.imageFiltering },
+      set(value) { store.state.settingsPlatform.imageFiltering = value }
+    })
+    const storeSettings = () => {
+      // Store updated settings.
+      store.commit('setSettingsPlatformEmulator')
+      store.commit('setSettingsPlatformRelativePath')
+      store.commit('setSettingsPlatformImageFiltering')
+      emit('close')
+    }
+
+    return {
+      imageFiltering,
+      relativePath,
+      storeSettings
     }
   }
 }

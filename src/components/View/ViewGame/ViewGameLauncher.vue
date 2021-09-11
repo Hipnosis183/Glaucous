@@ -1,7 +1,7 @@
 <template>
   <!-- Game settings dialog. -->
   <hip-dialog
-    v-show="dialog.settingsGame"
+    v-show="settingsGameDialog"
     @close="settingsGameClose()"
     width="w-2/3"
     class="pos-initial z-10"
@@ -15,8 +15,8 @@
   </hip-dialog>
   <!-- Launcher error dialog. -->
   <hip-dialog
-    v-show="dialog.launcherError"
-    @close="launcherError()"
+    v-show="launchErrorDialog"
+    @close="launchErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -28,8 +28,8 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
-        @click="launcherError()"
+        icon
+        @click="launchErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -58,7 +58,7 @@
       </hip-select>
       <hip-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        :icon="true"
+        icon
         @click="settingsGameOpen()"
         class="el-icon-s-tools text-xl"
       ></hip-button>
@@ -67,156 +67,153 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
 import { exec } from 'child_process'
-import {
-  existsSync,
-  readJSONSync
-} from 'fs-extra'
+import { existsSync, readJSONSync } from 'fs-extra'
 // Import form components.
 import ViewGameSettings from './ViewGameSettings.vue'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipOption,
-  HipSelect
-} from '../../Component'
 
 export default {
   name: 'ViewGameLauncher',
   components: {
-    // Form components.
-    ViewGameSettings,
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipOption,
-    HipSelect
+    ViewGameSettings
   },
-  data() {
-    return {
-      changedVersion: false,
-      emulatorGame: null,
-      emulatorPlatform: null,
-      emulatorPath: null,
-      emulatorFile: app.getAppPath() + '/data/emulators.json',
-      gamePath: null,
-      dialog: {
-        launcherError: false,
-        settingsGame: false
-      }
-    }
-  },
-  props: [
-    'gameInfo',
-    'regionIndex'
-  ],
   emits: [
     'updated'
   ],
-  methods: {
-    // Launch game.
-    launchGame() {
+  props: {
+    gameInfo: { type: Object },
+    regionIndex: { type: Number }
+  },
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage game launching.
+    let gamePath = ref(null)
+    let emulatorPath = ref(null)
+    const launchGame = () => {
       // Define execution options.
       let gameOptions = {
-        cwd: this.emulatorPath ? this.emulatorPath.length > 0 ? this.emulatorPath : this.gamePath : this.gamePath
+        cwd: emulatorPath.value ? emulatorPath.value.length > 0 ? emulatorPath.value : gamePath.value : gamePath.value
       }
       // Execute command.
-      exec(this.fullCommand, gameOptions, (error, stdout, stderr) => {
-        if (error) { console.log(error); this.launcherError() }
+      exec(fullCommand.value, gameOptions, (error) => {
+        if (error) {
+          // Log error and display message.
+          console.log(error)
+          launchErrorShow()
+        }
       })
-    },
-    loadEmulator() {
+    }
+    let launchErrorDialog = ref(false)
+    const launchErrorShow = () => {
+      // Toggle game launch error dialog.
+      launchErrorDialog.value = !launchErrorDialog.value
+    }
+
+    // Manage emulators.
+    let emulatorGame = ref(null)
+    let emulatorPlatform = ref(null)
+    const emulatorFile = app.getAppPath() + '/data/emulators.json'
+    const loadEmulator = () => {
       // Reset emulators.
-      this.emulatorPlatform = null
-      this.emulatorGame = null
+      emulatorPlatform.value = null
+      emulatorGame.value = null
       // Read emulator file.
-      if (existsSync(this.emulatorFile)) {
-        readJSONSync(this.emulatorFile).forEach(res => {
-          if (res.id == this.$store.state.settingsPlatform.emulator) {
+      if (existsSync(emulatorFile)) {
+        readJSONSync(emulatorFile).forEach((res) => {
+          if (res.id == store.state.settingsPlatform.emulator) {
             // Load emulator configuration for the selected platform.
-            this.emulatorPlatform = res
+            emulatorPlatform.value = res
           }
-          if (res.id == this.$store.state.settingsGame.emulator) {
+          if (res.id == store.state.settingsGame.emulator) {
             // Load emulator configuration for the selected game.
-            this.emulatorGame = res
+            emulatorGame.value = res
           }
         })
       }
-    },
-    changeVersion(index) {
-      this.changedVersion = true
-      // Send selected game version index to parent component.
-      this.$emit('updated', index)
-    },
-    // Settings operations.
-    settingsGameOpen() {
-      if (this.changedVersion) {
-        // Update the store with the new game version selected.
-        this.$store.commit('setGameStore')
-        this.changedVersion = false
-      } else {
-        // Load stored data.
-        this.$store.commit('resetGameStore')
-      }
-      // Open settings dialog.
-      this.dialog.settingsGame = !this.dialog.settingsGame
-    },
-    settingsGameClose() {
-      // Close settings dialog.
-      this.dialog.settingsGame = !this.dialog.settingsGame
-    },
-    // Show errors.
-    launcherError() {
-      // Open game launch error dialog.
-      this.dialog.launcherError = !this.dialog.launcherError
     }
-  },
-  created() {
-    // Load emulator.
-    this.loadEmulator()
-  },
-  computed: {
-    emulator() {
-      return this.$store.state.settingsGame.emulator
-    },
-    fullCommand() {
+
+    // Load emulator on component creation.
+    loadEmulator()
+
+    // Watch for changes on the selected emulator.
+    const emulatorStore = computed(() => {
+      return store.state.settingsGame.emulator
+    })
+    watch(() => emulatorStore.value, () => { loadEmulator() })
+
+    // Define emulator and game paths.
+    const fullCommand = computed(() => {
       // Return command to execute.
-      return this.fullEmulatorPath + this.fullGamePath
-    },
-    fullEmulatorPath() {
-      let emulator = this.emulatorGame ? this.emulatorGame : this.emulatorPlatform
+      return fullEmulatorPath.value + fullGamePath.value
+    })
+    const fullEmulatorPath = computed(() => {
+      let emulator = emulatorGame.value ? emulatorGame.value : emulatorPlatform.value
       if (emulator != null) {
-        let emulatorPath = emulator.path + '/' + emulator.file
+        let _emulatorPath = emulator.path + '/' + emulator.file
         // Set the platform executable path as the current working directory.
-        this.emulatorPath = emulator.path
+        emulatorPath.value = emulator.path
         // Return full platform command.
-        return '"' + emulatorPath + '" ' + (emulator.params ? emulator.params + ' ' : '')
+        return '"' + _emulatorPath + '" ' + (emulator.params ? emulator.params + ' ' : '')
       } else {
         return ''
       }
-    },
-    fullGamePath() {
+    })
+    const fullGamePath = computed(() => {
       // Wait for the settings to be loaded.
-      if (this.$store.state.settingsGame.gamePath != null) {
-        let gamePath = (this.$store.state.settingsGame.relativePath ? this.$store.state.settingsPlatform.relativePath + '/' : '') + this.$store.state.settingsGame.gamePath
+      if (store.state.settingsGame.gamePath != null) {
+        let _gamePath = (store.state.settingsGame.relativePath ? store.state.settingsPlatform.relativePath + '/' : '') + store.state.settingsGame.gamePath
         // Set the game path as the current working directory.
-        this.gamePath = gamePath
+        gamePath.value = _gamePath
         // Check and replace the '{relative}' and '{game}' variables.
-        let gameParams = this.$store.state.settingsGame.gameParams.replaceAll('{relative}', this.$store.state.settingsPlatform.relativePath)
-        gameParams = gameParams.replaceAll('{game}', gamePath)
+        let gameParams = store.state.settingsGame.gameParams.replaceAll('{relative}', store.state.settingsPlatform.relativePath)
+        gameParams = gameParams.replaceAll('{game}', _gamePath)
         // Return full game command.
-        return (this.$store.state.settingsGame.gameFile ? '"' + gamePath + (this.$store.state.settingsGame.gamePath ? '/' : '') + this.$store.state.settingsGame.gameFile + '" ' : '') + gameParams
+        return (store.state.settingsGame.gameFile ? '"' + _gamePath + (store.state.settingsGame.gamePath ? '/' : '') + store.state.settingsGame.gameFile + '" ' : '') + gameParams
       }
+    })
+
+    // Manage game settings.
+    let changedVersion = ref(false)
+    const changeVersion = (index) => {
+      changedVersion.value = true
+      // Send selected game version index to parent component.
+      emit('updated', index)
     }
-  },
-  watch: {
-    // Watch for changes on the selected emulator.
-    emulator() {
-      // Reload emulator.
-      this.loadEmulator()
+    let settingsGameDialog = ref(false)
+    const settingsGameOpen = () => {
+      if (changedVersion.value) {
+        // Update the store with the new game version selected.
+        store.commit('setGameStore')
+        changedVersion.value = false
+      } else {
+        // Load stored data.
+        store.commit('resetGameStore')
+      }
+      // Open settings dialog.
+      settingsGameDialog.value = !settingsGameDialog.value
+    }
+    const settingsGameClose = () => {
+      // Close settings dialog.
+      settingsGameDialog.value = !settingsGameDialog.value
+    }
+
+    return {
+      changeVersion,
+      fullCommand,
+      gamePath,
+      launchErrorShow,
+      launchErrorDialog,
+      launchGame,
+      settingsGameClose,
+      settingsGameDialog,
+      settingsGameOpen
     }
   }
 }

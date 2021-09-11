@@ -2,16 +2,16 @@
   <!-- Open search dialog. -->
   <transition>
     <search
-      v-show="dialog.search"
-      @close="searchOpen()"
-      :key="dialog.search"
+      v-show="searchDialog"
+      @close="searchShow()"
+      :key="searchDialog"
       class="pos-initial z-30"
     />
   </transition>
   <!-- Expanded sidenav. -->
   <div>
     <!-- Sidenav overlay. -->
-    <transition v-show="$store.state.sidenavExpanded">
+    <transition v-show="expand">
       <div
         @click="sidenavToggle()"
         class="absolute bg-black bg-opacity-50 h-full w-full z-40"
@@ -21,7 +21,7 @@
     <!-- Sidenav contents. -->
     <transition name="slide-nav">
       <div
-        v-show="$store.state.sidenavExpanded"
+        v-show="expand"
         class="absolute bg-color-500 flex flex-col inset-y-0 w-80 z-40"
       >
         <!-- Logo bar. -->
@@ -48,7 +48,7 @@
           </div>
           <div class="mb-8 space-y-4">
             <div class="flex">
-              <hip-button-sb @click="searchOpen()">Search</hip-button-sb>
+              <hip-button-sb @click="searchShow()">Search</hip-button-sb>
             </div>
             <div v-show="history > 0">
               <div class="flex">
@@ -106,7 +106,7 @@
           <div class="mb-8 space-y-4">
             <div class="flex">
               <hip-button-sb
-                @click="searchOpen()"
+                @click="searchShow()"
                 class="el-icon-search h-12 text-xl"
               ></hip-button-sb>
             </div>
@@ -133,44 +133,60 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+// Import utility functions.
+import { throttle } from '@/utils/throttle'
 // Import search component.
 import Search from './Search.vue'
-// Import UI components.
-import { HipButtonSb } from './Component'
 
 export default {
+  name: 'SideNav',
   components: {
-    Search,
-    HipButtonSb
+    Search
   },
-  data() {
-    return {
-      history: window.history.state.position,
-      dialog: {
-        search: false
-      }
-    }
-  },
-  methods: {
-    sidenavToggle() {
-      // Toggle sidenav visibility.
-      this.$store.state.sidenavExpanded = !this.$store.state.sidenavExpanded
-    },
-    searchOpen() {
-      // Open search dialog.
-      this.dialog.search = !this.dialog.search
+  setup() {
+    // Instantiate Vue elements.
+    const route = useRoute()
+    const store = useStore()
+
+    // Manage route history for the back button.
+    let history = ref(window.history.state.position)
+    let expand = ref(false)
+    watch(() => route.path, () => {
+      // Set transition orientation depending on route position.
+      store.state.slideBack = window.history.state.position > history.value ? false : true
+      // Store current position of route in history.
+      history.value = window.history.state.position
+      // Ensure the closure of the sidenav.
+      expand.value = false
+    })
+
+    // Toggle sidenav visibility.
+    const sidenavToggle = throttle(() => {
+      expand.value = !expand.value
+    }, 500)
+
+    // Manage search dialog display.
+    let searchDialog = ref(false)
+    const searchShow = () => {
+      // Toggle search dialog.
+      searchDialog.value = !searchDialog.value
       // Close sidenav.
-      if (this.$store.state.sidenavExpanded) {
-        this.sidenavToggle()
+      if (expand.value) {
+        sidenavToggle()
       }
     }
-  },
-  watch: {
-    // Watch for route changes to display the back button.
-    '$route'(to, from) {
-      this.$store.state.slideBack = window.history.state.position > this.history ? false : true
-      this.history = window.history.state.position
-      this.$store.state.sidenavExpanded = false
+
+    // Return values to use on template.
+    return {
+      expand,
+      history,
+      searchDialog,
+      searchShow,
+      sidenavToggle
     }
   }
 }
@@ -179,7 +195,7 @@ export default {
 <style scoped>
 /* Transitions. */
 div {
-  transition: background-color 1s, opacity 0.5s ease;
+  transition: background-color 0.5s, opacity 0.5s ease;
 }
 .slide-nav-leave-active,
 .slide-nav-enter-active {

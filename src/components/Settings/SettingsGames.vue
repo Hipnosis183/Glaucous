@@ -10,25 +10,24 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipSectionContent,
-  HipSectionHeader,
-  HipSwitch
-} from '../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'SettingsGames',
-  components: {
-    // UI components.
-    HipSectionContent,
-    HipSectionHeader,
-    HipSwitch
-  },
-  computed: {
-    groupsView: {
-      get() { return this.$store.getters.getSettingsGamesGroupsView },
-      set() { this.$store.commit('setSettingsGamesGroupsView') }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage settings in the store.
+    const groupsView = computed({
+      get() { return store.getters.getSettingsGamesGroupsView },
+      set() { store.commit('setSettingsGamesGroupsView') }
+    })
+
+    return {
+      groupsView
     }
   }
 }

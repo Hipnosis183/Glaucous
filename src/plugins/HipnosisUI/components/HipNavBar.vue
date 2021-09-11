@@ -23,9 +23,12 @@
 <script>
 export default {
   name: 'HipNavBar',
-  props: [
-    'button',
-    'title'
-  ]
+  props: {
+    button: { type: Boolean, default: false },
+    title: { type: String }
+  }
 }
 </script>
+
+<style>
+</style>

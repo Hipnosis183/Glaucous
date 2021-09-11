@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -12,16 +12,16 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
-        @click="validationError()"
+        icon
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
   </hip-dialog>
   <!-- Show links dialog. -->
   <hip-dialog
-    v-show="dialog.viewLinks"
-    @close="viewLinks()"
+    v-show="linksDialog"
+    @close="linksShow()"
     class="pos-initial z-10"
   >
     <!-- Links list. -->
@@ -43,8 +43,8 @@
             <li class="text-justify">{{ link }}</li>
             <!-- Remove related link from the list. -->
             <hip-button
-              :icon="true"
-              @click="removeLink(index)"
+              icon
+              @click="linkRemove(index)"
               class="el-icon-remove-outline text-2xl"
             ></hip-button>
           </div>
@@ -63,13 +63,13 @@
     <template #append>
       <!-- View links list dialog. -->
       <hip-input-button
-        @click="viewLinks()"
+        @click="linksShow()"
         class="el-icon-notebook-2 text-xl"
       ></hip-input-button>
       <!-- Add input link to the list. -->
       <hip-input-button
         last-element
-        @click="addLink()"
+        @click="linkAdd()"
         class="el-icon-circle-plus-outline text-xl"
       ></hip-input-button>
     </template>
@@ -77,59 +77,55 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipInput,
-  HipInputButton
-} from '../../../Component'
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGamePlatformLinks',
-  components: {
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipInput,
-    HipInputButton
-  },
-  data() {
-    return {
-      link: null,
-      dialog: {
-        validationError: false,
-        viewLinks: false
-      }
-    }
-  },
-  methods: {
-    // Links operations.
-    addLink() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage links operations.
+    let link = ref(null)
+    const linkAdd = () => {
       try {
         // Check for a valid URL.
-        new URL(this.link)
+        new URL(link.value)
         // Save link into the store.
-        this.$store.commit('setGamePlatformLinksAdd', this.link)
+        store.commit('setGamePlatformLinksAdd', link.value)
         // Reset link input.
-        this.link = null
+        link.value = null
       }
       catch {
         // Invalid URL.
-        this.validationError()
+        validationErrorShow()
       }
-    },
-    removeLink(link) {
+    }
+    const linkRemove = (link) => {
       // Remove link from the store.
-      this.$store.commit('setGamePlatformLinksRemove', link)
-    },
-    viewLinks() {
-      // Open links dialog.
-      this.dialog.viewLinks = !this.dialog.viewLinks
-    },
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      store.commit('setGamePlatformLinksRemove', link)
+    }
+    let linksDialog = ref(false)
+    const linksShow = () => {
+      // Toggle links dialog.
+      linksDialog.value = !linksDialog.value
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      link,
+      linkAdd,
+      linkRemove,
+      linksDialog,
+      linksShow,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

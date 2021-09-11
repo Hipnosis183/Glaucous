@@ -1,8 +1,8 @@
 <template>
   <!-- Show comments dialog. -->
   <hip-dialog
-    v-show="dialog.viewComments"
-    @close="viewComments()"
+    v-show="commentsDialog"
+    @close="commentsShow()"
     class="pos-initial z-10"
   >
     <!-- Comments list. -->
@@ -24,8 +24,8 @@
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->
             <hip-button
-              :icon="true"
-              @click="removeComment(index)"
+              icon
+              @click="commentRemove(index)"
               class="el-icon-remove-outline text-2xl"
             ></hip-button>
           </div>
@@ -44,13 +44,13 @@
     <template #append>
       <!-- View comments list dialog. -->
       <hip-input-button
-        @click="viewComments()"
+        @click="commentsShow()"
         class="el-icon-notebook-2 text-xl"
       ></hip-input-button>
       <!-- Add input comment to the list. -->
       <hip-input-button
         last-element
-        @click="addComment()"
+        @click="commentAdd()"
         class="el-icon-circle-plus-outline text-xl"
       ></hip-input-button>
     </template>
@@ -58,46 +58,40 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipInput,
-  HipInputButton
-} from '../../../Component'
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGameVersionComments',
-  components: {
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipInput,
-    HipInputButton
-  },
-  data() {
-    return {
-      comment: null,
-      dialog: {
-        viewComments: false
-      }
-    }
-  },
-  methods: {
-    // Comments operations.
-    addComment() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage comments operations.
+    let comment = ref(null)
+    const commentAdd = () => {
       // Save comment into the store.
-      this.$store.commit('setGameVersionCommentsAdd', this.comment)
+      store.commit('setGameVersionCommentsAdd', comment.value)
       // Reset comment input.
-      this.comment = null
-    },
-    removeComment(com) {
+      comment.value = null
+    }
+    const commentRemove = (com) => {
       // Remove comment from the store.
-      this.$store.commit('setGameVersionCommentsRemove', com)
-    },
-    viewComments() {
-      // Open comments dialog.
-      this.dialog.viewComments = !this.dialog.viewComments
+      store.commit('setGameVersionCommentsRemove', com)
+    }
+    let commentsDialog = ref(false)
+    const commentsShow = () => {
+      // Toggle comments dialog.
+      commentsDialog.value = !commentsDialog.value
+    }
+
+    return {
+      comment,
+      commentAdd,
+      commentRemove,
+      commentsDialog,
+      commentsShow
     }
   }
 }

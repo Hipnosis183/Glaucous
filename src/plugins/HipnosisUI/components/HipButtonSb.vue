@@ -16,6 +16,6 @@ export default {
 <style scoped>
 /* Transitions. */
 button {
-  transition: background-color 1s;
+  transition: background-color 0.5s;
 }
 </style>

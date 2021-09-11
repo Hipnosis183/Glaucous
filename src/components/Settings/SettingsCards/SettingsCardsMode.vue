@@ -14,30 +14,27 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipOption,
-  HipSelect
-} from '../../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { cardViews } from '../../../settings'
+import { cardViews } from '@/settings'
 
 export default {
   name: 'SettingsCardsMode',
-  components: {
-    // UI components.
-    HipOption,
-    HipSelect
-  },
-  data() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage settings in the store.
+    const cardMode = computed({
+      get() { return store.getters.getSettingsCardsCardMode },
+      set(value) { store.commit('setSettingsCardsCardMode', value) }
+    })
+
     return {
-      cardViews: cardViews
-    }
-  },
-  computed: {
-    cardMode: {
-      get() { return this.$store.getters.getSettingsCardsCardMode },
-      set(value) { this.$store.commit('setSettingsCardsCardMode', value) }
+      cardMode,
+      cardViews
     }
   }
 }

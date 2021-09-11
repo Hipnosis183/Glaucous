@@ -2,7 +2,7 @@
   <transition>
     <div class="fixed flex h-full items-center justify-center w-overlay">
       <div
-        @click="$emit('close')"
+        @click="close"
         class="bg-black bg-opacity-50 h-full w-full"
       >
       </div>
@@ -17,6 +17,9 @@
 </template>
 
 <script>
+// Import utility functions.
+import { throttle } from '@/utils/throttle'
+
 export default {
   name: 'HipOverlay',
   emits: [
@@ -24,6 +27,14 @@ export default {
   ],
   props: {
     width: { type: [Boolean, String] }
+  },
+  setup(props, { emit }) {
+    // Throttle overlay closing function.
+    const close = throttle(() => { emit('close') }, 1000)
+
+    return {
+      close
+    }
   }
 }
 </script>

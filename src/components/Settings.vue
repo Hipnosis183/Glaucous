@@ -28,11 +28,6 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipModal,
-  HipNavBar
-} from './Component'
 // Import settings components.
 import SettingsCards from './Settings/SettingsCards.vue'
 import SettingsGeneral from './Settings/SettingsGeneral.vue'
@@ -43,10 +38,6 @@ import SettingsThemes from './Settings/SettingsThemes.vue'
 export default {
   name: 'Settings',
   components: {
-    // UI components.
-    HipModal,
-    HipNavBar,
-    // Settings components.
     SettingsCards,
     SettingsGeneral,
     SettingsGames,
@@ -56,7 +47,7 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 /* Calculations. */
 .h-content {
   height: calc(100vh - 6.25rem);
@@ -66,6 +57,6 @@ export default {
 }
 /* Transitions. */
 .bg-transition {
-  transition: background-color 1s;
+  transition: background-color 0.5s;
 }
 </style>

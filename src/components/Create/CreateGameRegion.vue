@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -12,8 +12,8 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
-        @click="validationError()"
+        icon
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -31,12 +31,12 @@
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        :icon="true"
+        icon
         @click="onSubmit()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        :icon="true"
+        icon
         @click="$emit('close')"
         class="el-icon-circle-close text-2xl"
       ></hip-button>
@@ -71,6 +71,11 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+// Import database controllers functions.
+import { newGameRegion } from '@/database/controllers/Game'
 // Import form components.
 import {
   FormGameImages,
@@ -86,19 +91,11 @@ import {
   FormGameVersionLatest,
   FormGameVersionName,
   FormGameVersionNumber
-} from '../Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog
-} from '../Component'
-// Import database controllers functions.
-import { newGameRegion } from '../../database/controllers/Game'
+} from '@/components/Form'
 
 export default {
   name: 'CreateGameRegion',
   components: {
-    // Form components.
     FormGameImages,
     FormGamePlatformSerial,
     FormGameRegionOriginalTitle,
@@ -111,39 +108,39 @@ export default {
     FormGameVersionComments,
     FormGameVersionLatest,
     FormGameVersionName,
-    FormGameVersionNumber,
-    // UI components.
-    HipButton,
-    HipDialog
-  },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
+    FormGameVersionNumber
   },
   emits: [
     'close'
   ],
-  methods: {
-    onSubmit() {
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage game region creation.
+    const onSubmit = () => {
       // Validate required fields.
       if (
-        !this.$store.state.gameForm.gameRegion.title ||
-        !this.$store.state.gameForm.gameRegion.region
+        !store.state.gameForm.gameRegion.title ||
+        !store.state.gameForm.gameRegion.region
       ) {
-        this.validationError()
+        validationErrorShow()
         return
       }
       // Save new game entry.
-      newGameRegion(this.$store.state.gameForm, this.$store.state.gameSelected)
-        .then(() => this.$emit('close'))
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      newGameRegion(store.state.gameForm, store.state.gameSelected)
+        .then(() => emit('close'))
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

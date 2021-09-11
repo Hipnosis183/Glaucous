@@ -10,14 +10,6 @@
 <script>
 export default {
   name: 'HipOptionGroup',
-  data() {
-    return {
-      item: {
-        label: this.label,
-        value: this.value
-      }
-    }
-  },
   props: {
     label: { type: String }
   }

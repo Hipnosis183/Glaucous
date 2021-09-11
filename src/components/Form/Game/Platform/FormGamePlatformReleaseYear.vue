@@ -9,19 +9,24 @@
 </template>
 
 <script>
-// Import UI components.
-import { HipInput } from '../../../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FormGamePlatformReleaseYear',
-  components: {
-    // UI components.
-    HipInput
-  },
-  computed: {
-    releaseYear: {
-      get() { return this.$store.state.gameForm.gamePlatform.releaseYear },
-      set(value) { this.$store.commit('setGamePlatformReleaseYear', value) }
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage forms in the store.
+    const releaseYear = computed({
+      get() { return store.state.gameForm.gamePlatform.releaseYear },
+      set(value) { store.commit('setGamePlatformReleaseYear', value) }
+    })
+
+    return {
+      releaseYear
     }
   }
 }

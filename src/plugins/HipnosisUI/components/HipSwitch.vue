@@ -32,6 +32,7 @@
 </template>
 
 <script>
+// Import UI components.
 import HipLabel from './HipLabel.vue'
 
 export default {
@@ -40,12 +41,17 @@ export default {
     HipLabel
   },
   props: {
-    modelValue: { type: Boolean, default: false },
-    label: { type: [String, Number] }
+    label: { type: String },
+    modelValue: { type: Boolean, default: false }
   },
-  methods: {
-    switchValue() {
-      this.$emit('update:modelValue', !this.modelValue)
+  setup(props, { emit }) {
+    // Switch model value.
+    const switchValue = () => {
+      emit('update:modelValue', !props.modelValue)
+    }
+
+    return {
+      switchValue
     }
   }
 }

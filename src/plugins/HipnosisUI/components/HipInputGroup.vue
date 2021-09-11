@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// Import UI components.
 import HipLabel from './HipLabel.vue'
 
 export default {
@@ -22,3 +23,6 @@ export default {
   }
 }
 </script>
+
+<style>
+</style>

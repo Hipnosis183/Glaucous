@@ -14,9 +14,12 @@
 <script>
 export default {
   name: 'HipButton',
-  props: [
-    'icon',
-    'large'
-  ]
+  props: {
+    icon: { type: Boolean, default: false },
+    large: { type: Boolean, default: false }
+  }
 }
 </script>
+
+<style>
+</style>

@@ -24,29 +24,29 @@
 </template>
 
 <script>
-// Import sidenav component.
-import SideNav from './components/SideNav.vue'
+// Import Vue functions.
+import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { selectCardColumns } from './settings'
+import { selectCardColumns } from '@/settings'
 // Import theme objects and functions.
-import {
-  colors,
-  selectColor,
-  selectTheme,
-  themes
-} from './theme'
+import { selectColor, selectTheme } from '@/theme'
+// Import sidenav component.
+import SideNav from '@/components/SideNav.vue'
 
 export default {
   components: {
     SideNav
   },
-  created() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Set theme stored in the configuration.
-    selectTheme(themes[this.$store.getters.getSettingsThemesSelectedTheme].codes)
+    selectTheme(store.getters.getSettingsThemesSelectedTheme)
     // Set color theme stored in the configuration.
-    selectColor(colors[this.$store.getters.getSettingsThemesSelectedColor].codes)
+    selectColor(store.getters.getSettingsThemesSelectedColor)
     // Set number of columns of lists in the configuration.
-    selectCardColumns(this.$store.getters.getSettingsCardsCardColumns)
+    selectCardColumns(store.getters.getSettingsCardsCardColumns)
   }
 }
 </script>
@@ -54,6 +54,6 @@ export default {
 <style scoped>
 /* Transitions. */
 .bg-transition {
-  transition: background-color 1s;
+  transition: background-color 0.5s;
 }
 </style>

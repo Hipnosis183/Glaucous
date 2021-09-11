@@ -1,8 +1,8 @@
 <template>
   <!-- Validation error dialog. -->
   <hip-dialog
-    v-show="dialog.validationError"
-    @close="validationError()"
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -12,8 +12,8 @@
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
       <hip-button
-        :icon="true"
-        @click="validationError()"
+        icon
+        @click="validationErrorShow()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
     </div>
@@ -25,12 +25,12 @@
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
       <hip-button
-        :icon="true"
+        icon
         @click="onSubmit()"
         class="el-icon-circle-check text-2xl"
       ></hip-button>
       <hip-button
-        :icon="true"
+        icon
         @click="$emit('close')"
         class="el-icon-circle-close text-2xl"
       ></hip-button>
@@ -68,6 +68,9 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
 import { outputJSONSync } from 'fs-extra'
 // Import form components.
@@ -76,71 +79,62 @@ import {
   FormEmulatorName,
   FormEmulatorParams,
   FormEmulatorPath
-} from '../Form'
-// Import UI components.
-import {
-  HipButton,
-  HipDialog,
-  HipSectionHeader
-} from '../Component'
+} from '@/components/Form'
 
 export default {
   name: 'EditEmulator',
   components: {
-    // Form components.
     FormEmulatorFile,
     FormEmulatorName,
     FormEmulatorParams,
-    FormEmulatorPath,
-    // UI components.
-    HipButton,
-    HipDialog,
-    HipSectionHeader
-  },
-  data() {
-    return {
-      dialog: {
-        validationError: false
-      }
-    }
-  },
-  props: {
-    emulatorList: { type: Array, default: [] },
-    emulatorPath: { type: String, default: '' }
+    FormEmulatorPath
   },
   emits: [
     'close'
   ],
-  methods: {
-    onSubmit() {
+  props: {
+    emulatorList: { type: Array, default: [] },
+    emulatorPath: { type: String, default: '' }
+  },
+  setup(props, { emit }) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage emulator editing.
+    const fullCommand = computed(() => {
+      // Get the emulator form values.
+      let emu = store.state.emulatorForm
+      // Return command to execute.
+      return '"' + (emu.path ? emu.path : '') + '/' + (emu.file ? emu.file : '') + '" ' + (emu.params ? emu.params : '')
+    })
+    const onSubmit = () => {
       // Validate required fields.
       if (
-        !this.$store.state.emulatorForm.name ||
-        !this.$store.state.emulatorForm.path ||
-        !this.$store.state.emulatorForm.file
+        !store.state.emulatorForm.name ||
+        !store.state.emulatorForm.path ||
+        !store.state.emulatorForm.file
       ) {
-        this.validationError()
+        validationErrorShow()
         return
       }
       // Find entry and update the list.
-      let index = this.emulatorList.findIndex(res => res.id == this.$store.state.emulatorForm.id)
-      this.emulatorList[index] = this.$store.state.emulatorForm
+      let index = props.emulatorList.findIndex((res) => res.id == store.state.emulatorForm.id)
+      props.emulatorList[index] = store.state.emulatorForm
       // Save updated list back to file.
-      outputJSONSync(this.emulatorPath, this.emulatorList)
-      this.$emit('close')
-    },
-    // Show validation errors.
-    validationError() {
-      // Open error dialog.
-      this.dialog.validationError = !this.dialog.validationError
+      outputJSONSync(props.emulatorPath, props.emulatorList)
+      emit('close')
     }
-  },
-  computed: {
-    fullCommand() {
-      // Get the emulator form values.
-      let emu = this.$store.state.emulatorForm
-      // Return command to execute.
-      return '"' + (emu.path ? emu.path : '') + '/' + (emu.file ? emu.file : '') + '" ' + (emu.params ? emu.params : '')
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      fullCommand,
+      onSubmit,
+      validationErrorDialog,
+      validationErrorShow
     }
   }
 }

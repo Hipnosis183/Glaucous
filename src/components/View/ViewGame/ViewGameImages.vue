@@ -2,13 +2,13 @@
   <!-- View cover image. -->
   <hip-overlay
     v-if="getCover || getPictures[0]"
-    v-show="dialog.viewImagesCover"
-    @close="viewImagesCoverClose()"
+    v-show="imagesCoverDialog"
+    @close="imagesCoverClose()"
     class="pos-initial z-10"
   >
     <div class="flex">
       <img
-        @click="imageZoom = !imageZoom"
+        @click="imageZoomToggle()"
         :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
         class="cursor-pointer object-contain rounded-xl"
         :class="[
@@ -22,8 +22,8 @@
   <transition>
     <hip-overlay
       v-if="getPictures[imageIndex]"
-      v-show="dialog.viewImagesPictures"
-      @close="viewImagesPicturesClose()"
+      v-show="imagesPicturesDialog"
+      @close="imagesPicturesClose()"
       class="pos-initial z-20"
     >
       <div
@@ -37,8 +37,8 @@
           <img
             ref="pictureImage"
             :key="imageIndex"
-            @click="viewImagesPicturesClose()"
-            @load="viewImagesPicturesLoad()"
+            @click="imagesPicturesClose()"
+            @load="imagesPicturesLoad()"
             :src="'file://' + imagePath + '/' + getPictures[imageIndex]"
             class="object-contain rounded-xl"
             :class="[
@@ -56,8 +56,8 @@
           <div class="flex h-10 justify-between mx-1 space-x-2">
             <!-- Close dialog. -->
             <hip-button
-              :icon="true"
-              @click="viewImagesPicturesClose()"
+              icon
+              @click="imagesPicturesClose()"
               class="el-icon-circle-close text-2xl"
             ></hip-button>
             <!-- Control bar buttons. -->
@@ -70,7 +70,7 @@
               ></hip-button-group>
               <!-- Display image in its original size. -->
               <hip-button-group
-                @click="imageZoom = !imageZoom"
+                @click="imageZoomToggle()"
                 class="el-icon-full-screen"
               ></hip-button-group>
               <!-- Next image. -->
@@ -89,8 +89,8 @@
   </transition>
   <!-- View gallery. -->
   <hip-overlay
-    v-show="dialog.viewImagesGallery"
-    @close="viewImagesGallery()"
+    v-show="imagesGalleryDialog"
+    @close="imagesGalleryShow()"
     class="pos-initial z-10"
   >
     <!-- Header. -->
@@ -102,15 +102,15 @@
       <div class="flex h-10 justify-between mx-1">
         <!-- Padding. -->
         <hip-button
-          :icon="true"
+          icon
           class="el-icon-circle-close invisible"
         ></hip-button>
         <!-- Header title. -->
         <p class="pt-1 text-2xl">Gallery</p>
         <!-- Close dialog. -->
         <hip-button
-          :icon="true"
-          @click="viewImagesGallery()"
+          icon
+          @click="imagesGalleryShow()"
           class="el-icon-circle-close text-2xl"
         ></hip-button>
       </div>
@@ -129,7 +129,7 @@
             class="flex h-full justify-center w-full"
           >
             <img
-              @click="viewImagesPicturesOpen(index)"
+              @click="imagesPicturesOpen(index)"
               :src="'file://' + imagePath + '/' + image"
               class="cursor-pointer object-cover rounded-xl"
               :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false }"
@@ -152,7 +152,7 @@
     <img
       ref="coverImage"
       v-if="getCover || getPictures[0]"
-      @click="viewImagesCoverOpen()"
+      @click="imagesCoverOpen()"
       @load="loadImage()"
       :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
       class="cursor-pointer m-auto mb-4 object-contain rounded-md"
@@ -173,193 +173,208 @@
     <!-- Open gallery. -->
     <div class="flex w-full">
       <hip-button
-        :large="true"
-        @click="viewImagesGallery()"
+        large
+        @click="imagesGalleryShow()"
       >Gallery</hip-button>
     </div>
   </div>
 </template>
 
 <script>
+// Import Vue functions.
+import { computed, onMounted, ref, watch } from 'vue'
 // Import functions from modules.
 import { app } from '@electron/remote'
-import {
-  existsSync,
-  readdirSync
-} from 'fs-extra'
-// Import UI components.
-import {
-  HipButton,
-  HipButtonGroup,
-  HipModal,
-  HipOverlay
-} from '../../Component'
+import { existsSync, readdirSync } from 'fs-extra'
 
 export default {
   name: 'ViewGameImages',
-  components: {
-    // UI components.
-    HipButton,
-    HipButtonGroup,
-    HipModal,
-    HipOverlay
+  props: {
+    gameInfo: { type: Object },
+    regionIndex: { type: Number },
+    versionIndex: { type: Number }
   },
-  data() {
-    return {
-      coverWidth: 0,
-      coverHeight: 0,
-      imageIndex: null,
-      imageFiles: [],
-      imagePath: null,
-      imageZoom: false,
-      imageCenter: false,
-      imageLoaded: false,
-      renderReady: false,
-      slideBack: false,
-      dialog: {
-        viewImagesGallery: false,
-        viewImagesCover: false,
-        viewImagesPictures: false
-      }
-    }
-  },
-  props: [
-    'gameInfo',
-    'regionIndex',
-    'versionIndex'
-  ],
-  methods: {
-    // Images management.
-    getImages() {
+  setup(props) {
+    // Declare template refs.
+    const coverImage = ref(null)
+    const imageContainer = ref(null)
+    const pictureImage = ref(null)
+
+    // Load game images on mounting.
+    onMounted(() => { getImages() })
+
+    // Watch for game selection changes.
+    watch(() => [props.regionIndex, props.versionIndex], () => { getImages() })
+
+    // Image reading operations.
+    let imageFiles = ref([])
+    let imagePath = ref(null)
+    const getCover = computed(() => {
+      // Get cover image.
+      return imageFiles.value.filter(res => res.startsWith('0'.repeat(8)))[0]
+    })
+    const getPictures = computed(() => {
+      // Get array of pictures.
+      return imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))
+    })
+    const getImages = () => {
       // Store currently selected cover image.
-      let coverOld = this.getCover ? this.getCover : this.getPictures[0]
+      let coverOld = getCover.value ? getCover.value : getPictures.value[0]
       // Set the image directory path of the game platform.
-      let gamePath = app.getAppPath() + '/data/' + this.gameInfo.platform._id + '/' + this.gameInfo._id
+      let gamePath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
       // Check if there are images for the selected game version.
-      this.imagePath = gamePath + '/games/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/games/' + this.gameInfo.gameRegions[this.regionIndex].gameVersions[this.versionIndex]._id + '/images'
-      if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
+      imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id + '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id + '/images'
+      if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
         // Load images filenames.
-        this.imageFiles = readdirSync(this.imagePath)
+        imageFiles.value = readdirSync(imagePath.value)
       }
       else {
         // Check if there are images for the selected game region.
-        this.imagePath = gamePath + '/games/' + this.gameInfo.gameRegions[this.regionIndex]._id + '/images'
-        if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
+        imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id + '/images'
+        if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
           // Load images filenames.
-          this.imageFiles = readdirSync(this.imagePath)
+          imageFiles.value = readdirSync(imagePath.value)
         }
         else {
           // Check if there are images for the selected game platform.
-          this.imagePath = gamePath + '/images'
-          if (existsSync(this.imagePath) && readdirSync(this.imagePath).length > 0) {
+          imagePath.value = gamePath + '/images'
+          if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
             // Load images filenames.
-            this.imageFiles = readdirSync(this.imagePath)
+            imageFiles.value = readdirSync(imagePath.value)
           }
           else {
             // Empty image variables.
-            this.imagePath = null
-            this.imageFiles = []
+            imagePath.value = null
+            imageFiles.value = []
           }
         }
       }
       // Store newly selected cover image.
-      let coverNew = this.getCover ? this.getCover : this.getPictures[0]
+      let coverNew = getCover.value ? getCover.value : getPictures.value[0]
       // Disable the image resizing.
       if (coverOld != coverNew) {
-        this.renderReady = false
+        renderReady.value = false
       }
-    },
-    loadImage() {
-      if (this.$refs.coverImage) {
+    }
+
+    // Manage image when loaded.
+    let coverWidth = ref(0)
+    let coverHeight = ref(0)
+    let renderReady = ref(false)
+    const loadImage = () => {
+      if (coverImage.value) {
         // Get image width and height.
-        this.coverWidth = this.$refs.coverImage.clientWidth
-        this.coverHeight = this.$refs.coverImage.clientHeight
+        coverWidth.value = coverImage.value.clientWidth
+        coverHeight.value = coverImage.value.clientHeight
         // Enable the image resizing.
-        this.renderReady = true
+        renderReady.value = true
       }
-    },
-    nextImage() {
-      if (this.imageIndex < this.getPictures.length - 1) {
+    }
+
+    // Manage image navigation.
+    let imageIndex = ref(null)
+    let imageLoaded = ref(false)
+    let slideBack = ref(false)
+    const nextImage = () => {
+      if (imageIndex.value < getPictures.value.length - 1) {
         // Unload image.
-        this.imageLoaded = false
+        imageLoaded.value = false
         // Set sliding transition orientation.
-        this.slideBack = false
+        slideBack.value = false
         // Increase image index.
-        this.imageIndex++
+        imageIndex.value++
       }
-    },
-    prevImage() {
-      if (this.imageIndex > 0) {
+    }
+    const prevImage = () => {
+      if (imageIndex.value > 0) {
         // Unload image.
-        this.imageLoaded = false
+        imageLoaded.value = false
         // Set sliding transition orientation.
-        this.slideBack = true
+        slideBack.value = true
         // Decrease image index.
-        this.imageIndex--
+        imageIndex.value--
       }
-    },
-    // View images.
-    viewImagesGallery() {
-      // Open gallery.
-      this.dialog.viewImagesGallery = !this.dialog.viewImagesGallery
-    },
-    viewImagesCoverOpen() {
+    }
+
+    // General image display management.
+    let imageZoom = ref(false)
+    const imageZoomToggle = () => {
+      // Toggle zoom mode.
+      imageZoom.value = !imageZoom.value
+    }
+    let imagesGalleryDialog = ref(false)
+    const imagesGalleryShow = () => {
+      // Toggle gallery display.
+      imagesGalleryDialog.value = !imagesGalleryDialog.value
+    }
+
+    // Cover image display management.
+    let imagesCoverDialog = ref(false)
+    const imagesCoverOpen = () => {
       // Reset zoom mode.
-      this.imageZoom = false
+      imageZoom.value = false
       // Open cover view.
-      this.dialog.viewImagesCover = !this.dialog.viewImagesCover
-    },
-    viewImagesCoverClose() {
+      imagesCoverDialog.value = !imagesCoverDialog.value
+    }
+    const imagesCoverClose = () => {
       // Close cover view.
-      this.dialog.viewImagesCover = !this.dialog.viewImagesCover
-    },
-    viewImagesPicturesOpen(index) {
-      // Set selected image.
-      this.imageIndex = index
-      // Reset zoom mode.
-      this.imageZoom = false
-      // Open pictures view.
-      this.dialog.viewImagesPictures = !this.dialog.viewImagesPictures
-    },
-    viewImagesPicturesClose() {
-      // Unload image.
-      this.imageLoaded = false
-      // Empty selected image.
-      this.imageIndex = null
-      // Close pictures view.
-      this.dialog.viewImagesPictures = !this.dialog.viewImagesPictures
-    },
-    viewImagesPicturesLoad() {
+      imagesCoverDialog.value = !imagesCoverDialog.value
+    }
+
+    // Picture images display management.
+    let imageCenter = ref(false)
+    let imagesPicturesDialog = ref(false)
+    const imagesPicturesLoad = () => {
       // Determine centering by the image's height.
-      this.imageCenter = (this.$refs.pictureImage.clientHeight < this.$refs.imageContainer.clientHeight) ? true : false
+      imageCenter.value = (pictureImage.value.clientHeight < imageContainer.value.clientHeight) ? true : false
       // Load image.
-      this.imageLoaded = true
+      imageLoaded.value = true
     }
-  },
-  mounted() {
-    // Load images.
-    this.getImages()
-  },
-  computed: {
-    getCover() {
-      // Get cover image.
-      return this.imageFiles.filter(res => res.startsWith('0'.repeat(8)))[0]
-    },
-    getPictures() {
-      // Get array of pictures.
-      return this.imageFiles.filter(res => !res.startsWith('0'.repeat(8)))
+    const imagesPicturesOpen = (index) => {
+      // Set selected image.
+      imageIndex.value = index
+      // Reset zoom mode.
+      imageZoom.value = false
+      // Open pictures view.
+      imagesPicturesDialog.value = !imagesPicturesDialog.value
     }
-  },
-  watch: {
-    // Watch for game region selection changes.
-    regionIndex() {
-      // Load images.
-      this.getImages()
-    },
-    // Watch for game version selection changes.
-    versionIndex() {
-      // Load images.
-      this.getImages()
+    const imagesPicturesClose = () => {
+      // Unload image.
+      imageLoaded.value = false
+      // Empty selected image.
+      imageIndex.value = null
+      // Close pictures view.
+      imagesPicturesDialog.value = !imagesPicturesDialog.value
+    }
+
+    return {
+      coverImage,
+      coverWidth,
+      coverHeight,
+      getCover,
+      getPictures,
+      imageCenter,
+      imageContainer,
+      imageIndex,
+      imageLoaded,
+      imagePath,
+      imageZoom,
+      imageZoomToggle,
+      imagesCoverClose,
+      imagesCoverDialog,
+      imagesCoverOpen,
+      imagesGalleryDialog,
+      imagesGalleryShow,
+      imagesPicturesClose,
+      imagesPicturesDialog,
+      imagesPicturesLoad,
+      imagesPicturesOpen,
+      loadImage,
+      nextImage,
+      pictureImage,
+      prevImage,
+      renderReady,
+      slideBack
     }
   }
 }

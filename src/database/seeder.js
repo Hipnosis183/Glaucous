@@ -40,6 +40,7 @@ export async function dbSeed() {
                     })
             })
     }
+    console.log('Seeding done!')
 }
 
 async function developerSeed(a) {
@@ -63,7 +64,11 @@ async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) {
             platform: i,
             releaseYear: j,
             numberPlayers: k,
-            links: []
+            links: [],
+            images: {
+                cover: { add: null, remove: false },
+                pictures: { add: [], remove: [] }
+            }
         },
         gameRegion: {
             title: a,
@@ -82,7 +87,11 @@ async function gameSeed(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) {
             name: l,
             number: m,
             latest: n,
-            comments: o
+            comments: o,
+            images: {
+                cover: { add: null, remove: false },
+                pictures: { add: [], remove: [] }
+            }
         }
     }
     await newGamePlatform(gameForm)

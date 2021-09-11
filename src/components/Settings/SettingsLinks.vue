@@ -26,40 +26,32 @@
 </template>
 
 <script>
-// Import UI components.
-import {
-  HipOption,
-  HipSelect,
-  HipSectionContent,
-  HipSectionHeader,
-  HipSwitch
-} from '../Component'
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { googleKeys } from '../../settings'
+import { googleKeys } from '@/settings'
 
 export default {
   name: 'SettingsLinks',
-  components: {
-    // UI components.
-    HipOption,
-    HipSelect,
-    HipSectionContent,
-    HipSectionHeader,
-    HipSwitch
-  },
-  data() {
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Manage settings in the store.
+    const searchGoogle = computed({
+      get() { return store.getters.getSettingsLinksSearchGoogle },
+      set() { store.commit('setSettingsLinksSearchGoogle') }
+    })
+    const searchGoogleKey = computed({
+      get() { return store.getters.getSettingsLinksSearchGoogleKey },
+      set(value) { store.commit('setSettingsLinksSearchGoogleKey', value) }
+    })
+
     return {
-      googleKeys: googleKeys
-    }
-  },
-  computed: {
-    searchGoogle: {
-      get() { return this.$store.getters.getSettingsLinksSearchGoogle },
-      set() { this.$store.commit('setSettingsLinksSearchGoogle') }
-    },
-    searchGoogleKey: {
-      get() { return this.$store.getters.getSettingsLinksSearchGoogleKey },
-      set(value) { this.$store.commit('setSettingsLinksSearchGoogleKey', value) }
+      googleKeys,
+      searchGoogle,
+      searchGoogleKey
     }
   }
 }
