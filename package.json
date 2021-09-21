@@ -15,7 +15,7 @@
   "dependencies": {
     "@popperjs/core": "^2.9.3",
     "core-js": "^3.6.5",
-    "electron-store": "^8.0.0",
+    "electron-store": "^8.0.1",
     "element-plus": "^1.1.0-beta.12",
     "fs-extra": "^7.0.1",
     "marpat": "github:Hipnosis183/marpat",
@@ -26,7 +26,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@electron/remote": "^1.2.0",
+    "@electron/remote": "^2.0.1",
     "@tailwindcss/forms": "^0.3.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
@@ -34,8 +34,8 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.2.13",
     "autoprefixer": "^9.8.6",
-    "electron": "^12.0.0",
-    "electron-devtools-installer": "^3.1.0",
+    "electron": "^14.0.1",
+    "electron-devtools-installer": "^3.2.0",
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4",
     "vue-cli-plugin-electron-builder": "~2.1.1",

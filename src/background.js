@@ -28,11 +28,13 @@ async function createWindow() {
       // Fuck security, I already spent too much time on this shit.
       nodeIntegration: true,
       contextIsolation: false,
-      enableRemoteModule: true,
       spellcheck: false,
       webSecurity: false
     }
   })
+
+  // Enable Electron remote module.
+  require('@electron/remote/main').enable(win.webContents)
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode.
