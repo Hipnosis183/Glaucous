@@ -16,14 +16,14 @@
     "@popperjs/core": "^2.9.3",
     "core-js": "^3.6.5",
     "electron-store": "^8.0.0",
-    "element-plus": "^1.0.2-beta.28",
+    "element-plus": "^1.1.0-beta.12",
     "fs-extra": "^7.0.1",
     "marpat": "github:Hipnosis183/marpat",
     "mitt": "^2.1.0",
     "nedb-promises": "^5.0.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@electron/remote": "^1.2.0",
@@ -32,13 +32,13 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.2.13",
     "autoprefixer": "^9.8.6",
     "electron": "^12.0.0",
     "electron-devtools-installer": "^3.1.0",
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4",
-    "vue-cli-plugin-electron-builder": "~2.0.0",
+    "vue-cli-plugin-electron-builder": "~2.1.1",
     "vue-cli-plugin-element-plus": "~0.0.13"
   }
 }
