@@ -59,14 +59,20 @@
         <hip-button
           icon
           @click="deleteRegionClose()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
           icon
           @click="deleteRegionOpen()"
-          class="el-icon-circle-close text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-close />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Delete game version dialog. -->
@@ -87,14 +93,20 @@
         <hip-button
           icon
           @click="deleteVersionClose()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
           icon
           @click="deleteVersionOpen()"
-          class="el-icon-circle-close text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-close />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Delete game platform dialog. -->
@@ -115,14 +127,20 @@
         <hip-button
           icon
           @click="deletePlatformClose()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
         <!-- Cancel game deletion. -->
         <hip-button
           icon
           @click="deletePlatformOpen()"
-          class="el-icon-circle-close text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-close />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Navigation bar. -->
@@ -130,7 +148,7 @@
       <!-- Create games menu dialog. -->
       <hip-menu-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        icon="el-icon-circle-plus-outline text-2xl"
+        icon="icon-add"
       >
         <!-- Open create game platform dialog. -->
         <hip-menu-option
@@ -152,12 +170,15 @@
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editGameOpen()"
-        class="el-icon-edit-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-edit />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Delete games menu dialog. -->
       <hip-menu-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        icon="el-icon-remove-outline text-2xl"
+        icon="icon-remove"
       >
         <!-- Open create game platform dialog. -->
         <hip-menu-option
@@ -175,16 +196,10 @@
           :method="deleteVersionOpen"
         />
       </hip-menu-button>
-      <!-- Set selected game region as the main region. -->
-      <hip-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="setGameRegion()"
-        class="el-icon-place text-2xl"
-      ></hip-button-nb>
       <!-- Create games menu dialog. -->
       <hip-menu-button
         v-show="$store.getters.getSettingsGeneralEditMode"
-        icon="el-icon-folder-opened text-2xl"
+        icon="icon-folder"
       >
         <!-- Open create game region dialog. -->
         <hip-menu-option
@@ -202,6 +217,15 @@
           :method="openImagesPath"
         />
       </hip-menu-button>
+      <!-- Set selected game region as the main region. -->
+      <hip-button-nb
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        @click="setGameRegion()"
+      >
+        <hip-icon class="w-6">
+          <icon-flag />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Game region tabs. -->
       <ul class="flex w-full">
         <li

@@ -15,8 +15,11 @@
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createDeveloperOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-add />
+        </hip-icon>
+      </hip-button-nb>
     </hip-nav-bar>
     <!-- Show developers list. -->
     <div class="h-content m-6">

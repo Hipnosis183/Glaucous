@@ -5,9 +5,13 @@
   >
     <slot></slot>
     <button
-      class="bg-theme-200 dark:bg-theme-900 el-icon-close h-6 ml-2 -mr-2 my-auto p-1 rounded-full w-6"
+      class="bg-theme-200 dark:bg-theme-900 h-6 ml-2 -mr-2 my-auto p-1 rounded-full w-6"
       @click="$emit('remove')"
-    />
+    >
+      <hip-icon>
+        <icon-cross />
+      </hip-icon>
+    </button>
   </div>
 </template>
 

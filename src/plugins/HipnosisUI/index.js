@@ -8,6 +8,7 @@ import HipCardLarge from './components/HipCardLarge.vue'
 import HipCardTall from './components/HipCardTall.vue'
 import HipChip from './components/HipChip.vue'
 import HipDialog from './components/HipDialog.vue'
+import HipIcon from './components/HipIcon.vue'
 import HipInput from './components/HipInput.vue'
 import HipInputButton from './components/HipInputButton.vue'
 import HipInputGroup from './components/HipInputGroup.vue'
@@ -38,6 +39,7 @@ export default {
         app.component('hip-card-tall', HipCardTall)
         app.component('hip-chip', HipChip)
         app.component('hip-dialog', HipDialog)
+        app.component('hip-icon', HipIcon)
         app.component('hip-input', HipInput)
         app.component('hip-input-button', HipInputButton)
         app.component('hip-input-group', HipInputGroup)

@@ -5,7 +5,11 @@
       ref="refSelect"
       @click="openDropMenu()"
     >
-      <hip-button-nb :class="icon" />
+      <hip-button-nb>
+        <hip-icon class="w-6">
+          <component :is="icon" />
+        </hip-icon>
+      </hip-button-nb>
     </div>
     <!-- Dropdown menu. -->
     <div

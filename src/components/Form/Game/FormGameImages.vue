@@ -27,8 +27,12 @@
   <div class="flex rounded-xl shadow">
     <hip-input-button
       firstElement
-      class="cursor-default el-icon-picture text-2xl"
-    ></hip-input-button>
+      class="cursor-default"
+    >
+      <hip-icon class="w-6">
+        <icon-picture />
+      </hip-icon>
+    </hip-input-button>
     <hip-input-button
       v-if="showPlatform"
       @click="imagesPlatformShow()"

@@ -69,15 +69,23 @@
         >
           <div
             @click.stop="clearValue()"
-            class="cursor-pointer el-icon-circle-close ml-2 mr-4 my-auto text-lg text-theme-700 dark:text-theme-300"
-          />
+            class="cursor-pointer ml-2 mr-4 my-auto text-theme-700 dark:text-theme-300"
+          >
+            <hip-icon class="w-5">
+              <icon-close />
+            </hip-icon>
+          </div>
         </div>
         <!-- Open select menu icon. -->
         <div
           v-if="!remote"
           class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex pr-3 rounded-r-xl w-max"
         >
-          <div class="el-icon-arrow-down my-auto text-xl text-theme-600 dark:text-theme-400" />
+          <div class="my-auto text-theme-600 dark:text-theme-400">
+            <hip-icon class="w-5">
+              <icon-arrow-down />
+            </hip-icon>
+          </div>
         </div>
       </div>
       <!-- Dropdown menu. -->

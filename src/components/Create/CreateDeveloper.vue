@@ -14,8 +14,11 @@
       <hip-button
         icon
         @click="validationErrorShow()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-check />
+        </hip-icon>
+      </hip-button>
     </div>
   </hip-dialog>
   <!-- Form header. -->
@@ -27,13 +30,19 @@
       <hip-button
         icon
         @click="onSubmit()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-check />
+        </hip-icon>
+      </hip-button>
       <hip-button
         icon
         @click="$emit('close')"
-        class="el-icon-circle-close text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-close />
+        </hip-icon>
+      </hip-button>
     </div>
   </div>
   <!-- Create developer form. -->

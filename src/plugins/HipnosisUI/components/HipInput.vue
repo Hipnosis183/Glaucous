@@ -16,10 +16,11 @@
         class="bg-theme-100 dark:bg-theme-800 flex pl-3 w-max"
         :class="$slots.prepend ? '' : 'rounded-l-xl'"
       >
-        <div
-          class="my-auto text-xl text-theme-600 dark:text-theme-400"
-          :class="iconPrefix"
-        />
+        <div class="my-auto text-theme-600 dark:text-theme-400">
+          <hip-icon class="w-5">
+            <component :is="iconPrefix" />
+          </hip-icon>
+        </div>
       </div>
       <!-- Remote input element. -->
       <input
@@ -57,8 +58,12 @@
       >
         <div
           @click="clearValue()"
-          class="cursor-pointer el-icon-circle-close mr-4 my-auto text-lg text-theme-700 dark:text-theme-300"
-        />
+          class="cursor-pointer mr-4 my-auto text-theme-700 dark:text-theme-300"
+        >
+          <hip-icon class="w-5">
+            <icon-close />
+          </hip-icon>
+        </div>
       </div>
       <!-- Sufix icon. -->
       <div
@@ -66,10 +71,11 @@
         class="bg-theme-100 dark:bg-theme-800 flex pr-3 w-max"
         :class="$slots.append ? '' : 'rounded-r-xl'"
       >
-        <div
-          class="my-auto text-xl text-theme-600 dark:text-theme-400"
-          :class="iconSuffix"
-        />
+        <div class="my-auto text-theme-600 dark:text-theme-400">
+          <hip-icon class="w-5">
+            <component :is="iconSuffix" />
+          </hip-icon>
+        </div>
       </div>
     </div>
     <!-- Append container. -->

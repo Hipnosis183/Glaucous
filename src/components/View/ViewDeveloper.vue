@@ -38,14 +38,20 @@
         <hip-button
           icon
           @click="deleteDeveloperClose()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
         <!-- Cancel developer deletion. -->
         <hip-button
           icon
           @click="deleteDeveloperOpen()"
-          class="el-icon-circle-close text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-close />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Navigation bar. -->
@@ -54,25 +60,34 @@
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-add />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Open edit developer dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editDeveloperOpen()"
-        class="el-icon-edit-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-edit />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Open delete developer dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deleteDeveloperOpen()"
-        class="el-icon-remove-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-remove />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <hip-input
           v-model="queryInput"
-          icon-prefix="el-icon-search"
+          icon-prefix="icon-search"
           placeholder="Search..."
           remote
           :remote-method="querySearch"

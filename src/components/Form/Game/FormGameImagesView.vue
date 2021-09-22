@@ -16,13 +16,19 @@
             <hip-button
               icon
               @click="coverAdd()"
-              class="el-icon-circle-plus-outline text-2xl"
-            ></hip-button>
+            >
+              <hip-icon class="w-6">
+                <icon-add />
+              </hip-icon>
+            </hip-button>
             <hip-button
               icon
               @click="coverRemove()"
-              class="el-icon-remove-outline text-2xl"
-            ></hip-button>
+            >
+              <hip-icon class="w-6">
+                <icon-remove />
+              </hip-icon>
+            </hip-button>
           </div>
         </div>
         <!-- Cover image. -->
@@ -41,7 +47,11 @@
           class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-xl shadow w-full"
         >
           <div class="flex flex-col items-center m-auto">
-            <div class="el-icon-picture mb-4 text-6xl text-theme-300"></div>
+            <div class="mb-4 text-6xl text-theme-300">
+              <hip-icon class="w-16">
+                <icon-picture />
+              </hip-icon>
+            </div>
             <p>No image available</p>
           </div>
         </div>
@@ -63,8 +73,11 @@
             <hip-button
               icon
               @click="picturesAdd()"
-              class="el-icon-circle-plus-outline text-2xl"
-            ></hip-button>
+            >
+              <hip-icon class="w-6">
+                <icon-add />
+              </hip-icon>
+            </hip-button>
           </div>
         </div>
         <!-- Pictures grid. -->
@@ -86,7 +99,11 @@
                     @click="picturesRemoveSelect(image)"
                     class="absolute bg-red-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
-                    <div class="el-icon-remove-outline m-auto text-6xl text-theme-100" />
+                    <div class="m-auto text-theme-100">
+                      <hip-icon class="w-16">
+                        <icon-remove />
+                      </hip-icon>
+                    </div>
                   </div>
                 </transition>
                 <img
@@ -106,7 +123,11 @@
                     @click="picturesRemove(image)"
                     class="absolute bg-green-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
-                    <div class="el-icon-circle-plus-outline m-auto text-6xl text-theme-100" />
+                    <div class="m-auto text-theme-100">
+                      <hip-icon class="w-16">
+                        <icon-add />
+                      </hip-icon>
+                    </div>
                   </div>
                 </transition>
                 <img
@@ -121,7 +142,11 @@
             class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-xl shadow w-full"
           >
             <div class="flex flex-col items-center m-auto">
-              <div class="el-icon-picture mb-4 text-6xl text-theme-300"></div>
+              <div class="mb-4 text-theme-300">
+                <hip-icon class="w-16">
+                  <icon-picture />
+                </hip-icon>
+              </div>
               <p>No images available</p>
             </div>
           </div>

@@ -10,7 +10,7 @@
             <hip-input
               v-model="queryInput"
               clearable
-              icon-prefix="el-icon-search"
+              icon-prefix="icon-search"
               placeholder="Search..."
             />
             <!-- Search category select. -->
@@ -31,14 +31,20 @@
           <hip-button
             icon
             @click="queryAdd(queryInput.trim(), searchSelect)"
-            class="el-icon-circle-plus-outline text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-add />
+            </hip-icon>
+          </hip-button>
           <!-- Remove query button. -->
           <hip-button
             icon
             @click="$emit('close')"
-            class="el-icon-circle-close text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-close />
+            </hip-icon>
+          </hip-button>
         </div>
         <!-- Search filters. -->
         <ul

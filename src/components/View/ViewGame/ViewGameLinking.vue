@@ -17,14 +17,20 @@
         <hip-button
           icon
           @click="unlinkGameClose()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
         <!-- Cancel game unlink. -->
         <hip-button
           icon
           @click="unlinkGameOpen()"
-          class="el-icon-circle-close text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-close />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Unlink error dialog. -->
@@ -42,8 +48,11 @@
         <hip-button
           icon
           @click="unlinkErrorShow()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Validation error dialog. -->
@@ -61,8 +70,11 @@
         <hip-button
           icon
           @click="validationErrorShow()"
-          class="el-icon-circle-check text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-check />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-dialog>
     <!-- Game linking dialog. -->
@@ -79,13 +91,19 @@
           <hip-button
             icon
             @click="linkGame_()"
-            class="el-icon-circle-plus-outline text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-add />
+            </hip-icon>
+          </hip-button>
           <hip-button
             icon
             @click="unlinkGameOpen()"
-            class="el-icon-remove-outline text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-remove />
+            </hip-icon>
+          </hip-button>
         </div>
       </div>
       <hip-select

@@ -42,14 +42,20 @@
       <hip-button
         icon
         @click="deleteEmulatorClose()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-check />
+        </hip-icon>
+      </hip-button>
       <!-- Cancel emulator deletion. -->
       <hip-button
         icon
         @click="deleteEmulatorOpen()"
-        class="el-icon-circle-close text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-close />
+        </hip-icon>
+      </hip-button>
     </div>
   </hip-dialog>
   <!-- Emulator Setting. -->
@@ -67,20 +73,29 @@
       <hip-button
         icon
         @click="createEmulatorOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-add />
+        </hip-icon>
+      </hip-button>
       <!-- Edit emulator. -->
       <hip-button
         icon
         @click="editEmulatorOpen()"
-        class="el-icon-edit-outline text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-edit />
+        </hip-icon>
+      </hip-button>
       <!-- Delete emulator. -->
       <hip-button
         icon
         @click="deleteEmulatorOpen()"
-        class="el-icon-remove-outline text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-remove />
+        </hip-icon>
+      </hip-button>
       <!-- Emulator select. -->
       <hip-select
         v-model="emulatorStore"

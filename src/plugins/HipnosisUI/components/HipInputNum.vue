@@ -6,8 +6,11 @@
       v-if="!positionSide"
       first-element
       @click="decreaseValue()"
-      class="el-icon-minus"
-    ></hip-input-button>
+    >
+      <hip-icon class="w-4">
+        <icon-minus />
+      </hip-icon>
+    </hip-input-button>
     <!-- Input element. -->
     <input
       v-model="modelValue"
@@ -20,8 +23,11 @@
       v-if="!positionSide"
       last-element
       @click="increaseValue()"
-      class="el-icon-plus"
-    ></hip-input-button>
+    >
+      <hip-icon class="w-4">
+        <icon-plus />
+      </hip-icon>
+    </hip-input-button>
     <!-- Side position buttons. -->
     <div
       v-else
@@ -31,14 +37,20 @@
       <hip-input-button
         top-element
         @click="increaseValue()"
-        class="el-icon-arrow-up"
-      ></hip-input-button>
+      >
+        <hip-icon class="w-4">
+          <icon-arrow-up />
+        </hip-icon>
+      </hip-input-button>
       <!-- Increase button -->
       <hip-input-button
         bottom-element
         @click="decreaseValue()"
-        class="el-icon-arrow-down"
-      ></hip-input-button>
+      >
+        <hip-icon class="w-4">
+          <icon-arrow-down />
+        </hip-icon>
+      </hip-input-button>
     </div>
   </div>
 </template>

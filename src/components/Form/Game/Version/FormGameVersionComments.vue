@@ -26,8 +26,11 @@
             <hip-button
               icon
               @click="commentRemove(index)"
-              class="el-icon-remove-outline text-2xl"
-            ></hip-button>
+            >
+              <hip-icon class="w-6">
+                <icon-remove />
+              </hip-icon>
+            </hip-button>
           </div>
         </div>
         <div v-else>
@@ -43,16 +46,20 @@
   >
     <template #append>
       <!-- View comments list dialog. -->
-      <hip-input-button
-        @click="commentsShow()"
-        class="el-icon-notebook-2 text-xl"
-      ></hip-input-button>
+      <hip-input-button @click="commentsShow()">
+        <hip-icon class="w-5">
+          <icon-list />
+        </hip-icon>
+      </hip-input-button>
       <!-- Add input comment to the list. -->
       <hip-input-button
         last-element
         @click="commentAdd()"
-        class="el-icon-circle-plus-outline text-xl"
-      ></hip-input-button>
+      >
+        <hip-icon class="w-5">
+          <icon-add />
+        </hip-icon>
+      </hip-input-button>
     </template>
   </hip-input>
 </template>

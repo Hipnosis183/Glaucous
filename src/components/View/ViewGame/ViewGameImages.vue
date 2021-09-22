@@ -58,27 +58,37 @@
             <hip-button
               icon
               @click="imagesPicturesClose()"
-              class="el-icon-circle-close text-2xl"
-            ></hip-button>
+            >
+              <hip-icon class="w-6">
+                <icon-close />
+              </hip-icon>
+            </hip-button>
             <!-- Control bar buttons. -->
             <div class="flex h-10 rounded-full shadow">
               <!-- Previous image. -->
               <hip-button-group
                 firstElement
                 @click="prevImage()"
-                class="el-icon-d-arrow-left"
-              ></hip-button-group>
+              >
+                <hip-icon class="w-6">
+                  <icon-arrow-left-d />
+                </hip-icon>
+              </hip-button-group>
               <!-- Display image in its original size. -->
-              <hip-button-group
-                @click="imageZoomToggle()"
-                class="el-icon-full-screen"
-              ></hip-button-group>
+              <hip-button-group @click="imageZoomToggle()">
+                <hip-icon class="w-6">
+                  <icon-full-screen />
+                </hip-icon>
+              </hip-button-group>
               <!-- Next image. -->
               <hip-button-group
                 lastElement
                 @click="nextImage()"
-                class="el-icon-d-arrow-right"
-              ></hip-button-group>
+              >
+                <hip-icon class="w-6">
+                  <icon-arrow-right-d />
+                </hip-icon>
+              </hip-button-group>
             </div>
             <!-- Image counter. -->
             <hip-button class="cursor-default">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</hip-button>
@@ -103,16 +113,21 @@
         <!-- Padding. -->
         <hip-button
           icon
-          class="el-icon-circle-close invisible"
-        ></hip-button>
+          class="invisible"
+        >
+          <hip-icon class="w-6" />
+        </hip-button>
         <!-- Header title. -->
         <p class="pt-1 text-2xl">Gallery</p>
         <!-- Close dialog. -->
         <hip-button
           icon
           @click="imagesGalleryShow()"
-          class="el-icon-circle-close text-2xl"
-        ></hip-button>
+        >
+          <hip-icon class="w-6">
+            <icon-close />
+          </hip-icon>
+        </hip-button>
       </div>
     </hip-modal>
     <!-- Pictures grid. -->
@@ -166,7 +181,11 @@
       class="bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex h-full items-center mb-4 rounded-md w-full"
     >
       <div class="flex flex-col items-center m-auto">
-        <div class="el-icon-picture text-6xl mb-4 text-theme-300"></div>
+        <div class="mb-4 text-theme-300">
+          <hip-icon class="w-16">
+            <icon-picture />
+          </hip-icon>
+        </div>
         <p>No image available</p>
       </div>
     </div>

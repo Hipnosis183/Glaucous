@@ -61,12 +61,26 @@
         <div class="bg-color-700 flex justify-between">
           <button
             @click="$router.push({ name: 'Settings' })"
-            class="el-icon-s-tools m-auto py-3 text-2xl text-color-300"
-          ></button>
+            class="m-auto py-3 text-color-300"
+          >
+            <hip-icon
+              noshadow
+              class="w-6"
+            >
+              <icon-setting />
+            </hip-icon>
+          </button>
           <button
             @click="sidenavToggle()"
-            class="el-icon-s-fold m-auto py-3 text-2xl text-color-300"
-          ></button>
+            class="m-auto py-3 text-color-300"
+          >
+            <hip-icon
+              noshadow
+              class="w-6"
+            >
+              <icon-fold />
+            </hip-icon>
+          </button>
         </div>
       </div>
     </transition>
@@ -107,15 +121,23 @@
             <div class="flex">
               <hip-button-sb
                 @click="searchShow()"
-                class="el-icon-search h-12 text-xl"
-              ></hip-button-sb>
+                class="h-12"
+              >
+                <hip-icon class="w-6">
+                  <icon-search />
+                </hip-icon>
+              </hip-button-sb>
             </div>
             <div v-show="history > 0">
               <div class="flex">
                 <hip-button-sb
                   @click="$router.back()"
-                  class="el-icon-back h-12 text-xl"
-                ></hip-button-sb>
+                  class="h-12"
+                >
+                  <hip-icon class="w-6">
+                    <icon-back />
+                  </hip-icon>
+                </hip-button-sb>
               </div>
             </div>
           </div>
@@ -124,8 +146,15 @@
         <div class="bg-color-700 flex justify-between">
           <button
             @click="sidenavToggle()"
-            class="el-icon-s-unfold m-auto py-3 text-2xl text-color-300"
-          ></button>
+            class="m-auto py-3 text-color-300"
+          >
+            <hip-icon
+              noshadow
+              class="w-6"
+            >
+              <icon-expand />
+            </hip-icon>
+          </button>
         </div>
       </div>
     </transition>

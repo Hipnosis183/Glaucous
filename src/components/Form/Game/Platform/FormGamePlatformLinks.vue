@@ -14,8 +14,11 @@
       <hip-button
         icon
         @click="validationErrorShow()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-check />
+        </hip-icon>
+      </hip-button>
     </div>
   </hip-dialog>
   <!-- Show links dialog. -->
@@ -45,8 +48,11 @@
             <hip-button
               icon
               @click="linkRemove(index)"
-              class="el-icon-remove-outline text-2xl"
-            ></hip-button>
+            >
+              <hip-icon class="w-6">
+                <icon-remove />
+              </hip-icon>
+            </hip-button>
           </div>
         </div>
         <div v-else>
@@ -62,16 +68,20 @@
   >
     <template #append>
       <!-- View links list dialog. -->
-      <hip-input-button
-        @click="linksShow()"
-        class="el-icon-notebook-2 text-xl"
-      ></hip-input-button>
+      <hip-input-button @click="linksShow()">
+        <hip-icon class="w-5">
+          <icon-list />
+        </hip-icon>
+      </hip-input-button>
       <!-- Add input link to the list. -->
       <hip-input-button
         last-element
         @click="linkAdd()"
-        class="el-icon-circle-plus-outline text-xl"
-      ></hip-input-button>
+      >
+        <hip-icon class="w-5">
+          <icon-add />
+        </hip-icon>
+      </hip-input-button>
     </template>
   </hip-input>
 </template>

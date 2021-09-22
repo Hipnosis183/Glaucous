@@ -41,14 +41,20 @@
           <hip-button
             icon
             @click="deletePlatformClose()"
-            class="el-icon-circle-check text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-check />
+            </hip-icon>
+          </hip-button>
           <!-- Cancel platform deletion. -->
           <hip-button
             icon
             @click="deletePlatformOpen()"
-            class="el-icon-circle-close text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-close />
+            </hip-icon>
+          </hip-button>
         </div>
       </div>
       <!-- Delete denied. -->
@@ -64,8 +70,11 @@
           <hip-button
             icon
             @click="deletePlatformOpen()"
-            class="el-icon-circle-check text-2xl"
-          ></hip-button>
+          >
+            <hip-icon class="w-6">
+              <icon-check />
+            </hip-icon>
+          </hip-button>
         </div>
       </div>
     </hip-dialog>
@@ -75,20 +84,29 @@
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-add />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Open edit platform dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editPlatformOpen()"
-        class="el-icon-edit-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-edit />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Open delete platform dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deletePlatformOpen()"
-        class="el-icon-remove-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-remove />
+        </hip-icon>
+      </hip-button-nb>
     </hip-nav-bar>
     <!-- Show platforms list. -->
     <div class="h-content m-6">

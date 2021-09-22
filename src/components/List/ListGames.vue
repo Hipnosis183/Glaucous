@@ -15,13 +15,16 @@
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
-        class="el-icon-circle-plus-outline text-2xl"
-      ></hip-button-nb>
+      >
+        <hip-icon class="w-6">
+          <icon-add />
+        </hip-icon>
+      </hip-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <hip-input
           v-model="queryInput"
-          icon-prefix="el-icon-search"
+          icon-prefix="icon-search"
           placeholder="Search..."
           remote
           :remote-method="querySearch"

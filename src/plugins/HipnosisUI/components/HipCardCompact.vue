@@ -18,7 +18,11 @@
         :class="$store.getters.getSettingsCardsCardImagePosition == 1 ? 'rounded-xl w-full' : ''"
       >
         <div class="flex h-full items-center w-full">
-          <div class="el-icon-picture m-auto text-6xl text-theme-300"></div>
+          <div class="m-auto text-theme-300">
+            <hip-icon class="w-16">
+              <icon-picture />
+            </hip-icon>
+          </div>
         </div>
       </div>
     </div>

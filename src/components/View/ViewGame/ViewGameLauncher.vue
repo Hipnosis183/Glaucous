@@ -30,8 +30,11 @@
       <hip-button
         icon
         @click="launchErrorShow()"
-        class="el-icon-circle-check text-2xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-check />
+        </hip-icon>
+      </hip-button>
     </div>
   </hip-dialog>
   <div class="pt-4 space-y-4">
@@ -39,10 +42,13 @@
       <h1 class="font-bold ml-2 text-xl">Start Game</h1>
       <!-- Open game settings dialog. -->
       <hip-button
+        icon
         @click="launchGame()"
         class="ml-auto"
       >
-        <span class="el-icon-caret-right" /> Launch
+        <hip-icon class="w-6">
+          <icon-play />
+        </hip-icon>
       </hip-button>
     </div>
     <div class="flex space-x-4">
@@ -60,8 +66,11 @@
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon
         @click="settingsGameOpen()"
-        class="el-icon-s-tools text-xl"
-      ></hip-button>
+      >
+        <hip-icon class="w-6">
+          <icon-setting />
+        </hip-icon>
+      </hip-button>
     </div>
   </div>
 </template>
