@@ -91,61 +91,6 @@ h4 {
   @apply top-0 left-14;
 }
 
-/* Element UI. */
-.el-button {
-  font-weight: normal !important;
-}
-.el-form-item {
-  @apply -space-y-4;
-  margin-bottom: 4px !important;
-}
-.el-form-item__label {
-  @apply text-theme-600 !important;
-}
-.dark .el-form-item__label {
-  @apply text-theme-100 !important;
-}
-.dark .el-input__inner {
-  @apply bg-theme-800 border-theme-900 text-theme-100 !important;
-}
-.dark .el-button {
-  @apply bg-theme-900 border-theme-600 text-theme-100 !important;
-}
-.dark .el-input-group__append,
-.dark .el-input-group__append .el-button,
-.dark .el-input-number__decrease,
-.dark .el-input-number__increase {
-  @apply bg-theme-900 border-theme-900 text-theme-100 !important;
-}
-.dark .el-input__inner::placeholder {
-  @apply text-theme-100 !important;
-}
-.el-form-item .el-input__inner::placeholder {
-  @apply text-red-500 !important;
-}
-.el-switch__core {
-  align-items: center !important;
-  border-width: 2px !important;
-  border-radius: 99px !important;
-  display: flex !important;
-  height: 30px !important;
-  width: 60px !important;
-}
-.el-switch__action {
-  height: 20px !important;
-  width: 20px !important;
-}
-.el-switch.is-checked .el-switch__core {
-  border-color: var(--color-color-500) !important;
-}
-.el-switch.is-checked .el-switch__action {
-  left: 85% !important;
-}
-.el-switch__core .el-switch__action {
-  left: 10% !important;
-  top: auto !important;
-}
-
 /* Transitions. */
 .v-enter-active,
 .v-leave-active {

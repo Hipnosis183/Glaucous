@@ -16,7 +16,6 @@
     "@popperjs/core": "^2.9.3",
     "core-js": "^3.6.5",
     "electron-store": "^8.0.1",
-    "element-plus": "^1.1.0-beta.12",
     "fs-extra": "^7.0.1",
     "marpat": "github:Hipnosis183/marpat",
     "mitt": "^2.1.0",
@@ -38,7 +37,6 @@
     "electron-devtools-installer": "^3.2.0",
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4",
-    "vue-cli-plugin-electron-builder": "~2.1.1",
-    "vue-cli-plugin-element-plus": "~0.0.13"
+    "vue-cli-plugin-electron-builder": "~2.1.1"
   }
 }
