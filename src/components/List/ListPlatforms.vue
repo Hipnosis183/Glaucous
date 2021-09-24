@@ -25,7 +25,10 @@
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <hip-list :remote-method="loadPlatformsNext">
+          <hip-list
+            :listDisplay="1"
+            :remote-method="loadPlatformsNext"
+          >
             <li
               v-for="platform in platforms"
               :key="platform._id"

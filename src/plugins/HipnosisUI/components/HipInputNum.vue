@@ -71,20 +71,21 @@ export default {
     modelValue: { type: Number, required: true },
     max: { type: Number, default: Infinity },
     min: { type: Number, default: -Infinity },
-    positionSide: { type: Boolean, default: false }
+    positionSide: { type: Boolean, default: false },
+    step: { type: Number, default: 1 }
   },
   setup(props, { emit }) {
     // Manage input value.
     const increaseValue = () => {
       if (props.modelValue < props.max) {
         // Increase component model value.
-        emit('update:modelValue', props.modelValue + 1)
+        emit('update:modelValue', props.modelValue + props.step)
       }
     }
     const decreaseValue = () => {
       if (props.modelValue > props.min) {
         // Decrease component model value.
-        emit('update:modelValue', props.modelValue - 1)
+        emit('update:modelValue', props.modelValue - props.step)
       }
     }
 

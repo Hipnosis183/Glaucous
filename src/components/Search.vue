@@ -67,7 +67,7 @@
       <!-- Search results. -->
       <hip-list
         v-if="queryResults.length > 0"
-        manual
+        :listDisplay="1"
         :remote-method="querySearchNext"
       >
         <li
@@ -77,7 +77,7 @@
           @click="gameOpen(game._id)"
         >
           <!-- Game card. -->
-          <hip-card-compact :gameInfo="game" />
+          <hip-card-list :gameInfo="game" />
         </li>
       </hip-list>
     </div>

@@ -1,7 +1,7 @@
 // Card view modes list.
 export const cardViews = [
-    { i: 0, name: 'Tall' },
-    { i: 1, name: 'Large' },
+    { i: 0, name: 'Grid' },
+    { i: 1, name: 'List' },
     { i: 2, name: 'Compact' }
 ]
 

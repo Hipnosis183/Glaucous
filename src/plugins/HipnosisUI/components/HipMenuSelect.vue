@@ -5,35 +5,38 @@
       ref="refSelect"
       @click="openDropMenu()"
     >
-      <div class="bg-theme-200 dark:bg-theme-800 cursor-pointer font-semibold p-2 rounded-xl text-base text-theme-600 dark:text-theme-200 w-max">
-        <hip-icon class="w-4">
+      <hip-button-nb>
+        <hip-icon class="w-6">
           <component :is="icon" />
         </hip-icon>
-      </div>
-      <!-- Dropdown menu. -->
-      <div
-        ref="refTooltip"
-        role="tooltip"
-        class="z-100"
-      >
-        <transition name="slide-pop">
-          <!-- Menu card. -->
-          <div
-            v-show="openMenu"
-            ref="refMenu"
-            :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-0 dark:bg-theme-700 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
-          >
-            <!-- Options list. -->
-            <slot></slot>
-          </div>
-        </transition>
-      </div>
+      </hip-button-nb>
+    </div>
+    <!-- Dropdown menu. -->
+    <div
+      ref="refTooltip"
+      role="tooltip"
+      class="z-100"
+    >
+      <transition name="slide-pop">
+        <!-- Menu card. -->
+        <div
+          v-show="openMenu"
+          ref="refMenu"
+          :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
+          class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
+        >
+          <!-- Options list. -->
+          <slot></slot>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+// Import UI components.
+import HipButtonNb from './HipButtonNb.vue'
+
 // Import Vue functions.
 import { nextTick, ref } from 'vue'
 // Import PopperJS functions.
@@ -41,6 +44,9 @@ import { createPopper } from '@popperjs/core'
 
 export default {
   name: 'HipMenuButton',
+  components: {
+    HipButtonNb
+  },
   props: {
     icon: { type: String }
   },
@@ -57,6 +63,7 @@ export default {
     const openDropMenu = () => {
       // Close menu if it's already open.
       if (openMenu.value === true) {
+        closeDropMenu(closeListener)
         return
       }
       // Menu close listener.
@@ -64,7 +71,7 @@ export default {
         // Ensure the menu is rendered.
         if (refMenu.value && openMenu.value) {
           // Return if menu is clicked.
-          if (refMenu.value == event.target || refMenu.value.contains(event.target)) {
+          if (refMenu.value == event.target) {
             return
           }
           // Close menu if anything outside is clicked.
@@ -115,10 +122,10 @@ export default {
         // Create a new PopperJS instance.
         popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
-          placement: 'bottom',
+          placement: 'bottom-start',
           modifiers: [
             // Set distance between the select and the menu.
-            { name: 'offset', options: { offset: [0, 20] } }
+            { name: 'offset', options: { offset: [0, 10] } }
           ]
         })
       })

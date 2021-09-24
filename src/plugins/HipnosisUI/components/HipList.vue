@@ -1,7 +1,7 @@
 <template>
   <ul
     class="gap-4 grid"
-    :class="{ 'grid-cols-view' : !manual }"
+    :class="{ 'grid-cols-view' : listDisplay == 0 }"
   >
     <slot />
   </ul>
@@ -18,7 +18,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 export default {
   name: 'HipList',
   props: {
-    manual: { type: Boolean, default: false },
+    listDisplay: { type: Number, default: 0 },
     remoteMethod: { type: Function }
   },
   setup(props) {

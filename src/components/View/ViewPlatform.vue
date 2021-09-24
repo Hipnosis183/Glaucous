@@ -112,8 +112,14 @@
           :remote-method="querySearch"
         />
       </div>
-      <div class="flex-shrink-0 ml-2 my-auto w-28">
-        <settings-cards-mode />
+      <!-- Open list settings dialog. -->
+      <div class="flex-shrink-0 ml-2 my-auto">
+        <hip-menu-button
+          v-show="$store.getters.getSettingsGeneralEditMode"
+          icon="icon-menu"
+        >
+          <settings-lists />
+        </hip-menu-button>
       </div>
       <!-- Horizontal padding. -->
       <div class="w-full"></div>
@@ -135,6 +141,7 @@
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
           <hip-list
             v-if="platform.games.length > 0"
+            :listDisplay="$store.getters.getSettingsCardsCardMode"
             :remote-method="loadPlatformNext"
           >
             <li
@@ -144,11 +151,11 @@
               @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
             >
               <!-- Game cards. -->
-              <hip-card-tall
+              <hip-card-grid
                 v-if="$store.getters.getSettingsCardsCardMode == 0"
                 :gameInfo="game"
               />
-              <hip-card-large
+              <hip-card-list
                 v-else-if="$store.getters.getSettingsCardsCardMode == 1"
                 :gameInfo="game"
               />
@@ -181,7 +188,7 @@ import { getGamesPlatform } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
-import SettingsCardsMode from '@/components/Settings/SettingsCards/SettingsCardsMode.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
 
 export default {
@@ -189,7 +196,7 @@ export default {
   components: {
     CreateGamePlatform,
     EditPlatform,
-    SettingsCardsMode,
+    SettingsLists,
     ViewPlatformSettings
   },
   setup() {

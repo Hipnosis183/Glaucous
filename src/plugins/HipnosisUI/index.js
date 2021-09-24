@@ -4,8 +4,8 @@ import HipButtonNb from './components/HipButtonNb.vue'
 import HipButtonSb from './components/HipButtonSb.vue'
 import HipCard from './components/HipCard.vue'
 import HipCardCompact from './components/HipCardCompact.vue'
-import HipCardLarge from './components/HipCardLarge.vue'
-import HipCardTall from './components/HipCardTall.vue'
+import HipCardList from './components/HipCardList.vue'
+import HipCardGrid from './components/HipCardGrid.vue'
 import HipChip from './components/HipChip.vue'
 import HipDialog from './components/HipDialog.vue'
 import HipIcon from './components/HipIcon.vue'
@@ -17,6 +17,7 @@ import HipLabel from './components/HipLabel.vue'
 import HipList from './components/HipList.vue'
 import HipMenuButton from './components/HipMenuButton.vue'
 import HipMenuOption from './components/HipMenuOption.vue'
+import HipMenuSelect from './components/HipMenuSelect.vue'
 import HipModal from './components/HipModal.vue'
 import HipNavBar from './components/HipNavBar.vue'
 import HipOption from './components/HipOption.vue'
@@ -35,8 +36,8 @@ export default {
         app.component('hip-button-sb', HipButtonSb)
         app.component('hip-card', HipCard)
         app.component('hip-card-compact', HipCardCompact)
-        app.component('hip-card-large', HipCardLarge)
-        app.component('hip-card-tall', HipCardTall)
+        app.component('hip-card-list', HipCardList)
+        app.component('hip-card-grid', HipCardGrid)
         app.component('hip-chip', HipChip)
         app.component('hip-dialog', HipDialog)
         app.component('hip-icon', HipIcon)
@@ -48,6 +49,7 @@ export default {
         app.component('hip-list', HipList)
         app.component('hip-menu-button', HipMenuButton)
         app.component('hip-menu-option', HipMenuOption)
+        app.component('hip-menu-select', HipMenuSelect)
         app.component('hip-modal', HipModal)
         app.component('hip-nav-bar', HipNavBar)
         app.component('hip-option', HipOption)

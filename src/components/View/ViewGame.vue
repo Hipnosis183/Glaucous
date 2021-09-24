@@ -146,7 +146,7 @@
     <!-- Navigation bar. -->
     <hip-nav-bar>
       <!-- Create games menu dialog. -->
-      <hip-menu-button
+      <hip-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon="icon-add"
       >
@@ -165,7 +165,7 @@
           label="Create Game Version"
           :method="createVersionOpen"
         />
-      </hip-menu-button>
+      </hip-menu-select>
       <!-- Open edit game dialog. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
@@ -176,7 +176,7 @@
         </hip-icon>
       </hip-button-nb>
       <!-- Delete games menu dialog. -->
-      <hip-menu-button
+      <hip-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon="icon-remove"
       >
@@ -195,9 +195,9 @@
           label="Delete Game Version"
           :method="deleteVersionOpen"
         />
-      </hip-menu-button>
+      </hip-menu-select>
       <!-- Create games menu dialog. -->
-      <hip-menu-button
+      <hip-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon="icon-folder"
       >
@@ -216,7 +216,7 @@
           label="Open Images Directory"
           :method="openImagesPath"
         />
-      </hip-menu-button>
+      </hip-menu-select>
       <!-- Set selected game region as the main region. -->
       <hip-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"

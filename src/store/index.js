@@ -31,6 +31,7 @@ export default createStore({
       settingsCards: {
         cardMode: localStore.get('settingsCards.cardMode', 1),
         cardColumns: localStore.get('settingsCards.cardColumns', 1),
+        cardHeight: localStore.get('settingsCards.cardHeight', 280),
         cardImageDisplay: localStore.get('settingsCards.cardImageDisplay', true),
         cardImagePosition: localStore.get('settingsCards.cardImagePosition', 0),
         cardTextDisplay: localStore.get('settingsCards.cardTextDisplay', true),
@@ -157,6 +158,9 @@ export default createStore({
     getSettingsCardsCardColumns(state) {
       return state.settingsApp.settingsCards.cardColumns
     },
+    getSettingsCardsCardHeight(state) {
+      return state.settingsApp.settingsCards.cardHeight
+    },
     getSettingsCardsCardImageDisplay(state) {
       return state.settingsApp.settingsCards.cardImageDisplay
     },
@@ -207,6 +211,10 @@ export default createStore({
     setSettingsCardsCardColumns(state, data) {
       state.settingsApp.settingsCards.cardColumns = data
       localStore.set('settingsCards.cardColumns', state.settingsApp.settingsCards.cardColumns)
+    },
+    setSettingsCardsCardHeight(state, data) {
+      state.settingsApp.settingsCards.cardHeight = data
+      localStore.set('settingsCards.cardHeight', state.settingsApp.settingsCards.cardHeight)
     },
     setSettingsCardsCardImageDisplay(state) {
       state.settingsApp.settingsCards.cardImageDisplay = !state.settingsApp.settingsCards.cardImageDisplay

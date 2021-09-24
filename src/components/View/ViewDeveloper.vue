@@ -93,8 +93,14 @@
           :remote-method="querySearch"
         />
       </div>
-      <div class="flex-shrink-0 ml-2 my-auto w-28">
-        <settings-cards-mode />
+      <!-- Open list settings dialog. -->
+      <div class="flex-shrink-0 ml-2 my-auto">
+        <hip-menu-button
+          v-show="$store.getters.getSettingsGeneralEditMode"
+          icon="icon-menu"
+        >
+          <settings-lists />
+        </hip-menu-button>
       </div>
     </hip-nav-bar>
     <!-- Show developer's games list. -->
@@ -103,6 +109,7 @@
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
           <hip-list
             v-if="developer.games.length > 0"
+            :listDisplay="$store.getters.getSettingsCardsCardMode"
             :remote-method="loadDeveloperNext"
           >
             <li
@@ -112,11 +119,11 @@
               @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
             >
               <!-- Game cards. -->
-              <hip-card-tall
+              <hip-card-grid
                 v-if="$store.getters.getSettingsCardsCardMode == 0"
                 :gameInfo="game"
               />
-              <hip-card-large
+              <hip-card-list
                 v-else-if="$store.getters.getSettingsCardsCardMode == 1"
                 :gameInfo="game"
               />
@@ -149,14 +156,14 @@ import { getGamesDeveloper } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
 import EditDeveloper from '../Edit/EditDeveloper.vue'
-import SettingsCardsMode from '../Settings/SettingsCards/SettingsCardsMode.vue'
+import SettingsLists from '../Settings/SettingsLists.vue'
 
 export default {
   name: 'ViewDeveloper',
   components: {
     CreateGamePlatform,
     EditDeveloper,
-    SettingsCardsMode
+    SettingsLists
   },
   setup() {
     // Instantiate Vue elements.
