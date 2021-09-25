@@ -10,11 +10,11 @@
     <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-xl w-full z-5" />
     <!-- Game card image. -->
     <img
-      v-if="gameInfo.image.path"
-      :src="'file://' + gameInfo.image.path"
+      v-if="getImage"
+      :src="'file://' + getImage"
       class="h-full image-content"
       :class="[
-        { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !gameInfo.image.cover },
+        { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && (!gameInfo.image.cover || ($store.getters.getSettingsCardsCardImages == 2 || $store.getters.getSettingsCardsCardImages == 3)) },
         { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsCardsCardTextShow == 0) || $store.getters.getSettingsCardsCardTextShow == 1) && $store.getters.getSettingsCardsCardTextStyle == 3 }
       ]"
     >
@@ -68,7 +68,11 @@
 
 <script>
 // Import Vue functions.
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+// Import functions from modules.
+import { app } from '@electron/remote'
+import { existsSync, readdirSync } from 'fs-extra'
 // Import database controllers functions.
 import { getPlatform } from '@/database/controllers/Platform'
 
@@ -78,6 +82,9 @@ export default {
     gameInfo: { type: Object }
   },
   setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     onMounted(() => {
       // Check if the platform has a parent group.
       if (props.gameInfo.platform.parent) {
@@ -96,9 +103,73 @@ export default {
     // Get additional game properties.
     let parentName = ref(null)
 
+    // Image reading operations.
+    let imageFiles = ref([])
+    let imagePath = ref(null)
+    const getImage = computed(() => {
+      if (!(imagePath.value && imageFiles.value)) {
+        // Set the image directory path of the game platform.
+        let gamePath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+        // Check if there are images for the selected game version.
+        imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[0]._id + '/games/' + props.gameInfo.gameRegions[0].gameVersions[0] + '/images'
+        if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
+          // Load images filenames.
+          imageFiles.value = readdirSync(imagePath.value)
+        }
+        else {
+          // Check if there are images for the selected game region.
+          imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[0]._id + '/images'
+          if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
+            // Load images filenames.
+            imageFiles.value = readdirSync(imagePath.value)
+          }
+          else {
+            // Check if there are images for the selected game platform.
+            imagePath.value = gamePath + '/images'
+            if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
+              // Load images filenames.
+              imageFiles.value = readdirSync(imagePath.value)
+            }
+            else {
+              // Empty image variables.
+              imagePath.value = null
+              imageFiles.value = []
+            }
+          }
+        }
+      }
+      // Select type of image to display from settings.
+      switch (store.getters.getSettingsCardsCardImages) {
+        case 0: {
+          // Default to the normal image fallback mode.
+          return props.gameInfo.image.path
+        }
+        case 1: {
+          let image = imageFiles.value.filter(res => res.startsWith('0'.repeat(8)))[0]
+          return image ? imagePath.value + '/' + image : false
+        }
+        case 2: {
+          // Asume that the first picture is the title image.
+          let image = imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))[0]
+          return image ? imagePath.value + '/' + image : false
+        }
+        case 3: {
+          // Asume that after the first picture are all in-game images.
+          let image = imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))
+          // Skip title image.
+          image = image.filter((res, index) => index > 0)
+          // Select random in-game image to display.
+          image = image[Math.floor(Math.random() * (image.length))]
+          return image ? imagePath.value + '/' + image : false
+        }
+      }
+    })
+
     return {
       gameInfoHover,
       gameInfoShow,
+      getImage,
+      imageFiles,
       parentName
     }
   }
