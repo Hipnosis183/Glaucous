@@ -141,7 +141,7 @@
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
           <hip-list
             v-if="platform.games.length > 0"
-            :listDisplay="$store.getters.getSettingsCardsCardMode"
+            :listDisplay="$store.getters.getSettingsListsListDisplay"
             :remote-method="loadPlatformNext"
           >
             <li
@@ -152,15 +152,15 @@
             >
               <!-- Game cards. -->
               <hip-card-grid
-                v-if="$store.getters.getSettingsCardsCardMode == 0"
+                v-if="$store.getters.getSettingsListsListDisplay == 0"
                 :gameInfo="game"
               />
               <hip-card-list
-                v-else-if="$store.getters.getSettingsCardsCardMode == 1"
+                v-else-if="$store.getters.getSettingsListsListDisplay == 1"
                 :gameInfo="game"
               />
               <hip-card-compact
-                v-else-if="$store.getters.getSettingsCardsCardMode == 2"
+                v-else-if="$store.getters.getSettingsListsListDisplay == 2"
                 :gameInfo="game"
               />
             </li>

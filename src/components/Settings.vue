@@ -18,8 +18,6 @@
             <settings-themes />
             <!-- Links options. -->
             <settings-links />
-            <!-- Card options. -->
-            <settings-cards />
           </div>
         </div>
       </hip-modal>
@@ -29,7 +27,6 @@
 
 <script>
 // Import settings components.
-import SettingsCards from './Settings/SettingsCards.vue'
 import SettingsGeneral from './Settings/SettingsGeneral.vue'
 import SettingsGames from './Settings/SettingsGames.vue'
 import SettingsLinks from './Settings/SettingsLinks.vue'
@@ -38,7 +35,6 @@ import SettingsThemes from './Settings/SettingsThemes.vue'
 export default {
   name: 'Settings',
   components: {
-    SettingsCards,
     SettingsGeneral,
     SettingsGames,
     SettingsLinks,

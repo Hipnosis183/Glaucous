@@ -1,20 +1,31 @@
-// Card view modes list.
-export const cardViews = [
-    { i: 0, name: 'Grid' },
-    { i: 1, name: 'List' },
-    { i: 2, name: 'Compact' }
+// Card image positions list.
+export const cardImagesOptions = [
+    { i: 0, name: 'Default' },
+    { i: 1, name: 'Cover' },
+    { i: 2, name: 'Title' },
+    { i: 3, name: 'In-Game' }
 ]
 
 // Card image positions list.
-export const imagePositions = [
-    { i: 0, name: 'Normal' },
-    { i: 1, name: 'Fill' }
+export const cardTextShowOptions = [
+    { i: 0, name: 'Selected' },
+    { i: 1, name: 'Always' },
+    { i: 2, name: 'Never' }
 ]
 
-// Card text positions list.
-export const textPositions = [
-    { i: 0, name: 'Center' },
-    { i: 1, name: 'Left' }
+// Card image positions list.
+export const cardTextStyleOptions = [
+    { i: 0, name: 'Solid' },
+    { i: 1, name: 'Transparent' },
+    { i: 2, name: 'Gradient' },
+    { i: 3, name: 'Blurred' }
+]
+
+// Card view modes list.
+export const listDisplayOptions = [
+    { i: 0, name: 'Grid' },
+    { i: 1, name: 'List' },
+    { i: 2, name: 'Compact' }
 ]
 
 // Google search key parameters.
@@ -25,6 +36,6 @@ export const googleKeys = [
 ]
 
 // Set the amount of columns to be displayed on card views.
-export const selectCardColumns = (col) => {
+export const selectListColumns = (col) => {
     document.documentElement.style.setProperty('--grid-cols-view', col)
 }

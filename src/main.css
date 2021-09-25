@@ -73,7 +73,7 @@ h4 {
   @apply text-theme-0;
 }
 .text-shadow {
-  text-shadow: 1.5px 1px var(--color-theme-900);
+  text-shadow: 1.5px 1px rgb(var(--color-theme-900));
 }
 ::-webkit-scrollbar {
   @apply bg-transparent w-6 !important;

@@ -28,14 +28,15 @@ export default createStore({
         searchGoogle: localStore.get('settingsLinks.searchGoogle', true),
         searchGoogleKey: localStore.get('settingsLinks.searchGoogleKey', 0)
       },
+      settingsLists: {
+        listDisplay: localStore.get('settingsLists.listDisplay', 0),
+        listColumns: localStore.get('settingsLists.listColumns', 4),
+        listHeight: localStore.get('settingsLists.listHeight', 200)
+      },
       settingsCards: {
-        cardMode: localStore.get('settingsCards.cardMode', 1),
-        cardColumns: localStore.get('settingsCards.cardColumns', 1),
-        cardHeight: localStore.get('settingsCards.cardHeight', 280),
-        cardImageDisplay: localStore.get('settingsCards.cardImageDisplay', true),
-        cardImagePosition: localStore.get('settingsCards.cardImagePosition', 0),
-        cardTextDisplay: localStore.get('settingsCards.cardTextDisplay', true),
-        cardTextPosition: localStore.get('settingsCards.cardTextPosition', 1)
+        cardImages: localStore.get('settingsCards.cardImages', 0),
+        cardTextShow: localStore.get('settingsCards.cardTextShow', 0),
+        cardTextStyle: localStore.get('settingsCards.cardTextStyle', 0)
       }
     },
     selectedPlatform: null,
@@ -152,26 +153,23 @@ export default createStore({
     getSettingsLinksSearchGoogleKey(state) {
       return state.settingsApp.settingsLinks.searchGoogleKey
     },
-    getSettingsCardsCardMode(state) {
-      return state.settingsApp.settingsCards.cardMode
+    getSettingsListsListDisplay(state) {
+      return state.settingsApp.settingsLists.listDisplay
     },
-    getSettingsCardsCardColumns(state) {
-      return state.settingsApp.settingsCards.cardColumns
+    getSettingsListsListColumns(state) {
+      return state.settingsApp.settingsLists.listColumns
     },
-    getSettingsCardsCardHeight(state) {
-      return state.settingsApp.settingsCards.cardHeight
+    getSettingsListsListHeight(state) {
+      return state.settingsApp.settingsLists.listHeight
     },
-    getSettingsCardsCardImageDisplay(state) {
-      return state.settingsApp.settingsCards.cardImageDisplay
+    getSettingsCardsCardImages(state) {
+      return state.settingsApp.settingsCards.cardImages
     },
-    getSettingsCardsCardImagePosition(state) {
-      return state.settingsApp.settingsCards.cardImagePosition
+    getSettingsCardsCardTextShow(state) {
+      return state.settingsApp.settingsCards.cardTextShow
     },
-    getSettingsCardsCardTextDisplay(state) {
-      return state.settingsApp.settingsCards.cardTextDisplay
-    },
-    getSettingsCardsCardTextPosition(state) {
-      return state.settingsApp.settingsCards.cardTextPosition
+    getSettingsCardsCardTextStyle(state) {
+      return state.settingsApp.settingsCards.cardTextStyle
     }
   },
   mutations: {
@@ -204,33 +202,29 @@ export default createStore({
       state.settingsApp.settingsLinks.searchGoogleKey = data
       localStore.set('settingsLinks.searchGoogleKey', state.settingsApp.settingsLinks.searchGoogleKey)
     },
-    setSettingsCardsCardMode(state, data) {
-      state.settingsApp.settingsCards.cardMode = data
-      localStore.set('settingsCards.cardMode', state.settingsApp.settingsCards.cardMode)
+    setSettingsListsListDisplay(state, data) {
+      state.settingsApp.settingsLists.listDisplay = data
+      localStore.set('settingsLists.listDisplay', state.settingsApp.settingsLists.listDisplay)
     },
-    setSettingsCardsCardColumns(state, data) {
-      state.settingsApp.settingsCards.cardColumns = data
-      localStore.set('settingsCards.cardColumns', state.settingsApp.settingsCards.cardColumns)
+    setSettingsListsListColumns(state, data) {
+      state.settingsApp.settingsLists.listColumns = data
+      localStore.set('settingsLists.listColumns', state.settingsApp.settingsLists.listColumns)
     },
-    setSettingsCardsCardHeight(state, data) {
-      state.settingsApp.settingsCards.cardHeight = data
-      localStore.set('settingsCards.cardHeight', state.settingsApp.settingsCards.cardHeight)
+    setSettingsListsListHeight(state, data) {
+      state.settingsApp.settingsLists.listHeight = data
+      localStore.set('settingsLists.listHeight', state.settingsApp.settingsLists.listHeight)
     },
-    setSettingsCardsCardImageDisplay(state) {
-      state.settingsApp.settingsCards.cardImageDisplay = !state.settingsApp.settingsCards.cardImageDisplay
-      localStore.set('settingsCards.cardImageDisplay', state.settingsApp.settingsCards.cardImageDisplay)
+    setSettingsCardsCardImages(state, data) {
+      state.settingsApp.settingsCards.cardImages = data
+      localStore.set('settingsCards.cardImages', state.settingsApp.settingsCards.cardImages)
     },
-    setSettingsCardsCardImagePosition(state, data) {
-      state.settingsApp.settingsCards.cardImagePosition = data
-      localStore.set('settingsCards.cardImagePosition', state.settingsApp.settingsCards.cardImagePosition)
+    setSettingsCardsCardTextShow(state, data) {
+      state.settingsApp.settingsCards.cardTextShow = data
+      localStore.set('settingsCards.cardTextShow', state.settingsApp.settingsCards.cardTextShow)
     },
-    setSettingsCardsCardTextDisplay(state) {
-      state.settingsApp.settingsCards.cardTextDisplay = !state.settingsApp.settingsCards.cardTextDisplay
-      localStore.set('settingsCards.cardTextDisplay', state.settingsApp.settingsCards.cardTextDisplay)
-    },
-    setSettingsCardsCardTextPosition(state, data) {
-      state.settingsApp.settingsCards.cardTextPosition = data
-      localStore.set('settingsCards.cardTextPosition', state.settingsApp.settingsCards.cardTextPosition)
+    setSettingsCardsCardTextStyle(state, data) {
+      state.settingsApp.settingsCards.cardTextStyle = data
+      localStore.set('settingsCards.cardTextStyle', state.settingsApp.settingsCards.cardTextStyle)
     },
     // Platform settings.
     setPlatformStore(state) {

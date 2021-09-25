@@ -22,11 +22,11 @@
           <div class="align-middle inline-flex items-center space-x-4">
             <div class="inline-flex space-x-2">
               <div
-                :style="{ backgroundColor: theme.codes[2] }"
+                :style="{ backgroundColor: 'rgb(' + theme.codes[2] + ')' }"
                 class="h-6 rounded-full w-6"
               />
               <div
-                :style="{ backgroundColor: theme.codes[8] }"
+                :style="{ backgroundColor: 'rgb(' + theme.codes[8] + ')' }"
                 class="h-6 rounded-full w-6"
               />
             </div>
@@ -50,7 +50,7 @@
         >
           <div class="align-middle inline-flex items-center space-x-4">
             <div
-              :style="{ backgroundColor: color.codes[4] }"
+              :style="{ backgroundColor: 'rgb(' + color.codes[4] + ')' }"
               class="h-6 rounded-full w-6"
             />
             <p>{{ color.name }}</p>
