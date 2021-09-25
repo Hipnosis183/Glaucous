@@ -54,7 +54,7 @@
         <!-- Command preview. -->
         <hip-section-header label="Preview">
         </hip-section-header>
-        <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow w-full">
+        <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
           <div
             v-if="fullCommand"
             class="cursor-default"
@@ -67,9 +67,9 @@
         <!-- Parameters aclaration. -->
         <div class="flex space-x-1 text-sm whitespace-nowrap">
           <p class="my-auto">* You can use the variables </p>
-          <p class="bg-theme-100 dark:bg-theme-800 my-auto px-1.5 py-1 rounded-lg shadow">{relative}</p>
+          <p class="bg-theme-100 dark:bg-theme-800 my-auto px-1.5 py-1 rounded-lg shadow-color">{relative}</p>
           <p class="my-auto"> to insert the platform's relative path, and </p>
-          <p class="bg-theme-100 dark:bg-theme-800 my-auto px-1.5 py-1 rounded-lg shadow">{game}</p>
+          <p class="bg-theme-100 dark:bg-theme-800 my-auto px-1.5 py-1 rounded-lg shadow-color">{game}</p>
           <p class="my-auto"> to insert the full game path.</p>
         </div>
       </div>

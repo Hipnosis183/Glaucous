@@ -3,7 +3,7 @@
     <!-- Label. -->
     <hip-label v-if="label">{{ label }}</hip-label>
     <!-- Container. -->
-    <div class="flex h-10 rounded-xl shadow">
+    <div class="flex h-10 rounded-xl shadow-color">
       <slot></slot>
     </div>
   </div>

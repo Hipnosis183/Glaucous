@@ -17,13 +17,13 @@
       />
       <!-- Switch slider. -->
       <div
-        class="flex rounded-full shadow switch-slider"
+        class="flex rounded-full shadow-color switch-slider"
         :class="modelValue ? 'bg-color-500' : 'bg-theme-200 dark:bg-theme-800'"
       >
         <!-- Switch button. -->
         <div
           :style="{ marginLeft: modelValue ? '34px' : '6px'}"
-          class="bg-theme-0 h-5 my-auto rounded-full shadow switch-button w-5"
+          class="bg-theme-0 h-5 my-auto rounded-full shadow-color switch-button w-5"
         >
         </div>
       </div>

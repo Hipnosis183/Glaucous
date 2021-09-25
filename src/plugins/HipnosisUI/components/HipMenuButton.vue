@@ -5,7 +5,7 @@
       ref="refSelect"
       @click="openDropMenu()"
     >
-      <div class="bg-theme-200 dark:bg-theme-800 cursor-pointer font-semibold p-2 rounded-xl text-base text-theme-600 dark:text-theme-200 w-max">
+      <div class="bg-theme-200 dark:bg-theme-800 cursor-pointer font-semibold p-2 rounded-xl shadow-color text-base text-theme-600 dark:text-theme-200 w-max">
         <hip-icon class="w-4">
           <component :is="icon" />
         </hip-icon>
@@ -22,7 +22,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-0 dark:bg-theme-700 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
+            class="bg-theme-0 dark:bg-theme-700 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow-color transition-menu"
           >
             <!-- Options list. -->
             <slot></slot>

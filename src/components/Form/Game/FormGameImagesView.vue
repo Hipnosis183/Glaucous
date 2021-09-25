@@ -35,16 +35,16 @@
         <img
           v-if="coverAddImages"
           :src="'file://' + coverAddImages"
-          class="object-cover rounded-xl shadow"
+          class="object-cover rounded-xl shadow-color"
         />
         <img
           v-else-if="getCover && !coverRemoveImages"
           :src="'file://' + imagePath + '/' + getCover"
-          class="object-cover rounded-xl shadow"
+          class="object-cover rounded-xl shadow-color"
         />
         <div
           v-else
-          class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-xl shadow w-full"
+          class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-xl shadow-color w-full"
         >
           <div class="flex flex-col items-center m-auto">
             <div class="mb-4 text-6xl text-theme-300">
@@ -91,7 +91,7 @@
                 v-for="(image, index) in getPictures"
                 :key="index"
                 :value="image"
-                class="flex h-full justify-center relative rounded-xl shadow w-full"
+                class="flex h-full justify-center relative rounded-xl shadow-color w-full"
               >
                 <transition>
                   <div
@@ -116,7 +116,7 @@
                 v-for="(image, index) in picturesAddImages"
                 :key="index"
                 :value="image"
-                class="flex h-full justify-center relative rounded-xl shadow w-full"
+                class="flex h-full justify-center relative rounded-xl shadow-color w-full"
               >
                 <transition>
                   <div
@@ -139,7 +139,7 @@
           </div>
           <div
             v-else
-            class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-xl shadow w-full"
+            class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-xl shadow-color w-full"
           >
             <div class="flex flex-col items-center m-auto">
               <div class="mb-4 text-theme-300">

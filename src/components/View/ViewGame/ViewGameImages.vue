@@ -64,7 +64,7 @@
               </hip-icon>
             </hip-button>
             <!-- Control bar buttons. -->
-            <div class="flex h-10 rounded-full shadow">
+            <div class="flex h-10 rounded-full shadow-color">
               <!-- Previous image. -->
               <hip-button-group
                 firstElement

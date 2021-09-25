@@ -24,7 +24,7 @@
     @close="imagesVersionShow()"
   />
   <!-- Images form. -->
-  <div class="flex rounded-xl shadow">
+  <div class="flex rounded-xl shadow-color">
     <hip-input-button
       firstElement
       class="cursor-default"

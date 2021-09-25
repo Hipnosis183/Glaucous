@@ -3,7 +3,7 @@
     <!-- Label. -->
     <hip-label v-if="label">{{ label }}</hip-label>
     <!-- Container. -->
-    <div class="flex flex-col h-10 rounded-xl shadow">
+    <div class="flex flex-col h-10 rounded-xl shadow-color">
       <!-- Select container. -->
       <div
         ref="refSelect"
@@ -100,7 +100,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow transition-menu"
+            class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow-color transition-menu"
           >
             <!-- Select created option. -->
             <hip-option

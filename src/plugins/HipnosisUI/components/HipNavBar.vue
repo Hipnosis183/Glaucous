@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-theme-0 dark:bg-theme-700 inline-flex justify-evenly shadow w-full">
+  <div class="bg-theme-0 dark:bg-theme-700 inline-flex justify-evenly shadow-color w-full">
     <!-- Vertical padding. -->
     <button class="invisible py-3.5 w-0">-</button>
     <!-- Contents. -->

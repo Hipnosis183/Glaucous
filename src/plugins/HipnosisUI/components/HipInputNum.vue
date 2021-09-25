@@ -1,6 +1,6 @@
 <template>
   <!-- Container. -->
-  <div class="flex h-10 rounded-xl shadow">
+  <div class="flex h-10 rounded-xl shadow-color">
     <!-- Decrease button. -->
     <hip-input-button
       v-if="!positionSide"
