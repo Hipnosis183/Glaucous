@@ -100,6 +100,8 @@ export default {
 
     // Load games list.
     let games = ref([])
+    let paginationIndex = ref(0)
+    const paginationCount = 50
     const loadGames = () => {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
@@ -141,8 +143,6 @@ export default {
     }
 
     // Manage search queries.
-    const paginationCount = 50
-    let paginationIndex = ref(0)
     let queryInput = ref('')
     let querySearched = ref(false)
     const querySearch = (query) => {

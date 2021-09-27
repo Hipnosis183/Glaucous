@@ -112,3 +112,23 @@ async function getPlatformCount(req) {
     // Return object.
     return req
 }
+
+// Get all platforms (and groups, recursively) matching a given search query.
+export async function getPlatformsAllSearch(index, count, query) {
+    const search = new RegExp(query, 'i')
+    // Search through platforms, case insensitive.
+    return await PlatformModel.find({ name: search }, { skip: index, limit: count, sort: 'name' })
+        .then(async res => {
+            return await getPlatformCount(res)
+        })
+}
+
+// Get all platforms from a specific group matching a given search query.
+export async function getPlatformsGroupAllSearch(index, count, req, query) {
+    const search = new RegExp(query, 'i')
+    // Search through platforms, case insensitive.
+    return await PlatformModel.find({ parent: req, name: search }, { skip: index, limit: count, sort: 'name' })
+        .then(async res => {
+            return await getPlatformCount(res)
+        })
+}

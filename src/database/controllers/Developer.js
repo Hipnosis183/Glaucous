@@ -45,15 +45,27 @@ export async function getDeveloperByName(q) {
 export async function getDevelopers(index, count) {
     return await DeveloperModel.find({}, { skip: index, limit: count, sort: 'name' })
         .then(async res => {
-            // Loop through all the items in 'res'.
-            for (let developer of res) {
-                // Get and add titles count to the object.
-                await getGamePlatformCountD(developer._id)
-                    .then(count => {
-                        developer.titles = count
-                    })
-            }
-            // Return object.
-            return res
+            return await getDeveloperCount(res)
+        })
+}
+
+// Get title/platform count for each platform/group given.
+async function getDeveloperCount(req) {
+    for (let developer of req) {
+        // Get and add titles count to the object.
+        await getGamePlatformCountD(developer._id)
+            .then(count => { developer.titles = count })
+    }
+    // Return object.
+    return req
+}
+
+// Get all developers matching a given search query.
+export async function getDevelopersAllSearch(index, count, query) {
+    const search = new RegExp(query, 'i')
+    // Search through developers, case insensitive.
+    return await DeveloperModel.find({ name: search }, { skip: index, limit: count, sort: 'name' })
+        .then(async res => {
+            return await getDeveloperCount(res)
         })
 }

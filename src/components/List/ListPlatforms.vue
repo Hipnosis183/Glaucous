@@ -20,6 +20,16 @@
           <icon-add />
         </hip-icon>
       </hip-button-nb>
+      <!-- Search bar. -->
+      <div class="flex-shrink-0 ml-2 my-auto w-80">
+        <hip-input
+          v-model="queryInput"
+          icon-prefix="icon-search"
+          placeholder="Search..."
+          remote
+          :remote-method="querySearch"
+        />
+      </div>
       <!-- List settings. -->
       <settings-lists />
     </hip-nav-bar>
@@ -39,10 +49,12 @@
             >
               <!-- Platform card. -->
               <hip-card>
-                <div>
-                  <h1 class="font-semibold text-xl">{{ platform.name }}</h1>
-                  <h3 v-if="platform.group">{{ platform.titles }} Platforms</h3>
-                  <h3 v-else>{{ platform.titles }} Titles</h3>
+                <div class="flex items-center p-4 space-x-2">
+                  <h1 class="font-medium">{{ platform.name }}</h1>
+                  <div class="pt-0.5 text-sm">
+                    <h3 v-if="platform.group">{{ platform.titles }} {{ platform.titles == 1 ? 'Platform' : 'Platforms' }}</h3>
+                    <h3 v-else>{{ platform.titles }} {{ platform.titles == 1 ? 'Title' : 'Titles' }}</h3>
+                  </div>
                 </div>
               </hip-card>
             </li>
@@ -58,7 +70,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getPlatforms } from '@/database/controllers/Platform'
+import { getPlatforms, getPlatformsAllSearch } from '@/database/controllers/Platform'
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
@@ -78,8 +90,8 @@ export default {
 
     // Load platforms list.
     let platforms = ref(null)
-    const paginationCount = 50
     let paginationIndex = ref(0)
+    const paginationCount = 50
     const loadPlatforms = () => {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
@@ -119,12 +131,45 @@ export default {
       createPlatformDialog.value = !createPlatformDialog.value
     }
 
+    // Manage search queries.
+    let queryInput = ref('')
+    let querySearched = ref(false)
+    const querySearch = (query) => {
+      // Only start search from two characters onwards.
+      if (query !== '' && query.length > 1) {
+        // Ensure pagination index is reset.
+        paginationIndex.value = 0
+        // A search has been done.
+        querySearched.value = true
+        // Search for platforms matching the query.
+        getPlatformsAllSearch(paginationIndex.value, paginationCount, query)
+          .then((res) => {
+            platforms.value = res
+            // Set next pagination index.
+            paginationIndex.value += paginationCount
+          })
+      } else {
+        if (querySearched.value) {
+          queryClear()
+        }
+      }
+    }
+    const queryClear = () => {
+      // A search hasn't been done yet.
+      querySearched.value = false
+      // Reload platforms list.
+      loadPlatforms()
+    }
+
     return {
       createPlatformClose,
       createPlatformDialog,
       createPlatformOpen,
       loadPlatformsNext,
-      platforms
+      platforms,
+      queryInput,
+      querySearched,
+      querySearch
     }
   }
 }

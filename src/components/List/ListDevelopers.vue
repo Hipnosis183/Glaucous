@@ -20,6 +20,16 @@
           <icon-add />
         </hip-icon>
       </hip-button-nb>
+      <!-- Search bar. -->
+      <div class="flex-shrink-0 ml-2 my-auto w-80">
+        <hip-input
+          v-model="queryInput"
+          icon-prefix="icon-search"
+          placeholder="Search..."
+          remote
+          :remote-method="querySearch"
+        />
+      </div>
       <!-- List settings. -->
       <settings-lists />
     </hip-nav-bar>
@@ -39,9 +49,9 @@
             >
               <!-- Developer card. -->
               <hip-card>
-                <div>
-                  <h1 class="font-semibold text-xl">{{ developer.name }}</h1>
-                  <h3>{{ developer.titles }} Titles</h3>
+                <div class="flex items-center p-4 space-x-2">
+                  <h1 class="font-medium">{{ developer.name }}</h1>
+                  <h3 class="pt-0.5 text-sm">{{ developer.titles }} {{ developer.titles == 1 ? 'Title' : 'Titles' }}</h3>
                 </div>
               </hip-card>
             </li>
@@ -57,7 +67,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getDevelopers } from '@/database/controllers/Developer'
+import { getDevelopers, getDevelopersAllSearch } from '@/database/controllers/Developer'
 // Import form components.
 import CreateDeveloper from '@/components/Create/CreateDeveloper.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
@@ -77,8 +87,8 @@ export default {
 
     // Load developers list.
     let developers = ref(null)
-    const paginationCount = 50
     let paginationIndex = ref(0)
+    const paginationCount = 50
     const loadDevelopers = () => {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
@@ -118,12 +128,45 @@ export default {
       createDeveloperDialog.value = !createDeveloperDialog.value
     }
 
+    // Manage search queries.
+    let queryInput = ref('')
+    let querySearched = ref(false)
+    const querySearch = (query) => {
+      // Only start search from two characters onwards.
+      if (query !== '' && query.length > 1) {
+        // Ensure pagination index is reset.
+        paginationIndex.value = 0
+        // A search has been done.
+        querySearched.value = true
+        // Search for developers matching the query.
+        getDevelopersAllSearch(paginationIndex.value, paginationCount, query)
+          .then((res) => {
+            developers.value = res
+            // Set next pagination index.
+            paginationIndex.value += paginationCount
+          })
+      } else {
+        if (querySearched.value) {
+          queryClear()
+        }
+      }
+    }
+    const queryClear = () => {
+      // A search hasn't been done yet.
+      querySearched.value = false
+      // Reload developers list.
+      loadDevelopers()
+    }
+
     return {
       createDeveloperClose,
       createDeveloperDialog,
       createDeveloperOpen,
       developers,
-      loadDevelopersNext
+      loadDevelopersNext,
+      queryInput,
+      querySearched,
+      querySearch
     }
   }
 }
