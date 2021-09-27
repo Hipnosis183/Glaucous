@@ -20,6 +20,8 @@
           <icon-add />
         </hip-icon>
       </hip-button-nb>
+      <!-- List settings. -->
+      <settings-lists />
     </hip-nav-bar>
     <!-- Show platforms list. -->
     <div class="h-content m-6">
@@ -59,11 +61,13 @@ import { useStore } from 'vuex'
 import { getPlatforms } from '@/database/controllers/Platform'
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
   name: 'ListPlatforms',
   components: {
-    CreatePlatform
+    CreatePlatform,
+    SettingsLists
   },
   setup() {
     // Instantiate Vue elements.

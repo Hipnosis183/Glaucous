@@ -5,8 +5,10 @@
     fill="currentColor"
     viewBox="0 0 1024 1024"
     :width="size"
-    class="m-auto"
-    :class="$store.getters.getSettingsThemesDarkMode && !noshadow ? 'icon-shadow' : ''"
+    :class="[
+      { 'm-auto' : manual == false },
+      { 'icon-shadow' : $store.getters.getSettingsThemesDarkMode && !noshadow }
+    ]"
   >
     <!-- Icon contents. -->
     <slot></slot>
@@ -17,6 +19,7 @@
 export default {
   name: 'HipIcon',
   props: {
+    manual: { type: Boolean, default: false },
     noshadow: { type: Boolean, default: false },
     size: { type: String, default: '100%' }
   }

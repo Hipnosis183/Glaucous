@@ -1,8 +1,5 @@
 <template>
-  <button
-    class="bg-theme-100 dark:bg-theme-800 font-semibold m-auto py-3 rounded-full text-base text-color-800 dark:text-color-500 w-10/12"
-    :class="$store.getters.getSettingsThemesDarkMode ? 'text-shadow' : ''"
-  >
+  <button class="bg-color-700 dark:bg-color-800 hover:bg-color-500 dark:hover:bg-color-600 font-medium h-14 items-center space-x-4 text-color-200 text-xl w-full">
     <slot></slot>
   </button>
 </template>

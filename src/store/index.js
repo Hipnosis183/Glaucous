@@ -31,7 +31,8 @@ export default createStore({
       settingsLists: {
         listDisplay: localStore.get('settingsLists.listDisplay', 0),
         listColumns: localStore.get('settingsLists.listColumns', 4),
-        listHeight: localStore.get('settingsLists.listHeight', 200)
+        listHeight: localStore.get('settingsLists.listHeight', 200),
+        listGroup: localStore.get('settingsLists.listGroup', 0)
       },
       settingsCards: {
         cardImages: localStore.get('settingsCards.cardImages', 0),
@@ -162,6 +163,9 @@ export default createStore({
     getSettingsListsListHeight(state) {
       return state.settingsApp.settingsLists.listHeight
     },
+    getSettingsListsListGroup(state) {
+      return state.settingsApp.settingsLists.listGroup
+    },
     getSettingsCardsCardImages(state) {
       return state.settingsApp.settingsCards.cardImages
     },
@@ -213,6 +217,10 @@ export default createStore({
     setSettingsListsListHeight(state, data) {
       state.settingsApp.settingsLists.listHeight = data
       localStore.set('settingsLists.listHeight', state.settingsApp.settingsLists.listHeight)
+    },
+    setSettingsListsListGroup(state, data) {
+      state.settingsApp.settingsLists.listGroup = data
+      localStore.set('settingsLists.listGroup', state.settingsApp.settingsLists.listGroup)
     },
     setSettingsCardsCardImages(state, data) {
       state.settingsApp.settingsCards.cardImages = data

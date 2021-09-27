@@ -28,6 +28,13 @@ export const listDisplayOptions = [
     { i: 2, name: 'Compact' }
 ]
 
+// Game list grouping modes.
+export const listGroupOptions = [
+    { i: 0, name: 'All Games' },
+    { i: 1, name: 'Platforms' },
+    { i: 2, name: 'Developers' }
+]
+
 // Google search key parameters.
 export const googleKeys = [
     { i: 0, name: 'Full Title' },

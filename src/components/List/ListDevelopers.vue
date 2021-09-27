@@ -20,6 +20,8 @@
           <icon-add />
         </hip-icon>
       </hip-button-nb>
+      <!-- List settings. -->
+      <settings-lists />
     </hip-nav-bar>
     <!-- Show developers list. -->
     <div class="h-content m-6">
@@ -58,11 +60,13 @@ import { useStore } from 'vuex'
 import { getDevelopers } from '@/database/controllers/Developer'
 // Import form components.
 import CreateDeveloper from '@/components/Create/CreateDeveloper.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
   name: 'ListDevelopers',
   components: {
-    CreateDeveloper
+    CreateDeveloper,
+    SettingsLists
   },
   setup() {
     // Instantiate Vue elements.

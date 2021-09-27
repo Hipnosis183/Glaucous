@@ -22,46 +22,62 @@
     <transition name="slide-nav">
       <div
         v-show="expand"
-        class="absolute bg-color-500 flex flex-col inset-y-0 w-80 z-40"
+        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-80 z-40"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-700 text-center">
+        <div class="bg-color-600 dark:bg-color-700 text-center">
           <h6
             @click="$router.push({ name: 'Index' })"
-            class="cursor-pointer font-semibold my-8 text-3xl text-color-300"
+            class="cursor-pointer font-semibold my-8 text-3xl text-color-100"
           >Frontend</h6>
         </div>
         <!-- Buttons. -->
-        <div class="flex flex-col h-full justify-between">
-          <div>
-            <div class="mt-8 space-y-4">
-              <div class="flex">
-                <hip-button-sb @click="$router.push({ name: 'ListGames' })">Games</hip-button-sb>
-              </div>
-              <div class="flex">
-                <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">Developers</hip-button-sb>
-              </div>
-              <div class="flex">
-                <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">Platforms</hip-button-sb>
-              </div>
-            </div>
-          </div>
-          <div class="mb-8 space-y-4">
-            <div class="flex">
-              <hip-button-sb @click="searchShow()">Search</hip-button-sb>
-            </div>
-            <div v-show="history > 0">
-              <div class="flex">
-                <hip-button-sb @click="$router.back()">Back</hip-button-sb>
-              </div>
-            </div>
-          </div>
+        <div class="flex flex-col mb-auto">
+          <hip-button-sb
+            @click="selectList()"
+            class="flex pl-4"
+          >
+            <hip-icon
+              manual
+              class="w-8"
+            >
+              <icon-games />
+            </hip-icon>
+            <h6>Games</h6>
+          </hip-button-sb>
+        </div>
+        <div class="flex flex-col mt-auto">
+          <hip-button-sb
+            @click="searchShow()"
+            class="flex pl-4"
+          >
+            <hip-icon
+              manual
+              class="w-6"
+            >
+              <icon-search />
+            </hip-icon>
+            <h6>Search</h6>
+          </hip-button-sb>
+          <hip-button-sb
+            v-show="history > 0"
+            @click="$router.back()"
+            class="flex pl-4"
+          >
+            <hip-icon
+              manual
+              class="w-6"
+            >
+              <icon-back />
+            </hip-icon>
+            <h6>Go Back</h6>
+          </hip-button-sb>
         </div>
         <!-- Bottom bar. -->
-        <div class="bg-color-700 flex justify-between">
+        <div class="bg-color-600 dark:bg-color-700 flex justify-between">
           <button
             @click="$router.push({ name: 'Settings' })"
-            class="m-auto py-3 text-color-300"
+            class="m-auto py-3 text-color-100"
           >
             <hip-icon
               noshadow
@@ -72,7 +88,7 @@
           </button>
           <button
             @click="sidenavToggle()"
-            class="m-auto py-3 text-color-300"
+            class="m-auto py-3 text-color-100"
           >
             <hip-icon
               noshadow
@@ -93,60 +109,43 @@
     >
       <div
         :key="$store.getters.getSettingsThemesSelectedTheme"
-        class="bg-color-500 flex flex-col h-full justify-between relative w-14"
+        class="bg-color-700 dark:bg-color-800 flex flex-col h-full justify-between relative w-14"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-700 text-center">
+        <div class="bg-color-600 dark:bg-color-700 text-center">
           <h6
             @click="$router.push({ name: 'Index' })"
-            class="cursor-pointer font-semibold my-8 text-3xl text-color-300"
+            class="cursor-pointer font-semibold my-8 text-3xl text-color-100"
           >F</h6>
         </div>
         <!-- Buttons. -->
-        <div class="flex flex-col h-full justify-between">
-          <div>
-            <div class="mt-8 space-y-4">
-              <div class="flex">
-                <hip-button-sb @click="$router.push({ name: 'ListGames' })">G</hip-button-sb>
-              </div>
-              <div class="flex">
-                <hip-button-sb @click="$router.push({ name: 'ListDevelopers' })">D</hip-button-sb>
-              </div>
-              <div class="flex">
-                <hip-button-sb @click="$router.push({ name: 'ListPlatforms' })">P</hip-button-sb>
-              </div>
-            </div>
-          </div>
-          <div class="mb-8 space-y-4">
-            <div class="flex">
-              <hip-button-sb
-                @click="searchShow()"
-                class="h-12"
-              >
-                <hip-icon class="w-6">
-                  <icon-search />
-                </hip-icon>
-              </hip-button-sb>
-            </div>
-            <div v-show="history > 0">
-              <div class="flex">
-                <hip-button-sb
-                  @click="$router.back()"
-                  class="h-12"
-                >
-                  <hip-icon class="w-6">
-                    <icon-back />
-                  </hip-icon>
-                </hip-button-sb>
-              </div>
-            </div>
-          </div>
+        <div class="flex flex-col mb-auto">
+          <hip-button-sb @click="selectList()">
+            <hip-icon class="text-color-200 w-8">
+              <icon-games />
+            </hip-icon>
+          </hip-button-sb>
+        </div>
+        <div class="flex flex-col mt-auto">
+          <hip-button-sb @click="searchShow()">
+            <hip-icon class="text-color-200 w-6">
+              <icon-search />
+            </hip-icon>
+          </hip-button-sb>
+          <hip-button-sb
+            v-show="history > 0"
+            @click="$router.back()"
+          >
+            <hip-icon class="text-color-200 w-6">
+              <icon-back />
+            </hip-icon>
+          </hip-button-sb>
         </div>
         <!-- Bottom bar. -->
-        <div class="bg-color-700 flex justify-between">
+        <div class="bg-color-600 dark:bg-color-700 flex justify-between">
           <button
             @click="sidenavToggle()"
-            class="m-auto py-3 text-color-300"
+            class="m-auto py-3 text-color-100"
           >
             <hip-icon
               noshadow
@@ -164,7 +163,7 @@
 <script>
 // Import Vue functions.
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import utility functions.
 import { throttle } from '@/utils/throttle'
@@ -179,6 +178,7 @@ export default {
   setup() {
     // Instantiate Vue elements.
     const route = useRoute()
+    const router = useRouter()
     const store = useStore()
 
     // Manage route history for the back button.
@@ -198,6 +198,23 @@ export default {
       expand.value = !expand.value
     }, 500)
 
+    // Select list group page to load.
+    const selectList = () => {
+      switch (store.getters.getSettingsListsListGroup) {
+        // Load page with all games listed.
+        case 0: router.push({ name: 'ListGames' })
+          break
+        // Load page with all platforms listed.
+        case 1: router.push({ name: 'ListPlatforms' })
+          break
+        // Load page with all developers listed.
+        case 2: router.push({ name: 'ListDevelopers' })
+          break
+      }
+      // Close the sidenav.
+      expand.value = false
+    }
+
     // Manage search dialog display.
     let searchDialog = ref(false)
     const searchShow = () => {
@@ -215,6 +232,7 @@ export default {
       history,
       searchDialog,
       searchShow,
+      selectList,
       sidenavToggle
     }
   }
