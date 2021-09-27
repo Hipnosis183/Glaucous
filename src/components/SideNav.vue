@@ -74,29 +74,25 @@
           </hip-button-sb>
         </div>
         <!-- Bottom bar. -->
-        <div class="bg-color-600 dark:bg-color-700 flex justify-between">
-          <button
-            @click="$router.push({ name: 'Settings' })"
-            class="m-auto py-3 text-color-100"
+        <div class="flex justify-between">
+          <hip-button-sb-small
+            @click="exitApp()"
+            class="py-3.5"
           >
-            <hip-icon
-              noshadow
-              class="w-6"
-            >
+            <hip-icon class="w-5">
+              <icon-exit />
+            </hip-icon>
+          </hip-button-sb-small>
+          <hip-button-sb-small @click="$router.push({ name: 'Settings' })">
+            <hip-icon class="w-6">
               <icon-setting />
             </hip-icon>
-          </button>
-          <button
-            @click="sidenavToggle()"
-            class="m-auto py-3 text-color-100"
-          >
-            <hip-icon
-              noshadow
-              class="w-6"
-            >
+          </hip-button-sb-small>
+          <hip-button-sb-small @click="sidenavToggle()">
+            <hip-icon class="w-6">
               <icon-fold />
             </hip-icon>
-          </button>
+          </hip-button-sb-small>
         </div>
       </div>
     </transition>
@@ -142,18 +138,12 @@
           </hip-button-sb>
         </div>
         <!-- Bottom bar. -->
-        <div class="bg-color-600 dark:bg-color-700 flex justify-between">
-          <button
-            @click="sidenavToggle()"
-            class="m-auto py-3 text-color-100"
-          >
-            <hip-icon
-              noshadow
-              class="w-6"
-            >
+        <div class="flex justify-between">
+          <hip-button-sb-small @click="sidenavToggle()">
+            <hip-icon class="w-6">
               <icon-expand />
             </hip-icon>
-          </button>
+          </hip-button-sb-small>
         </div>
       </div>
     </transition>
@@ -165,6 +155,8 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { app } from '@electron/remote'
 // Import utility functions.
 import { throttle } from '@/utils/throttle'
 // Import search component.
@@ -226,8 +218,14 @@ export default {
       }
     }
 
+    // Exit the application.
+    const exitApp = () => {
+      app.exit()
+    }
+
     // Return values to use on template.
     return {
+      exitApp,
       expand,
       history,
       searchDialog,

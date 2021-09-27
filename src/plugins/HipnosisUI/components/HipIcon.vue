@@ -7,7 +7,7 @@
     :width="size"
     :class="[
       { 'm-auto' : manual == false },
-      { 'icon-shadow' : $store.getters.getSettingsThemesDarkMode && !noshadow }
+      { 'icon-shadow' : $store.getters.getSettingsThemesDarkMode }
     ]"
   >
     <!-- Icon contents. -->
@@ -20,7 +20,6 @@ export default {
   name: 'HipIcon',
   props: {
     manual: { type: Boolean, default: false },
-    noshadow: { type: Boolean, default: false },
     size: { type: String, default: '100%' }
   }
 }

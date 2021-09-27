@@ -2,6 +2,7 @@ import HipButton from './components/HipButton.vue'
 import HipButtonGroup from './components/HipButtonGroup.vue'
 import HipButtonNb from './components/HipButtonNb.vue'
 import HipButtonSb from './components/HipButtonSb.vue'
+import HipButtonSbSmall from './components/HipButtonSbSmall.vue'
 import HipCard from './components/HipCard.vue'
 import HipCardCompact from './components/HipCardCompact.vue'
 import HipCardList from './components/HipCardList.vue'
@@ -34,6 +35,7 @@ export default {
         app.component('hip-button-group', HipButtonGroup)
         app.component('hip-button-nb', HipButtonNb)
         app.component('hip-button-sb', HipButtonSb)
+        app.component('hip-button-sb-small', HipButtonSbSmall)
         app.component('hip-card', HipCard)
         app.component('hip-card-compact', HipCardCompact)
         app.component('hip-card-list', HipCardList)

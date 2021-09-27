@@ -14,6 +14,7 @@ import IconCheck from './components/IconCheck.vue'
 import IconClose from './components/IconClose.vue'
 import IconCross from './components/IconCross.vue'
 import IconEdit from './components/IconEdit.vue'
+import IconExit from './components/IconExit.vue'
 import IconExpand from './components/IconExpand.vue'
 import IconFlag from './components/IconFlag.vue'
 import IconFold from './components/IconFold.vue'
@@ -48,6 +49,7 @@ export default {
         app.component('icon-close', IconClose)
         app.component('icon-cross', IconCross)
         app.component('icon-edit', IconEdit)
+        app.component('icon-exit', IconExit)
         app.component('icon-expand', IconExpand)
         app.component('icon-flag', IconFlag)
         app.component('icon-fold', IconFold)
