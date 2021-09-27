@@ -1,7 +1,7 @@
 <template>
   <!-- Select list grouping mode. -->
   <div
-    v-if="!nogroup"
+    v-if="groupSettings"
     class="flex-shrink-0 ml-2 my-auto w-40"
   >
     <hip-select
@@ -18,7 +18,10 @@
     </hip-select>
   </div>
   <!-- Open list settings dialog. -->
-  <div class="flex-shrink-0 ml-2 my-auto">
+  <div
+    v-if="gameSettings"
+    class="flex-shrink-0 ml-2 my-auto"
+  >
     <hip-menu-button
       v-show="$store.getters.getSettingsGeneralEditMode"
       icon="icon-menu"
@@ -153,7 +156,8 @@ import { cardImagesOptions, cardTextShowOptions, cardTextStyleOptions, listDispl
 export default {
   name: 'SettingsLists',
   props: {
-    nogroup: { type: Boolean, default: false }
+    gameSettings: { type: Boolean, default: false },
+    groupSettings: { type: Boolean, default: false }
   },
   setup() {
     // Instantiate Vue elements.

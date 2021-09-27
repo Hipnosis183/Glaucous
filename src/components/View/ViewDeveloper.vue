@@ -94,7 +94,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists nogroup />
+      <settings-lists gameSettings />
     </hip-nav-bar>
     <!-- Show developer's games list. -->
     <div class="h-content m-6">

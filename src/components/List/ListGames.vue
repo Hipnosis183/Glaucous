@@ -31,7 +31,10 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <settings-lists
+        gameSettings
+        groupSettings
+      />
     </hip-nav-bar>
     <!-- Show games list. -->
     <div class="h-content m-6">

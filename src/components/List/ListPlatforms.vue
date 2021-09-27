@@ -31,7 +31,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <settings-lists groupSettings />
     </hip-nav-bar>
     <!-- Show platforms list. -->
     <div class="h-content m-6">

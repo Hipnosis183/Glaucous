@@ -113,7 +113,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists nogroup />
+      <settings-lists gameSettings />
       <!-- Horizontal padding. -->
       <div class="w-full"></div>
       <!-- Open platform settings dialog. -->
