@@ -1,6 +1,9 @@
 <template>
   <!-- Select list grouping mode. -->
-  <div class="flex-shrink-0 ml-2 my-auto w-40">
+  <div
+    v-if="!nogroup"
+    class="flex-shrink-0 ml-2 my-auto w-40"
+  >
     <hip-select
       v-model="listGroup"
       class="my-auto text-center"
@@ -149,6 +152,9 @@ import { cardImagesOptions, cardTextShowOptions, cardTextStyleOptions, listDispl
 
 export default {
   name: 'SettingsLists',
+  props: {
+    nogroup: { type: Boolean, default: false }
+  },
   setup() {
     // Instantiate Vue elements.
     const router = useRouter()

@@ -93,15 +93,8 @@
           :remote-method="querySearch"
         />
       </div>
-      <!-- Open list settings dialog. -->
-      <div class="flex-shrink-0 ml-2 my-auto">
-        <hip-menu-button
-          v-show="$store.getters.getSettingsGeneralEditMode"
-          icon="icon-menu"
-        >
-          <settings-lists />
-        </hip-menu-button>
-      </div>
+      <!-- List settings. -->
+      <settings-lists nogroup />
     </hip-nav-bar>
     <!-- Show developer's games list. -->
     <div class="h-content m-6">
