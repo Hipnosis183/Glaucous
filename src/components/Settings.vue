@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- Navigation bar. -->
-    <hip-nav-bar
+    <vi-nav-bar
       title="Settings"
       class="bg-transition"
     />
     <!-- Settings panel. -->
     <div class="flex m-6 space-x-6">
-      <hip-modal class="bg-transition py-8 h-content w-full">
+      <vi-modal class="bg-transition py-8 h-content w-full">
         <div class="flex max-h-content overflow-hidden">
           <div class="flex-1 no-scrollbar overflow-y-scroll">
             <!-- General options. -->
@@ -20,7 +20,7 @@
             <settings-links />
           </div>
         </div>
-      </hip-modal>
+      </vi-modal>
     </div>
   </div>
 </template>

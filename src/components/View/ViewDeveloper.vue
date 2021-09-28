@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="createPlatformDialog"
       @close="createPlatformClose()"
       class="z-10"
@@ -11,18 +11,18 @@
         :gameDeveloper="$route.params.id"
         @close="createPlatformClose()"
       />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Edit developer dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="editDeveloperDialog"
       @close="editDeveloperClose()"
       class="z-10"
     >
       <!-- Insert edit developer form component. -->
       <edit-developer @close="editDeveloperClose()" />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Delete developer dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="deleteDeveloperDialog"
       @close="deleteDeveloperOpen()"
       class="z-10"
@@ -35,57 +35,57 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm developer deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deleteDeveloperClose()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
         <!-- Cancel developer deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deleteDeveloperOpen()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-close />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar :title="developer.name">
+    <vi-nav-bar :title="developer.name">
       <!-- Open create game platform dialog. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-add />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Open edit developer dialog. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editDeveloperOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-edit />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Open delete developer dialog. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="deleteDeveloperOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-remove />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
-        <hip-input
+        <vi-input
           v-model="queryInput"
           icon-prefix="icon-search"
           placeholder="Search..."
@@ -95,12 +95,12 @@
       </div>
       <!-- List settings. -->
       <settings-lists gameSettings />
-    </hip-nav-bar>
+    </vi-nav-bar>
     <!-- Show developer's games list. -->
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <hip-list
+          <vi-list
             v-if="developer.games.length > 0"
             :listDisplay="$store.getters.getSettingsListsListDisplay"
             :remote-method="loadDeveloperNext"
@@ -112,20 +112,20 @@
               @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
             >
               <!-- Game cards. -->
-              <hip-card-grid
+              <vi-card-grid
                 v-if="$store.getters.getSettingsListsListDisplay == 0"
                 :gameInfo="game"
               />
-              <hip-card-list
+              <vi-card-list
                 v-else-if="$store.getters.getSettingsListsListDisplay == 1"
                 :gameInfo="game"
               />
-              <hip-card-compact
+              <vi-card-compact
                 v-else-if="$store.getters.getSettingsListsListDisplay == 2"
                 :gameInfo="game"
               />
             </li>
-          </hip-list>
+          </vi-list>
           <div
             v-else-if="querySearched"
             class="flex h-content w-full"

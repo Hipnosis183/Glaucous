@@ -1,20 +1,20 @@
 <template>
   <!-- Platform group input select. -->
-  <hip-select
+  <vi-select
     v-model="parent"
     label="Parent Group"
     remote
     :remote-method="querySearch"
     class="w-full"
   >
-    <hip-option
+    <vi-option
       v-for="item in queryResults"
       :key="item._id"
       :label="item.name"
       :value="item._id"
     >
-    </hip-option>
-  </hip-select>
+    </vi-option>
+  </vi-select>
 </template>
 
 <script>

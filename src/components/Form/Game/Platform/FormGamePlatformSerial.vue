@@ -1,9 +1,9 @@
 <template>
   <!-- Serial input. -->
-  <hip-input
+  <vi-input
     v-model="serial"
     label="Serial | Code | Game ID"
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

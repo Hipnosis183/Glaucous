@@ -1,11 +1,11 @@
 <template>
   <!-- Release year input. -->
-  <hip-input
+  <vi-input
     v-model="releaseYear"
     label="Release Year"
     placeholder="Required"
     required
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

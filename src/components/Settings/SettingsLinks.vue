@@ -1,28 +1,28 @@
 <template>
   <!-- Header. -->
-  <hip-section-header label="Link Options">
+  <vi-section-header label="Link Options">
     <!-- Google search. -->
-    <hip-section-content>
+    <vi-section-content>
       <p class="text-xl">Google search icon</p>
-      <hip-switch v-model="searchGoogle" />
-    </hip-section-content>
+      <vi-switch v-model="searchGoogle" />
+    </vi-section-content>
     <!-- Google search key. -->
-    <hip-section-content>
+    <vi-section-content>
       <p class="text-xl">Google search key</p>
-      <hip-select
+      <vi-select
         v-model="searchGoogleKey"
         class="w-max"
       >
-        <hip-option
+        <vi-option
           v-for="key in googleKeys"
           :key="key.i"
           :label="key.name"
           :value="key.i"
         >
-        </hip-option>
-      </hip-select>
-    </hip-section-content>
-  </hip-section-header>
+        </vi-option>
+      </vi-select>
+    </vi-section-content>
+  </vi-section-header>
 </template>
 
 <script>

@@ -10,9 +10,9 @@ import './database/datastore'
 import mitt from 'mitt'
 const emitter = mitt()
 // Import UI and icon components.
-import hipnoUI from '@/plugins/HipnosisUI'
-import hipnoIcon from '@/plugins/HipnosisIcon'
+import viUI from '@/plugins/ViridianUI'
+import viIcon from '@/plugins/ViridianIcon'
 
-const app = createApp(App).use(store).use(router).use(hipnoUI).use(hipnoIcon)
+const app = createApp(App).use(store).use(router).use(viUI).use(viIcon)
 app.config.globalProperties.emitter = emitter
 app.mount('#app')

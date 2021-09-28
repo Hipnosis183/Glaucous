@@ -1,6 +1,6 @@
 <template>
   <!-- Game settings dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="settingsGameDialog"
     @close="settingsGameClose()"
     width="w-2/3"
@@ -12,9 +12,9 @@
       :fullCommand="fullCommand"
       @close="settingsGameClose()"
     />
-  </hip-dialog>
+  </vi-dialog>
   <!-- Launcher error dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="launchErrorDialog"
     @close="launchErrorShow()"
     class="pos-initial z-10"
@@ -27,50 +27,50 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
-      <hip-button
+      <vi-button
         icon
         @click="launchErrorShow()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-check />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
-  </hip-dialog>
+  </vi-dialog>
   <div class="pt-4 space-y-4">
     <div class="flex items-center">
       <h1 class="font-bold ml-2 text-xl">Start Game</h1>
       <!-- Open game settings dialog. -->
-      <hip-button
+      <vi-button
         icon
         @click="launchGame()"
         class="ml-auto"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-play />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
     <div class="flex space-x-4">
-      <hip-select v-model="$store.state.gameSelected.gameVersion">
-        <hip-option
+      <vi-select v-model="$store.state.gameSelected.gameVersion">
+        <vi-option
           v-for="(item, index) in gameInfo.gameRegions[regionIndex].gameVersions"
           :key="item._id"
           :label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
           :value="item._id"
           @click="changeVersion(index)"
         >
-        </hip-option>
-      </hip-select>
-      <hip-button
+        </vi-option>
+      </vi-select>
+      <vi-button
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon
         @click="settingsGameOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-setting />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <!-- Validation error dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="validationErrorDialog"
     @close="validationErrorShow()"
     class="pos-initial z-10"
@@ -11,38 +11,38 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
-      <hip-button
+      <vi-button
         icon
         @click="validationErrorShow()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-check />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
-  </hip-dialog>
+  </vi-dialog>
   <!-- Form header. -->
   <div class="flex justify-between mb-4 mx-2">
     <!-- Form title. -->
     <p class="mr-10 pt-1 text-2xl">Edit Emulator</p>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
-      <hip-button
+      <vi-button
         icon
         @click="onSubmit()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-check />
-        </hip-icon>
-      </hip-button>
-      <hip-button
+        </vi-icon>
+      </vi-button>
+      <vi-button
         icon
         @click="$emit('close')"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-close />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
   </div>
   <!-- Create emulator form. -->
@@ -62,7 +62,7 @@
   <!-- Command preview. -->
   <div class="space-y-6">
     <div />
-    <hip-section-header label="Preview" />
+    <vi-section-header label="Preview" />
     <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
       <div
         v-if="$store.state.emulatorForm.path || $store.state.emulatorForm.file"

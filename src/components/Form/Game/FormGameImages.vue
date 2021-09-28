@@ -25,27 +25,27 @@
   />
   <!-- Images form. -->
   <div class="flex rounded-xl shadow-color">
-    <hip-input-button
+    <vi-input-button
       firstElement
       class="cursor-default"
     >
-      <hip-icon class="w-6">
+      <vi-icon class="w-6">
         <icon-picture />
-      </hip-icon>
-    </hip-input-button>
-    <hip-input-button
+      </vi-icon>
+    </vi-input-button>
+    <vi-input-button
       v-if="showPlatform"
       @click="imagesPlatformShow()"
-    >Platform</hip-input-button>
-    <hip-input-button
+    >Platform</vi-input-button>
+    <vi-input-button
       v-if="showRegion"
       @click="imagesRegionShow()"
-    >Region</hip-input-button>
-    <hip-input-button
+    >Region</vi-input-button>
+    <vi-input-button
       v-if="showVersion"
       lastElement
       @click="imagesVersionShow()"
-    >Version</hip-input-button>
+    >Version</vi-input-button>
   </div>
 </template>
 

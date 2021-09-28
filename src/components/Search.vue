@@ -1,50 +1,50 @@
 <template>
-  <hip-overlay>
+  <vi-overlay>
     <div class="space-y-4 w-search">
       <!-- Search dialog. -->
-      <hip-modal class="rounded-3xl">
+      <vi-modal class="rounded-3xl">
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
           <div class="flex space-x-2 w-full">
             <!-- Search query input. -->
-            <hip-input
+            <vi-input
               v-model="queryInput"
               clearable
               icon-prefix="icon-search"
               placeholder="Search..."
             />
             <!-- Search category select. -->
-            <hip-select
+            <vi-select
               v-model="searchSelect"
               class="w-max"
             >
-              <hip-option
+              <vi-option
                 v-for="item in searchOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
               >
-              </hip-option>
-            </hip-select>
+              </vi-option>
+            </vi-select>
           </div>
           <!-- Add query button. -->
-          <hip-button
+          <vi-button
             icon
             @click="queryAdd(queryInput.trim(), searchSelect)"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-add />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
           <!-- Remove query button. -->
-          <hip-button
+          <vi-button
             icon
             @click="$emit('close')"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-close />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
         </div>
         <!-- Search filters. -->
         <ul
@@ -58,14 +58,14 @@
             class="mr-2 mt-2"
           >
             <!-- Filter chip. -->
-            <hip-chip @remove="queryRemove(game.label)">
+            <vi-chip @remove="queryRemove(game.label)">
               {{ game.label }}: {{ game.value }}
-            </hip-chip>
+            </vi-chip>
           </li>
         </ul>
-      </hip-modal>
+      </vi-modal>
       <!-- Search results. -->
-      <hip-list
+      <vi-list
         v-if="queryResults.length > 0"
         :listDisplay="1"
         :remote-method="querySearchNext"
@@ -77,11 +77,11 @@
           @click="gameOpen(game._id)"
         >
           <!-- Game card. -->
-          <hip-card-list :gameInfo="game" />
+          <vi-card-list :gameInfo="game" />
         </li>
-      </hip-list>
+      </vi-list>
     </div>
-  </hip-overlay>
+  </vi-overlay>
 </template>
 
 <script>

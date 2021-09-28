@@ -1,34 +1,34 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="createPlatformDialog"
       @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create game platform form component. -->
       <create-game-platform @close="createPlatformClose()" />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Create game region dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="createRegionDialog"
       @close="createRegionClose()"
       class="z-10"
     >
       <!-- Insert create game region form component. -->
       <create-game-region @close="createRegionClose()" />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Create game version dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="createVersionDialog"
       @close="createVersionClose()"
       class="z-10"
     >
       <!-- Insert create game version form component. -->
       <create-game-version @close="createVersionClose()" />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Edit game dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="editGameDialog"
       @close="editGameClose()"
       class="z-10"
@@ -39,9 +39,9 @@
         :gamePlatform="gameInfo.platform._id"
         @close="editGameClose()"
       />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Delete game region dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="deleteRegionDialog"
       @close="deleteRegionOpen()"
       class="z-10"
@@ -56,27 +56,27 @@
       <!-- Dialog buttons. -->
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deleteRegionClose()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
         <!-- Cancel game deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deleteRegionOpen()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-close />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Delete game version dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="deleteVersionDialog"
       @close="deleteVersionOpen()"
       class="z-10"
@@ -90,27 +90,27 @@
       <!-- Dialog buttons. -->
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deleteVersionClose()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
         <!-- Cancel game deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deleteVersionOpen()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-close />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Delete game platform dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="deletePlatformDialog"
       @close="deletePlatformOpen()"
       class="z-10"
@@ -124,108 +124,108 @@
       <!-- Dialog buttons. -->
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deletePlatformClose()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
         <!-- Cancel game deletion. -->
-        <hip-button
+        <vi-button
           icon
           @click="deletePlatformOpen()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-close />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar>
+    <vi-nav-bar>
       <!-- Create games menu dialog. -->
-      <hip-menu-select
+      <vi-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon="icon-add"
       >
         <!-- Open create game platform dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Create Game Platform"
           :method="createPlatformOpen"
         />
         <!-- Open create game region dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Create Game Region"
           :method="createRegionOpen"
         />
         <!-- Open create game version dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Create Game Version"
           :method="createVersionOpen"
         />
-      </hip-menu-select>
+      </vi-menu-select>
       <!-- Open edit game dialog. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="editGameOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-edit />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Delete games menu dialog. -->
-      <hip-menu-select
+      <vi-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon="icon-remove"
       >
         <!-- Open create game platform dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Delete Game Platform"
           :method="deletePlatformOpen"
         />
         <!-- Open create game region dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Delete Game Region"
           :method="deleteRegionOpen"
         />
         <!-- Open create game version dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Delete Game Version"
           :method="deleteVersionOpen"
         />
-      </hip-menu-select>
+      </vi-menu-select>
       <!-- Create games menu dialog. -->
-      <hip-menu-select
+      <vi-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"
         icon="icon-folder"
       >
         <!-- Open create game region dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Open Game Directory"
           :method="openGamePath"
         />
         <!-- Open create game platform dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Open Store Directory"
           :method="openStorePath"
         />
         <!-- Open create game version dialog. -->
-        <hip-menu-option
+        <vi-menu-option
           label="Open Images Directory"
           :method="openImagesPath"
         />
-      </hip-menu-select>
+      </vi-menu-select>
       <!-- Set selected game region as the main region. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="setGameRegion()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-flag />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Game region tabs. -->
       <ul class="flex w-full">
         <li
@@ -253,7 +253,7 @@
           />
         </li>
       </ul>
-    </hip-nav-bar>
+    </vi-nav-bar>
     <!-- Game information. -->
     <div class="relative">
       <transition
@@ -265,7 +265,7 @@
           class="flex m-6 space-x-6"
         >
           <!-- Left card. -->
-          <hip-modal class="h-content w-3/5">
+          <vi-modal class="h-content w-3/5">
             <div class="flex flex-col max-h-content min-h-content overflow-hidden">
               <div class="flex-1 no-scrollbar overflow-y-scroll">
                 <!-- Insert game info component. -->
@@ -286,9 +286,9 @@
                 @loaded="loadLinks($event)"
               />
             </div>
-          </hip-modal>
+          </vi-modal>
           <!-- Right card. -->
-          <hip-modal class="h-content w-2/5">
+          <vi-modal class="h-content w-2/5">
             <div class="flex flex-col max-h-content min-h-content overflow-hidden">
               <div class="flex-1 no-scrollbar overflow-y-scroll p-0.5">
                 <!-- Insert game images component. -->
@@ -307,7 +307,7 @@
                 @updated="versionIndex = $event"
               />
             </div>
-          </hip-modal>
+          </vi-modal>
         </div>
       </transition>
     </div>

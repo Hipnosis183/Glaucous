@@ -1,11 +1,11 @@
 <template>
   <!-- Name input. -->
-  <hip-input
+  <vi-input
     v-model="name"
     label="Name"
     placeholder="Required"
     required
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

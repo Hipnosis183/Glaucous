@@ -4,25 +4,25 @@
     v-if="groupSettings"
     class="flex-shrink-0 ml-2 my-auto w-40"
   >
-    <hip-select
+    <vi-select
       v-model="listGroup"
       class="my-auto text-center"
     >
-      <hip-option
+      <vi-option
         v-for="item in listGroupOptions"
         :key="item.i"
         :label="item.name"
         :value="item.i"
       >
-      </hip-option>
-    </hip-select>
+      </vi-option>
+    </vi-select>
   </div>
   <!-- Open list settings dialog. -->
   <div
     v-if="gameSettings"
     class="flex-shrink-0 ml-2 my-auto"
   >
-    <hip-menu-button
+    <vi-menu-button
       v-show="$store.getters.getSettingsGeneralEditMode"
       icon="icon-menu"
     >
@@ -35,45 +35,45 @@
             <div class="flex items-center px-4">
               <p class="mr-auto">Display</p>
               <div class="ml-auto w-34">
-                <hip-select
+                <vi-select
                   v-model="listDisplay"
                   class="w-auto"
                 >
-                  <hip-option
+                  <vi-option
                     v-for="item in listDisplayOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
                   >
-                  </hip-option>
-                </hip-select>
+                  </vi-option>
+                </vi-select>
               </div>
             </div>
             <!-- Select number of columns for the grid display mode. -->
             <div class="flex items-center pl-4 pr-6">
               <p class="mr-auto">Columns</p>
               <div class="ml-auto w-32">
-                <hip-input-num
+                <vi-input-num
                   v-model="listColumns"
                   :min="1"
                   :max="20"
                   position-side
                 >
-                </hip-input-num>
+                </vi-input-num>
               </div>
             </div>
             <!-- Select card height for the grid display mode. -->
             <div class="flex items-center pl-4 pr-6">
               <p class="mr-auto">Height</p>
               <div class="ml-auto w-32">
-                <hip-input-num
+                <vi-input-num
                   v-model="listHeight"
                   :min="1"
                   :max="1000"
                   position-side
                   :step="10"
                 >
-                </hip-input-num>
+                </vi-input-num>
               </div>
             </div>
           </div>
@@ -88,60 +88,60 @@
             <div class="flex items-center px-4">
               <p class="mr-auto">Images</p>
               <div class="ml-auto w-34">
-                <hip-select
+                <vi-select
                   v-model="cardImages"
                   class="w-auto"
                 >
-                  <hip-option
+                  <vi-option
                     v-for="item in cardImagesOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
                   >
-                  </hip-option>
-                </hip-select>
+                  </vi-option>
+                </vi-select>
               </div>
             </div>
             <!-- Card text display mode. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Show Text</p>
               <div class="ml-auto w-34">
-                <hip-select
+                <vi-select
                   v-model="cardTextShow"
                   class="w-auto"
                 >
-                  <hip-option
+                  <vi-option
                     v-for="item in cardTextShowOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
                   >
-                  </hip-option>
-                </hip-select>
+                  </vi-option>
+                </vi-select>
               </div>
             </div>
             <!-- Card text height mode. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Text Style</p>
               <div class="ml-auto w-34">
-                <hip-select
+                <vi-select
                   v-model="cardTextStyle"
                   class="w-auto"
                 >
-                  <hip-option
+                  <vi-option
                     v-for="item in cardTextStyleOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
                   >
-                  </hip-option>
-                </hip-select>
+                  </vi-option>
+                </vi-select>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </hip-menu-button>
+    </vi-menu-button>
   </div>
 </template>
 

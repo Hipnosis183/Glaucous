@@ -1,34 +1,34 @@
 <template>
   <!-- Show images dialog. -->
-  <hip-overlay
+  <vi-overlay
     @close="$emit('close')"
     class="pos-initial z-10"
   >
     <div class="flex space-x-4 w-images">
       <!-- Cover panel. -->
-      <hip-modal class="max-h-content w-1/4">
+      <vi-modal class="max-h-content w-1/4">
         <!-- Cover header. -->
         <div class="flex justify-between mb-6 mx-2">
           <!-- Cover title. -->
           <p class="pt-1 text-2xl">Cover</p>
           <!-- Cover buttons. -->
           <div class="flex h-10 space-x-4">
-            <hip-button
+            <vi-button
               icon
               @click="coverAdd()"
             >
-              <hip-icon class="w-6">
+              <vi-icon class="w-6">
                 <icon-add />
-              </hip-icon>
-            </hip-button>
-            <hip-button
+              </vi-icon>
+            </vi-button>
+            <vi-button
               icon
               @click="coverRemove()"
             >
-              <hip-icon class="w-6">
+              <vi-icon class="w-6">
                 <icon-remove />
-              </hip-icon>
-            </hip-button>
+              </vi-icon>
+            </vi-button>
           </div>
         </div>
         <!-- Cover image. -->
@@ -48,36 +48,36 @@
         >
           <div class="flex flex-col items-center m-auto">
             <div class="mb-4 text-6xl text-theme-300">
-              <hip-icon class="w-16">
+              <vi-icon class="w-16">
                 <icon-picture />
-              </hip-icon>
+              </vi-icon>
             </div>
             <p>No image available</p>
           </div>
         </div>
         <!-- Back button. -->
-        <hip-button
+        <vi-button
           large
           @click="$emit('close')"
           class="mt-6"
-        >Back</hip-button>
-      </hip-modal>
+        >Back</vi-button>
+      </vi-modal>
       <!-- Pictures panel. -->
-      <hip-modal class="h-content max-h-content w-3/4">
+      <vi-modal class="h-content max-h-content w-3/4">
         <!-- Pictures header. -->
         <div class="flex justify-between mb-6 mx-2">
           <!-- Pictures title. -->
           <p class="pt-1 text-2xl">Pictures</p>
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
-            <hip-button
+            <vi-button
               icon
               @click="picturesAdd()"
             >
-              <hip-icon class="w-6">
+              <vi-icon class="w-6">
                 <icon-add />
-              </hip-icon>
-            </hip-button>
+              </vi-icon>
+            </vi-button>
           </div>
         </div>
         <!-- Pictures grid. -->
@@ -100,9 +100,9 @@
                     class="absolute bg-red-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
                     <div class="m-auto text-theme-100">
-                      <hip-icon class="w-16">
+                      <vi-icon class="w-16">
                         <icon-remove />
-                      </hip-icon>
+                      </vi-icon>
                     </div>
                   </div>
                 </transition>
@@ -124,9 +124,9 @@
                     class="absolute bg-green-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
                   >
                     <div class="m-auto text-theme-100">
-                      <hip-icon class="w-16">
+                      <vi-icon class="w-16">
                         <icon-add />
-                      </hip-icon>
+                      </vi-icon>
                     </div>
                   </div>
                 </transition>
@@ -143,17 +143,17 @@
           >
             <div class="flex flex-col items-center m-auto">
               <div class="mb-4 text-theme-300">
-                <hip-icon class="w-16">
+                <vi-icon class="w-16">
                   <icon-picture />
-                </hip-icon>
+                </vi-icon>
               </div>
               <p>No images available</p>
             </div>
           </div>
         </div>
-      </hip-modal>
+      </vi-modal>
     </div>
-  </hip-overlay>
+  </vi-overlay>
 </template>
 
 <script>

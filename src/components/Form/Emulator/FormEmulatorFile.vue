@@ -1,6 +1,6 @@
 <template>
   <!-- Executable file input. -->
-  <hip-input
+  <vi-input
     v-model="file"
     label="Executable File"
     placeholder="Required"

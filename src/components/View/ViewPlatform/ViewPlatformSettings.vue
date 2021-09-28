@@ -8,23 +8,23 @@
         <!-- Buttons. -->
         <div class="h-10 space-x-4">
           <!-- Store settings. -->
-          <hip-button
+          <vi-button
             icon
             @click="storeSettings()"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-check />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
           <!-- Close dialog. -->
-          <hip-button
+          <vi-button
             icon
             @click="$emit('close')"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-close />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
         </div>
       </div>
       <!-- Settings. -->
@@ -34,15 +34,15 @@
       </div>
       <div class="space-y-6">
         <!-- Relative games path. -->
-        <hip-section-content>
+        <vi-section-content>
           <p class="text-xl whitespace-nowrap">Relative Games Path</p>
-          <hip-input v-model="relativePath" />
-        </hip-section-content>
+          <vi-input v-model="relativePath" />
+        </vi-section-content>
         <!-- Image Filtering. -->
-        <hip-section-content>
+        <vi-section-content>
           <p class="text-xl">Image Filtering</p>
-          <hip-switch v-model="imageFiltering" />
-        </hip-section-content>
+          <vi-switch v-model="imageFiltering" />
+        </vi-section-content>
       </div>
     </div>
   </div>

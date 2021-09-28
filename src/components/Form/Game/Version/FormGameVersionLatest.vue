@@ -1,9 +1,9 @@
 <template>
   <!-- Latest version input. -->
-  <hip-input
+  <vi-input
     v-model="latest"
     label="Latest Version"
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

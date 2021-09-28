@@ -1,6 +1,6 @@
 <template>
   <!-- Show comments dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="commentsDialog"
     @close="commentsShow()"
     class="pos-initial z-10"
@@ -23,14 +23,14 @@
           >
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->
-            <hip-button
+            <vi-button
               icon
               @click="commentRemove(index)"
             >
-              <hip-icon class="w-6">
+              <vi-icon class="w-6">
                 <icon-remove />
-              </hip-icon>
-            </hip-button>
+              </vi-icon>
+            </vi-button>
           </div>
         </div>
         <div v-else>
@@ -38,30 +38,30 @@
         </div>
       </ul>
     </div>
-  </hip-dialog>
+  </vi-dialog>
   <!-- Comments input. -->
-  <hip-input
+  <vi-input
     v-model="comment"
     label="Comments"
   >
     <template #append>
       <!-- View comments list dialog. -->
-      <hip-input-button @click="commentsShow()">
-        <hip-icon class="w-5">
+      <vi-input-button @click="commentsShow()">
+        <vi-icon class="w-5">
           <icon-list />
-        </hip-icon>
-      </hip-input-button>
+        </vi-icon>
+      </vi-input-button>
       <!-- Add input comment to the list. -->
-      <hip-input-button
+      <vi-input-button
         last-element
         @click="commentAdd()"
       >
-        <hip-icon class="w-5">
+        <vi-icon class="w-5">
           <icon-add />
-        </hip-icon>
-      </hip-input-button>
+        </vi-icon>
+      </vi-input-button>
     </template>
-  </hip-input>
+  </vi-input>
 </template>
 
 <script>

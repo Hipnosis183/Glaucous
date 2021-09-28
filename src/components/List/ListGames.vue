@@ -1,28 +1,28 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="createPlatformDialog"
       @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create game platform form component. -->
       <create-game-platform @close="createPlatformClose()" />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar title="Games">
+    <vi-nav-bar title="Games">
       <!-- Open create developer dialog. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-add />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
-        <hip-input
+        <vi-input
           v-model="queryInput"
           icon-prefix="icon-search"
           placeholder="Search..."
@@ -35,12 +35,12 @@
         gameSettings
         groupSettings
       />
-    </hip-nav-bar>
+    </vi-nav-bar>
     <!-- Show games list. -->
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <hip-list
+          <vi-list
             v-if="games.length > 0"
             :listDisplay="$store.getters.getSettingsListsListDisplay"
             :remote-method="loadGamesNext"
@@ -52,20 +52,20 @@
               @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
             >
               <!-- Game cards. -->
-              <hip-card-grid
+              <vi-card-grid
                 v-if="$store.getters.getSettingsListsListDisplay == 0"
                 :gameInfo="game"
               />
-              <hip-card-list
+              <vi-card-list
                 v-else-if="$store.getters.getSettingsListsListDisplay == 1"
                 :gameInfo="game"
               />
-              <hip-card-compact
+              <vi-card-compact
                 v-else-if="$store.getters.getSettingsListsListDisplay == 2"
                 :gameInfo="game"
               />
             </li>
-          </hip-list>
+          </vi-list>
           <div
             v-else-if="querySearched"
             class="flex h-content w-full"

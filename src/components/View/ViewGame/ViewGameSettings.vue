@@ -8,23 +8,23 @@
         <!-- Buttons. -->
         <div class="h-10 space-x-4">
           <!-- Store settings. -->
-          <hip-button
+          <vi-button
             icon
             @click="storeSettings()"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-check />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
           <!-- Close dialog. -->
-          <hip-button
+          <vi-button
             icon
             @click="$emit('close')"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-close />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
         </div>
       </div>
       <!-- Settings. -->
@@ -32,28 +32,28 @@
         <!-- Emulator override. -->
         <view-settings-emulator settingsType="Game" />
         <!-- Executable path. -->
-        <hip-section-content>
+        <vi-section-content>
           <p class="text-xl whitespace-nowrap">Game Path</p>
-          <hip-input v-model="gamePath" />
-        </hip-section-content>
+          <vi-input v-model="gamePath" />
+        </vi-section-content>
         <!-- Executable command. -->
-        <hip-section-content>
+        <vi-section-content>
           <p class="text-xl whitespace-nowrap">Game File</p>
-          <hip-input v-model="gameFile" />
-        </hip-section-content>
+          <vi-input v-model="gameFile" />
+        </vi-section-content>
         <!-- Executable parameters. -->
-        <hip-section-content>
+        <vi-section-content>
           <p class="text-xl whitespace-nowrap">Game Parameters *</p>
-          <hip-input v-model="gameParams" />
-        </hip-section-content>
+          <vi-input v-model="gameParams" />
+        </vi-section-content>
         <!-- Relative path. -->
-        <hip-section-content class="flex">
+        <vi-section-content class="flex">
           <p class="text-xl whitespace-nowrap">Relative Path</p>
-          <hip-switch v-model="relativePath" />
-        </hip-section-content>
+          <vi-switch v-model="relativePath" />
+        </vi-section-content>
         <!-- Command preview. -->
-        <hip-section-header label="Preview">
-        </hip-section-header>
+        <vi-section-header label="Preview">
+        </vi-section-header>
         <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
           <div
             v-if="fullCommand"

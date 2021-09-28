@@ -1,9 +1,9 @@
 <template>
   <!-- Sub title input. -->
-  <hip-input
+  <vi-input
     v-model="subTitle"
     label="Subtitle"
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

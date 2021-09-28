@@ -1,6 +1,6 @@
 <template>
   <!-- View game details dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="gameDetailsDialog"
     @close="gameDetailsShow()"
     class="pos-initial z-10"
@@ -11,7 +11,7 @@
       :regionIndex="regionIndex"
       :versionIndex="versionIndex"
     />
-  </hip-dialog>
+  </vi-dialog>
   <!-- Insert view game linking component. -->
   <view-game-linking
     v-show="gameLinkingDialog"
@@ -45,7 +45,7 @@
   <div class="flex items-center mb-6 space-x-4">
     <h1 class="data-title">Game Information</h1>
     <!-- Open view game details dialog. -->
-    <hip-button @click="gameDetailsShow()">Details</hip-button>
+    <vi-button @click="gameDetailsShow()">Details</vi-button>
   </div>
   <div class="mb-6">
     <div class="data-content">
@@ -94,7 +94,7 @@
         </p>
       </div>
       <!-- Open view game linking dialog. -->
-      <hip-button @click="gameLinkingShow()">Also On</hip-button>
+      <vi-button @click="gameLinkingShow()">Also On</vi-button>
     </div>
     <div class="data-content">
       <p class="font-semibold">Release Year:</p>

@@ -1,7 +1,7 @@
 <template>
-  <hip-overlay>
+  <vi-overlay>
     <!-- Unlink game dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="unlinkGameDialog"
       @close="unlinkGameOpen()"
       class="pos-initial z-10"
@@ -14,27 +14,27 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game unlink. -->
-        <hip-button
+        <vi-button
           icon
           @click="unlinkGameClose()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
         <!-- Cancel game unlink. -->
-        <hip-button
+        <vi-button
           icon
           @click="unlinkGameOpen()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-close />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Unlink error dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="unlinkErrorDialog"
       @close="unlinkErrorShow()"
       class="pos-initial z-10"
@@ -45,18 +45,18 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Close message. -->
-        <hip-button
+        <vi-button
           icon
           @click="unlinkErrorShow()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Validation error dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="validationErrorDialog"
       @close="validationErrorShow()"
       class="pos-initial z-10"
@@ -67,18 +67,18 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Close message. -->
-        <hip-button
+        <vi-button
           icon
           @click="validationErrorShow()"
         >
-          <hip-icon class="w-6">
+          <vi-icon class="w-6">
             <icon-check />
-          </hip-icon>
-        </hip-button>
+          </vi-icon>
+        </vi-button>
       </div>
-    </hip-dialog>
+    </vi-dialog>
     <!-- Game linking dialog. -->
-    <hip-modal
+    <vi-modal
       v-show="$store.getters.getSettingsGeneralEditMode"
       class="justify-center mb-4"
     >
@@ -88,25 +88,25 @@
         <p class="mr-10 pt-1 text-2xl">Game Linking</p>
         <!-- Form buttons. -->
         <div class="h-10 space-x-4">
-          <hip-button
+          <vi-button
             icon
             @click="linkGame_()"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-add />
-            </hip-icon>
-          </hip-button>
-          <hip-button
+            </vi-icon>
+          </vi-button>
+          <vi-button
             icon
             @click="unlinkGameOpen()"
           >
-            <hip-icon class="w-6">
+            <vi-icon class="w-6">
               <icon-remove />
-            </hip-icon>
-          </hip-button>
+            </vi-icon>
+          </vi-button>
         </div>
       </div>
-      <hip-select
+      <vi-select
         v-model="querySelected"
         clearable
         placeholder="Search..."
@@ -114,15 +114,15 @@
         :remote-method="querySearch"
         class="w-full"
       >
-        <hip-option
+        <vi-option
           v-for="item in queryResults"
           :key="item._id"
           :label="item.child.title + ' (' + item.releaseYear + ') - ' + item.platforms.join(' / ')"
           :value="item._id"
         >
-        </hip-option>
-      </hip-select>
-    </hip-modal>
+        </vi-option>
+      </vi-select>
+    </vi-modal>
     <!-- Show linked games list. -->
     <ul>
       <div
@@ -136,19 +136,19 @@
           @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
         >
           <!-- Game card. -->
-          <hip-card-compact :gameInfo="game" />
+          <vi-card-compact :gameInfo="game" />
         </li>
       </div>
       <div v-else>
         <li>
           <!-- Empty card. -->
-          <hip-modal class="text-center">
+          <vi-modal class="text-center">
             <p>No other platforms available.</p>
-          </hip-modal>
+          </vi-modal>
         </li>
       </div>
     </ul>
-  </hip-overlay>
+  </vi-overlay>
 </template>
 
 <script>

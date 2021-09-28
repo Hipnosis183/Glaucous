@@ -1,19 +1,19 @@
 <template>
   <!-- Header. -->
-  <hip-section-header label="Theme Options">
+  <vi-section-header label="Theme Options">
     <!-- Dark mode. -->
-    <hip-section-content>
+    <vi-section-content>
       <p class="text-xl">Dark mode</p>
-      <hip-switch v-model="darkMode" />
-    </hip-section-content>
+      <vi-switch v-model="darkMode" />
+    </vi-section-content>
     <!-- Theme select. -->
-    <hip-section-content>
+    <vi-section-content>
       <p class="text-xl">Theme</p>
-      <hip-select
+      <vi-select
         v-model="selectedTheme"
         class="w-max"
       >
-        <hip-option
+        <vi-option
           v-for="theme in themes"
           :key="theme.i"
           :label="theme.name"
@@ -32,17 +32,17 @@
             </div>
             <p>{{ theme.name }}</p>
           </div>
-        </hip-option>
-      </hip-select>
-    </hip-section-content>
+        </vi-option>
+      </vi-select>
+    </vi-section-content>
     <!-- Color theme select. -->
-    <hip-section-content>
+    <vi-section-content>
       <p class="text-xl">Color theme</p>
-      <hip-select
+      <vi-select
         v-model="selectedColor"
         class="w-max"
       >
-        <hip-option
+        <vi-option
           v-for="color in colors"
           :key="color.i"
           :label="color.name"
@@ -55,10 +55,10 @@
             />
             <p>{{ color.name }}</p>
           </div>
-        </hip-option>
-      </hip-select>
-    </hip-section-content>
-  </hip-section-header>
+        </vi-option>
+      </vi-select>
+    </vi-section-content>
+  </vi-section-header>
 </template>
 
 <script>

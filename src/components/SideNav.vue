@@ -35,66 +35,66 @@
         </div>
         <!-- Buttons. -->
         <div class="flex flex-col mb-auto">
-          <hip-button-sb
+          <vi-button-sb
             @click="selectList()"
             class="flex pl-4"
           >
-            <hip-icon
+            <vi-icon
               manual
               class="w-8"
             >
               <icon-games />
-            </hip-icon>
+            </vi-icon>
             <h6>Games</h6>
-          </hip-button-sb>
+          </vi-button-sb>
         </div>
         <div class="flex flex-col mt-auto">
-          <hip-button-sb
+          <vi-button-sb
             @click="searchShow()"
             class="flex pl-4"
           >
-            <hip-icon
+            <vi-icon
               manual
               class="w-6"
             >
               <icon-search />
-            </hip-icon>
+            </vi-icon>
             <h6>Search</h6>
-          </hip-button-sb>
-          <hip-button-sb
+          </vi-button-sb>
+          <vi-button-sb
             v-show="history > 0"
             @click="$router.back()"
             class="flex pl-4"
           >
-            <hip-icon
+            <vi-icon
               manual
               class="w-6"
             >
               <icon-back />
-            </hip-icon>
+            </vi-icon>
             <h6>Go Back</h6>
-          </hip-button-sb>
+          </vi-button-sb>
         </div>
         <!-- Bottom bar. -->
         <div class="flex justify-between">
-          <hip-button-sb-small
+          <vi-button-sb-small
             @click="exitApp()"
             class="py-3.5"
           >
-            <hip-icon class="w-5">
+            <vi-icon class="w-5">
               <icon-exit />
-            </hip-icon>
-          </hip-button-sb-small>
-          <hip-button-sb-small @click="$router.push({ name: 'Settings' })">
-            <hip-icon class="w-6">
+            </vi-icon>
+          </vi-button-sb-small>
+          <vi-button-sb-small @click="$router.push({ name: 'Settings' })">
+            <vi-icon class="w-6">
               <icon-setting />
-            </hip-icon>
-          </hip-button-sb-small>
-          <hip-button-sb-small @click="sidenavToggle()">
-            <hip-icon class="w-6">
+            </vi-icon>
+          </vi-button-sb-small>
+          <vi-button-sb-small @click="sidenavToggle()">
+            <vi-icon class="w-6">
               <icon-fold />
-            </hip-icon>
-          </hip-button-sb-small>
+            </vi-icon>
+          </vi-button-sb-small>
         </div>
       </div>
     </transition>
@@ -120,34 +120,34 @@
         </div>
         <!-- Buttons. -->
         <div class="flex flex-col mb-auto">
-          <hip-button-sb @click="selectList()">
-            <hip-icon class="text-color-200 w-8">
+          <vi-button-sb @click="selectList()">
+            <vi-icon class="text-color-200 w-8">
               <icon-games />
-            </hip-icon>
-          </hip-button-sb>
+            </vi-icon>
+          </vi-button-sb>
         </div>
         <div class="flex flex-col mt-auto">
-          <hip-button-sb @click="searchShow()">
-            <hip-icon class="text-color-200 w-6">
+          <vi-button-sb @click="searchShow()">
+            <vi-icon class="text-color-200 w-6">
               <icon-search />
-            </hip-icon>
-          </hip-button-sb>
-          <hip-button-sb
+            </vi-icon>
+          </vi-button-sb>
+          <vi-button-sb
             v-show="history > 0"
             @click="$router.back()"
           >
-            <hip-icon class="text-color-200 w-6">
+            <vi-icon class="text-color-200 w-6">
               <icon-back />
-            </hip-icon>
-          </hip-button-sb>
+            </vi-icon>
+          </vi-button-sb>
         </div>
         <!-- Bottom bar. -->
         <div class="flex justify-between">
-          <hip-button-sb-small @click="sidenavToggle()">
-            <hip-icon class="w-6">
+          <vi-button-sb-small @click="sidenavToggle()">
+            <vi-icon class="w-6">
               <icon-expand />
-            </hip-icon>
-          </hip-button-sb-small>
+            </vi-icon>
+          </vi-button-sb-small>
         </div>
       </div>
     </transition>

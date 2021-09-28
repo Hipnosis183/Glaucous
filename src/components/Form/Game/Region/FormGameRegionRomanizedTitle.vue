@@ -1,9 +1,9 @@
 <template>
   <!-- Romanized title input. -->
-  <hip-input
+  <vi-input
     v-model="romanizedTitle"
     label="Romanized Title"
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

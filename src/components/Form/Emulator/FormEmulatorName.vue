@@ -1,6 +1,6 @@
 <template>
   <!-- Emulator name input. -->
-  <hip-input
+  <vi-input
     v-model="name"
     label="Name"
     placeholder="Required"

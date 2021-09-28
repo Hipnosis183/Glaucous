@@ -1,12 +1,12 @@
 <template>
   <!-- Header. -->
-  <hip-section-header label="Games Options">
+  <vi-section-header label="Games Options">
     <!-- View platform groups. -->
-    <hip-section-content>
+    <vi-section-content>
       <p class="text-xl">View platform groups</p>
-      <hip-switch v-model="groupsView" />
-    </hip-section-content>
-  </hip-section-header>
+      <vi-switch v-model="groupsView" />
+    </vi-section-content>
+  </vi-section-header>
 </template>
 
 <script>

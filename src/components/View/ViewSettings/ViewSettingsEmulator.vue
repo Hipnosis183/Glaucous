@@ -1,6 +1,6 @@
 <template>
   <!-- Create emulator dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="createEmulatorDialog"
     @close="createEmulatorClose()"
     width="w-2/3"
@@ -12,9 +12,9 @@
       :emulatorPath="emulatorPath"
       @close="createEmulatorClose()"
     />
-  </hip-dialog>
+  </vi-dialog>
   <!-- Edit emulator dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="editEmulatorDialog"
     @close="editEmulatorClose()"
     width="w-2/3"
@@ -26,9 +26,9 @@
       :emulatorPath="emulatorPath"
       @close="editEmulatorClose()"
     />
-  </hip-dialog>
+  </vi-dialog>
   <!-- Delete emulator dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="deleteEmulatorDialog"
     @close="deleteEmulatorOpen()"
     class="pos-initial z-10"
@@ -39,27 +39,27 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm emulator deletion. -->
-      <hip-button
+      <vi-button
         icon
         @click="deleteEmulatorClose()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-check />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
       <!-- Cancel emulator deletion. -->
-      <hip-button
+      <vi-button
         icon
         @click="deleteEmulatorOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-close />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
-  </hip-dialog>
+  </vi-dialog>
   <!-- Emulator Setting. -->
-  <hip-section-content>
+  <vi-section-content>
     <p
       v-if="settingsType == 'Platform'"
       class="text-xl whitespace-nowrap"
@@ -70,47 +70,47 @@
     >Emulator Override</p>
     <div class="flex space-x-2 w-full">
       <!-- Create emulator. -->
-      <hip-button
+      <vi-button
         icon
         @click="createEmulatorOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-add />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
       <!-- Edit emulator. -->
-      <hip-button
+      <vi-button
         icon
         @click="editEmulatorOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-edit />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
       <!-- Delete emulator. -->
-      <hip-button
+      <vi-button
         icon
         @click="deleteEmulatorOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-remove />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
       <!-- Emulator select. -->
-      <hip-select
+      <vi-select
         v-model="emulatorStore"
         clearable
         :key="emulatorList"
       >
-        <hip-option
+        <vi-option
           v-for="item in emulatorList.sort(sortEmulatorList)"
           :key="item.id"
           :label="item.name"
           :value="item.id"
-        ></hip-option>
-      </hip-select>
+        ></vi-option>
+      </vi-select>
     </div>
-  </hip-section-content>
+  </vi-section-content>
 </template>
 
 <script>

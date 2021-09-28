@@ -1,18 +1,18 @@
 <template>
   <!-- Region select. -->
-  <hip-select
+  <vi-select
     v-model="region"
     label="Region"
     placeholder="Required"
     required
     class="w-full"
   >
-    <hip-option-group
+    <vi-option-group
       v-for="flags in regions"
       :key="flags.group"
       :label="flags.group"
     >
-      <hip-option
+      <vi-option
         v-for="flag in flags.items"
         :key="flag.code"
         :label="flag.name"
@@ -25,9 +25,9 @@
           />
           <p class="my-auto">{{ flag.name }}</p>
         </div>
-      </hip-option>
-    </hip-option-group>
-  </hip-select>
+      </vi-option>
+    </vi-option-group>
+  </vi-select>
 </template>
 
 <script>

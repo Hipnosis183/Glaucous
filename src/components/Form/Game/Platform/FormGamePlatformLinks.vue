@@ -1,6 +1,6 @@
 <template>
   <!-- Validation error dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="validationErrorDialog"
     @close="validationErrorShow()"
     class="pos-initial z-10"
@@ -11,18 +11,18 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
-      <hip-button
+      <vi-button
         icon
         @click="validationErrorShow()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-check />
-        </hip-icon>
-      </hip-button>
+        </vi-icon>
+      </vi-button>
     </div>
-  </hip-dialog>
+  </vi-dialog>
   <!-- Show links dialog. -->
-  <hip-dialog
+  <vi-dialog
     v-show="linksDialog"
     @close="linksShow()"
     class="pos-initial z-10"
@@ -45,14 +45,14 @@
           >
             <li class="text-justify">{{ link }}</li>
             <!-- Remove related link from the list. -->
-            <hip-button
+            <vi-button
               icon
               @click="linkRemove(index)"
             >
-              <hip-icon class="w-6">
+              <vi-icon class="w-6">
                 <icon-remove />
-              </hip-icon>
-            </hip-button>
+              </vi-icon>
+            </vi-button>
           </div>
         </div>
         <div v-else>
@@ -60,30 +60,30 @@
         </div>
       </ul>
     </div>
-  </hip-dialog>
+  </vi-dialog>
   <!-- Links input. -->
-  <hip-input
+  <vi-input
     v-model="link"
     label="Links"
   >
     <template #append>
       <!-- View links list dialog. -->
-      <hip-input-button @click="linksShow()">
-        <hip-icon class="w-5">
+      <vi-input-button @click="linksShow()">
+        <vi-icon class="w-5">
           <icon-list />
-        </hip-icon>
-      </hip-input-button>
+        </vi-icon>
+      </vi-input-button>
       <!-- Add input link to the list. -->
-      <hip-input-button
+      <vi-input-button
         last-element
         @click="linkAdd()"
       >
-        <hip-icon class="w-5">
+        <vi-icon class="w-5">
           <icon-add />
-        </hip-icon>
-      </hip-input-button>
+        </vi-icon>
+      </vi-input-button>
     </template>
-  </hip-input>
+  </vi-input>
 </template>
 
 <script>

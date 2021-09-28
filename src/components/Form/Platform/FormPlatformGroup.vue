@@ -1,6 +1,6 @@
 <template>
   <!-- Group switch input. -->
-  <hip-switch
+  <vi-switch
     v-model="group"
     label="Group"
   />

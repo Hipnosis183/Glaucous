@@ -1,9 +1,9 @@
 <template>
   <!-- Number of players input. -->
-  <hip-input
+  <vi-input
     v-model="numberPlayers"
     label="Number of Players"
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

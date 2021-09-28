@@ -1,28 +1,28 @@
 <template>
   <div>
     <!-- Create platform dialog. -->
-    <hip-dialog
+    <vi-dialog
       v-show="createPlatformDialog"
       @close="createPlatformClose()"
       class="z-10"
     >
       <!-- Insert create platform form component. -->
       <create-platform @close="createPlatformClose()" />
-    </hip-dialog>
+    </vi-dialog>
     <!-- Navigation bar. -->
-    <hip-nav-bar title="Platforms">
+    <vi-nav-bar title="Platforms">
       <!-- Open create platform dialog. -->
-      <hip-button-nb
+      <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
         @click="createPlatformOpen()"
       >
-        <hip-icon class="w-6">
+        <vi-icon class="w-6">
           <icon-add />
-        </hip-icon>
-      </hip-button-nb>
+        </vi-icon>
+      </vi-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
-        <hip-input
+        <vi-input
           v-model="queryInput"
           icon-prefix="icon-search"
           placeholder="Search..."
@@ -32,12 +32,12 @@
       </div>
       <!-- List settings. -->
       <settings-lists groupSettings />
-    </hip-nav-bar>
+    </vi-nav-bar>
     <!-- Show platforms list. -->
     <div class="h-content m-6">
       <div class="flex flex-col max-h-content min-h-content overflow-hidden">
         <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <hip-list
+          <vi-list
             :listDisplay="1"
             :remote-method="loadPlatformsNext"
           >
@@ -48,7 +48,7 @@
               @click="$router.push({ name: platform.group ? 'ListPlatformsGroup' : 'ViewPlatform', params: { id: platform._id } })"
             >
               <!-- Platform card. -->
-              <hip-card>
+              <vi-card>
                 <div class="flex items-center p-4 space-x-2">
                   <h1 class="font-medium">{{ platform.name }}</h1>
                   <div class="pt-0.5 text-sm">
@@ -56,9 +56,9 @@
                     <h3 v-else>{{ platform.titles }} {{ platform.titles == 1 ? 'Title' : 'Titles' }}</h3>
                   </div>
                 </div>
-              </hip-card>
+              </vi-card>
             </li>
-          </hip-list>
+          </vi-list>
         </div>
       </div>
     </div>

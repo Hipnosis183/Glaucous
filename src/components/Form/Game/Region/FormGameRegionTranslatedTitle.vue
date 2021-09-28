@@ -1,9 +1,9 @@
 <template>
   <!-- Translated title input. -->
-  <hip-input
+  <vi-input
     v-model="translatedTitle"
     label="Translated Title"
-  ></hip-input>
+  ></vi-input>
 </template>
 
 <script>

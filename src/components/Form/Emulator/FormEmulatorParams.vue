@@ -1,6 +1,6 @@
 <template>
   <!-- Parameters input. -->
-  <hip-input
+  <vi-input
     v-model="params"
     label="Parameters"
   />

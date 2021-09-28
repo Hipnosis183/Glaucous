@@ -1,6 +1,6 @@
 <template>
   <!-- Emulator path input. -->
-  <hip-input
+  <vi-input
     v-model="path"
     label="Path"
     placeholder="Required"
