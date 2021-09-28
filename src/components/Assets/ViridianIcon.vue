@@ -16,27 +16,27 @@
       >
         <stop
           offset="0"
-          stop-color="#0afa50"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#0afa50'"
         />
         <stop
           offset=".21"
-          stop-color="#0ae550"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#0ae550'"
         />
         <stop
           offset=".35"
-          stop-color="#0adc50"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#0adc50'"
         />
         <stop
           offset=".38"
-          stop-color="#09d851"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#09d851'"
         />
         <stop
           offset=".79"
-          stop-color="#03a857"
+          :stop-color="originalColors ? 'rgb(var(--color-color-600))' : '#03a857'"
         />
         <stop
           offset="1"
-          stop-color="#00965a"
+          :stop-color="originalColors ? 'rgb(var(--color-color-700))' : '#00965a'"
         />
       </linearGradient>
       <linearGradient
@@ -48,27 +48,27 @@
       >
         <stop
           offset="0"
-          stop-color="#00965a"
+          :stop-color="originalColors ? 'rgb(var(--color-color-700))' : '#00965a'"
         />
         <stop
           offset=".21"
-          stop-color="#03a857"
+          :stop-color="originalColors ? 'rgb(var(--color-color-600))' : '#03a857'"
         />
         <stop
           offset=".62"
-          stop-color="#09d851"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#09d851'"
         />
         <stop
           offset=".65"
-          stop-color="#0adc50"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#0adc50'"
         />
         <stop
           offset=".79"
-          stop-color="#0ae550"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#0ae550'"
         />
         <stop
           offset="1"
-          stop-color="#0afa50"
+          :stop-color="originalColors ? 'rgb(var(--color-color-500))' : '#0afa50'"
         />
       </linearGradient>
     </defs>
@@ -84,10 +84,27 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'ViridianIcon',
   props: {
     size: { type: String, default: '100%' }
+  },
+  setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Use original icon colors when theme 'Viridian' is selected.
+    const originalColors = computed(() => {
+      return store.getters.getSettingsThemesSelectedColor === 0 ? false : true
+    })
+
+    return {
+      originalColors
+    }
   }
 }
 </script>
