@@ -22,14 +22,16 @@
     <transition name="slide-nav">
       <div
         v-show="expand"
-        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-80 z-40"
+        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-60 z-40"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-600 dark:bg-color-700 text-center">
+        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700">
           <h6
             @click="$router.push({ name: 'Index' })"
-            class="cursor-pointer font-semibold my-8 text-3xl text-color-100"
-          >Frontend</h6>
+            class="cursor-pointer p-6"
+          >
+            <viridian-logo />
+          </h6>
         </div>
         <!-- Buttons. -->
         <div class="flex flex-col mb-auto">
@@ -108,11 +110,13 @@
         class="bg-color-700 dark:bg-color-800 flex flex-col h-full justify-between relative w-14"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-600 dark:bg-color-700 text-center">
+        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700">
           <h6
             @click="$router.push({ name: 'Index' })"
-            class="cursor-pointer font-semibold my-8 text-3xl text-color-100"
-          >F</h6>
+            class="cursor-pointer p-4"
+          >
+            <viridian-icon />
+          </h6>
         </div>
         <!-- Buttons. -->
         <div class="flex flex-col mb-auto">
@@ -161,11 +165,16 @@ import { app } from '@electron/remote'
 import { throttle } from '@/utils/throttle'
 // Import search component.
 import Search from './Search.vue'
+// Import assets.
+import ViridianIcon from '@/components/Assets/ViridianIcon.vue'
+import ViridianLogo from '@/components/Assets/ViridianLogo.vue'
 
 export default {
   name: 'SideNav',
   components: {
-    Search
+    Search,
+    ViridianIcon,
+    ViridianLogo
   },
   setup() {
     // Instantiate Vue elements.

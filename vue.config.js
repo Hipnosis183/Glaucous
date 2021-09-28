@@ -5,8 +5,8 @@ module.exports = {
 			nodeIntegration: true,
 			externals: ['nedb-promises'],
 			builderOptions: {
-				"productName": "frontend-vue",
-				"appId": "com.frontend-vue",
+				"productName": "Viridian",
+				"appId": "com.viridian",
 				"mac": {
 					"icon": "build/icons/icon.icns"
 				},
