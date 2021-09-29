@@ -22,13 +22,13 @@
     <transition name="slide-nav">
       <div
         v-show="expand"
-        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-60 z-40"
+        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-80 z-40"
       >
         <!-- Logo bar. -->
         <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700">
           <h6
             @click="$router.push({ name: 'Index' })"
-            class="cursor-pointer p-6"
+            class="cursor-pointer pl-12 pr-14 py-6"
           >
             <viridian-logo />
           </h6>
@@ -167,7 +167,7 @@ import { throttle } from '@/utils/throttle'
 import Search from './Search.vue'
 // Import assets.
 import ViridianIcon from '@/components/Assets/ViridianIcon.vue'
-import ViridianLogo from '@/components/Assets/ViridianLogo.vue'
+import ViridianLogo from '@/components/Assets/ViridianLogoRegular.vue'
 
 export default {
   name: 'SideNav',
