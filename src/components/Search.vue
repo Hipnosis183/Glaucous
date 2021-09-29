@@ -28,23 +28,17 @@
             </vi-select>
           </div>
           <!-- Add query button. -->
-          <vi-button
-            icon
-            @click="queryAdd(queryInput.trim(), searchSelect)"
-          >
+          <vi-button-icon @click="queryAdd(queryInput.trim(), searchSelect)">
             <vi-icon class="w-6">
               <icon-add />
             </vi-icon>
-          </vi-button>
+          </vi-button-icon>
           <!-- Remove query button. -->
-          <vi-button
-            icon
-            @click="$emit('close')"
-          >
+          <vi-button-icon @click="$emit('close')">
             <vi-icon class="w-6">
               <icon-close />
             </vi-icon>
-          </vi-button>
+          </vi-button-icon>
         </div>
         <!-- Search filters. -->
         <ul

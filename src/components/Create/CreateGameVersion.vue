@@ -8,22 +8,16 @@
     </div>
     <!-- Form buttons. -->
     <div class="h-10 space-x-4">
-      <vi-button
-        icon
-        @click="onSubmit()"
-      >
+      <vi-button-icon @click="onSubmit()">
         <vi-icon class="w-6">
           <icon-check />
         </vi-icon>
-      </vi-button>
-      <vi-button
-        icon
-        @click="$emit('close')"
-      >
+      </vi-button-icon>
+      <vi-button-icon @click="$emit('close')">
         <vi-icon class="w-6">
           <icon-close />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
     </div>
   </div>
   <!-- Create game version form. -->

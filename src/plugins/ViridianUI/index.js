@@ -1,5 +1,6 @@
 import ViButton from './components/ViButton.vue'
 import ViButtonGroup from './components/ViButtonGroup.vue'
+import ViButtonIcon from './components/ViButtonIcon.vue'
 import ViButtonNb from './components/ViButtonNb.vue'
 import ViButtonSb from './components/ViButtonSb.vue'
 import ViButtonSbSmall from './components/ViButtonSbSmall.vue'
@@ -34,6 +35,7 @@ export default {
     install: (app, options) => {
         app.component('vi-button', ViButton)
         app.component('vi-button-group', ViButtonGroup)
+        app.component('vi-button-icon', ViButtonIcon)
         app.component('vi-button-nb', ViButtonNb)
         app.component('vi-button-sb', ViButtonSb)
         app.component('vi-button-sb-small', ViButtonSbSmall)

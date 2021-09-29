@@ -11,14 +11,11 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
-      <vi-button
-        icon
-        @click="validationErrorShow()"
-      >
+      <vi-button-icon @click="validationErrorShow()">
         <vi-icon class="w-6">
           <icon-check />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
     </div>
   </vi-dialog>
   <!-- Show links dialog. -->
@@ -45,14 +42,11 @@
           >
             <li class="text-justify">{{ link }}</li>
             <!-- Remove related link from the list. -->
-            <vi-button
-              icon
-              @click="linkRemove(index)"
-            >
+            <vi-button-icon @click="linkRemove(index)">
               <vi-icon class="w-6">
                 <icon-remove />
               </vi-icon>
-            </vi-button>
+            </vi-button-icon>
           </div>
         </div>
         <div v-else>

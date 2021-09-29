@@ -55,14 +55,11 @@
         <vi-modal class="ml-8 p-gallery rounded-full">
           <div class="flex h-10 justify-between mx-1 space-x-2">
             <!-- Close dialog. -->
-            <vi-button
-              icon
-              @click="imagesPicturesClose()"
-            >
+            <vi-button-icon @click="imagesPicturesClose()">
               <vi-icon class="w-6">
                 <icon-close />
               </vi-icon>
-            </vi-button>
+            </vi-button-icon>
             <!-- Control bar buttons. -->
             <div class="flex h-10 rounded-full shadow-color">
               <!-- Previous image. -->
@@ -91,7 +88,12 @@
               </vi-button-group>
             </div>
             <!-- Image counter. -->
-            <vi-button class="cursor-default">{{ (imageIndex + 1) + ' / ' + getPictures.length }}</vi-button>
+            <vi-button
+              color
+              class="cursor-default"
+            >
+              {{ (imageIndex + 1) + ' / ' + getPictures.length }}
+            </vi-button>
           </div>
         </vi-modal>
       </div>
@@ -111,23 +113,17 @@
       <!-- Gallery buttons. -->
       <div class="flex h-10 justify-between mx-1">
         <!-- Padding. -->
-        <vi-button
-          icon
-          class="invisible"
-        >
+        <vi-button-icon class="invisible">
           <vi-icon class="w-6" />
-        </vi-button>
+        </vi-button-icon>
         <!-- Header title. -->
         <p class="pt-1 text-2xl">Gallery</p>
         <!-- Close dialog. -->
-        <vi-button
-          icon
-          @click="imagesGalleryShow()"
-        >
+        <vi-button-icon @click="imagesGalleryShow()">
           <vi-icon class="w-6">
             <icon-close />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-modal>
     <!-- Pictures grid. -->
@@ -192,6 +188,7 @@
     <!-- Open gallery. -->
     <div class="flex w-full">
       <vi-button
+        color
         large
         @click="imagesGalleryShow()"
       >Gallery</vi-button>

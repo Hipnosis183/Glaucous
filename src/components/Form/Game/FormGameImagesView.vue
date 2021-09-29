@@ -13,22 +13,16 @@
           <p class="pt-1 text-2xl">Cover</p>
           <!-- Cover buttons. -->
           <div class="flex h-10 space-x-4">
-            <vi-button
-              icon
-              @click="coverAdd()"
-            >
+            <vi-button-icon @click="coverAdd()">
               <vi-icon class="w-6">
                 <icon-add />
               </vi-icon>
-            </vi-button>
-            <vi-button
-              icon
-              @click="coverRemove()"
-            >
+            </vi-button-icon>
+            <vi-button-icon @click="coverRemove()">
               <vi-icon class="w-6">
                 <icon-remove />
               </vi-icon>
-            </vi-button>
+            </vi-button-icon>
           </div>
         </div>
         <!-- Cover image. -->
@@ -57,6 +51,7 @@
         </div>
         <!-- Back button. -->
         <vi-button
+          color
           large
           @click="$emit('close')"
           class="mt-6"
@@ -70,14 +65,11 @@
           <p class="pt-1 text-2xl">Pictures</p>
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
-            <vi-button
-              icon
-              @click="picturesAdd()"
-            >
+            <vi-button-icon @click="picturesAdd()">
               <vi-icon class="w-6">
                 <icon-add />
               </vi-icon>
-            </vi-button>
+            </vi-button-icon>
           </div>
         </div>
         <!-- Pictures grid. -->

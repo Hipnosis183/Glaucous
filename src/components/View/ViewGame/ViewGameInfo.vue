@@ -45,7 +45,10 @@
   <div class="flex items-center mb-6 space-x-4">
     <h1 class="data-title">Game Information</h1>
     <!-- Open view game details dialog. -->
-    <vi-button @click="gameDetailsShow()">Details</vi-button>
+    <vi-button
+      color
+      @click="gameDetailsShow()"
+    >Details</vi-button>
   </div>
   <div class="mb-6">
     <div class="data-content">
@@ -94,7 +97,10 @@
         </p>
       </div>
       <!-- Open view game linking dialog. -->
-      <vi-button @click="gameLinkingShow()">Also On</vi-button>
+      <vi-button
+        color
+        @click="gameLinkingShow()"
+      >Also On</vi-button>
     </div>
     <div class="data-content">
       <p class="font-semibold">Release Year:</p>

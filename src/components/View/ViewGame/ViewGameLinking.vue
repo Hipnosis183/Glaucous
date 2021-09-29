@@ -14,23 +14,17 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game unlink. -->
-        <vi-button
-          icon
-          @click="unlinkGameClose()"
-        >
+        <vi-button-icon @click="unlinkGameClose()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
         <!-- Cancel game unlink. -->
-        <vi-button
-          icon
-          @click="unlinkGameOpen()"
-        >
+        <vi-button-icon @click="unlinkGameOpen()">
           <vi-icon class="w-6">
             <icon-close />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Unlink error dialog. -->
@@ -45,14 +39,11 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Close message. -->
-        <vi-button
-          icon
-          @click="unlinkErrorShow()"
-        >
+        <vi-button-icon @click="unlinkErrorShow()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Validation error dialog. -->
@@ -67,14 +58,11 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Close message. -->
-        <vi-button
-          icon
-          @click="validationErrorShow()"
-        >
+        <vi-button-icon @click="validationErrorShow()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Game linking dialog. -->
@@ -88,22 +76,16 @@
         <p class="mr-10 pt-1 text-2xl">Game Linking</p>
         <!-- Form buttons. -->
         <div class="h-10 space-x-4">
-          <vi-button
-            icon
-            @click="linkGame_()"
-          >
+          <vi-button-icon @click="linkGame_()">
             <vi-icon class="w-6">
               <icon-add />
             </vi-icon>
-          </vi-button>
-          <vi-button
-            icon
-            @click="unlinkGameOpen()"
-          >
+          </vi-button-icon>
+          <vi-button-icon @click="unlinkGameOpen()">
             <vi-icon class="w-6">
               <icon-remove />
             </vi-icon>
-          </vi-button>
+          </vi-button-icon>
         </div>
       </div>
       <vi-select

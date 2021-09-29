@@ -1,10 +1,10 @@
 <template>
   <button
-    class="bg-theme-100 dark:bg-theme-800 font-semibold h-full rounded-full shadow-color text-base text-color-800 dark:text-color-500"
+    class="bg-theme-100 dark:bg-theme-800 h-10 px-4 py-2 shadow-color text-base whitespace-nowrap"
     :class="[
       $store.getters.getSettingsThemesDarkMode ? 'text-shadow' : '',
-      large ? 'w-full' : 'w-max',
-      icon ? 'px-2 py-2' : 'px-4 py-2'
+      color ? 'font-semibold text-color-800 dark:text-color-500 rounded-full' : 'text-theme-800 dark:text-theme-200 rounded-xl',
+      large ? 'w-full' : 'w-max'
     ]"
   >
     <slot></slot>
@@ -15,7 +15,7 @@
 export default {
   name: 'ViButton',
   props: {
-    icon: { type: Boolean, default: false },
+    color: { type: Boolean, default: false },
     large: { type: Boolean, default: false }
   }
 }

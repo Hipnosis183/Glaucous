@@ -38,23 +38,17 @@
         </p>
         <div class="flex justify-center mt-6 space-x-4">
           <!-- Confirm platform deletion. -->
-          <vi-button
-            icon
-            @click="deletePlatformClose()"
-          >
+          <vi-button-icon @click="deletePlatformClose()">
             <vi-icon class="w-6">
               <icon-check />
             </vi-icon>
-          </vi-button>
+          </vi-button-icon>
           <!-- Cancel platform deletion. -->
-          <vi-button
-            icon
-            @click="deletePlatformOpen()"
-          >
+          <vi-button-icon @click="deletePlatformOpen()">
             <vi-icon class="w-6">
               <icon-close />
             </vi-icon>
-          </vi-button>
+          </vi-button-icon>
         </div>
       </div>
       <!-- Delete denied. -->
@@ -67,14 +61,11 @@
         </p>
         <div class="flex justify-center mt-6">
           <!-- Cancel platform deletion. -->
-          <vi-button
-            icon
-            @click="deletePlatformOpen()"
-          >
+          <vi-button-icon @click="deletePlatformOpen()">
             <vi-icon class="w-6">
               <icon-check />
             </vi-icon>
-          </vi-button>
+          </vi-button-icon>
         </div>
       </div>
     </vi-dialog>

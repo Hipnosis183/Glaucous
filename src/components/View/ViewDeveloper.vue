@@ -35,23 +35,17 @@
       </p>
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm developer deletion. -->
-        <vi-button
-          icon
-          @click="deleteDeveloperClose()"
-        >
+        <vi-button-icon @click="deleteDeveloperClose()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
         <!-- Cancel developer deletion. -->
-        <vi-button
-          icon
-          @click="deleteDeveloperOpen()"
-        >
+        <vi-button-icon @click="deleteDeveloperOpen()">
           <vi-icon class="w-6">
             <icon-close />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Navigation bar. -->

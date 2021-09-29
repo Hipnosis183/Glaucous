@@ -39,23 +39,17 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm emulator deletion. -->
-      <vi-button
-        icon
-        @click="deleteEmulatorClose()"
-      >
+      <vi-button-icon @click="deleteEmulatorClose()">
         <vi-icon class="w-6">
           <icon-check />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
       <!-- Cancel emulator deletion. -->
-      <vi-button
-        icon
-        @click="deleteEmulatorOpen()"
-      >
+      <vi-button-icon @click="deleteEmulatorOpen()">
         <vi-icon class="w-6">
           <icon-close />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
     </div>
   </vi-dialog>
   <!-- Emulator Setting. -->
@@ -70,32 +64,23 @@
     >Emulator Override</p>
     <div class="flex space-x-2 w-full">
       <!-- Create emulator. -->
-      <vi-button
-        icon
-        @click="createEmulatorOpen()"
-      >
+      <vi-button-icon @click="createEmulatorOpen()">
         <vi-icon class="w-6">
           <icon-add />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
       <!-- Edit emulator. -->
-      <vi-button
-        icon
-        @click="editEmulatorOpen()"
-      >
+      <vi-button-icon @click="editEmulatorOpen()">
         <vi-icon class="w-6">
           <icon-edit />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
       <!-- Delete emulator. -->
-      <vi-button
-        icon
-        @click="deleteEmulatorOpen()"
-      >
+      <vi-button-icon @click="deleteEmulatorOpen()">
         <vi-icon class="w-6">
           <icon-remove />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
       <!-- Emulator select. -->
       <vi-select
         v-model="emulatorStore"

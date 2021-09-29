@@ -27,29 +27,25 @@
     </p>
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Close message. -->
-      <vi-button
-        icon
-        @click="launchErrorShow()"
-      >
+      <vi-button-icon @click="launchErrorShow()">
         <vi-icon class="w-6">
           <icon-check />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
     </div>
   </vi-dialog>
   <div class="pt-4 space-y-4">
     <div class="flex items-center">
       <h1 class="font-bold ml-2 text-xl">Start Game</h1>
       <!-- Open game settings dialog. -->
-      <vi-button
-        icon
+      <vi-button-icon
         @click="launchGame()"
         class="ml-auto"
       >
         <vi-icon class="w-6">
           <icon-play />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
     </div>
     <div class="flex space-x-4">
       <vi-select v-model="$store.state.gameSelected.gameVersion">
@@ -62,15 +58,14 @@
         >
         </vi-option>
       </vi-select>
-      <vi-button
+      <vi-button-icon
         v-show="$store.getters.getSettingsGeneralEditMode"
-        icon
         @click="settingsGameOpen()"
       >
         <vi-icon class="w-6">
           <icon-setting />
         </vi-icon>
-      </vi-button>
+      </vi-button-icon>
     </div>
   </div>
 </template>

@@ -56,23 +56,17 @@
       <!-- Dialog buttons. -->
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
-        <vi-button
-          icon
-          @click="deleteRegionClose()"
-        >
+        <vi-button-icon @click="deleteRegionClose()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
         <!-- Cancel game deletion. -->
-        <vi-button
-          icon
-          @click="deleteRegionOpen()"
-        >
+        <vi-button-icon @click="deleteRegionOpen()">
           <vi-icon class="w-6">
             <icon-close />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Delete game version dialog. -->
@@ -90,23 +84,17 @@
       <!-- Dialog buttons. -->
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
-        <vi-button
-          icon
-          @click="deleteVersionClose()"
-        >
+        <vi-button-icon @click="deleteVersionClose()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
         <!-- Cancel game deletion. -->
-        <vi-button
-          icon
-          @click="deleteVersionOpen()"
-        >
+        <vi-button-icon @click="deleteVersionOpen()">
           <vi-icon class="w-6">
             <icon-close />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Delete game platform dialog. -->
@@ -124,23 +112,17 @@
       <!-- Dialog buttons. -->
       <div class="flex justify-center mt-6 space-x-4">
         <!-- Confirm game deletion. -->
-        <vi-button
-          icon
-          @click="deletePlatformClose()"
-        >
+        <vi-button-icon @click="deletePlatformClose()">
           <vi-icon class="w-6">
             <icon-check />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
         <!-- Cancel game deletion. -->
-        <vi-button
-          icon
-          @click="deletePlatformOpen()"
-        >
+        <vi-button-icon @click="deletePlatformOpen()">
           <vi-icon class="w-6">
             <icon-close />
           </vi-icon>
-        </vi-button>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Navigation bar. -->
