@@ -1,6 +1,5 @@
 <template>
-  <!-- Header. -->
-  <vi-section-header label="Link Options">
+  <div class="space-y-6">
     <!-- Google search. -->
     <vi-section-content>
       <p class="text-xl">Google search icon</p>
@@ -22,7 +21,7 @@
         </vi-option>
       </vi-select>
     </vi-section-content>
-  </vi-section-header>
+  </div>
 </template>
 
 <script>

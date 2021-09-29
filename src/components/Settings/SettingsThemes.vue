@@ -1,6 +1,5 @@
 <template>
-  <!-- Header. -->
-  <vi-section-header label="Theme Options">
+  <div class="space-y-6">
     <!-- Dark mode. -->
     <vi-section-content>
       <p class="text-xl">Dark mode</p>
@@ -58,7 +57,7 @@
         </vi-option>
       </vi-select>
     </vi-section-content>
-  </vi-section-header>
+  </div>
 </template>
 
 <script>

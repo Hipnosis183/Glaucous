@@ -3,6 +3,7 @@ import ViButtonGroup from './components/ViButtonGroup.vue'
 import ViButtonNb from './components/ViButtonNb.vue'
 import ViButtonSb from './components/ViButtonSb.vue'
 import ViButtonSbSmall from './components/ViButtonSbSmall.vue'
+import ViButtonSettings from './components/ViButtonSettings.vue'
 import ViCard from './components/ViCard.vue'
 import ViCardCompact from './components/ViCardCompact.vue'
 import ViCardList from './components/ViCardList.vue'
@@ -36,6 +37,7 @@ export default {
         app.component('vi-button-nb', ViButtonNb)
         app.component('vi-button-sb', ViButtonSb)
         app.component('vi-button-sb-small', ViButtonSbSmall)
+        app.component('vi-button-settings', ViButtonSettings)
         app.component('vi-card', ViCard)
         app.component('vi-card-compact', ViCardCompact)
         app.component('vi-card-list', ViCardList)

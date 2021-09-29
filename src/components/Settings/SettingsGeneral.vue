@@ -1,12 +1,11 @@
 <template>
-  <!-- Header. -->
-  <vi-section-header label="General Options">
+  <div class="space-y-6">
     <!-- Edit mode. -->
     <vi-section-content>
       <p class="text-xl">Edit mode</p>
       <vi-switch v-model="editMode" />
     </vi-section-content>
-  </vi-section-header>
+  </div>
 </template>
 
 <script>
