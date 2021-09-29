@@ -4,7 +4,13 @@
     <vi-nav-bar
       title="Settings"
       class="bg-transition"
-    />
+    >
+      <div class="flex-shrink-0 ml-2 my-auto">
+        <vi-button @click="restoreSettings()">
+          Restore Default
+        </vi-button>
+      </div>
+    </vi-nav-bar>
     <!-- Settings panel. -->
     <div class="flex m-6 space-x-6">
       <div class="bg-theme-0 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-xl shadow-color w-60">
@@ -51,6 +57,10 @@
 <script>
 // Import Vue functions.
 import { ref } from 'vue'
+import { useStore } from 'vuex'
+// Import settings and themes functions.
+import { selectListColumns } from '@/settings'
+import { selectColor, selectTheme } from '@/theme'
 // Import settings components.
 import SettingsGeneral from './Settings/SettingsGeneral.vue'
 import SettingsGames from './Settings/SettingsGames.vue'
@@ -66,10 +76,24 @@ export default {
     SettingsThemes
   },
   setup() {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Manage settings tabs indexing.
     let settingIndex = ref(0)
 
+    // Manage settings restoring.
+    const restoreSettings = () => {
+      // Reset settings.
+      store.commit('resetSettingsApp')
+      // Apply non reactive settings.
+      selectListColumns(store.getters.getSettingsListsListColumns)
+      selectColor(store.getters.getSettingsThemesSelectedColor)
+      selectTheme(store.getters.getSettingsThemesSelectedTheme)
+    }
+
     return {
+      restoreSettings,
       settingIndex
     }
   }

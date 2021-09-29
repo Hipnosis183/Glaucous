@@ -178,6 +178,16 @@ export default createStore({
   },
   mutations: {
     // App settings.
+    resetSettingsApp(state) {
+      localStore.clear()
+      state.settingsApp.settingsGeneral.editMode = localStore.get('settingsGeneral.editMode', true)
+      state.settingsApp.settingsThemes.darkMode = localStore.get('settingsThemes.darkMode', false)
+      state.settingsApp.settingsThemes.selectedTheme = localStore.get('settingsThemes.selectedTheme', 0)
+      state.settingsApp.settingsThemes.selectedColor = localStore.get('settingsThemes.selectedColor', 0)
+      state.settingsApp.settingsGames.groupsView = localStore.get('settingsGames.groupsView', true)
+      state.settingsApp.settingsLinks.searchGoogle = localStore.get('settingsLinks.searchGoogle', true)
+      state.settingsApp.settingsLinks.searchGoogleKey = localStore.get('settingsLinks.searchGoogleKey', 0)
+    },
     setSettingsGeneralEditMode(state) {
       state.settingsApp.settingsGeneral.editMode = !state.settingsApp.settingsGeneral.editMode
       localStore.set('settingsGeneral.editMode', state.settingsApp.settingsGeneral.editMode)
