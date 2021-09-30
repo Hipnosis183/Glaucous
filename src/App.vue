@@ -1,8 +1,14 @@
 <template>
   <div :class="$store.getters.getSettingsThemesDarkMode ? 'dark' : ''">
     <div class="bg-theme-100 dark:bg-theme-800 bg-transition flex max-h-screen min-h-screen relative">
-      <side-nav />
-      <div class="flex flex-1 overflow-hidden">
+      <intro @finish="introFinish = true" />
+      <div v-show="introFinish">
+        <side-nav />
+      </div>
+      <div
+        v-show="introFinish"
+        class="flex flex-1 overflow-hidden"
+      >
         <div class="flex-1 no-scrollbar overflow-y-scroll">
           <router-view v-slot="{ Component }">
             <div class="relative">
@@ -25,16 +31,19 @@
 
 <script>
 // Import Vue functions.
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
 import { selectListColumns } from '@/settings'
 // Import theme objects and functions.
 import { selectColor, selectTheme } from '@/theme'
-// Import sidenav component.
+// Import intro and sidenav components.
+import Intro from '@/components/Intro.vue'
 import SideNav from '@/components/SideNav.vue'
 
 export default {
   components: {
+    Intro,
     SideNav
   },
   setup() {
@@ -47,6 +56,13 @@ export default {
     selectColor(store.getters.getSettingsThemesSelectedColor)
     // Set number of columns of lists in the configuration.
     selectListColumns(store.getters.getSettingsListsListColumns)
+
+    // Manage intro state.
+    let introFinish = ref(false)
+
+    return {
+      introFinish
+    }
   }
 }
 </script>

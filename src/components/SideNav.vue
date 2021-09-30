@@ -14,7 +14,7 @@
     <transition v-show="expand">
       <div
         @click="sidenavToggle()"
-        class="absolute bg-black bg-opacity-50 h-full w-full z-40"
+        class="absolute bg-black bg-opacity-50 h-screen w-full z-40"
       >
       </div>
     </transition>
@@ -107,7 +107,7 @@
     >
       <div
         :key="$store.getters.getSettingsThemesSelectedTheme"
-        class="bg-color-700 dark:bg-color-800 flex flex-col h-full justify-between relative w-14"
+        class="bg-color-700 dark:bg-color-800 flex flex-col h-screen justify-between relative w-14"
       >
         <!-- Logo bar. -->
         <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700">
