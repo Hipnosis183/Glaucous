@@ -12,26 +12,32 @@
         v-model="selectedTheme"
         class="w-max"
       >
-        <vi-option
-          v-for="theme in themes"
-          :key="theme.i"
-          :label="theme.name"
-          :value="theme.i"
+        <vi-option-group
+          v-for="group in themes"
+          :key="group.name"
+          :label="group.name"
         >
-          <div class="align-middle inline-flex items-center space-x-4">
-            <div class="inline-flex space-x-2">
-              <div
-                :style="{ backgroundColor: 'rgb(' + theme.codes[2] + ')' }"
-                class="h-6 rounded-full w-6"
-              />
-              <div
-                :style="{ backgroundColor: 'rgb(' + theme.codes[8] + ')' }"
-                class="h-6 rounded-full w-6"
-              />
+          <vi-option
+            v-for="theme in group.values"
+            :key="theme.i"
+            :label="theme.name"
+            :value="theme.i"
+          >
+            <div class="align-middle inline-flex items-center space-x-4">
+              <div class="inline-flex space-x-2">
+                <div
+                  :style="{ backgroundColor: 'rgb(' + theme.codes[2] + ')' }"
+                  class="h-6 rounded-full w-6"
+                />
+                <div
+                  :style="{ backgroundColor: 'rgb(' + theme.codes[8] + ')' }"
+                  class="h-6 rounded-full w-6"
+                />
+              </div>
+              <p>{{ theme.name }}</p>
             </div>
-            <p>{{ theme.name }}</p>
-          </div>
-        </vi-option>
+          </vi-option>
+        </vi-option-group>
       </vi-select>
     </vi-section-content>
     <!-- Color theme select. -->
