@@ -1,4 +1,23 @@
 <template>
+  <!-- Error dialog. -->
+  <vi-dialog
+    v-show="emulatorErrorDialog"
+    @close="emulatorErrorShow()"
+    class="pos-initial z-10"
+  >
+    <!-- Dialog message. -->
+    <p class="text-center text-lg">
+      Can't perform the operation without an emulator selected.
+    </p>
+    <div class="flex justify-center mt-6 space-x-4">
+      <!-- Close message. -->
+      <vi-button-icon @click="emulatorErrorShow()">
+        <vi-icon class="w-6">
+          <icon-check />
+        </vi-icon>
+      </vi-button-icon>
+    </div>
+  </vi-dialog>
   <!-- Create emulator dialog. -->
   <vi-dialog
     v-show="createEmulatorDialog"
@@ -165,11 +184,16 @@ export default {
     }
     let editEmulatorDialog = ref(false)
     const editEmulatorOpen = () => {
-      // Save data of the current emulator into the store.
-      let index = emulatorList.value.findIndex((res) => res.id == emulatorStore.value)
-      store.commit('setEmulatorForm', emulatorList.value[index])
-      // Open edit dialog.
-      editEmulatorDialog.value = !editEmulatorDialog.value
+      if (!emulatorStore.value) {
+        // Open error dialog.
+        emulatorErrorShow()
+      } else {
+        // Save data of the current emulator into the store.
+        let index = emulatorList.value.findIndex((res) => res.id == emulatorStore.value)
+        store.commit('setEmulatorForm', emulatorList.value[index])
+        // Open edit dialog.
+        editEmulatorDialog.value = !editEmulatorDialog.value
+      }
     }
     const editEmulatorClose = () => {
       // Reload emulator list.
@@ -179,8 +203,13 @@ export default {
     }
     let deleteEmulatorDialog = ref(false)
     const deleteEmulatorOpen = () => {
-      // Open delete dialog.
-      deleteEmulatorDialog.value = !deleteEmulatorDialog.value
+      if (!emulatorStore.value) {
+        // Open error dialog.
+        emulatorErrorShow()
+      } else {
+        // Open delete dialog.
+        deleteEmulatorDialog.value = !deleteEmulatorDialog.value
+      }
     }
     const deleteEmulatorClose = () => {
       // Find entry and update the list.
@@ -193,6 +222,11 @@ export default {
       // Close delete dialog.
       deleteEmulatorDialog.value = !deleteEmulatorDialog.value
     }
+    let emulatorErrorDialog = ref(false)
+    const emulatorErrorShow = () => {
+      // Toggle error dialog.
+      emulatorErrorDialog.value = !emulatorErrorDialog.value
+    }
 
     return {
       createEmulatorClose,
@@ -201,6 +235,8 @@ export default {
       editEmulatorClose,
       editEmulatorDialog,
       editEmulatorOpen,
+      emulatorErrorDialog,
+      emulatorErrorShow,
       emulatorList,
       emulatorName,
       emulatorPath,
