@@ -40,7 +40,7 @@ export default {
     }
     const setOption = () => {
       // Emit option data to select component.
-      emitter.emit('setOption', item)
+      emitter.emit('setOption' + selectID.value, item)
     }
 
     // Manage label communication with select component.

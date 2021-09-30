@@ -341,7 +341,7 @@ export default {
         }
       }, 10)
       // Open option click event listener.
-      emitter.on('setOption', (item) => {
+      emitter.on('setOption' + selectID, (item) => {
         // Set option label as select label.
         labelSelected.value = props.remote ? '' : item.label
         labelPlaceholder.value = item.label
@@ -393,7 +393,7 @@ export default {
       openMenu.value = false
       updateDropMenu()
       // Clear all emit listeners.
-      emitter.all.clear()
+      emitter.off('setOption' + selectID)
       // Remove click listener.
       window.removeEventListener('click', listener)
       nextTick(() => {
