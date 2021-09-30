@@ -13,9 +13,10 @@
         class="w-max"
       >
         <vi-option-group
-          v-for="group in themes"
+          v-for="(group, index) in themes"
           :key="group.name"
           :label="group.name"
+          :last="index == Object.keys(themes).length - 1"
         >
           <vi-option
             v-for="theme in group.values"

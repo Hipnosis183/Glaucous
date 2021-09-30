@@ -4,14 +4,18 @@
   <!-- Option group contents. -->
   <slot></slot>
   <!-- Separator bar. -->
-  <div class="border-b border-theme-600 dark:border-theme-500 flex mb-4 mt-2 mx-5" />
+  <div
+    v-if="!last"
+    class="border-b border-theme-600 dark:border-theme-500 flex mb-4 mt-2 mx-5"
+  />
 </template>
 
 <script>
 export default {
   name: 'ViOptionGroup',
   props: {
-    label: { type: String }
+    label: { type: String },
+    last: { type: Boolean, default: false }
   }
 }
 </script>

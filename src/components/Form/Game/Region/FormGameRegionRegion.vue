@@ -8,9 +8,10 @@
     class="w-full"
   >
     <vi-option-group
-      v-for="flags in regions"
+      v-for="(flags, index) in regions"
       :key="flags.group"
       :label="flags.group"
+      :last="index == Object.keys(regions).length - 1"
     >
       <vi-option
         v-for="flag in flags.items"
