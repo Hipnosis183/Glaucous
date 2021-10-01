@@ -87,7 +87,7 @@
           </vi-button-sb-small>
           <vi-button-sb-small @click="$router.push({ name: 'Settings' })">
             <vi-icon class="w-6">
-              <icon-setting />
+              <icon-setting-f />
             </vi-icon>
           </vi-button-sb-small>
           <vi-button-sb-small @click="sidenavToggle()">

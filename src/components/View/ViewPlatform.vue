@@ -96,6 +96,15 @@
           <icon-remove />
         </vi-icon>
       </vi-button-nb>
+      <!-- Open platform settings dialog. -->
+      <vi-button-nb
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        @click="settingsPlatformOpen()"
+      >
+        <vi-icon class="w-6">
+          <icon-setting />
+        </vi-icon>
+      </vi-button-nb>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
@@ -110,17 +119,6 @@
       <settings-lists gameSettings />
       <!-- Horizontal padding. -->
       <div class="w-full"></div>
-      <!-- Open platform settings dialog. -->
-      <vi-button
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        icon
-        @click="settingsPlatformOpen()"
-        class="mr-4 my-auto"
-      >
-        <vi-icon class="w-5">
-          <icon-setting />
-        </vi-icon>
-      </vi-button>
     </vi-nav-bar>
     <!-- Show platform's games list. -->
     <div class="h-content m-6">
