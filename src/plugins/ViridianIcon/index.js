@@ -31,6 +31,9 @@ import IconRemove from './components/IconRemove.vue'
 import IconSearch from './components/IconSearch.vue'
 import IconSetting from './components/IconSetting.vue'
 import IconSettingF from './components/IconSettingF.vue'
+import IconStar from './components/IconStar.vue'
+import IconStarF from './components/IconStarF.vue'
+import IconStarS from './components/IconStarS.vue'
 
 export default {
     install: (app, options) => {
@@ -67,5 +70,8 @@ export default {
         app.component('icon-search', IconSearch)
         app.component('icon-setting', IconSetting)
         app.component('icon-setting-f', IconSettingF)
+        app.component('icon-star', IconStar)
+        app.component('icon-star-f', IconStarF)
+        app.component('icon-star-s', IconStarS)
     }
 }

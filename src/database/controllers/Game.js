@@ -2,27 +2,12 @@ import GamePlatformModel from '../models/GamePlatform'
 import GameRegionModel from '../models/GameRegion'
 import GameVersionModel from '../models/GameVersion'
 import { generateID } from '../datastore'
-import {
-    getDeveloper,
-    getDeveloperByName
-} from './Developer'
-import {
-    getPlatform,
-    getPlatformAllByName,
-    getPlatformsGroup
-} from './Platform'
+import { getDeveloper, getDeveloperByName } from './Developer'
+import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
+import { getFavorites } from './User'
 
 import { app } from '@electron/remote'
-import {
-    copySync,
-    ensureDirSync,
-    moveSync,
-    outputFileSync,
-    readdirSync,
-    readJSONSync,
-    remove,
-    removeSync
-} from 'fs-extra'
+import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, readJSONSync, remove, removeSync } from 'fs-extra'
 
 import Regions from '../../../public/files/flags.json'
 
@@ -633,6 +618,26 @@ export async function getGamesLinkedSearch(req, query) {
             }
             // Return search results.
             return gamePlatforms
+        })
+}
+
+// Get all favorited games.
+export async function getGamesFavorited(index, count, query) {
+    let gameRegions = []
+    const gamesFavorited = await getFavorites()
+    // Search all favorited game platforms.
+    return await GamePlatformModel.find({ _id: { $in: gamesFavorited } }, { populate: false, select: ['gameRegions'] })
+        .then(async res => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+            // Configure the search parameters.
+            const search = new RegExp(query, 'i')
+            // Configure the search query.
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            // Get all favorited games.
+            return await getGamesAll(index, count, querySearch)
         })
 }
 

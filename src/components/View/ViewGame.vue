@@ -199,6 +199,24 @@
           :method="openImagesPath"
         />
       </vi-menu-select>
+      <!-- Remove selected game platform from favorites. -->
+      <vi-button-nb
+        v-if="gameFavorited"
+        @click="removeFavorite()"
+      >
+        <vi-icon class="w-6">
+          <icon-star-f />
+        </vi-icon>
+      </vi-button-nb>
+      <!-- Add selected game platform to favorites. -->
+      <vi-button-nb
+        v-else
+        @click="addFavorite()"
+      >
+        <vi-icon class="w-6">
+          <icon-star />
+        </vi-icon>
+      </vi-button-nb>
       <!-- Set selected game region as the main region. -->
       <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
@@ -305,6 +323,7 @@ import { useStore } from 'vuex'
 import { app, shell } from '@electron/remote'
 // Import database controllers functions.
 import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion } from '@/database/controllers/Game'
+import { addFavorites, getFavorite, removeFavorites } from '@/database/controllers/User'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
@@ -387,6 +406,8 @@ export default {
           store.state.gameSelected.gameVersion = res.gameRegions[regionIndex.value].gameVersions[versionIndex.value]._id
           // Set game store path.
           setGamePath(res.platform._id + '/' + res._id + '/games/' + res.gameRegions[regionIndex.value]._id)
+          // Set initial favorited status.
+          updateFavorite()
         })
     }
     const loadLinks = (res) => {
@@ -583,8 +604,29 @@ export default {
         })
     }
 
+    // Manage game favorite state.
+    let gameFavorited = ref(false)
+    const addFavorite = () => {
+      // Add current game to favorites.
+      addFavorites(gameInfo.value._id)
+        .then(() => { updateFavorite() })
+    }
+    const removeFavorite = () => {
+      // Remove current game from favorites.
+      removeFavorites(gameInfo.value._id)
+        .then(() => { updateFavorite() })
+    }
+    const updateFavorite = () => {
+      // Update favorited status for the current game.
+      getFavorite(gameInfo.value._id)
+        .then((res) => {
+          gameFavorited.value = res
+        })
+    }
+
     // Return values to use on template.
     return {
+      addFavorite,
       changeRegion,
       createPlatformClose,
       createPlatformDialog,
@@ -608,12 +650,14 @@ export default {
       editGameDialog,
       editGameOpen,
       fullTitle,
+      gameFavorited,
       gameInfo,
       loadLinks,
       openGamePath,
       openImagesPath,
       openStorePath,
       regionIndex,
+      removeFavorite,
       setGameRegion,
       slideBack,
       versionIndex,

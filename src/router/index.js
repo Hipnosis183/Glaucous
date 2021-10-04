@@ -55,14 +55,20 @@ const routes = [
     name: 'ViewDeveloper',
     component: () => import('../components/View/ViewDeveloper.vue')
   },
+  // User Lists
+  {
+    path: '/favorites',
+    name: 'Favorites',
+    component: () => import('../components/Favorites.vue')
+  }
 ]
 
 const router = createRouter({
   // Use hash mode for Electron.
   history:
     process.env.IS_ELECTRON
-    ? createWebHashHistory()
-    : createWebHistory(),
+      ? createWebHashHistory()
+      : createWebHistory(),
   routes
 })
 
