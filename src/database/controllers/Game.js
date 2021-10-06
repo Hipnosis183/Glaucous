@@ -4,7 +4,7 @@ import GameVersionModel from '../models/GameVersion'
 import { generateID } from '../datastore'
 import { getDeveloper, getDeveloperByName } from './Developer'
 import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
-import { getFavorites, getPlaylist } from './User'
+import { getFavorites, getPlaylist, removeGameUser } from './User'
 
 import { app } from '@electron/remote'
 import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, readJSONSync, remove, removeSync } from 'fs-extra'
@@ -180,6 +180,8 @@ export async function deleteGamePlatform(req, p, del) {
     await unlinkGame(req, true)
     // Remove game platform's data.
     remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id)
+    // Remove game from all user lists.
+    await removeGameUser(req)
 }
 
 // Delete the specified game region and all its related data.

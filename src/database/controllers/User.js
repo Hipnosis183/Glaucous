@@ -21,6 +21,14 @@ async function ensureUser() {
     }
 }
 
+// Remove a specific game from all user lists.
+export async function removeGameUser(req) {
+    // Remove the game from favorites.
+    await removeFavorites(req._id)
+    // Remove the game from all playlists.
+    await removePlaylistAll(req._id)
+}
+
 // Add a game platform to favorites.
 export async function addFavorites(req) {
     await ensureUser()
@@ -144,6 +152,23 @@ export async function removePlaylist(req, game) {
                     await UserModel.findOneAndUpdate({ _id: userId }, { playlists: res.playlists })
                 }
             }
+        })
+}
+
+// Remove a game platform from all playlist.
+export async function removePlaylistAll(req) {
+    // Get all playlists.
+    await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
+        .then(async (res) => {
+            // Search for playlists including the selected game.
+            for (let [i, playlist] of res.playlists.entries()) {
+                if (playlist.games.includes(req)) {
+                    // Remove selected game from playlist.
+                    res.playlists[i].games = playlist.games.filter((pla) => pla != req)
+                }
+            }
+            // Update playlists.
+            await UserModel.findOneAndUpdate({ _id: userId }, { playlists: res.playlists })
         })
 }
 
