@@ -81,14 +81,14 @@
     <div class="data-content">
       <p class="font-semibold">Developer:</p>
       <!-- Go to the developer page. -->
-      <p @click="$router.push({ name: 'ViewDeveloper', params: { id: gameInfo.developer._id } })">
+      <p @click="$router.push({ name: 'Developer', params: { id: gameInfo.developer._id } })">
         {{ gameInfo.developer.name }}
       </p>
     </div>
     <div class="data-content">
       <p class="font-semibold">Platform:</p>
       <!-- Go to the platform page. -->
-      <div @click="$router.push({ name: 'ViewPlatform', params: { id: gameInfo.platform._id } })">
+      <div @click="$router.push({ name: 'Platform', params: { id: gameInfo.platform._id } })">
         <p v-if="gameInfo.platform.parent && $store.getters.getSettingsGamesGroupsView">
           {{ gameInfo.platform.parent.name }} ({{ gameInfo.platform.name }})
         </p>
@@ -124,7 +124,7 @@ import ViewGameDetails from './ViewGameDetails.vue'
 import ViewGameLinking from './ViewGameLinking.vue'
 
 export default {
-  name: 'ViewGame',
+  name: 'ViewGameInfo',
   components: {
     ViewGameDetails,
     ViewGameLinking

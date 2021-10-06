@@ -201,13 +201,13 @@ export default {
           store.commit('setSettingsListsListGroup', value)
           switch (value) {
             // Load page with all games listed.
-            case 0: router.push({ name: 'ListGames' })
+            case 0: router.push({ name: 'Games' })
               break
             // Load page with all platforms listed.
-            case 1: router.push({ name: 'ListPlatforms' })
+            case 1: router.push({ name: 'Platforms' })
               break
             // Load page with all developers listed.
-            case 2: router.push({ name: 'ListDevelopers' })
+            case 2: router.push({ name: 'Developers' })
               break
           }
         }

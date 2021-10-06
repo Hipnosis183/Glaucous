@@ -45,7 +45,7 @@
               v-for="platform in platforms"
               :key="platform._id"
               :value="platform._id"
-              @click="$router.push({ name: platform.group ? 'ListPlatformsGroup' : 'ViewPlatform', params: { id: platform._id } })"
+              @click="$router.push({ name: platform.group ? 'PlatformsGroup' : 'Platform', params: { id: platform._id } })"
             >
               <!-- Platform card. -->
               <vi-card>

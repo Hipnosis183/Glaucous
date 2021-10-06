@@ -45,7 +45,7 @@
               v-for="developer in developers"
               :key="developer._id"
               :value="developer._id"
-              @click="$router.push({ name: 'ViewDeveloper', params: { id: developer._id } })"
+              @click="$router.push({ name: 'Developer', params: { id: developer._id } })"
             >
               <!-- Developer card. -->
               <vi-card>

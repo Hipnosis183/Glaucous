@@ -102,7 +102,7 @@ export default {
 
     // Go to the selected game page.
     const gameOpen = (game) => {
-      router.push({ name: 'ViewGame', params: { id: game } })
+      router.push({ name: 'Game', params: { id: game } })
       emit('close')
     }
 

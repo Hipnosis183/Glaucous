@@ -133,7 +133,7 @@
               v-for="game in platform.games"
               :key="game._id"
               :value="game._id"
-              @click="$router.push({ name: 'ViewGame', params: { id: game._id } })"
+              @click="$router.push({ name: 'Game', params: { id: game._id } })"
             >
               <!-- Game cards. -->
               <vi-card-grid

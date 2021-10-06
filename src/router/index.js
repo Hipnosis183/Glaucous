@@ -20,39 +20,39 @@ const routes = [
   // Games
   {
     path: '/games',
-    name: 'ListGames',
+    name: 'Games',
     component: () => import('../components/List/ListGames.vue')
   },
   {
     path: '/games/:id',
-    name: 'ViewGame',
+    name: 'Game',
     component: () => import('../components/View/ViewGame.vue')
   },
   // Platforms
   {
     path: '/platforms',
-    name: 'ListPlatforms',
+    name: 'Platforms',
     component: () => import('../components/List/ListPlatforms.vue')
   },
   {
     path: '/platforms/group/:id',
-    name: 'ListPlatformsGroup',
+    name: 'PlatformsGroup',
     component: () => import('../components/List/ListPlatformsGroup.vue')
   },
   {
     path: '/platforms/:id',
-    name: 'ViewPlatform',
+    name: 'Platform',
     component: () => import('../components/View/ViewPlatform.vue')
   },
   // Developers
   {
     path: '/developers',
-    name: 'ListDevelopers',
+    name: 'Developers',
     component: () => import('../components/List/ListDevelopers.vue')
   },
   {
     path: '/developers/:id',
-    name: 'ViewDeveloper',
+    name: 'Developer',
     component: () => import('../components/View/ViewDeveloper.vue')
   },
   // User Lists
