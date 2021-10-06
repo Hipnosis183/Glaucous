@@ -129,6 +129,10 @@ export default createStore({
       path: null,
       file: null,
       params: null
+    },
+    playlistSelected: null,
+    playlistForm: {
+      name: null
     }
   },
   getters: {
@@ -487,6 +491,13 @@ export default createStore({
       state.emulatorForm.path = null
       state.emulatorForm.file = null
       state.emulatorForm.params = null
+    },
+    // Playlist form.
+    resetPlaylistForm(state) {
+      state.playlistForm.name = null
+    },
+    setPlaylistName(state, data) {
+      state.playlistForm.name = data
     }
   }
 })

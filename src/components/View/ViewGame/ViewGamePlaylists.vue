@@ -1,0 +1,150 @@
+<template>
+  <!-- Validation error dialog. -->
+  <vi-dialog
+    v-show="validationErrorDialog"
+    @close="validationErrorShow()"
+    class="pos-initial z-10"
+  >
+    <!-- Dialog message. -->
+    <p class="text-center text-lg">
+      Complete the required field.
+    </p>
+    <div class="flex justify-center mt-6 space-x-4">
+      <!-- Close message. -->
+      <vi-button-icon @click="validationErrorShow()">
+        <vi-icon class="w-6">
+          <icon-check />
+        </vi-icon>
+      </vi-button-icon>
+    </div>
+  </vi-dialog>
+  <!-- Form header. -->
+  <div class="flex justify-between mb-6 mx-2">
+    <!-- Form title. -->
+    <p class="mr-10 pt-1 text-2xl">Playlists</p>
+    <!-- Form buttons. -->
+    <vi-button-icon @click="addPlaylists()">
+      <vi-icon class="w-6">
+        <icon-add />
+      </vi-icon>
+    </vi-button-icon>
+  </div>
+  <vi-select
+    v-model="selectedPlaylist"
+    placeholder="Filter..."
+    class="w-full"
+  >
+    <vi-option
+      v-for="item in filteredPlaylists"
+      :key="item._id"
+      :label="item.name"
+      :value="item._id"
+    >
+    </vi-option>
+  </vi-select>
+  <div class="mt-1 text-lg">
+    <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
+      <div
+        v-if="gamePlaylists.length > 0"
+        class="space-y-4"
+      >
+        <div
+          v-for="item in gamePlaylists"
+          :key="item"
+          :value="item"
+          class="flex items-center space-x-6"
+        >
+          <li
+            @click="$router.push({ name: 'Playlist', params: { id: item._id } })"
+            class="cursor-pointer text-justify"
+          >{{ item.name }}</li>
+          <!-- Remove related link from the list. -->
+          <vi-button-icon @click="removePlaylists(item._id)">
+            <vi-icon class="w-6">
+              <icon-remove />
+            </vi-icon>
+          </vi-button-icon>
+        </div>
+      </div>
+    </ul>
+  </div>
+</template>
+
+<script>
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+// Import database controllers functions.
+import { addPlaylist, getGamePlaylists, getPlaylists, removePlaylist } from '@/database/controllers/User'
+
+export default {
+  name: 'ViewGamePlaylists',
+  setup() {
+    // Instantiate Vue elements.
+    const route = useRoute()
+
+    // Load all playlists on mounting.
+    onMounted(() => {
+      getPlaylists(route.params.id)
+        .then((res) => {
+          allPlaylists.value = res
+          updatePlaylists()
+        })
+    })
+
+    // Manage game playlists.
+    let allPlaylists = ref([])
+    let filteredPlaylists = ref([])
+    let gamePlaylists = ref([])
+    let selectedPlaylist = ref('')
+    const addPlaylists = () => {
+      // Validate required fields.
+      if (!selectedPlaylist.value) {
+        validationErrorShow()
+        return
+      }
+      // Add current game to the selected playlist.
+      addPlaylist(selectedPlaylist.value, route.params.id)
+        .then(() => { updatePlaylists() })
+    }
+    const removePlaylists = (id) => {
+      // Remove current game from the selected playlist.
+      removePlaylist(id, route.params.id)
+        .then(() => { updatePlaylists() })
+    }
+    const updatePlaylists = () => {
+      getGamePlaylists(route.params.id)
+        .then((res) => {
+          // Update current game playlists.
+          gamePlaylists.value = res
+          // Remove playlists where the current game already is in from selection.
+          filteredPlaylists.value = allPlaylists.value
+          for (let gamePlaylist of gamePlaylists.value) {
+            filteredPlaylists.value = filteredPlaylists.value.filter((res) => res._id != gamePlaylist._id)
+          }
+          // Reset selected playlist.
+          selectedPlaylist.value = null
+        })
+    }
+    let validationErrorDialog = ref(false)
+    const validationErrorShow = () => {
+      // Toggle validation error dialog.
+      validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    return {
+      addPlaylists,
+      allPlaylists,
+      filteredPlaylists,
+      gamePlaylists,
+      removePlaylists,
+      selectedPlaylist,
+      validationErrorDialog,
+      validationErrorShow
+    }
+  }
+}
+</script>
+
+<style>
+</style>

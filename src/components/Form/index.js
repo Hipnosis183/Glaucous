@@ -9,6 +9,8 @@ import FormEmulatorPath from './Emulator/FormEmulatorPath.vue'
 import FormPlatformGroup from './Platform/FormPlatformGroup.vue'
 import FormPlatformName from './Platform/FormPlatformName.vue'
 import FormPlatformParent from './Platform/FormPlatformParent.vue'
+// Playlist form.
+import FormPlaylistName from './Playlist/FormPlaylistName.vue'
 // Game form.
 import FormGameImages from './Game/FormGameImages.vue'
 import FormGameImagesView from './Game/FormGameImagesView.vue'
@@ -45,6 +47,8 @@ export {
     FormPlatformGroup,
     FormPlatformName,
     FormPlatformParent,
+    // Playlist form.
+    FormPlaylistName,
     // Game form.
     FormGameImages,
     FormGameImagesView,

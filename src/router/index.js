@@ -60,6 +60,16 @@ const routes = [
     path: '/favorites',
     name: 'Favorites',
     component: () => import('../components/Favorites.vue')
+  },
+  {
+    path: '/playlists',
+    name: 'Playlists',
+    component: () => import('../components/List/ListPlaylists.vue')
+  },
+  {
+    path: '/playlists/:id',
+    name: 'Playlist',
+    component: () => import('../components/View/ViewPlaylist.vue')
   }
 ]
 

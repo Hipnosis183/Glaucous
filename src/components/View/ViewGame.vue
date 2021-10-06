@@ -125,6 +125,15 @@
         </vi-button-icon>
       </div>
     </vi-dialog>
+    <!-- Manage game playlists dialog. -->
+    <vi-dialog
+      v-show="managePlaylistsDialog"
+      @close="managePlaylistsClose()"
+      class="z-10"
+    >
+      <!-- Insert playlists management component. -->
+      <view-game-playlists />
+    </vi-dialog>
     <!-- Navigation bar. -->
     <vi-nav-bar>
       <!-- Create games menu dialog. -->
@@ -199,6 +208,12 @@
           :method="openImagesPath"
         />
       </vi-menu-select>
+      <!-- Open game playlists management dialog. -->
+      <vi-button-nb @click="managePlaylistsClose()">
+        <vi-icon class="w-6">
+          <icon-playlist-add />
+        </vi-icon>
+      </vi-button-nb>
       <!-- Remove selected game platform from favorites. -->
       <vi-button-nb
         v-if="gameFavorited"
@@ -334,6 +349,7 @@ import ViewGameImages from './ViewGame/ViewGameImages.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
+import ViewGamePlaylists from './ViewGame/ViewGamePlaylists.vue'
 
 export default {
   name: 'ViewGame',
@@ -345,7 +361,8 @@ export default {
     ViewGameImages,
     ViewGameInfo,
     ViewGameLauncher,
-    ViewGameLinks
+    ViewGameLinks,
+    ViewGamePlaylists
   },
   setup() {
     // Instantiate Vue elements.
@@ -604,6 +621,19 @@ export default {
         })
     }
 
+    // Manage playlists operations.
+    let managePlaylistsDialog = ref(false)
+    const managePlaylistsOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetPlaylistForm')
+      // Open create dialog.
+      managePlaylistsDialog.value = !managePlaylistsDialog.value
+    }
+    const managePlaylistsClose = () => {
+      // Close create dialog.
+      managePlaylistsDialog.value = !managePlaylistsDialog.value
+    }
+
     // Manage game favorite state.
     let gameFavorited = ref(false)
     const addFavorite = () => {
@@ -653,6 +683,9 @@ export default {
       gameFavorited,
       gameInfo,
       loadLinks,
+      managePlaylistsClose,
+      managePlaylistsDialog,
+      managePlaylistsOpen,
       openGamePath,
       openImagesPath,
       openStorePath,

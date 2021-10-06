@@ -8,21 +8,11 @@ class UserModel extends Document {
             name: { type: String, required: true },
             favorites: { type: [GamePlatformModel] },
             recent: { type: [GamePlatformModel] },
-            playlists: { type: [Playlist] }
+            playlists: { type: [Object] }
         })
     }
     static collectionName() {
         return 'users'
-    }
-}
-
-class Playlist extends Document {
-    constructor() {
-        super()
-        this.schema({
-            name: { type: String, required: true },
-            games: { type: [GamePlatformModel] }
-        })
     }
 }
 

@@ -4,7 +4,7 @@ import GameVersionModel from '../models/GameVersion'
 import { generateID } from '../datastore'
 import { getDeveloper, getDeveloperByName } from './Developer'
 import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
-import { getFavorites } from './User'
+import { getFavorites, getPlaylist } from './User'
 
 import { app } from '@electron/remote'
 import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, readJSONSync, remove, removeSync } from 'fs-extra'
@@ -637,6 +637,26 @@ export async function getGamesFavorited(index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all favorited games.
+            return await getGamesAll(index, count, querySearch)
+        })
+}
+
+// Get all games by a specific playlist.
+export async function getGamesPlaylist(req, index, count, query) {
+    let gameRegions = []
+    const gamesPlaylist = await getPlaylist(req)
+    // Search all game platforms included in the playlist.
+    return await GamePlatformModel.find({ _id: { $in: gamesPlaylist.games } }, { populate: false, select: ['gameRegions'] })
+        .then(async res => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+            // Configure the search parameters.
+            const search = new RegExp(query, 'i')
+            // Configure the search query.
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            // Get all playlist games.
             return await getGamesAll(index, count, querySearch)
         })
 }

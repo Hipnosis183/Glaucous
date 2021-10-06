@@ -59,6 +59,18 @@
             </vi-icon>
             <h6>Favorites</h6>
           </vi-button-sb>
+          <vi-button-sb
+            @click="$router.push({ name: 'Playlists' })"
+            class="flex pl-4"
+          >
+            <vi-icon
+              manual
+              class="w-8"
+            >
+              <icon-playlist />
+            </vi-icon>
+            <h6>Playlists</h6>
+          </vi-button-sb>
         </div>
         <div class="flex flex-col mt-auto">
           <vi-button-sb
@@ -140,6 +152,11 @@
           <vi-button-sb @click="$router.push({ name: 'Favorites' })">
             <vi-icon class="text-color-200 w-8">
               <icon-star-s />
+            </vi-icon>
+          </vi-button-sb>
+          <vi-button-sb @click="$router.push({ name: 'Playlists' })">
+            <vi-icon class="text-color-200 w-8">
+              <icon-playlist />
             </vi-icon>
           </vi-button-sb>
         </div>

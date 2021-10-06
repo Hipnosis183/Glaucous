@@ -26,6 +26,8 @@ import IconMenu from './components/IconMenu.vue'
 import IconMinus from './components/IconMinus.vue'
 import IconPicture from './components/IconPicture.vue'
 import IconPlay from './components/IconPlay.vue'
+import IconPlaylist from './components/IconPlaylist.vue'
+import IconPlaylistAdd from './components/IconPlaylistAdd.vue'
 import IconPlus from './components/IconPlus.vue'
 import IconRemove from './components/IconRemove.vue'
 import IconSearch from './components/IconSearch.vue'
@@ -65,6 +67,8 @@ export default {
         app.component('icon-minus', IconMinus)
         app.component('icon-picture', IconPicture)
         app.component('icon-play', IconPlay)
+        app.component('icon-playlist', IconPlaylist)
+        app.component('icon-playlist-add', IconPlaylistAdd)
         app.component('icon-plus', IconPlus)
         app.component('icon-remove', IconRemove)
         app.component('icon-search', IconSearch)
