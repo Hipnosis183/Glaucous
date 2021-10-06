@@ -30,12 +30,15 @@
     </vi-button-icon>
   </div>
   <vi-select
-    v-model="selectedPlaylist"
+    v-model="querySelected"
+    clearable
     placeholder="Filter..."
+    remote
+    :remote-method="queryFilter"
     class="w-full"
   >
     <vi-option
-      v-for="item in filteredPlaylists"
+      v-for="item in queryResults"
       :key="item._id"
       :label="item.name"
       :value="item._id"
@@ -96,15 +99,14 @@ export default {
     let allPlaylists = ref([])
     let filteredPlaylists = ref([])
     let gamePlaylists = ref([])
-    let selectedPlaylist = ref('')
     const addPlaylists = () => {
       // Validate required fields.
-      if (!selectedPlaylist.value) {
+      if (!querySelected.value) {
         validationErrorShow()
         return
       }
       // Add current game to the selected playlist.
-      addPlaylist(selectedPlaylist.value, route.params.id)
+      addPlaylist(querySelected.value, route.params.id)
         .then(() => { updatePlaylists() })
     }
     const removePlaylists = (id) => {
@@ -122,8 +124,10 @@ export default {
           for (let gamePlaylist of gamePlaylists.value) {
             filteredPlaylists.value = filteredPlaylists.value.filter((res) => res._id != gamePlaylist._id)
           }
+          // Reset filter results list.
+          queryResults.value = filteredPlaylists.value
           // Reset selected playlist.
-          selectedPlaylist.value = null
+          querySelected.value = null
         })
     }
     let validationErrorDialog = ref(false)
@@ -132,13 +136,25 @@ export default {
       validationErrorDialog.value = !validationErrorDialog.value
     }
 
+    // Manage filter queries.
+    let queryResults = ref('')
+    let querySelected = ref('')
+    const queryFilter = (query) => {
+      // Configure the filter parameters.
+      const filter = new RegExp(query, 'i')
+      // Filter playlists containing the filter query, case insensitive.
+      queryResults.value = filteredPlaylists.value.filter((res) => res.name.match(filter))
+    }
+
     return {
       addPlaylists,
       allPlaylists,
       filteredPlaylists,
       gamePlaylists,
+      queryFilter,
+      queryResults,
+      querySelected,
       removePlaylists,
-      selectedPlaylist,
       validationErrorDialog,
       validationErrorShow
     }
