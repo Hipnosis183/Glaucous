@@ -1,76 +1,80 @@
 <template>
-  <!-- Validation error dialog. -->
-  <vi-dialog
-    v-show="validationErrorDialog"
-    @close="validationErrorShow()"
-    class="pos-initial z-10"
-  >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Complete the required field.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Close message. -->
-      <vi-button-icon @click="validationErrorShow()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </vi-dialog>
-  <!-- Form header. -->
-  <div class="flex justify-between mb-6 mx-2">
-    <!-- Form title. -->
-    <p class="mr-10 pt-1 text-2xl">Playlists</p>
-    <!-- Form buttons. -->
-    <vi-button-icon @click="addPlaylists()">
-      <vi-icon class="w-6">
-        <icon-add />
-      </vi-icon>
-    </vi-button-icon>
-  </div>
-  <vi-select
-    v-model="querySelected"
-    clearable
-    placeholder="Filter..."
-    remote
-    :remote-method="queryFilter"
-    class="w-full"
-  >
-    <vi-option
-      v-for="item in queryResults"
-      :key="item._id"
-      :label="item.name"
-      :value="item._id"
+  <vi-overlay>
+    <!-- Validation error dialog. -->
+    <vi-dialog
+      v-show="validationErrorDialog"
+      @close="validationErrorShow()"
+      class="pos-initial z-10"
     >
-    </vi-option>
-  </vi-select>
-  <div class="mt-1 text-lg">
-    <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
-      <div
-        v-if="gamePlaylists.length > 0"
-        class="space-y-4"
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Complete the required field.
+      </p>
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Close message. -->
+        <vi-button-icon @click="validationErrorShow()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
+    </vi-dialog>
+    <!-- Playlists dialog. -->
+    <vi-modal
+      v-show="$store.getters.getSettingsGeneralEditMode"
+      class="justify-center mb-4 rounded-3xl"
+    >
+      <!-- Padding. -->
+      <div class="w-80" />
+      <!-- Form header. -->
+      <div class="flex justify-between mb-6 mx-2">
+        <!-- Form title. -->
+        <p class="mr-10 pt-1 text-2xl">Playlists</p>
+        <!-- Form buttons. -->
+        <vi-button-icon @click="addPlaylists()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
+      <vi-select
+        v-model="querySelected"
+        clearable
+        placeholder="Filter..."
+        remote
+        :remote-method="queryFilter"
+        class="w-full"
       >
-        <div
-          v-for="item in gamePlaylists"
-          :key="item"
-          :value="item"
-          class="flex items-center space-x-6"
+        <vi-option
+          v-for="item in queryResults"
+          :key="item._id"
+          :label="item.name"
+          :value="item._id"
         >
-          <li
-            @click="$router.push({ name: 'Playlist', params: { id: item._id } })"
-            class="cursor-pointer text-justify"
-          >{{ item.name }}</li>
-          <!-- Remove related link from the list. -->
-          <vi-button-icon @click="removePlaylists(item._id)">
-            <vi-icon class="w-6">
-              <icon-remove />
-            </vi-icon>
-          </vi-button-icon>
+        </vi-option>
+      </vi-select>
+      <div v-if="gamePlaylists.length > 0">
+        <!-- Separator. -->
+        <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+        <!-- List game playlists. -->
+        <div class="font-medium rounded-3xl space-y-2">
+          <div
+            v-for="item in gamePlaylists"
+            :key="item"
+            :value="item"
+          >
+            <vi-chip
+              large
+              @clicked="$router.push({ name: 'Playlist', params: { id: item._id } })"
+              @remove="removePlaylists(item._id)"
+            >
+              {{ item.name }}
+            </vi-chip>
+          </div>
         </div>
       </div>
-    </ul>
-  </div>
+    </vi-modal>
+  </vi-overlay>
 </template>
 
 <script>

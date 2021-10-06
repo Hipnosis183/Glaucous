@@ -125,15 +125,12 @@
         </vi-button-icon>
       </div>
     </vi-dialog>
-    <!-- Manage game playlists dialog. -->
-    <vi-dialog
+    <!-- Insert playlists management component. -->
+    <view-game-playlists
       v-show="managePlaylistsDialog"
       @close="managePlaylistsClose()"
-      class="z-10"
-    >
-      <!-- Insert playlists management component. -->
-      <view-game-playlists />
-    </vi-dialog>
+      class="pos-initial z-10"
+    />
     <!-- Navigation bar. -->
     <vi-nav-bar>
       <!-- Create games menu dialog. -->
