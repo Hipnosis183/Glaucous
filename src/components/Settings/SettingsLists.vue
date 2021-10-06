@@ -28,8 +28,8 @@
     >
       <div class="flex">
         <!-- List settings. -->
-        <div class="my-2 text-center w-64">
-          <h1 class="font-medium mb-5 text-lg">List Settings</h1>
+        <div class="text-center w-64">
+          <h1 class="font-medium mb-5 -mt-1 text-lg">List Settings</h1>
           <div class="space-y-2">
             <!-- List display mode. -->
             <div class="flex items-center px-4">
@@ -79,10 +79,10 @@
           </div>
         </div>
         <!-- Separator. -->
-        <div class="bg-theme-200 dark:bg-theme-600 h-32 mb-3 mt-auto mx-2 w-0.5" />
+        <div class="bg-theme-200 dark:bg-theme-600 h-auto mt-2 mx-4 w-0.5" />
         <!-- Card settings. -->
-        <div class="my-2 text-center w-68">
-          <h1 class="font-medium mb-5 text-lg">Card Settings</h1>
+        <div class="text-center w-68">
+          <h1 class="font-medium mb-5 -mt-1 text-lg">Card Settings</h1>
           <div class="space-y-2">
             <!-- Card image display mode. -->
             <div class="flex items-center px-4">
