@@ -1,7 +1,5 @@
 <template>
-  <div class="bg-theme-0 dark:bg-theme-700 inline-flex justify-evenly shadow-color w-full">
-    <!-- Vertical padding. -->
-    <button class="invisible py-3.5 w-0">-</button>
+  <div class="bg-theme-0 dark:bg-theme-700 h-14 inline-flex justify-evenly shadow-color w-full">
     <!-- Contents. -->
     <slot></slot>
     <div
@@ -15,7 +13,7 @@
         class="w-full"
       ></div>
       <!-- Page title. -->
-      <p class="my-auto mr-6 text-xl whitespace-nowrap">{{ title }}</p>
+      <p class="mr-6 my-auto text-xl whitespace-nowrap">{{ title }}</p>
     </div>
   </div>
 </template>

@@ -146,7 +146,7 @@
         class="bg-color-700 dark:bg-color-800 flex flex-col h-screen justify-between relative w-14"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700">
+        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700 h-14">
           <h6
             @click="$router.push({ name: 'Index' })"
             class="cursor-pointer p-4"

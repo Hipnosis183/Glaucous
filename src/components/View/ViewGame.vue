@@ -239,23 +239,23 @@
         </vi-icon>
       </vi-button-nb>
       <!-- Game region tabs. -->
-      <ul class="flex w-full">
+      <ul class="flex h-full w-full">
         <li
           v-for="(region, index) in gameInfo.gameRegions"
           :key="region._id"
           :value="region._id"
-          class="relative w-full"
+          class="h-full relative w-full"
         >
           <!-- Region tab button. -->
           <button
-            class="py-3 relative w-full"
+            class="h-full relative w-full"
             :class="index == regionIndex ? 'border-b-4 border-color-400' : ''"
           >
             <div
               class="absolute h-full top-0 w-full"
               :class="index == regionIndex ? 'bg-color-500 opacity-50' : ''"
             />
-            <div class="h-full relative">
+            <div class="h-full inline-flex items-center relative">
               <p>{{ gameInfo.gameRegions[index].regionName }}</p>
             </div>
           </button>

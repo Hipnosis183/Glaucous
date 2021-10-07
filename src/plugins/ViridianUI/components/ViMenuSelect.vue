@@ -4,6 +4,7 @@
     <div
       ref="refSelect"
       @click="openDropMenu()"
+      class="h-full"
     >
       <vi-button-nb>
         <vi-icon class="w-6">

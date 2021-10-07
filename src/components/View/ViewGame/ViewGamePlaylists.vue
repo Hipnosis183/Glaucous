@@ -20,10 +20,7 @@
       </div>
     </vi-dialog>
     <!-- Playlists dialog. -->
-    <vi-modal
-      v-show="$store.getters.getSettingsGeneralEditMode"
-      class="justify-center mb-4 rounded-3xl"
-    >
+    <vi-modal class="justify-center mb-4 rounded-3xl">
       <!-- Padding. -->
       <div class="w-80" />
       <!-- Form header. -->
