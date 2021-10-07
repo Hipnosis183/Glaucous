@@ -205,10 +205,13 @@
           :method="openImagesPath"
         />
       </vi-menu-select>
-      <!-- Open game playlists management dialog. -->
-      <vi-button-nb @click="managePlaylistsClose()">
+      <!-- Set selected game region as the main region. -->
+      <vi-button-nb
+        v-show="$store.getters.getSettingsGeneralEditMode"
+        @click="setGameRegion()"
+      >
         <vi-icon class="w-6">
-          <icon-playlist-add />
+          <icon-pin />
         </vi-icon>
       </vi-button-nb>
       <!-- Remove selected game platform from favorites. -->
@@ -229,13 +232,10 @@
           <icon-star />
         </vi-icon>
       </vi-button-nb>
-      <!-- Set selected game region as the main region. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="setGameRegion()"
-      >
+      <!-- Open game playlists management dialog. -->
+      <vi-button-nb @click="managePlaylistsClose()">
         <vi-icon class="w-6">
-          <icon-flag />
+          <icon-playlist-add />
         </vi-icon>
       </vi-button-nb>
       <!-- Game region tabs. -->

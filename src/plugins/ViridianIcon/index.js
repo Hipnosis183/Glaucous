@@ -16,7 +16,6 @@ import IconCross from './components/IconCross.vue'
 import IconEdit from './components/IconEdit.vue'
 import IconExit from './components/IconExit.vue'
 import IconExpand from './components/IconExpand.vue'
-import IconFlag from './components/IconFlag.vue'
 import IconFold from './components/IconFold.vue'
 import IconFolder from './components/IconFolder.vue'
 import IconFullScreen from './components/IconFullScreen.vue'
@@ -25,6 +24,7 @@ import IconList from './components/IconList.vue'
 import IconMenu from './components/IconMenu.vue'
 import IconMinus from './components/IconMinus.vue'
 import IconPicture from './components/IconPicture.vue'
+import IconPin from './components/IconPin.vue'
 import IconPlay from './components/IconPlay.vue'
 import IconPlaylist from './components/IconPlaylist.vue'
 import IconPlaylistAdd from './components/IconPlaylistAdd.vue'
@@ -58,7 +58,6 @@ export default {
         app.component('icon-edit', IconEdit)
         app.component('icon-exit', IconExit)
         app.component('icon-expand', IconExpand)
-        app.component('icon-flag', IconFlag)
         app.component('icon-fold', IconFold)
         app.component('icon-folder', IconFolder)
         app.component('icon-full-screen', IconFullScreen)
@@ -67,6 +66,7 @@ export default {
         app.component('icon-menu', IconMenu)
         app.component('icon-minus', IconMinus)
         app.component('icon-picture', IconPicture)
+        app.component('icon-pin', IconPin)
         app.component('icon-play', IconPlay)
         app.component('icon-playlist', IconPlaylist)
         app.component('icon-playlist-add', IconPlaylistAdd)
