@@ -29,6 +29,7 @@ import IconPlay from './components/IconPlay.vue'
 import IconPlaylist from './components/IconPlaylist.vue'
 import IconPlaylistAdd from './components/IconPlaylistAdd.vue'
 import IconPlus from './components/IconPlus.vue'
+import IconRecent from './components/IconRecent.vue'
 import IconRemove from './components/IconRemove.vue'
 import IconSearch from './components/IconSearch.vue'
 import IconSetting from './components/IconSetting.vue'
@@ -70,6 +71,7 @@ export default {
         app.component('icon-playlist', IconPlaylist)
         app.component('icon-playlist-add', IconPlaylistAdd)
         app.component('icon-plus', IconPlus)
+        app.component('icon-recent', IconRecent)
         app.component('icon-remove', IconRemove)
         app.component('icon-search', IconSearch)
         app.component('icon-setting', IconSetting)

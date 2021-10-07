@@ -25,6 +25,8 @@ async function ensureUser() {
 export async function removeGameUser(req) {
     // Remove the game from favorites.
     await removeFavorites(req._id)
+    // Remove the game from recently played.
+    await removeRecent(req._id)
     // Remove the game from all playlists.
     await removePlaylistAll(req._id)
 }
@@ -67,6 +69,45 @@ export async function getFavorites(index, count) {
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['favorites'], populate: false })
         .then((res) => {
             return res.favorites
+        })
+}
+
+// Add a game platform to recently played.
+export async function addRecent(req) {
+    // Get all recently played games list.
+    await UserModel.findOne({ _id: userId }, { select: ['recent'], populate: false })
+        .then(async (res) => {
+            // Remove game from list if already exists.
+            res.recent = res.recent.filter((res) => res != req)
+            // Add the selected game platform to the recently played list.
+            res.recent.push(req)
+            // Limit list items to 100, removing older entries if this limit is reached.
+            if (res.recent.length > 100) {
+                res.recent.shift()
+            }
+            // Update recently played list.
+            await UserModel.findOneAndUpdate({ _id: userId }, { recent: res.recent })
+        })
+}
+
+// Remove a game platform from recently played.
+export async function removeRecent(req) {
+    await ensureUser()
+    // Get all recently played games list.
+    await UserModel.findOne({ _id: userId }, { select: ['recent'], populate: false })
+        .then(async (res) => {
+            // Remove the selected game platform from the recently played list.
+            res.recent = res.recent.filter((res) => res != req)
+            // Update recently played list.
+            await UserModel.findOneAndUpdate({ _id: userId }, { recent: res.recent })
+        })
+}
+
+// Get all recently played games.
+export async function getRecent(index, count) {
+    return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['recent'], populate: false })
+        .then((res) => {
+            return res.recent.reverse()
         })
 }
 
@@ -113,7 +154,7 @@ export async function deletePlaylist(req) {
     await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
         .then(async (res) => {
             // Remove selected playlist object.
-            res.playlists = res.playlists.filter((pla) => pla._id != req)
+            res.playlists = res.playlists.filter((res) => res._id != req)
             // Update playlists.
             await UserModel.findOneAndUpdate({ _id: userId }, { playlists: res.playlists })
         })
@@ -164,7 +205,7 @@ export async function removePlaylistAll(req) {
             for (let [i, playlist] of res.playlists.entries()) {
                 if (playlist.games.includes(req)) {
                     // Remove selected game from playlist.
-                    res.playlists[i].games = playlist.games.filter((pla) => pla != req)
+                    res.playlists[i].games = playlist.games.filter((res) => res != req)
                 }
             }
             // Update playlists.

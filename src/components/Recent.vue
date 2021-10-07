@@ -1,25 +1,7 @@
 <template>
   <div>
-    <!-- Create game platform dialog. -->
-    <vi-dialog
-      v-show="createPlatformDialog"
-      @close="createPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert create game platform form component. -->
-      <create-game-platform @close="createPlatformClose()" />
-    </vi-dialog>
     <!-- Navigation bar. -->
-    <vi-nav-bar title="Games">
-      <!-- Open create developer dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createPlatformOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
+    <vi-nav-bar title="Recently Played">
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
@@ -31,10 +13,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists
-        gameSettings
-        groupSettings
-      />
+      <settings-lists gameSettings />
     </vi-nav-bar>
     <!-- Show games list. -->
     <div class="h-content m-6">
@@ -81,23 +60,17 @@
 <script>
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getGamesAll, getGamesAllSearch } from '@/database/controllers/Game'
+import { getGamesRecent } from '@/database/controllers/Game'
 // Import form components.
-import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
-  name: 'ListGames',
+  name: 'Recent',
   components: {
-    CreateGamePlatform,
     SettingsLists
   },
   setup() {
-    // Instantiate Vue elements.
-    const store = useStore()
-
     // Load games list on mounting.
     onMounted(() => { loadGames() })
 
@@ -109,7 +82,7 @@ export default {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
       // Get first batch of games.
-      getGamesAll(paginationIndex.value, paginationCount, false, true)
+      getGamesRecent(paginationIndex.value, paginationCount)
         .then((res) => {
           games.value = res
           // Set next pagination index.
@@ -120,29 +93,13 @@ export default {
       // Check loaded games to avoid duplication.
       if (games.value) {
         // Get next batch of games.
-        getGamesAll(paginationIndex.value, paginationCount, false, true)
+        getGamesRecent(paginationIndex.value, paginationCount)
           .then((res) => {
             games.value = games.value.concat(res)
             // Set next pagination index.
             paginationIndex.value += paginationCount
           })
       }
-    }
-
-    // Manage game platform operations.
-    let createPlatformDialog = ref(false)
-    const createPlatformOpen = () => {
-      // Restore the data on the store.
-      store.commit('resetGameSelected')
-      store.commit('resetGameForm')
-      // Open create dialog.
-      createPlatformDialog.value = !createPlatformDialog.value
-    }
-    const createPlatformClose = () => {
-      // Reload game list.
-      loadGames()
-      // Close create dialog.
-      createPlatformDialog.value = !createPlatformDialog.value
     }
 
     // Manage search queries.
@@ -156,7 +113,7 @@ export default {
         // A search has been done.
         querySearched.value = true
         // Search for games matching the query.
-        getGamesAllSearch(paginationIndex.value, paginationCount, query)
+        getGamesRecent(paginationIndex.value, paginationCount, query)
           .then((res) => {
             games.value = res
             // Set next pagination index.
@@ -176,9 +133,6 @@ export default {
     }
 
     return {
-      createPlatformClose,
-      createPlatformDialog,
-      createPlatformOpen,
       games,
       loadGamesNext,
       queryInput,

@@ -78,6 +78,8 @@ import { useStore } from 'vuex'
 import { app } from '@electron/remote'
 import { exec } from 'child_process'
 import { existsSync, readJSONSync } from 'fs-extra'
+// Import database controllers functions.
+import { addRecent } from '@/database/controllers/User'
 // Import form components.
 import ViewGameSettings from './ViewGameSettings.vue'
 
@@ -111,6 +113,9 @@ export default {
           // Log error and display message.
           console.log(error)
           launchErrorShow()
+        } else {
+          // Add launched game to the recently played list.
+          addRecent(props.gameInfo._id)
         }
       })
     }
