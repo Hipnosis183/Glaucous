@@ -7,7 +7,7 @@
       >
       </div>
       <div
-        class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll rounded-xl"
+        class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll rounded-3xl"
         :class="width ? width : ''"
       >
         <slot></slot>

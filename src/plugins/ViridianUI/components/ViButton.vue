@@ -1,9 +1,9 @@
 <template>
   <button
-    class="bg-theme-100 dark:bg-theme-800 h-10 px-4 py-2 shadow-color text-base whitespace-nowrap"
+    class="bg-theme-100 dark:bg-theme-800 h-10 px-4 py-2 rounded-xl shadow-color text-base whitespace-nowrap"
     :class="[
       $store.getters.getSettingsThemesDarkMode ? 'text-shadow' : '',
-      color ? 'font-semibold text-color-800 dark:text-color-500 rounded-full' : 'text-theme-800 dark:text-theme-200 rounded-xl',
+      color ? 'font-semibold text-color-800 dark:text-color-500' : 'text-theme-800 dark:text-theme-200',
       large ? 'w-full' : 'w-max'
     ]"
   >

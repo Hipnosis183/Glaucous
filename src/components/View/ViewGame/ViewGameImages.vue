@@ -166,7 +166,7 @@
       @click="imagesCoverOpen()"
       @load="loadImage()"
       :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
-      class="cursor-pointer m-auto mb-4 object-contain rounded-md"
+      class="cursor-pointer m-auto mb-4 object-contain rounded-xl shadow-color"
       :class="[
         renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : '',
         { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }
@@ -174,7 +174,7 @@
     />
     <div
       v-else
-      class="bg-theme-100 dark:bg-theme-800 border-2 border-theme-200 dark:border-theme-900 flex h-full items-center mb-4 rounded-md w-full"
+      class="bg-theme-100 dark:bg-theme-800 flex h-full items-center mb-4 rounded-3xl shadow-color w-full"
     >
       <div class="flex flex-col items-center m-auto">
         <div class="mb-4 text-theme-300">

@@ -38,7 +38,7 @@
         />
         <div
           v-else
-          class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-xl shadow-color w-full"
+          class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-3xl shadow-color w-full"
         >
           <div class="flex flex-col items-center m-auto">
             <div class="mb-4 text-6xl text-theme-300">
@@ -131,7 +131,7 @@
           </div>
           <div
             v-else
-            class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-xl shadow-color w-full"
+            class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-3xl shadow-color w-full"
           >
             <div class="flex flex-col items-center m-auto">
               <div class="mb-4 text-theme-300">

@@ -20,7 +20,7 @@
       </div>
     </vi-dialog>
     <!-- Playlists dialog. -->
-    <vi-modal class="justify-center mb-4 rounded-3xl">
+    <vi-modal class="justify-center mb-4">
       <!-- Padding. -->
       <div class="w-80" />
       <!-- Form header. -->
@@ -54,7 +54,7 @@
         <!-- Separator. -->
         <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
         <!-- List game playlists. -->
-        <div class="font-medium rounded-3xl space-y-2">
+        <div class="font-medium space-y-2">
           <div
             v-for="item in gamePlaylists"
             :key="item"

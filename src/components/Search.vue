@@ -2,7 +2,7 @@
   <vi-overlay>
     <div class="space-y-4 w-search">
       <!-- Search dialog. -->
-      <vi-modal class="rounded-3xl">
+      <vi-modal>
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
           <div class="flex space-x-2 w-full">
