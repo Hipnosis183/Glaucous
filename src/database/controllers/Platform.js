@@ -1,6 +1,6 @@
 import PlatformModel from '../models/Platform'
 import { generateID, connectDatastore } from '../datastore'
-import { getGamePlatformCountP, deleteGamesP } from './Game'
+import { getGamePlatformCountP, deleteGamesPlatform } from './Game'
 
 // Create new system platform.
 export async function createPlatform(req) {
@@ -29,7 +29,7 @@ export async function deletePlatform(req) {
     // Compact database.
     await connectDatastore().then(async () => {
         // Delete all of the platform's related games.
-        await deleteGamesP(req)
+        await deleteGamesPlatform(req)
         // Delete the platform itself.
         await PlatformModel.findOneAndDelete({ _id: req })
     })
@@ -52,19 +52,12 @@ export async function getPlatformByName(query) {
     return await PlatformModel.find({ name: search, group: false })
 }
 
-// Search for a specific platform by name.
-export async function getPlatformAllByName(query) {
-    const search = new RegExp(query, 'i')
-    // Search through platforms, case insensitive.
-    return await PlatformModel.find({ name: search })
-}
-
 // Search for a specific platform group by name.
 export async function getPlatformGroupByName(query, id) {
     const search = new RegExp(query, 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ group: true, name: search })
-        .then(res => {
+        .then((res) => {
             if (id) {
                 let platforms = []
                 for (let platform of res) {
@@ -79,11 +72,18 @@ export async function getPlatformGroupByName(query, id) {
         })
 }
 
+// Search for a specific platform (including groups) by name.
+export async function getPlatformAllByName(query) {
+    const search = new RegExp(query, 'i')
+    // Search through platforms, case insensitive.
+    return await PlatformModel.find({ name: search })
+}
+
 // Search for all platforms.
 export async function getPlatforms(index, count) {
     // Exclude platforms that are part of a group (but not groups).
     return await PlatformModel.find({ parent: { $exists: false } }, { skip: index, limit: count, sort: 'name' })
-        .then(async res => {
+        .then(async (res) => {
             return await getPlatformCount(res)
         })
 }
@@ -91,7 +91,7 @@ export async function getPlatforms(index, count) {
 // Search for all platforms from a specific group.
 export async function getPlatformsGroup(req, index, count) {
     return await PlatformModel.find({ parent: req }, { skip: index, limit: count, sort: 'name' })
-        .then(async res => {
+        .then(async (res) => {
             return await getPlatformCount(res)
         })
 }
@@ -102,11 +102,11 @@ async function getPlatformCount(req) {
         if (platform.group) {
             // Get and add platforms count to the object.
             await getPlatformGroupCount(platform._id)
-                .then(count => { platform.titles = count })
+                .then((count) => { platform.titles = count })
         } else {
             // Get and add titles count to the object.
             await getGamePlatformCountP(platform._id)
-                .then(count => { platform.titles = count })
+                .then((count) => { platform.titles = count })
         }
     }
     // Return object.
@@ -118,7 +118,7 @@ export async function getPlatformsAllSearch(index, count, query) {
     const search = new RegExp(query, 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ name: search }, { skip: index, limit: count, sort: 'name' })
-        .then(async res => {
+        .then(async (res) => {
             return await getPlatformCount(res)
         })
 }
@@ -128,7 +128,7 @@ export async function getPlatformsGroupAllSearch(index, count, req, query) {
     const search = new RegExp(query, 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ parent: req, name: search }, { skip: index, limit: count, sort: 'name' })
-        .then(async res => {
+        .then(async (res) => {
             return await getPlatformCount(res)
         })
 }

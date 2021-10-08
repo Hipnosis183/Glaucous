@@ -1,6 +1,6 @@
 import DeveloperModel from '../models/Developer'
 import { generateID, connectDatastore } from '../datastore'
-import { getGamePlatformCountD, deleteGamesD } from './Game'
+import { getGamePlatformCountD, deleteGamesDeveloper } from './Game'
 
 // Create new game developer.
 export async function createDeveloper(req) {
@@ -23,7 +23,7 @@ export async function deleteDeveloper(req) {
     // Compact database.
     await connectDatastore().then(async () => {
         // Delete all of the developer's related games.
-        await deleteGamesD(req)
+        await deleteGamesDeveloper(req)
         // Delete the developer itself.
         await DeveloperModel.findOneAndDelete({ _id: req })
     })
@@ -35,16 +35,16 @@ export async function getDeveloper(req) {
 }
 
 // Search for all developers in the database matching the given name.
-export async function getDeveloperByName(q) {
-    let query = new RegExp(q, 'i')
+export async function getDeveloperByName(query) {
+    const search = new RegExp(query, 'i')
     // Search through developers, case insensitive.
-    return await DeveloperModel.find({ name: query })
+    return await DeveloperModel.find({ name: search })
 }
 
 // Search for all developers.
 export async function getDevelopers(index, count) {
     return await DeveloperModel.find({}, { skip: index, limit: count, sort: 'name' })
-        .then(async res => {
+        .then(async (res) => {
             return await getDeveloperCount(res)
         })
 }
@@ -54,7 +54,7 @@ async function getDeveloperCount(req) {
     for (let developer of req) {
         // Get and add titles count to the object.
         await getGamePlatformCountD(developer._id)
-            .then(count => { developer.titles = count })
+            .then((count) => { developer.titles = count })
     }
     // Return object.
     return req
@@ -65,7 +65,7 @@ export async function getDevelopersAllSearch(index, count, query) {
     const search = new RegExp(query, 'i')
     // Search through developers, case insensitive.
     return await DeveloperModel.find({ name: search }, { skip: index, limit: count, sort: 'name' })
-        .then(async res => {
+        .then(async (res) => {
             return await getDeveloperCount(res)
         })
 }
