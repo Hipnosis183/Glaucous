@@ -1,26 +1,16 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <vi-dialog
+    <create-game-platform
       v-show="createPlatformDialog"
+      :gameDeveloper="$route.params.id"
       @close="createPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert create game platform form component. -->
-      <create-game-platform
-        :gameDeveloper="$route.params.id"
-        @close="createPlatformClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Edit developer dialog. -->
-    <vi-dialog
+    <edit-developer
       v-show="editDeveloperDialog"
       @close="editDeveloperClose()"
-      class="z-10"
-    >
-      <!-- Insert edit developer form component. -->
-      <edit-developer @close="editDeveloperClose()" />
-    </vi-dialog>
+    />
     <!-- Delete developer dialog. -->
     <vi-dialog
       v-show="deleteDeveloperDialog"

@@ -1,41 +1,47 @@
 <template>
-  <!-- Form header. -->
-  <div class="flex justify-between mb-4 mx-2">
-    <!-- Form title. -->
-    <div class="flex h-10">
-      <p class="mr-4 pt-1 text-2xl">New Game Version</p>
-      <form-game-images showVersion />
-    </div>
-    <!-- Form buttons. -->
-    <div class="h-10 space-x-4">
-      <vi-button-icon @click="onSubmit()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-      <vi-button-icon @click="$emit('close')">
-        <vi-icon class="w-6">
-          <icon-close />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </div>
-  <!-- Create game version form. -->
-  <form>
-    <!-- Form components. -->
-    <div class="flex space-x-4">
-      <div class="w-1/2">
-        <form-game-version-name />
+  <!-- Create game version dialog. -->
+  <vi-dialog
+    @close="$emit('close')"
+    class="z-10"
+  >
+    <!-- Form header. -->
+    <div class="flex justify-between mb-4 mx-2">
+      <!-- Form title. -->
+      <div class="flex h-10">
+        <p class="mr-4 pt-1 text-2xl">New Game Version</p>
+        <form-game-images showVersion />
       </div>
-      <div class="w-1/2">
-        <div class="flex space-x-4">
-          <form-game-version-number />
-          <form-game-version-latest />
+      <!-- Form buttons. -->
+      <div class="h-10 space-x-4">
+        <vi-button-icon @click="onSubmit()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
+        <vi-button-icon @click="$emit('close')">
+          <vi-icon class="w-6">
+            <icon-close />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
+    </div>
+    <!-- Create game version form. -->
+    <form>
+      <!-- Form components. -->
+      <div class="flex space-x-4">
+        <div class="w-1/2">
+          <form-game-version-name />
+        </div>
+        <div class="w-1/2">
+          <div class="flex space-x-4">
+            <form-game-version-number />
+            <form-game-version-latest />
+          </div>
         </div>
       </div>
-    </div>
-    <form-game-version-comments />
-  </form>
+      <form-game-version-comments />
+    </form>
+  </vi-dialog>
 </template>
 
 <script>

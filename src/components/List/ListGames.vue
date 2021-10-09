@@ -1,14 +1,10 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <vi-dialog
+    <create-game-platform
       v-show="createPlatformDialog"
       @close="createPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert create game platform form component. -->
-      <create-game-platform @close="createPlatformClose()" />
-    </vi-dialog>
+    />
     <!-- Navigation bar. -->
     <vi-nav-bar title="Games">
       <!-- Open create developer dialog. -->

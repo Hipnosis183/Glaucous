@@ -1,5 +1,9 @@
 <template>
-  <vi-overlay>
+  <!-- Playlists management dialog. -->
+  <vi-dialog
+    @close="$emit('close')"
+    class="z-10"
+  >
     <!-- Validation error dialog. -->
     <vi-dialog
       v-show="validationErrorDialog"
@@ -19,59 +23,56 @@
         </vi-button-icon>
       </div>
     </vi-dialog>
-    <!-- Playlists dialog. -->
-    <vi-modal class="justify-center mb-4">
-      <!-- Padding. -->
-      <div class="w-80" />
-      <!-- Form header. -->
-      <div class="flex justify-between mb-6 mx-2">
-        <!-- Form title. -->
-        <p class="mr-10 pt-1 text-2xl">Playlists</p>
-        <!-- Form buttons. -->
-        <vi-button-icon @click="addPlaylists()">
-          <vi-icon class="w-6">
-            <icon-add />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-      <vi-select
-        v-model="querySelected"
-        clearable
-        placeholder="Filter..."
-        remote
-        :remote-method="queryFilter"
-        class="w-full"
+    <!-- Padding. -->
+    <div class="w-80" />
+    <!-- Form header. -->
+    <div class="flex justify-between mb-6 mx-2">
+      <!-- Form title. -->
+      <p class="mr-10 pt-1 text-2xl">Playlists</p>
+      <!-- Form buttons. -->
+      <vi-button-icon @click="addPlaylists()">
+        <vi-icon class="w-6">
+          <icon-add />
+        </vi-icon>
+      </vi-button-icon>
+    </div>
+    <vi-select
+      v-model="querySelected"
+      clearable
+      placeholder="Filter..."
+      remote
+      :remote-method="queryFilter"
+      class="w-full"
+    >
+      <vi-option
+        v-for="item in queryResults"
+        :key="item._id"
+        :label="item.name"
+        :value="item._id"
       >
-        <vi-option
-          v-for="item in queryResults"
-          :key="item._id"
-          :label="item.name"
-          :value="item._id"
+      </vi-option>
+    </vi-select>
+    <div v-if="gamePlaylists.length > 0">
+      <!-- Separator. -->
+      <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+      <!-- List game playlists. -->
+      <div class="font-medium space-y-2">
+        <div
+          v-for="item in gamePlaylists"
+          :key="item"
+          :value="item"
         >
-        </vi-option>
-      </vi-select>
-      <div v-if="gamePlaylists.length > 0">
-        <!-- Separator. -->
-        <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
-        <!-- List game playlists. -->
-        <div class="font-medium space-y-2">
-          <div
-            v-for="item in gamePlaylists"
-            :key="item"
-            :value="item"
+          <vi-chip
+            large
+            @clicked="$router.push({ name: 'Playlist', params: { id: item._id } })"
+            @remove="removePlaylists(item._id)"
           >
-            <vi-chip
-              large
-              @clicked="$router.push({ name: 'Playlist', params: { id: item._id } })"
-              @remove="removePlaylists(item._id)"
-            >
-              {{ item.name }}
-            </vi-chip>
-          </div>
+            {{ item.name }}
+          </vi-chip>
         </div>
       </div>
-    </vi-modal>
-  </vi-overlay>
+    </div>
+  </vi-dialog>
 </template>
 
 <script>
@@ -83,6 +84,9 @@ import { addPlaylist, getGamePlaylists, getPlaylists, removePlaylist } from '@/d
 
 export default {
   name: 'ViewGamePlaylists',
+  emits: [
+    'close'
+  ],
   setup() {
     // Instantiate Vue elements.
     const route = useRoute()

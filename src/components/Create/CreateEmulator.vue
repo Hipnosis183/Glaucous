@@ -1,70 +1,77 @@
 <template>
-  <!-- Validation error dialog. -->
+  <!-- Create emulator dialog. -->
   <vi-dialog
-    v-show="validationErrorDialog"
-    @close="validationErrorShow()"
+    @close="$emit('close')"
+    width="w-2/3"
     class="pos-initial z-10"
   >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Complete the required fields.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Close message. -->
-      <vi-button-icon @click="validationErrorShow()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
+    <!-- Validation error dialog. -->
+    <vi-dialog
+      v-show="validationErrorDialog"
+      @close="validationErrorShow()"
+      class="pos-initial z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Complete the required fields.
+      </p>
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Close message. -->
+        <vi-button-icon @click="validationErrorShow()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
+    </vi-dialog>
+    <!-- Form header. -->
+    <div class="flex justify-between mb-4 mx-2">
+      <!-- Form title. -->
+      <p class="mr-10 pt-1 text-2xl">New Emulator</p>
+      <!-- Form buttons. -->
+      <div class="h-10 space-x-4">
+        <vi-button-icon @click="onSubmit()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
+        <vi-button-icon @click="$emit('close')">
+          <vi-icon class="w-6">
+            <icon-close />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
+    </div>
+    <!-- Create emulator form. -->
+    <form>
+      <!-- Form components. -->
+      <div class="flex mb-6 space-x-4">
+        <div class="w-1/2">
+          <form-emulator-name />
+          <form-emulator-path />
+        </div>
+        <div class="w-1/2">
+          <form-emulator-file />
+          <form-emulator-params />
+        </div>
+      </div>
+    </form>
+    <!-- Command preview. -->
+    <div class="space-y-6">
+      <div />
+      <vi-section-header label="Preview" />
+      <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
+        <div
+          v-if="$store.state.emulatorForm.path || $store.state.emulatorForm.file"
+          class="cursor-default"
+        >{{ fullCommand }}</div>
+        <div
+          v-else
+          class="invisible"
+        >.</div>
+      </div>
     </div>
   </vi-dialog>
-  <!-- Form header. -->
-  <div class="flex justify-between mb-4 mx-2">
-    <!-- Form title. -->
-    <p class="mr-10 pt-1 text-2xl">New Emulator</p>
-    <!-- Form buttons. -->
-    <div class="h-10 space-x-4">
-      <vi-button-icon @click="onSubmit()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-      <vi-button-icon @click="$emit('close')">
-        <vi-icon class="w-6">
-          <icon-close />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </div>
-  <!-- Create emulator form. -->
-  <form>
-    <!-- Form components. -->
-    <div class="flex mb-6 space-x-4">
-      <div class="w-1/2">
-        <form-emulator-name />
-        <form-emulator-path />
-      </div>
-      <div class="w-1/2">
-        <form-emulator-file />
-        <form-emulator-params />
-      </div>
-    </div>
-  </form>
-  <!-- Command preview. -->
-  <div class="space-y-6">
-    <div />
-    <vi-section-header label="Preview" />
-    <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
-      <div
-        v-if="$store.state.emulatorForm.path || $store.state.emulatorForm.file"
-        class="cursor-default"
-      >{{ fullCommand }}</div>
-      <div
-        v-else
-        class="invisible"
-      >.</div>
-    </div>
-  </div>
 </template>
 
 <script>

@@ -1,24 +1,18 @@
 <template>
   <!-- View game details dialog. -->
-  <vi-dialog
+  <view-game-details
     v-show="gameDetailsDialog"
+    :gameInfo="gameInfo"
+    :regionIndex="regionIndex"
+    :versionIndex="versionIndex"
     @close="gameDetailsShow()"
-    class="pos-initial z-10"
-  >
-    <!-- Insert view game details component. -->
-    <view-game-details
-      :gameInfo="gameInfo"
-      :regionIndex="regionIndex"
-      :versionIndex="versionIndex"
-    />
-  </vi-dialog>
+  />
   <!-- Insert view game linking component. -->
   <view-game-linking
     v-show="gameLinkingDialog"
     :gameInfo="gameInfo"
     :regionIndex="regionIndex"
     @close="gameLinkingShow()"
-    class="pos-initial z-10"
   />
   <!-- Flag image. -->
   <img

@@ -1,14 +1,10 @@
 <template>
   <div>
     <!-- Create playlist dialog. -->
-    <vi-dialog
+    <create-playlist
       v-show="createPlaylistDialog"
       @close="createPlaylistClose()"
-      class="z-10"
-    >
-      <!-- Insert create playlist form component. -->
-      <create-playlist @close="createPlaylistClose()" />
-    </vi-dialog>
+    />
     <!-- Navigation bar. -->
     <vi-nav-bar title="Playlists">
       <!-- Open create playlist dialog. -->

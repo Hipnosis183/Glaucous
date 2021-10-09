@@ -1,29 +1,17 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <vi-dialog
+    <create-game-platform
       v-show="createPlatformDialog"
+      :gamePlatform="$route.params.id"
       @close="createPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert create game platform form component. -->
-      <create-game-platform
-        :gamePlatform="$route.params.id"
-        @close="createPlatformClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Edit platform dialog. -->
-    <vi-dialog
+    <edit-platform
       v-show="editPlatformDialog"
+      :groupPlatform="platform.parent"
       @close="editPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert edit platform form component. -->
-      <edit-platform
-        :groupPlatform="platform.parent"
-        @close="editPlatformClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Delete platform dialog. -->
     <vi-dialog
       v-show="deletePlatformDialog"
@@ -52,18 +40,10 @@
       </div>
     </vi-dialog>
     <!-- Platform settings dialog. -->
-    <vi-dialog
+    <view-platform-settings
       v-show="settingsPlatformDialog"
       @close="settingsPlatformClose()"
-      width="w-2/3"
-      class="z-10"
-    >
-      <view-platform-settings
-        v-if="$store.state.selectedPlatform"
-        :key="$store.state.selectedPlatform"
-        @close="settingsPlatformClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Navigation bar. -->
     <vi-nav-bar
       :button="true"

@@ -1,14 +1,10 @@
 <template>
   <div>
     <!-- Edit playlist dialog. -->
-    <vi-dialog
+    <edit-playlist
       v-show="editPlaylistDialog"
       @close="editPlaylistClose()"
-      class="z-10"
-    >
-      <!-- Insert edit playlist form component. -->
-      <edit-playlist @close="editPlaylistClose()" />
-    </vi-dialog>
+    />
     <!-- Delete playlist dialog. -->
     <vi-dialog
       v-show="deletePlaylistDialog"

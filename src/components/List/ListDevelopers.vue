@@ -1,14 +1,10 @@
 <template>
   <div>
     <!-- Create developer dialog. -->
-    <vi-dialog
+    <create-developer
       v-show="createDeveloperDialog"
       @close="createDeveloperClose()"
-      class="z-10"
-    >
-      <!-- Insert create developer form component. -->
-      <create-developer @close="createDeveloperClose()" />
-    </vi-dialog>
+    />
     <!-- Navigation bar. -->
     <vi-nav-bar title="Developers">
       <!-- Open create developer dialog. -->

@@ -1,73 +1,79 @@
 <template>
-  <!-- Validation error dialog. -->
+  <!-- Create game region dialog. -->
   <vi-dialog
-    v-show="validationErrorDialog"
-    @close="validationErrorShow()"
-    class="pos-initial z-10"
+    @close="$emit('close')"
+    class="z-10"
   >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Complete the required fields.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Close message. -->
-      <vi-button-icon @click="validationErrorShow()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
+    <!-- Validation error dialog. -->
+    <vi-dialog
+      v-show="validationErrorDialog"
+      @close="validationErrorShow()"
+      class="pos-initial z-10"
+    >
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        Complete the required fields.
+      </p>
+      <div class="flex justify-center mt-6 space-x-4">
+        <!-- Close message. -->
+        <vi-button-icon @click="validationErrorShow()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
+    </vi-dialog>
+    <!-- Form header. -->
+    <div class="flex justify-between mb-4 mx-2">
+      <!-- Form title. -->
+      <div class="flex h-10">
+        <p class="mr-4 pt-1 text-2xl">New Game Region</p>
+        <form-game-images
+          showRegion
+          showVersion
+        />
+      </div>
+      <!-- Form buttons. -->
+      <div class="h-10 space-x-4">
+        <vi-button-icon @click="onSubmit()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
+        <vi-button-icon @click="$emit('close')">
+          <vi-icon class="w-6">
+            <icon-close />
+          </vi-icon>
+        </vi-button-icon>
+      </div>
     </div>
+    <!-- Create game region form. -->
+    <form>
+      <!-- Form components. -->
+      <div class="flex space-x-4">
+        <div class="w-1/2">
+          <form-game-region-region />
+          <form-game-region-title />
+          <form-game-region-pre-title />
+          <form-game-region-sub-title />
+        </div>
+        <div class="w-1/2">
+          <form-game-region-original-title />
+          <form-game-region-romanized-title />
+          <form-game-region-translated-title />
+          <div class="flex space-x-4">
+            <form-game-platform-serial />
+            <form-game-version-name />
+          </div>
+          <div class="flex space-x-4">
+            <form-game-version-number />
+            <form-game-version-latest />
+          </div>
+        </div>
+      </div>
+      <form-game-version-comments />
+    </form>
   </vi-dialog>
-  <!-- Form header. -->
-  <div class="flex justify-between mb-4 mx-2">
-    <!-- Form title. -->
-    <div class="flex h-10">
-      <p class="mr-4 pt-1 text-2xl">New Game Region</p>
-      <form-game-images
-        showRegion
-        showVersion
-      />
-    </div>
-    <!-- Form buttons. -->
-    <div class="h-10 space-x-4">
-      <vi-button-icon @click="onSubmit()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-      <vi-button-icon @click="$emit('close')">
-        <vi-icon class="w-6">
-          <icon-close />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </div>
-  <!-- Create game region form. -->
-  <form>
-    <!-- Form components. -->
-    <div class="flex space-x-4">
-      <div class="w-1/2">
-        <form-game-region-region />
-        <form-game-region-title />
-        <form-game-region-pre-title />
-        <form-game-region-sub-title />
-      </div>
-      <div class="w-1/2">
-        <form-game-region-original-title />
-        <form-game-region-romanized-title />
-        <form-game-region-translated-title />
-        <div class="flex space-x-4">
-          <form-game-platform-serial />
-          <form-game-version-name />
-        </div>
-        <div class="flex space-x-4">
-          <form-game-version-number />
-          <form-game-version-latest />
-        </div>
-      </div>
-    </div>
-    <form-game-version-comments />
-  </form>
 </template>
 
 <script>

@@ -1,45 +1,27 @@
 <template>
   <div>
     <!-- Create game platform dialog. -->
-    <vi-dialog
+    <create-game-platform
       v-show="createPlatformDialog"
       @close="createPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert create game platform form component. -->
-      <create-game-platform @close="createPlatformClose()" />
-    </vi-dialog>
+    />
     <!-- Create game region dialog. -->
-    <vi-dialog
+    <create-game-region
       v-show="createRegionDialog"
       @close="createRegionClose()"
-      class="z-10"
-    >
-      <!-- Insert create game region form component. -->
-      <create-game-region @close="createRegionClose()" />
-    </vi-dialog>
+    />
     <!-- Create game version dialog. -->
-    <vi-dialog
+    <create-game-version
       v-show="createVersionDialog"
       @close="createVersionClose()"
-      class="z-10"
-    >
-      <!-- Insert create game version form component. -->
-      <create-game-version @close="createVersionClose()" />
-    </vi-dialog>
+    />
     <!-- Edit game dialog. -->
-    <vi-dialog
+    <edit-game
       v-show="editGameDialog"
+      :gameDeveloper="gameInfo.developer._id"
+      :gamePlatform="gameInfo.platform._id"
       @close="editGameClose()"
-      class="z-10"
-    >
-      <!-- Insert edit game form component. -->
-      <edit-game
-        :gameDeveloper="gameInfo.developer._id"
-        :gamePlatform="gameInfo.platform._id"
-        @close="editGameClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Delete game region dialog. -->
     <vi-dialog
       v-show="deleteRegionDialog"
@@ -125,11 +107,10 @@
         </vi-button-icon>
       </div>
     </vi-dialog>
-    <!-- Insert playlists management component. -->
+    <!-- Playlists management dialog. -->
     <view-game-playlists
       v-show="managePlaylistsDialog"
       @close="managePlaylistsClose()"
-      class="pos-initial z-10"
     />
     <!-- Navigation bar. -->
     <vi-nav-bar>

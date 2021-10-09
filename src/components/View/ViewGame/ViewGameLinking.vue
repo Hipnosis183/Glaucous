@@ -1,5 +1,5 @@
 <template>
-  <vi-overlay>
+  <vi-overlay class="pos-initial z-10">
     <!-- Unlink game dialog. -->
     <vi-dialog
       v-show="unlinkGameDialog"

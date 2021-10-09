@@ -1,18 +1,10 @@
 <template>
   <!-- Game settings dialog. -->
-  <vi-dialog
+  <view-game-settings
     v-show="settingsGameDialog"
+    :fullCommand="fullCommand"
     @close="settingsGameClose()"
-    width="w-2/3"
-    class="pos-initial z-10"
-  >
-    <view-game-settings
-      v-if="$store.state.gameSelected.gameVersion"
-      :key="$store.state.gameSelected.gameVersion"
-      :fullCommand="fullCommand"
-      @close="settingsGameClose()"
-    />
-  </vi-dialog>
+  />
   <!-- Launcher error dialog. -->
   <vi-dialog
     v-show="launchErrorDialog"

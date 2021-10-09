@@ -19,33 +19,19 @@
     </div>
   </vi-dialog>
   <!-- Create emulator dialog. -->
-  <vi-dialog
+  <create-emulator
     v-show="createEmulatorDialog"
+    :emulatorList="emulatorList"
+    :emulatorPath="emulatorPath"
     @close="createEmulatorClose()"
-    width="w-2/3"
-    class="pos-initial z-10"
-  >
-    <!-- Insert create emulator form component. -->
-    <create-emulator
-      :emulatorList="emulatorList"
-      :emulatorPath="emulatorPath"
-      @close="createEmulatorClose()"
-    />
-  </vi-dialog>
+  />
   <!-- Edit emulator dialog. -->
-  <vi-dialog
+  <edit-emulator
     v-show="editEmulatorDialog"
+    :emulatorList="emulatorList"
+    :emulatorPath="emulatorPath"
     @close="editEmulatorClose()"
-    width="w-2/3"
-    class="pos-initial z-10"
-  >
-    <!-- Insert edit emulator form component. -->
-    <edit-emulator
-      :emulatorList="emulatorList"
-      :emulatorPath="emulatorPath"
-      @close="editEmulatorClose()"
-    />
-  </vi-dialog>
+  />
   <!-- Delete emulator dialog. -->
   <vi-dialog
     v-show="deleteEmulatorDialog"

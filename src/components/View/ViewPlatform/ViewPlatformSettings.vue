@@ -1,45 +1,54 @@
 <template>
-  <div class="flex max-h-content overflow-hidden">
-    <div class="flex-1 no-scrollbar overflow-y-scroll">
-      <!-- Header. -->
-      <div class="flex justify-between mb-10 mx-2">
-        <!-- Title. -->
-        <p class="mr-10 pt-1 text-2xl">Platform Settings</p>
-        <!-- Buttons. -->
-        <div class="h-10 space-x-4">
-          <!-- Store settings. -->
-          <vi-button-icon @click="storeSettings()">
-            <vi-icon class="w-6">
-              <icon-check />
-            </vi-icon>
-          </vi-button-icon>
-          <!-- Close dialog. -->
-          <vi-button-icon @click="$emit('close')">
-            <vi-icon class="w-6">
-              <icon-close />
-            </vi-icon>
-          </vi-button-icon>
+  <!-- Platform settings dialog. -->
+  <vi-dialog
+    v-if="$store.state.selectedPlatform"
+    :key="$store.state.selectedPlatform"
+    @close="$emit('close')"
+    width="w-2/3"
+    class="z-10"
+  >
+    <div class="flex max-h-content overflow-hidden">
+      <div class="flex-1 no-scrollbar overflow-y-scroll">
+        <!-- Header. -->
+        <div class="flex justify-between mb-10 mx-2">
+          <!-- Title. -->
+          <p class="mr-10 pt-1 text-2xl">Platform Settings</p>
+          <!-- Buttons. -->
+          <div class="h-10 space-x-4">
+            <!-- Store settings. -->
+            <vi-button-icon @click="storeSettings()">
+              <vi-icon class="w-6">
+                <icon-check />
+              </vi-icon>
+            </vi-button-icon>
+            <!-- Close dialog. -->
+            <vi-button-icon @click="$emit('close')">
+              <vi-icon class="w-6">
+                <icon-close />
+              </vi-icon>
+            </vi-button-icon>
+          </div>
+        </div>
+        <!-- Settings. -->
+        <div class="mb-6">
+          <!-- Emulator. -->
+          <view-settings-emulator settingsType="Platform" />
+        </div>
+        <div class="space-y-6">
+          <!-- Relative games path. -->
+          <vi-section-content>
+            <p class="text-xl whitespace-nowrap">Relative Games Path</p>
+            <vi-input v-model="relativePath" />
+          </vi-section-content>
+          <!-- Image Filtering. -->
+          <vi-section-content>
+            <p class="text-xl">Image Filtering</p>
+            <vi-switch v-model="imageFiltering" />
+          </vi-section-content>
         </div>
       </div>
-      <!-- Settings. -->
-      <div class="mb-6">
-        <!-- Emulator. -->
-        <view-settings-emulator settingsType="Platform" />
-      </div>
-      <div class="space-y-6">
-        <!-- Relative games path. -->
-        <vi-section-content>
-          <p class="text-xl whitespace-nowrap">Relative Games Path</p>
-          <vi-input v-model="relativePath" />
-        </vi-section-content>
-        <!-- Image Filtering. -->
-        <vi-section-content>
-          <p class="text-xl">Image Filtering</p>
-          <vi-switch v-model="imageFiltering" />
-        </vi-section-content>
-      </div>
     </div>
-  </div>
+  </vi-dialog>
 </template>
 
 <script>

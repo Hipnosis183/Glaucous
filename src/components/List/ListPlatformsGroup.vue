@@ -1,29 +1,17 @@
 <template>
   <div>
     <!-- Create platform dialog. -->
-    <vi-dialog
+    <create-platform
       v-show="createPlatformDialog"
+      :groupPlatform="$route.params.id"
       @close="createPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert create platform form component. -->
-      <create-platform
-        :groupPlatform="$route.params.id"
-        @close="createPlatformClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Edit platform dialog. -->
-    <vi-dialog
+    <edit-platform
       v-show="editPlatformDialog"
+      :groupPlatform="platform.parent"
       @close="editPlatformClose()"
-      class="z-10"
-    >
-      <!-- Insert edit platform form component. -->
-      <edit-platform
-        :groupPlatform="platform.parent"
-        @close="editPlatformClose()"
-      />
-    </vi-dialog>
+    />
     <!-- Delete platform dialog. -->
     <vi-dialog
       v-show="deletePlatformDialog"
