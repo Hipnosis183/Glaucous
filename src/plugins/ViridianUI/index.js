@@ -11,6 +11,7 @@ import ViCardList from './components/ViCardList.vue'
 import ViCardGrid from './components/ViCardGrid.vue'
 import ViChip from './components/ViChip.vue'
 import ViDialog from './components/ViDialog.vue'
+import ViDialogBox from './components/ViDialogBox.vue'
 import ViIcon from './components/ViIcon.vue'
 import ViInput from './components/ViInput.vue'
 import ViInputButton from './components/ViInputButton.vue'
@@ -46,6 +47,7 @@ export default {
         app.component('vi-card-grid', ViCardGrid)
         app.component('vi-chip', ViChip)
         app.component('vi-dialog', ViDialog)
+        app.component('vi-dialog-box', ViDialogBox)
         app.component('vi-icon', ViIcon)
         app.component('vi-input', ViInput)
         app.component('vi-input-button', ViInputButton)

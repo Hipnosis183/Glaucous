@@ -13,15 +13,16 @@
       @close="editPlatformClose()"
     />
     <!-- Delete platform dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="deletePlatformDialog"
       @accept="deletePlatformClose()"
       @cancel="deletePlatformOpen()"
+      actions="OkCancel"
     >
       Delete platform <b>'{{ platform.name }}'</b> ?
       <br />
       It will also delete all its game entries.
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Platform settings dialog. -->
     <view-platform-settings
       v-show="settingsPlatformDialog"
@@ -135,7 +136,6 @@ import { getPlatform, deletePlatform } from '@/database/controllers/Platform'
 import { getGamesPlatform } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
-import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
 import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
@@ -144,7 +144,6 @@ export default {
   name: 'ViewPlatform',
   components: {
     CreateGamePlatform,
-    DialogDelete,
     EditPlatform,
     SettingsLists,
     ViewPlatformSettings

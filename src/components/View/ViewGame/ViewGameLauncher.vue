@@ -6,26 +6,14 @@
     @close="settingsGameClose()"
   />
   <!-- Launcher error dialog. -->
-  <vi-dialog
+  <vi-dialog-box
     v-show="launchErrorDialog"
-    @close="launchErrorShow()"
-    class="pos-initial z-10"
+    @accept="launchErrorShow()"
   >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      An error has ocurred when launching the game.
-      <br />
-      Check if your configuration is correct and try again.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Close message. -->
-      <vi-button-icon @click="launchErrorShow()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </vi-dialog>
+    An error has ocurred when launching the game.
+    <br />
+    Check if your configuration is correct and try again.
+  </vi-dialog-box>
   <div class="pt-4 space-y-4">
     <div class="flex items-center">
       <h1 class="font-bold ml-2 text-xl">Start Game</h1>

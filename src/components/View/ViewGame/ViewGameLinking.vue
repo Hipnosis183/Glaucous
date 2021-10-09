@@ -1,53 +1,30 @@
 <template>
   <vi-overlay class="pos-initial z-10">
     <!-- Unlink game dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="unlinkGameDialog"
       @accept="unlinkGameClose()"
       @cancel="unlinkGameOpen()"
+      actions="OkCancel"
     >
       Unlink the game <b>'{{ gameInfo.gameRegions[regionIndex].title }}'</b> ?
       <br />
       It will stop being grouped with the games listed.
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Unlink error dialog. -->
-    <vi-dialog
+    <vi-dialog-box
       v-show="unlinkErrorDialog"
-      @close="unlinkErrorShow()"
-      class="pos-initial z-10"
+      @accept="unlinkErrorShow()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        This game is not linked with any other.
-      </p>
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Close message. -->
-        <vi-button-icon @click="unlinkErrorShow()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      This game is not linked with any other.
+    </vi-dialog-box>
     <!-- Validation error dialog. -->
-    <vi-dialog
+    <vi-dialog-box
       v-show="validationErrorDialog"
-      @close="validationErrorShow()"
-      class="pos-initial z-10"
+      @accept="validationErrorShow()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Complete the required field.
-      </p>
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Close message. -->
-        <vi-button-icon @click="validationErrorShow()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      Complete the required field.
+    </vi-dialog-box>
     <!-- Game linking dialog. -->
     <vi-modal
       v-show="$store.getters.getSettingsGeneralEditMode"
@@ -121,14 +98,9 @@
 import { onMounted, ref } from 'vue'
 // Import database controllers functions.
 import { getGamesLinked, getGamesLinkedSearch, linkGame, unlinkGame } from '@/database/controllers/Game'
-// Import form components.
-import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 
 export default {
   name: 'ViewGameLinking',
-  components: {
-    DialogDelete
-  },
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number }

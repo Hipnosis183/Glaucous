@@ -1,23 +1,4 @@
 <template>
-  <!-- Error dialog. -->
-  <vi-dialog
-    v-show="emulatorErrorDialog"
-    @close="emulatorErrorShow()"
-    class="pos-initial z-10"
-  >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Can't perform the operation without an emulator selected.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Close message. -->
-      <vi-button-icon @click="emulatorErrorShow()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </vi-dialog>
   <!-- Create emulator dialog. -->
   <create-emulator
     v-show="createEmulatorDialog"
@@ -33,13 +14,21 @@
     @close="editEmulatorClose()"
   />
   <!-- Delete emulator dialog. -->
-  <dialog-delete
+  <vi-dialog-box
     v-show="deleteEmulatorDialog"
     @accept="deleteEmulatorClose()"
     @cancel="deleteEmulatorOpen()"
+    actions="OkCancel"
   >
     Delete emulator <b>'{{ emulatorName }}'</b> ?
-  </dialog-delete>
+  </vi-dialog-box>
+  <!-- Error dialog. -->
+  <vi-dialog-box
+    v-show="emulatorErrorDialog"
+    @accept="emulatorErrorShow()"
+  >
+    Can't perform the operation without an emulator selected.
+  </vi-dialog-box>
   <!-- Emulator Setting. -->
   <vi-section-content>
     <p
@@ -95,14 +84,12 @@ import { app } from '@electron/remote'
 import { existsSync, readJSONSync, outputJSONSync } from 'fs-extra'
 // Import form components.
 import CreateEmulator from '@/components/Create/CreateEmulator.vue'
-import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 import EditEmulator from '@/components/Edit/EditEmulator.vue'
 
 export default {
   name: 'ViewSettingsEmulator',
   components: {
     CreateEmulator,
-    DialogDelete,
     EditEmulator
   },
   props: {

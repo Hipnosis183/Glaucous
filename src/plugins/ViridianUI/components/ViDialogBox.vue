@@ -1,7 +1,7 @@
 <template>
   <!-- Delete dialog. -->
   <vi-dialog
-    @close="$emit('cancel')"
+    @close="$emit(actions == 'Ok' ? 'accept' : 'cancel')"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -17,7 +17,10 @@
         </vi-icon>
       </vi-button-icon>
       <!-- Cancel deletion. -->
-      <vi-button-icon @click="$emit('cancel')">
+      <vi-button-icon
+        v-if="actions == 'OkCancel'"
+        @click="$emit('cancel')"
+      >
         <vi-icon class="w-6">
           <icon-close />
         </vi-icon>
@@ -27,12 +30,25 @@
 </template>
 
 <script>
+// Import UI components.
+import ViButtonIcon from './ViButtonIcon.vue'
+import ViDialog from './ViDialog.vue'
+import ViIcon from './ViIcon.vue'
+
 export default {
-  name: 'DialogDelete',
+  name: 'ViDialogBox',
+  components: {
+    ViButtonIcon,
+    ViDialog,
+    ViIcon
+  },
   emits: [
     'accept',
     'cancel'
-  ]
+  ],
+  props: {
+    actions: { type: String, default: 'Ok' }
+  }
 }
 </script>
 

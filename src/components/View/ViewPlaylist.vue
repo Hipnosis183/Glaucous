@@ -6,13 +6,14 @@
       @close="editPlaylistClose()"
     />
     <!-- Delete playlist dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="deletePlaylistDialog"
       @accept="deletePlaylistClose()"
       @cancel="deletePlaylistOpen()"
+      actions="OkCancel"
     >
       Delete playlist <b>'{{ playlist.name }}'</b> ?
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="playlist.name">
       <!-- Open edit playlist dialog. -->
@@ -97,14 +98,12 @@ import { useStore } from 'vuex'
 import { getPlaylist, deletePlaylist } from '@/database/controllers/User'
 import { getGamesPlaylist } from '@/database/controllers/Game'
 // Import form components.
-import DialogDelete from '../Dialog/DialogDelete.vue'
 import EditPlaylist from '../Edit/EditPlaylist.vue'
 import SettingsLists from '../Settings/SettingsLists.vue'
 
 export default {
   name: 'ViewPlaylist',
   components: {
-    DialogDelete,
     EditPlaylist,
     SettingsLists
   },

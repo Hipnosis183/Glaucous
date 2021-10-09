@@ -23,36 +23,39 @@
       @close="editGameClose()"
     />
     <!-- Delete game platform dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="deletePlatformDialog"
       @accept="deletePlatformClose()"
       @cancel="deletePlatformOpen()"
+      actions="OkCancel"
     >
       Delete game <b>'{{ fullTitle }}'</b> ?
       <br />
       It will also delete all its regions and versions.
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Delete game region dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="deleteRegionDialog"
       @accept="deleteRegionClose()"
       @cancel="deleteRegionOpen()"
+      actions="OkCancel"
     >
       Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
       from game <b>'{{ fullTitle }}'</b> ?
       <br />
       It will also delete all its versions.
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Delete game version dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="deleteVersionDialog"
       @accept="deleteVersionClose()"
       @cancel="deleteVersionOpen()"
+      actions="OkCancel"
     >
       Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
       <br />
       If it's the only version, it will also delete the region.
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Playlists management dialog. -->
     <view-game-playlists
       v-show="managePlaylistsDialog"
@@ -267,7 +270,6 @@ import { addFavorites, getFavorite, removeFavorites } from '@/database/controlle
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
 import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
-import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 import EditGame from '@/components/Edit/EditGame.vue'
 // Import game page components.
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
@@ -282,7 +284,6 @@ export default {
     CreateGamePlatform,
     CreateGameRegion,
     CreateGameVersion,
-    DialogDelete,
     EditGame,
     ViewGameImages,
     ViewGameInfo,

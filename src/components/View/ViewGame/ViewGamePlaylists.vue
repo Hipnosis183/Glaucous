@@ -5,24 +5,12 @@
     class="z-10"
   >
     <!-- Validation error dialog. -->
-    <vi-dialog
+    <vi-dialog-box
       v-show="validationErrorDialog"
-      @close="validationErrorShow()"
-      class="pos-initial z-10"
+      @accept="validationErrorShow()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Complete the required field.
-      </p>
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Close message. -->
-        <vi-button-icon @click="validationErrorShow()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      Complete the required field.
+    </vi-dialog-box>
     <!-- Padding. -->
     <div class="w-80" />
     <!-- Form header. -->

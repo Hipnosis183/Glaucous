@@ -12,15 +12,16 @@
       @close="editDeveloperClose()"
     />
     <!-- Delete developer dialog. -->
-    <dialog-delete
+    <vi-dialog-box
       v-show="deleteDeveloperDialog"
       @accept="deleteDeveloperClose()"
       @cancel="deleteDeveloperOpen()"
+      actions="OkCancel"
     >
       Delete developer <b>'{{ developer.name }}'</b> ?
       <br />
       It will also delete all its game entries.
-    </dialog-delete>
+    </vi-dialog-box>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="developer.name">
       <!-- Open create game platform dialog. -->
@@ -115,7 +116,6 @@ import { getDeveloper, deleteDeveloper } from '@/database/controllers/Developer'
 import { getGamesDeveloper } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import DialogDelete from '../Dialog/DialogDelete.vue'
 import EditDeveloper from '../Edit/EditDeveloper.vue'
 import SettingsLists from '../Settings/SettingsLists.vue'
 
@@ -123,7 +123,6 @@ export default {
   name: 'ViewDeveloper',
   components: {
     CreateGamePlatform,
-    DialogDelete,
     EditDeveloper,
     SettingsLists
   },
