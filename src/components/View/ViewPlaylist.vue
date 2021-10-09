@@ -6,30 +6,13 @@
       @close="editPlaylistClose()"
     />
     <!-- Delete playlist dialog. -->
-    <vi-dialog
+    <dialog-delete
       v-show="deletePlaylistDialog"
-      @close="deletePlaylistOpen()"
-      class="z-10"
+      @accept="deletePlaylistClose()"
+      @cancel="deletePlaylistOpen()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Delete playlist <b>'{{ playlist.name }}'</b> ?
-      </p>
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Confirm playlist deletion. -->
-        <vi-button-icon @click="deletePlaylistClose()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <!-- Cancel playlist deletion. -->
-        <vi-button-icon @click="deletePlaylistOpen()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      Delete playlist <b>'{{ playlist.name }}'</b> ?
+    </dialog-delete>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="playlist.name">
       <!-- Open edit playlist dialog. -->
@@ -114,12 +97,14 @@ import { useStore } from 'vuex'
 import { getPlaylist, deletePlaylist } from '@/database/controllers/User'
 import { getGamesPlaylist } from '@/database/controllers/Game'
 // Import form components.
+import DialogDelete from '../Dialog/DialogDelete.vue'
 import EditPlaylist from '../Edit/EditPlaylist.vue'
 import SettingsLists from '../Settings/SettingsLists.vue'
 
 export default {
   name: 'ViewPlaylist',
   components: {
+    DialogDelete,
     EditPlaylist,
     SettingsLists
   },

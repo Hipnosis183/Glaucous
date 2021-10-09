@@ -33,30 +33,13 @@
     @close="editEmulatorClose()"
   />
   <!-- Delete emulator dialog. -->
-  <vi-dialog
+  <dialog-delete
     v-show="deleteEmulatorDialog"
-    @close="deleteEmulatorOpen()"
-    class="pos-initial z-10"
+    @accept="deleteEmulatorClose()"
+    @cancel="deleteEmulatorOpen()"
   >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Delete emulator <b>'{{ emulatorName }}'</b> ?
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Confirm emulator deletion. -->
-      <vi-button-icon @click="deleteEmulatorClose()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-      <!-- Cancel emulator deletion. -->
-      <vi-button-icon @click="deleteEmulatorOpen()">
-        <vi-icon class="w-6">
-          <icon-close />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </vi-dialog>
+    Delete emulator <b>'{{ emulatorName }}'</b> ?
+  </dialog-delete>
   <!-- Emulator Setting. -->
   <vi-section-content>
     <p
@@ -112,12 +95,14 @@ import { app } from '@electron/remote'
 import { existsSync, readJSONSync, outputJSONSync } from 'fs-extra'
 // Import form components.
 import CreateEmulator from '@/components/Create/CreateEmulator.vue'
+import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 import EditEmulator from '@/components/Edit/EditEmulator.vue'
 
 export default {
   name: 'ViewSettingsEmulator',
   components: {
     CreateEmulator,
+    DialogDelete,
     EditEmulator
   },
   props: {

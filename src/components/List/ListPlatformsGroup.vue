@@ -12,49 +12,35 @@
       :groupPlatform="platform.parent"
       @close="editPlatformClose()"
     />
-    <!-- Delete platform dialog. -->
+    <!-- Delete platform allowed dialog. -->
+    <dialog-delete
+      v-if="!platform.platforms.length > 0"
+      v-show="deletePlatformDialog"
+      @accept="deletePlatformClose()"
+      @cancel="deletePlatformOpen()"
+    >
+      Delete platform group <b>'{{ platform.name }}'</b> ?
+    </dialog-delete>
+    <!-- Delete platform denied dialog. -->
     <vi-dialog
+      v-else
       v-show="deletePlatformDialog"
       @close="deletePlatformOpen()"
       class="z-10"
     >
-      <!-- Delete allowed. -->
-      <div v-if="!platform.platforms.length > 0">
-        <!-- Dialog message. -->
-        <p class="text-center text-lg">
-          Delete platform group <b>'{{ platform.name }}'</b> ?
-        </p>
-        <div class="flex justify-center mt-6 space-x-4">
-          <!-- Confirm platform deletion. -->
-          <vi-button-icon @click="deletePlatformClose()">
-            <vi-icon class="w-6">
-              <icon-check />
-            </vi-icon>
-          </vi-button-icon>
-          <!-- Cancel platform deletion. -->
-          <vi-button-icon @click="deletePlatformOpen()">
-            <vi-icon class="w-6">
-              <icon-close />
-            </vi-icon>
-          </vi-button-icon>
-        </div>
-      </div>
-      <!-- Delete denied. -->
-      <div v-else>
-        <!-- Dialog message. -->
-        <p class="text-center text-lg">
-          You can't delete a group if it has platforms on it.
-          <br />
-          Delete the platforms individually first.
-        </p>
-        <div class="flex justify-center mt-6">
-          <!-- Cancel platform deletion. -->
-          <vi-button-icon @click="deletePlatformOpen()">
-            <vi-icon class="w-6">
-              <icon-check />
-            </vi-icon>
-          </vi-button-icon>
-        </div>
+      <!-- Dialog message. -->
+      <p class="text-center text-lg">
+        You can't delete a group if it has platforms on it.
+        <br />
+        Delete the platforms individually first.
+      </p>
+      <div class="flex justify-center mt-6">
+        <!-- Cancel platform deletion. -->
+        <vi-button-icon @click="deletePlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-check />
+          </vi-icon>
+        </vi-button-icon>
       </div>
     </vi-dialog>
     <!-- Navigation bar. -->
@@ -138,12 +124,14 @@ import { useStore } from 'vuex'
 import { deletePlatform, getPlatform, getPlatformsGroup, getPlatformsGroupAllSearch } from '@/database/controllers/Platform'
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
+import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
 
 export default {
   name: 'ListPlatformsGroup',
   components: {
     CreatePlatform,
+    DialogDelete,
     EditPlatform
   },
   setup() {

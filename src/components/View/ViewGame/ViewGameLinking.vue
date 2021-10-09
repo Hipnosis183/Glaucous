@@ -1,32 +1,15 @@
 <template>
   <vi-overlay class="pos-initial z-10">
     <!-- Unlink game dialog. -->
-    <vi-dialog
+    <dialog-delete
       v-show="unlinkGameDialog"
-      @close="unlinkGameOpen()"
-      class="pos-initial z-10"
+      @accept="unlinkGameClose()"
+      @cancel="unlinkGameOpen()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Unlink the game <b>'{{ gameInfo.gameRegions[regionIndex].title }}'</b> ?
-        <br />
-        It will stop being grouped with the games listed.
-      </p>
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Confirm game unlink. -->
-        <vi-button-icon @click="unlinkGameClose()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <!-- Cancel game unlink. -->
-        <vi-button-icon @click="unlinkGameOpen()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      Unlink the game <b>'{{ gameInfo.gameRegions[regionIndex].title }}'</b> ?
+      <br />
+      It will stop being grouped with the games listed.
+    </dialog-delete>
     <!-- Unlink error dialog. -->
     <vi-dialog
       v-show="unlinkErrorDialog"
@@ -137,15 +120,15 @@
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 // Import database controllers functions.
-import {
-  getGamesLinked,
-  getGamesLinkedSearch,
-  linkGame,
-  unlinkGame
-} from '@/database/controllers/Game'
+import { getGamesLinked, getGamesLinkedSearch, linkGame, unlinkGame } from '@/database/controllers/Game'
+// Import form components.
+import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 
 export default {
   name: 'ViewGameLinking',
+  components: {
+    DialogDelete
+  },
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number }

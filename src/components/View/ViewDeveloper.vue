@@ -12,32 +12,15 @@
       @close="editDeveloperClose()"
     />
     <!-- Delete developer dialog. -->
-    <vi-dialog
+    <dialog-delete
       v-show="deleteDeveloperDialog"
-      @close="deleteDeveloperOpen()"
-      class="z-10"
+      @accept="deleteDeveloperClose()"
+      @cancel="deleteDeveloperOpen()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Delete developer <b>'{{ developer.name }}'</b> ?
-        <br />
-        It will also delete all its game entries.
-      </p>
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Confirm developer deletion. -->
-        <vi-button-icon @click="deleteDeveloperClose()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <!-- Cancel developer deletion. -->
-        <vi-button-icon @click="deleteDeveloperOpen()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      Delete developer <b>'{{ developer.name }}'</b> ?
+      <br />
+      It will also delete all its game entries.
+    </dialog-delete>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="developer.name">
       <!-- Open create game platform dialog. -->
@@ -132,6 +115,7 @@ import { getDeveloper, deleteDeveloper } from '@/database/controllers/Developer'
 import { getGamesDeveloper } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
+import DialogDelete from '../Dialog/DialogDelete.vue'
 import EditDeveloper from '../Edit/EditDeveloper.vue'
 import SettingsLists from '../Settings/SettingsLists.vue'
 
@@ -139,6 +123,7 @@ export default {
   name: 'ViewDeveloper',
   components: {
     CreateGamePlatform,
+    DialogDelete,
     EditDeveloper,
     SettingsLists
   },

@@ -22,91 +22,37 @@
       :gamePlatform="gameInfo.platform._id"
       @close="editGameClose()"
     />
-    <!-- Delete game region dialog. -->
-    <vi-dialog
-      v-show="deleteRegionDialog"
-      @close="deleteRegionOpen()"
-      class="z-10"
-    >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
-        from game <b>'{{ fullTitle }}'</b> ?
-        <br />
-        It will also delete all its versions.
-      </p>
-      <!-- Dialog buttons. -->
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Confirm game deletion. -->
-        <vi-button-icon @click="deleteRegionClose()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <!-- Cancel game deletion. -->
-        <vi-button-icon @click="deleteRegionOpen()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
-    <!-- Delete game version dialog. -->
-    <vi-dialog
-      v-show="deleteVersionDialog"
-      @close="deleteVersionOpen()"
-      class="z-10"
-    >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
-        <br />
-        If it's the only version, it will also delete the region.
-      </p>
-      <!-- Dialog buttons. -->
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Confirm game deletion. -->
-        <vi-button-icon @click="deleteVersionClose()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <!-- Cancel game deletion. -->
-        <vi-button-icon @click="deleteVersionOpen()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
     <!-- Delete game platform dialog. -->
-    <vi-dialog
+    <dialog-delete
       v-show="deletePlatformDialog"
-      @close="deletePlatformOpen()"
-      class="z-10"
+      @accept="deletePlatformClose()"
+      @cancel="deletePlatformOpen()"
     >
-      <!-- Dialog message. -->
-      <p class="text-center text-lg">
-        Delete game <b>'{{ fullTitle }}'</b> ?
-        <br />
-        It will also delete all its regions and versions.
-      </p>
-      <!-- Dialog buttons. -->
-      <div class="flex justify-center mt-6 space-x-4">
-        <!-- Confirm game deletion. -->
-        <vi-button-icon @click="deletePlatformClose()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <!-- Cancel game deletion. -->
-        <vi-button-icon @click="deletePlatformOpen()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-dialog>
+      Delete game <b>'{{ fullTitle }}'</b> ?
+      <br />
+      It will also delete all its regions and versions.
+    </dialog-delete>
+    <!-- Delete game region dialog. -->
+    <dialog-delete
+      v-show="deleteRegionDialog"
+      @accept="deleteRegionClose()"
+      @cancel="deleteRegionOpen()"
+    >
+      Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
+      from game <b>'{{ fullTitle }}'</b> ?
+      <br />
+      It will also delete all its versions.
+    </dialog-delete>
+    <!-- Delete game version dialog. -->
+    <dialog-delete
+      v-show="deleteVersionDialog"
+      @accept="deleteVersionClose()"
+      @cancel="deleteVersionOpen()"
+    >
+      Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
+      <br />
+      If it's the only version, it will also delete the region.
+    </dialog-delete>
     <!-- Playlists management dialog. -->
     <view-game-playlists
       v-show="managePlaylistsDialog"
@@ -321,6 +267,7 @@ import { addFavorites, getFavorite, removeFavorites } from '@/database/controlle
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
 import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
+import DialogDelete from '@/components/Dialog/DialogDelete.vue'
 import EditGame from '@/components/Edit/EditGame.vue'
 // Import game page components.
 import ViewGameImages from './ViewGame/ViewGameImages.vue'
@@ -335,6 +282,7 @@ export default {
     CreateGamePlatform,
     CreateGameRegion,
     CreateGameVersion,
+    DialogDelete,
     EditGame,
     ViewGameImages,
     ViewGameInfo,
