@@ -36,7 +36,7 @@ export const listGroupOptions = [
 ]
 
 // Images corner rounding modes.
-export const imageCornersOptions = [
+export const cornersOptions = [
     { i: 0, name: 'None', value: '0px' },
     { i: 1, name: 'Medium', value: '6px' },
     { i: 2, name: 'Large', value: '12px' },
@@ -60,7 +60,12 @@ export const selectImageColumns = (col) => {
     document.documentElement.style.setProperty('--grid-cols-image', col)
 }
 
+// Set the border radius size on the game lists cards.
+export const selectCardCorners = (cor) => {
+    document.documentElement.style.setProperty('--rounded-list', cornersOptions[cor].value)
+}
+
 // Set the border radius size on the gallery images.
 export const selectImageCorners = (cor) => {
-    document.documentElement.style.setProperty('--rounded-image', imageCornersOptions[cor].value)
+    document.documentElement.style.setProperty('--rounded-image', cornersOptions[cor].value)
 }

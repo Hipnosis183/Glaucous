@@ -22,7 +22,7 @@
               class="w-auto"
             >
               <vi-option
-                v-for="item in imageCornersOptions"
+                v-for="item in cornersOptions"
                 :key="item.i"
                 :label="item.name"
                 :value="item.i"
@@ -68,7 +68,7 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { imageCornersOptions, selectImageColumns, selectImageCorners } from '@/settings'
+import { cornersOptions, selectImageColumns, selectImageCorners } from '@/settings'
 
 export default {
   name: 'SettingsImages',
@@ -101,9 +101,9 @@ export default {
     })
 
     return {
+      cornersOptions,
       imageColumns,
       imageCorners,
-      imageCornersOptions,
       imageGap,
       imageScaling
     }

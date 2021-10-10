@@ -4,16 +4,16 @@
     @mouseenter="gameInfoShow()"
     @mouseleave="gameInfoShow()"
     :style="{ height: $store.getters.getSettingsListsListHeight + 'px' }"
-    class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-xl shadow-color transform"
+    class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-list shadow-color transform"
     :class="gameInfoHover && ($store.getters.getSettingsCardsCardScaling) ? $store.getters.getSettingsListsListColumns > 1 ? $store.getters.getSettingsListsListColumns > 2 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
   >
     <!-- Game card overlay. -->
-    <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-xl w-full z-5" />
+    <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-list w-full z-5" />
     <!-- Game card image. -->
     <img
       v-if="getImage"
       :src="'file://' + getImage"
-      class="h-full image-content"
+      class="h-full image-content rounded-list"
       :class="[
         { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && (!gameInfo.image.cover || ($store.getters.getSettingsCardsCardImages == 2 || $store.getters.getSettingsCardsCardImages == 3)) },
         { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsCardsCardTextShow == 0) || $store.getters.getSettingsCardsCardTextShow == 1) && $store.getters.getSettingsCardsCardTextStyle == 3 }
@@ -21,7 +21,7 @@
     >
     <div
       v-else
-      class="flex h-full image-content text-theme-0 dark:text-theme-300 w-full"
+      class="flex h-full image-content rounded-list text-theme-0 dark:text-theme-300 w-full"
     >
       <vi-icon class="w-16">
         <icon-picture />
@@ -226,7 +226,7 @@ export default {
   background-color: rgba(var(--color-theme-900), 0.8);
 }
 .image-content {
-  @apply absolute cursor-pointer left-0 object-cover rounded-xl top-0 w-full;
+  @apply absolute cursor-pointer left-0 object-cover top-0 w-full;
 }
 .rendering-pixelated {
   image-rendering: pixelated;

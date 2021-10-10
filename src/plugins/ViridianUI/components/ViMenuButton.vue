@@ -22,7 +22,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-0 dark:bg-theme-700 list-none max-h-72 overflow-y-auto px-2 py-6 rounded-3xl shadow-color transition-menu"
+            class="bg-theme-0 dark:bg-theme-700 list-none max-h-96 overflow-y-auto px-2 py-6 rounded-3xl shadow-color transition-menu"
           >
             <!-- Options list. -->
             <slot></slot>

@@ -1,21 +1,21 @@
 <template>
   <!-- Game card background. -->
   <div
-    class="bg-theme-0 dark:bg-theme-900 flex overflow-hidden relative rounded-xl shadow-color transform"
+    class="bg-theme-0 dark:bg-theme-900 flex overflow-hidden relative rounded-list shadow-color transform"
     :class="{ 'hover:scale-1005' : $store.getters.getSettingsCardsCardScaling }"
   >
     <!-- Game card overlay. -->
-    <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-xl w-full z-5" />
+    <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-list w-full z-5" />
     <!-- Game card image. -->
     <img
       v-if="gameInfo.image.path"
       :src="'file://' + gameInfo.image.path"
-      class="image-content"
+      class="image-content rounded-l-list"
       :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !gameInfo.image.cover }"
     >
     <div
       v-else
-      class="bg-theme-200 dark:bg-theme-700 flex h-full image-content text-theme-0 dark:text-theme-300"
+      class="bg-theme-200 dark:bg-theme-700 flex h-full image-content rounded-l-list text-theme-0 dark:text-theme-300"
     >
       <vi-icon class="w-16">
         <icon-picture />
@@ -91,7 +91,7 @@ export default {
   margin-left: 120px;
 }
 .image-content {
-  @apply absolute ar-square cursor-pointer h-full left-0 object-cover rounded-l-xl top-0;
+  @apply absolute ar-square cursor-pointer h-full left-0 object-cover top-0;
 }
 .rendering-pixelated {
   image-rendering: pixelated;

@@ -89,6 +89,24 @@
               <p class="mr-auto">Scaling</p>
               <vi-switch v-model="cardScaling" />
             </div>
+            <!-- Card corner modes. -->
+            <div class="flex items-center px-4">
+              <p class="mr-auto">Corners</p>
+              <div class="ml-auto w-34">
+                <vi-select
+                  v-model="cardCorners"
+                  class="w-auto"
+                >
+                  <vi-option
+                    v-for="item in cornersOptions"
+                    :key="item.i"
+                    :label="item.name"
+                    :value="item.i"
+                  >
+                  </vi-option>
+                </vi-select>
+              </div>
+            </div>
             <!-- Card image display mode. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Images</p>
@@ -156,7 +174,7 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // Import settings objects and functions.
-import { cardImagesOptions, cardTextShowOptions, cardTextStyleOptions, listDisplayOptions, listGroupOptions, selectListColumns } from '@/settings'
+import { cardImagesOptions, cardTextShowOptions, cardTextStyleOptions, cornersOptions, listDisplayOptions, listGroupOptions, selectCardCorners, selectListColumns } from '@/settings'
 
 export default {
   name: 'SettingsLists',
@@ -188,6 +206,13 @@ export default {
     const cardScaling = computed({
       get() { return store.getters.getSettingsCardsCardScaling },
       set(value) { store.commit('setSettingsCardsCardScaling', value) }
+    })
+    const cardCorners = computed({
+      get() { return store.getters.getSettingsCardsCardCorners },
+      set(value) {
+        store.commit('setSettingsCardsCardCorners', value)
+        selectCardCorners(cardCorners.value)
+      }
     })
     const cardImages = computed({
       get() { return store.getters.getSettingsCardsCardImages },
@@ -224,6 +249,7 @@ export default {
     })
 
     return {
+      cardCorners,
       cardImages,
       cardImagesOptions,
       cardScaling,
@@ -231,6 +257,7 @@ export default {
       cardTextStyleOptions,
       cardTextShow,
       cardTextShowOptions,
+      cornersOptions,
       listColumns,
       listDisplay,
       listDisplayOptions,

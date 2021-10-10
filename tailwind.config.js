@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       borderRadius: {
-        'image': 'var(--rounded-image)'
+        'image': 'var(--rounded-image)',
+        'list': 'var(--rounded-list)'
       },
       boxShadow: {
         'color': '0 1px 3px 0 rgba(var(--color-theme-700), 0.1), 0 1px 2px 0 rgba(var(--color-theme-700), 0.06)'
