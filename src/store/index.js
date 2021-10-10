@@ -35,6 +35,7 @@ export default createStore({
         listGroup: localStore.get('settingsLists.listGroup', 0)
       },
       settingsCards: {
+        cardScaling: localStore.get('settingsCards.cardScaling', true),
         cardImages: localStore.get('settingsCards.cardImages', 0),
         cardTextShow: localStore.get('settingsCards.cardTextShow', 0),
         cardTextStyle: localStore.get('settingsCards.cardTextStyle', 0)
@@ -176,6 +177,9 @@ export default createStore({
     getSettingsListsListGroup(state) {
       return state.settingsApp.settingsLists.listGroup
     },
+    getSettingsCardsCardScaling(state) {
+      return state.settingsApp.settingsCards.cardScaling
+    },
     getSettingsCardsCardImages(state) {
       return state.settingsApp.settingsCards.cardImages
     },
@@ -257,6 +261,10 @@ export default createStore({
     setSettingsCardsCardImages(state, data) {
       state.settingsApp.settingsCards.cardImages = data
       localStore.set('settingsCards.cardImages', state.settingsApp.settingsCards.cardImages)
+    },
+    setSettingsCardsCardScaling(state) {
+      state.settingsApp.settingsCards.cardScaling = !state.settingsApp.settingsCards.cardScaling
+      localStore.set('settingsCards.cardScaling', state.settingsApp.settingsCards.cardScaling)
     },
     setSettingsCardsCardTextShow(state, data) {
       state.settingsApp.settingsCards.cardTextShow = data

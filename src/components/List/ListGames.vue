@@ -33,41 +33,39 @@
       />
     </vi-nav-bar>
     <!-- Show games list. -->
-    <div class="h-content m-6">
-      <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-        <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <vi-list
-            v-if="games.length > 0"
-            :listDisplay="$store.getters.getSettingsListsListDisplay"
-            :remote-method="loadGamesNext"
+    <div class="flex flex-col max-h-content min-h-content overflow-hidden">
+      <div class="flex-1 no-scrollbar overflow-y-scroll p-4 rounded-xl">
+        <vi-list
+          v-if="games.length > 0"
+          :listDisplay="$store.getters.getSettingsListsListDisplay"
+          :remote-method="loadGamesNext"
+        >
+          <li
+            v-for="game in games"
+            :key="game._id"
+            :value="game._id"
+            @click="$router.push({ name: 'Game', params: { id: game._id } })"
           >
-            <li
-              v-for="game in games"
-              :key="game._id"
-              :value="game._id"
-              @click="$router.push({ name: 'Game', params: { id: game._id } })"
-            >
-              <!-- Game cards. -->
-              <vi-card-grid
-                v-if="$store.getters.getSettingsListsListDisplay == 0"
-                :gameInfo="game"
-              />
-              <vi-card-list
-                v-else-if="$store.getters.getSettingsListsListDisplay == 1"
-                :gameInfo="game"
-              />
-              <vi-card-compact
-                v-else-if="$store.getters.getSettingsListsListDisplay == 2"
-                :gameInfo="game"
-              />
-            </li>
-          </vi-list>
-          <div
-            v-else-if="querySearched"
-            class="flex h-content w-full"
-          >
-            <p class="m-auto">No games found.</p>
-          </div>
+            <!-- Game cards. -->
+            <vi-card-grid
+              v-if="$store.getters.getSettingsListsListDisplay == 0"
+              :gameInfo="game"
+            />
+            <vi-card-list
+              v-else-if="$store.getters.getSettingsListsListDisplay == 1"
+              :gameInfo="game"
+            />
+            <vi-card-compact
+              v-else-if="$store.getters.getSettingsListsListDisplay == 2"
+              :gameInfo="game"
+            />
+          </li>
+        </vi-list>
+        <div
+          v-else-if="querySearched"
+          class="flex h-content w-full"
+        >
+          <p class="m-auto">No games found.</p>
         </div>
       </div>
     </div>
@@ -188,12 +186,12 @@ export default {
 <style scoped>
 /* Calculations. */
 .h-content {
-  height: calc(100vh - 6.25rem);
+  height: calc(100vh - 5.5rem);
 }
 .min-h-content {
-  min-height: calc(100vh - 6.25rem);
+  min-height: calc(100vh - 3.5rem);
 }
 .max-h-content {
-  max-height: calc(100vh - 6.25rem);
+  max-height: calc(100vh - 3.5rem);
 }
 </style>

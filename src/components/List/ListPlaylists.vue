@@ -28,29 +28,27 @@
       </div>
     </vi-nav-bar>
     <!-- Show playlists list. -->
-    <div class="h-content m-6">
-      <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-        <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <vi-list
-            :listDisplay="1"
-            :remote-method="loadPlaylistNext"
+    <div class="flex flex-col max-h-content min-h-content overflow-hidden">
+      <div class="flex-1 no-scrollbar overflow-y-scroll p-4 rounded-xl">
+        <vi-list
+          :listDisplay="1"
+          :remote-method="loadPlaylistNext"
+        >
+          <li
+            v-for="playlist in playlists"
+            :key="playlist._id"
+            :value="playlist._id"
+            @click="$router.push({ name: 'Playlist', params: { id: playlist._id } })"
           >
-            <li
-              v-for="playlist in playlists"
-              :key="playlist._id"
-              :value="playlist._id"
-              @click="$router.push({ name: 'Playlist', params: { id: playlist._id } })"
-            >
-              <!-- Playlist card. -->
-              <vi-card>
-                <div class="flex items-center p-4 space-x-2">
-                  <h1 class="font-medium">{{ playlist.name }}</h1>
-                  <h3 class="pt-0.5 text-sm">{{ playlist.games.length }} {{ playlist.games.length == 1 ? 'Title' : 'Titles' }}</h3>
-                </div>
-              </vi-card>
-            </li>
-          </vi-list>
-        </div>
+            <!-- Playlist card. -->
+            <vi-card>
+              <div class="flex items-center p-4 space-x-2">
+                <h1 class="font-medium">{{ playlist.name }}</h1>
+                <h3 class="pt-0.5 text-sm">{{ playlist.games.length }} {{ playlist.games.length == 1 ? 'Title' : 'Titles' }}</h3>
+              </div>
+            </vi-card>
+          </li>
+        </vi-list>
       </div>
     </div>
   </div>
@@ -168,13 +166,10 @@ export default {
 
 <style scoped>
 /* Calculations. */
-.h-content {
-  height: calc(100vh - 6.25rem);
-}
 .min-h-content {
-  min-height: calc(100vh - 6.25rem);
+  min-height: calc(100vh - 3.5rem);
 }
 .max-h-content {
-  max-height: calc(100vh - 6.25rem);
+  max-height: calc(100vh - 3.5rem);
 }
 </style>

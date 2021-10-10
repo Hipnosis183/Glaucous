@@ -4,7 +4,8 @@
     @mouseenter="gameInfoShow()"
     @mouseleave="gameInfoShow()"
     :style="{ height: $store.getters.getSettingsListsListHeight + 'px' }"
-    class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-xl shadow-color"
+    class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-xl shadow-color transform"
+    :class="gameInfoHover && ($store.getters.getSettingsCardsCardScaling) ? $store.getters.getSettingsListsListColumns > 1 ? $store.getters.getSettingsListsListColumns > 2 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
   >
     <!-- Game card overlay. -->
     <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-xl w-full z-5" />

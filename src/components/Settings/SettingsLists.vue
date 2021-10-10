@@ -84,6 +84,11 @@
         <div class="text-center w-68">
           <h1 class="font-medium mb-5 -mt-1 text-lg">Card Settings</h1>
           <div class="space-y-2">
+            <!-- Toggle card scaling effect. -->
+            <div class="flex h-10 items-center pl-4 pr-5">
+              <p class="mr-auto">Scaling</p>
+              <vi-switch v-model="cardScaling" />
+            </div>
             <!-- Card image display mode. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Images</p>
@@ -180,6 +185,10 @@ export default {
       get() { return store.getters.getSettingsListsListHeight },
       set(value) { store.commit('setSettingsListsListHeight', value) }
     })
+    const cardScaling = computed({
+      get() { return store.getters.getSettingsCardsCardScaling },
+      set(value) { store.commit('setSettingsCardsCardScaling', value) }
+    })
     const cardImages = computed({
       get() { return store.getters.getSettingsCardsCardImages },
       set(value) { store.commit('setSettingsCardsCardImages', value) }
@@ -217,6 +226,7 @@ export default {
     return {
       cardImages,
       cardImagesOptions,
+      cardScaling,
       cardTextStyle,
       cardTextStyleOptions,
       cardTextShow,

@@ -73,32 +73,30 @@
       </div>
     </vi-nav-bar>
     <!-- Show platforms list. -->
-    <div class="h-content m-6">
-      <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-        <div class="flex-1 no-scrollbar overflow-y-scroll rounded-xl">
-          <vi-list
-            :listDisplay="1"
-            :remote-method="loadPlatformNext"
+    <div class="flex flex-col max-h-content min-h-content overflow-hidden">
+      <div class="flex-1 no-scrollbar overflow-y-scroll p-4 rounded-xl">
+        <vi-list
+          :listDisplay="1"
+          :remote-method="loadPlatformNext"
+        >
+          <li
+            v-for="platform in platform.platforms"
+            :key="platform._id"
+            :value="platform._id"
+            @click="$router.push({ name: platform.group ? 'PlatformsGroup' : 'Platform', params: { id: platform._id } })"
           >
-            <li
-              v-for="platform in platform.platforms"
-              :key="platform._id"
-              :value="platform._id"
-              @click="$router.push({ name: platform.group ? 'PlatformsGroup' : 'Platform', params: { id: platform._id } })"
-            >
-              <!-- Platform card. -->
-              <vi-card>
-                <div class="flex items-center p-4 space-x-2">
-                  <h1 class="font-medium">{{ platform.name }}</h1>
-                  <div class="pt-0.5 text-sm">
-                    <h3 v-if="platform.group">{{ platform.titles }} {{ platform.titles == 1 ? 'Platform' : 'Platforms' }}</h3>
-                    <h3 v-else>{{ platform.titles }} {{ platform.titles == 1 ? 'Title' : 'Titles' }}</h3>
-                  </div>
+            <!-- Platform card. -->
+            <vi-card>
+              <div class="flex items-center p-4 space-x-2">
+                <h1 class="font-medium">{{ platform.name }}</h1>
+                <div class="pt-0.5 text-sm">
+                  <h3 v-if="platform.group">{{ platform.titles }} {{ platform.titles == 1 ? 'Platform' : 'Platforms' }}</h3>
+                  <h3 v-else>{{ platform.titles }} {{ platform.titles == 1 ? 'Title' : 'Titles' }}</h3>
                 </div>
-              </vi-card>
-            </li>
-          </vi-list>
-        </div>
+              </div>
+            </vi-card>
+          </li>
+        </vi-list>
       </div>
     </div>
   </div>
@@ -265,13 +263,10 @@ export default {
 
 <style scoped>
 /* Calculations. */
-.h-content {
-  height: calc(100vh - 6.25rem);
-}
 .min-h-content {
-  min-height: calc(100vh - 6.25rem);
+  min-height: calc(100vh - 3.5rem);
 }
 .max-h-content {
-  max-height: calc(100vh - 6.25rem);
+  max-height: calc(100vh - 3.5rem);
 }
 </style>
