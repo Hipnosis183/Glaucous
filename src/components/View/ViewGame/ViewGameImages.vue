@@ -113,10 +113,10 @@
             <div
               v-if="getPictures[0]"
               v-show="imagesGalleryDialog"
-              class="flex-1 overflow-y-scroll"
+              class="flex-1 mr-6 no-scrollbar overflow-y-scroll"
             >
               <div
-                class="grid grid-cols-image"
+                class="grid grid-cols-image p-2"
                 :style="[
                   'gap:' + $store.getters.getSettingsImagesImageGap + 'px',
                   $store.getters.getSettingsImagesImageGap > 20 ? 'padding:' + ($store.getters.getSettingsImagesImageGap - 20) + 'px' : '',
@@ -131,8 +131,12 @@
                   <img
                     @click="imagesPicturesOpen(index)"
                     :src="'file://' + imagePath + '/' + image"
-                    class="cursor-pointer object-cover rounded-image w-full"
-                    :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false }"
+                    class="border-2 border-transparent hover:border-color-500 dark:hover:border-color-700 cursor-pointer duration-200 object-cover rounded-image transform w-full"
+                    :class="[
+                      { 'rendering-pixelated' : gameInfo.config.imageFiltering == false },
+                      // Disable scaling when the image is not filtered, otherwise it looks horrible.
+                      { 'hover:scale-102' : $store.getters.getSettingsImagesImageScaling && ($store.getters.getSettingsImagesImageColumns > 1 && $store.getters.getSettingsImagesImageGap > 0 && gameInfo.config.imageFiltering) }
+                    ]"
                   />
                 </div>
               </div>

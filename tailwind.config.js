@@ -41,6 +41,9 @@ module.exports = {
         'list': 'repeat(var(--grid-cols-list), minmax(0, 1fr))',
         'image': 'repeat(var(--grid-cols-image), minmax(0, 1fr))'
       },
+      scale: {
+        '102': '1.02'
+      },
       spacing: {
         '34': '8.5rem',
         '68': '17rem'

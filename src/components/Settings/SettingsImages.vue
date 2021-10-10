@@ -8,6 +8,11 @@
     <div class="text-center w-64">
       <h1 class="font-medium mb-5 -mt-1 text-lg">Image Settings</h1>
       <div class="space-y-2">
+        <!-- Toggle image scaling effect. -->
+        <div class="flex h-10 items-center pl-4 pr-5">
+          <p class="mr-auto">Scaling</p>
+          <vi-switch v-model="imageScaling" />
+        </div>
         <!-- Image corner modes. -->
         <div class="flex items-center px-4">
           <p class="mr-auto">Corners</p>
@@ -72,6 +77,10 @@ export default {
     const store = useStore()
 
     // Manage settings in the store.
+    const imageScaling = computed({
+      get() { return store.getters.getSettingsImagesImageScaling },
+      set(value) { store.commit('setSettingsImagesImageScaling', value) }
+    })
     const imageCorners = computed({
       get() { return store.getters.getSettingsImagesImageCorners },
       set(value) {
@@ -95,7 +104,8 @@ export default {
       imageColumns,
       imageCorners,
       imageCornersOptions,
-      imageGap
+      imageGap,
+      imageScaling
     }
   }
 }
