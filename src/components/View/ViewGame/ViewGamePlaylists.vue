@@ -133,10 +133,12 @@ export default {
     let queryResults = ref('')
     let querySelected = ref('')
     const queryFilter = (query) => {
-      // Configure the filter parameters.
-      const filter = new RegExp(query, 'i')
-      // Filter playlists containing the filter query, case insensitive.
-      queryResults.value = filteredPlaylists.value.filter((res) => res.name.match(filter))
+      if (filteredPlaylists.value) {
+        // Configure the filter parameters.
+        const filter = new RegExp(query, 'i')
+        // Filter playlists containing the filter query, case insensitive.
+        queryResults.value = filteredPlaylists.value.filter((res) => res.name.match(filter))
+      }
     }
 
     return {
