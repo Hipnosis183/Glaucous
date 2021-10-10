@@ -105,6 +105,7 @@ export async function removeRecent(req) {
 
 // Get all recently played games.
 export async function getRecent(index, count) {
+    await ensureUser()
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['recent'], populate: false })
         .then((res) => {
             return res.recent.reverse()
@@ -229,6 +230,7 @@ export async function getPlaylist(req) {
 
 // Get all playlists.
 export async function getPlaylists(index, count) {
+    await ensureUser()
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
         .then((res) => {
             return res.playlists
@@ -237,6 +239,7 @@ export async function getPlaylists(index, count) {
 
 // Get all playlists of a specific game.
 export async function getGamePlaylists(req) {
+    await ensureUser()
     // Get all playlists.
     return await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
         .then((res) => {
@@ -254,6 +257,7 @@ export async function getGamePlaylists(req) {
 
 // Get all playlists matching a given search query.
 export async function getPlaylistsSearch(index, count, query) {
+    await ensureUser()
     const search = new RegExp(query, 'i')
     // Get all playlists.
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
