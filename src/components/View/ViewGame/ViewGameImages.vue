@@ -28,7 +28,7 @@
     >
       <div
         ref="imageContainer"
-        class="h-gallery mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-gallery"
+        class="h-viewer mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-viewer"
       >
         <transition
           :name="slideBack ? 'slide-b' : 'slide-f'"
@@ -44,7 +44,7 @@
             :class="[
               imageZoom
                 ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ]
-                : ['m-auto', imageLoaded ? 'h-gallery' : ''],
+                : ['m-auto', imageLoaded ? 'h-viewer' : ''],
               { 'rendering-pixelated' : gameInfo.config.imageFiltering == false }
             ]"
           />
@@ -52,7 +52,7 @@
       </div>
       <div class="mx-auto max-w-max">
         <!-- Control bar. -->
-        <vi-modal class="ml-8 p-gallery rounded-full">
+        <vi-modal class="ml-8 p-viewer rounded-full">
           <div class="flex h-10 justify-between mx-1 space-x-2">
             <!-- Close dialog. -->
             <vi-button-icon @click="imagesPicturesClose()">
@@ -100,64 +100,59 @@
     </vi-overlay>
   </transition>
   <!-- View gallery. -->
-  <vi-overlay
-    v-show="imagesGalleryDialog"
-    @close="imagesGalleryShow()"
-    class="pos-initial z-10"
-  >
-    <!-- Header. -->
-    <vi-modal
-      v-if="getPictures[0]"
-      class="mb-4 ml-auto p-gallery rounded-full"
+  <transition>
+    <div
+      v-show="imagesGalleryDialog"
+      @close="imagesGalleryShow()"
+      class="fixed h-screen pos-initial w-gallery"
     >
-      <!-- Gallery buttons. -->
-      <div class="flex h-10 justify-between mx-1">
-        <!-- Padding. -->
-        <vi-button-icon class="invisible">
-          <vi-icon class="w-6" />
-        </vi-button-icon>
-        <!-- Header title. -->
-        <p class="pt-1 text-2xl">Gallery</p>
-        <!-- Close dialog. -->
-        <vi-button-icon @click="imagesGalleryShow()">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
-      </div>
-    </vi-modal>
-    <!-- Pictures grid. -->
-    <div class="flex h-gallery max-h-gallery overflow-hidden rounded-xl">
-      <div
-        v-if="getPictures[0]"
-        class="flex-1 no-scrollbar overflow-y-scroll"
-      >
-        <div class="gap-4 grid grid-cols-4">
-          <div
-            v-for="(image, index) in getPictures"
-            :key="index"
-            :value="image"
-            class="flex h-full justify-center w-full"
-          >
-            <img
-              @click="imagesPicturesOpen(index)"
-              :src="'file://' + imagePath + '/' + image"
-              class="cursor-pointer object-cover rounded-xl"
-              :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false }"
-            />
-          </div>
+      <div class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full">
+        <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-xl w-full">
+          <transition name="gallery">
+            <!-- Pictures grid. -->
+            <div
+              v-if="getPictures[0]"
+              v-show="imagesGalleryDialog"
+              class="flex-1 overflow-y-scroll"
+            >
+              <div class="gap-4 grid grid-cols-4">
+                <div
+                  v-for="(image, index) in getPictures"
+                  :key="index"
+                  :value="image"
+                  class="flex h-full justify-center"
+                >
+                  <img
+                    @click="imagesPicturesOpen(index)"
+                    :src="'file://' + imagePath + '/' + image"
+                    class="cursor-pointer object-cover rounded-xl w-full"
+                    :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              v-else
+              class="flex flex-col items-center m-auto"
+            >
+              <vi-modal>
+                <p>No images available.</p>
+              </vi-modal>
+            </div>
+          </transition>
+        </div>
+        <!-- Gallery buttons. -->
+        <div class="absolute mr-4 mt-6 right-0 top-0">
+          <!-- Close dialog. -->
+          <vi-button-icon @click="imagesGalleryShow()">
+            <vi-icon class="w-6">
+              <icon-close />
+            </vi-icon>
+          </vi-button-icon>
         </div>
       </div>
-      <div
-        v-else
-        class="flex flex-col items-center m-auto"
-      >
-        <vi-modal>
-          <p>No images available.</p>
-        </vi-modal>
-      </div>
     </div>
-  </vi-overlay>
+  </transition>
   <!-- Cover image. -->
   <div class="ar-square justify-center w-full">
     <img
@@ -401,20 +396,40 @@ export default {
 .h-cover {
   height: calc(100vh - 4rem);
 }
-.h-gallery {
-  height: calc(100vh - 9.2rem);
-}
 .max-h-gallery {
-  max-height: calc(100vh - 9.2rem);
+  max-height: calc(100vh - 3rem);
 }
-.p-gallery {
-  padding: 0.8rem;
+.max-w-gallery {
+  max-width: calc(100% - 3rem);
 }
 .w-gallery {
+  width: calc(100% - 3.5rem);
+}
+.h-viewer {
+  height: calc(100vh - 9.2rem);
+}
+.p-viewer {
+  padding: 0.8rem;
+}
+.w-viewer {
   width: calc(100vw - 7.5rem);
 }
 /* Styling. */
+::-webkit-scrollbar-thumb {
+  border-top-width: 56px !important;
+}
 .rendering-pixelated {
   image-rendering: pixelated;
+}
+/* Transitions. */
+.gallery-enter-active {
+  transition: 0.5s;
+}
+.gallery-leave-active {
+  transition: 1.5s;
+}
+.gallery-leave-to,
+.gallery-enter-from {
+  transform: translateY(100%);
 }
 </style>
