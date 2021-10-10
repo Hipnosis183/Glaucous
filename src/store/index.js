@@ -44,9 +44,9 @@ export default createStore({
       },
       settingsImages: {
         imageScaling: localStore.get('settingsImages.imageScaling', true),
+        imageSpacing: localStore.get('settingsImages.imageSpacing', true),
         imageCorners: localStore.get('settingsImages.imageCorners', 2),
-        imageColumns: localStore.get('settingsImages.imageColumns', 4),
-        imageGap: localStore.get('settingsImages.imageGap', 20)
+        imageColumns: localStore.get('settingsImages.imageColumns', 4)
       }
     },
     selectedPlatform: null,
@@ -200,14 +200,14 @@ export default createStore({
     getSettingsImagesImageScaling(state) {
       return state.settingsApp.settingsImages.imageScaling
     },
+    getSettingsImagesImageSpacing(state) {
+      return state.settingsApp.settingsImages.imageSpacing
+    },
     getSettingsImagesImageCorners(state) {
       return state.settingsApp.settingsImages.imageCorners
     },
     getSettingsImagesImageColumns(state) {
       return state.settingsApp.settingsImages.imageColumns
-    },
-    getSettingsImagesImageGap(state) {
-      return state.settingsApp.settingsImages.imageGap
     }
   },
   mutations: {
@@ -294,6 +294,10 @@ export default createStore({
       state.settingsApp.settingsImages.imageScaling = !state.settingsApp.settingsImages.imageScaling
       localStore.set('settingsImages.imageScaling', state.settingsApp.settingsImages.imageScaling)
     },
+    setSettingsImagesImageSpacing(state) {
+      state.settingsApp.settingsImages.imageSpacing = !state.settingsApp.settingsImages.imageSpacing
+      localStore.set('settingsImages.imageSpacing', state.settingsApp.settingsImages.imageSpacing)
+    },
     setSettingsImagesImageCorners(state, data) {
       state.settingsApp.settingsImages.imageCorners = data
       localStore.set('settingsImages.imageCorners', state.settingsApp.settingsImages.imageCorners)
@@ -301,10 +305,6 @@ export default createStore({
     setSettingsImagesImageColumns(state, data) {
       state.settingsApp.settingsImages.imageColumns = data
       localStore.set('settingsImages.imageColumns', state.settingsApp.settingsImages.imageColumns)
-    },
-    setSettingsImagesImageGap(state, data) {
-      state.settingsApp.settingsImages.imageGap = data
-      localStore.set('settingsImages.imageGap', state.settingsApp.settingsImages.imageGap)
     },
     // Platform settings.
     setPlatformStore(state) {

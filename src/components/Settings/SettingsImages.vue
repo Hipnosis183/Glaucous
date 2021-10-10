@@ -13,6 +13,11 @@
           <p class="mr-auto">Scaling</p>
           <vi-switch v-model="imageScaling" />
         </div>
+        <!-- Toggle image spacing. -->
+        <div class="flex h-10 items-center pl-4 pr-5">
+          <p class="mr-auto">Spacing</p>
+          <vi-switch v-model="imageSpacing" />
+        </div>
         <!-- Image corner modes. -->
         <div class="flex items-center px-4">
           <p class="mr-auto">Corners</p>
@@ -44,20 +49,6 @@
             </vi-input-num>
           </div>
         </div>
-        <!-- Select the gap size between each element of the grid. -->
-        <div class="flex items-center pl-4 pr-6">
-          <p class="mr-auto">Gap</p>
-          <div class="ml-auto w-32">
-            <vi-input-num
-              v-model="imageGap"
-              :min="1"
-              :max="100"
-              position-side
-              :step="10"
-            >
-            </vi-input-num>
-          </div>
-        </div>
       </div>
     </div>
   </vi-menu-button>
@@ -81,6 +72,10 @@ export default {
       get() { return store.getters.getSettingsImagesImageScaling },
       set(value) { store.commit('setSettingsImagesImageScaling', value) }
     })
+    const imageSpacing = computed({
+      get() { return store.getters.getSettingsImagesImageSpacing },
+      set(value) { store.commit('setSettingsImagesImageSpacing', value) }
+    })
     const imageCorners = computed({
       get() { return store.getters.getSettingsImagesImageCorners },
       set(value) {
@@ -95,17 +90,13 @@ export default {
         selectImageColumns(imageColumns.value)
       }
     })
-    const imageGap = computed({
-      get() { return store.getters.getSettingsImagesImageGap },
-      set(value) { store.commit('setSettingsImagesImageGap', value) }
-    })
 
     return {
       cornersOptions,
       imageColumns,
       imageCorners,
-      imageGap,
-      imageScaling
+      imageScaling,
+      imageSpacing
     }
   }
 }
