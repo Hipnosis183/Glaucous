@@ -21,7 +21,11 @@
   --color-color-800: '';
   --color-color-900: '';
   /* Grid columns value. */
-  --grid-cols-view: '';
+  --grid-cols-list: '';
+  --grid-cols-image: '';
+  /* Grid corner radius value. */
+  --rounded-list: '';
+  --rounded-image: '';
 }
 
 @tailwind base;

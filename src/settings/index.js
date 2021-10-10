@@ -35,6 +35,14 @@ export const listGroupOptions = [
     { i: 2, name: 'Developers' }
 ]
 
+// Images corner rounding modes.
+export const imageCornersOptions = [
+    { i: 0, name: 'None', value: '0px' },
+    { i: 1, name: 'Medium', value: '6px' },
+    { i: 2, name: 'Large', value: '12px' },
+    { i: 3, name: 'Extra Large', value: '24px' }
+]
+
 // Google search key parameters.
 export const googleKeys = [
     { i: 0, name: 'Full Title' },
@@ -44,5 +52,15 @@ export const googleKeys = [
 
 // Set the amount of columns to be displayed on card views.
 export const selectListColumns = (col) => {
-    document.documentElement.style.setProperty('--grid-cols-view', col)
+    document.documentElement.style.setProperty('--grid-cols-list', col)
+}
+
+// Set the amount of columns to be displayed on gallery images.
+export const selectImageColumns = (col) => {
+    document.documentElement.style.setProperty('--grid-cols-image', col)
+}
+
+// Set the border radius size on the gallery images.
+export const selectImageCorners = (cor) => {
+    document.documentElement.style.setProperty('--rounded-image', imageCornersOptions[cor].value)
 }

@@ -107,7 +107,7 @@
       class="fixed h-screen pos-initial w-gallery"
     >
       <div class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full">
-        <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-xl w-full">
+        <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-image w-full">
           <transition name="gallery">
             <!-- Pictures grid. -->
             <div
@@ -115,7 +115,13 @@
               v-show="imagesGalleryDialog"
               class="flex-1 overflow-y-scroll"
             >
-              <div class="gap-4 grid grid-cols-4">
+              <div
+                class="grid grid-cols-image"
+                :style="[
+                  'gap:' + $store.getters.getSettingsImagesImageGap + 'px',
+                  $store.getters.getSettingsImagesImageGap > 20 ? 'padding:' + ($store.getters.getSettingsImagesImageGap - 20) + 'px' : '',
+                ]"
+              >
                 <div
                   v-for="(image, index) in getPictures"
                   :key="index"
@@ -125,7 +131,7 @@
                   <img
                     @click="imagesPicturesOpen(index)"
                     :src="'file://' + imagePath + '/' + image"
-                    class="cursor-pointer object-cover rounded-xl w-full"
+                    class="cursor-pointer object-cover rounded-image w-full"
                     :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false }"
                   />
                 </div>
@@ -149,6 +155,10 @@
               <icon-close />
             </vi-icon>
           </vi-button-icon>
+        </div>
+        <!-- List settings. -->
+        <div class="absolute mr-5 mb-6 right-0 bottom-0">
+          <settings-images />
         </div>
       </div>
     </div>
@@ -197,9 +207,14 @@ import { computed, onMounted, ref, watch } from 'vue'
 // Import functions from modules.
 import { app } from '@electron/remote'
 import { existsSync, readdirSync } from 'fs-extra'
+// Import form components.
+import SettingsImages from '@/components/Settings/SettingsImages.vue'
 
 export default {
   name: 'ViewGameImages',
+  components: {
+    SettingsImages
+  },
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number },
@@ -417,6 +432,7 @@ export default {
 /* Styling. */
 ::-webkit-scrollbar-thumb {
   border-top-width: 56px !important;
+  border-bottom-width: 48px !important;
 }
 .rendering-pixelated {
   image-rendering: pixelated;

@@ -1,7 +1,7 @@
 <template>
   <ul
     class="gap-4 grid"
-    :class="{ 'grid-cols-view' : listDisplay == 0 }"
+    :class="{ 'grid-cols-list' : listDisplay == 0 }"
   >
     <slot />
   </ul>

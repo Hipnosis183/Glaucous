@@ -42,9 +42,10 @@ import { createPopper } from '@popperjs/core'
 export default {
   name: 'ViMenuButton',
   props: {
-    icon: { type: String }
+    icon: { type: String },
+    placement: { type: String, default: 'bottom' }
   },
-  setup() {
+  setup(props) {
     // Declare template refs.
     const refMenu = ref(null)
     const refSelect = ref(null)
@@ -107,7 +108,7 @@ export default {
         // Update popper instance.
         popperInstance.value.update()
         // Set current popper placement.
-        popperPlacement.value = popperInstance.value.state.placement
+        popperPlacement.value = props.placement ? 'top' : popperInstance.value.state.placement
       })
     }
     const setMenuPlacement = () => {
@@ -115,7 +116,7 @@ export default {
         // Create a new PopperJS instance.
         popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
-          placement: 'bottom',
+          placement: props.placement,
           modifiers: [
             // Set distance between the select and the menu.
             { name: 'offset', options: { offset: [0, 20] } }

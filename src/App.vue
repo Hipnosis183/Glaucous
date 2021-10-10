@@ -34,7 +34,7 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { selectListColumns } from '@/settings'
+import { selectListColumns, selectImageColumns, selectImageCorners } from '@/settings'
 // Import theme objects and functions.
 import { selectColor, selectTheme } from '@/theme'
 // Import intro and sidenav components.
@@ -56,6 +56,10 @@ export default {
     selectColor(store.getters.getSettingsThemesSelectedColor)
     // Set number of columns of lists in the configuration.
     selectListColumns(store.getters.getSettingsListsListColumns)
+    // Set number of columns of images in the configuration.
+    selectImageColumns(store.getters.getSettingsImagesImageColumns)
+    // Set border radius of images in the configuration.
+    selectImageCorners(store.getters.getSettingsImagesImageCorners)
 
     // Manage intro state.
     let introFinish = ref(false)

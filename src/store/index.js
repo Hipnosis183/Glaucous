@@ -38,6 +38,11 @@ export default createStore({
         cardImages: localStore.get('settingsCards.cardImages', 0),
         cardTextShow: localStore.get('settingsCards.cardTextShow', 0),
         cardTextStyle: localStore.get('settingsCards.cardTextStyle', 0)
+      },
+      settingsImages: {
+        imageColumns: localStore.get('settingsImages.imageColumns', 4),
+        imageCorners: localStore.get('settingsImages.imageCorners', 2),
+        imageGap: localStore.get('settingsImages.imageGap', 20)
       }
     },
     selectedPlatform: null,
@@ -178,6 +183,15 @@ export default createStore({
     },
     getSettingsCardsCardTextStyle(state) {
       return state.settingsApp.settingsCards.cardTextStyle
+    },
+    getSettingsImagesImageColumns(state) {
+      return state.settingsApp.settingsImages.imageColumns
+    },
+    getSettingsImagesImageCorners(state) {
+      return state.settingsApp.settingsImages.imageCorners
+    },
+    getSettingsImagesImageGap(state) {
+      return state.settingsApp.settingsImages.imageGap
     }
   },
   mutations: {
@@ -247,6 +261,18 @@ export default createStore({
     setSettingsCardsCardTextStyle(state, data) {
       state.settingsApp.settingsCards.cardTextStyle = data
       localStore.set('settingsCards.cardTextStyle', state.settingsApp.settingsCards.cardTextStyle)
+    },
+    setSettingsImagesImageColumns(state, data) {
+      state.settingsApp.settingsImages.imageColumns = data
+      localStore.set('settingsImages.imageColumns', state.settingsApp.settingsImages.imageColumns)
+    },
+    setSettingsImagesImageCorners(state, data) {
+      state.settingsApp.settingsImages.imageCorners = data
+      localStore.set('settingsImages.imageCorners', state.settingsApp.settingsImages.imageCorners)
+    },
+    setSettingsImagesImageGap(state, data) {
+      state.settingsApp.settingsImages.imageGap = data
+      localStore.set('settingsImages.imageGap', state.settingsApp.settingsImages.imageGap)
     },
     // Platform settings.
     setPlatformStore(state) {

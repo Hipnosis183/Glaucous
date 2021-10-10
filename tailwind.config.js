@@ -6,6 +6,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      borderRadius: {
+        'image': 'var(--rounded-image)'
+      },
       boxShadow: {
         'color': '0 1px 3px 0 rgba(var(--color-theme-700), 0.1), 0 1px 2px 0 rgba(var(--color-theme-700), 0.06)'
       },
@@ -35,7 +38,8 @@ module.exports = {
         }
       },
       gridTemplateColumns: {
-        'view': 'repeat(var(--grid-cols-view), minmax(0, 1fr))',
+        'list': 'repeat(var(--grid-cols-list), minmax(0, 1fr))',
+        'image': 'repeat(var(--grid-cols-image), minmax(0, 1fr))'
       },
       spacing: {
         '34': '8.5rem',
