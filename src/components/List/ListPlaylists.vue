@@ -29,7 +29,10 @@
     </vi-nav-bar>
     <!-- Show playlists list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div class="flex-1 no-scrollbar overflow-y-scroll p-4 rounded-xl">
+      <div
+        class="flex-1 no-scrollbar overflow-y-scroll"
+        :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1'"
+      >
         <vi-list
           :listDisplay="1"
           :remote-method="loadPlaylistNext"

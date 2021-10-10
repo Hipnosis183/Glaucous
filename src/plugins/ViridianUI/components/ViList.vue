@@ -1,7 +1,10 @@
 <template>
   <ul
-    class="gap-4 grid"
-    :class="{ 'grid-cols-list' : listDisplay == 0 }"
+    class="grid"
+    :class="[
+      { 'grid-cols-list' : listDisplay == 0 },
+      $store.getters.getSettingsListsListSpacing ? 'gap-4' : 'gap-1'
+    ]"
   >
     <slot />
   </ul>

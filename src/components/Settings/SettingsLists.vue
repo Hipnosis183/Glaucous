@@ -31,6 +31,11 @@
         <div class="text-center w-64">
           <h1 class="font-medium mb-5 -mt-1 text-lg">List Settings</h1>
           <div class="space-y-2">
+            <!-- Toggle list cards spacing. -->
+            <div class="flex h-10 items-center pl-4 pr-5">
+              <p class="mr-auto">Spacing</p>
+              <vi-switch v-model="listSpacing" />
+            </div>
             <!-- List display mode. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Display</p>
@@ -188,6 +193,10 @@ export default {
     const store = useStore()
 
     // Manage settings in the store.
+    const listSpacing = computed({
+      get() { return store.getters.getSettingsListsListSpacing },
+      set(value) { store.commit('setSettingsListsListSpacing', value) }
+    })
     const listDisplay = computed({
       get() { return store.getters.getSettingsListsListDisplay },
       set(value) { store.commit('setSettingsListsListDisplay', value) }
@@ -263,7 +272,8 @@ export default {
       listDisplayOptions,
       listGroupOptions,
       listGroup,
-      listHeight
+      listHeight,
+      listSpacing
     }
   }
 }

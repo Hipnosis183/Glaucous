@@ -29,6 +29,7 @@ export default createStore({
         searchGoogleKey: localStore.get('settingsLinks.searchGoogleKey', 0)
       },
       settingsLists: {
+        listSpacing: localStore.get('settingsLists.listSpacing', true),
         listDisplay: localStore.get('settingsLists.listDisplay', 0),
         listColumns: localStore.get('settingsLists.listColumns', 4),
         listHeight: localStore.get('settingsLists.listHeight', 200),
@@ -169,6 +170,9 @@ export default createStore({
     getSettingsListsListDisplay(state) {
       return state.settingsApp.settingsLists.listDisplay
     },
+    getSettingsListsListSpacing(state) {
+      return state.settingsApp.settingsLists.listSpacing
+    },
     getSettingsListsListColumns(state) {
       return state.settingsApp.settingsLists.listColumns
     },
@@ -245,6 +249,10 @@ export default createStore({
     setSettingsLinksSearchGoogleKey(state, data) {
       state.settingsApp.settingsLinks.searchGoogleKey = data
       localStore.set('settingsLinks.searchGoogleKey', state.settingsApp.settingsLinks.searchGoogleKey)
+    },
+    setSettingsListsListSpacing(state) {
+      state.settingsApp.settingsLists.listSpacing = !state.settingsApp.settingsLists.listSpacing
+      localStore.set('settingsLists.listSpacing', state.settingsApp.settingsLists.listSpacing)
     },
     setSettingsListsListDisplay(state, data) {
       state.settingsApp.settingsLists.listDisplay = data
