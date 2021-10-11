@@ -67,8 +67,8 @@
     <!-- Show developer's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
       <div
-        class="flex-1 no-scrollbar overflow-y-scroll"
-        :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1'"
+        class="flex-1 overflow-y-scroll"
+        :class="$store.getters.getSettingsListsListSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
       >
         <vi-list
           v-if="developer.games.length > 0"
