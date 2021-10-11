@@ -45,7 +45,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists gameSettings />
+      <settings-lists />
     </vi-nav-bar>
     <!-- Show playlist's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">

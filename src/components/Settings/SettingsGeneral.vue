@@ -5,6 +5,22 @@
       <p class="text-xl">Edit mode</p>
       <vi-switch v-model="editMode" />
     </vi-section-content>
+    <!-- Game page category. -->
+    <vi-section-content>
+      <p class="text-xl">Default game page category</p>
+      <vi-select
+        v-model="gameCategory"
+        class="w-max"
+      >
+        <vi-option
+          v-for="item in gameCategoryOptions"
+          :key="item.i"
+          :label="item.name"
+          :value="item.i"
+        >
+        </vi-option>
+      </vi-select>
+    </vi-section-content>
   </div>
 </template>
 
@@ -12,6 +28,8 @@
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+// Import settings objects and functions.
+import { gameCategoryOptions } from '@/settings'
 
 export default {
   name: 'SettingsGeneral',
@@ -24,9 +42,15 @@ export default {
       get() { return store.getters.getSettingsGeneralEditMode },
       set() { store.commit('setSettingsGeneralEditMode') }
     })
+    const gameCategory = computed({
+      get() { return store.getters.getSettingsGeneralGameCategory },
+      set(value) { store.commit('setSettingsGeneralGameCategory', value) }
+    })
 
     return {
-      editMode
+      editMode,
+      gameCategory,
+      gameCategoryOptions
     }
   }
 }

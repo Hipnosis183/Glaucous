@@ -1,31 +1,32 @@
 <template>
-  <!-- Select list grouping mode. -->
+  <!-- Select category to list. -->
   <div
-    v-if="groupSettings"
-    class="flex-shrink-0 ml-2 my-auto w-40"
-  >
-    <vi-select
-      v-model="listGroup"
-      class="my-auto text-center"
-    >
-      <vi-option
-        v-for="item in listGroupOptions"
-        :key="item.i"
-        :label="item.name"
-        :value="item.i"
-      >
-      </vi-option>
-    </vi-select>
-  </div>
-  <!-- Open list settings dialog. -->
-  <div
-    v-if="gameSettings"
+    v-if="gameCategory"
     class="flex-shrink-0 ml-2 my-auto"
   >
-    <vi-menu-button
-      v-show="$store.getters.getSettingsGeneralEditMode"
-      icon="icon-menu"
+    <vi-menu-select
+      :offset="[0, 20]"
+      placement="bottom"
+      small="icon-category"
+      class="my-auto text-center"
     >
+      <vi-menu-option
+        :label="gameCategoryOptions[0].name"
+        :method="selectCategoryGames"
+      />
+      <vi-menu-option
+        :label="gameCategoryOptions[1].name"
+        :method="selectCategoryPlatforms"
+      />
+      <vi-menu-option
+        :label="gameCategoryOptions[2].name"
+        :method="selectCategoryDevelopers"
+      />
+    </vi-menu-select>
+  </div>
+  <!-- Open list settings dialog. -->
+  <div class="flex-shrink-0 ml-2 my-auto">
+    <vi-menu-button icon="icon-menu">
       <div class="flex">
         <!-- List settings. -->
         <div class="text-center w-68">
@@ -187,13 +188,12 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // Import settings objects and functions.
-import { cardImagesOptions, cardTextShowOptions, cardTextStyleOptions, cornersOptions, listDisplayOptions, listGroupOptions, selectCardCorners, selectListColumns } from '@/settings'
+import { cardImagesOptions, cardTextShowOptions, cardTextStyleOptions, cornersOptions, listDisplayOptions, gameCategoryOptions, selectCardCorners, selectListColumns } from '@/settings'
 
 export default {
   name: 'SettingsLists',
   props: {
-    gameSettings: { type: Boolean, default: false },
-    groupSettings: { type: Boolean, default: false }
+    gameCategory: { type: Boolean, default: false }
   },
   setup() {
     // Instantiate Vue elements.
@@ -244,26 +244,16 @@ export default {
       set(value) { store.commit('setSettingsCardsCardTextStyle', value) }
     })
 
-    // Manage game list group display page.
-    const listGroup = computed({
-      get() { return store.getters.getSettingsListsListGroup },
-      set(value) {
-        if (value != listGroup.value) {
-          store.commit('setSettingsListsListGroup', value)
-          switch (value) {
-            // Load page with all games listed.
-            case 0: router.push({ name: 'Games' })
-              break
-            // Load page with all platforms listed.
-            case 1: router.push({ name: 'Platforms' })
-              break
-            // Load page with all developers listed.
-            case 2: router.push({ name: 'Developers' })
-              break
-          }
-        }
-      }
-    })
+    // Manage game category selection.
+    const selectCategoryGames = (value) => {
+      router.push({ name: 'Games' })
+    }
+    const selectCategoryPlatforms = (value) => {
+      router.push({ name: 'Platforms' })
+    }
+    const selectCategoryDevelopers = (value) => {
+      router.push({ name: 'Developers' })
+    }
 
     // Manage preset settings.
     const presetRound = () => {
@@ -287,15 +277,17 @@ export default {
       cardTextShow,
       cardTextShowOptions,
       cornersOptions,
+      gameCategoryOptions,
       listColumns,
       listDisplay,
       listDisplayOptions,
-      listGroupOptions,
-      listGroup,
       listHeight,
       listSpacing,
       presetBlock,
-      presetRound
+      presetRound,
+      selectCategoryGames,
+      selectCategoryPlatforms,
+      selectCategoryDevelopers
     }
   }
 }

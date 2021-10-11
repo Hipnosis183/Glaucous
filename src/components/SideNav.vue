@@ -252,7 +252,7 @@ export default {
 
     // Select list group page to load.
     const selectList = () => {
-      switch (store.getters.getSettingsListsListGroup) {
+      switch (store.getters.getSettingsGeneralGameCategory) {
         // Load page with all games listed.
         case 0: router.push({ name: 'Games' })
           break

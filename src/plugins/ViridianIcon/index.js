@@ -11,6 +11,7 @@ import IconCaretLeft from './components/IconCaretLeft.vue'
 import IconCaretRight from './components/IconCaretRight.vue'
 import IconCaretUp from './components/IconCaretUp.vue'
 import IconCheck from './components/IconCheck.vue'
+import IconCategory from './components/IconCategory.vue'
 import IconClose from './components/IconClose.vue'
 import IconCross from './components/IconCross.vue'
 import IconEdit from './components/IconEdit.vue'
@@ -52,6 +53,7 @@ export default {
         app.component('icon-caret-left', IconCaretLeft)
         app.component('icon-caret-right', IconCaretRight)
         app.component('icon-caret-up', IconCaretUp)
+        app.component('icon-category', IconCategory)
         app.component('icon-check', IconCheck)
         app.component('icon-close', IconClose)
         app.component('icon-cross', IconCross)

@@ -27,10 +27,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists
-        gameSettings
-        groupSettings
-      />
+      <settings-lists gameCategory />
     </vi-nav-bar>
     <!-- Show games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">

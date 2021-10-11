@@ -14,7 +14,8 @@ export default createStore({
     slideBack: false,
     settingsApp: {
       settingsGeneral: {
-        editMode: localStore.get('settingsGeneral.editMode', true)
+        editMode: localStore.get('settingsGeneral.editMode', true),
+        gameCategory: localStore.get('settingsGeneral.gameCategory', 0)
       },
       settingsGames: {
         groupsView: localStore.get('settingsGames.groupsView', true)
@@ -32,8 +33,7 @@ export default createStore({
         listSpacing: localStore.get('settingsLists.listSpacing', true),
         listDisplay: localStore.get('settingsLists.listDisplay', 0),
         listColumns: localStore.get('settingsLists.listColumns', 4),
-        listHeight: localStore.get('settingsLists.listHeight', 200),
-        listGroup: localStore.get('settingsLists.listGroup', 0)
+        listHeight: localStore.get('settingsLists.listHeight', 200)
       },
       settingsCards: {
         cardScaling: localStore.get('settingsCards.cardScaling', true),
@@ -149,6 +149,9 @@ export default createStore({
     getSettingsGeneralEditMode(state) {
       return state.settingsApp.settingsGeneral.editMode
     },
+    getSettingsGeneralGameCategory(state) {
+      return state.settingsApp.settingsGeneral.gameCategory
+    },
     getSettingsThemesDarkMode(state) {
       return state.settingsApp.settingsThemes.darkMode
     },
@@ -178,9 +181,6 @@ export default createStore({
     },
     getSettingsListsListHeight(state) {
       return state.settingsApp.settingsLists.listHeight
-    },
-    getSettingsListsListGroup(state) {
-      return state.settingsApp.settingsLists.listGroup
     },
     getSettingsCardsCardScaling(state) {
       return state.settingsApp.settingsCards.cardScaling
@@ -226,6 +226,10 @@ export default createStore({
       state.settingsApp.settingsGeneral.editMode = !state.settingsApp.settingsGeneral.editMode
       localStore.set('settingsGeneral.editMode', state.settingsApp.settingsGeneral.editMode)
     },
+    setSettingsGeneralGameCategory(state, data) {
+      state.settingsApp.settingsGeneral.gameCategory = data
+      localStore.set('settingsGeneral.gameCategory', state.settingsApp.settingsGeneral.gameCategory)
+    },
     setSettingsThemesDarkMode(state) {
       state.settingsApp.settingsThemes.darkMode = !state.settingsApp.settingsThemes.darkMode
       localStore.set('settingsThemes.darkMode', state.settingsApp.settingsThemes.darkMode)
@@ -265,10 +269,6 @@ export default createStore({
     setSettingsListsListHeight(state, data) {
       state.settingsApp.settingsLists.listHeight = data
       localStore.set('settingsLists.listHeight', state.settingsApp.settingsLists.listHeight)
-    },
-    setSettingsListsListGroup(state, data) {
-      state.settingsApp.settingsLists.listGroup = data
-      localStore.set('settingsLists.listGroup', state.settingsApp.settingsLists.listGroup)
     },
     setSettingsCardsCardScaling(state, data) {
       state.settingsApp.settingsCards.cardScaling = data

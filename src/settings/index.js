@@ -29,7 +29,7 @@ export const listDisplayOptions = [
 ]
 
 // Game list grouping modes.
-export const listGroupOptions = [
+export const gameCategoryOptions = [
     { i: 0, name: 'All Games' },
     { i: 1, name: 'Platforms' },
     { i: 2, name: 'Developers' }

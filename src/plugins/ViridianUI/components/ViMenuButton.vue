@@ -5,11 +5,11 @@
       ref="refSelect"
       @click="openDropMenu()"
     >
-      <div class="bg-theme-200 dark:bg-theme-800 cursor-pointer font-semibold p-2 rounded-xl shadow-color text-base text-theme-600 dark:text-theme-200 w-max">
+      <vi-button-small>
         <vi-icon class="w-4">
           <component :is="icon" />
         </vi-icon>
-      </div>
+      </vi-button-small>
       <!-- Dropdown menu. -->
       <div
         ref="refTooltip"

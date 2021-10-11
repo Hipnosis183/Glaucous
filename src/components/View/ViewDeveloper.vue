@@ -62,7 +62,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists gameSettings />
+      <settings-lists />
     </vi-nav-bar>
     <!-- Show developer's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">

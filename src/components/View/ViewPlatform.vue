@@ -80,7 +80,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists gameSettings />
+      <settings-lists />
       <!-- Horizontal padding. -->
       <div class="w-full"></div>
     </vi-nav-bar>

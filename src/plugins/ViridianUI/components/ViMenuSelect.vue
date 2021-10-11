@@ -6,7 +6,12 @@
       @click="openDropMenu()"
       class="h-full"
     >
-      <vi-button-nb>
+      <vi-button-small v-if="small">
+        <vi-icon class="w-4">
+          <component :is="small" />
+        </vi-icon>
+      </vi-button-small>
+      <vi-button-nb v-else>
         <vi-icon class="w-6">
           <component :is="icon" />
         </vi-icon>
@@ -49,9 +54,12 @@ export default {
     ViButtonNb
   },
   props: {
-    icon: { type: String }
+    icon: { type: String },
+    offset: { type: Array, default: [0, 10] },
+    placement: { type: String, default: 'bottom-start' },
+    small: { type: String }
   },
-  setup() {
+  setup(props) {
     // Declare template refs.
     const refMenu = ref(null)
     const refSelect = ref(null)
@@ -123,10 +131,10 @@ export default {
         // Create a new PopperJS instance.
         popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
-          placement: 'bottom-start',
+          placement: props.placement,
           modifiers: [
             // Set distance between the select and the menu.
-            { name: 'offset', options: { offset: [0, 10] } }
+            { name: 'offset', options: { offset: props.offset } }
           ]
         })
       })
