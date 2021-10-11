@@ -250,8 +250,8 @@ export default createStore({
       state.settingsApp.settingsLinks.searchGoogleKey = data
       localStore.set('settingsLinks.searchGoogleKey', state.settingsApp.settingsLinks.searchGoogleKey)
     },
-    setSettingsListsListSpacing(state) {
-      state.settingsApp.settingsLists.listSpacing = !state.settingsApp.settingsLists.listSpacing
+    setSettingsListsListSpacing(state, data) {
+      state.settingsApp.settingsLists.listSpacing = data
       localStore.set('settingsLists.listSpacing', state.settingsApp.settingsLists.listSpacing)
     },
     setSettingsListsListDisplay(state, data) {
@@ -270,8 +270,8 @@ export default createStore({
       state.settingsApp.settingsLists.listGroup = data
       localStore.set('settingsLists.listGroup', state.settingsApp.settingsLists.listGroup)
     },
-    setSettingsCardsCardScaling(state) {
-      state.settingsApp.settingsCards.cardScaling = !state.settingsApp.settingsCards.cardScaling
+    setSettingsCardsCardScaling(state, data) {
+      state.settingsApp.settingsCards.cardScaling = data
       localStore.set('settingsCards.cardScaling', state.settingsApp.settingsCards.cardScaling)
     },
     setSettingsCardsCardCorners(state, data) {
@@ -290,12 +290,12 @@ export default createStore({
       state.settingsApp.settingsCards.cardTextStyle = data
       localStore.set('settingsCards.cardTextStyle', state.settingsApp.settingsCards.cardTextStyle)
     },
-    setSettingsImagesImageScaling(state) {
-      state.settingsApp.settingsImages.imageScaling = !state.settingsApp.settingsImages.imageScaling
+    setSettingsImagesImageScaling(state, data) {
+      state.settingsApp.settingsImages.imageScaling = data
       localStore.set('settingsImages.imageScaling', state.settingsApp.settingsImages.imageScaling)
     },
-    setSettingsImagesImageSpacing(state) {
-      state.settingsApp.settingsImages.imageSpacing = !state.settingsApp.settingsImages.imageSpacing
+    setSettingsImagesImageSpacing(state, data) {
+      state.settingsApp.settingsImages.imageSpacing = data
       localStore.set('settingsImages.imageSpacing', state.settingsApp.settingsImages.imageSpacing)
     },
     setSettingsImagesImageCorners(state, data) {

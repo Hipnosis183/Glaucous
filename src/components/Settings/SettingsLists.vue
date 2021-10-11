@@ -28,7 +28,7 @@
     >
       <div class="flex">
         <!-- List settings. -->
-        <div class="text-center w-64">
+        <div class="text-center w-68">
           <h1 class="font-medium mb-5 -mt-1 text-lg">List Settings</h1>
           <div class="space-y-2">
             <!-- Toggle list cards spacing. -->
@@ -81,10 +81,18 @@
                 </vi-input-num>
               </div>
             </div>
+            <!-- Select card height for the grid display mode. -->
+            <div class="flex items-center px-4">
+              <p class="mr-auto">Presets</p>
+              <div class="flex space-x-2">
+                <vi-button @click="presetRound()">Round</vi-button>
+                <vi-button @click="presetBlock()">Block</vi-button>
+              </div>
+            </div>
           </div>
         </div>
         <!-- Separator. -->
-        <div class="bg-theme-200 dark:bg-theme-600 h-auto mt-2 mx-4 w-0.5" />
+        <div class="bg-theme-200 dark:bg-theme-600 h-auto mt-2 mx-2 w-0.5" />
         <!-- Card settings. -->
         <div class="text-center w-68">
           <h1 class="font-medium mb-5 -mt-1 text-lg">Card Settings</h1>
@@ -257,6 +265,18 @@ export default {
       }
     })
 
+    // Manage preset settings.
+    const presetRound = () => {
+      listSpacing.value = true
+      cardScaling.value = true
+      cardCorners.value = 2
+    }
+    const presetBlock = () => {
+      listSpacing.value = false
+      cardScaling.value = false
+      cardCorners.value = 0
+    }
+
     return {
       cardCorners,
       cardImages,
@@ -273,7 +293,9 @@ export default {
       listGroupOptions,
       listGroup,
       listHeight,
-      listSpacing
+      listSpacing,
+      presetBlock,
+      presetRound
     }
   }
 }
