@@ -23,7 +23,8 @@ export default createStore({
       settingsThemes: {
         darkMode: localStore.get('settingsThemes.darkMode', false),
         selectedTheme: localStore.get('settingsThemes.selectedTheme', 0),
-        selectedColor: localStore.get('settingsThemes.selectedColor', 0)
+        selectedColor: localStore.get('settingsThemes.selectedColor', 0),
+        selectedFont: localStore.get('settingsThemes.selectedFont', 'OpenSans')
       },
       settingsLinks: {
         searchGoogle: localStore.get('settingsLinks.searchGoogle', true),
@@ -161,6 +162,9 @@ export default createStore({
     getSettingsThemesSelectedColor(state) {
       return state.settingsApp.settingsThemes.selectedColor
     },
+    getSettingsThemesSelectedFont(state) {
+      return state.settingsApp.settingsThemes.selectedFont
+    },
     getSettingsGamesGroupsView(state) {
       return state.settingsApp.settingsGames.groupsView
     },
@@ -241,6 +245,10 @@ export default createStore({
     setSettingsThemesSelectedColor(state, data) {
       state.settingsApp.settingsThemes.selectedColor = data
       localStore.set('settingsThemes.selectedColor', state.settingsApp.settingsThemes.selectedColor)
+    },
+    setSettingsThemesSelectedFont(state, data) {
+      state.settingsApp.settingsThemes.selectedFont = data
+      localStore.set('settingsThemes.selectedFont', state.settingsApp.settingsThemes.selectedFont)
     },
     setSettingsGamesGroupsView(state) {
       state.settingsApp.settingsGames.groupsView = !state.settingsApp.settingsGames.groupsView

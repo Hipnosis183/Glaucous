@@ -1,5 +1,5 @@
 :root {
-  /* Dark/Light values. */
+  /* Dark/Light theme values. */
   --color-theme-0: '';
   --color-theme-100: '';
   --color-theme-200: '';
@@ -10,7 +10,7 @@
   --color-theme-700: '';
   --color-theme-800: '';
   --color-theme-900: '';
-  /* Color values. */
+  /* Color theme values. */
   --color-color-100: '';
   --color-color-200: '';
   --color-color-300: '';

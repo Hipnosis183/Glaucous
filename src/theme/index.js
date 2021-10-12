@@ -63,3 +63,16 @@ export const selectTheme = (index) => {
     document.documentElement.style.setProperty('--color-theme-' + (i == 0 ? '0' : i + '00'), code)
   }
 }
+
+// Set a font style.
+export const selectFont = (value) => {
+  if (value != 'System Default') {
+    const font = new FontFace('Viridian', 'url(/fonts/' + value + '.ttf)')
+    font.load().then((loadedFont) => {
+      document.fonts.add(loadedFont)
+      document.body.style.fontFamily = 'Viridian'
+    })
+  } else {
+    document.body.style.fontFamily = ''
+  }
+}

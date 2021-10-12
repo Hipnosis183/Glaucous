@@ -64,15 +64,34 @@
         </vi-option>
       </vi-select>
     </vi-section-content>
+    <!-- Font select. -->
+    <vi-section-content>
+      <p class="text-xl">Font</p>
+      <vi-select
+        v-if="fontsList"
+        v-model="selectedFont"
+        class="w-max"
+      >
+        <vi-option
+          v-for="font in fontsList"
+          :key="font"
+          :label="font"
+          :value="font"
+        >
+        </vi-option>
+      </vi-select>
+    </vi-section-content>
   </div>
 </template>
 
 <script>
 // Import Vue functions.
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import theme objects and functions.
-import { colors, selectColor, selectTheme, themes } from '@/theme'
+import { colors, selectColor, selectFont, selectTheme, themes } from '@/theme'
+// Import functions from modules.
+import { readdirSync } from 'fs-extra'
 
 export default {
   name: 'SettingsThemes',
@@ -103,11 +122,34 @@ export default {
         selectTheme(selectedTheme.value)
       }
     })
+    const selectedFont = computed({
+      get() { return store.getters.getSettingsThemesSelectedFont },
+      set(value) {
+        // Set theme in the configuration file.
+        store.commit('setSettingsThemesSelectedFont', value)
+        // Set theme in the running application.
+        selectFont(selectedFont.value)
+      }
+    })
+
+    // Manage fonts list.
+    let fontsList = ref(null)
+    onMounted(() => {
+      // Set the fonts directory path.
+      let fontsPath = __static + '/fonts'
+      // Get all files under the directory.
+      let fontFiles = readdirSync(fontsPath)
+      fontFiles.push('System Default.ttf')
+      // Remove extension from file names.
+      fontsList.value = fontFiles.map((res) => res.slice(0, -4))
+    })
 
     return {
       colors,
       darkMode,
+      fontsList,
       selectedColor,
+      selectedFont,
       selectedTheme,
       themes
     }
