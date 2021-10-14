@@ -14,38 +14,41 @@
     <br />
     Check if your configuration is correct and try again.
   </vi-dialog-box>
-  <div class="pt-4 space-y-4">
-    <div class="flex items-center">
-      <h1 class="font-bold ml-2 text-xl">Start Game</h1>
-      <!-- Open game settings dialog. -->
-      <vi-button-icon
-        @click="launchGame()"
-        class="ml-auto"
-      >
-        <vi-icon class="w-6">
+  <div class="flex flex-col mt-auto space-y-2">
+    <vi-button-ui
+      button-large
+      button-size="large"
+      @click="launchGame()"
+    >
+      <div class="flex pl-2 space-x-4 w-full">
+        <vi-icon
+          manual
+          class="w-10"
+        >
           <icon-play />
         </vi-icon>
-      </vi-button-icon>
-    </div>
-    <div class="flex space-x-4">
-      <vi-select v-model="$store.state.gameSelected.gameVersion">
-        <vi-option
+        <h6>Play</h6>
+      </div>
+    </vi-button-ui>
+    <div class="cursor-pointer flex space-x-2">
+      <vi-select-ui v-model="$store.state.gameSelected.gameVersion">
+        <vi-option-ui
           v-for="(item, index) in gameInfo.gameRegions[regionIndex].gameVersions"
           :key="item._id"
           :label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
           :value="item._id"
           @click="changeVersion(index)"
         >
-        </vi-option>
-      </vi-select>
-      <vi-button-icon
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="settingsGameOpen()"
-      >
-        <vi-icon class="w-6">
+        </vi-option-ui>
+      </vi-select-ui>
+      <vi-button-ui @click="settingsGameOpen()">
+        <vi-icon
+          manual
+          class="w-6"
+        >
           <icon-setting />
         </vi-icon>
-      </vi-button-icon>
+      </vi-button-ui>
     </div>
   </div>
 </template>

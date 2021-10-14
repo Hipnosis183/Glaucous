@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     extend: {
       borderRadius: {
+        '4xl': '2rem',
         'image': 'var(--rounded-image)',
         'list': 'var(--rounded-list)'
       },

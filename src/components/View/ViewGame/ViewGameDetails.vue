@@ -1,10 +1,41 @@
 <template>
   <!-- View game details dialog. -->
   <vi-dialog
-    @close="$emit('close')"
+    v-show="gameDetailsDialog"
+    @close="gameDetailsShow()"
     class="pos-initial z-10"
   >
     <!-- Game details. -->
+    <div class="flex mb-6">
+      <h1 class="data-title">Game Information</h1>
+    </div>
+    <div class="flex flex-col mb-8">
+      <div class="data-content">
+        <p class="font-semibold">Full Title:</p>
+        <p>{{ fullTitle }}</p>
+      </div>
+      <div
+        v-show="gameInfo.gameRegions[regionIndex].originalTitle"
+        class="data-content"
+      >
+        <p class="font-semibold">Original Title:</p>
+        <p>{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
+      </div>
+      <div
+        v-show="gameInfo.gameRegions[regionIndex].romanizedTitle"
+        class="data-content"
+      >
+        <p class="font-semibold">Romanized Title:</p>
+        <p>{{ gameInfo.gameRegions[regionIndex].romanizedTitle }}</p>
+      </div>
+      <div
+        v-show="gameInfo.gameRegions[regionIndex].translatedTitle"
+        class="data-content"
+      >
+        <p class="font-semibold">Translated Title:</p>
+        <p>{{ gameInfo.gameRegions[regionIndex].translatedTitle }}</p>
+      </div>
+    </div>
     <div class="flex mb-6">
       <h1 class="data-title">ROM Information</h1>
     </div>
@@ -78,18 +109,40 @@
       </ul>
     </div>
   </vi-dialog>
+  <!-- Open view game details dialog. -->
+  <vi-button-ui
+    button-large
+    @click="gameDetailsShow()"
+    class="mr-2"
+  >
+    <h6 class="w-full">Details</h6>
+  </vi-button-ui>
 </template>
 
 <script>
+// Import Vue functions.
+import { ref } from 'vue'
+
 export default {
   name: 'ViewGameDetails',
-  emits: [
-    'close'
-  ],
   props: {
+    fullTitle: { type: String },
     gameInfo: { type: Object },
     regionIndex: { type: Number },
     versionIndex: { type: Number }
+  },
+  setup() {
+    // Manage details display.
+    let gameDetailsDialog = ref(false)
+    const gameDetailsShow = () => {
+      // Toggle details dialog.
+      gameDetailsDialog.value = !gameDetailsDialog.value
+    }
+
+    return {
+      gameDetailsDialog,
+      gameDetailsShow
+    }
   }
 }
 </script>

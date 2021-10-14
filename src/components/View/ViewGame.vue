@@ -144,30 +144,6 @@
           <icon-pin />
         </vi-icon>
       </vi-button-nb>
-      <!-- Remove selected game platform from favorites. -->
-      <vi-button-nb
-        v-if="gameFavorited"
-        @click="removeFavorite()"
-      >
-        <vi-icon class="w-6">
-          <icon-star-f />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Add selected game platform to favorites. -->
-      <vi-button-nb
-        v-else
-        @click="addFavorite()"
-      >
-        <vi-icon class="w-6">
-          <icon-star />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open game playlists management dialog. -->
-      <vi-button-nb @click="managePlaylistsClose()">
-        <vi-icon class="w-6">
-          <icon-playlist-add />
-        </vi-icon>
-      </vi-button-nb>
       <!-- Game region tabs. -->
       <ul class="flex h-full w-full">
         <li
@@ -177,21 +153,25 @@
           class="h-full relative w-full"
         >
           <!-- Region tab button. -->
-          <button
-            class="h-full relative w-full"
+          <div
+            class="cursor-pointer h-full relative w-full"
             :class="index == regionIndex ? 'border-b-4 border-color-400' : ''"
           >
             <div
               class="absolute h-full top-0 w-full"
-              :class="index == regionIndex ? 'bg-color-500 opacity-50' : ''"
+              :class="index == regionIndex ? 'bg-color-500 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
             />
-            <div class="h-full inline-flex items-center relative">
-              <p>{{ gameInfo.gameRegions[index].regionName }}</p>
+            <div class="h-full inline-flex items-center relative w-full">
+              <p class="ml-auto text-lg">{{ gameInfo.gameRegions[index].title }}</p>
+              <img
+                :src="'./images/flags/' + gameInfo.gameRegions[index].region + '.svg'"
+                class="h-full ml-auto p-4"
+              />
             </div>
-          </button>
+          </div>
           <div
             @click="changeRegion(index)"
-            class="absolute cursor-pointer h-full top-0 w-full"
+            class="absolute bg-theme-800 dark:bg-theme-200 cursor-pointer duration-500 h-full opacity-0 hover:opacity-10 top-0 w-full"
           />
         </li>
       </ul>
@@ -204,52 +184,123 @@
       >
         <div
           :key="regionIndex"
-          class="flex m-6 space-x-6"
+          class="flex flex-col max-h-content min-h-content overflow-hidden"
         >
-          <!-- Left card. -->
-          <vi-modal class="h-content w-3/5">
-            <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-              <div class="flex-1 no-scrollbar overflow-y-scroll">
-                <!-- Insert game info component. -->
-                <view-game-info
-                  :key="gameInfo"
-                  :fullTitle="fullTitle"
-                  :gameInfo="gameInfo"
-                  :regionIndex="regionIndex"
-                  :versionIndex="versionIndex"
-                />
-              </div>
-              <!-- Insert game links component. -->
-              <view-game-links
-                :key="gameInfo"
-                :fullTitle="fullTitle"
-                :gameInfo="gameInfo"
-                :gameRegion="gameInfo.gameRegions[regionIndex]"
-                @loaded="loadLinks($event)"
-              />
-            </div>
-          </vi-modal>
-          <!-- Right card. -->
-          <vi-modal class="h-content w-2/5">
-            <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-              <div class="flex-1 no-scrollbar overflow-y-scroll p-0.5">
-                <!-- Insert game images component. -->
-                <view-game-images
-                  :key="gameInfo"
-                  :gameInfo="gameInfo"
-                  :regionIndex="regionIndex"
-                  :versionIndex="versionIndex"
-                />
-              </div>
-              <!-- Insert game launcher component. -->
-              <view-game-launcher
+          <div
+            class="flex-1 no-scrollbar overflow-y-scroll"
+            :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1'"
+          >
+            <div
+              ref="coverImage"
+              class="flex h-full max-h-content relative w-full"
+            >
+              <!-- View game page background. -->
+              <view-game-background
                 :key="gameInfo"
                 :gameInfo="gameInfo"
                 :regionIndex="regionIndex"
-                @updated="versionIndex = $event"
-              />
+                :versionIndex="versionIndex"
+              >
+                <div class="flex h-full">
+                  <div class="flex flex-col">
+                    <!-- Top container. -->
+                    <div class="flex items-center mr-auto pt-4 px-8 space-x-2 text-theme-100">
+                      <!-- Open game playlists management dialog. -->
+                      <button
+                        @click="managePlaylistsClose()"
+                        class="duration-200 mt-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                      >
+                        <vi-icon class="icon-shadow w-8">
+                          <icon-playlist-add />
+                        </vi-icon>
+                      </button>
+                      <!-- Remove selected game platform from favorites. -->
+                      <button
+                        v-if="gameFavorited"
+                        @click="removeFavorite()"
+                        class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                      >
+                        <vi-icon class="icon-shadow w-6">
+                          <icon-star-f />
+                        </vi-icon>
+                      </button>
+                      <!-- Add selected game platform to favorites. -->
+                      <button
+                        v-else
+                        @click="addFavorite()"
+                        class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                      >
+                        <vi-icon class="icon-shadow w-6">
+                          <icon-star />
+                        </vi-icon>
+                      </button>
+                    </div>
+                    <!-- Bottom container. -->
+                    <div class="mt-auto p-8 pb-0">
+                      <!-- View game launching elements. -->
+                      <view-game-launcher
+                        :key="gameInfo"
+                        :gameInfo="gameInfo"
+                        :regionIndex="regionIndex"
+                        @updated="versionIndex = $event"
+                      />
+                      <div class="flex mt-2 w-full">
+                        <!-- View game details. -->
+                        <view-game-details
+                          :key="gameInfo"
+                          :fullTitle="fullTitle"
+                          :gameInfo="gameInfo"
+                          :regionIndex="regionIndex"
+                          :versionIndex="versionIndex"
+                        />
+                        <!-- View game linking. -->
+                        <view-game-linking
+                          :key="gameInfo"
+                          :gameInfo="gameInfo"
+                          :regionIndex="regionIndex"
+                        />
+                        <!-- View game links. -->
+                        <view-game-links
+                          :key="gameInfo"
+                          :fullTitle="fullTitle"
+                          :gameInfo="gameInfo"
+                          :gameRegion="gameInfo.gameRegions[regionIndex]"
+                          @loaded="loadLinks($event)"
+                        />
+                        <!-- View game gallery. -->
+                        <view-game-gallery
+                          :key="gameInfo"
+                          :gameInfo="gameInfo"
+                          :regionIndex="regionIndex"
+                          :versionIndex="versionIndex"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- View game cover image. -->
+                  <view-game-cover
+                    :key="gameInfo"
+                    :gameInfo="gameInfo"
+                    :regionIndex="regionIndex"
+                    :versionIndex="versionIndex"
+                    :coverHeight="coverHeight"
+                  />
+                </div>
+                <div
+                  ref="gameContent"
+                  class="flex flex-col mt-auto p-8"
+                >
+                  <!-- View game information. -->
+                  <view-game-info
+                    :key="gameInfo"
+                    :gameInfo="gameInfo"
+                    :regionIndex="regionIndex"
+                    :versionIndex="versionIndex"
+                  />
+                </div>
+              </view-game-background>
             </div>
-          </vi-modal>
+          </div>
         </div>
       </transition>
     </div>
@@ -272,9 +323,13 @@ import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
 import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
 import EditGame from '@/components/Edit/EditGame.vue'
 // Import game page components.
-import ViewGameImages from './ViewGame/ViewGameImages.vue'
+import ViewGameBackground from './ViewGame/ViewGameBackground.vue'
+import ViewGameCover from './ViewGame/ViewGameCover.vue'
+import ViewGameDetails from './ViewGame/ViewGameDetails.vue'
+import ViewGameGallery from './ViewGame/ViewGameGallery.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
+import ViewGameLinking from './ViewGame/ViewGameLinking.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
 import ViewGamePlaylists from './ViewGame/ViewGamePlaylists.vue'
 
@@ -285,9 +340,13 @@ export default {
     CreateGameRegion,
     CreateGameVersion,
     EditGame,
-    ViewGameImages,
+    ViewGameBackground,
+    ViewGameCover,
+    ViewGameDetails,
+    ViewGameGallery,
     ViewGameInfo,
     ViewGameLauncher,
+    ViewGameLinking,
     ViewGameLinks,
     ViewGamePlaylists
   },
@@ -581,10 +640,21 @@ export default {
         })
     }
 
+    // Manage image load and resizing.
+    const coverImage = ref(null)
+    const gameContent = ref(null)
+    const coverHeight = () => {
+      if (coverImage.value && gameContent.value) {
+        return coverImage.value.clientHeight - gameContent.value.clientHeight
+      }
+    }
+
     // Return values to use on template.
     return {
       addFavorite,
       changeRegion,
+      coverHeight,
+      coverImage,
       createPlatformClose,
       createPlatformDialog,
       createPlatformOpen,
@@ -607,6 +677,7 @@ export default {
       editGameDialog,
       editGameOpen,
       fullTitle,
+      gameContent,
       gameFavorited,
       gameInfo,
       loadLinks,
@@ -620,21 +691,22 @@ export default {
       removeFavorite,
       setGameRegion,
       slideBack,
-      versionIndex,
+      versionIndex
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 /* Calculations. */
-.h-content {
-  height: calc(100vh - 6.25rem);
-}
 .min-h-content {
-  min-height: calc(100vh - 9.25rem);
+  min-height: calc(100vh - 3.5rem);
 }
 .max-h-content {
-  max-height: calc(100vh - 9.25rem);
+  max-height: calc(100vh - 3.5rem);
+}
+/* Styling. */
+.icon-shadow {
+  filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));
 }
 </style>

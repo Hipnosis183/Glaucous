@@ -21,6 +21,7 @@ import IconFold from './components/IconFold.vue'
 import IconFolder from './components/IconFolder.vue'
 import IconFullScreen from './components/IconFullScreen.vue'
 import IconGames from './components/IconGames.vue'
+import IconLink from './components/IconLink.vue'
 import IconList from './components/IconList.vue'
 import IconMenu from './components/IconMenu.vue'
 import IconMinus from './components/IconMinus.vue'
@@ -64,6 +65,7 @@ export default {
         app.component('icon-folder', IconFolder)
         app.component('icon-full-screen', IconFullScreen)
         app.component('icon-games', IconGames)
+        app.component('icon-link', IconLink)
         app.component('icon-list', IconList)
         app.component('icon-menu', IconMenu)
         app.component('icon-minus', IconMinus)

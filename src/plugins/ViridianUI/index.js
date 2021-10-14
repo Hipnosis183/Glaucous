@@ -6,6 +6,7 @@ import ViButtonSb from './components/ViButtonSb.vue'
 import ViButtonSbSmall from './components/ViButtonSbSmall.vue'
 import ViButtonSettings from './components/ViButtonSettings.vue'
 import ViButtonSmall from './components/ViButtonSmall.vue'
+import ViButtonUI from './components/ViButtonUI.vue'
 import ViCard from './components/ViCard.vue'
 import ViCardCompact from './components/ViCardCompact.vue'
 import ViCardList from './components/ViCardList.vue'
@@ -27,10 +28,12 @@ import ViModal from './components/ViModal.vue'
 import ViNavBar from './components/ViNavBar.vue'
 import ViOption from './components/ViOption.vue'
 import ViOptionGroup from './components/ViOptionGroup.vue'
+import ViOptionUI from './components/ViOptionUI.vue'
 import ViOverlay from './components/ViOverlay.vue'
 import ViSectionContent from './components/ViSectionContent.vue'
 import ViSectionHeader from './components/ViSectionHeader.vue'
 import ViSelect from './components/ViSelect.vue'
+import ViSelectUI from './components/ViSelectUI.vue'
 import ViSwitch from './components/ViSwitch.vue'
 
 export default {
@@ -43,6 +46,7 @@ export default {
         app.component('vi-button-sb-small', ViButtonSbSmall)
         app.component('vi-button-settings', ViButtonSettings)
         app.component('vi-button-small', ViButtonSmall)
+        app.component('vi-button-ui', ViButtonUI)
         app.component('vi-card', ViCard)
         app.component('vi-card-compact', ViCardCompact)
         app.component('vi-card-list', ViCardList)
@@ -64,10 +68,12 @@ export default {
         app.component('vi-nav-bar', ViNavBar)
         app.component('vi-option', ViOption)
         app.component('vi-option-group', ViOptionGroup)
+        app.component('vi-option-ui', ViOptionUI)
         app.component('vi-overlay', ViOverlay)
         app.component('vi-section-content', ViSectionContent)
         app.component('vi-section-header', ViSectionHeader)
         app.component('vi-select', ViSelect)
+        app.component('vi-select-ui', ViSelectUI)
         app.component('vi-switch', ViSwitch)
     }
 }

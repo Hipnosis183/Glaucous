@@ -1,23 +1,4 @@
 <template>
-  <!-- View cover image. -->
-  <vi-overlay
-    v-if="getCover || getPictures[0]"
-    v-show="imagesCoverDialog"
-    @close="imagesCoverClose()"
-    class="pos-initial z-10"
-  >
-    <div class="flex">
-      <img
-        @click="imageZoomToggle()"
-        :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
-        class="cursor-pointer object-contain rounded-xl"
-        :class="[
-          imageZoom ? 'h-full' : 'h-cover',
-          { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }
-        ]"
-      />
-    </div>
-  </vi-overlay>
   <!-- View selected picture. -->
   <transition>
     <vi-overlay
@@ -99,12 +80,12 @@
       </div>
     </vi-overlay>
   </transition>
-  <!-- View gallery. -->
+  <!-- View game gallery. -->
   <transition>
     <div
       v-show="imagesGalleryDialog"
       @close="imagesGalleryShow()"
-      class="fixed h-screen pos-initial w-gallery"
+      class="fixed h-screen pos-initial w-gallery z-10"
     >
       <div class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full">
         <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-image w-full">
@@ -156,48 +137,21 @@
           </vi-button-icon>
         </div>
         <!-- List settings. -->
-        <div class="absolute mr-5 mb-6 right-0 bottom-0">
+        <div class="absolute bottom-0 mr-5 mb-6 right-0">
           <settings-images />
         </div>
       </div>
     </div>
   </transition>
-  <!-- Cover image. -->
-  <div class="ar-square justify-center w-full">
-    <img
-      ref="coverImage"
-      v-if="getCover || getPictures[0]"
-      @click="imagesCoverOpen()"
-      @load="loadImage()"
-      :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
-      class="cursor-pointer m-auto mb-4 object-contain rounded-xl shadow-color"
-      :class="[
-        renderReady ? coverWidth > coverHeight ? 'w-full' : 'h-full' : '',
-        { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }
-      ]"
-    />
-    <div
-      v-else
-      class="bg-theme-100 dark:bg-theme-800 flex h-full items-center mb-4 rounded-3xl shadow-color w-full"
+  <!-- Open game gallery. -->
+  <vi-button-ui @click="imagesGalleryShow()">
+    <vi-icon
+      manual
+      class="w-6"
     >
-      <div class="flex flex-col items-center m-auto">
-        <div class="mb-4 text-theme-300">
-          <vi-icon class="w-16">
-            <icon-picture />
-          </vi-icon>
-        </div>
-        <p>No image available</p>
-      </div>
-    </div>
-    <!-- Open gallery. -->
-    <div class="flex w-full">
-      <vi-button
-        color
-        large
-        @click="imagesGalleryShow()"
-      >Gallery</vi-button>
-    </div>
-  </div>
+      <icon-picture />
+    </vi-icon>
+  </vi-button-ui>
 </template>
 
 <script>
@@ -210,7 +164,7 @@ import { existsSync, readdirSync } from 'fs-extra'
 import SettingsImages from '@/components/Settings/SettingsImages.vue'
 
 export default {
-  name: 'ViewGameImages',
+  name: 'ViewGameGallery',
   components: {
     SettingsImages
   },
@@ -221,7 +175,6 @@ export default {
   },
   setup(props) {
     // Declare template refs.
-    const coverImage = ref(null)
     const imageContainer = ref(null)
     const pictureImage = ref(null)
 
@@ -278,21 +231,7 @@ export default {
       let coverNew = getCover.value ? getCover.value : getPictures.value[0]
       // Disable the image resizing.
       if (coverOld != coverNew) {
-        renderReady.value = false
-      }
-    }
-
-    // Manage image when loaded.
-    let coverWidth = ref(0)
-    let coverHeight = ref(0)
-    let renderReady = ref(false)
-    const loadImage = () => {
-      if (coverImage.value) {
-        // Get image width and height.
-        coverWidth.value = coverImage.value.clientWidth
-        coverHeight.value = coverImage.value.clientHeight
-        // Enable the image resizing.
-        renderReady.value = true
+        //renderReady.value = false
       }
     }
 
@@ -333,19 +272,6 @@ export default {
       imagesGalleryDialog.value = !imagesGalleryDialog.value
     }
 
-    // Cover image display management.
-    let imagesCoverDialog = ref(false)
-    const imagesCoverOpen = () => {
-      // Reset zoom mode.
-      imageZoom.value = false
-      // Open cover view.
-      imagesCoverDialog.value = !imagesCoverDialog.value
-    }
-    const imagesCoverClose = () => {
-      // Close cover view.
-      imagesCoverDialog.value = !imagesCoverDialog.value
-    }
-
     // Picture images display management.
     let imageCenter = ref(false)
     let imagesPicturesDialog = ref(false)
@@ -373,9 +299,6 @@ export default {
     }
 
     return {
-      coverImage,
-      coverWidth,
-      coverHeight,
       getCover,
       getPictures,
       imageCenter,
@@ -385,20 +308,15 @@ export default {
       imagePath,
       imageZoom,
       imageZoomToggle,
-      imagesCoverClose,
-      imagesCoverDialog,
-      imagesCoverOpen,
       imagesGalleryDialog,
       imagesGalleryShow,
       imagesPicturesClose,
       imagesPicturesDialog,
       imagesPicturesLoad,
       imagesPicturesOpen,
-      loadImage,
       nextImage,
       pictureImage,
       prevImage,
-      renderReady,
       slideBack
     }
   }
@@ -407,9 +325,6 @@ export default {
 
 <style scoped>
 /* Calculations. */
-.h-cover {
-  height: calc(100vh - 4rem);
-}
 .max-h-gallery {
   max-height: calc(100vh - 3rem);
 }

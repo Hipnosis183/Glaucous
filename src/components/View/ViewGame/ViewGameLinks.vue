@@ -1,5 +1,5 @@
 <template>
-  <div class="flex ml-auto pt-4 space-x-2">
+  <div class="flex hidden ml-auto pt-4 space-x-2">
     <!-- External links. -->
     <div
       v-if="gameLinks"
@@ -35,6 +35,14 @@
       />
     </div>
   </div>
+  <vi-button-ui class="mr-2">
+    <vi-icon
+      manual
+      class="w-6"
+    >
+      <icon-link />
+    </vi-icon>
+  </vi-button-ui>
 </template>
 
 <script>

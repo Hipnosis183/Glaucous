@@ -1,5 +1,10 @@
 <template>
-  <vi-overlay class="pos-initial z-10">
+  <!-- View game linking dialog. -->
+  <vi-overlay
+    v-show="gameLinkingDialog"
+    @close="gameLinkingShow()"
+    class="pos-initial z-10"
+  >
     <!-- Unlink game dialog. -->
     <vi-dialog-box
       v-show="unlinkGameDialog"
@@ -91,6 +96,14 @@
       </div>
     </ul>
   </vi-overlay>
+  <!-- Open view game linking dialog. -->
+  <vi-button-ui
+    button-large
+    @click="gameLinkingShow()"
+    class="mr-2"
+  >
+    <h6 class="w-full">Also On</h6>
+  </vi-button-ui>
 </template>
 
 <script>
@@ -197,7 +210,16 @@ export default {
       unlinkErrorDialog.value = !unlinkErrorDialog.value
     }
 
+    // Manage linked games.
+    let gameLinkingDialog = ref(false)
+    const gameLinkingShow = () => {
+      // Toggle game linking dialog.
+      gameLinkingDialog.value = !gameLinkingDialog.value
+    }
+
     return {
+      gameLinkingDialog,
+      gameLinkingShow,
       linkGame_,
       linkedGames,
       queryResults,
