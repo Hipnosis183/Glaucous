@@ -7,8 +7,11 @@
       >
       </div>
       <div
-        class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll rounded-3xl"
-        :class="width ? width : ''"
+        class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll"
+        :class="[
+          rounded ? 'rounded-3xl' : '',
+          width ? width : ''
+        ]"
       >
         <slot></slot>
       </div>
@@ -26,6 +29,7 @@ export default {
     'close'
   ],
   props: {
+    rounded: { type: Boolean, default: true },
     width: { type: [Boolean, String] }
   },
   setup(props, { emit }) {

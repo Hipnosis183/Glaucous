@@ -569,7 +569,7 @@ async function getGamesSearchPlatform(res) {
 
 // Get all linked games of a specific game platform.
 export async function getGamesLinked(req) {
-    return await GamePlatformModel.find({ _id: { $in: req } }, { populate: true })
+    return await GamePlatformModel.find({ _id: { $in: req } }, { populate: ['gameRegions', 'developer', 'platform'] })
     /* Leaving here in case it gets used in the future.
     .then((res) => {
         let gamePlatforms = []
