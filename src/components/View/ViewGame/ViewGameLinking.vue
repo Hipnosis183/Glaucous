@@ -4,6 +4,7 @@
     v-show="gameLinkingDialog"
     @close="gameLinkingShow()"
     :rounded="false"
+    :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsListDisplay == 0 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
     class="pos-initial z-10"
   >
     <!-- Unlink game dialog. -->
@@ -104,30 +105,50 @@
       </div>
     </vi-modal>
     <!-- Show linked games list. -->
-    <ul v-else>
+    <div
+      v-else
+      class="flex flex-col overflow-hidden"
+    >
       <div
-        v-if="linkedGames.length > 0"
-        class="gap-4 grid grid-flow-row"
+        class="flex-1 no-scrollbar overflow-y-scroll"
+        :class="$store.getters.getSettingsListsListSpacing ? 'p-4 pr-1' : 'p-1 pr-0'"
       >
-        <li
-          v-for="game in linkedGames"
-          :key="game._id"
-          :value="game._id"
-          @click="$router.push({ name: 'Game', params: { id: game._id } })"
+        <vi-list-dialog
+          v-if="linkedGames.length > 0"
+          :listDisplay="$store.getters.getSettingsListsListDisplay"
+          :listLength="linkedGames.length"
         >
-          <!-- Game card. -->
-          <vi-card-compact :gameInfo="game" />
-        </li>
+          <li
+            v-for="game in linkedGames"
+            :key="game._id"
+            :value="game._id"
+            @click="$router.push({ name: 'Game', params: { id: game._id } })"
+          >
+            <!-- Game cards. -->
+            <vi-card-grid
+              v-if="$store.getters.getSettingsListsListDisplay == 0"
+              :gameInfo="game"
+            />
+            <vi-card-list
+              v-else-if="$store.getters.getSettingsListsListDisplay == 1"
+              :gameInfo="game"
+            />
+            <vi-card-compact
+              v-else-if="$store.getters.getSettingsListsListDisplay == 2"
+              :gameInfo="game"
+            />
+          </li>
+        </vi-list-dialog>
+        <div v-else>
+          <li>
+            <!-- Empty card. -->
+            <vi-modal class="text-center">
+              <p>No other platforms available.</p>
+            </vi-modal>
+          </li>
+        </div>
       </div>
-      <div v-else>
-        <li>
-          <!-- Empty card. -->
-          <vi-modal class="text-center">
-            <p>No other platforms available.</p>
-          </vi-modal>
-        </li>
-      </div>
-    </ul>
+    </div>
   </vi-overlay>
   <!-- Open view game linking dialog. -->
   <vi-button-ui

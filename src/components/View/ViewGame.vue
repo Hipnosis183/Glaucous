@@ -204,7 +204,7 @@
                 <div class="flex h-full">
                   <div class="flex flex-col">
                     <!-- Top container. -->
-                    <div class="flex items-center mr-auto pt-4 px-8 space-x-2 text-theme-100">
+                    <div class="flex items-center mr-auto pt-6 px-8 space-x-2 text-theme-100">
                       <!-- Open game playlists management dialog. -->
                       <button
                         @click="managePlaylistsClose()"

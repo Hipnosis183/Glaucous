@@ -25,7 +25,7 @@
       @mouseenter="coverHover = true"
       @mouseleave="coverHover = false"
       @click="imagesCoverOpen()"
-      class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 bottom-0 cursor-pointer duration-200 left-0 m-8 mb-0 right-0 rounded-2xl hover:scale-102 top-0 transform z-5"
+      class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 bottom-0 cursor-pointer duration-200 left-0 m-8 mb-0 right-0 rounded-list hover:scale-102 top-0 transform z-5"
     />
     <!-- Cover image. -->
     <transition>
@@ -34,7 +34,7 @@
         v-show="renderReady"
         @load="resizeImage()"
         :src="'file://' + imagePath + '/' + getCover"
-        class="duration-200 flex h-full rounded-2xl transform w-max"
+        class="duration-200 flex h-full rounded-list transform w-max"
         :class="{ 'scale-102' : coverHover }"
       />
     </transition>

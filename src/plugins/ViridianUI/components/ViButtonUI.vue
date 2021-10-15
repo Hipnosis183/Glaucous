@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 px-4 py-2 text-theme-200 whitespace-nowrap"
+    class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 px-4 py-2 rounded-list text-theme-200 whitespace-nowrap"
     :class="[
       buttonLarge ? 'w-full' : 'w-max',
       { 'h-12 text-xl' : buttonSize == 'small' },

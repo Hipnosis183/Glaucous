@@ -40,7 +40,7 @@ export const cornersOptions = [
     { i: 0, name: 'None', value: '0px' },
     { i: 1, name: 'Medium', value: '6px' },
     { i: 2, name: 'Large', value: '12px' },
-    { i: 3, name: 'Extra Large', value: '24px' }
+    { i: 3, name: 'Extra Large', value: '18px' }
 ]
 
 // Google search key parameters.

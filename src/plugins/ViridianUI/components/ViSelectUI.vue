@@ -8,7 +8,7 @@
       <div
         ref="refSelect"
         @click="openDropMenu()"
-        class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 flex h-full w-full"
+        class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 flex h-full rounded-list w-full"
       >
         <!-- Prefix icon. -->
         <div
@@ -100,7 +100,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-color-700 dark:bg-color-800 list-none max-h-64 overflow-y-auto shadow-color transition-menu"
+            class="bg-color-700 dark:bg-color-800 list-none max-h-64 overflow-y-auto rounded-list shadow-color transition-menu"
           >
             <!-- Select created option. -->
             <vi-option

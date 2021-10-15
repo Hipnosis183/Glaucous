@@ -21,6 +21,7 @@ import ViInputGroup from './components/ViInputGroup.vue'
 import ViInputNum from './components/ViInputNum.vue'
 import ViLabel from './components/ViLabel.vue'
 import ViList from './components/ViList.vue'
+import ViListDialog from './components/ViListDialog.vue'
 import ViMenuButton from './components/ViMenuButton.vue'
 import ViMenuOption from './components/ViMenuOption.vue'
 import ViMenuSelect from './components/ViMenuSelect.vue'
@@ -61,6 +62,7 @@ export default {
         app.component('vi-input-num', ViInputNum)
         app.component('vi-label', ViLabel)
         app.component('vi-list', ViList)
+        app.component('vi-list-dialog', ViListDialog)
         app.component('vi-menu-button', ViMenuButton)
         app.component('vi-menu-option', ViMenuOption)
         app.component('vi-menu-select', ViMenuSelect)

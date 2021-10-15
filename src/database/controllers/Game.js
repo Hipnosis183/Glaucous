@@ -570,17 +570,16 @@ async function getGamesSearchPlatform(res) {
 // Get all linked games of a specific game platform.
 export async function getGamesLinked(req) {
     return await GamePlatformModel.find({ _id: { $in: req } }, { populate: ['gameRegions', 'developer', 'platform'] })
-    /* Leaving here in case it gets used in the future.
-    .then((res) => {
-        let gamePlatforms = []
-        for (let gameLinked of res) {
-            // Get game configuration.
-            gameLinked.config = getConfig(gameLinked)
-            gameLinked.image = getImage(gameLinked)
-            gamePlatforms.push(gameLinked)
-        }
-        return gamePlatforms
-    })*/
+        .then((res) => {
+            let gamePlatforms = []
+            for (let gameLinked of res) {
+                // Get game configuration.
+                gameLinked.config = getConfig(gameLinked)
+                gameLinked.image = getImage(gameLinked)
+                gamePlatforms.push(gameLinked)
+            }
+            return gamePlatforms
+        })
 }
 
 // Get all linked games matching a given search query.
