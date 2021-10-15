@@ -111,7 +111,7 @@
     >
       <div
         class="flex-1 no-scrollbar overflow-y-scroll"
-        :class="$store.getters.getSettingsListsListSpacing ? 'p-4 pr-1' : 'p-1 pr-0'"
+        :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1'"
       >
         <vi-list-dialog
           v-if="linkedGames.length > 0"

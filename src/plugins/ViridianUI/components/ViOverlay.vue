@@ -10,6 +10,7 @@
         class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll"
         :class="[
           rounded ? 'rounded-3xl' : '',
+          height ? height : '',
           width ? width : ''
         ]"
       >
@@ -29,6 +30,7 @@ export default {
     'close'
   ],
   props: {
+    height: { type: [Boolean, String] },
     rounded: { type: Boolean, default: true },
     width: { type: [Boolean, String] }
   },

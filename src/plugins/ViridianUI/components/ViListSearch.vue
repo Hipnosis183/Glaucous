@@ -1,8 +1,9 @@
 <template>
   <ul
     class="grid"
+    :style="listDisplay == 0 && listLength < 4 ? 'grid-template-columns: repeat(' + listLength + ', minmax(0, 1fr));' : ''"
     :class="[
-      { 'grid-cols-list' : listDisplay == 0 },
+      { 'grid-cols-4' : listDisplay == 0 && listLength >= 4 },
       $store.getters.getSettingsListsListSpacing ? 'gap-4' : 'gap-1'
     ]"
   >
@@ -19,9 +20,10 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 
 export default {
-  name: 'ViList',
+  name: 'ViListSearch',
   props: {
     listDisplay: { type: Number, default: 0 },
+    listLength: { type: Number, default: 4 },
     remoteMethod: { type: Function }
   },
   setup(props) {

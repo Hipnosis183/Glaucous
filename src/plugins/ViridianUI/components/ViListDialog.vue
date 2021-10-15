@@ -7,13 +7,13 @@
       $store.getters.getSettingsListsListSpacing ? 'gap-4' : 'gap-1'
     ]"
   >
-    <slot />
+    <slot></slot>
   </ul>
 </template>
 
 <script>
 export default {
-  name: 'ViList',
+  name: 'ViListDialog',
   props: {
     listDisplay: { type: Number, default: 0 },
     listLength: { type: Number, default: 4 }

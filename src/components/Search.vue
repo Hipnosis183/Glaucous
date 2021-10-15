@@ -1,8 +1,23 @@
 <template>
-  <vi-overlay>
-    <div class="space-y-4 w-search">
+  <vi-overlay
+    height="h-full"
+    :rounded="false"
+    width="w-3/5"
+  >
+    <div class="space-y-4 w-full">
       <!-- Search dialog. -->
-      <vi-modal>
+      <vi-modal class="mb-auto">
+        <!-- Dialog header. -->
+        <div class="flex justify-between mb-6 ml-2">
+          <!-- Dialog title. -->
+          <p class="pt-1 text-2xl">Games Search</p>
+          <!-- Close search dialog. -->
+          <vi-button-icon @click="$emit('close')">
+            <vi-icon class="w-6">
+              <icon-close />
+            </vi-icon>
+          </vi-button-icon>
+        </div>
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
           <div class="flex space-x-2 w-full">
@@ -33,47 +48,66 @@
               <icon-add />
             </vi-icon>
           </vi-button-icon>
-          <!-- Remove query button. -->
-          <vi-button-icon @click="$emit('close')">
-            <vi-icon class="w-6">
-              <icon-close />
-            </vi-icon>
-          </vi-button-icon>
         </div>
         <!-- Search filters. -->
-        <ul
-          v-if="queryFilters.length > 0"
-          class="flex flex-wrap mt-2"
-        >
-          <li
-            v-for="game in queryFilters"
-            :key="game.value"
-            :value="game.value"
-            class="mr-2 mt-2"
+        <transition name="filters">
+          <ul
+            v-if="queryFilters.length > 0"
+            class="flex mt-2 overflow-x-auto overflow-y-hidden py-2 small-scrollbar whitespace-nowrap"
           >
-            <!-- Filter chip. -->
-            <vi-chip @remove="queryRemove(game.label)">
-              {{ game.label }}: {{ game.value }}
-            </vi-chip>
-          </li>
-        </ul>
+            <li
+              v-for="game in queryFilters"
+              :key="game.value"
+              :value="game.value"
+              class="mr-2"
+            >
+              <!-- Filter chip. -->
+              <vi-chip @remove="queryRemove(game.label)">
+                {{ game.label }}: {{ game.value }}
+              </vi-chip>
+            </li>
+          </ul>
+        </transition>
       </vi-modal>
-      <!-- Search results. -->
-      <vi-list
-        v-if="queryResults.length > 0"
-        :listDisplay="1"
-        :remote-method="querySearchNext"
-      >
-        <li
-          v-for="game in queryResults"
-          :key="game._id"
-          :value="game._id"
-          @click="gameOpen(game._id)"
+      <transition name="results">
+        <!-- Search results. -->
+        <div
+          v-if="queryResults.length > 0"
+          class="flex flex-col max-h-results min-h-results overflow-hidden"
         >
-          <!-- Game card. -->
-          <vi-card-list :gameInfo="game" />
-        </li>
-      </vi-list>
+          <div
+            class="flex-1 no-scrollbar overflow-y-scroll"
+            :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1 pr-0'"
+          >
+            <vi-list-search
+              :listDisplay="$store.getters.getSettingsListsListDisplay"
+              :listLength="queryResults.length"
+              :remote-method="querySearchNext"
+            >
+              <li
+                v-for="game in queryResults"
+                :key="game._id"
+                :value="game._id"
+                @click="gameOpen(game._id)"
+              >
+                <!-- Game cards. -->
+                <vi-card-grid
+                  v-if="$store.getters.getSettingsListsListDisplay == 0"
+                  :gameInfo="game"
+                />
+                <vi-card-list
+                  v-else-if="$store.getters.getSettingsListsListDisplay == 1"
+                  :gameInfo="game"
+                />
+                <vi-card-compact
+                  v-else-if="$store.getters.getSettingsListsListDisplay == 2"
+                  :gameInfo="game"
+                />
+              </li>
+            </vi-list-search>
+          </div>
+        </div>
+      </transition>
     </div>
   </vi-overlay>
 </template>
@@ -224,8 +258,31 @@ export default {
 </script>
 
 <style scoped>
-/* Styling. */
-.w-search {
-  width: calc(100vw / 1.6);
+/* Calculations. */
+.max-h-results {
+  max-height: calc(100vh - 19rem);
+}
+.min-h-results {
+  min-height: calc(100vh - 19rem);
+}
+/* Transitions. */
+.filters-enter-active,
+.filters-leave-active {
+  max-height: 100px;
+  transition: all 0.5s ease-in-out;
+}
+.filters-leave-to,
+.filters-enter-from {
+  max-height: 0px;
+  opacity: 0;
+}
+.results-enter-active,
+.results-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+.results-leave-to,
+.results-enter-from {
+  opacity: 0;
+  transform: translateY(-10%);
 }
 </style>
