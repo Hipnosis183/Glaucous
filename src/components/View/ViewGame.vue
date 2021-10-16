@@ -62,7 +62,7 @@
       @close="managePlaylistsClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar>
+    <vi-nav-bar :class="$store.getters.getSettingsGeneralEditMode ? 'mr-1' : 'mx-1'">
       <!-- Create games menu dialog. -->
       <vi-menu-select
         v-show="$store.getters.getSettingsGeneralEditMode"

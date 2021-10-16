@@ -22,22 +22,22 @@
     <transition name="slide-nav">
       <div
         v-show="expand"
-        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-80 z-40"
+        class="absolute bg-color-700 dark:bg-color-800 flex flex-col inset-y-0 w-80 z-50"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700">
+        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700 top-shadow">
           <h6
             @click="$router.push({ name: 'Index' })"
             class="cursor-pointer pl-6 pr-8 py-7"
           >
-            <viridian-logo />
+            <viridian-logo class="viridian-shadow" />
           </h6>
         </div>
         <!-- Buttons. -->
         <div class="flex flex-col mb-auto">
           <vi-button-sb
             @click="selectList()"
-            class="flex pl-4"
+            class="flex h-16 pl-4 z-50"
           >
             <vi-icon
               manual
@@ -49,7 +49,7 @@
           </vi-button-sb>
           <vi-button-sb
             @click="$router.push({ name: 'Favorites' })"
-            class="flex pl-4"
+            class="flex h-16 pl-4"
           >
             <vi-icon
               manual
@@ -61,7 +61,7 @@
           </vi-button-sb>
           <vi-button-sb
             @click="$router.push({ name: 'Playlists' })"
-            class="flex pl-4"
+            class="flex h-16 pl-4"
           >
             <vi-icon
               manual
@@ -73,7 +73,7 @@
           </vi-button-sb>
           <vi-button-sb
             @click="$router.push({ name: 'Recent' })"
-            class="flex pl-4"
+            class="flex h-16 pl-4"
           >
             <vi-icon
               manual
@@ -84,10 +84,23 @@
             <h6>Recently Played</h6>
           </vi-button-sb>
         </div>
-        <div class="flex flex-col mt-auto">
+        <div class="flex flex-col mt-auto z-50">
+          <vi-button-sb
+            v-show="history > 0"
+            @click="$router.back()"
+            class="flex h-16 pl-4"
+          >
+            <vi-icon
+              manual
+              class="w-6"
+            >
+              <icon-back />
+            </vi-icon>
+            <h6>Go Back</h6>
+          </vi-button-sb>
           <vi-button-sb
             @click="searchShow()"
-            class="flex pl-4"
+            class="flex h-16 pl-4"
           >
             <vi-icon
               manual
@@ -98,32 +111,26 @@
             <h6>Search</h6>
           </vi-button-sb>
           <vi-button-sb
-            v-show="history > 0"
-            @click="$router.back()"
-            class="flex pl-4"
+            @click="$router.push({ name: 'Settings' })"
+            class="flex h-16 pl-4"
           >
             <vi-icon
               manual
               class="w-6"
             >
-              <icon-back />
+              <icon-setting-f />
             </vi-icon>
-            <h6>Go Back</h6>
+            <h6>Settings</h6>
           </vi-button-sb>
         </div>
         <!-- Bottom bar. -->
-        <div class="flex justify-between">
+        <div class="bottom-shadow flex justify-between">
           <vi-button-sb-small
             @click="exitApp()"
             class="py-3.5"
           >
-            <vi-icon class="w-5">
-              <icon-exit />
-            </vi-icon>
-          </vi-button-sb-small>
-          <vi-button-sb-small @click="$router.push({ name: 'Settings' })">
             <vi-icon class="w-6">
-              <icon-setting-f />
+              <icon-exit />
             </vi-icon>
           </vi-button-sb-small>
           <vi-button-sb-small @click="sidenavToggle()">
@@ -146,16 +153,16 @@
         class="bg-color-700 dark:bg-color-800 flex flex-col h-screen justify-between relative w-14"
       >
         <!-- Logo bar. -->
-        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700 h-14">
+        <div class="bg-color-800 dark:bg-color-900 hover:bg-color-600 dark:hover:bg-color-700 h-14 top-shadow">
           <h6
             @click="$router.push({ name: 'Index' })"
             class="cursor-pointer p-4"
           >
-            <viridian-icon />
+            <viridian-icon class="viridian-shadow" />
           </h6>
         </div>
         <!-- Buttons. -->
-        <div class="flex flex-col mb-auto">
+        <div class="flex flex-col mb-auto z-40">
           <vi-button-sb @click="selectList()">
             <vi-icon class="text-color-200 w-8">
               <icon-games />
@@ -177,12 +184,7 @@
             </vi-icon>
           </vi-button-sb>
         </div>
-        <div class="flex flex-col mt-auto">
-          <vi-button-sb @click="searchShow()">
-            <vi-icon class="text-color-200 w-6">
-              <icon-search />
-            </vi-icon>
-          </vi-button-sb>
+        <div class="flex flex-col mt-auto z-40">
           <vi-button-sb
             v-show="history > 0"
             @click="$router.back()"
@@ -191,9 +193,19 @@
               <icon-back />
             </vi-icon>
           </vi-button-sb>
+          <vi-button-sb @click="searchShow()">
+            <vi-icon class="text-color-200 w-6">
+              <icon-search />
+            </vi-icon>
+          </vi-button-sb>
+          <vi-button-sb @click="$router.push({ name: 'Settings' })">
+            <vi-icon class="text-color-200 w-6">
+              <icon-setting-f />
+            </vi-icon>
+          </vi-button-sb>
         </div>
         <!-- Bottom bar. -->
-        <div class="flex justify-between">
+        <div class="bottom-shadow flex justify-between">
           <vi-button-sb-small @click="sidenavToggle()">
             <vi-icon class="w-6">
               <icon-menu />
@@ -298,6 +310,16 @@ export default {
 </script>
 
 <style scoped>
+/* Styling. */
+.bottom-shadow {
+  filter: drop-shadow(0px -1px 1px rgba(var(--color-color-800), 0.6));
+}
+.top-shadow {
+  filter: drop-shadow(0px 1px 1px rgba(40, 40, 42, 0.6));
+}
+.viridian-shadow {
+  filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));
+}
 /* Transitions. */
 div {
   transition: background-color 0.5s, opacity 0.5s ease;
