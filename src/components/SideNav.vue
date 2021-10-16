@@ -128,7 +128,7 @@
           </vi-button-sb-small>
           <vi-button-sb-small @click="sidenavToggle()">
             <vi-icon class="w-6">
-              <icon-fold />
+              <icon-menu />
             </vi-icon>
           </vi-button-sb-small>
         </div>
@@ -196,7 +196,7 @@
         <div class="flex justify-between">
           <vi-button-sb-small @click="sidenavToggle()">
             <vi-icon class="w-6">
-              <icon-expand />
+              <icon-menu />
             </vi-icon>
           </vi-button-sb-small>
         </div>

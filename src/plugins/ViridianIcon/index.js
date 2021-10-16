@@ -16,11 +16,10 @@ import IconClose from './components/IconClose.vue'
 import IconCross from './components/IconCross.vue'
 import IconEdit from './components/IconEdit.vue'
 import IconExit from './components/IconExit.vue'
-import IconExpand from './components/IconExpand.vue'
-import IconFold from './components/IconFold.vue'
 import IconFolder from './components/IconFolder.vue'
 import IconFullScreen from './components/IconFullScreen.vue'
 import IconGames from './components/IconGames.vue'
+import IconGrid from './components/IconGrid.vue'
 import IconLink from './components/IconLink.vue'
 import IconList from './components/IconList.vue'
 import IconMenu from './components/IconMenu.vue'
@@ -60,11 +59,10 @@ export default {
         app.component('icon-cross', IconCross)
         app.component('icon-edit', IconEdit)
         app.component('icon-exit', IconExit)
-        app.component('icon-expand', IconExpand)
-        app.component('icon-fold', IconFold)
         app.component('icon-folder', IconFolder)
         app.component('icon-full-screen', IconFullScreen)
         app.component('icon-games', IconGames)
+        app.component('icon-grid', IconGrid)
         app.component('icon-link', IconLink)
         app.component('icon-list', IconList)
         app.component('icon-menu', IconMenu)

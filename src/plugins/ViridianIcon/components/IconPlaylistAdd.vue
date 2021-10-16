@@ -1,5 +1,3 @@
 <template>
-  <g transform="matrix(42.666668, 0, 0, 42.666668, 0, 0)">
-    <path d="M14 10H3v2h11v-2zm0-4H3v2h11V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM3 16h7v-2H3v2z" />
-  </g>
+  <path d="M120 224.5h614v85H120v-85zm0 160h444v85H120v-85zm0 160h278v85H120v-85zm613.6-.6V373.5h-85.2v170.4H478v85.2h170.4v170.4h85.2V629.1H904v-85.2H733.6z" />
 </template>

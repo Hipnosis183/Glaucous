@@ -26,7 +26,7 @@
   </div>
   <!-- Open list settings dialog. -->
   <div class="flex-shrink-0 ml-2 my-auto">
-    <vi-menu-button icon="icon-menu">
+    <vi-menu-button icon="icon-grid">
       <div class="flex">
         <!-- List settings. -->
         <div class="text-center w-68">

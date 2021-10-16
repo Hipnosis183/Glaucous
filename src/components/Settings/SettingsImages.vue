@@ -1,7 +1,7 @@
 <template>
   <!-- Open image settings dialog. -->
   <vi-menu-button
-    icon="icon-menu"
+    icon="icon-grid"
     placement="left-start"
   >
     <!-- Image settings. -->
