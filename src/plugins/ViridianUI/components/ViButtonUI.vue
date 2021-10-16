@@ -25,10 +25,12 @@ export default {
 </script>
 
 <style scoped>
-button {
-  transition: background-color 0.5s, opacity 0.5s ease;
-}
+/* Styling. */
 h6 {
   filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));
+}
+/* Transitions. */
+button {
+  transition: background-color 0.5s, opacity 0.5s ease;
 }
 </style>

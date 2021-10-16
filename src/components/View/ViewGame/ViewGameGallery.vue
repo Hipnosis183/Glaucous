@@ -146,7 +146,7 @@
   <!-- Open game gallery. -->
   <vi-button-ui @click="imagesGalleryShow()">
     <vi-icon
-      manual
+      icon-manual
       class="w-6"
     >
       <icon-picture />

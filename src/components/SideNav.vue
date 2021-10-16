@@ -40,7 +40,7 @@
             class="flex h-16 pl-4 z-50"
           >
             <vi-icon
-              manual
+              icon-manual
               class="w-8"
             >
               <icon-games />
@@ -52,7 +52,7 @@
             class="flex h-16 pl-4"
           >
             <vi-icon
-              manual
+              icon-manual
               class="w-8"
             >
               <icon-star-s />
@@ -64,7 +64,7 @@
             class="flex h-16 pl-4"
           >
             <vi-icon
-              manual
+              icon-manual
               class="w-8"
             >
               <icon-playlist />
@@ -76,7 +76,7 @@
             class="flex h-16 pl-4"
           >
             <vi-icon
-              manual
+              icon-manual
               class="w-8"
             >
               <icon-recent />
@@ -88,11 +88,11 @@
           <vi-button-sb
             v-show="history > 0"
             @click="$router.back()"
-            class="flex h-16 pl-4"
+            class="flex h-16 pl-3"
           >
             <vi-icon
-              manual
-              class="w-6"
+              icon-manual
+              class="w-7"
             >
               <icon-back />
             </vi-icon>
@@ -103,7 +103,7 @@
             class="flex h-16 pl-4"
           >
             <vi-icon
-              manual
+              icon-manual
               class="w-6"
             >
               <icon-search />
@@ -115,7 +115,7 @@
             class="flex h-16 pl-4"
           >
             <vi-icon
-              manual
+              icon-manual
               class="w-6"
             >
               <icon-setting-f />
@@ -189,7 +189,7 @@
             v-show="history > 0"
             @click="$router.back()"
           >
-            <vi-icon class="text-color-200 w-6">
+            <vi-icon class="text-color-200 w-7">
               <icon-back />
             </vi-icon>
           </vi-button-sb>
@@ -315,7 +315,7 @@ export default {
   filter: drop-shadow(0px -1px 1px rgba(var(--color-color-800), 0.6));
 }
 .top-shadow {
-  filter: drop-shadow(0px 1px 1px rgba(40, 40, 42, 0.6));
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.5));
 }
 .viridian-shadow {
   filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));

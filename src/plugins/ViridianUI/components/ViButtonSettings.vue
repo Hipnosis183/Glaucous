@@ -9,7 +9,7 @@
   >
     {{ label }}
     <vi-icon
-      manual
+      icon-manual
       class="text-color-600 dark:text-color-400 w-5"
     >
       <icon-caret-right />

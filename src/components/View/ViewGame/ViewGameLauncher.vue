@@ -22,7 +22,7 @@
     >
       <div class="flex pl-2 space-x-4 w-full">
         <vi-icon
-          manual
+          icon-manual
           class="w-10"
         >
           <icon-play />
@@ -42,10 +42,7 @@
         </vi-option-ui>
       </vi-select-ui>
       <vi-button-ui @click="settingsGameOpen()">
-        <vi-icon
-          manual
-          class="w-6"
-        >
+        <vi-icon class="w-6">
           <icon-setting />
         </vi-icon>
       </vi-button-ui>

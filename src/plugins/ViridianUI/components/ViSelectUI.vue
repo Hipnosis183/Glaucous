@@ -82,7 +82,10 @@
           class="cursor-pointer flex p-3 w-max"
         >
           <div class="my-auto text-theme-200">
-            <vi-icon class="w-5">
+            <vi-icon
+              icon-shadow
+              class="w-5"
+            >
               <icon-arrow-down />
             </vi-icon>
           </div>

@@ -8,7 +8,7 @@
     <!-- Option overlay. -->
     <div class="absolute cursor-pointer h-full w-full" />
     <!-- Option container. -->
-    <div class="px-4 py-2 text-color-100 text-shadow text-xl">
+    <div class="px-4 py-2 text-color-100 text-shadow text-lg">
       <slot>
         <!-- Default option content. -->
         <h6>{{ label }}</h6>

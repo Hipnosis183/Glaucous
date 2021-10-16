@@ -36,10 +36,7 @@
     </div>
   </div>
   <vi-button-ui class="mr-2">
-    <vi-icon
-      manual
-      class="w-6"
-    >
+    <vi-icon class="w-6">
       <icon-link />
     </vi-icon>
   </vi-button-ui>

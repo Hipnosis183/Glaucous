@@ -210,7 +210,10 @@
                         @click="managePlaylistsClose()"
                         class="duration-200 mt-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
                       >
-                        <vi-icon class="icon-shadow w-8">
+                        <vi-icon
+                          icon-shadow
+                          class="w-8"
+                        >
                           <icon-playlist-add />
                         </vi-icon>
                       </button>
@@ -704,9 +707,5 @@ export default {
 }
 .max-h-content {
   max-height: calc(100vh - 3.5rem);
-}
-/* Styling. */
-.icon-shadow {
-  filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));
 }
 </style>

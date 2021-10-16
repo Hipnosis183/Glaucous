@@ -4,10 +4,10 @@
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
     viewBox="0 0 1024 1024"
-    :width="size"
+    :width="iconSize"
     :class="[
-      { 'm-auto' : manual == false },
-      { 'icon-shadow' : $store.getters.getSettingsThemesDarkMode }
+      { 'm-auto' : iconManual == false },
+      { 'icon-shadow' : iconShadow }
     ]"
   >
     <!-- Icon contents. -->
@@ -19,8 +19,9 @@
 export default {
   name: 'ViIcon',
   props: {
-    manual: { type: Boolean, default: false },
-    size: { type: String, default: '100%' }
+    iconManual: { type: Boolean, default: false },
+    iconShadow: { type: Boolean, default: false },
+    iconSize: { type: String, default: '100%' }
   }
 }
 </script>
@@ -28,6 +29,6 @@ export default {
 <style scoped>
 /* Styling. */
 .icon-shadow {
-  filter: drop-shadow(1px 1px 0px var(--color-theme-900));
+  filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));
 }
 </style>
