@@ -24,7 +24,7 @@ export default createStore({
         darkMode: localStore.get('settingsThemes.darkMode', false),
         selectedTheme: localStore.get('settingsThemes.selectedTheme', 0),
         selectedColor: localStore.get('settingsThemes.selectedColor', 0),
-        selectedFont: localStore.get('settingsThemes.selectedFont', 'OpenSans')
+        selectedFont: localStore.get('settingsThemes.selectedFont', 'Poppins')
       },
       settingsLinks: {
         searchGoogle: localStore.get('settingsLinks.searchGoogle', true),
