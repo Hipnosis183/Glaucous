@@ -46,7 +46,7 @@
 import { onUnmounted, computed, onMounted, ref, watch } from 'vue'
 // Import functions from modules.
 import { app } from '@electron/remote'
-import { existsSync, readdirSync } from 'fs-extra'
+import { ensureDirSync, readdirSync } from 'fs-extra'
 
 export default {
   name: 'ViewGameCover',
@@ -64,54 +64,56 @@ export default {
     watch(() => [props.regionIndex, props.versionIndex], () => { getImages() })
 
     // Image reading operations.
-    let imageFiles = ref([])
     let imagePath = ref(null)
+    let imagePathPlatform = ref(null)
+    let imagePathRegion = ref(null)
+    let imagePathVersion = ref(null)
+    let imageFilesPlatform = ref([])
+    let imageFilesRegion = ref([])
+    let imageFilesVersion = ref([])
     const getCover = computed(() => {
-      // Get cover image.
-      return imageFiles.value.filter(res => res.startsWith('0'.repeat(8)))[0]
-    })
-    const getPictures = computed(() => {
-      // Get array of pictures.
-      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
+      // Get array of pictures for the game version.
+      if (imageFilesVersion.value.length > 0) {
+        let imagesVersion = imageFilesVersion.value.filter((res) => res.startsWith('0'.repeat(8)))[0]
+        if (imagesVersion) {
+          imagePath.value = imagePathVersion.value
+          return imagesVersion
+        }
+      }
+      // Get array of pictures for the game region.
+      if (imageFilesRegion.value.length > 0) {
+        let imagesRegion = imageFilesRegion.value.filter((res) => res.startsWith('0'.repeat(8)))[0]
+        if (imagesRegion) {
+          imagePath.value = imagePathRegion.value
+          return imagesRegion
+        }
+      }
+      // Get array of pictures for the game platform.
+      if (imageFilesPlatform.value.length > 0) {
+        let imagesPlatform = imageFilesPlatform.value.filter((res) => res.startsWith('0'.repeat(8)))[0]
+        if (imagesPlatform) {
+          imagePath.value = imagePathPlatform.value
+          return imagesPlatform
+        }
+      }
+      return null
     })
     const getImages = () => {
-      // Store currently selected cover image.
-      let coverOld = getCover.value ? getCover.value : getPictures.value[0]
-      // Set the image directory path of the game platform.
-      let gamePath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-      // Check if there are images for the selected game version.
-      imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id + '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id + '/images'
-      if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
-        // Load images filenames.
-        imageFiles.value = readdirSync(imagePath.value)
-      }
-      else {
-        // Check if there are images for the selected game region.
-        imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id + '/images'
-        if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
-          // Load images filenames.
-          imageFiles.value = readdirSync(imagePath.value)
-        }
-        else {
-          // Check if there are images for the selected game platform.
-          imagePath.value = gamePath + '/images'
-          if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
-            // Load images filenames.
-            imageFiles.value = readdirSync(imagePath.value)
-          }
-          else {
-            // Empty image variables.
-            imagePath.value = null
-            imageFiles.value = []
-          }
-        }
-      }
-      // Store newly selected cover image.
-      let coverNew = getCover.value ? getCover.value : getPictures.value[0]
-      // Disable the image resizing.
-      if (coverOld != coverNew) {
-        //renderReady.value = false
-      }
+      // Set the image directory path for all game types.
+      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
+      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+      imagePathPlatform.value = gamePathPlatform + '/images'
+      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
+      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
+      // Ensure images directories existance.
+      ensureDirSync(imagePathPlatform.value)
+      ensureDirSync(imagePathRegion.value)
+      ensureDirSync(imagePathVersion.value)
+      // Load images filenames.
+      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
+      imageFilesRegion.value = readdirSync(imagePathRegion.value)
+      imageFilesVersion.value = readdirSync(imagePathVersion.value)
     }
 
     // Manage image load and resizing.
@@ -156,7 +158,6 @@ export default {
     return {
       coverHover,
       getCover,
-      getPictures,
       imageHeight,
       imagePath,
       imageZoom,
