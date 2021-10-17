@@ -234,12 +234,16 @@ export default {
     })
     const coverAdd = () => {
       // Open dialog to select an image.
-      coverAddImages.value = dialog.showOpenDialogSync({
+      dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{
           name: 'Images',
           extensions: ['bmp', 'jpg', 'png']
         }]
+      }).then((res) => {
+        if (res.filePaths.length > 0) {
+          coverAddImages.value = res.filePaths
+        }
       })
     }
     const coverRemove = () => {
@@ -259,17 +263,18 @@ export default {
     })
     const picturesAdd = () => {
       // Open dialog to select images.
-      let dialogResult = dialog.showOpenDialogSync({
+      dialog.showOpenDialog({
         properties: ['openFile', 'multiSelections'],
         filters: [{
           name: 'Images',
           extensions: ['bmp', 'jpg', 'png']
         }]
+      }).then((res) => {
+        if (res.filePaths.length > 0) {
+          // Save images into the store.
+          res.filePaths.forEach((file) => picturesAddImages.value = file)
+        }
       })
-      if (dialogResult) {
-        // Save images into the store.
-        dialogResult.forEach((res) => picturesAddImages.value = res)
-      }
     }
     const picturesRemove = (image) => {
       // Remove image from the store.
