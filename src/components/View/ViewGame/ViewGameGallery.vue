@@ -193,7 +193,7 @@ export default {
     })
     const getPictures = computed(() => {
       // Get array of pictures.
-      return imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))
+      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
     })
     const getImages = () => {
       // Store currently selected cover image.

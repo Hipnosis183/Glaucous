@@ -276,6 +276,11 @@ async function storeImages(images, path) {
         // Copy cover image file. It starts with eight zeroes, followed by eight random characters.
         copySync(images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
     }
+    // Add background image file.
+    if (images.background.add) {
+        // Copy background image file. It starts with eight ones, followed by eight random characters.
+        copySync(images.background.add[0], imagesPath + '/' + '1'.repeat(8) + generateID().substr(0, 8))
+    }
     // Add pictures image files.
     for (let [i, image] of images.pictures.add.entries()) {
         copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
@@ -299,6 +304,18 @@ async function updateImages(images, path) {
         removeSync(imagesPath + '/' + readdirSync(imagesPath).filter((res) => res.startsWith('0'.repeat(8)))[0])
         // Copy cover image file, using cache busting for proper rendering update.
         copySync(images.cover.add[0], imagesPath + '/' + '0'.repeat(8) + generateID().substr(0, 8))
+    }
+    // Remove background image file.
+    if (images.background.remove) {
+        // The background image file starts with eight ones, followed by eight random characters.
+        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter((res) => res.startsWith('1'.repeat(8)))[0])
+    }
+    // Add background image file.
+    if (images.background.add) {
+        // Remove any previously stored background image file.
+        removeSync(imagesPath + '/' + readdirSync(imagesPath).filter((res) => res.startsWith('1'.repeat(8)))[0])
+        // Copy background image file, using cache busting for proper rendering update.
+        copySync(images.background.add[0], imagesPath + '/' + '1'.repeat(8) + generateID().substr(0, 8))
     }
     // Remove pictures image files.
     for (let image of images.pictures.remove) {

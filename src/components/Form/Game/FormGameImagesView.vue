@@ -1,5 +1,5 @@
 <template>
-  <!-- Show images dialog. -->
+  <!-- Show selected image dialog. -->
   <vi-overlay
     width="w-full"
     @close="$emit('close')"
@@ -57,6 +57,55 @@
               v-else-if="getCover && !coverRemoveImages"
               @click="imageSelectedOpen(imagePath + '/' + getCover)"
               :src="'file://' + imagePath + '/' + getCover"
+              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
+            />
+            <div
+              v-else
+              class="bg-theme-100 dark:bg-theme-800 flex items-center rounded-3xl shadow-color w-full"
+            >
+              <div class="flex flex-col items-center m-auto">
+                <div class="mb-4 text-6xl text-theme-300">
+                  <vi-icon class="w-16">
+                    <icon-picture />
+                  </vi-icon>
+                </div>
+                <p>No image available</p>
+              </div>
+            </div>
+          </div>
+        </vi-modal>
+        <!-- Background panel. -->
+        <vi-modal class="flex flex-col h-content-half relative">
+          <!-- Background header. -->
+          <div class="flex justify-between mb-6 mx-2">
+            <!-- Background title. -->
+            <p class="overflow-x-hidden pt-1 text-2xl">Background</p>
+            <!-- Background buttons. -->
+            <div class="flex h-10 space-x-4">
+              <vi-button-icon @click="backgroundAdd()">
+                <vi-icon class="w-6">
+                  <icon-add />
+                </vi-icon>
+              </vi-button-icon>
+              <vi-button-icon @click="backgroundRemove()">
+                <vi-icon class="w-6">
+                  <icon-remove />
+                </vi-icon>
+              </vi-button-icon>
+            </div>
+          </div>
+          <!-- Background image. -->
+          <div class="absolute bottom-0 flex h-full left-0 pointer-events-none p-6 pt-22 right-0 top-0 w-full">
+            <img
+              v-if="backgroundAddImages"
+              @click="imageSelectedOpen(backgroundAddImages)"
+              :src="'file://' + backgroundAddImages"
+              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
+            />
+            <img
+              v-else-if="getBackground && !backgroundRemoveImages"
+              @click="imageSelectedOpen(imagePath + '/' + getBackground)"
+              :src="'file://' + imagePath + '/' + getBackground"
               class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
             />
             <div
@@ -198,9 +247,13 @@ export default {
       // Get cover image.
       return imageFiles.value.filter((res) => res.startsWith('0'.repeat(8)))[0]
     })
+    const getBackground = computed(() => {
+      // Get background image.
+      return imageFiles.value.filter((res) => res.startsWith('1'.repeat(8)))[0]
+    })
     const getPictures = computed(() => {
       // Get array of pictures.
-      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)))
+      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
     })
     const getImages = () => {
       // Set the base image directory path of the game.
@@ -264,6 +317,35 @@ export default {
       // Remove image from the store.
       coverAddImages.value = null
       coverRemoveImages.value = true
+    }
+
+    // Manage background image operations.
+    const backgroundAddImages = computed({
+      get() { return store.state.gameForm[props.gameType].images.background.add },
+      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesBackgroundAdd', value) }
+    })
+    const backgroundRemoveImages = computed({
+      get() { return store.state.gameForm[props.gameType].images.background.remove },
+      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesBackgroundRemove', value) }
+    })
+    const backgroundAdd = () => {
+      // Open dialog to select an image.
+      dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [{
+          name: 'Images',
+          extensions: ['bmp', 'jpg', 'png']
+        }]
+      }).then((res) => {
+        if (res.filePaths.length > 0) {
+          backgroundAddImages.value = res.filePaths
+        }
+      })
+    }
+    const backgroundRemove = () => {
+      // Remove image from the store.
+      backgroundAddImages.value = null
+      backgroundRemoveImages.value = true
     }
 
     // Manage picture images operations.
@@ -330,10 +412,15 @@ export default {
     }
 
     return {
+      backgroundAdd,
+      backgroundAddImages,
+      backgroundRemove,
+      backgroundRemoveImages,
       coverAdd,
       coverAddImages,
       coverRemove,
       coverRemoveImages,
+      getBackground,
       getCover,
       getPictures,
       imagePath,

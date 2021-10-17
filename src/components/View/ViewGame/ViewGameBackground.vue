@@ -2,11 +2,11 @@
   <!-- Background image. -->
   <transition>
     <img
-      v-if="getCover || getPictures[0]"
-      :key="getCover || getPictures[0]"
-      :src="'file://' + imagePath + '/' + (getCover ? getCover : getPictures[0])"
+      v-if="getBackground || getCover || getPictures[0]"
+      :key="getBackground || getCover || getPictures[0]"
+      :src="'file://' + imagePath + '/' + (getBackground ? getBackground : getCover ? getCover : getPictures[0])"
       class="absolute h-full left-0 object-center object-cover rounded-b-4xl rounded-t-list top-0 w-full"
-      :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !getCover }"
+      :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false && (!getBackground && !getCover) }"
     />
   </transition>
   <!-- Background gradient layer. -->
@@ -49,9 +49,13 @@ export default {
       // Get cover image.
       return imageFiles.value.filter(res => res.startsWith('0'.repeat(8)))[0]
     })
+    const getBackground = computed(() => {
+      // Get background image.
+      return imageFiles.value.filter((res) => res.startsWith('1'.repeat(8)))[0]
+    })
     const getPictures = computed(() => {
       // Get array of pictures.
-      return imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))
+      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
     })
     const getImages = () => {
       // Store currently selected cover image.
@@ -94,6 +98,7 @@ export default {
     }
 
     return {
+      getBackground,
       getCover,
       getPictures,
       imagePath

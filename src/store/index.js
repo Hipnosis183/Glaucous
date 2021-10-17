@@ -80,6 +80,10 @@ export default createStore({
             add: null,
             remove: false
           },
+          background: {
+            add: null,
+            remove: false
+          },
           pictures: {
             add: [],
             remove: []
@@ -100,6 +104,10 @@ export default createStore({
             add: null,
             remove: false
           },
+          background: {
+            add: null,
+            remove: false
+          },
           pictures: {
             add: [],
             remove: []
@@ -113,6 +121,10 @@ export default createStore({
         comments: [],
         images: {
           cover: {
+            add: null,
+            remove: false
+          },
+          background: {
             add: null,
             remove: false
           },
@@ -443,6 +455,12 @@ export default createStore({
     setGamePlatformLinksRemove(state, data) {
       state.gameForm.gamePlatform.links.splice(data, 1)
     },
+    setGamePlatformImagesBackgroundAdd(state, data) {
+      state.gameForm.gamePlatform.images.background.add = data
+    },
+    setGamePlatformImagesBackgroundRemove(state, data) {
+      state.gameForm.gamePlatform.images.background.remove = data
+    },
     setGamePlatformImagesCoverAdd(state, data) {
       state.gameForm.gamePlatform.images.cover.add = data
     },
@@ -479,6 +497,12 @@ export default createStore({
     setGameRegionSerial(state, data) {
       state.gameForm.gameRegion.serial = data
     },
+    setGameRegionImagesBackgroundAdd(state, data) {
+      state.gameForm.gameRegion.images.background.add = data
+    },
+    setGameRegionImagesBackgroundRemove(state, data) {
+      state.gameForm.gameRegion.images.background.remove = data
+    },
     setGameRegionImagesCoverAdd(state, data) {
       state.gameForm.gameRegion.images.cover.add = data
     },
@@ -508,6 +532,12 @@ export default createStore({
     },
     setGameVersionCommentsRemove(state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
+    },
+    setGameVersionImagesBackgroundAdd(state, data) {
+      state.gameForm.gameVersion.images.background.add = data
+    },
+    setGameVersionImagesBackgroundRemove(state, data) {
+      state.gameForm.gameVersion.images.background.remove = data
     },
     setGameVersionImagesCoverAdd(state, data) {
       state.gameForm.gameVersion.images.cover.add = data
