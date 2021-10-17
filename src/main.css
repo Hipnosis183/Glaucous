@@ -83,7 +83,10 @@ h4 {
   @apply bg-transparent w-6 !important;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-theme-200 dark:bg-theme-600 bg-clip-content border-8 border-solid border-transparent rounded-full !important;
+  @apply bg-theme-300 dark:bg-theme-600 bg-clip-content border-8 border-solid border-transparent rounded-full !important;
+}
+.dark-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-theme-800 !important;
 }
 .small-scrollbar::-webkit-scrollbar {
   @apply w-3 !important;

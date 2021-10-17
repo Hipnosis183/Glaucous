@@ -1,62 +1,80 @@
 <template>
   <!-- Show images dialog. -->
   <vi-overlay
+    width="w-full"
     @close="$emit('close')"
     class="pos-initial z-10"
   >
-    <div class="flex space-x-4 w-images">
-      <!-- Cover panel. -->
-      <vi-modal class="max-h-content w-1/4">
-        <!-- Cover header. -->
-        <div class="flex justify-between mb-6 mx-2">
-          <!-- Cover title. -->
-          <p class="pt-1 text-2xl">Cover</p>
-          <!-- Cover buttons. -->
-          <div class="flex h-10 space-x-4">
-            <vi-button-icon @click="coverAdd()">
-              <vi-icon class="w-6">
-                <icon-add />
-              </vi-icon>
-            </vi-button-icon>
-            <vi-button-icon @click="coverRemove()">
-              <vi-icon class="w-6">
-                <icon-remove />
-              </vi-icon>
-            </vi-button-icon>
-          </div>
+    <transition>
+      <!-- View selected image. -->
+      <vi-overlay
+        v-if="imageSelected"
+        v-show="imageSelectedDialog"
+        @close="imageSelectedClose()"
+        class="pos-initial z-20"
+      >
+        <div class="flex">
+          <img
+            @click="imageZoomToggle()"
+            :src="'file://' + imageSelected"
+            class="cursor-pointer object-contain rounded-xl"
+            :class="imageZoom ? 'h-full' : 'h-content'"
+          />
         </div>
-        <!-- Cover image. -->
-        <img
-          v-if="coverAddImages"
-          :src="'file://' + coverAddImages"
-          class="object-cover rounded-xl shadow-color"
-        />
-        <img
-          v-else-if="getCover && !coverRemoveImages"
-          :src="'file://' + imagePath + '/' + getCover"
-          class="object-cover rounded-xl shadow-color"
-        />
-        <div
-          v-else
-          class="ar-square bg-theme-100 dark:bg-theme-800 flex items-center rounded-3xl shadow-color w-full"
-        >
-          <div class="flex flex-col items-center m-auto">
-            <div class="mb-4 text-6xl text-theme-300">
-              <vi-icon class="w-16">
-                <icon-picture />
-              </vi-icon>
+      </vi-overlay>
+    </transition>
+    <div class="flex space-x-4 w-full">
+      <div class="h-content max-h-content space-y-4 w-1/4">
+        <!-- Cover panel. -->
+        <vi-modal class="flex flex-col h-content-half relative">
+          <!-- Cover header. -->
+          <div class="flex justify-between mb-6 mx-2">
+            <!-- Cover title. -->
+            <p class="overflow-x-hidden pt-1 text-2xl">Cover</p>
+            <!-- Cover buttons. -->
+            <div class="flex h-10 space-x-4">
+              <vi-button-icon @click="coverAdd()">
+                <vi-icon class="w-6">
+                  <icon-add />
+                </vi-icon>
+              </vi-button-icon>
+              <vi-button-icon @click="coverRemove()">
+                <vi-icon class="w-6">
+                  <icon-remove />
+                </vi-icon>
+              </vi-button-icon>
             </div>
-            <p>No image available</p>
           </div>
-        </div>
-        <!-- Back button. -->
-        <vi-button
-          color
-          large
-          @click="$emit('close')"
-          class="mt-6"
-        >Back</vi-button>
-      </vi-modal>
+          <!-- Cover image. -->
+          <div class="absolute bottom-0 flex h-full left-0 pointer-events-none p-6 pt-22 right-0 top-0 w-full">
+            <img
+              v-if="coverAddImages"
+              @click="imageSelectedOpen(coverAddImages)"
+              :src="'file://' + coverAddImages"
+              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
+            />
+            <img
+              v-else-if="getCover && !coverRemoveImages"
+              @click="imageSelectedOpen(imagePath + '/' + getCover)"
+              :src="'file://' + imagePath + '/' + getCover"
+              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
+            />
+            <div
+              v-else
+              class="bg-theme-100 dark:bg-theme-800 flex items-center rounded-3xl shadow-color w-full"
+            >
+              <div class="flex flex-col items-center m-auto">
+                <div class="mb-4 text-6xl text-theme-300">
+                  <vi-icon class="w-16">
+                    <icon-picture />
+                  </vi-icon>
+                </div>
+                <p>No image available</p>
+              </div>
+            </div>
+          </div>
+        </vi-modal>
+      </div>
       <!-- Pictures panel. -->
       <vi-modal class="h-content max-h-content w-3/4">
         <!-- Pictures header. -->
@@ -70,62 +88,58 @@
                 <icon-add />
               </vi-icon>
             </vi-button-icon>
+            <vi-button-icon @click="$emit('close')">
+              <vi-icon class="w-6">
+                <icon-close />
+              </vi-icon>
+            </vi-button-icon>
           </div>
         </div>
         <!-- Pictures grid. -->
-        <div class="flex flex-1 max-h-images overflow-hidden rounded-xl">
+        <div class="flex flex-1 max-h-images rounded-2xl">
           <div
             v-if="getPictures[0] || picturesAddImages[0]"
-            class="flex-1 no-scrollbar overflow-y-scroll"
+            class="flex-1 -mr-4 overflow-y-scroll p-1 pr-2"
+            :class="{ 'dark-scrollbar' : $store.getters.getSettingsThemesDarkMode}"
           >
             <div class="gap-4 grid grid-cols-4">
               <div
                 v-for="(image, index) in getPictures"
                 :key="index"
                 :value="image"
-                class="flex h-full justify-center relative rounded-xl shadow-color w-full"
               >
-                <transition>
-                  <div
-                    v-show="picturesRemoveList(image)"
+                <div class="duration-200 flex h-full image-shadow relative hover:scale-101 transform w-full">
+                  <transition>
+                    <div
+                      v-show="picturesRemoveList(image)"
+                      @click="picturesRemoveSelect(image)"
+                      class="absolute bg-red-800 bg-opacity-40 cursor-pointer flex h-full rounded-xl w-full"
+                    />
+                  </transition>
+                  <img
                     @click="picturesRemoveSelect(image)"
-                    class="absolute bg-red-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
-                  >
-                    <div class="m-auto text-theme-100">
-                      <vi-icon class="w-16">
-                        <icon-remove />
-                      </vi-icon>
-                    </div>
-                  </div>
-                </transition>
-                <img
-                  @click="picturesRemoveSelect(image)"
-                  :src="'file://' + imagePath + '/' + image"
-                  class="cursor-pointer object-cover rounded-xl"
-                />
+                    :src="'file://' + imagePath + '/' + image"
+                    class="border-2 border-transparent hover:border-color-700 cursor-pointer object-cover rounded-xl"
+                  />
+                </div>
               </div>
               <div
                 v-for="(image, index) in picturesAddImages"
                 :key="index"
                 :value="image"
-                class="flex h-full justify-center relative rounded-xl shadow-color w-full"
               >
-                <transition>
-                  <div
-                    @click="picturesRemove(image)"
-                    class="absolute bg-green-800 bg-opacity-50 cursor-pointer flex h-full rounded-xl w-full"
-                  >
-                    <div class="m-auto text-theme-100">
-                      <vi-icon class="w-16">
-                        <icon-add />
-                      </vi-icon>
-                    </div>
-                  </div>
-                </transition>
-                <img
-                  :src="'file://' + image"
-                  class="cursor-pointer object-cover rounded-xl"
-                />
+                <div class="duration-200 flex h-full image-shadow relative hover:scale-101 transform w-full">
+                  <transition>
+                    <div
+                      @click="picturesRemove(image)"
+                      class="absolute bg-green-800 bg-opacity-40 cursor-pointer flex h-full rounded-xl w-full"
+                    />
+                  </transition>
+                  <img
+                    :src="'file://' + image"
+                    class="border-2 border-transparent hover:border-color-700 cursor-pointer object-cover rounded-xl"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -294,6 +308,27 @@ export default {
       }
     }
 
+    // Selected image display management.
+    let imageSelected = ref(null)
+    let imageSelectedDialog = ref(false)
+    const imageSelectedOpen = (image) => {
+      // Set image to view.
+      imageSelected.value = image
+      // Reset zoom mode.
+      imageZoom.value = false
+      // Open image view.
+      imageSelectedDialog.value = !imageSelectedDialog.value
+    }
+    const imageSelectedClose = () => {
+      // Close image view.
+      imageSelectedDialog.value = !imageSelectedDialog.value
+    }
+    let imageZoom = ref(false)
+    const imageZoomToggle = () => {
+      // Toggle zoom mode.
+      imageZoom.value = !imageZoom.value
+    }
+
     return {
       coverAdd,
       coverAddImages,
@@ -302,6 +337,12 @@ export default {
       getCover,
       getPictures,
       imagePath,
+      imageSelected,
+      imageSelectedClose,
+      imageSelectedDialog,
+      imageSelectedOpen,
+      imageZoom,
+      imageZoomToggle,
       picturesAdd,
       picturesAddImages,
       picturesRemove,
@@ -314,16 +355,23 @@ export default {
 
 <style scoped>
 /* Calculations. */
-.h-images {
-  height: calc(100vh - 11rem);
+.h-content {
+  height: calc(100vh - 4rem);
+}
+.h-content-half {
+  height: calc((100vh - 4rem) / 2 - 0.5rem);
 }
 .max-h-content {
   max-height: calc(100vh - 4rem);
 }
+.h-images {
+  height: calc(100vh - 11rem);
+}
 .max-h-images {
   max-height: calc(100vh - 11rem);
 }
-.w-images {
-  width: calc(100vw - 7.5rem);
+/* Styling. */
+.image-shadow {
+  filter: drop-shadow(1px 1px 1px rgba(var(--color-theme-900), 0.6));
 }
 </style>
