@@ -204,41 +204,46 @@
                 <div class="flex h-full">
                   <div class="flex flex-col">
                     <!-- Top container. -->
-                    <div class="flex items-center mr-auto p-6 space-x-2 text-theme-100">
+                    <div class="flex mr-auto p-6 space-x-2 text-theme-100">
                       <!-- Game settings. -->
                       <settings-game />
-                      <!-- Open game playlists management dialog. -->
-                      <button
-                        @click="managePlaylistsClose()"
-                        class="duration-200 pl-0.5 mt-1 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                      <div
+                        v-if="uiMinimal"
+                        class="flex space-x-2"
                       >
-                        <vi-icon
-                          icon-shadow
-                          class="w-8"
+                        <!-- Open game playlists management dialog. -->
+                        <button
+                          @click="managePlaylistsClose()"
+                          class="duration-200 -mb-1 pl-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
                         >
-                          <icon-playlist-add />
-                        </vi-icon>
-                      </button>
-                      <!-- Remove selected game platform from favorites. -->
-                      <button
-                        v-if="gameFavorited"
-                        @click="removeFavorite()"
-                        class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
-                      >
-                        <vi-icon class="icon-shadow w-6">
-                          <icon-star-f />
-                        </vi-icon>
-                      </button>
-                      <!-- Add selected game platform to favorites. -->
-                      <button
-                        v-else
-                        @click="addFavorite()"
-                        class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
-                      >
-                        <vi-icon class="icon-shadow w-6">
-                          <icon-star />
-                        </vi-icon>
-                      </button>
+                          <vi-icon
+                            icon-shadow
+                            class="w-8"
+                          >
+                            <icon-playlist-add />
+                          </vi-icon>
+                        </button>
+                        <!-- Remove selected game platform from favorites. -->
+                        <button
+                          v-if="gameFavorited"
+                          @click="removeFavorite()"
+                          class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                        >
+                          <vi-icon class="icon-shadow w-6">
+                            <icon-star-f />
+                          </vi-icon>
+                        </button>
+                        <!-- Add selected game platform to favorites. -->
+                        <button
+                          v-else
+                          @click="addFavorite()"
+                          class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                        >
+                          <vi-icon class="icon-shadow w-6">
+                            <icon-star />
+                          </vi-icon>
+                        </button>
+                      </div>
                     </div>
                     <!-- Bottom container. -->
                     <div class="mt-auto p-8 pb-0">
@@ -247,9 +252,13 @@
                         :key="gameInfo"
                         :gameInfo="gameInfo"
                         :regionIndex="regionIndex"
+                        :uiMinimal="uiMinimal"
                         @updated="versionIndex = $event"
                       />
-                      <div class="flex mt-2 w-full">
+                      <div
+                        v-if="uiMinimal"
+                        class="flex mt-2 w-full"
+                      >
                         <!-- View game details. -->
                         <view-game-details
                           :key="gameInfo"
@@ -647,6 +656,13 @@ export default {
         })
     }
 
+    // Manage minimal UI state.
+    const uiMinimal = computed(() => {
+      return store.getters.getSettingsGameOverSettingsOver
+        ? !store.getters.getSettingsGameOverUiMinimal
+        : !store.getters.getSettingsGameUiMinimal
+    })
+
     // Manage image load and resizing.
     const coverImage = ref(null)
     const gameContent = ref(null)
@@ -698,6 +714,7 @@ export default {
       removeFavorite,
       setGameRegion,
       slideBack,
+      uiMinimal,
       versionIndex
     }
   }

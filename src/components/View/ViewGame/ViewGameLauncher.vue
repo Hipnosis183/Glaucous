@@ -20,7 +20,10 @@
       button-size="large"
       @click="launchGame()"
     >
-      <div class="flex pl-2 space-x-4 w-full">
+      <div
+        class="flex pl-2 space-x-4 w-full"
+        :class="{ 'pr-6' : !uiMinimal }"
+      >
         <vi-icon
           icon-manual
           class="w-10"
@@ -30,7 +33,10 @@
         <h6>Play</h6>
       </div>
     </vi-button-ui>
-    <div class="cursor-pointer flex space-x-2">
+    <div
+      v-if="uiMinimal"
+      class="cursor-pointer flex space-x-2"
+    >
       <vi-select-ui v-model="$store.state.gameSelected.gameVersion">
         <vi-option-ui
           v-for="(item, index) in gameInfo.gameRegions[regionIndex].gameVersions"
@@ -73,7 +79,8 @@ export default {
   ],
   props: {
     gameInfo: { type: Object },
-    regionIndex: { type: Number }
+    regionIndex: { type: Number },
+    uiMinimal: { type: Boolean, default: false }
   },
   setup(props, { emit }) {
     // Instantiate Vue elements.

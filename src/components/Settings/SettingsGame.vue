@@ -14,6 +14,11 @@
             <p class="mr-auto">Global Settings Overwrite</p>
             <vi-switch v-model="settingsOver" />
           </div>
+          <!-- Toggle minimal UI display. -->
+          <div class="flex h-10 items-center pl-4 pr-5">
+            <p class="mr-auto">Minimal UI Display</p>
+            <vi-switch v-model="uiMinimal" />
+          </div>
           <!-- Toggle cover image display. -->
           <div class="flex h-10 items-center pl-4 pr-5">
             <p class="mr-auto">Display Cover Image</p>
@@ -96,6 +101,18 @@ export default {
           : 'setSettingsGameImageCover', value)
       }
     })
+    const uiMinimal = computed({
+      get() {
+        return settingsOver.value
+          ? store.getters.getSettingsGameOverUiMinimal
+          : store.getters.getSettingsGameUiMinimal
+      },
+      set(value) {
+        store.commit(settingsOver.value
+          ? 'setSettingsGameOverUiMinimal'
+          : 'setSettingsGameUiMinimal', value)
+      }
+    })
     const imageBackground = computed({
       get() {
         return settingsOver.value
@@ -127,7 +144,8 @@ export default {
       imageCover,
       placeBackground,
       placeBackgroundOptions,
-      settingsOver
+      settingsOver,
+      uiMinimal
     }
   }
 }
