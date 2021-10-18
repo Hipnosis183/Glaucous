@@ -8,6 +8,7 @@ const localStore = new Store({ cwd: app.getAppPath() })
 let platformStore
 // Game settings store.
 let gameStore
+let gameOverStore
 
 export default createStore({
   state: {
@@ -48,7 +49,20 @@ export default createStore({
         imageSpacing: localStore.get('settingsImages.imageSpacing', true),
         imageCorners: localStore.get('settingsImages.imageCorners', 2),
         imageColumns: localStore.get('settingsImages.imageColumns', 4)
-      }
+      },
+      settingsGame: {
+        settingsGlobal: {
+          imageCover: localStore.get('settingsGame.imageCover', true),
+          imageBackground: localStore.get('settingsGame.imageBackground', 0),
+          placeBackground: localStore.get('settingsGame.placeBackground', 0)
+        },
+        settingsOver: {
+          settingsOver: false,
+          imageCover: true,
+          imageBackground: 0,
+          placeBackground: 0
+        }
+      },
     },
     selectedPlatform: null,
     settingsPlatform: {
@@ -61,7 +75,7 @@ export default createStore({
       gamePath: null,
       gameFile: null,
       gameParams: null,
-      relativePath: true,
+      relativePath: true
     },
     gameSelected: {
       gamePlatform: null,
@@ -224,6 +238,27 @@ export default createStore({
     },
     getSettingsImagesImageColumns(state) {
       return state.settingsApp.settingsImages.imageColumns
+    },
+    getSettingsGameImageCover(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.imageCover
+    },
+    getSettingsGameImageBackground(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.imageBackground
+    },
+    getSettingsGamePlaceBackground(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.placeBackground
+    },
+    getSettingsGameOverSettingsOver(state) {
+      return state.settingsApp.settingsGame.settingsOver.settingsOver
+    },
+    getSettingsGameOverImageCover(state) {
+      return state.settingsApp.settingsGame.settingsOver.imageCover
+    },
+    getSettingsGameOverImageBackground(state) {
+      return state.settingsApp.settingsGame.settingsOver.imageBackground
+    },
+    getSettingsGameOverPlaceBackground(state) {
+      return state.settingsApp.settingsGame.settingsOver.placeBackground
     }
   },
   mutations: {
@@ -326,6 +361,18 @@ export default createStore({
       state.settingsApp.settingsImages.imageColumns = data
       localStore.set('settingsImages.imageColumns', state.settingsApp.settingsImages.imageColumns)
     },
+    setSettingsGameImageCover(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.imageCover = data
+      localStore.set('settingsGame.imageCover', state.settingsApp.settingsGame.settingsGlobal.imageCover)
+    },
+    setSettingsGameImageBackground(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.imageBackground = data
+      localStore.set('settingsGame.imageBackground', state.settingsApp.settingsGame.settingsGlobal.imageBackground)
+    },
+    setSettingsGamePlaceBackground(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.placeBackground = data
+      localStore.set('settingsGame.placeBackground', state.settingsApp.settingsGame.settingsGlobal.placeBackground)
+    },
     // Platform settings.
     setPlatformStore(state) {
       platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
@@ -377,6 +424,35 @@ export default createStore({
     },
     setSettingsGameRelativePath(state) {
       gameStore.set('settingsGame.relativePath', state.settingsGame.relativePath)
+    },
+    setGameOverStore(state) {
+      gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
+      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
+      state.settingsApp.settingsGame.settingsOver.imageCover = gameOverStore.get('settingsGameOver.imageCover', true)
+      state.settingsApp.settingsGame.settingsOver.imageBackground = gameOverStore.get('settingsGameOver.imageBackground', 0)
+      state.settingsApp.settingsGame.settingsOver.placeBackground = gameOverStore.get('settingsGameOver.placeBackground', 0)
+    },
+    resetGameOverStore(state) {
+      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
+      state.settingsApp.settingsGame.settingsOver.imageCover = gameOverStore.get('settingsGameOver.imageCover', true)
+      state.settingsApp.settingsGame.settingsOver.imageBackground = gameOverStore.get('settingsGameOver.imageBackground', 0)
+      state.settingsApp.settingsGame.settingsOver.placeBackground = gameOverStore.get('settingsGameOver.placeBackground', 0)
+    },
+    setSettingsGameOverSettingsOver(state, data) {
+      state.settingsApp.settingsGame.settingsOver.settingsOver = data
+      gameOverStore.set('settingsGameOver.settingsOver', state.settingsApp.settingsGame.settingsOver.settingsOver)
+    },
+    setSettingsGameOverImageCover(state, data) {
+      state.settingsApp.settingsGame.settingsOver.imageCover = data
+      gameOverStore.set('settingsGameOver.imageCover', state.settingsApp.settingsGame.settingsOver.imageCover)
+    },
+    setSettingsGameOverImageBackground(state, data) {
+      state.settingsApp.settingsGame.settingsOver.imageBackground = data
+      gameOverStore.set('settingsGameOver.imageBackground', state.settingsApp.settingsGame.settingsOver.imageBackground)
+    },
+    setSettingsGameOverPlaceBackground(state, data) {
+      state.settingsApp.settingsGame.settingsOver.placeBackground = data
+      gameOverStore.set('settingsGameOver.placeBackground', state.settingsApp.settingsGame.settingsOver.placeBackground)
     },
     // Game form.
     resetGameSelected(state) {

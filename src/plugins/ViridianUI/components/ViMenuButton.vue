@@ -108,7 +108,7 @@ export default {
         // Update popper instance.
         popperInstance.value.update()
         // Set current popper placement.
-        popperPlacement.value = props.placement != 'bottom' ? 'top' : popperInstance.value.state.placement
+        popperPlacement.value = !props.placement.includes('bottom') ? 'top' : popperInstance.value.state.placement
       })
     }
     const setMenuPlacement = () => {

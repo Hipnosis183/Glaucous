@@ -2,18 +2,17 @@
   <!-- Background image. -->
   <transition>
     <img
-      v-if="getBackground"
-      :key="getBackground"
-      :src="'file://' + imagePath + '/' + getBackground"
-      class="absolute h-full left-0 object-center object-cover rounded-b-4xl rounded-t-list top-0 w-full"
+      v-if="imageBackground"
+      :key="imageBackground"
+      :src="'file://' + imagePath + '/' + imageBackground"
+      class="absolute h-full left-0 object-cover rounded-b-4xl rounded-t-list top-0 w-full"
+      :class="{ 'rendering-pixelated' : renderBackground && gameInfo.config.imageFiltering == false }"
+      :style="'object-position:' + placeBackground"
     />
   </transition>
   <!-- Background gradient layer. -->
   <div class="relative w-full">
-    <div
-      class="flex flex-col mt-auto rounded-b-list shadow-color w-full"
-      :class="{ 'card-gradient h-full' : true }"
-    >
+    <div class="card-gradient flex flex-col h-full mt-auto rounded-b-list shadow-color w-full">
       <!-- Game page contents. -->
       <slot></slot>
     </div>
@@ -23,6 +22,7 @@
 <script>
 // Import Vue functions.
 import { computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
 import { ensureDirSync, readdirSync } from 'fs-extra'
@@ -35,8 +35,28 @@ export default {
     versionIndex: { type: Number }
   },
   setup(props) {
-    // Load game images on mounting.
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Load game images.
     onMounted(() => { getImages() })
+    const getImages = () => {
+      // Set the image directory path for all game types.
+      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
+      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+      imagePathPlatform.value = gamePathPlatform + '/images'
+      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
+      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
+      // Ensure images directories existance.
+      ensureDirSync(imagePathPlatform.value)
+      ensureDirSync(imagePathRegion.value)
+      ensureDirSync(imagePathVersion.value)
+      // Load images filenames.
+      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
+      imageFilesRegion.value = readdirSync(imagePathRegion.value)
+      imageFilesVersion.value = readdirSync(imagePathVersion.value)
+    }
 
     // Watch for game selection changes.
     watch(() => [props.regionIndex, props.versionIndex], () => { getImages() })
@@ -49,21 +69,21 @@ export default {
     let imageFilesPlatform = ref([])
     let imageFilesRegion = ref([])
     let imageFilesVersion = ref([])
-    const getBackground = computed(() => {
+    const getBackground = () => {
       return getImage((images) => {
         return images.filter((res) => res.startsWith('1'.repeat(8)))[0]
       })
-    })
-    const getCover = computed(() => {
+    }
+    const getCover = () => {
       return getImage((images) => {
         return images.filter((res) => res.startsWith('0'.repeat(8)))[0]
       })
-    })
-    const getPictures = computed(() => {
+    }
+    const getPictures = () => {
       return getImage((images) => {
         return images.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
       }, true)
-    })
+    }
     const getImage = (method, array) => {
       // Get array of images for the game version.
       if (imageFilesVersion.value.length > 0) {
@@ -91,29 +111,72 @@ export default {
       }
       return array ? [] : null
     }
-    const getImages = () => {
-      // Set the image directory path for all game types.
-      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
-      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
-      imagePathPlatform.value = gamePathPlatform + '/images'
-      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
-      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
-      // Ensure images directories existance.
-      ensureDirSync(imagePathPlatform.value)
-      ensureDirSync(imagePathRegion.value)
-      ensureDirSync(imagePathVersion.value)
-      // Load images filenames.
-      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
-      imageFilesRegion.value = readdirSync(imagePathRegion.value)
-      imageFilesVersion.value = readdirSync(imagePathVersion.value)
-    }
+
+    // Manage image display.
+    let renderBackground = ref(false)
+    const imageBackground = computed(() => {
+      let settingsGame = store.getters.getSettingsGameOverSettingsOver
+        ? store.getters.getSettingsGameOverImageBackground
+        : store.getters.getSettingsGameImageBackground
+      switch (settingsGame) {
+        case 0: {
+          // Default to the normal image fallback mode.
+          let imageBackground = getBackground()
+          if (imageBackground) {
+            renderBackground.value = false
+            return imageBackground
+          }
+          let imageCover = getCover()
+          if (imageCover) {
+            renderBackground.value = false
+            return imageCover
+          }
+          let imagePictures = getPictures()
+          if (imagePictures.length > 0) {
+            renderBackground.value = true
+            return imagePictures[0]
+          }
+          break
+        }
+        case 1: {
+          renderBackground.value = false
+          return getBackground()
+        }
+        case 2: {
+          renderBackground.value = false
+          return getCover()
+        }
+        case 3: {
+          renderBackground.value = true
+          return getPictures()[0]
+        }
+        case 4: {
+          renderBackground.value = true
+          // Asume that after the first picture are all in-game images.
+          let image = getPictures().filter((res, index) => index > 0)
+          // Select random in-game image to display.
+          return image[Math.floor(Math.random() * (image.length))]
+        }
+      }
+    })
+    const placeBackground = computed(() => {
+      let settingsGame = store.getters.getSettingsGameOverSettingsOver
+        ? store.getters.getSettingsGameOverPlaceBackground
+        : store.getters.getSettingsGamePlaceBackground
+      switch (settingsGame) {
+        case 0: { return 'center' }
+        case 1: { return 'top' }
+        case 2: { return 'bottom' }
+        case 3: { return 'left' }
+        case 4: { return 'right' }
+      }
+    })
 
     return {
-      getBackground,
-      getCover,
-      getPictures,
-      imagePath
+      imageBackground,
+      imagePath,
+      placeBackground,
+      renderBackground
     }
   }
 }

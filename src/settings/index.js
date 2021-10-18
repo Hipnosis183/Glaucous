@@ -50,6 +50,24 @@ export const googleKeys = [
     { i: 2, name: 'Developer' }
 ]
 
+// Background image selection.
+export const imageBackgroundOptions = [
+    { i: 0, name: 'Default' },
+    { i: 1, name: 'Background' },
+    { i: 2, name: 'Cover' },
+    { i: 3, name: 'Title' },
+    { i: 4, name: 'In-Game' }
+]
+
+// Background image positioning.
+export const placeBackgroundOptions = [
+    { i: 0, name: 'Default' },
+    { i: 1, name: 'Top' },
+    { i: 2, name: 'Bottom' },
+    { i: 3, name: 'Left' },
+    { i: 4, name: 'Right' }
+]
+
 // Set the amount of columns to be displayed on card views.
 export const selectListColumns = (col) => {
     document.documentElement.style.setProperty('--grid-cols-list', col)

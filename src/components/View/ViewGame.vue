@@ -204,11 +204,13 @@
                 <div class="flex h-full">
                   <div class="flex flex-col">
                     <!-- Top container. -->
-                    <div class="flex items-center mr-auto pt-6 px-8 space-x-2 text-theme-100">
+                    <div class="flex items-center mr-auto p-6 space-x-2 text-theme-100">
+                      <!-- Game settings. -->
+                      <settings-game />
                       <!-- Open game playlists management dialog. -->
                       <button
                         @click="managePlaylistsClose()"
-                        class="duration-200 mt-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
+                        class="duration-200 pl-0.5 mt-1 opacity-60 hover:opacity-80 hover:scale-110 transform"
                       >
                         <vi-icon
                           icon-shadow
@@ -325,6 +327,7 @@ import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
 import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
 import EditGame from '@/components/Edit/EditGame.vue'
+import SettingsGame from '@/components/Settings/SettingsGame.vue'
 // Import game page components.
 import ViewGameBackground from './ViewGame/ViewGameBackground.vue'
 import ViewGameCover from './ViewGame/ViewGameCover.vue'
@@ -343,6 +346,7 @@ export default {
     CreateGameRegion,
     CreateGameVersion,
     EditGame,
+    SettingsGame,
     ViewGameBackground,
     ViewGameCover,
     ViewGameDetails,

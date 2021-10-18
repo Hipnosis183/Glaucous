@@ -44,6 +44,7 @@
 <script>
 // Import Vue functions.
 import { onUnmounted, computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
 import { ensureDirSync, readdirSync } from 'fs-extra'
@@ -57,8 +58,28 @@ export default {
     versionIndex: { type: Number }
   },
   setup(props) {
-    // Load game images on mounting.
+    // Instantiate Vue elements.
+    const store = useStore()
+
+    // Load game images.
     onMounted(() => { getImages() })
+    const getImages = () => {
+      // Set the image directory path for all game types.
+      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
+      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+      imagePathPlatform.value = gamePathPlatform + '/images'
+      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
+      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
+      // Ensure images directories existance.
+      ensureDirSync(imagePathPlatform.value)
+      ensureDirSync(imagePathRegion.value)
+      ensureDirSync(imagePathVersion.value)
+      // Load images filenames.
+      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
+      imageFilesRegion.value = readdirSync(imagePathRegion.value)
+      imageFilesVersion.value = readdirSync(imagePathVersion.value)
+    }
 
     // Watch for game selection changes.
     watch(() => [props.regionIndex, props.versionIndex], () => { getImages() })
@@ -72,7 +93,10 @@ export default {
     let imageFilesRegion = ref([])
     let imageFilesVersion = ref([])
     const getCover = computed(() => {
-      return getImage((images) => {
+      let settingsGame = store.getters.getSettingsGameOverSettingsOver
+        ? store.getters.getSettingsGameOverImageCover
+        : store.getters.getSettingsGameImageCover
+      return !settingsGame ? false : getImage((images) => {
         return images.filter((res) => res.startsWith('0'.repeat(8)))[0]
       })
     })
@@ -102,23 +126,6 @@ export default {
         }
       }
       return array ? [] : null
-    }
-    const getImages = () => {
-      // Set the image directory path for all game types.
-      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
-      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
-      imagePathPlatform.value = gamePathPlatform + '/images'
-      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
-      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
-      // Ensure images directories existance.
-      ensureDirSync(imagePathPlatform.value)
-      ensureDirSync(imagePathRegion.value)
-      ensureDirSync(imagePathVersion.value)
-      // Load images filenames.
-      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
-      imageFilesRegion.value = readdirSync(imagePathRegion.value)
-      imageFilesVersion.value = readdirSync(imagePathVersion.value)
     }
 
     // Manage image load and resizing.
