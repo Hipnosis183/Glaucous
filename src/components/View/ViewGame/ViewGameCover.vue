@@ -71,26 +71,16 @@ export default {
     let imageFilesPlatform = ref([])
     let imageFilesRegion = ref([])
     let imageFilesVersion = ref([])
-    const getBackground = computed(() => {
-      return getImage((images) => {
-        return images.filter((res) => res.startsWith('1'.repeat(8)))[0]
-      })
-    })
     const getCover = computed(() => {
       return getImage((images) => {
         return images.filter((res) => res.startsWith('0'.repeat(8)))[0]
       })
     })
-    const getPictures = computed(() => {
-      return getImage((images) => {
-        return images.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
-      }, true)
-    })
     const getImage = (method, array) => {
       // Get array of images for the game version.
       if (imageFilesVersion.value.length > 0) {
         let imagesVersion = method(imageFilesVersion.value)
-        if (imagesVersion) {
+        if (array ? imagesVersion.length > 0 : imagesVersion) {
           imagePath.value = imagePathVersion.value
           return imagesVersion
         }
@@ -98,7 +88,7 @@ export default {
       // Get array of images for the game region.
       if (imageFilesRegion.value.length > 0) {
         let imagesRegion = method(imageFilesRegion.value)
-        if (imagesRegion) {
+        if (array ? imagesRegion.length > 0 : imagesRegion) {
           imagePath.value = imagePathRegion.value
           return imagesRegion
         }
@@ -106,7 +96,7 @@ export default {
       // Get array of images for the game platform.
       if (imageFilesPlatform.value.length > 0) {
         let imagesPlatform = method(imageFilesPlatform.value)
-        if (imagesPlatform) {
+        if (array ? imagesPlatform.length > 0 : imagesPlatform) {
           imagePath.value = imagePathPlatform.value
           return imagesPlatform
         }
@@ -172,9 +162,7 @@ export default {
 
     return {
       coverHover,
-      getBackground,
       getCover,
-      getPictures,
       imageHeight,
       imagePath,
       imageZoom,
