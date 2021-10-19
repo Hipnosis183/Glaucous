@@ -2,12 +2,12 @@
   <!-- Background image. -->
   <transition>
     <img
-      v-if="imageBackground"
-      :key="imageBackground"
-      :src="'file://' + imagePath + '/' + imageBackground"
+      v-if="backgroundImage"
+      :key="backgroundImage"
+      :src="'file://' + imagePath + '/' + backgroundImage"
       class="absolute h-full left-0 object-cover rounded-b-4xl rounded-t-list top-0 w-full"
-      :class="{ 'rendering-pixelated' : renderBackground && imagesFiltering }"
-      :style="'object-position:' + placeBackground"
+      :class="{ 'rendering-pixelated' : backgroundRender && backgroundFiltering }"
+      :style="'object-position:' + backgroundPlacement"
     />
   </transition>
   <!-- Background gradient layer. -->
@@ -113,45 +113,45 @@ export default {
     }
 
     // Manage image display.
-    let renderBackground = ref(false)
-    const imageBackground = computed(() => {
+    let backgroundRender = ref(false)
+    const backgroundImage = computed(() => {
       let settingsGame = store.getters.getSettingsGameOverSettingsOver
-        ? store.getters.getSettingsGameOverImageBackground
-        : store.getters.getSettingsGameImageBackground
+        ? store.getters.getSettingsGameOverBackgroundImage
+        : store.getters.getSettingsGameBackgroundImage
       switch (settingsGame) {
         case 0: {
           // Default to the normal image fallback mode.
-          let imageBackground = getBackground()
-          if (imageBackground) {
-            renderBackground.value = false
-            return imageBackground
+          let backgroundImage = getBackground()
+          if (backgroundImage) {
+            backgroundRender.value = false
+            return backgroundImage
           }
-          let imageCover = getCover()
-          if (imageCover) {
-            renderBackground.value = false
-            return imageCover
+          let coverImage = getCover()
+          if (coverImage) {
+            backgroundRender.value = false
+            return coverImage
           }
-          let imagePictures = getPictures()
-          if (imagePictures.length > 0) {
-            renderBackground.value = true
-            return imagePictures[0]
+          let pictureImage = getPictures()
+          if (pictureImage.length > 0) {
+            backgroundRender.value = true
+            return pictureImage[0]
           }
           break
         }
         case 1: {
-          renderBackground.value = false
+          backgroundRender.value = false
           return getBackground()
         }
         case 2: {
-          renderBackground.value = false
+          backgroundRender.value = false
           return getCover()
         }
         case 3: {
-          renderBackground.value = true
+          backgroundRender.value = true
           return getPictures()[0]
         }
         case 4: {
-          renderBackground.value = true
+          backgroundRender.value = true
           // Asume that after the first picture are all in-game images.
           let image = getPictures().filter((res, index) => index > 0)
           // Select random in-game image to display.
@@ -159,10 +159,10 @@ export default {
         }
       }
     })
-    const placeBackground = computed(() => {
+    const backgroundPlacement = computed(() => {
       let settingsGame = store.getters.getSettingsGameOverSettingsOver
-        ? store.getters.getSettingsGameOverPlaceBackground
-        : store.getters.getSettingsGamePlaceBackground
+        ? store.getters.getSettingsGameOverBackgroundPlacement
+        : store.getters.getSettingsGameBackgroundPlacement
       switch (settingsGame) {
         case 0: { return 'center' }
         case 1: { return 'top' }
@@ -171,18 +171,18 @@ export default {
         case 4: { return 'right' }
       }
     })
-    const imagesFiltering = computed(() => {
+    const backgroundFiltering = computed(() => {
       return store.getters.getSettingsPlatformOverSettingsOver
         ? !store.getters.getSettingsPlatformOverImagesFiltering
         : !store.getters.getSettingsPlatformImagesFiltering
     })
 
     return {
-      imageBackground,
-      imagePath,
-      imagesFiltering,
-      placeBackground,
-      renderBackground
+      backgroundFiltering,
+      backgroundImage,
+      backgroundPlacement,
+      backgroundRender,
+      imagePath
     }
   }
 }

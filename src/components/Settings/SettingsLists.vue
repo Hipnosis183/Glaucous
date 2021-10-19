@@ -46,17 +46,17 @@
             class="font-medium mb-5 -mt-1 text-lg"
           >List Settings</h1>
           <div class="space-y-2">
-            <!-- Toggle list scaling effect. -->
+            <!-- Toggle scaling effect. -->
             <div class="flex h-10 items-center pl-4 pr-5">
               <p class="mr-auto">Scaling Effect</p>
-              <vi-switch v-model="listScaling" />
+              <vi-switch v-model="scalingEffect" />
             </div>
-            <!-- Toggle list spacing. -->
+            <!-- Toggle content spacing. -->
             <div class="flex h-10 items-center pl-4 pr-5">
               <p class="mr-auto">Content Spacing</p>
-              <vi-switch v-model="listSpacing" />
+              <vi-switch v-model="contentSpacing" />
             </div>
-            <!-- List display mode. -->
+            <!-- Select display mode. -->
             <div
               v-if="listPlatform"
               class="flex items-center px-4"
@@ -64,11 +64,11 @@
               <p class="mr-auto">Display Mode</p>
               <div class="ml-auto w-34">
                 <vi-select
-                  v-model="listDisplay"
+                  v-model="displayMode"
                   class="w-auto"
                 >
                   <vi-option
-                    v-for="item in listDisplayOptions"
+                    v-for="item in displayModeOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
@@ -77,16 +77,16 @@
                 </vi-select>
               </div>
             </div>
-            <!-- List corner rounding. -->
+            <!-- Select corners rounding. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Corners Rounding</p>
               <div class="ml-auto w-34">
                 <vi-select
-                  v-model="listCorners"
+                  v-model="cornersRounding"
                   class="w-auto"
                 >
                   <vi-option
-                    v-for="item in cornersOptions"
+                    v-for="item in cornersRoundingOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
@@ -95,16 +95,16 @@
                 </vi-select>
               </div>
             </div>
-            <!-- List card text display mode. -->
+            <!-- Select card text display. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Card Text Display</p>
               <div class="ml-auto w-34">
                 <vi-select
-                  v-model="listTextShow"
+                  v-model="cardTextDisplay"
                   class="w-auto"
                 >
                   <vi-option
-                    v-for="item in listTextShowOptions"
+                    v-for="item in cardTextDisplayOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
@@ -113,16 +113,16 @@
                 </vi-select>
               </div>
             </div>
-            <!-- List card text styling. -->
+            <!-- Select card text styling. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Card Text Style</p>
               <div class="ml-auto w-34">
                 <vi-select
-                  v-model="listTextStyle"
+                  v-model="cardTextStyle"
                   class="w-auto"
                 >
                   <vi-option
-                    v-for="item in listTextStyleOptions"
+                    v-for="item in cardTextStyleOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
@@ -150,21 +150,21 @@
               <p class="mr-auto">Global Settings Overwrite</p>
               <vi-switch v-model="settingsOver" />
             </div>
-            <!-- Toggle image filtering. -->
+            <!-- Toggle images filtering. -->
             <div class="flex h-10 items-center pl-4 pr-5">
               <p class="mr-auto">Images Filtering</p>
               <vi-switch v-model="imagesFiltering" />
             </div>
-            <!-- List images display mode. -->
+            <!-- Select images display mode. -->
             <div class="flex items-center px-4">
               <p class="mr-auto">Images Display</p>
               <div class="ml-auto w-34">
                 <vi-select
-                  v-model="listImages"
+                  v-model="imagesDisplay"
                   class="w-auto"
                 >
                   <vi-option
-                    v-for="item in listImagesOptions"
+                    v-for="item in imagesDisplayOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
@@ -173,7 +173,7 @@
                 </vi-select>
               </div>
             </div>
-            <!-- List display mode. -->
+            <!-- Select display mode. -->
             <div
               v-if="!listPlatform"
               class="flex items-center px-4"
@@ -181,11 +181,11 @@
               <p class="mr-auto">Display Mode</p>
               <div class="ml-auto w-34">
                 <vi-select
-                  v-model="listDisplay"
+                  v-model="displayMode"
                   class="w-auto"
                 >
                   <vi-option
-                    v-for="item in listDisplayOptions"
+                    v-for="item in displayModeOptions"
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
@@ -199,7 +199,7 @@
               <p class="mr-auto">Grid Columns</p>
               <div class="ml-auto w-32">
                 <vi-input-num
-                  v-model="listColumns"
+                  v-model="gridColumns"
                   :min="1"
                   :max="20"
                   position-side
@@ -212,7 +212,7 @@
               <p class="mr-auto">Grid Row Height</p>
               <div class="ml-auto w-32">
                 <vi-input-num
-                  v-model="listHeight"
+                  v-model="gridHeight"
                   :min="1"
                   :max="1000"
                   position-side
@@ -245,7 +245,7 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // Import settings objects and functions.
-import { listImagesOptions, listTextShowOptions, listTextStyleOptions, cornersOptions, listDisplayOptions, gameCategoryOptions, selectCardCorners } from '@/settings'
+import { cornersRoundingOptions, cardTextDisplayOptions, cardTextStyleOptions, displayModeOptions, gameCategoryOptions, imagesDisplayOptions, selectListCornersRounding } from '@/settings'
 
 export default {
   name: 'SettingsLists',
@@ -259,32 +259,32 @@ export default {
     const store = useStore()
 
     // Manage list settings in the store.
-    const listSpacing = computed({
-      get() { return store.getters.getSettingsListsListSpacing },
-      set(value) { store.commit('setSettingsListsListSpacing', value) }
+    const scalingEffect = computed({
+      get() { return store.getters.getSettingsListsScalingEffect },
+      set(value) { store.commit('setSettingsListsScalingEffect', value) }
     })
-    const listScaling = computed({
-      get() { return store.getters.getSettingsListsListScaling },
-      set(value) { store.commit('setSettingsListsListScaling', value) }
+    const contentSpacing = computed({
+      get() { return store.getters.getSettingsListsContentSpacing },
+      set(value) { store.commit('setSettingsListsContentSpacing', value) }
     })
-    const listDisplay = computed({
-      get() { return store.getters.getSettingsListsListDisplay },
-      set(value) { store.commit('setSettingsListsListDisplay', value) }
+    const displayMode = computed({
+      get() { return store.getters.getSettingsListsDisplayMode },
+      set(value) { store.commit('setSettingsListsDisplayMode', value) }
     })
-    const listCorners = computed({
-      get() { return store.getters.getSettingsListsListCorners },
+    const cornersRounding = computed({
+      get() { return store.getters.getSettingsListsCornersRounding },
       set(value) {
-        store.commit('setSettingsListsListCorners', value)
-        selectCardCorners(listCorners.value)
+        store.commit('setSettingsListsCornersRounding', value)
+        selectListCornersRounding(cornersRounding.value)
       }
     })
-    const listTextShow = computed({
-      get() { return store.getters.getSettingsListsListTextShow },
-      set(value) { store.commit('setSettingsListsListTextShow', value) }
+    const cardTextDisplay = computed({
+      get() { return store.getters.getSettingsListsCardTextDisplay },
+      set(value) { store.commit('setSettingsListsCardTextDisplay', value) }
     })
-    const listTextStyle = computed({
-      get() { return store.getters.getSettingsListsListTextStyle },
-      set(value) { store.commit('setSettingsListsListTextStyle', value) }
+    const cardTextStyle = computed({
+      get() { return store.getters.getSettingsListsCardTextStyle },
+      set(value) { store.commit('setSettingsListsCardTextStyle', value) }
     })
 
     // Manage platform settings in the store.
@@ -308,52 +308,52 @@ export default {
           : 'setSettingsPlatformImagesFiltering', value)
       }
     })
-    const listImages = computed({
+    const imagesDisplay = computed({
       get() {
         return props.listPlatform
           ? settingsOver.value
-            ? store.getters.getSettingsPlatformOverListImages
-            : store.getters.getSettingsPlatformListImages
-          : store.getters.getSettingsPlatformListImages
+            ? store.getters.getSettingsPlatformOverImagesDisplay
+            : store.getters.getSettingsPlatformImagesDisplay
+          : store.getters.getSettingsPlatformImagesDisplay
       },
       set(value) {
         store.commit(props.listPlatform
           ? settingsOver.value
-            ? 'setSettingsPlatformOverListImages'
-            : 'setSettingsPlatformListImages'
-          : 'setSettingsPlatformListImages', value)
+            ? 'setgetSettingsPlatformOverImagesDisplay'
+            : 'setSettingsPlatformImagesDisplay'
+          : 'setSettingsPlatformImagesDisplay', value)
       }
     })
-    const listColumns = computed({
+    const gridColumns = computed({
       get() {
         return props.listPlatform
           ? settingsOver.value
-            ? store.getters.getSettingsPlatformOverListColumns
-            : store.getters.getSettingsPlatformListColumns
-          : store.getters.getSettingsPlatformListColumns
+            ? store.getters.getSettingsPlatformOverGridColumns
+            : store.getters.getSettingsPlatformGridColumns
+          : store.getters.getSettingsPlatformGridColumns
       },
       set(value) {
         store.commit(props.listPlatform
           ? settingsOver.value
             ? 'setSettingsPlatformOverListColumns'
-            : 'setSettingsPlatformListColumns'
-          : 'setSettingsPlatformListColumns', value)
+            : 'setSettingsPlatformGridColumns'
+          : 'setSettingsPlatformGridColumns', value)
       }
     })
-    const listHeight = computed({
+    const gridHeight = computed({
       get() {
         return props.listPlatform
           ? settingsOver.value
-            ? store.getters.getSettingsPlatformOverListHeight
-            : store.getters.getSettingsPlatformListHeight
-          : store.getters.getSettingsPlatformListHeight
+            ? store.getters.getSettingsPlatformOverGridHeight
+            : store.getters.getSettingsPlatformGridHeight
+          : store.getters.getSettingsPlatformGridHeight
       },
       set(value) {
         store.commit(props.listPlatform
           ? settingsOver.value
-            ? 'setSettingsPlatformOverListHeight'
-            : 'setSettingsPlatformListHeight'
-          : 'setSettingsPlatformListHeight', value)
+            ? 'setgetSettingsPlatformOverGridHeight'
+            : 'setSettingsPlatformGridHeight'
+          : 'setSettingsPlatformGridHeight', value)
       }
     })
 
@@ -370,38 +370,38 @@ export default {
 
     // Manage preset settings.
     const presetRound = () => {
-      listSpacing.value = true
-      listScaling.value = true
-      listCorners.value = 2
+      contentSpacing.value = true
+      scalingEffect.value = true
+      cornersRounding.value = 2
     }
     const presetBlock = () => {
-      listSpacing.value = false
-      listScaling.value = false
-      listCorners.value = 0
+      contentSpacing.value = false
+      scalingEffect.value = false
+      cornersRounding.value = 0
     }
 
     return {
-      cornersOptions,
+      cardTextDisplay,
+      cardTextDisplayOptions,
+      cardTextStyle,
+      cardTextStyleOptions,
+      contentSpacing,
+      cornersRounding,
+      cornersRoundingOptions,
+      displayMode,
+      displayModeOptions,
       gameCategoryOptions,
+      gridColumns,
+      gridHeight,
+      imagesDisplay,
+      imagesDisplayOptions,
       imagesFiltering,
-      listColumns,
-      listCorners,
-      listDisplay,
-      listDisplayOptions,
-      listHeight,
-      listImages,
-      listImagesOptions,
-      listScaling,
-      listSpacing,
-      listTextShow,
-      listTextShowOptions,
-      listTextStyle,
-      listTextStyleOptions,
       presetBlock,
       presetRound,
+      scalingEffect,
       selectCategoryGames,
-      selectCategoryPlatforms,
       selectCategoryDevelopers,
+      selectCategoryPlatforms,
       settingsOver
     }
   }

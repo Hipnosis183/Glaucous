@@ -22,7 +22,7 @@
     >
       <div
         class="flex pl-2 space-x-4 w-full"
-        :class="{ 'pr-6' : !uiMinimal }"
+        :class="{ 'pr-6' : !minimalUiDisplay }"
       >
         <vi-icon
           icon-manual
@@ -34,7 +34,7 @@
       </div>
     </vi-button-ui>
     <div
-      v-if="uiMinimal"
+      v-if="minimalUiDisplay"
       class="cursor-pointer flex space-x-2"
     >
       <vi-select-ui v-model="$store.state.gameSelected.gameVersion">
@@ -80,7 +80,7 @@ export default {
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number },
-    uiMinimal: { type: Boolean, default: false }
+    minimalUiDisplay: { type: Boolean, default: false }
   },
   setup(props, { emit }) {
     // Instantiate Vue elements.

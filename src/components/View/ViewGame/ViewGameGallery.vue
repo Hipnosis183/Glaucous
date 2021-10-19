@@ -102,7 +102,7 @@
                   :key="index"
                   :value="image"
                   class="flex h-full justify-center"
-                  :class="{ 'p-1' : $store.getters.getSettingsImagesImageSpacing }"
+                  :class="{ 'p-1' : $store.getters.getSettingsImagesContentSpacing }"
                 >
                   <img
                     @click="imagesPicturesOpen(index)"
@@ -111,7 +111,7 @@
                     :class="[
                       { 'rendering-pixelated' : imagesFiltering },
                       // Disable scaling when the image is not filtered, otherwise it looks horrible.
-                      { 'hover:scale-102' : $store.getters.getSettingsImagesImageScaling && ($store.getters.getSettingsImagesImageSpacing && $store.getters.getSettingsImagesImageColumns > 1 && imagesFiltering) }
+                      { 'hover:scale-102' : $store.getters.getSettingsImagesScalingEffect && ($store.getters.getSettingsImagesContentSpacing && $store.getters.getSettingsImagesGridColumns > 1 && !imagesFiltering) }
                     ]"
                   />
                 </div>

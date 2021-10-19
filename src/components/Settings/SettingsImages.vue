@@ -5,29 +5,29 @@
     placement="left-start"
   >
     <!-- Image settings. -->
-    <div class="text-center w-64">
+    <div class="text-center w-88">
       <h1 class="font-medium mb-5 -mt-1 text-lg">Image Settings</h1>
       <div class="space-y-2">
-        <!-- Toggle image scaling effect. -->
+        <!-- Toggle scaling effect. -->
         <div class="flex h-10 items-center pl-4 pr-5">
-          <p class="mr-auto">Scaling</p>
-          <vi-switch v-model="imageScaling" />
+          <p class="mr-auto">Scaling Effect</p>
+          <vi-switch v-model="scalingEffect" />
         </div>
-        <!-- Toggle image spacing. -->
+        <!-- Toggle content spacing. -->
         <div class="flex h-10 items-center pl-4 pr-5">
-          <p class="mr-auto">Spacing</p>
-          <vi-switch v-model="imageSpacing" />
+          <p class="mr-auto">Content Spacing</p>
+          <vi-switch v-model="contentSpacing" />
         </div>
-        <!-- Image corner modes. -->
+        <!-- Select corners rounding. -->
         <div class="flex items-center px-4">
-          <p class="mr-auto">Corners</p>
+          <p class="mr-auto">Corners Rounding</p>
           <div class="ml-auto w-34">
             <vi-select
-              v-model="imageCorners"
+              v-model="cornersRounding"
               class="w-auto"
             >
               <vi-option
-                v-for="item in cornersOptions"
+                v-for="item in cornersRoundingOptions"
                 :key="item.i"
                 :label="item.name"
                 :value="item.i"
@@ -38,10 +38,10 @@
         </div>
         <!-- Select number of columns. -->
         <div class="flex items-center pl-4 pr-6">
-          <p class="mr-auto">Columns</p>
+          <p class="mr-auto">Grid Columns</p>
           <div class="ml-auto w-32">
             <vi-input-num
-              v-model="imageColumns"
+              v-model="gridColumns"
               :min="1"
               :max="20"
               position-side
@@ -59,7 +59,7 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { cornersOptions, selectImageColumns, selectImageCorners } from '@/settings'
+import { cornersRoundingOptions, selectImageCornersRounding, selectImageGridColumns } from '@/settings'
 
 export default {
   name: 'SettingsImages',
@@ -68,35 +68,35 @@ export default {
     const store = useStore()
 
     // Manage settings in the store.
-    const imageScaling = computed({
-      get() { return store.getters.getSettingsImagesImageScaling },
-      set(value) { store.commit('setSettingsImagesImageScaling', value) }
+    const scalingEffect = computed({
+      get() { return store.getters.getSettingsImagesScalingEffect },
+      set(value) { store.commit('setSettingsImagesScalingEffect', value) }
     })
-    const imageSpacing = computed({
-      get() { return store.getters.getSettingsImagesImageSpacing },
-      set(value) { store.commit('setSettingsImagesImageSpacing', value) }
+    const contentSpacing = computed({
+      get() { return store.getters.getSettingsImagesContentSpacing },
+      set(value) { store.commit('setSettingsImagesContentSpacing', value) }
     })
-    const imageCorners = computed({
-      get() { return store.getters.getSettingsImagesImageCorners },
+    const cornersRounding = computed({
+      get() { return store.getters.getSettingsImagesCornersRounding },
       set(value) {
-        store.commit('setSettingsImagesImageCorners', value)
-        selectImageCorners(imageCorners.value)
+        store.commit('setSettingsImagesCornersRounding', value)
+        selectImageCornersRounding(cornersRounding.value)
       }
     })
-    const imageColumns = computed({
-      get() { return store.getters.getSettingsImagesImageColumns },
+    const gridColumns = computed({
+      get() { return store.getters.getSettingsImagesGridColumns },
       set(value) {
-        store.commit('setSettingsImagesImageColumns', value)
-        selectImageColumns(imageColumns.value)
+        store.commit('setSettingsImagesGridColumns', value)
+        selectImageGridColumns(gridColumns.value)
       }
     })
 
     return {
-      cornersOptions,
-      imageColumns,
-      imageCorners,
-      imageScaling,
-      imageSpacing
+      contentSpacing,
+      cornersRounding,
+      cornersRoundingOptions,
+      gridColumns,
+      scalingEffect
     }
   }
 }

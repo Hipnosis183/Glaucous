@@ -88,12 +88,12 @@
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
       <div
         class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsListSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
       >
         <vi-list
           v-if="platform.games.length > 0"
           listPlatform
-          :listDisplay="$store.getters.getSettingsListsListDisplay"
+          :listDisplay="$store.getters.getSettingsListsDisplayMode"
           :remote-method="loadPlatformNext"
         >
           <li
@@ -104,16 +104,16 @@
           >
             <!-- Game cards. -->
             <vi-card-grid
-              v-if="$store.getters.getSettingsListsListDisplay == 0"
+              v-if="$store.getters.getSettingsListsDisplayMode == 0"
               :gameInfo="game"
               listPlatform
             />
             <vi-card-list
-              v-else-if="$store.getters.getSettingsListsListDisplay == 1"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
               :gameInfo="game"
             />
             <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsListDisplay == 2"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
               :gameInfo="game"
             />
           </li>

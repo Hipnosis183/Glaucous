@@ -32,48 +32,48 @@ export default createStore({
         searchGoogleKey: localStore.get('settingsLinks.searchGoogleKey', 0)
       },
       settingsLists: {
-        listSpacing: localStore.get('settingsLists.listSpacing', true),
-        listScaling: localStore.get('settingsLists.listScaling', true),
-        listDisplay: localStore.get('settingsLists.listDisplay', 0),
-        listCorners: localStore.get('settingsLists.listCorners', 2),
-        listTextShow: localStore.get('settingsLists.listTextShow', 0),
-        listTextStyle: localStore.get('settingsLists.listTextStyle', 0)
+        scalingEffect: localStore.get('settingsLists.scalingEffect', true),
+        contentSpacing: localStore.get('settingsLists.contentSpacing', true),
+        displayMode: localStore.get('settingsLists.displayMode', 0),
+        cornersRounding: localStore.get('settingsLists.cornersRounding', 2),
+        cardTextDisplay: localStore.get('settingsLists.cardTextDisplay', 0),
+        cardTextStyle: localStore.get('settingsLists.cardTextStyle', 0)
       },
       settingsPlatform: {
         settingsGlobal: {
-          listColumns: localStore.get('settingsPlatform.listColumns', 4),
-          listHeight: localStore.get('settingsPlatform.listHeight', 200),
-          listImages: localStore.get('settingsPlatform.listImages', 0),
-          imagesFiltering: localStore.get('settingsPlatform.imagesFiltering', true)
+          imagesDisplay: localStore.get('settingsPlatform.imagesDisplay', 0),
+          imagesFiltering: localStore.get('settingsPlatform.imagesFiltering', true),
+          gridColumns: localStore.get('settingsPlatform.gridColumns', 4),
+          gridHeight: localStore.get('settingsPlatform.gridHeight', 200)
         },
         settingsOver: {
           settingsOver: false,
-          listColumns: 4,
-          listHeight: 200,
-          listImages: 0,
-          imagesFiltering: true
+          imagesFiltering: true,
+          imagesDisplay: 0,
+          gridColumns: 4,
+          gridHeight: 200
         }
       },
       settingsGame: {
         settingsGlobal: {
-          uiMinimal: localStore.get('settingsGame.uiMinimal', false),
-          imageCover: localStore.get('settingsGame.imageCover', true),
-          imageBackground: localStore.get('settingsGame.imageBackground', 0),
-          placeBackground: localStore.get('settingsGame.placeBackground', 0)
+          minimalUiDisplay: localStore.get('settingsGame.minimalUiDisplay', false),
+          displayCoverImage: localStore.get('settingsGame.displayCoverImage', true),
+          backgroundImage: localStore.get('settingsGame.backgroundImage', 0),
+          backgroundPlacement: localStore.get('settingsGame.backgroundPlacement', 0)
         },
         settingsOver: {
           settingsOver: false,
-          uiMinimal: false,
-          imageCover: true,
-          imageBackground: 0,
-          placeBackground: 0
+          minimalUiDisplay: false,
+          displayCoverImage: true,
+          backgroundImage: 0,
+          backgroundPlacement: 0
         }
       },
       settingsImages: {
-        imageScaling: localStore.get('settingsImages.imageScaling', true),
-        imageSpacing: localStore.get('settingsImages.imageSpacing', true),
-        imageCorners: localStore.get('settingsImages.imageCorners', 2),
-        imageColumns: localStore.get('settingsImages.imageColumns', 4)
+        scalingEffect: localStore.get('settingsImages.scalingEffect', true),
+        contentSpacing: localStore.get('settingsImages.contentSpacing', true),
+        cornersRounding: localStore.get('settingsImages.cornersRounding', 2),
+        gridColumns: localStore.get('settingsImages.gridColumns', 4)
       }
     },
     selectedPlatform: null,
@@ -211,89 +211,89 @@ export default createStore({
     getSettingsLinksSearchGoogleKey(state) {
       return state.settingsApp.settingsLinks.searchGoogleKey
     },
-    getSettingsListsListSpacing(state) {
-      return state.settingsApp.settingsLists.listSpacing
+    getSettingsListsScalingEffect(state) {
+      return state.settingsApp.settingsLists.scalingEffect
     },
-    getSettingsListsListScaling(state) {
-      return state.settingsApp.settingsLists.listScaling
+    getSettingsListsContentSpacing(state) {
+      return state.settingsApp.settingsLists.contentSpacing
     },
-    getSettingsListsListDisplay(state) {
-      return state.settingsApp.settingsLists.listDisplay
+    getSettingsListsDisplayMode(state) {
+      return state.settingsApp.settingsLists.displayMode
     },
-    getSettingsListsListCorners(state) {
-      return state.settingsApp.settingsLists.listCorners
+    getSettingsListsCornersRounding(state) {
+      return state.settingsApp.settingsLists.cornersRounding
     },
-    getSettingsListsListTextShow(state) {
-      return state.settingsApp.settingsLists.listTextShow
+    getSettingsListsCardTextDisplay(state) {
+      return state.settingsApp.settingsLists.cardTextDisplay
     },
-    getSettingsListsListTextStyle(state) {
-      return state.settingsApp.settingsLists.listTextStyle
-    },
-    getSettingsPlatformListColumns(state) {
-      return state.settingsApp.settingsPlatform.settingsGlobal.listColumns
-    },
-    getSettingsPlatformListHeight(state) {
-      return state.settingsApp.settingsPlatform.settingsGlobal.listHeight
-    },
-    getSettingsPlatformListImages(state) {
-      return state.settingsApp.settingsPlatform.settingsGlobal.listImages
+    getSettingsListsCardTextStyle(state) {
+      return state.settingsApp.settingsLists.cardTextStyle
     },
     getSettingsPlatformImagesFiltering(state) {
       return state.settingsApp.settingsPlatform.settingsGlobal.imagesFiltering
     },
+    getSettingsPlatformImagesDisplay(state) {
+      return state.settingsApp.settingsPlatform.settingsGlobal.imagesDisplay
+    },
+    getSettingsPlatformGridColumns(state) {
+      return state.settingsApp.settingsPlatform.settingsGlobal.gridColumns
+    },
+    getSettingsPlatformGridHeight(state) {
+      return state.settingsApp.settingsPlatform.settingsGlobal.gridHeight
+    },
     getSettingsPlatformOverSettingsOver(state) {
       return state.settingsApp.settingsPlatform.settingsOver.settingsOver
-    },
-    getSettingsPlatformOverListColumns(state) {
-      return state.settingsApp.settingsPlatform.settingsOver.listColumns
-    },
-    getSettingsPlatformOverListHeight(state) {
-      return state.settingsApp.settingsPlatform.settingsOver.listHeight
-    },
-    getSettingsPlatformOverListImages(state) {
-      return state.settingsApp.settingsPlatform.settingsOver.listImages
     },
     getSettingsPlatformOverImagesFiltering(state) {
       return state.settingsApp.settingsPlatform.settingsOver.imagesFiltering
     },
-    getSettingsGameUiMinimal(state) {
-      return state.settingsApp.settingsGame.settingsGlobal.uiMinimal
+    getSettingsPlatformOverImagesDisplay(state) {
+      return state.settingsApp.settingsPlatform.settingsOver.imagesDisplay
     },
-    getSettingsGameImageCover(state) {
-      return state.settingsApp.settingsGame.settingsGlobal.imageCover
+    getSettingsPlatformOverGridColumns(state) {
+      return state.settingsApp.settingsPlatform.settingsOver.gridColumns
     },
-    getSettingsGameImageBackground(state) {
-      return state.settingsApp.settingsGame.settingsGlobal.imageBackground
+    getSettingsPlatformOverGridHeight(state) {
+      return state.settingsApp.settingsPlatform.settingsOver.gridHeight
     },
-    getSettingsGamePlaceBackground(state) {
-      return state.settingsApp.settingsGame.settingsGlobal.placeBackground
+    getSettingsGameMinimalUiDisplay(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplay
+    },
+    getSettingsGameDisplayCoverImage(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.displayCoverImage
+    },
+    getSettingsGameBackgroundImage(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.backgroundImage
+    },
+    getSettingsGameBackgroundPlacement(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.backgroundPlacement
     },
     getSettingsGameOverSettingsOver(state) {
       return state.settingsApp.settingsGame.settingsOver.settingsOver
     },
-    getSettingsGameOverUiMinimal(state) {
-      return state.settingsApp.settingsGame.settingsOver.uiMinimal
+    getSettingsGameOverMinimalUiDisplay(state) {
+      return state.settingsApp.settingsGame.settingsOver.minimalUiDisplay
     },
-    getSettingsGameOverImageCover(state) {
-      return state.settingsApp.settingsGame.settingsOver.imageCover
+    getSettingsGameOverDisplayCoverImage(state) {
+      return state.settingsApp.settingsGame.settingsOver.displayCoverImage
     },
-    getSettingsGameOverImageBackground(state) {
-      return state.settingsApp.settingsGame.settingsOver.imageBackground
+    getSettingsGameOverBackgroundImage(state) {
+      return state.settingsApp.settingsGame.settingsOver.backgroundImage
     },
-    getSettingsGameOverPlaceBackground(state) {
-      return state.settingsApp.settingsGame.settingsOver.placeBackground
+    getSettingsGameOverBackgroundPlacement(state) {
+      return state.settingsApp.settingsGame.settingsOver.backgroundPlacement
     },
-    getSettingsImagesImageScaling(state) {
-      return state.settingsApp.settingsImages.imageScaling
+    getSettingsImagesScalingEffect(state) {
+      return state.settingsApp.settingsImages.scalingEffect
     },
-    getSettingsImagesImageSpacing(state) {
-      return state.settingsApp.settingsImages.imageSpacing
+    getSettingsImagesContentSpacing(state) {
+      return state.settingsApp.settingsImages.contentSpacing
     },
-    getSettingsImagesImageCorners(state) {
-      return state.settingsApp.settingsImages.imageCorners
+    getSettingsImagesCornersRounding(state) {
+      return state.settingsApp.settingsImages.cornersRounding
     },
-    getSettingsImagesImageColumns(state) {
-      return state.settingsApp.settingsImages.imageColumns
+    getSettingsImagesGridColumns(state) {
+      return state.settingsApp.settingsImages.gridColumns
     }
   },
   mutations: {
@@ -344,77 +344,139 @@ export default createStore({
       state.settingsApp.settingsLinks.searchGoogleKey = data
       localStore.set('settingsLinks.searchGoogleKey', state.settingsApp.settingsLinks.searchGoogleKey)
     },
-    setSettingsListsListSpacing(state, data) {
-      state.settingsApp.settingsLists.listSpacing = data
-      localStore.set('settingsLists.listSpacing', state.settingsApp.settingsLists.listSpacing)
+    setSettingsListsScalingEffect(state, data) {
+      state.settingsApp.settingsLists.scalingEffect = data
+      localStore.set('settingsLists.scalingEffect', state.settingsApp.settingsLists.scalingEffect)
     },
-    setSettingsListsListScaling(state, data) {
-      state.settingsApp.settingsLists.listScaling = data
-      localStore.set('settingsLists.listScaling', state.settingsApp.settingsLists.listScaling)
+    setSettingsListsContentSpacing(state, data) {
+      state.settingsApp.settingsLists.contentSpacing = data
+      localStore.set('settingsLists.contentSpacing', state.settingsApp.settingsLists.contentSpacing)
     },
-    setSettingsListsListDisplay(state, data) {
-      state.settingsApp.settingsLists.listDisplay = data
-      localStore.set('settingsLists.listDisplay', state.settingsApp.settingsLists.listDisplay)
+    setSettingsListsDisplayMode(state, data) {
+      state.settingsApp.settingsLists.displayMode = data
+      localStore.set('settingsLists.displayMode', state.settingsApp.settingsLists.displayMode)
     },
-    setSettingsListsListCorners(state, data) {
-      state.settingsApp.settingsLists.listCorners = data
-      localStore.set('settingsLists.listCorners', state.settingsApp.settingsLists.listCorners)
+    setSettingsListsCornersRounding(state, data) {
+      state.settingsApp.settingsLists.cornersRounding = data
+      localStore.set('settingsLists.cornersRounding', state.settingsApp.settingsLists.cornersRounding)
     },
-    setSettingsListsListTextShow(state, data) {
-      state.settingsApp.settingsLists.listTextShow = data
-      localStore.set('settingsLists.listTextShow', state.settingsApp.settingsLists.listTextShow)
+    setSettingsListsCardTextDisplay(state, data) {
+      state.settingsApp.settingsLists.cardTextDisplay = data
+      localStore.set('settingsLists.cardTextDisplay', state.settingsApp.settingsLists.cardTextDisplay)
     },
-    setSettingsListsListTextStyle(state, data) {
-      state.settingsApp.settingsLists.listTextStyle = data
-      localStore.set('settingsLists.listTextStyle', state.settingsApp.settingsLists.listTextStyle)
-    },
-    setSettingsPlatformListColumns(state, data) {
-      state.settingsApp.settingsPlatform.settingsGlobal.listColumns = data
-      localStore.set('settingsPlatform.listColumns', state.settingsApp.settingsPlatform.settingsGlobal.listColumns)
-    },
-    setSettingsPlatformListHeight(state, data) {
-      state.settingsApp.settingsPlatform.settingsGlobal.listHeight = data
-      localStore.set('settingsPlatform.listHeight', state.settingsApp.settingsPlatform.settingsGlobal.listHeight)
-    },
-    setSettingsPlatformListImages(state, data) {
-      state.settingsApp.settingsPlatform.settingsGlobal.listImages = data
-      localStore.set('settingsPlatform.listImages', state.settingsApp.settingsPlatform.settingsGlobal.listImages)
+    setSettingsListsCardTextStyle(state, data) {
+      state.settingsApp.settingsLists.cardTextStyle = data
+      localStore.set('settingsLists.cardTextStyle', state.settingsApp.settingsLists.cardTextStyle)
     },
     setSettingsPlatformImagesFiltering(state, data) {
       state.settingsApp.settingsPlatform.settingsGlobal.imagesFiltering = data
       localStore.set('settingsPlatform.imagesFiltering', state.settingsApp.settingsPlatform.settingsGlobal.imagesFiltering)
     },
-    setSettingsGameUiMinimal(state, data) {
-      state.settingsApp.settingsGame.settingsGlobal.uiMinimal = data
-      localStore.set('settingsGame.uiMinimal', state.settingsApp.settingsGame.settingsGlobal.uiMinimal)
+    setSettingsPlatformImagesDisplay(state, data) {
+      state.settingsApp.settingsPlatform.settingsGlobal.imagesDisplay = data
+      localStore.set('settingsPlatform.imagesDisplay', state.settingsApp.settingsPlatform.settingsGlobal.imagesDisplay)
     },
-    setSettingsGameImageCover(state, data) {
-      state.settingsApp.settingsGame.settingsGlobal.imageCover = data
-      localStore.set('settingsGame.imageCover', state.settingsApp.settingsGame.settingsGlobal.imageCover)
+    setSettingsPlatformGridColumns(state, data) {
+      state.settingsApp.settingsPlatform.settingsGlobal.gridColumns = data
+      localStore.set('settingsPlatform.gridColumns', state.settingsApp.settingsPlatform.settingsGlobal.gridColumns)
     },
-    setSettingsGameImageBackground(state, data) {
-      state.settingsApp.settingsGame.settingsGlobal.imageBackground = data
-      localStore.set('settingsGame.imageBackground', state.settingsApp.settingsGame.settingsGlobal.imageBackground)
+    setSettingsPlatformGridHeight(state, data) {
+      state.settingsApp.settingsPlatform.settingsGlobal.gridHeight = data
+      localStore.set('settingsPlatform.gridHeight', state.settingsApp.settingsPlatform.settingsGlobal.gridHeight)
     },
-    setSettingsGamePlaceBackground(state, data) {
-      state.settingsApp.settingsGame.settingsGlobal.placeBackground = data
-      localStore.set('settingsGame.placeBackground', state.settingsApp.settingsGame.settingsGlobal.placeBackground)
+    setPlatformOverStore(state) {
+      state.settingsApp.settingsPlatform.settingsOver.settingsOver = platformStore.get('settingsPlatformOver.settingsOver', false)
+      state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = platformStore.get('settingsPlatformOver.imagesFiltering', true)
+      state.settingsApp.settingsPlatform.settingsOver.imagesDisplay = platformStore.get('settingsPlatformOver.imagesDisplay', 0)
+      state.settingsApp.settingsPlatform.settingsOver.gridColumns = platformStore.get('settingsPlatformOver.gridColumns', 4)
+      state.settingsApp.settingsPlatform.settingsOver.gridHeight = platformStore.get('settingsPlatformOver.gridHeight', 200)
     },
-    setSettingsImagesImageScaling(state, data) {
-      state.settingsApp.settingsImages.imageScaling = data
-      localStore.set('settingsImages.imageScaling', state.settingsApp.settingsImages.imageScaling)
+    setSettingsPlatformOverSettingsOver(state, data) {
+      state.settingsApp.settingsPlatform.settingsOver.settingsOver = data
+      platformStore.set('settingsPlatformOver.settingsOver', state.settingsApp.settingsPlatform.settingsOver.settingsOver)
     },
-    setSettingsImagesImageSpacing(state, data) {
-      state.settingsApp.settingsImages.imageSpacing = data
-      localStore.set('settingsImages.imageSpacing', state.settingsApp.settingsImages.imageSpacing)
+    setSettingsPlatformOverImagesFiltering(state, data) {
+      state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = data
+      platformStore.set('settingsPlatformOver.imagesFiltering', state.settingsApp.settingsPlatform.settingsOver.imagesFiltering)
     },
-    setSettingsImagesImageCorners(state, data) {
-      state.settingsApp.settingsImages.imageCorners = data
-      localStore.set('settingsImages.imageCorners', state.settingsApp.settingsImages.imageCorners)
+    setgetSettingsPlatformOverImagesDisplay(state, data) {
+      state.settingsApp.settingsPlatform.settingsOver.imagesDisplay = data
+      platformStore.set('settingsPlatformOver.imagesDisplay', state.settingsApp.settingsPlatform.settingsOver.imagesDisplay)
     },
-    setSettingsImagesImageColumns(state, data) {
-      state.settingsApp.settingsImages.imageColumns = data
-      localStore.set('settingsImages.imageColumns', state.settingsApp.settingsImages.imageColumns)
+    setSettingsPlatformOverListColumns(state, data) {
+      state.settingsApp.settingsPlatform.settingsOver.gridColumns = data
+      platformStore.set('settingsPlatformOver.gridColumns', state.settingsApp.settingsPlatform.settingsOver.gridColumns)
+    },
+    setgetSettingsPlatformOverGridHeight(state, data) {
+      state.settingsApp.settingsPlatform.settingsOver.gridHeight = data
+      platformStore.set('settingsPlatformOver.gridHeight', state.settingsApp.settingsPlatform.settingsOver.gridHeight)
+    },
+    setSettingsGameMinimalUiDisplay(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplay = data
+      localStore.set('settingsGame.minimalUiDisplay', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplay)
+    },
+    setSettingsGameDisplayCoverImage(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.displayCoverImage = data
+      localStore.set('settingsGame.displayCoverImage', state.settingsApp.settingsGame.settingsGlobal.displayCoverImage)
+    },
+    setSettingsGameBackgroundImage(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.backgroundImage = data
+      localStore.set('settingsGame.backgroundImage', state.settingsApp.settingsGame.settingsGlobal.backgroundImage)
+    },
+    setSettingsGameBackgroundPlacement(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.backgroundPlacement = data
+      localStore.set('settingsGame.backgroundPlacement', state.settingsApp.settingsGame.settingsGlobal.backgroundPlacement)
+    },
+    setGameOverStore(state) {
+      gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
+      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
+      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
+      state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
+      state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
+      state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
+    },
+    resetGameOverStore(state) {
+      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
+      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
+      state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
+      state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
+      state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
+    },
+    setSettingsGameOverSettingsOver(state, data) {
+      state.settingsApp.settingsGame.settingsOver.settingsOver = data
+      gameOverStore.set('settingsGameOver.settingsOver', state.settingsApp.settingsGame.settingsOver.settingsOver)
+    },
+    setSettingsGameOverMinimalUiDisplay(state, data) {
+      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = data
+      gameOverStore.set('settingsGameOver.minimalUiDisplay', state.settingsApp.settingsGame.settingsOver.minimalUiDisplay)
+    },
+    setSettingsGameOverDisplayCoverImage(state, data) {
+      state.settingsApp.settingsGame.settingsOver.displayCoverImage = data
+      gameOverStore.set('settingsGameOver.displayCoverImage', state.settingsApp.settingsGame.settingsOver.displayCoverImage)
+    },
+    setSettingsGameOverBackgroundImage(state, data) {
+      state.settingsApp.settingsGame.settingsOver.backgroundImage = data
+      gameOverStore.set('settingsGameOver.backgroundImage', state.settingsApp.settingsGame.settingsOver.backgroundImage)
+    },
+    setSettingsGameOverBackgroundPlacement(state, data) {
+      state.settingsApp.settingsGame.settingsOver.backgroundPlacement = data
+      gameOverStore.set('settingsGameOver.backgroundPlacement', state.settingsApp.settingsGame.settingsOver.backgroundPlacement)
+    },
+    setSettingsImagesScalingEffect(state, data) {
+      state.settingsApp.settingsImages.scalingEffect = data
+      localStore.set('settingsImages.scalingEffect', state.settingsApp.settingsImages.scalingEffect)
+    },
+    setSettingsImagesContentSpacing(state, data) {
+      state.settingsApp.settingsImages.contentSpacing = data
+      localStore.set('settingsImages.contentSpacing', state.settingsApp.settingsImages.contentSpacing)
+    },
+    setSettingsImagesCornersRounding(state, data) {
+      state.settingsApp.settingsImages.cornersRounding = data
+      localStore.set('settingsImages.cornersRounding', state.settingsApp.settingsImages.cornersRounding)
+    },
+    setSettingsImagesGridColumns(state, data) {
+      state.settingsApp.settingsImages.gridColumns = data
+      localStore.set('settingsImages.gridColumns', state.settingsApp.settingsImages.gridColumns)
     },
     // Platform settings.
     setPlatformStore(state) {
@@ -431,40 +493,6 @@ export default createStore({
     },
     setSettingsPlatformRelativePath(state) {
       platformStore.set('settingsPlatform.relativePath', state.settingsPlatform.relativePath)
-    },
-    setPlatformOverStore(state) {
-      state.settingsApp.settingsPlatform.settingsOver.settingsOver = platformStore.get('settingsPlatformOver.settingsOver', false)
-      state.settingsApp.settingsPlatform.settingsOver.listColumns = platformStore.get('settingsPlatformOver.listColumns', 4)
-      state.settingsApp.settingsPlatform.settingsOver.listHeight = platformStore.get('settingsPlatformOver.listHeight', 200)
-      state.settingsApp.settingsPlatform.settingsOver.listImages = platformStore.get('settingsPlatformOver.listImages', 0)
-      state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = platformStore.get('settingsPlatformOver.imagesFiltering', true)
-    },
-    resetPlatformOverStore(state) {
-      state.settingsApp.settingsPlatform.settingsOver.settingsOver = platformStore.get('settingsPlatformOver.settingsOver', false)
-      state.settingsApp.settingsPlatform.settingsOver.listColumns = platformStore.get('settingsPlatformOver.listColumns', 4)
-      state.settingsApp.settingsPlatform.settingsOver.listHeight = platformStore.get('settingsPlatformOver.listHeight', 200)
-      state.settingsApp.settingsPlatform.settingsOver.listImages = platformStore.get('settingsPlatformOver.listImages', 0)
-      state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = platformStore.get('settingsPlatformOver.imagesFiltering', true)
-    },
-    setSettingsPlatformOverSettingsOver(state, data) {
-      state.settingsApp.settingsPlatform.settingsOver.settingsOver = data
-      platformStore.set('settingsPlatformOver.settingsOver', state.settingsApp.settingsPlatform.settingsOver.settingsOver)
-    },
-    setSettingsPlatformOverListColumns(state, data) {
-      state.settingsApp.settingsPlatform.settingsOver.listColumns = data
-      platformStore.set('settingsPlatformOver.listColumns', state.settingsApp.settingsPlatform.settingsOver.listColumns)
-    },
-    setSettingsPlatformOverListHeight(state, data) {
-      state.settingsApp.settingsPlatform.settingsOver.listHeight = data
-      platformStore.set('settingsPlatformOver.listHeight', state.settingsApp.settingsPlatform.settingsOver.listHeight)
-    },
-    setSettingsPlatformOverListImages(state, data) {
-      state.settingsApp.settingsPlatform.settingsOver.listImages = data
-      platformStore.set('settingsPlatformOver.listImages', state.settingsApp.settingsPlatform.settingsOver.listImages)
-    },
-    setSettingsPlatformOverImagesFiltering(state, data) {
-      state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = data
-      platformStore.set('settingsPlatformOver.imagesFiltering', state.settingsApp.settingsPlatform.settingsOver.imagesFiltering)
     },
     // Game settings.
     setGameStore(state) {
@@ -496,41 +524,6 @@ export default createStore({
     },
     setSettingsGameRelativePath(state) {
       gameStore.set('settingsGame.relativePath', state.settingsGame.relativePath)
-    },
-    setGameOverStore(state) {
-      gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
-      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
-      state.settingsApp.settingsGame.settingsOver.uiMinimal = gameOverStore.get('settingsGameOver.uiMinimal', false)
-      state.settingsApp.settingsGame.settingsOver.imageCover = gameOverStore.get('settingsGameOver.imageCover', true)
-      state.settingsApp.settingsGame.settingsOver.imageBackground = gameOverStore.get('settingsGameOver.imageBackground', 0)
-      state.settingsApp.settingsGame.settingsOver.placeBackground = gameOverStore.get('settingsGameOver.placeBackground', 0)
-    },
-    resetGameOverStore(state) {
-      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
-      state.settingsApp.settingsGame.settingsOver.uiMinimal = gameOverStore.get('settingsGameOver.uiMinimal', false)
-      state.settingsApp.settingsGame.settingsOver.imageCover = gameOverStore.get('settingsGameOver.imageCover', true)
-      state.settingsApp.settingsGame.settingsOver.imageBackground = gameOverStore.get('settingsGameOver.imageBackground', 0)
-      state.settingsApp.settingsGame.settingsOver.placeBackground = gameOverStore.get('settingsGameOver.placeBackground', 0)
-    },
-    setSettingsGameOverSettingsOver(state, data) {
-      state.settingsApp.settingsGame.settingsOver.settingsOver = data
-      gameOverStore.set('settingsGameOver.settingsOver', state.settingsApp.settingsGame.settingsOver.settingsOver)
-    },
-    setSettingsGameOverUiMinimal(state, data) {
-      state.settingsApp.settingsGame.settingsOver.uiMinimal = data
-      gameOverStore.set('settingsGameOver.uiMinimal', state.settingsApp.settingsGame.settingsOver.uiMinimal)
-    },
-    setSettingsGameOverImageCover(state, data) {
-      state.settingsApp.settingsGame.settingsOver.imageCover = data
-      gameOverStore.set('settingsGameOver.imageCover', state.settingsApp.settingsGame.settingsOver.imageCover)
-    },
-    setSettingsGameOverImageBackground(state, data) {
-      state.settingsApp.settingsGame.settingsOver.imageBackground = data
-      gameOverStore.set('settingsGameOver.imageBackground', state.settingsApp.settingsGame.settingsOver.imageBackground)
-    },
-    setSettingsGameOverPlaceBackground(state, data) {
-      state.settingsApp.settingsGame.settingsOver.placeBackground = data
-      gameOverStore.set('settingsGameOver.placeBackground', state.settingsApp.settingsGame.settingsOver.placeBackground)
     },
     // Game form.
     resetGameSelected(state) {

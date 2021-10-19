@@ -1,8 +1,8 @@
 <template>
   <ul
     class="grid"
-    :class="$store.getters.getSettingsListsListSpacing ? 'gap-4' : 'gap-1'"
-    :style="listDisplay == 0 ? 'grid-template-columns: repeat(' + listColumns  + ', minmax(0, 1fr))' : ''"
+    :class="$store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'"
+    :style="listDisplay == 0 ? 'grid-template-columns: repeat(' + gridColumns  + ', minmax(0, 1fr))' : ''"
   >
     <slot></slot>
   </ul>
@@ -32,12 +32,12 @@ export default {
     const sentinel = ref(null)
 
     // Manage list columns.
-    const listColumns = computed(() => {
+    const gridColumns = computed(() => {
       return props.listPlatform
         ? store.getters.getSettingsPlatformOverSettingsOver
-          ? store.getters.getSettingsPlatformOverListColumns
-          : store.getters.getSettingsPlatformListColumns
-        : store.getters.getSettingsPlatformListColumns
+          ? store.getters.getSettingsPlatformOverGridColumns
+          : store.getters.getSettingsPlatformGridColumns
+        : store.getters.getSettingsPlatformGridColumns
     })
 
     // Manage infinite scrolling.
@@ -64,7 +64,7 @@ export default {
     })
 
     return {
-      listColumns,
+      gridColumns,
       sentinel
     }
   }

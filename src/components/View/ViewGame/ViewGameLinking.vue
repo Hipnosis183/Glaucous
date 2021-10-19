@@ -4,7 +4,7 @@
     v-show="gameLinkingDialog"
     @close="gameLinkingShow()"
     :rounded="false"
-    :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsListDisplay == 0 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
+    :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsDisplayMode == 0 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
     class="pos-initial z-10"
   >
     <!-- Unlink game dialog. -->
@@ -111,11 +111,11 @@
     >
       <div
         class="flex-1 no-scrollbar overflow-y-scroll"
-        :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1'"
+        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1'"
       >
         <vi-list-dialog
           v-if="linkedGames.length > 0"
-          :listDisplay="$store.getters.getSettingsListsListDisplay"
+          :listDisplay="$store.getters.getSettingsListsDisplayMode"
           :listLength="linkedGames.length"
         >
           <li
@@ -126,15 +126,15 @@
           >
             <!-- Game cards. -->
             <vi-card-grid
-              v-if="$store.getters.getSettingsListsListDisplay == 0"
+              v-if="$store.getters.getSettingsListsDisplayMode == 0"
               :gameInfo="game"
             />
             <vi-card-list
-              v-else-if="$store.getters.getSettingsListsListDisplay == 1"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
               :gameInfo="game"
             />
             <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsListDisplay == 2"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
               :gameInfo="game"
             />
           </li>

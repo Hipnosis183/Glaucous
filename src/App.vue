@@ -34,7 +34,7 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { selectImageColumns, selectCardCorners, selectImageCorners } from '@/settings'
+import { selectImageGridColumns, selectImageCornersRounding, selectListCornersRounding } from '@/settings'
 // Import theme objects and functions.
 import { selectColor, selectFont, selectTheme } from '@/theme'
 // Import intro and sidenav components.
@@ -57,11 +57,11 @@ export default {
     // Set number of columns of lists in the configuration.
     selectFont(store.getters.getSettingsThemesSelectedFont)
     // Set number of columns of images in the configuration.
-    selectImageColumns(store.getters.getSettingsImagesImageColumns)
-    // Set border radius of cards in the configuration.
-    selectCardCorners(store.getters.getSettingsListsListCorners)
+    selectImageGridColumns(store.getters.getSettingsImagesGridColumns)
     // Set border radius of images in the configuration.
-    selectImageCorners(store.getters.getSettingsImagesImageCorners)
+    selectImageCornersRounding(store.getters.getSettingsImagesCornersRounding)
+    // Set border radius of cards in the configuration.
+    selectListCornersRounding(store.getters.getSettingsListsCornersRounding)
 
     // Manage intro state.
     let introFinish = ref(false)

@@ -3,9 +3,9 @@
   <div
     @mouseenter="gameInfoShow()"
     @mouseleave="gameInfoShow()"
-    :style="{ height: listHeight + 'px' }"
+    :style="{ height: gridHeight + 'px' }"
     class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-list shadow-color transform"
-    :class="gameInfoHover && $store.getters.getSettingsListsListScaling ? $store.getters.getSettingsPlatformListColumns > 1 ? $store.getters.getSettingsPlatformListColumns > 3 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
+    :class="gameInfoHover && $store.getters.getSettingsListsScalingEffect ? $store.getters.getSettingsPlatformGridColumns > 1 ? $store.getters.getSettingsPlatformGridColumns > 3 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
   >
     <!-- Game card overlay. -->
     <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-list w-full z-5" />
@@ -15,8 +15,8 @@
       :src="'file://' + getImage"
       class="h-full image-content rounded-list"
       :class="[
-        { 'rendering-pixelated' : imagesFiltering && (!gameInfo.image.cover || (listImages != 0 && listImages != 1)) },
-        { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsListsListTextShow == 0) || $store.getters.getSettingsListsListTextShow == 1) && $store.getters.getSettingsListsListTextStyle == 3 }
+        { 'rendering-pixelated' : imagesFiltering && (!gameInfo.image.cover || (imagesDisplay != 0 && imagesDisplay != 1)) },
+        { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsListsCardTextDisplay == 0) || $store.getters.getSettingsListsCardTextDisplay == 1) && $store.getters.getSettingsListsCardTextStyle == 3 }
       ]"
     >
     <div
@@ -30,16 +30,16 @@
     <!-- Game card information. -->
     <transition name="slide-card">
       <div
-        v-show="(gameInfoHover && $store.getters.getSettingsListsListTextShow == 0) || $store.getters.getSettingsListsListTextShow == 1"
+        v-show="(gameInfoHover && $store.getters.getSettingsListsCardTextDisplay == 0) || $store.getters.getSettingsListsCardTextDisplay == 1"
         class="flex transition-menu w-full z-0"
       >
         <div
           class="flex flex-col mt-auto p-3 w-full"
           :class="[
-            { 'card-solid' : $store.getters.getSettingsListsListTextStyle == 0 },
-            { 'card-transparent' : $store.getters.getSettingsListsListTextStyle == 1 },
-            { 'card-gradient h-full' : $store.getters.getSettingsListsListTextStyle == 2 },
-            { 'card-blurred text-shadow' : $store.getters.getSettingsListsListTextStyle == 3 && gameInfo.image.path }
+            { 'card-solid' : $store.getters.getSettingsListsCardTextStyle == 0 },
+            { 'card-transparent' : $store.getters.getSettingsListsCardTextStyle == 1 },
+            { 'card-gradient h-full' : $store.getters.getSettingsListsCardTextStyle == 2 },
+            { 'card-blurred text-shadow' : $store.getters.getSettingsListsCardTextStyle == 3 && gameInfo.image.path }
           ]"
         >
           <div class="mb-1 mt-auto text-sm">
@@ -141,7 +141,7 @@ export default {
         }
       }
       // Select type of image to display from settings.
-      switch (listImages.value) {
+      switch (imagesDisplay.value) {
         case 0: {
           // Default to the normal image fallback mode.
           return props.gameInfo.image.path
@@ -168,19 +168,19 @@ export default {
     })
 
     // Manage card display properties.
-    const listHeight = computed(() => {
+    const gridHeight = computed(() => {
       return props.listPlatform
         ? store.getters.getSettingsPlatformOverSettingsOver
-          ? store.getters.getSettingsPlatformOverListHeight
-          : store.getters.getSettingsPlatformListHeight
-        : store.getters.getSettingsPlatformListHeight
+          ? store.getters.getSettingsPlatformOverGridHeight
+          : store.getters.getSettingsPlatformGridHeight
+        : store.getters.getSettingsPlatformGridHeight
     })
-    const listImages = computed(() => {
+    const imagesDisplay = computed(() => {
       return props.listPlatform
         ? store.getters.getSettingsPlatformOverSettingsOver
-          ? store.getters.getSettingsPlatformOverListImages
-          : store.getters.getSettingsPlatformListImages
-        : store.getters.getSettingsPlatformListImages
+          ? store.getters.getSettingsPlatformOverImagesDisplay
+          : store.getters.getSettingsPlatformImagesDisplay
+        : store.getters.getSettingsPlatformImagesDisplay
     })
     const imagesFiltering = computed(() => {
       if (props.listPlatform) {
@@ -201,8 +201,8 @@ export default {
       getImage,
       imageFiles,
       imagesFiltering,
-      listHeight,
-      listImages,
+      gridHeight,
+      imagesDisplay,
       parentName
     }
   }

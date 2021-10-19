@@ -188,7 +188,7 @@
         >
           <div
             class="flex-1 no-scrollbar overflow-y-scroll"
-            :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1'"
+            :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1'"
           >
             <div
               ref="coverImage"
@@ -208,7 +208,7 @@
                       <!-- Game settings. -->
                       <settings-game />
                       <div
-                        v-if="uiMinimal"
+                        v-if="minimalUiDisplay"
                         class="flex space-x-2"
                       >
                         <!-- Open game playlists management dialog. -->
@@ -252,11 +252,11 @@
                         :key="gameInfo"
                         :gameInfo="gameInfo"
                         :regionIndex="regionIndex"
-                        :uiMinimal="uiMinimal"
+                        :minimalUiDisplay="minimalUiDisplay"
                         @updated="versionIndex = $event"
                       />
                       <div
-                        v-if="uiMinimal"
+                        v-if="minimalUiDisplay"
                         class="flex mt-2 w-full"
                       >
                         <!-- View game details. -->
@@ -658,10 +658,10 @@ export default {
     }
 
     // Manage minimal UI state.
-    const uiMinimal = computed(() => {
+    const minimalUiDisplay = computed(() => {
       return store.getters.getSettingsGameOverSettingsOver
-        ? !store.getters.getSettingsGameOverUiMinimal
-        : !store.getters.getSettingsGameUiMinimal
+        ? !store.getters.getSettingsGameOverMinimalUiDisplay
+        : !store.getters.getSettingsGameMinimalUiDisplay
     })
 
     // Manage image load and resizing.
@@ -715,7 +715,7 @@ export default {
       removeFavorite,
       setGameRegion,
       slideBack,
-      uiMinimal,
+      minimalUiDisplay,
       versionIndex
     }
   }

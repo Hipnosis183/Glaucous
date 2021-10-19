@@ -17,23 +17,23 @@
           <!-- Toggle minimal UI display. -->
           <div class="flex h-10 items-center pl-4 pr-5">
             <p class="mr-auto">Minimal UI Display</p>
-            <vi-switch v-model="uiMinimal" />
+            <vi-switch v-model="minimalUiDisplay" />
           </div>
           <!-- Toggle cover image display. -->
           <div class="flex h-10 items-center pl-4 pr-5">
             <p class="mr-auto">Display Cover Image</p>
-            <vi-switch v-model="imageCover" />
+            <vi-switch v-model="displayCoverImage" />
           </div>
-          <!-- Background image display mode. -->
+          <!-- Select background image display mode. -->
           <div class="flex items-center px-4">
             <p class="mr-auto">Background Image</p>
             <div class="ml-auto w-34">
               <vi-select
-                v-model="imageBackground"
+                v-model="backgroundImage"
                 class="w-auto"
               >
                 <vi-option
-                  v-for="item in imageBackgroundOptions"
+                  v-for="item in backgroundImageOptions"
                   :key="item.i"
                   :label="item.name"
                   :value="item.i"
@@ -42,16 +42,16 @@
               </vi-select>
             </div>
           </div>
-          <!-- Background image positioning mode. -->
+          <!-- Select background image placement. -->
           <div class="flex items-center px-4">
             <p class="mr-auto">Background Placement</p>
             <div class="ml-auto w-34">
               <vi-select
-                v-model="placeBackground"
+                v-model="backgroundPlacement"
                 class="w-auto"
               >
                 <vi-option
-                  v-for="item in placeBackgroundOptions"
+                  v-for="item in backgroundPlacementOptions"
                   :key="item.i"
                   :label="item.name"
                   :value="item.i"
@@ -71,7 +71,7 @@
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
-import { imageBackgroundOptions, placeBackgroundOptions } from '@/settings'
+import { backgroundImageOptions, backgroundPlacementOptions } from '@/settings'
 
 export default {
   name: 'SettingsGame',
@@ -89,63 +89,63 @@ export default {
       get() { return store.getters.getSettingsGameOverSettingsOver },
       set(value) { store.commit('setSettingsGameOverSettingsOver', value) }
     })
-    const imageCover = computed({
+    const minimalUiDisplay = computed({
       get() {
         return settingsOver.value
-          ? store.getters.getSettingsGameOverImageCover
-          : store.getters.getSettingsGameImageCover
+          ? store.getters.getSettingsGameOverMinimalUiDisplay
+          : store.getters.getSettingsGameMinimalUiDisplay
       },
       set(value) {
         store.commit(settingsOver.value
-          ? 'setSettingsGameOverImageCover'
-          : 'setSettingsGameImageCover', value)
+          ? 'setSettingsGameOverMinimalUiDisplay'
+          : 'setSettingsGameMinimalUiDisplay', value)
       }
     })
-    const uiMinimal = computed({
+    const displayCoverImage = computed({
       get() {
         return settingsOver.value
-          ? store.getters.getSettingsGameOverUiMinimal
-          : store.getters.getSettingsGameUiMinimal
+          ? store.getters.getSettingsGameOverDisplayCoverImage
+          : store.getters.getSettingsGameDisplayCoverImage
       },
       set(value) {
         store.commit(settingsOver.value
-          ? 'setSettingsGameOverUiMinimal'
-          : 'setSettingsGameUiMinimal', value)
+          ? 'setSettingsGameOverDisplayCoverImage'
+          : 'setSettingsGameDisplayCoverImage', value)
       }
     })
-    const imageBackground = computed({
+    const backgroundImage = computed({
       get() {
         return settingsOver.value
-          ? store.getters.getSettingsGameOverImageBackground
-          : store.getters.getSettingsGameImageBackground
+          ? store.getters.getSettingsGameOverBackgroundImage
+          : store.getters.getSettingsGameBackgroundImage
       },
       set(value) {
         store.commit(settingsOver.value
-          ? 'setSettingsGameOverImageBackground'
-          : 'setSettingsGameImageBackground', value)
+          ? 'setSettingsGameOverBackgroundImage'
+          : 'setSettingsGameBackgroundImage', value)
       }
     })
-    const placeBackground = computed({
+    const backgroundPlacement = computed({
       get() {
         return settingsOver.value
-          ? store.getters.getSettingsGameOverPlaceBackground
-          : store.getters.getSettingsGamePlaceBackground
+          ? store.getters.getSettingsGameOverBackgroundPlacement
+          : store.getters.getSettingsGameBackgroundPlacement
       },
       set(value) {
         store.commit(settingsOver.value
-          ? 'setSettingsGameOverPlaceBackground'
-          : 'setSettingsGamePlaceBackground', value)
+          ? 'setSettingsGameOverBackgroundPlacement'
+          : 'setSettingsGameBackgroundPlacement', value)
       }
     })
 
     return {
-      imageBackground,
-      imageBackgroundOptions,
-      imageCover,
-      placeBackground,
-      placeBackgroundOptions,
+      backgroundImage,
+      backgroundImageOptions,
+      backgroundPlacement,
+      backgroundPlacementOptions,
+      displayCoverImage,
       settingsOver,
-      uiMinimal
+      minimalUiDisplay
     }
   }
 }

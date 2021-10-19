@@ -94,8 +94,8 @@ export default {
     let imageFilesVersion = ref([])
     const getCover = computed(() => {
       let settingsGame = store.getters.getSettingsGameOverSettingsOver
-        ? store.getters.getSettingsGameOverImageCover
-        : store.getters.getSettingsGameImageCover
+        ? store.getters.getSettingsGameOverDisplayCoverImage
+        : store.getters.getSettingsGameDisplayCoverImage
       return !settingsGame ? false : getImage((images) => {
         return images.filter((res) => res.startsWith('0'.repeat(8)))[0]
       })

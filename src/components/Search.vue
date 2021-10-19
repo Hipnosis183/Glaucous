@@ -77,10 +77,10 @@
         >
           <div
             class="flex-1 no-scrollbar overflow-y-scroll"
-            :class="$store.getters.getSettingsListsListSpacing ? 'p-4' : 'p-1 pr-0'"
+            :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1 pr-0'"
           >
             <vi-list-search
-              :listDisplay="$store.getters.getSettingsListsListDisplay"
+              :listDisplay="$store.getters.getSettingsListsDisplayMode"
               :listLength="queryResults.length"
               :remote-method="querySearchNext"
             >
@@ -92,15 +92,15 @@
               >
                 <!-- Game cards. -->
                 <vi-card-grid
-                  v-if="$store.getters.getSettingsListsListDisplay == 0"
+                  v-if="$store.getters.getSettingsListsDisplayMode == 0"
                   :gameInfo="game"
                 />
                 <vi-card-list
-                  v-else-if="$store.getters.getSettingsListsListDisplay == 1"
+                  v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
                   :gameInfo="game"
                 />
                 <vi-card-compact
-                  v-else-if="$store.getters.getSettingsListsListDisplay == 2"
+                  v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
                   :gameInfo="game"
                 />
               </li>
