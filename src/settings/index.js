@@ -1,5 +1,5 @@
 // Card image positions list.
-export const cardImagesOptions = [
+export const listImagesOptions = [
     { i: 0, name: 'Default' },
     { i: 1, name: 'Cover' },
     { i: 2, name: 'Title' },
@@ -7,14 +7,14 @@ export const cardImagesOptions = [
 ]
 
 // Card image positions list.
-export const cardTextShowOptions = [
+export const listTextShowOptions = [
     { i: 0, name: 'Selected' },
     { i: 1, name: 'Always' },
     { i: 2, name: 'Never' }
 ]
 
 // Card image positions list.
-export const cardTextStyleOptions = [
+export const listTextStyleOptions = [
     { i: 0, name: 'Solid' },
     { i: 1, name: 'Transparent' },
     { i: 2, name: 'Gradient' },
@@ -67,11 +67,6 @@ export const placeBackgroundOptions = [
     { i: 3, name: 'Left' },
     { i: 4, name: 'Right' }
 ]
-
-// Set the amount of columns to be displayed on card views.
-export const selectListColumns = (col) => {
-    document.documentElement.style.setProperty('--grid-cols-list', col)
-}
 
 // Set the amount of columns to be displayed on gallery images.
 export const selectImageColumns = (col) => {

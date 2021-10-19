@@ -3,9 +3,9 @@
   <div
     @mouseenter="gameInfoShow()"
     @mouseleave="gameInfoShow()"
-    :style="{ height: $store.getters.getSettingsListsListHeight + 'px' }"
+    :style="{ height: listHeight + 'px' }"
     class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-list shadow-color transform"
-    :class="gameInfoHover && $store.getters.getSettingsCardsCardScaling ? $store.getters.getSettingsListsListColumns > 1 ? $store.getters.getSettingsListsListColumns > 3 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
+    :class="gameInfoHover && $store.getters.getSettingsListsListScaling ? $store.getters.getSettingsPlatformListColumns > 1 ? $store.getters.getSettingsPlatformListColumns > 3 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
   >
     <!-- Game card overlay. -->
     <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-list w-full z-5" />
@@ -15,8 +15,8 @@
       :src="'file://' + getImage"
       class="h-full image-content rounded-list"
       :class="[
-        { 'rendering-pixelated' : gameInfo.config.imageFiltering == false && (!gameInfo.image.cover || ($store.getters.getSettingsCardsCardImages == 2 || $store.getters.getSettingsCardsCardImages == 3)) },
-        { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsCardsCardTextShow == 0) || $store.getters.getSettingsCardsCardTextShow == 1) && $store.getters.getSettingsCardsCardTextStyle == 3 }
+        { 'rendering-pixelated' : imagesFiltering && (!gameInfo.image.cover || (listImages != 0 && listImages != 1)) },
+        { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsListsListTextShow == 0) || $store.getters.getSettingsListsListTextShow == 1) && $store.getters.getSettingsListsListTextStyle == 3 }
       ]"
     >
     <div
@@ -30,16 +30,16 @@
     <!-- Game card information. -->
     <transition name="slide-card">
       <div
-        v-show="(gameInfoHover && $store.getters.getSettingsCardsCardTextShow == 0) || $store.getters.getSettingsCardsCardTextShow == 1"
+        v-show="(gameInfoHover && $store.getters.getSettingsListsListTextShow == 0) || $store.getters.getSettingsListsListTextShow == 1"
         class="flex transition-menu w-full z-0"
       >
         <div
           class="flex flex-col mt-auto p-3 w-full"
           :class="[
-            { 'card-solid' : $store.getters.getSettingsCardsCardTextStyle == 0 },
-            { 'card-transparent' : $store.getters.getSettingsCardsCardTextStyle == 1 },
-            { 'card-gradient h-full' : $store.getters.getSettingsCardsCardTextStyle == 2 },
-            { 'card-blurred text-shadow' : $store.getters.getSettingsCardsCardTextStyle == 3 && gameInfo.image.path }
+            { 'card-solid' : $store.getters.getSettingsListsListTextStyle == 0 },
+            { 'card-transparent' : $store.getters.getSettingsListsListTextStyle == 1 },
+            { 'card-gradient h-full' : $store.getters.getSettingsListsListTextStyle == 2 },
+            { 'card-blurred text-shadow' : $store.getters.getSettingsListsListTextStyle == 3 && gameInfo.image.path }
           ]"
         >
           <div class="mb-1 mt-auto text-sm">
@@ -73,14 +73,15 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
-import { existsSync, readdirSync } from 'fs-extra'
+import { existsSync, readdirSync, readJSONSync } from 'fs-extra'
 // Import database controllers functions.
 import { getPlatform } from '@/database/controllers/Platform'
 
 export default {
   name: 'ViCardGrid',
   props: {
-    gameInfo: { type: Object }
+    gameInfo: { type: Object },
+    listPlatform: { type: Boolean, default: false }
   },
   setup(props) {
     // Instantiate Vue elements.
@@ -140,7 +141,7 @@ export default {
         }
       }
       // Select type of image to display from settings.
-      switch (store.getters.getSettingsCardsCardImages) {
+      switch (listImages.value) {
         case 0: {
           // Default to the normal image fallback mode.
           return props.gameInfo.image.path
@@ -166,11 +167,42 @@ export default {
       }
     })
 
+    // Manage card display properties.
+    const listHeight = computed(() => {
+      return props.listPlatform
+        ? store.getters.getSettingsPlatformOverSettingsOver
+          ? store.getters.getSettingsPlatformOverListHeight
+          : store.getters.getSettingsPlatformListHeight
+        : store.getters.getSettingsPlatformListHeight
+    })
+    const listImages = computed(() => {
+      return props.listPlatform
+        ? store.getters.getSettingsPlatformOverSettingsOver
+          ? store.getters.getSettingsPlatformOverListImages
+          : store.getters.getSettingsPlatformListImages
+        : store.getters.getSettingsPlatformListImages
+    })
+    const imagesFiltering = computed(() => {
+      if (props.listPlatform) {
+        return store.getters.getSettingsPlatformOverSettingsOver
+          ? !store.getters.getSettingsPlatformOverImagesFiltering
+          : !store.getters.getSettingsPlatformImagesFiltering
+      } else {
+        // Set the platform configuration file path for the game.
+        let configPlatformPath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/config.json'
+        try { return !readJSONSync(configPlatformPath).settingsPlatformOver.imagesFiltering }
+        catch { return false }
+      }
+    })
+
     return {
       gameInfoHover,
       gameInfoShow,
       getImage,
       imageFiles,
+      imagesFiltering,
+      listHeight,
+      listImages,
       parentName
     }
   }

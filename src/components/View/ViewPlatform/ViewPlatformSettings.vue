@@ -34,18 +34,11 @@
           <!-- Emulator. -->
           <view-settings-emulator settingsType="Platform" />
         </div>
-        <div class="space-y-6">
-          <!-- Relative games path. -->
-          <vi-section-content>
-            <p class="text-xl whitespace-nowrap">Relative Games Path</p>
-            <vi-input v-model="relativePath" />
-          </vi-section-content>
-          <!-- Image Filtering. -->
-          <vi-section-content>
-            <p class="text-xl">Image Filtering</p>
-            <vi-switch v-model="imageFiltering" />
-          </vi-section-content>
-        </div>
+        <!-- Relative games path. -->
+        <vi-section-content>
+          <p class="text-xl whitespace-nowrap">Relative Games Path</p>
+          <vi-input v-model="relativePath" />
+        </vi-section-content>
       </div>
     </div>
   </vi-dialog>
@@ -70,28 +63,19 @@ export default {
     // Instantiate Vue elements.
     const store = useStore()
 
-    // Initialize the current platform settings on the store.
-    onMounted(() => { store.commit('setPlatformStore') })
-
     // Manage settings in the store.
     const relativePath = computed({
       get() { return store.state.settingsPlatform.relativePath },
       set(value) { store.state.settingsPlatform.relativePath = value }
     })
-    const imageFiltering = computed({
-      get() { return store.state.settingsPlatform.imageFiltering },
-      set(value) { store.state.settingsPlatform.imageFiltering = value }
-    })
     const storeSettings = () => {
       // Store updated settings.
       store.commit('setSettingsPlatformEmulator')
       store.commit('setSettingsPlatformRelativePath')
-      store.commit('setSettingsPlatformImageFiltering')
       emit('close')
     }
 
     return {
-      imageFiltering,
       relativePath,
       storeSettings
     }

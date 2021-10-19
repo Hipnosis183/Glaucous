@@ -6,7 +6,7 @@
       :key="imageBackground"
       :src="'file://' + imagePath + '/' + imageBackground"
       class="absolute h-full left-0 object-cover rounded-b-4xl rounded-t-list top-0 w-full"
-      :class="{ 'rendering-pixelated' : renderBackground && gameInfo.config.imageFiltering == false }"
+      :class="{ 'rendering-pixelated' : renderBackground && imagesFiltering }"
       :style="'object-position:' + placeBackground"
     />
   </transition>
@@ -171,10 +171,16 @@ export default {
         case 4: { return 'right' }
       }
     })
+    const imagesFiltering = computed(() => {
+      return store.getters.getSettingsPlatformOverSettingsOver
+        ? !store.getters.getSettingsPlatformOverImagesFiltering
+        : !store.getters.getSettingsPlatformImagesFiltering
+    })
 
     return {
       imageBackground,
       imagePath,
+      imagesFiltering,
       placeBackground,
       renderBackground
     }

@@ -59,7 +59,6 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import settings and themes functions.
-import { selectListColumns } from '@/settings'
 import { selectColor, selectTheme } from '@/theme'
 // Import settings components.
 import SettingsGeneral from './Settings/SettingsGeneral.vue'
@@ -87,7 +86,6 @@ export default {
       // Reset settings.
       store.commit('resetSettingsApp')
       // Apply non reactive settings.
-      selectListColumns(store.getters.getSettingsListsListColumns)
       selectColor(store.getters.getSettingsThemesSelectedColor)
       selectTheme(store.getters.getSettingsThemesSelectedTheme)
     }

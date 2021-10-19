@@ -419,6 +419,7 @@ export default {
           // Save current platform ID into the store.
           store.state.selectedPlatform = res.platform._id
           store.commit('setPlatformStore')
+          store.commit('setPlatformOverStore')
           // Save current game IDs into the store.
           store.state.gameSelected.gamePlatform = res._id
           store.state.gameSelected.gameRegion = res.gameRegions[regionIndex.value]._id

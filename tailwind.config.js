@@ -40,7 +40,6 @@ module.exports = {
         }
       },
       gridTemplateColumns: {
-        'list': 'repeat(var(--grid-cols-list), minmax(0, 1fr))',
         'image': 'repeat(var(--grid-cols-image), minmax(0, 1fr))'
       },
       scale: {
@@ -51,7 +50,10 @@ module.exports = {
       spacing: {
         '22': '5.5rem',
         '34': '8.5rem',
-        '68': '17rem'
+        '68': '17rem',
+        '84': '21rem',
+        '88': '22rem',
+        '92': '23rem'
       },
       zIndex: {
         5: 5,

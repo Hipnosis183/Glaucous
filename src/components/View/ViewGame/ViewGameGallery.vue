@@ -26,7 +26,7 @@
               imageZoom
                 ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ]
                 : ['m-auto', imageLoaded ? 'h-viewer' : ''],
-              { 'rendering-pixelated' : gameInfo.config.imageFiltering == false }
+              { 'rendering-pixelated' : imagesFiltering }
             ]"
           />
         </transition>
@@ -109,9 +109,9 @@
                     :src="'file://' + imagePath + '/' + image"
                     class="border-2 border-transparent hover:border-color-500 dark:hover:border-color-700 cursor-pointer duration-200 object-cover rounded-image transform w-full"
                     :class="[
-                      { 'rendering-pixelated' : gameInfo.config.imageFiltering == false },
+                      { 'rendering-pixelated' : imagesFiltering },
                       // Disable scaling when the image is not filtered, otherwise it looks horrible.
-                      { 'hover:scale-102' : $store.getters.getSettingsImagesImageScaling && ($store.getters.getSettingsImagesImageSpacing && $store.getters.getSettingsImagesImageColumns > 1 && gameInfo.config.imageFiltering) }
+                      { 'hover:scale-102' : $store.getters.getSettingsImagesImageScaling && ($store.getters.getSettingsImagesImageSpacing && $store.getters.getSettingsImagesImageColumns > 1 && imagesFiltering) }
                     ]"
                   />
                 </div>
@@ -157,6 +157,7 @@
 <script>
 // Import Vue functions.
 import { computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
 import { ensureDirSync, readdirSync } from 'fs-extra'
@@ -174,12 +175,32 @@ export default {
     versionIndex: { type: Number }
   },
   setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Declare template refs.
     const imageContainer = ref(null)
     const pictureImage = ref(null)
 
-    // Load game images on mounting.
+    // Load game images.
     onMounted(() => { getImages() })
+    const getImages = () => {
+      // Set the image directory path for all game types.
+      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
+      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+      imagePathPlatform.value = gamePathPlatform + '/images'
+      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
+      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
+      // Ensure images directories existance.
+      ensureDirSync(imagePathPlatform.value)
+      ensureDirSync(imagePathRegion.value)
+      ensureDirSync(imagePathVersion.value)
+      // Load images filenames.
+      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
+      imageFilesRegion.value = readdirSync(imagePathRegion.value)
+      imageFilesVersion.value = readdirSync(imagePathVersion.value)
+    }
 
     // Watch for game selection changes.
     watch(() => [props.regionIndex, props.versionIndex], () => { getImages() })
@@ -223,23 +244,6 @@ export default {
         }
       }
       return array ? [] : null
-    }
-    const getImages = () => {
-      // Set the image directory path for all game types.
-      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
-      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
-      imagePathPlatform.value = gamePathPlatform + '/images'
-      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
-      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
-      // Ensure images directories existance.
-      ensureDirSync(imagePathPlatform.value)
-      ensureDirSync(imagePathRegion.value)
-      ensureDirSync(imagePathVersion.value)
-      // Load images filenames.
-      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
-      imageFilesRegion.value = readdirSync(imagePathRegion.value)
-      imageFilesVersion.value = readdirSync(imagePathVersion.value)
     }
 
     // Manage image navigation.
@@ -304,6 +308,11 @@ export default {
       // Close pictures view.
       imagesPicturesDialog.value = !imagesPicturesDialog.value
     }
+    const imagesFiltering = computed(() => {
+      return store.getters.getSettingsPlatformOverSettingsOver
+        ? !store.getters.getSettingsPlatformOverImagesFiltering
+        : !store.getters.getSettingsPlatformImagesFiltering
+    })
 
     return {
       getPictures,
@@ -314,6 +323,7 @@ export default {
       imagePath,
       imageZoom,
       imageZoomToggle,
+      imagesFiltering,
       imagesGalleryDialog,
       imagesGalleryShow,
       imagesPicturesClose,

@@ -445,7 +445,6 @@ export async function getGame(req) {
             await getPlatform(res.platform)
                 .then((pla) => res.platform = pla)
             res.gameRegions = gameRegions
-            res.config = getConfig(res)
             res.image = getImage(res)
             // Return populated object.
             return res
@@ -468,7 +467,6 @@ export async function getGamesAll(index, count, query, sort) {
                         // Avoid returning all regions of the game.
                         if (pla.gameRegions[0]._id == gameRegion._id) {
                             pla.gameRegions[0] = gameRegion
-                            pla.config = getConfig(pla)
                             pla.image = getImage(pla)
                             gamePlatforms.push(pla)
                         }
@@ -591,7 +589,6 @@ export async function getGamesLinked(req) {
             let gamePlatforms = []
             for (let gameLinked of res) {
                 // Get game configuration.
-                gameLinked.config = getConfig(gameLinked)
                 gameLinked.image = getImage(gameLinked)
                 gamePlatforms.push(gameLinked)
             }
@@ -700,19 +697,6 @@ export async function getGamesPlaylist(req, index, count, query) {
             // Get all playlist games.
             return await getGamesAll(index, count, querySearch, true)
         })
-}
-
-// Get configuration settings for a specific game.
-function getConfig(game) {
-    // Set the platform configuration file path for the game.
-    let configPlatformPath = app.getAppPath() + '/data/' + game.platform._id + '/config.json'
-    try {
-        // Return configuration settings object.
-        return readJSONSync(configPlatformPath).settingsPlatform
-    } catch {
-        // Return empty configuration object.
-        return {}
-    }
 }
 
 // Get cover image for a specific game.

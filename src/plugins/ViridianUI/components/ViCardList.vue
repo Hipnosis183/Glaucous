@@ -2,7 +2,7 @@
   <!-- Game card background. -->
   <div
     class="bg-theme-0 dark:bg-theme-900 flex overflow-hidden relative rounded-list shadow-color transform"
-    :class="{ 'hover:scale-1005' : $store.getters.getSettingsCardsCardScaling }"
+    :class="{ 'hover:scale-1005' : $store.getters.getSettingsListsListScaling }"
   >
     <!-- Game card overlay. -->
     <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-list w-full z-5" />
@@ -11,7 +11,6 @@
       v-if="gameInfo.image.path"
       :src="'file://' + gameInfo.image.path"
       class="image-content rounded-l-list"
-      :class="{ 'rendering-pixelated' : gameInfo.config.imageFiltering == false && !gameInfo.image.cover }"
     >
     <div
       v-else
@@ -92,9 +91,6 @@ export default {
 }
 .image-content {
   @apply absolute ar-square cursor-pointer h-full left-0 object-cover top-0;
-}
-.rendering-pixelated {
-  image-rendering: pixelated;
 }
 /* Transitions. */
 div {

@@ -80,7 +80,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <settings-lists listPlatform />
       <!-- Horizontal padding. -->
       <div class="w-full"></div>
     </vi-nav-bar>
@@ -92,6 +92,7 @@
       >
         <vi-list
           v-if="platform.games.length > 0"
+          listPlatform
           :listDisplay="$store.getters.getSettingsListsListDisplay"
           :remote-method="loadPlatformNext"
         >
@@ -105,6 +106,7 @@
             <vi-card-grid
               v-if="$store.getters.getSettingsListsListDisplay == 0"
               :gameInfo="game"
+              listPlatform
             />
             <vi-card-list
               v-else-if="$store.getters.getSettingsListsListDisplay == 1"
@@ -174,6 +176,8 @@ export default {
           platform.value.parent = res.parent ? res.parent._id : ''
           // Save current platform ID into the store.
           store.state.selectedPlatform = res._id
+          store.commit('setPlatformStore')
+          store.commit('setPlatformOverStore')
         })
       // Get platform's games.
       getGamesPlatform(route.params.id, paginationIndex.value, paginationCount)
