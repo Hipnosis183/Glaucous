@@ -7,7 +7,7 @@ import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform
 import { getFavorites, getPlaylist, getRecent, removeGameUser } from './User'
 
 import { app } from '@electron/remote'
-import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, readJSONSync, remove, removeSync } from 'fs-extra'
+import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, remove, removeSync } from 'fs-extra'
 
 import Regions from '../../../public/files/flags.json'
 
@@ -736,5 +736,5 @@ function getRegion(reg) {
     // Filter code from array.
     let region = Regions.filter((res) => res.code == reg)
     // Return the name property.
-    return region.length > 0 ? region[0].name : reg
+    return region.length > 0 ? region[0].name : 'Unknown'
 }

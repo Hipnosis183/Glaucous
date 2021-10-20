@@ -143,7 +143,6 @@ export default {
       // Validate required fields.
       if (
         !store.state.gameForm.gameRegion.title ||
-        !store.state.gameForm.gameRegion.region ||
         !store.state.gameForm.gamePlatform.developer ||
         !store.state.gameForm.gamePlatform.platform ||
         !store.state.gameForm.gamePlatform.releaseYear

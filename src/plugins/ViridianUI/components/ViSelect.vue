@@ -63,13 +63,14 @@
         />
         <!-- Clear select icon. -->
         <div
-          v-if="(modelValue && (remote || (!remote && clearable)) && !required)"
-          class="bg-theme-100 dark:bg-theme-800 flex w-max z-0"
+          v-if="(modelValue && remote && !required) || (!remote && clearable)"
+          class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex w-max z-0"
           :class="{ 'rounded-r-xl' : remote && !iconSuffix }"
         >
           <div
             @click.stop="clearValue()"
             class="cursor-pointer ml-2 mr-4 my-auto text-theme-700 dark:text-theme-300"
+            :class="(modelValue && (remote || (!remote && clearable)) && !required) ? 'visible' : 'invisible'"
           >
             <vi-icon class="w-5">
               <icon-close />

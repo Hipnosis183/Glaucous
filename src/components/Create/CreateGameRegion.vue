@@ -114,10 +114,7 @@ export default {
     // Manage game region creation.
     const onSubmit = () => {
       // Validate required fields.
-      if (
-        !store.state.gameForm.gameRegion.title ||
-        !store.state.gameForm.gameRegion.region
-      ) {
+      if (!store.state.gameForm.gameRegion.title) {
         validationErrorShow()
         return
       }

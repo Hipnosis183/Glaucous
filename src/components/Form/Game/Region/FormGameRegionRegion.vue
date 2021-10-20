@@ -2,9 +2,8 @@
   <!-- Region select. -->
   <vi-select
     v-model="region"
+    clearable
     label="Region"
-    placeholder="Required"
-    required
     class="w-full"
   >
     <vi-option-group

@@ -161,9 +161,12 @@
               class="absolute h-full top-0 w-full"
               :class="index == regionIndex ? 'bg-color-500 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
             />
-            <div class="h-full inline-flex items-center relative w-full">
-              <p class="ml-auto text-lg">{{ gameInfo.gameRegions[index].title }}</p>
+            <div class="h-full inline-flex items-center relative text-lg w-full">
+              <p :class="gameInfo.gameRegions[index].region ? 'ml-auto' : 'mx-auto'">
+                {{ gameInfo.gameRegions[index].title }}
+              </p>
               <img
+                v-if="gameInfo.gameRegions[index].region"
                 :src="'./images/flags/' + gameInfo.gameRegions[index].region + '.svg'"
                 class="h-full ml-auto p-4"
               />
