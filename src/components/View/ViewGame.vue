@@ -3,24 +3,24 @@
     <!-- Create game platform dialog. -->
     <create-game-platform
       v-show="createPlatformDialog"
-      @close="createPlatformClose()"
+      @close="createPlatformClose($event)"
     />
     <!-- Create game region dialog. -->
     <create-game-region
       v-show="createRegionDialog"
-      @close="createRegionClose()"
+      @close="createRegionClose($event)"
     />
     <!-- Create game version dialog. -->
     <create-game-version
       v-show="createVersionDialog"
-      @close="createVersionClose()"
+      @close="createVersionClose($event)"
     />
     <!-- Edit game dialog. -->
     <edit-game
       v-show="editGameDialog"
       :gameDeveloper="gameInfo.developer._id"
       :gamePlatform="gameInfo.platform._id"
-      @close="editGameClose()"
+      @close="editGameClose($event)"
     />
     <!-- Delete game platform dialog. -->
     <vi-dialog-box
@@ -449,9 +449,9 @@ export default {
       // Open edit dialog.
       editGameDialog.value = !editGameDialog.value
     }
-    const editGameClose = () => {
+    const editGameClose = (edited) => {
       // Reload game.
-      loadGame()
+      if (edited) { loadGame() }
       // Close edit dialog.
       editGameDialog.value = !editGameDialog.value
     }
@@ -464,9 +464,9 @@ export default {
       // Open create dialog.
       createPlatformDialog.value = !createPlatformDialog.value
     }
-    const createPlatformClose = () => {
+    const createPlatformClose = (created) => {
       // Reload game.
-      loadGame()
+      if (created) { loadGame() }
       // Close create dialog.
       createPlatformDialog.value = !createPlatformDialog.value
     }
@@ -492,9 +492,9 @@ export default {
       // Open create dialog.
       createRegionDialog.value = !createRegionDialog.value
     }
-    const createRegionClose = () => {
+    const createRegionClose = (created) => {
       // Reload game.
-      loadGame()
+      if (created) { loadGame() }
       // Close create dialog.
       createRegionDialog.value = !createRegionDialog.value
     }
@@ -532,9 +532,9 @@ export default {
       // Open create dialog.
       createVersionDialog.value = !createVersionDialog.value
     }
-    const createVersionClose = () => {
+    const createVersionClose = (created) => {
       // Reload game.
-      loadGame()
+      if (created) { loadGame() }
       // Close create dialog.
       createVersionDialog.value = !createVersionDialog.value
     }

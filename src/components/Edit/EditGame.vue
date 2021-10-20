@@ -158,7 +158,7 @@ export default {
           .then(() => {
             // Update game entry.
             updateGame(store.state.gameForm, store.state.gameSelected)
-              .then(() => emit('close'))
+              .then(() => emit('close', true))
           }))
     }
     let validationErrorDialog = ref(false)

@@ -78,7 +78,7 @@ export default {
     const onSubmit = () => {
       // Save new game entry.
       newGameVersion(store.state.gameForm, store.state.selectedPlatform, store.state.gameSelected)
-        .then(() => emit('close'))
+        .then(() => emit('close', true))
     }
 
     return {

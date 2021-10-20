@@ -123,7 +123,7 @@ export default {
       }
       // Save new game entry.
       newGameRegion(store.state.gameForm, store.state.gameSelected)
-        .then(() => emit('close'))
+        .then(() => emit('close', true))
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {

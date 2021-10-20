@@ -155,7 +155,7 @@ export default {
           .then(() => {
             // Save new game entry.
             newGamePlatform(store.state.gameForm, store.state.gameSelected.gamePlatform)
-              .then(() => emit('close'))
+              .then(() => emit('close', true))
           }))
     }
     let validationErrorDialog = ref(false)
