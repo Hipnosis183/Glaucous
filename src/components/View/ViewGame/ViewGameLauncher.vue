@@ -15,29 +15,41 @@
     Check if your configuration is correct and try again.
   </vi-dialog-box>
   <div class="flex flex-col mt-auto space-y-2">
-    <vi-button-ui
-      button-large
-      button-size="large"
-      @click="launchGame()"
-    >
-      <div
-        class="flex pl-2 space-x-4 w-full"
-        :class="{ 'pr-6' : !minimalUiDisplay }"
+    <div class="cursor-pointer flex space-x-2">
+      <vi-button-ui
+        v-if="minimalUiDisplayGameLaunch"
+        button-large
+        button-size="large"
+        @click="launchGame()"
+      >
+        <div class="flex pl-2 pr-6 space-x-4 w-full">
+          <vi-icon
+            icon-manual
+            class="w-10"
+          >
+            <icon-play />
+          </vi-icon>
+          <h6>Play</h6>
+        </div>
+      </vi-button-ui>
+      <vi-button-ui
+        v-if="minimalUiDisplayGameSettings && !minimalUiDisplayVersionSelect"
+        button-size="large"
+        @click="settingsGameOpen()"
       >
         <vi-icon
           icon-manual
-          class="w-10"
+          class="mx-2 w-8"
         >
-          <icon-play />
+          <icon-setting />
         </vi-icon>
-        <h6>Play</h6>
-      </div>
-    </vi-button-ui>
-    <div
-      v-if="minimalUiDisplay"
-      class="cursor-pointer flex space-x-2"
-    >
-      <vi-select-ui v-model="$store.state.gameSelected.gameVersion">
+      </vi-button-ui>
+    </div>
+    <div class="cursor-pointer flex space-x-2">
+      <vi-select-ui
+        v-if="minimalUiDisplayVersionSelect"
+        v-model="$store.state.gameSelected.gameVersion"
+      >
         <vi-option-ui
           v-for="(item, index) in gameInfo.gameRegions[regionIndex].gameVersions"
           :key="item._id"
@@ -47,7 +59,10 @@
         >
         </vi-option-ui>
       </vi-select-ui>
-      <vi-button-ui @click="settingsGameOpen()">
+      <vi-button-ui
+        v-if="minimalUiDisplayGameSettings && minimalUiDisplayVersionSelect"
+        @click="settingsGameOpen()"
+      >
         <vi-icon class="w-6">
           <icon-setting />
         </vi-icon>
@@ -79,8 +94,7 @@ export default {
   ],
   props: {
     gameInfo: { type: Object },
-    regionIndex: { type: Number },
-    minimalUiDisplay: { type: Boolean, default: false }
+    regionIndex: { type: Number }
   },
   setup(props, { emit }) {
     // Instantiate Vue elements.
@@ -200,6 +214,28 @@ export default {
       settingsGameDialog.value = !settingsGameDialog.value
     }
 
+    // Manage minimal UI state.
+    const minimalUiDisplay = computed(() => {
+      return store.getters.getSettingsGameOverSettingsOver
+        ? !store.getters.getSettingsGameOverMinimalUiDisplay
+        : !store.getters.getSettingsGameMinimalUiDisplay
+    })
+    const minimalUiDisplayGameLaunch = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGameLaunch
+      } else { return true }
+    })
+    const minimalUiDisplayVersionSelect = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayVersionSelect
+      } else { return true }
+    })
+    const minimalUiDisplayGameSettings = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGameSettings
+      } else { return true }
+    })
+
     return {
       changeVersion,
       fullCommand,
@@ -207,6 +243,9 @@ export default {
       launchErrorShow,
       launchErrorDialog,
       launchGame,
+      minimalUiDisplayGameLaunch,
+      minimalUiDisplayGameSettings,
+      minimalUiDisplayVersionSelect,
       settingsGameClose,
       settingsGameDialog,
       settingsGameOpen

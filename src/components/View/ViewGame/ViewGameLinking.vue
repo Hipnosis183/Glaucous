@@ -1,11 +1,18 @@
 <template>
+  <!-- Open view game linking dialog. -->
+  <vi-button-ui
+    button-large
+    @click="gameLinkingShow()"
+  >
+    <h6 class="w-full">Also On</h6>
+  </vi-button-ui>
   <!-- View game linking dialog. -->
   <vi-overlay
     v-show="gameLinkingDialog"
     @close="gameLinkingShow()"
     :rounded="false"
     :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsDisplayMode == 0 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
-    class="pos-initial z-10"
+    class="left-12 top-0 z-10"
   >
     <!-- Unlink game dialog. -->
     <vi-dialog-box
@@ -150,14 +157,6 @@
       </div>
     </div>
   </vi-overlay>
-  <!-- Open view game linking dialog. -->
-  <vi-button-ui
-    button-large
-    @click="gameLinkingShow()"
-    class="mr-2"
-  >
-    <h6 class="w-full">Also On</h6>
-  </vi-button-ui>
 </template>
 
 <script>

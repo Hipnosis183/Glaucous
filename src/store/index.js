@@ -56,15 +56,28 @@ export default createStore({
       },
       settingsGame: {
         settingsGlobal: {
-          minimalUiDisplay: localStore.get('settingsGame.minimalUiDisplay', false),
           displayCoverImage: localStore.get('settingsGame.displayCoverImage', true),
+          minimalUiDisplay: localStore.get('settingsGame.minimalUiDisplay', false),
+          minimalUiDisplayOptions: {
+            playlists: localStore.get('settingsGame.minimalUiDisplayOptions.playlists', true),
+            favorites: localStore.get('settingsGame.minimalUiDisplayOptions.favorites', true),
+            gameLaunch: localStore.get('settingsGame.minimalUiDisplayOptions.gameLaunch', false),
+            versionSelect: localStore.get('settingsGame.minimalUiDisplayOptions.versionSelect', true),
+            gameSettings: localStore.get('settingsGame.minimalUiDisplayOptions.gameSettings', true),
+            details: localStore.get('settingsGame.minimalUiDisplayOptions.details', true),
+            gameLinking: localStore.get('settingsGame.minimalUiDisplayOptions.gameLinking', true),
+            links: localStore.get('settingsGame.minimalUiDisplayOptions.links', true),
+            gallery: localStore.get('settingsGame.minimalUiDisplayOptions.gallery', true),
+            coverImage: localStore.get('settingsGame.minimalUiDisplayOptions.coverImage', false),
+            regionFlags: localStore.get('settingsGame.minimalUiDisplayOptions.regionFlags', false)
+          },
           backgroundImage: localStore.get('settingsGame.backgroundImage', 0),
           backgroundPlacement: localStore.get('settingsGame.backgroundPlacement', 0)
         },
         settingsOver: {
           settingsOver: false,
-          minimalUiDisplay: false,
           displayCoverImage: true,
+          minimalUiDisplay: false,
           backgroundImage: 0,
           backgroundPlacement: 0
         }
@@ -256,11 +269,44 @@ export default createStore({
     getSettingsPlatformOverGridHeight(state) {
       return state.settingsApp.settingsPlatform.settingsOver.gridHeight
     },
+    getSettingsGameDisplayCoverImage(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.displayCoverImage
+    },
     getSettingsGameMinimalUiDisplay(state) {
       return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplay
     },
-    getSettingsGameDisplayCoverImage(state) {
-      return state.settingsApp.settingsGame.settingsGlobal.displayCoverImage
+    getSettingsGameMinimalUiDisplayPlaylists(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.playlists
+    },
+    getSettingsGameMinimalUiDisplayFavorites(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.favorites
+    },
+    getSettingsGameMinimalUiDisplayGameLaunch(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameLaunch
+    },
+    getSettingsGameMinimalUiDisplayVersionSelect(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.versionSelect
+    },
+    getSettingsGameMinimalUiDisplayGameSettings(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameSettings
+    },
+    getSettingsGameMinimalUiDisplayDetails(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.details
+    },
+    getSettingsGameMinimalUiDisplayGameLinking(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameLinking
+    },
+    getSettingsGameMinimalUiDisplayLinks(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.links
+    },
+    getSettingsGameMinimalUiDisplayGallery(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gallery
+    },
+    getSettingsGameMinimalUiDisplayCoverImage(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.coverImage
+    },
+    getSettingsGameMinimalUiDisplayRegionFlags(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.regionFlags
     },
     getSettingsGameBackgroundImage(state) {
       return state.settingsApp.settingsGame.settingsGlobal.backgroundImage
@@ -271,11 +317,11 @@ export default createStore({
     getSettingsGameOverSettingsOver(state) {
       return state.settingsApp.settingsGame.settingsOver.settingsOver
     },
-    getSettingsGameOverMinimalUiDisplay(state) {
-      return state.settingsApp.settingsGame.settingsOver.minimalUiDisplay
-    },
     getSettingsGameOverDisplayCoverImage(state) {
       return state.settingsApp.settingsGame.settingsOver.displayCoverImage
+    },
+    getSettingsGameOverMinimalUiDisplay(state) {
+      return state.settingsApp.settingsGame.settingsOver.minimalUiDisplay
     },
     getSettingsGameOverBackgroundImage(state) {
       return state.settingsApp.settingsGame.settingsOver.backgroundImage
@@ -411,13 +457,57 @@ export default createStore({
       state.settingsApp.settingsPlatform.settingsOver.gridHeight = data
       platformStore.set('settingsPlatformOver.gridHeight', state.settingsApp.settingsPlatform.settingsOver.gridHeight)
     },
+    setSettingsGameDisplayCoverImage(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.displayCoverImage = data
+      localStore.set('settingsGame.displayCoverImage', state.settingsApp.settingsGame.settingsGlobal.displayCoverImage)
+    },
     setSettingsGameMinimalUiDisplay(state, data) {
       state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplay = data
       localStore.set('settingsGame.minimalUiDisplay', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplay)
     },
-    setSettingsGameDisplayCoverImage(state, data) {
-      state.settingsApp.settingsGame.settingsGlobal.displayCoverImage = data
-      localStore.set('settingsGame.displayCoverImage', state.settingsApp.settingsGame.settingsGlobal.displayCoverImage)
+    setSettingsGameMinimalUiDisplayPlaylists(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.playlists = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.playlists', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.playlists)
+    },
+    setSettingsGameMinimalUiDisplayFavorites(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.favorites = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.favorites', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.favorites)
+    },
+    setSettingsGameMinimalUiDisplayGameLaunch(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameLaunch = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.gameLaunch', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameLaunch)
+    },
+    setSettingsGameMinimalUiDisplayVersionSelect(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.versionSelect = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.versionSelect', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.versionSelect)
+    },
+    setSettingsGameMinimalUiDisplayGameSettings(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameSettings = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.gameSettings', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameSettings)
+    },
+    setSettingsGameMinimalUiDisplayDetails(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.details = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.details', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.details)
+    },
+    setSettingsGameMinimalUiDisplayGameLinking(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameLinking = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.gameLinking', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameLinking)
+    },
+    setSettingsGameMinimalUiDisplayLinks(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.links = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.links', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.links)
+    },
+    setSettingsGameMinimalUiDisplayGallery(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gallery = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.gallery', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gallery)
+    },
+    setSettingsGameMinimalUiDisplayCoverImage(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.coverImage = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.coverImage', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.coverImage)
+    },
+    setSettingsGameMinimalUiDisplayRegionFlags(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.regionFlags = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.regionFlags', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.regionFlags)
     },
     setSettingsGameBackgroundImage(state, data) {
       state.settingsApp.settingsGame.settingsGlobal.backgroundImage = data
@@ -430,15 +520,15 @@ export default createStore({
     setGameOverStore(state) {
       gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
       state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
-      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
+      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
       state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
       state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
     },
     resetGameOverStore(state) {
       state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
-      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
+      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
       state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
       state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
     },
@@ -446,13 +536,13 @@ export default createStore({
       state.settingsApp.settingsGame.settingsOver.settingsOver = data
       gameOverStore.set('settingsGameOver.settingsOver', state.settingsApp.settingsGame.settingsOver.settingsOver)
     },
-    setSettingsGameOverMinimalUiDisplay(state, data) {
-      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = data
-      gameOverStore.set('settingsGameOver.minimalUiDisplay', state.settingsApp.settingsGame.settingsOver.minimalUiDisplay)
-    },
     setSettingsGameOverDisplayCoverImage(state, data) {
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = data
       gameOverStore.set('settingsGameOver.displayCoverImage', state.settingsApp.settingsGame.settingsOver.displayCoverImage)
+    },
+    setSettingsGameOverMinimalUiDisplay(state, data) {
+      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = data
+      gameOverStore.set('settingsGameOver.minimalUiDisplay', state.settingsApp.settingsGame.settingsOver.minimalUiDisplay)
     },
     setSettingsGameOverBackgroundImage(state, data) {
       state.settingsApp.settingsGame.settingsOver.backgroundImage = data

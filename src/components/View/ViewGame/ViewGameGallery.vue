@@ -5,7 +5,7 @@
       v-if="getPictures[imageIndex]"
       v-show="imagesPicturesDialog"
       @close="imagesPicturesClose()"
-      class="pos-initial z-20"
+      class="left-12 top-0 z-20"
     >
       <div
         ref="imageContainer"
@@ -85,7 +85,7 @@
     <div
       v-show="imagesGalleryDialog"
       @close="imagesGalleryShow()"
-      class="fixed h-screen pos-initial w-gallery z-10"
+      class="fixed h-screen left-12 top-0 w-gallery z-10"
     >
       <div class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full">
         <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-image w-full">

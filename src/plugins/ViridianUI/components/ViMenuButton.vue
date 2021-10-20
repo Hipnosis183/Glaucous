@@ -43,6 +43,7 @@ export default {
   name: 'ViMenuButton',
   props: {
     icon: { type: String },
+    offset: { type: Array, default: [0, 20] },
     placement: { type: String, default: 'bottom' }
   },
   setup(props) {
@@ -65,7 +66,7 @@ export default {
         // Ensure the menu is rendered.
         if (refMenu.value && openMenu.value) {
           // Return if menu is clicked.
-          if (refMenu.value == event.target || refMenu.value.contains(event.target)) {
+          if (refMenu.value == event.target || (refMenu.value.contains(event.target) && !event.target.classList.contains('vi-menu-close'))) {
             return
           }
           // Close menu if anything outside is clicked.
@@ -119,7 +120,7 @@ export default {
           placement: props.placement,
           modifiers: [
             // Set distance between the select and the menu.
-            { name: 'offset', options: { offset: [0, 20] } }
+            { name: 'offset', options: { offset: props.offset } }
           ]
         })
       })

@@ -162,11 +162,11 @@
               :class="index == regionIndex ? 'bg-color-500 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
             />
             <div class="h-full inline-flex items-center relative text-lg w-full">
-              <p :class="gameInfo.gameRegions[index].region ? 'ml-auto' : 'mx-auto'">
+              <p :class="gameInfo.gameRegions[index].region && minimalUiDisplayRegionFlags ? 'ml-auto' : 'mx-auto'">
                 {{ gameInfo.gameRegions[index].title }}
               </p>
               <img
-                v-if="gameInfo.gameRegions[index].region"
+                v-if="minimalUiDisplayRegionFlags && gameInfo.gameRegions[index].region"
                 :src="'./images/flags/' + gameInfo.gameRegions[index].region + '.svg'"
                 class="h-full ml-auto p-4"
               />
@@ -210,12 +210,10 @@
                     <div class="flex mr-auto p-6 space-x-2 text-theme-100">
                       <!-- Game settings. -->
                       <settings-game />
-                      <div
-                        v-if="minimalUiDisplay"
-                        class="flex space-x-2"
-                      >
+                      <div class="flex space-x-2">
                         <!-- Open game playlists management dialog. -->
                         <button
+                          v-if="minimalUiDisplayPlaylists"
                           @click="managePlaylistsClose()"
                           class="duration-200 -mb-1 pl-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
                         >
@@ -228,7 +226,7 @@
                         </button>
                         <!-- Remove selected game platform from favorites. -->
                         <button
-                          v-if="gameFavorited"
+                          v-if="minimalUiDisplayFavorites && gameFavorited"
                           @click="removeFavorite()"
                           class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
                         >
@@ -238,7 +236,7 @@
                         </button>
                         <!-- Add selected game platform to favorites. -->
                         <button
-                          v-else
+                          v-else-if="minimalUiDisplayFavorites"
                           @click="addFavorite()"
                           class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
                         >
@@ -255,15 +253,12 @@
                         :key="gameInfo"
                         :gameInfo="gameInfo"
                         :regionIndex="regionIndex"
-                        :minimalUiDisplay="minimalUiDisplay"
                         @updated="versionIndex = $event"
                       />
-                      <div
-                        v-if="minimalUiDisplay"
-                        class="flex mt-2 w-full"
-                      >
+                      <div class="flex mt-2 space-x-2 w-full">
                         <!-- View game details. -->
                         <view-game-details
+                          v-if="minimalUiDisplayDetails"
                           :key="gameInfo"
                           :fullTitle="fullTitle"
                           :gameInfo="gameInfo"
@@ -272,12 +267,14 @@
                         />
                         <!-- View game linking. -->
                         <view-game-linking
+                          v-if="minimalUiDisplayGameLinking"
                           :key="gameInfo"
                           :gameInfo="gameInfo"
                           :regionIndex="regionIndex"
                         />
                         <!-- View game links. -->
                         <view-game-links
+                          v-if="minimalUiDisplayLinks"
                           :key="gameInfo"
                           :fullTitle="fullTitle"
                           :gameInfo="gameInfo"
@@ -286,6 +283,7 @@
                         />
                         <!-- View game gallery. -->
                         <view-game-gallery
+                          v-if="minimalUiDisplayGallery"
                           :key="gameInfo"
                           :gameInfo="gameInfo"
                           :regionIndex="regionIndex"
@@ -660,13 +658,6 @@ export default {
         })
     }
 
-    // Manage minimal UI state.
-    const minimalUiDisplay = computed(() => {
-      return store.getters.getSettingsGameOverSettingsOver
-        ? !store.getters.getSettingsGameOverMinimalUiDisplay
-        : !store.getters.getSettingsGameMinimalUiDisplay
-    })
-
     // Manage image load and resizing.
     const coverImage = ref(null)
     const gameContent = ref(null)
@@ -675,6 +666,48 @@ export default {
         return coverImage.value.clientHeight - gameContent.value.clientHeight
       }
     }
+
+    // Manage minimal UI state.
+    const minimalUiDisplay = computed(() => {
+      return store.getters.getSettingsGameOverSettingsOver
+        ? !store.getters.getSettingsGameOverMinimalUiDisplay
+        : !store.getters.getSettingsGameMinimalUiDisplay
+    })
+    const minimalUiDisplayPlaylists = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayPlaylists
+      } else { return true }
+    })
+    const minimalUiDisplayFavorites = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayFavorites
+      } else { return true }
+    })
+    const minimalUiDisplayDetails = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayDetails
+      } else { return true }
+    })
+    const minimalUiDisplayGameLinking = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGameLinking
+      } else { return true }
+    })
+    const minimalUiDisplayLinks = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayLinks
+      } else { return true }
+    })
+    const minimalUiDisplayGallery = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGallery
+      } else { return true }
+    })
+    const minimalUiDisplayRegionFlags = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayRegionFlags
+      } else { return true }
+    })
 
     // Return values to use on template.
     return {
@@ -711,6 +744,13 @@ export default {
       managePlaylistsClose,
       managePlaylistsDialog,
       managePlaylistsOpen,
+      minimalUiDisplayDetails,
+      minimalUiDisplayFavorites,
+      minimalUiDisplayGallery,
+      minimalUiDisplayGameLinking,
+      minimalUiDisplayLinks,
+      minimalUiDisplayPlaylists,
+      minimalUiDisplayRegionFlags,
       openGamePath,
       openImagesPath,
       openStorePath,
@@ -718,7 +758,6 @@ export default {
       removeFavorite,
       setGameRegion,
       slideBack,
-      minimalUiDisplay,
       versionIndex
     }
   }
