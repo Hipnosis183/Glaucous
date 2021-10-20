@@ -21,10 +21,10 @@
       </div>
       <div class="ml-auto">
         <h4 v-if="gameInfo.platform.parent && $store.getters.getSettingsGamesGroupsView">
-          {{ parentName }} ({{ gameInfo.platform.name }}) - {{ gameInfo.releaseYear }}
+          {{ parentName }} ({{ gameInfo.platform.name }}) {{ gameInfo.releaseYear ? ' - ' + gameInfo.releaseYear : '' }}
         </h4>
         <h4 v-else>
-          {{ gameInfo.platform.name }} - {{ gameInfo.releaseYear }}
+          {{ gameInfo.platform.name }} {{ gameInfo.releaseYear ? ' - ' + gameInfo.releaseYear : '' }}
         </h4>
       </div>
     </div>

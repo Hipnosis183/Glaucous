@@ -34,7 +34,10 @@
           {{ gameInfo.developer.name }}
         </p>
       </div>
-      <p class="mt-1 pt-2 px-3">{{ gameInfo.releaseYear }}</p>
+      <p
+        v-show="gameInfo.releaseYear"
+        class="mt-1 pt-2 px-3"
+      >{{ gameInfo.releaseYear }}</p>
     </div>
   </div>
 </template>

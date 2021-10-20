@@ -3,8 +3,6 @@
   <vi-input
     v-model="releaseYear"
     label="Release Year"
-    placeholder="Required"
-    required
   ></vi-input>
 </template>
 

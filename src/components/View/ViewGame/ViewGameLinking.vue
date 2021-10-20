@@ -76,7 +76,7 @@
         <vi-option
           v-for="item in queryResults"
           :key="item._id"
-          :label="item.child.title + ' (' + item.releaseYear + ') - ' + item.platforms.join(' / ')"
+          :label="item.child.title + (item.releaseYear ? ' (' + item.releaseYear + ') - ' : ' - ') + item.platforms.join(' / ')"
           :value="item._id"
         >
         </vi-option>
