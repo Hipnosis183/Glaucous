@@ -5,14 +5,14 @@
       v-if="backgroundImage"
       :key="backgroundImage"
       :src="'file://' + imagePath + '/' + backgroundImage"
-      class="absolute h-full left-0 object-cover rounded-b-4xl rounded-t-list top-0 w-full"
+      class="absolute h-full left-0 object-cover top-0 w-full"
       :class="{ 'rendering-pixelated' : backgroundRender && backgroundFiltering }"
       :style="'object-position:' + backgroundPlacement"
     />
   </transition>
   <!-- Background gradient layer. -->
   <div class="relative w-full">
-    <div class="card-gradient flex flex-col h-full mt-auto rounded-b-list shadow-color w-full">
+    <div class="card-gradient flex flex-col h-full mt-auto shadow-color w-full">
       <!-- Game page contents. -->
       <slot></slot>
     </div>

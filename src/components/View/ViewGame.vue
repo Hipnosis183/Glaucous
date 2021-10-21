@@ -189,10 +189,7 @@
           :key="regionIndex"
           class="flex flex-col max-h-content min-h-content overflow-hidden"
         >
-          <div
-            class="flex-1 no-scrollbar overflow-y-scroll"
-            :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1'"
-          >
+          <div class="flex-1 no-scrollbar overflow-y-scroll p-1">
             <div
               ref="coverImage"
               class="flex h-full max-h-content relative w-full"

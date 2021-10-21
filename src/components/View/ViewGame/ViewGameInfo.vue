@@ -56,6 +56,6 @@ export default {
 <style lang="postcss" scoped>
 /* Styling. */
 .data-button p {
-  @apply hover:bg-color-400 dark:hover:bg-color-800 cursor-pointer duration-500 ml-auto p-2 px-3 rounded-list w-min;
+  @apply hover:bg-color-400 dark:hover:bg-color-800 cursor-pointer duration-500 ml-auto p-2 px-3 w-min;
 }
 </style>
