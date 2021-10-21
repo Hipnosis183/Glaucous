@@ -1,43 +1,45 @@
 <template>
-  <vi-button-ui>
-    <vi-icon class="w-6">
-      <icon-link />
-    </vi-icon>
-  </vi-button-ui>
-  <div class="flex hidden ml-auto pt-4 space-x-2">
-    <!-- External links. -->
-    <div
-      v-if="gameLinks"
-      class="flex space-x-2"
-    >
+  <div>
+    <vi-button-ui>
+      <vi-icon class="w-6">
+        <icon-link />
+      </vi-icon>
+    </vi-button-ui>
+    <div class="flex hidden ml-auto pt-4 space-x-2">
+      <!-- External links. -->
       <div
-        v-for="(link, index) in gameLinks"
-        :key="index"
-        :value="link"
+        v-if="gameLinks"
+        class="flex space-x-2"
       >
         <div
-          @click="openLink(link)"
-          class="cursor-pointer text-2xl"
+          v-for="(link, index) in gameLinks"
+          :key="index"
+          :value="link"
         >
-          <!-- Link icon image. -->
-          <img
-            :src="getLinkIcon(link)"
-            class="link-icon"
-          />
+          <div
+            @click="openLink(link)"
+            class="cursor-pointer text-2xl"
+          >
+            <!-- Link icon image. -->
+            <img
+              :src="getLinkIcon(link)"
+              class="link-icon"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <!-- Google search. -->
-    <div
-      v-if="$store.getters.getSettingsLinksSearchGoogle"
-      @click="openGoogle()"
-      class="cursor-pointer text-2xl"
-    >
-      <!-- Link icon image. -->
-      <img
-        :src="'./images/links/google.com.svg'"
-        class="link-icon"
-      />
+      <!-- Google search. -->
+      <div
+        v-if="$store.getters.getSettingsLinksSearchGoogle"
+        @click="openGoogle()"
+        class="cursor-pointer text-2xl"
+      >
+        <!-- Link icon image. -->
+        <img
+          :src="'./images/links/google.com.svg'"
+          class="link-icon"
+        />
+      </div>
     </div>
   </div>
 </template>

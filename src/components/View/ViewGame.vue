@@ -271,7 +271,7 @@
                         />
                         <!-- View game links. -->
                         <view-game-links
-                          v-if="minimalUiDisplayLinks"
+                          v-show="minimalUiDisplayLinks"
                           :key="gameInfo"
                           :fullTitle="fullTitle"
                           :gameInfo="gameInfo"
