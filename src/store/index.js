@@ -638,6 +638,8 @@ export default createStore({
       state.gameForm.gamePlatform.links = []
       state.gameForm.gamePlatform.images.cover.add = null
       state.gameForm.gamePlatform.images.cover.remove = false
+      state.gameForm.gamePlatform.images.background.add = null
+      state.gameForm.gamePlatform.images.background.remove = false
       state.gameForm.gamePlatform.images.pictures.add = []
       state.gameForm.gamePlatform.images.pictures.remove = []
       state.gameForm.gameRegion.title = null
@@ -650,6 +652,8 @@ export default createStore({
       state.gameForm.gameRegion.serial = null
       state.gameForm.gameRegion.images.cover.add = null
       state.gameForm.gameRegion.images.cover.remove = false
+      state.gameForm.gameRegion.images.background.add = null
+      state.gameForm.gameRegion.images.background.remove = false
       state.gameForm.gameRegion.images.pictures.add = []
       state.gameForm.gameRegion.images.pictures.remove = []
       state.gameForm.gameVersion.name = null
@@ -658,6 +662,8 @@ export default createStore({
       state.gameForm.gameVersion.comments = []
       state.gameForm.gameVersion.images.cover.add = null
       state.gameForm.gameVersion.images.cover.remove = false
+      state.gameForm.gameVersion.images.background.add = null
+      state.gameForm.gameVersion.images.background.remove = false
       state.gameForm.gameVersion.images.pictures.add = []
       state.gameForm.gameVersion.images.pictures.remove = []
     },
