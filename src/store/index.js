@@ -77,7 +77,6 @@ export default createStore({
         settingsOver: {
           settingsOver: false,
           displayCoverImage: true,
-          minimalUiDisplay: false,
           backgroundImage: 0,
           backgroundPlacement: 0
         }
@@ -320,9 +319,6 @@ export default createStore({
     getSettingsGameOverDisplayCoverImage(state) {
       return state.settingsApp.settingsGame.settingsOver.displayCoverImage
     },
-    getSettingsGameOverMinimalUiDisplay(state) {
-      return state.settingsApp.settingsGame.settingsOver.minimalUiDisplay
-    },
     getSettingsGameOverBackgroundImage(state) {
       return state.settingsApp.settingsGame.settingsOver.backgroundImage
     },
@@ -521,14 +517,12 @@ export default createStore({
       gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
       state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
-      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
       state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
       state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
     },
     resetGameOverStore(state) {
       state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
-      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = gameOverStore.get('settingsGameOver.minimalUiDisplay', false)
       state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
       state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
     },
@@ -539,10 +533,6 @@ export default createStore({
     setSettingsGameOverDisplayCoverImage(state, data) {
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = data
       gameOverStore.set('settingsGameOver.displayCoverImage', state.settingsApp.settingsGame.settingsOver.displayCoverImage)
-    },
-    setSettingsGameOverMinimalUiDisplay(state, data) {
-      state.settingsApp.settingsGame.settingsOver.minimalUiDisplay = data
-      gameOverStore.set('settingsGameOver.minimalUiDisplay', state.settingsApp.settingsGame.settingsOver.minimalUiDisplay)
     },
     setSettingsGameOverBackgroundImage(state, data) {
       state.settingsApp.settingsGame.settingsOver.backgroundImage = data

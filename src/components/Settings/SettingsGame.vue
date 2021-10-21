@@ -172,16 +172,8 @@ export default {
       set(value) { store.commit('setSettingsGameOverSettingsOver', value) }
     })
     const minimalUiDisplay = computed({
-      get() {
-        return settingsOver.value
-          ? store.getters.getSettingsGameOverMinimalUiDisplay
-          : store.getters.getSettingsGameMinimalUiDisplay
-      },
-      set(value) {
-        store.commit(settingsOver.value
-          ? 'setSettingsGameOverMinimalUiDisplay'
-          : 'setSettingsGameMinimalUiDisplay', value)
-      }
+      get() { return store.getters.getSettingsGameMinimalUiDisplay },
+      set(value) { store.commit('setSettingsGameMinimalUiDisplay', value) }
     })
     const displayCoverImage = computed({
       get() {

@@ -216,9 +216,7 @@ export default {
 
     // Manage minimal UI state.
     const minimalUiDisplay = computed(() => {
-      return store.getters.getSettingsGameOverSettingsOver
-        ? !store.getters.getSettingsGameOverMinimalUiDisplay
-        : !store.getters.getSettingsGameMinimalUiDisplay
+      return !store.getters.getSettingsGameMinimalUiDisplay
     })
     const minimalUiDisplayGameLaunch = computed(() => {
       if (!minimalUiDisplay.value) {
