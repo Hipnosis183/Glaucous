@@ -110,6 +110,15 @@
               :label="labelCached"
               :value="labelCached"
             >
+              <div class="flex justify-between text-theme-700 dark:text-theme-300">
+                <p>{{ labelCached }}</p>
+                <vi-icon
+                  icon-manual
+                  class="w-5"
+                >
+                  <icon-add />
+                </vi-icon>
+              </div>
             </vi-option>
             <!-- Select options list. -->
             <slot>
@@ -234,11 +243,13 @@ export default {
           // Toggle options clear.
           optionsClear.value = false
         }
-        if (value == '') {
+        if (value == '' || value == null) {
           // Empty options results.
           props.remoteMethod('')
           // Hide label placeholder.
           labelHide.value = true
+          // Clear cache input label.
+          labelCached.value = ''
         } else if (labelPlaceholder.value) {
           // Show label placeholder.
           labelHide.value = false
