@@ -203,6 +203,7 @@ export default {
       labels: [],
       values: []
     })
+    let selectedFromOptions = ref(false)
     const updateValue = () => {
       // Update parent component model value.
       emit('update:modelValue', props.modelValue)
@@ -233,6 +234,7 @@ export default {
     watch(() => props.modelValue, (value) => {
       // Avoid carrying a previous label when there's no value.
       if (value == null) {
+        // Clear label placeholder.
         labelPlaceholder.value = ''
       }
       // Apply only for remote searches.
@@ -242,6 +244,44 @@ export default {
           labelPlaceholder.value = optionsCache.value.labels[optionsCache.value.values.indexOf(value)]
           // Toggle options clear.
           optionsClear.value = false
+          // Clear options cache if the value has been modified externally.
+          if (!selectedFromOptions.value) {
+            optionsCache.value = {
+              labels: [labelPlaceholder.value],
+              values: [value]
+            }
+          } else {
+            // Indicate that the selected value has been set externally.
+            selectedFromOptions.value = false
+          }
+          // For initial null values or not in the options cache.
+        } else {
+          // Clear options cache if the value has been modified externally.
+          if (!selectedFromOptions.value) {
+            // Manage null values.
+            if (value == '' || value == null) {
+              optionsCache.value = {
+                labels: [],
+                values: []
+              }
+              // Clear cache input label.
+              labelCached.value = ''
+              // Clear label placeholder.
+              labelPlaceholder.value = ''
+            }
+            // Manage not cached values.
+            else if (labelPlaceholder.value) {
+              optionsCache.value = {
+                labels: [labelPlaceholder.value],
+                values: [value]
+              }
+              // Clear cache input label.
+              labelCached.value = ''
+            }
+          } else {
+            // Indicate that the selected value has been set externally.
+            selectedFromOptions.value = false
+          }
         }
         if (value == '' || value == null) {
           // Empty options results.
@@ -354,6 +394,8 @@ export default {
       }, 10)
       // Open option click event listener.
       emitter.on('setOption' + selectID, (item) => {
+        // Indicate that the selected value comes from the options list.
+        selectedFromOptions.value = true
         // Set option label as select label.
         labelSelected.value = props.remote ? '' : item.label
         labelPlaceholder.value = item.label
