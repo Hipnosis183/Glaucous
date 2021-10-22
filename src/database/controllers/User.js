@@ -46,6 +46,7 @@ export async function addFavorites(req) {
 
 // Remove a game platform from favorites.
 export async function removeFavorites(req) {
+    await ensureUser()
     // Get all favorites.
     await UserModel.findOne({ _id: userId }, { select: ['favorites'], populate: false })
         .then(async (res) => {
@@ -181,6 +182,7 @@ export async function addPlaylist(req, game) {
 
 // Remove a game platform from specific playlist.
 export async function removePlaylist(req, game) {
+    await ensureUser()
     // Get all playlists.
     await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
         .then(async (res) => {
@@ -199,6 +201,7 @@ export async function removePlaylist(req, game) {
 
 // Remove a game platform from all playlist.
 export async function removePlaylistAll(req) {
+    await ensureUser()
     // Get all playlists.
     await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
         .then(async (res) => {
