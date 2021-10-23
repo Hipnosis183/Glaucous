@@ -41,21 +41,23 @@ export default {
     // Load game images.
     onMounted(() => { getImages() })
     const getImages = () => {
-      // Set the image directory path for all game types.
-      let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-      let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
-      let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
-      imagePathPlatform.value = gamePathPlatform + '/images'
-      imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
-      imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
-      // Ensure images directories existance.
-      ensureDirSync(imagePathPlatform.value)
-      ensureDirSync(imagePathRegion.value)
-      ensureDirSync(imagePathVersion.value)
-      // Load images filenames.
-      imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
-      imageFilesRegion.value = readdirSync(imagePathRegion.value)
-      imageFilesVersion.value = readdirSync(imagePathVersion.value)
+      if (props.gameInfo._id) {
+        // Set the image directory path for all game types.
+        let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+        let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
+        let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+        imagePathPlatform.value = gamePathPlatform + '/images'
+        imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
+        imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
+        // Ensure images directories existance.
+        ensureDirSync(imagePathPlatform.value)
+        ensureDirSync(imagePathRegion.value)
+        ensureDirSync(imagePathVersion.value)
+        // Load images filenames.
+        imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
+        imageFilesRegion.value = readdirSync(imagePathRegion.value)
+        imageFilesVersion.value = readdirSync(imagePathVersion.value)
+      }
     }
 
     // Watch for game selection changes.

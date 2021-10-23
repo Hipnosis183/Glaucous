@@ -514,11 +514,13 @@ export default createStore({
       localStore.set('settingsGame.backgroundPlacement', state.settingsApp.settingsGame.settingsGlobal.backgroundPlacement)
     },
     setGameOverStore(state) {
-      gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
-      state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
-      state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
-      state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
-      state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
+      if (state.selectedPlatform) {
+        gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
+        state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
+        state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
+        state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
+        state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
+      }
     },
     resetGameOverStore(state) {
       state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
@@ -560,9 +562,11 @@ export default createStore({
     },
     // Platform settings.
     setPlatformStore(state) {
-      platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
-      state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
-      state.settingsPlatform.relativePath = platformStore.get('settingsPlatform.relativePath', '')
+      if (state.selectedPlatform) {
+        platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
+        state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
+        state.settingsPlatform.relativePath = platformStore.get('settingsPlatform.relativePath', '')
+      }
     },
     resetPlatformStore(state) {
       state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
@@ -576,12 +580,14 @@ export default createStore({
     },
     // Game settings.
     setGameStore(state) {
-      gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/games/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
-      state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
-      state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
-      state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')
-      state.settingsGame.gameParams = gameStore.get('settingsGame.gameParams', '')
-      state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
+      if (state.selectedPlatform) {
+        gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/games/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
+        state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
+        state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
+        state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')
+        state.settingsGame.gameParams = gameStore.get('settingsGame.gameParams', '')
+        state.settingsGame.relativePath = gameStore.get('settingsGame.relativePath', true)
+      }
     },
     resetGameStore(state) {
       state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)

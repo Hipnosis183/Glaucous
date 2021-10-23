@@ -61,7 +61,7 @@ export async function removeFavorites(req) {
 export async function getFavorite(req) {
     return await UserModel.findOne({ _id: userId }, { populate: false })
         .then((res) => {
-            return res.favorites.includes(req)
+            if (res) { return res.favorites.includes(req) }
         })
 }
 

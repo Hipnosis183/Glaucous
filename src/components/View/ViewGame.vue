@@ -651,7 +651,7 @@ export default {
       // Update favorited status for the current game.
       getFavorite(gameInfo.value._id)
         .then((res) => {
-          gameFavorited.value = res
+          if (res) { gameFavorited.value = res }
         })
     }
 
