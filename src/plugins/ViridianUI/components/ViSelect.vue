@@ -105,10 +105,11 @@
           >
             <!-- Select created option. -->
             <vi-option
-              v-show="allowCreate && labelCached != ''"
+              v-show="allowCreate && labelCached != '' && optionCreateShow"
               :key="labelCached"
               :label="labelCached"
               :value="labelCached"
+              created
             >
               <div class="flex justify-between text-theme-700 dark:text-theme-300">
                 <p>{{ labelCached }}</p>
@@ -197,7 +198,9 @@ export default {
     let labelCached = ref('')
     let labelHide = ref(false)
     let labelSelected = ref('')
+    let labelSelectedCached = ref('')
     let labelPlaceholder = ref('')
+    let optionCreateShow = ref(true)
     let optionsClear = ref(false)
     let optionsCache = ref({
       labels: [],
@@ -210,6 +213,14 @@ export default {
       if (props.allowCreate) {
         // Cache input label.
         labelCached.value = labelSelected.value
+        setTimeout(() => { labelSelectedCached.value = labelSelected.value }, 10)
+        // Reset created option display.
+        optionCreateShow.value = true
+        emitter.off('hideOption' + selectID)
+        // Open created option matching listener.
+        emitter.on('hideOption' + selectID, () => {
+          optionCreateShow.value = false
+        })
       }
       if (props.remote) {
         // Hide label placeholder.
@@ -290,16 +301,18 @@ export default {
           labelHide.value = true
           // Clear cache input label.
           labelCached.value = ''
+          labelSelectedCached.value = ''
         } else if (labelPlaceholder.value) {
           // Show label placeholder.
           labelHide.value = false
           // Check if the option selected was created or not.
-          if (labelCached.value == labelPlaceholder.value) {
+          if (labelCached.value == labelPlaceholder.value && optionCreateShow.value) {
             // Clear options.
             props.remoteMethod('')
           } else {
             // Clear cache input label.
             labelCached.value = ''
+            labelSelectedCached.value = ''
             // Get label option.
             props.remoteMethod(labelPlaceholder.value)
           }
@@ -312,6 +325,7 @@ export default {
     provide('selectID', computed(() => selectID))
     let listenEmitter = ref(false)
     provide('listenEmitter', computed(() => listenEmitter.value))
+    provide('selectLabel', computed(() => labelSelectedCached.value))
     provide('selectValue', computed(() => props.modelValue))
     // Set current label when the select value changes.
     const setOptionLabel = () => {
@@ -428,12 +442,14 @@ export default {
           } else {
             // Clear cache input label.
             labelCached.value = ''
+            labelSelectedCached.value = ''
             // Update options with new query.
             props.remoteMethod(labelPlaceholder.value)
           }
         } else {
           // Clear cache input label.
           labelCached.value = ''
+          labelSelectedCached.value = ''
           // Clear parent component model value.
           emit('update:modelValue', '')
           // Clear options.
@@ -511,6 +527,7 @@ export default {
       labelPlaceholder,
       openDropMenu,
       openMenu,
+      optionCreateShow,
       popperPlacement,
       refInput,
       refMenu,
