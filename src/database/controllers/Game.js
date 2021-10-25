@@ -524,6 +524,25 @@ export async function getGamesPlatform(req, index, count, query) {
         })
 }
 
+// Get all games by a specific amount of players.
+export async function getGamesPlayers(req, index, count, query) {
+    let gameRegions = []
+    // Search all game platforms for the selected platform.
+    return await GamePlatformModel.find({ numberPlayers: req }, { populate: false, select: ['gameRegions'] })
+        .then(async (res) => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+            // Configure the search parameters.
+            const search = new RegExp(query, 'i')
+            // Configure the search query.
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            // Get all game regions for the selected platform.
+            return await getGamesAll(index, count, querySearch, true)
+        })
+}
+
 let platforms = []
 
 // Get all games matching a given search query.

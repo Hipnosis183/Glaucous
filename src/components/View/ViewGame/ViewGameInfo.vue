@@ -16,7 +16,7 @@
       >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
     </div>
     <div
-      class="ml-auto -mr-4 text-2xl text-right whitespace-nowrap"
+      class="-mb-3 ml-auto -mr-4 text-2xl text-right whitespace-nowrap"
       :class="{ 'mt-12' : gameInfo.gameRegions[regionIndex].preTitle }"
     >
       <div class="data-button space-y-1">
@@ -38,6 +38,32 @@
         v-show="gameInfo.releaseYear"
         class="mt-1 pt-2 px-3"
       >{{ gameInfo.releaseYear }}</p>
+      <div
+        v-show="gameInfo.numberPlayers"
+        class="flex pt-2"
+      >
+        <div class="flex ml-auto mr-2 space-x-px">
+          <vi-icon
+            v-for="index in 4"
+            :key="index"
+            icon-manual
+            class="w-6"
+            :class="getNumberPlayers(index) ? 'text-theme-800 dark:text-theme-100' : 'text-theme-500'"
+          >
+            <icon-games />
+          </vi-icon>
+        </div>
+        <div
+          @click="$router.push({ name: 'Players', params: { id: gameInfo.numberPlayers } })"
+          class="data-button"
+        >
+          <p v-if="gameInfo.numberPlayers == '1'">1 Player</p>
+          <p v-else-if="gameInfo.numberPlayers == '2'">2 Players</p>
+          <p v-else-if="gameInfo.numberPlayers == '3'">3 Players</p>
+          <p v-else-if="gameInfo.numberPlayers == '4'">4 Players</p>
+          <p v-else>4+ Players</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +75,36 @@ export default {
     gameInfo: { type: Object },
     regionIndex: { type: Number },
     versionIndex: { type: Number }
+  },
+  setup(props) {
+    // Manage number of players state.
+    const getNumberPlayers = (index) => {
+      switch (props.gameInfo.numberPlayers) {
+        case '1': {
+          switch (index) {
+            case 1: { return true }
+            default: { return false }
+          }
+        }
+        case '2': {
+          switch (index) {
+            case 1: case 2: { return true }
+            default: { return false }
+          }
+        }
+        case '3': {
+          switch (index) {
+            case 1: case 2: case 3: { return true }
+            default: { return false }
+          }
+        }
+        default: { return true }
+      }
+    }
+
+    return {
+      getNumberPlayers
+    }
   }
 }
 </script>

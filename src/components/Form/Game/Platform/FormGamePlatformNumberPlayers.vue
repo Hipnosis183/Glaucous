@@ -1,9 +1,19 @@
 <template>
-  <!-- Number of players input. -->
-  <vi-input
+  <!-- Number of players select. -->
+  <vi-select
     v-model="numberPlayers"
-    label="Number of Players"
-  ></vi-input>
+    clearable
+    label="Players"
+    placeholder="Undefined"
+    class="w-full"
+  >
+    <vi-option
+      v-for="item in numberPlayersOptions"
+      :key="item.i"
+      :label="item.name"
+      :value="item.i"
+    />
+  </vi-select>
 </template>
 
 <script>
@@ -22,9 +32,17 @@ export default {
       get() { return store.state.gameForm.gamePlatform.numberPlayers },
       set(value) { store.commit('setGamePlatformNumberPlayers', value) }
     })
+    const numberPlayersOptions = [
+      { i: '1', name: '1 Player' },
+      { i: '2', name: '2 Players' },
+      { i: '3', name: '3 Players' },
+      { i: '4', name: '4 Players' },
+      { i: '4+', name: '4+ Players' }
+    ]
 
     return {
-      numberPlayers
+      numberPlayers,
+      numberPlayersOptions
     }
   }
 }

@@ -75,6 +75,12 @@ const routes = [
     path: '/playlists/:id',
     name: 'Playlist',
     component: () => import('../components/View/ViewPlaylist.vue')
+  },
+  // Others
+  {
+    path: '/players/:id',
+    name: 'Players',
+    component: () => import('../components/View/ViewPlayers.vue')
   }
 ]
 
