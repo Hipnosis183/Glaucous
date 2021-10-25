@@ -78,7 +78,8 @@ export default createStore({
           settingsOver: false,
           displayCoverImage: true,
           backgroundImage: 0,
-          backgroundPlacement: 0
+          backgroundPlacement: 0,
+          colorThemeOver: 'default'
         }
       },
       settingsImages: {
@@ -325,6 +326,9 @@ export default createStore({
     getSettingsGameOverBackgroundPlacement(state) {
       return state.settingsApp.settingsGame.settingsOver.backgroundPlacement
     },
+    getSettingsGameOverColorThemeOver(state) {
+      return state.settingsApp.settingsGame.settingsOver.colorThemeOver
+    },
     getSettingsImagesScalingEffect(state) {
       return state.settingsApp.settingsImages.scalingEffect
     },
@@ -520,6 +524,7 @@ export default createStore({
         state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
         state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
         state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
+        state.settingsApp.settingsGame.settingsOver.colorThemeOver = gameOverStore.get('settingsGameOver.colorThemeOver', 'default')
       }
     },
     resetGameOverStore(state) {
@@ -527,6 +532,7 @@ export default createStore({
       state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
       state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
       state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
+      state.settingsApp.settingsGame.settingsOver.colorThemeOver = gameOverStore.get('settingsGameOver.colorThemeOver', 'default')
     },
     setSettingsGameOverSettingsOver(state, data) {
       state.settingsApp.settingsGame.settingsOver.settingsOver = data
@@ -543,6 +549,10 @@ export default createStore({
     setSettingsGameOverBackgroundPlacement(state, data) {
       state.settingsApp.settingsGame.settingsOver.backgroundPlacement = data
       gameOverStore.set('settingsGameOver.backgroundPlacement', state.settingsApp.settingsGame.settingsOver.backgroundPlacement)
+    },
+    setSettingsGameOverColorThemeOver(state, data) {
+      state.settingsApp.settingsGame.settingsOver.colorThemeOver = data
+      gameOverStore.set('settingsGameOver.colorThemeOver', state.settingsApp.settingsGame.settingsOver.colorThemeOver)
     },
     setSettingsImagesScalingEffect(state, data) {
       state.settingsApp.settingsImages.scalingEffect = data

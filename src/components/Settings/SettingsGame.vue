@@ -142,6 +142,36 @@
               </vi-select>
             </div>
           </div>
+          <!-- Color theme overwrite select. -->
+          <div class="flex items-center px-4">
+            <p class="mr-auto">Color Theme Overwrite</p>
+            <div class="ml-auto w-34">
+              <vi-select
+                v-model="colorThemeOver"
+                class="w-auto"
+              >
+                <vi-option
+                  label="Default"
+                  value="default"
+                />
+                <vi-option
+                  v-for="color in colors"
+                  :key="color.i"
+                  :label="color.name"
+                  :value="color.i"
+                  class="text-left"
+                >
+                  <div class="align-middle inline-flex items-center space-x-4">
+                    <div
+                      :style="{ backgroundColor: 'rgb(' + color.codes[4] + ')' }"
+                      class="h-6 rounded-full w-6"
+                    />
+                    <p>{{ color.name }}</p>
+                  </div>
+                </vi-option>
+              </vi-select>
+            </div>
+          </div>
         </div>
       </div>
     </vi-menu-button>
@@ -150,10 +180,14 @@
 
 <script>
 // Import Vue functions.
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
 import { backgroundImageOptions, backgroundPlacementOptions } from '@/settings'
+// Import theme objects and functions.
+import { colors, selectColor } from '@/theme'
+// Import utility functions.
+import { debounce } from '@/utils/debounce'
 
 export default {
   name: 'SettingsGame',
@@ -211,6 +245,27 @@ export default {
           : 'setSettingsGameBackgroundPlacement', value)
       }
     })
+    const colorThemeOver = computed({
+      get() { return store.getters.getSettingsGameOverColorThemeOver },
+      set(value) {
+        // Set color theme in the configuration file.
+        store.commit('setSettingsGameOverColorThemeOver', value)
+        // Set color theme in the running application.
+        selectColor(colorThemeOver.value != 'default' ? colorThemeOver.value : store.getters.getSettingsThemesSelectedColor)
+      }
+    })
+
+    // Manage color theme load/unload.
+    const colorSelect = (res) => {
+      selectColor(res
+        ? colorThemeOver.value != 'default'
+          ? colorThemeOver.value
+          : store.getters.getSettingsThemesSelectedColor
+        : store.getters.getSettingsThemesSelectedColor)
+    }
+    const colorSelectDebounced = debounce((res) => colorSelect(res), 100)
+    onMounted(() => { colorSelectDebounced(true) })
+    onUnmounted(() => { colorSelectDebounced(false) })
 
     // Manage details display.
     let minimalUiDisplayDialog = ref(false)
@@ -264,6 +319,8 @@ export default {
       backgroundImageOptions,
       backgroundPlacement,
       backgroundPlacementOptions,
+      colorThemeOver,
+      colors,
       displayCoverImage,
       minimalUiDisplay,
       minimalUiDisplayDetails,

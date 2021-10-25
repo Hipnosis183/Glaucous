@@ -154,11 +154,11 @@
         >
           <!-- Region tab button. -->
           <div
-            class="cursor-pointer h-full relative w-full"
+            class="cursor-pointer duration-500 h-full relative w-full"
             :class="index == regionIndex ? 'border-b-4 border-color-400' : ''"
           >
             <div
-              class="absolute h-full top-0 w-full"
+              class="absolute duration-500 h-full top-0 w-full"
               :class="index == regionIndex ? 'bg-color-500 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
             />
             <div class="h-full inline-flex items-center relative text-lg w-full">
