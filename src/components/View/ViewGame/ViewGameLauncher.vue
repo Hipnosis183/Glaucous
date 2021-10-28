@@ -45,7 +45,10 @@
         </vi-icon>
       </vi-button-ui>
     </div>
-    <div class="cursor-pointer flex space-x-2">
+    <div
+      v-if="minimalUiDisplayGameSettings && minimalUiDisplayVersionSelect"
+      class="cursor-pointer flex space-x-2"
+    >
       <vi-select-ui
         v-if="minimalUiDisplayVersionSelect"
         v-model="$store.state.gameSelected.gameVersion"

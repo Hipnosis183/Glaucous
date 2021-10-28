@@ -99,6 +99,7 @@
             :value="game"
           >
             <vi-chip
+              clickable
               large
               multiline
               @clicked="$router.push({ name: 'Game', params: { id: game._id } })"

@@ -51,6 +51,7 @@
           :value="item"
         >
           <vi-chip
+            clickable
             large
             @clicked="$router.push({ name: 'Playlist', params: { id: item._id } })"
             @remove="removePlaylists(item._id)"

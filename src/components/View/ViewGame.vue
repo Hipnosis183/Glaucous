@@ -244,7 +244,7 @@
                       </div>
                     </div>
                     <!-- Bottom container. -->
-                    <div class="mt-auto p-8 pb-0">
+                    <div class="mt-auto p-8 pb-0 space-y-2">
                       <!-- View game launching elements. -->
                       <view-game-launcher
                         :key="gameInfo"
@@ -252,7 +252,10 @@
                         :regionIndex="regionIndex"
                         @updated="versionIndex = $event"
                       />
-                      <div class="flex mt-2 space-x-2 w-full">
+                      <div
+                        v-if="minimalUiDisplayDetails && minimalUiDisplayGameLinking && minimalUiDisplayLinks && minimalUiDisplayGallery"
+                        class="flex space-x-2 w-full"
+                      >
                         <!-- View game details. -->
                         <view-game-details
                           v-if="minimalUiDisplayDetails"
@@ -286,6 +289,18 @@
                           :regionIndex="regionIndex"
                           :versionIndex="versionIndex"
                         />
+                      </div>
+                      <!-- View game tags. -->
+                      <div
+                        v-if="gameInfo.gameTags.length > 0"
+                        class="flex space-x-2 text-lg"
+                      >
+                        <vi-chip-ui
+                          v-for="tag in gameInfo.gameTags"
+                          :key="tag._id"
+                        >
+                          {{ tag.name }}
+                        </vi-chip-ui>
                       </div>
                     </div>
                   </div>
@@ -381,6 +396,7 @@ export default {
       platform: { name: null },
       releaseYear: null,
       numberPlayers: null,
+      gameTags: [],
       links: [],
       gamePlatforms: [],
       gameRegions: [{

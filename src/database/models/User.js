@@ -8,7 +8,8 @@ class UserModel extends Document {
             name: { type: String, required: true },
             favorites: { type: [GamePlatformModel] },
             recent: { type: [GamePlatformModel] },
-            playlists: { type: [Object] }
+            playlists: { type: [Object] },
+            tags: { type: [Object] }
         })
     }
     static collectionName() {

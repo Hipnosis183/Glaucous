@@ -4,7 +4,7 @@ import GameVersionModel from '../models/GameVersion'
 import { generateID } from '../datastore'
 import { getDeveloper, getDeveloperByName } from './Developer'
 import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
-import { getFavorites, getPlaylist, getRecent, removeGameUser } from './User'
+import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from './User'
 
 import { app } from '@electron/remote'
 import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, remove, removeSync } from 'fs-extra'
@@ -82,7 +82,8 @@ async function createGamePlatform(req) {
         developer: req.developer,
         platform: req.platform,
         releaseYear: req.releaseYear,
-        numberPlayers: req.numberPlayers
+        numberPlayers: req.numberPlayers,
+        gameTags: req.gameTags
     })
     // Save model to database.
     await GamePlatform.save()
@@ -134,7 +135,8 @@ export async function updateGame(req, id) {
         developer: req.gamePlatform.developer,
         platform: req.gamePlatform.platform,
         releaseYear: req.gamePlatform.releaseYear,
-        numberPlayers: req.gamePlatform.numberPlayers
+        numberPlayers: req.gamePlatform.numberPlayers,
+        gameTags: req.gamePlatform.gameTags
     })
     // Update the game region.
     await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
@@ -444,6 +446,8 @@ export async function getGame(req) {
                 .then((dev) => res.developer = dev)
             await getPlatform(res.platform)
                 .then((pla) => res.platform = pla)
+            await getTags(res.gameTags)
+                .then((tag) => res.gameTags = tag)
             res.gameRegions = gameRegions
             res.image = getImage(res)
             // Return populated object.

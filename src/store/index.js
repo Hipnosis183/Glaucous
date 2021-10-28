@@ -112,6 +112,7 @@ export default createStore({
         platform: null,
         releaseYear: null,
         numberPlayers: null,
+        gameTags: [],
         links: [],
         images: {
           cover: {
@@ -632,6 +633,7 @@ export default createStore({
       state.gameForm.gamePlatform.platform = game.platform.platform._id
       state.gameForm.gamePlatform.releaseYear = game.platform.releaseYear
       state.gameForm.gamePlatform.numberPlayers = game.platform.numberPlayers
+      state.gameForm.gamePlatform.gameTags = game.platform.gameTags
       state.gameForm.gamePlatform.links = game.platform.links
       state.gameForm.gameRegion.title = game.region.title
       state.gameForm.gameRegion.preTitle = game.region.preTitle
@@ -651,6 +653,7 @@ export default createStore({
       state.gameForm.gamePlatform.platform = null
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
+      state.gameForm.gamePlatform.gameTags = []
       state.gameForm.gamePlatform.links = []
       state.gameForm.gamePlatform.images.cover.add = null
       state.gameForm.gamePlatform.images.cover.remove = false
@@ -703,6 +706,15 @@ export default createStore({
     },
     setGamePlatformLinksRemove(state, data) {
       state.gameForm.gamePlatform.links.splice(data, 1)
+    },
+    setGamePlatformTags(state, data) {
+      state.gameForm.gamePlatform.gameTags = data
+    },
+    setGamePlatformTagsAdd(state, data) {
+      state.gameForm.gamePlatform.gameTags.push(data)
+    },
+    setGamePlatformTagsRemove(state, data) {
+      state.gameForm.gamePlatform.gameTags.splice(data, 1)
     },
     setGamePlatformImagesBackgroundAdd(state, data) {
       state.gameForm.gamePlatform.images.background.add = data

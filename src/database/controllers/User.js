@@ -14,7 +14,8 @@ async function ensureUser() {
             name: userName,
             recent: [],
             favorites: [],
-            playlists: []
+            playlists: [],
+            tags: []
         })
         // Save model to database.
         await User.save()
@@ -267,5 +268,49 @@ export async function getPlaylistsSearch(index, count, query) {
         .then((res) => {
             // Search playlists matching the query, case insensitive.
             return res.playlists.filter((res) => search.test(res.name))
+        })
+}
+
+// Create new tag.
+export async function createTag(req) {
+    await ensureUser()
+    // Create tag model.
+    const Tag = {
+        _id: generateID(),
+        name: req
+    }
+    // Get all tags.
+    return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
+        .then(async (res) => {
+            // Add the created tag.
+            res.tags.push(Tag)
+            // Update tags.
+            await UserModel.findOneAndUpdate({ _id: userId }, { tags: res.tags })
+            // Return created tag.
+            return Tag
+        })
+}
+
+// Search for a specific tag.
+export async function getTag(req) {
+    // Get all tags.
+    return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
+        .then((res) => {
+            // Get the selected tag.
+            for (let tag of res.tags) {
+                if (tag._id == req) {
+                    return tag
+                }
+            }
+        })
+}
+
+// Get all or a specified group of tags.
+export async function getTags(req) {
+    await ensureUser()
+    return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
+        .then((res) => {
+            if (req) { res.tags = res.tags.filter((tag) => req.includes(tag._id)) }
+            return res.tags
         })
 }

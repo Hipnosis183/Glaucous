@@ -17,7 +17,7 @@
     </div>
     <div
       class="-mb-3 ml-auto -mr-4 text-2xl text-right whitespace-nowrap"
-      :class="{ 'mt-12' : gameInfo.gameRegions[regionIndex].preTitle }"
+      :class="gameInfo.gameRegions[regionIndex].preTitle ? 'mt-10' : 'mt-1'"
     >
       <div class="data-button space-y-1">
         <!-- Go to the platform page. -->

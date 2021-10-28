@@ -67,6 +67,7 @@
             <form-game-version-number />
             <form-game-version-latest />
           </div>
+          <form-game-platform-tags />
           <form-game-version-comments />
           <form-game-platform-links />
         </div>
@@ -83,6 +84,7 @@ import { useStore } from 'vuex'
 import { updateGame } from '@/database/controllers/Game'
 import { createDeveloper, getDeveloper } from '@/database/controllers/Developer'
 import { createPlatform, getPlatform } from '@/database/controllers/Platform'
+import { createTag, getTag } from '@/database/controllers/User'
 // Import form components.
 import {
   FormGameImages,
@@ -92,6 +94,7 @@ import {
   FormGamePlatformPlatform,
   FormGamePlatformReleaseYear,
   FormGamePlatformSerial,
+  FormGamePlatformTags,
   FormGameRegionOriginalTitle,
   FormGameRegionPreTitle,
   FormGameRegionRegion,
@@ -115,6 +118,7 @@ export default {
     FormGamePlatformPlatform,
     FormGamePlatformReleaseYear,
     FormGamePlatformSerial,
+    FormGamePlatformTags,
     FormGameRegionOriginalTitle,
     FormGameRegionPreTitle,
     FormGameRegionRegion,
@@ -153,11 +157,13 @@ export default {
       checkDeveloper()
         // Check platform existance.
         .then(() => checkPlatform()
-          .then(() => {
-            // Update game entry.
-            updateGame(store.state.gameForm, store.state.gameSelected)
-              .then(() => emit('close', true))
-          }))
+          // Check tags existance.
+          .then(() => checkTags()
+            .then(() => {
+              // Update game entry.
+              updateGame(store.state.gameForm, store.state.gameSelected)
+                .then(() => emit('close', true))
+            })))
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
@@ -165,7 +171,7 @@ export default {
       validationErrorDialog.value = !validationErrorDialog.value
     }
 
-    // Manage developer and platform field inputs.
+    // Manage developer field input.
     const developer = computed({
       get() { return store.state.gameForm.gamePlatform.developer },
       set(value) { store.commit('setGamePlatformDeveloper', value) }
@@ -184,6 +190,8 @@ export default {
           }
         })
     }
+
+    // Manage platform field input.
     const platform = computed({
       get() { return store.state.gameForm.gamePlatform.platform },
       set(value) { store.commit('setGamePlatformPlatform', value) }
@@ -201,6 +209,33 @@ export default {
               .then((res) => platform.value = res._id)
           }
         })
+    }
+
+    // Manage tags field input.
+    const tags = computed({
+      get() { return store.state.gameForm.gamePlatform.gameTags },
+      set(value) { store.commit('setGamePlatformTags', value) }
+    })
+    const checkTags = async () => {
+      let gameTags = []
+      // Check all the tags on the game form.
+      for (let tag of tags.value) {
+        // Check if the tag entered exists.
+        await getTag(tag)
+          .then(async (res) => {
+            if (!res) {
+              // Save new tag entry.
+              await createTag(tag)
+                // Add the new tag to the array.
+                .then((res) => gameTags.push(res._id))
+            } else {
+              // Add the existing tag to the array.
+              gameTags.push(tag)
+            }
+          })
+      }
+      // Set the new tags in the game form.
+      tags.value = gameTags
     }
 
     return {

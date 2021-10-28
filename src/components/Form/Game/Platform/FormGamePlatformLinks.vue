@@ -1,23 +1,11 @@
 <template>
   <!-- Validation error dialog. -->
-  <vi-dialog
+  <vi-dialog-box
     v-show="validationErrorDialog"
-    @close="validationErrorShow()"
-    class="pos-initial z-10"
+    @accept="validationErrorShow()"
   >
-    <!-- Dialog message. -->
-    <p class="text-center text-lg">
-      Enter a valid URL.
-    </p>
-    <div class="flex justify-center mt-6 space-x-4">
-      <!-- Close message. -->
-      <vi-button-icon @click="validationErrorShow()">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
-    </div>
-  </vi-dialog>
+    Enter a valid URL.
+  </vi-dialog-box>
   <!-- Show links dialog. -->
   <vi-dialog
     v-show="linksDialog"

@@ -21,6 +21,7 @@ import FormGamePlatformNumberPlayers from './Game/Platform/FormGamePlatformNumbe
 import FormGamePlatformPlatform from './Game/Platform/FormGamePlatformPlatform.vue'
 import FormGamePlatformReleaseYear from './Game/Platform/FormGamePlatformReleaseYear.vue'
 import FormGamePlatformSerial from './Game/Platform/FormGamePlatformSerial.vue'
+import FormGamePlatformTags from './Game/Platform/FormGamePlatformTags.vue'
 // Game region form.
 import FormGameRegionOriginalTitle from './Game/Region/FormGameRegionOriginalTitle.vue'
 import FormGameRegionPreTitle from './Game/Region/FormGameRegionPreTitle.vue'
@@ -59,6 +60,7 @@ export {
     FormGamePlatformPlatform,
     FormGamePlatformReleaseYear,
     FormGamePlatformSerial,
+    FormGamePlatformTags,
     // Game region form.
     FormGameRegionOriginalTitle,
     FormGameRegionPreTitle,

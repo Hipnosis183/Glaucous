@@ -12,6 +12,7 @@ import ViCardCompact from './components/ViCardCompact.vue'
 import ViCardList from './components/ViCardList.vue'
 import ViCardGrid from './components/ViCardGrid.vue'
 import ViChip from './components/ViChip.vue'
+import ViChipUI from './components/ViChipUI.vue'
 import ViDialog from './components/ViDialog.vue'
 import ViDialogBox from './components/ViDialogBox.vue'
 import ViIcon from './components/ViIcon.vue'
@@ -54,6 +55,7 @@ export default {
         app.component('vi-card-list', ViCardList)
         app.component('vi-card-grid', ViCardGrid)
         app.component('vi-chip', ViChip)
+        app.component('vi-chip-ui', ViChipUI)
         app.component('vi-dialog', ViDialog)
         app.component('vi-dialog-box', ViDialogBox)
         app.component('vi-icon', ViIcon)
