@@ -633,8 +633,6 @@ export default createStore({
       state.gameForm.gamePlatform.platform = game.platform.platform._id
       state.gameForm.gamePlatform.releaseYear = game.platform.releaseYear
       state.gameForm.gamePlatform.numberPlayers = game.platform.numberPlayers
-      state.gameForm.gamePlatform.gameTags = game.platform.gameTags
-      state.gameForm.gamePlatform.links = game.platform.links
       state.gameForm.gameRegion.title = game.region.title
       state.gameForm.gameRegion.preTitle = game.region.preTitle
       state.gameForm.gameRegion.subTitle = game.region.subTitle
@@ -646,7 +644,19 @@ export default createStore({
       state.gameForm.gameVersion.name = game.version.name
       state.gameForm.gameVersion.number = game.version.number
       state.gameForm.gameVersion.latest = game.version.latest
-      state.gameForm.gameVersion.comments = game.version.comments
+      // Hack to avoid a bug where reactivity alters the original reference value, despite it not being explicitly modified.
+      state.gameForm.gamePlatform.gameTags = []
+      if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
+        state.gameForm.gamePlatform.gameTags.push(tag._id)
+      }
+      state.gameForm.gamePlatform.links = []
+      if (game.platform.links) for (let link of game.platform.links) {
+        state.gameForm.gamePlatform.links.push(link)
+      }
+      state.gameForm.gameVersion.comments = []
+      if (game.version.comments) for (let comment of game.version.comments) {
+        state.gameForm.gameVersion.comments.push(comment)
+      }
     },
     resetGameForm(state) {
       state.gameForm.gamePlatform.developer = null
