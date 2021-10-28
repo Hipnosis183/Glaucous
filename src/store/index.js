@@ -68,7 +68,7 @@ export default createStore({
             gameLinking: localStore.get('settingsGame.minimalUiDisplayOptions.gameLinking', true),
             links: localStore.get('settingsGame.minimalUiDisplayOptions.links', true),
             gallery: localStore.get('settingsGame.minimalUiDisplayOptions.gallery', true),
-            coverImage: localStore.get('settingsGame.minimalUiDisplayOptions.coverImage', false),
+            gameTags: localStore.get('settingsGame.minimalUiDisplayOptions.gameTags', true),
             regionFlags: localStore.get('settingsGame.minimalUiDisplayOptions.regionFlags', false)
           },
           backgroundImage: localStore.get('settingsGame.backgroundImage', 0),
@@ -303,8 +303,8 @@ export default createStore({
     getSettingsGameMinimalUiDisplayGallery(state) {
       return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gallery
     },
-    getSettingsGameMinimalUiDisplayCoverImage(state) {
-      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.coverImage
+    getSettingsGameMinimalUiDisplayGameTags(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameTags
     },
     getSettingsGameMinimalUiDisplayRegionFlags(state) {
       return state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.regionFlags
@@ -502,9 +502,9 @@ export default createStore({
       state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gallery = data
       localStore.set('settingsGame.minimalUiDisplayOptions.gallery', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gallery)
     },
-    setSettingsGameMinimalUiDisplayCoverImage(state, data) {
-      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.coverImage = data
-      localStore.set('settingsGame.minimalUiDisplayOptions.coverImage', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.coverImage)
+    setSettingsGameMinimalUiDisplayGameTags(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameTags = data
+      localStore.set('settingsGame.minimalUiDisplayOptions.gameTags', state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.gameTags)
     },
     setSettingsGameMinimalUiDisplayRegionFlags(state, data) {
       state.settingsApp.settingsGame.settingsGlobal.minimalUiDisplayOptions.regionFlags = data

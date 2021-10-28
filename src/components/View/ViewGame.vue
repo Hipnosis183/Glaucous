@@ -292,7 +292,7 @@
                       </div>
                       <!-- View game tags. -->
                       <div
-                        v-if="gameInfo.gameTags.length > 0"
+                        v-if="minimalUiDisplayGameTags && gameInfo.gameTags.length > 0"
                         class="flex space-x-2 text-lg"
                       >
                         <vi-chip-ui
@@ -714,6 +714,11 @@ export default {
         return !store.getters.getSettingsGameMinimalUiDisplayGallery
       } else { return true }
     })
+    const minimalUiDisplayGameTags = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGameTags
+      } else { return true }
+    })
     const minimalUiDisplayRegionFlags = computed(() => {
       if (!minimalUiDisplay.value) {
         return !store.getters.getSettingsGameMinimalUiDisplayRegionFlags
@@ -759,6 +764,7 @@ export default {
       minimalUiDisplayFavorites,
       minimalUiDisplayGallery,
       minimalUiDisplayGameLinking,
+      minimalUiDisplayGameTags,
       minimalUiDisplayLinks,
       minimalUiDisplayPlaylists,
       minimalUiDisplayRegionFlags,

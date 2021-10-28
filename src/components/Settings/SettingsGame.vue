@@ -63,6 +63,11 @@
       <p class="mr-auto">Gallery</p>
       <vi-switch v-model="minimalUiDisplayGallery" />
     </div>
+    <!-- Toggle tags display. -->
+    <div class="flex h-10 items-center px-2">
+      <p class="mr-auto">Game Tags</p>
+      <vi-switch v-model="minimalUiDisplayGameTags" />
+    </div>
     <!-- Toggle region flags display. -->
     <div class="flex h-10 items-center px-2">
       <p class="mr-auto">Region Flags</p>
@@ -309,6 +314,10 @@ export default {
       get() { return store.getters.getSettingsGameMinimalUiDisplayGallery },
       set(value) { store.commit('setSettingsGameMinimalUiDisplayGallery', value) }
     })
+    const minimalUiDisplayGameTags = computed({
+      get() { return store.getters.getSettingsGameMinimalUiDisplayGameTags },
+      set(value) { store.commit('setSettingsGameMinimalUiDisplayGameTags', value) }
+    })
     const minimalUiDisplayRegionFlags = computed({
       get() { return store.getters.getSettingsGameMinimalUiDisplayRegionFlags },
       set(value) { store.commit('setSettingsGameMinimalUiDisplayRegionFlags', value) }
@@ -330,6 +339,7 @@ export default {
       minimalUiDisplayGameLaunch,
       minimalUiDisplayGameLinking,
       minimalUiDisplayGameSettings,
+      minimalUiDisplayGameTags,
       minimalUiDisplayLinks,
       minimalUiDisplayPlaylists,
       minimalUiDisplayRegionFlags,

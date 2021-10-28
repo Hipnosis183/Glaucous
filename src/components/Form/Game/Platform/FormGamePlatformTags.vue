@@ -1,17 +1,18 @@
 <template>
+  <!-- Validation error dialog. -->
+  <vi-dialog-box
+    v-show="validationErrorDialog"
+    @accept="validationErrorShow()"
+    class="z-20"
+  >
+    Select a tag first.
+  </vi-dialog-box>
   <!-- Expanded tags management dialog. -->
   <vi-dialog
     v-show="expandedTagsDialog"
     @close="expandedTagsShow()"
     class="pos-initial z-10"
   >
-    <!-- Validation error dialog. -->
-    <vi-dialog-box
-      v-show="validationErrorDialog"
-      @accept="validationErrorShow()"
-    >
-      Select a tag first.
-    </vi-dialog-box>
     <!-- Padding. -->
     <div class="w-80" />
     <!-- Header. -->
