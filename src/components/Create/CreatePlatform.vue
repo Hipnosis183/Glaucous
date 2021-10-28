@@ -29,18 +29,15 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Create platform form. -->
-    <form>
-      <!-- Form components. -->
-      <div class="flex space-x-4">
-        <form-platform-name />
-        <form-platform-group />
-      </div>
-      <form-platform-parent
-        v-show="!groupPlatform"
-        :groupPlatform="groupPlatform"
-      />
-    </form>
+    <!-- Form components. -->
+    <div class="flex space-x-4">
+      <form-platform-name />
+      <form-platform-group />
+    </div>
+    <form-platform-parent
+      v-show="!groupPlatform"
+      :groupPlatform="groupPlatform"
+    />
   </vi-dialog>
 </template>
 

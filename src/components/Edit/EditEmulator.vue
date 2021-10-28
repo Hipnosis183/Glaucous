@@ -30,20 +30,17 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Create emulator form. -->
-    <form>
-      <!-- Form components. -->
-      <div class="flex mb-6 space-x-4">
-        <div class="w-1/2">
-          <form-emulator-name />
-          <form-emulator-path />
-        </div>
-        <div class="w-1/2">
-          <form-emulator-file />
-          <form-emulator-params />
-        </div>
+    <!-- Form components. -->
+    <div class="flex mb-6 space-x-4">
+      <div class="w-1/2">
+        <form-emulator-name />
+        <form-emulator-path />
       </div>
-    </form>
+      <div class="w-1/2">
+        <form-emulator-file />
+        <form-emulator-params />
+      </div>
+    </div>
     <!-- Command preview. -->
     <div class="space-y-6">
       <div />

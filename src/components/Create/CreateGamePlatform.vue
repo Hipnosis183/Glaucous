@@ -36,42 +36,39 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Create game platform form. -->
-    <form>
-      <!-- Form components. -->
-      <div class="flex space-x-4">
-        <div class="w-1/2">
-          <form-game-region-title />
-          <form-game-region-pre-title />
-          <form-game-region-sub-title />
-          <form-game-region-original-title />
-          <form-game-region-romanized-title />
-          <form-game-region-translated-title />
-        </div>
-        <div class="w-1/2">
-          <div class="flex space-x-4">
-            <form-game-region-region />
-            <form-game-platform-serial />
-          </div>
-          <div class="flex space-x-4">
-            <form-game-platform-developer :gameDeveloper="gameDeveloper" />
-            <form-game-platform-platform :gamePlatform="gamePlatform" />
-          </div>
-          <div class="flex space-x-4">
-            <form-game-platform-release-year />
-            <form-game-platform-number-players />
-          </div>
-          <form-game-version-name />
-          <div class="flex space-x-4">
-            <form-game-version-number />
-            <form-game-version-latest />
-          </div>
-          <form-game-platform-tags />
-          <form-game-version-comments />
-          <form-game-platform-links />
-        </div>
+    <!-- Form components. -->
+    <div class="flex space-x-4">
+      <div class="w-1/2">
+        <form-game-region-title />
+        <form-game-region-pre-title />
+        <form-game-region-sub-title />
+        <form-game-region-original-title />
+        <form-game-region-romanized-title />
+        <form-game-region-translated-title />
       </div>
-    </form>
+      <div class="w-1/2">
+        <div class="flex space-x-4">
+          <form-game-region-region />
+          <form-game-platform-serial />
+        </div>
+        <div class="flex space-x-4">
+          <form-game-platform-developer :gameDeveloper="gameDeveloper" />
+          <form-game-platform-platform :gamePlatform="gamePlatform" />
+        </div>
+        <div class="flex space-x-4">
+          <form-game-platform-release-year />
+          <form-game-platform-number-players />
+        </div>
+        <form-game-version-name />
+        <div class="flex space-x-4">
+          <form-game-version-number />
+          <form-game-version-latest />
+        </div>
+        <form-game-platform-tags />
+        <form-game-version-comments />
+        <form-game-platform-links />
+      </div>
+    </div>
   </vi-dialog>
 </template>
 

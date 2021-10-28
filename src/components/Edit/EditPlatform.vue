@@ -29,12 +29,9 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Edit platform form. -->
-    <form>
-      <!-- Form components. -->
-      <form-platform-name />
-      <form-platform-parent :groupPlatform="groupPlatform" />
-    </form>
+    <!-- Form components. -->
+    <form-platform-name />
+    <form-platform-parent :groupPlatform="groupPlatform" />
   </vi-dialog>
 </template>
 

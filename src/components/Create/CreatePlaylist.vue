@@ -29,11 +29,8 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Create playlist form. -->
-    <form>
-      <!-- Form components. -->
-      <form-playlist-name />
-    </form>
+    <!-- Form components. -->
+    <form-playlist-name />
   </vi-dialog>
 </template>
 

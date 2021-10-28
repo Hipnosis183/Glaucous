@@ -29,11 +29,8 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Create developer form. -->
-    <form>
-      <!-- Form components. -->
-      <form-developer-name />
-    </form>
+    <!-- Form components. -->
+    <form-developer-name />
   </vi-dialog>
 </template>
 

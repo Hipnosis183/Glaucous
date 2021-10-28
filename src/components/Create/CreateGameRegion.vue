@@ -35,32 +35,29 @@
         </vi-button-icon>
       </div>
     </div>
-    <!-- Create game region form. -->
-    <form>
-      <!-- Form components. -->
-      <div class="flex space-x-4">
-        <div class="w-1/2">
-          <form-game-region-region />
-          <form-game-region-title />
-          <form-game-region-pre-title />
-          <form-game-region-sub-title />
+    <!-- Form components. -->
+    <div class="flex space-x-4">
+      <div class="w-1/2">
+        <form-game-region-region />
+        <form-game-region-title />
+        <form-game-region-pre-title />
+        <form-game-region-sub-title />
+      </div>
+      <div class="w-1/2">
+        <form-game-region-original-title />
+        <form-game-region-romanized-title />
+        <form-game-region-translated-title />
+        <div class="flex space-x-4">
+          <form-game-platform-serial />
+          <form-game-version-name />
         </div>
-        <div class="w-1/2">
-          <form-game-region-original-title />
-          <form-game-region-romanized-title />
-          <form-game-region-translated-title />
-          <div class="flex space-x-4">
-            <form-game-platform-serial />
-            <form-game-version-name />
-          </div>
-          <div class="flex space-x-4">
-            <form-game-version-number />
-            <form-game-version-latest />
-          </div>
+        <div class="flex space-x-4">
+          <form-game-version-number />
+          <form-game-version-latest />
         </div>
       </div>
-      <form-game-version-comments />
-    </form>
+    </div>
+    <form-game-version-comments />
   </vi-dialog>
 </template>
 
