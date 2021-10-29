@@ -125,12 +125,14 @@ export async function createPlaylist(req) {
         games: []
     }
     // Get all playlists.
-    await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
+    return await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
         .then(async (res) => {
             // Add the created playlist.
             res.playlists.push(Playlist)
             // Update playlists.
             await UserModel.findOneAndUpdate({ _id: userId }, { playlists: res.playlists })
+            // Return created playlist.
+            return Playlist._id
         })
 }
 

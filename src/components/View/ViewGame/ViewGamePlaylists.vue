@@ -24,10 +24,12 @@
         </vi-icon>
       </vi-button-icon>
     </div>
+    <!-- Playlists input select. -->
     <vi-select
       v-model="querySelected"
+      allow-create
       clearable
-      placeholder="Filter..."
+      placeholder="Add to or create playlists..."
       remote
       :remote-method="queryFilter"
       class="w-full"
@@ -40,6 +42,7 @@
       >
       </vi-option>
     </vi-select>
+    <!-- Playlists list section. -->
     <div v-if="gamePlaylists.length > 0">
       <!-- Separator. -->
       <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
@@ -69,7 +72,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 // Import database controllers functions.
-import { addPlaylist, getGamePlaylists, getPlaylists, removePlaylist } from '@/database/controllers/User'
+import { addPlaylist, createPlaylist, getGamePlaylists, getPlaylist, getPlaylists, removePlaylist } from '@/database/controllers/User'
 
 export default {
   name: 'ViewGamePlaylists',
@@ -81,13 +84,7 @@ export default {
     const route = useRoute()
 
     // Load all playlists on mounting.
-    onMounted(() => {
-      getPlaylists(route.params.id)
-        .then((res) => {
-          allPlaylists.value = res
-          updatePlaylists()
-        })
-    })
+    onMounted(() => { resetPlaylists() })
 
     // Manage game playlists.
     let allPlaylists = ref([])
@@ -99,9 +96,17 @@ export default {
         validationErrorShow()
         return
       }
-      // Add current game to the selected playlist.
-      addPlaylist(querySelected.value, route.params.id)
-        .then(() => { updatePlaylists() })
+      // Check if the playlist exists.
+      getPlaylist(querySelected.value)
+        .then(async (res) => {
+          // Create and/or assign the playlist ID value.
+          let selectedPlaylist = res
+            ? querySelected.value
+            : await createPlaylist({ name: querySelected.value })
+          // Add current game to the selected playlist.
+          addPlaylist(selectedPlaylist, route.params.id)
+            .then(() => { resetPlaylists() })
+        })
     }
     const removePlaylists = (id) => {
       // Remove current game from the selected playlist.
@@ -124,6 +129,13 @@ export default {
           querySelected.value = null
         })
     }
+    const resetPlaylists = () => {
+      getPlaylists(route.params.id)
+        .then((res) => {
+          allPlaylists.value = res
+          updatePlaylists()
+        })
+    }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
       // Toggle validation error dialog.
@@ -144,7 +156,6 @@ export default {
 
     return {
       addPlaylists,
-      allPlaylists,
       filteredPlaylists,
       gamePlaylists,
       queryFilter,
