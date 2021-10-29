@@ -7,7 +7,7 @@
       lastElement ? 'rounded-r-full' : ''
     ]"
   >
-    <slot></slot>
+    <slot />
   </button>
 </template>
 

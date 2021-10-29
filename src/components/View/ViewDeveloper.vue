@@ -116,9 +116,9 @@ import { useStore } from 'vuex'
 import { getDeveloper, deleteDeveloper } from '@/database/controllers/Developer'
 import { getGamesDeveloper } from '@/database/controllers/Game'
 // Import form components.
-import CreateGamePlatform from '../Create/CreateGamePlatform.vue'
-import EditDeveloper from '../Edit/EditDeveloper.vue'
-import SettingsLists from '../Settings/SettingsLists.vue'
+import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
+import EditDeveloper from '@/components/Edit/EditDeveloper.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
   name: 'ViewDeveloper',

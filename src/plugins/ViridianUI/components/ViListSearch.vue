@@ -7,7 +7,7 @@
       $store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'
     ]"
   >
-    <slot></slot>
+    <slot />
   </ul>
   <div
     ref="sentinel"

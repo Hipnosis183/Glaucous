@@ -236,8 +236,8 @@ import { throttle } from '@/utils/throttle'
 // Import search component.
 import Search from './Search.vue'
 // Import assets.
-import ViridianIcon from '@/components/Assets/ViridianIcon.vue'
-import ViridianLogo from '@/components/Assets/ViridianLogoThin.vue'
+import ViridianIcon from './Assets/ViridianIcon.vue'
+import ViridianLogo from './Assets/ViridianLogoThin.vue'
 
 export default {
   name: 'SideNav',

@@ -3,7 +3,7 @@
   <vi-input
     v-model="translatedTitle"
     label="Translated Title"
-  ></vi-input>
+  />
 </template>
 
 <script>

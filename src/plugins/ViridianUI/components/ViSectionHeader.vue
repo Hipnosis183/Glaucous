@@ -6,7 +6,7 @@
       </h1>
     </div>
     <div class="mx-6 space-y-6">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

@@ -82,7 +82,7 @@
       <!-- List settings. -->
       <settings-lists listPlatform />
       <!-- Horizontal padding. -->
-      <div class="w-full"></div>
+      <div class="w-full" />
     </vi-nav-bar>
     <!-- Show platform's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">

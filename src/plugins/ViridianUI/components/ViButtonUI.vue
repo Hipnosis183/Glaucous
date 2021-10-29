@@ -9,7 +9,7 @@
     ]"
   >
     <h6 class="flex w-full">
-      <slot></slot>
+      <slot />
     </h6>
   </button>
 </template>

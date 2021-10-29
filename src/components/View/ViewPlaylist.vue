@@ -99,8 +99,8 @@ import { useStore } from 'vuex'
 import { getPlaylist, deletePlaylist } from '@/database/controllers/User'
 import { getGamesPlaylist } from '@/database/controllers/Game'
 // Import form components.
-import EditPlaylist from '../Edit/EditPlaylist.vue'
-import SettingsLists from '../Settings/SettingsLists.vue'
+import EditPlaylist from '@/components/Edit/EditPlaylist.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
   name: 'ViewPlaylist',

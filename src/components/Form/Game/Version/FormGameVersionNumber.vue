@@ -3,7 +3,7 @@
   <vi-input
     v-model="number"
     label="Version Number"
-  ></vi-input>
+  />
 </template>
 
 <script>

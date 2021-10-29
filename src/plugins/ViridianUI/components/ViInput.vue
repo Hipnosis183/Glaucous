@@ -6,7 +6,7 @@
       class="flex"
     >
       <!-- Prepend contents. -->
-      <slot name="prepend"></slot>
+      <slot name="prepend" />
     </div>
     <!-- Input container. -->
     <div class="flex h-full rounded-xl w-full">
@@ -84,7 +84,7 @@
       class="flex"
     >
       <!-- Append contents. -->
-      <slot name="append"></slot>
+      <slot name="append" />
     </div>
   </vi-input-group>
 </template>

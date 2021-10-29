@@ -10,7 +10,7 @@
       { 'rounded-r-xl' : lastElement }
     ]"
   >
-    <slot></slot>
+    <slot />
   </button>
 </template>
 

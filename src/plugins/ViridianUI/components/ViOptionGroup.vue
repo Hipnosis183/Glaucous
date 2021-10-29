@@ -2,7 +2,7 @@
   <!-- Option group label. -->
   <label class="flex my-2 px-5 text-theme-600 dark:text-theme-400 text-sm">{{ label }}</label>
   <!-- Option group contents. -->
-  <slot></slot>
+  <slot />
   <!-- Separator bar. -->
   <div
     v-if="!last"

@@ -3,7 +3,7 @@
   <vi-input
     v-model="releaseYear"
     label="Release Year"
-  ></vi-input>
+  />
 </template>
 
 <script>

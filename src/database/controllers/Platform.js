@@ -1,5 +1,5 @@
-import PlatformModel from '../models/Platform'
-import { generateID, connectDatastore } from '../datastore'
+import PlatformModel from '@/database/models/Platform'
+import { generateID, connectDatastore } from '@/database/datastore'
 import { getGamePlatformCountP, deleteGamesPlatform } from './Game'
 
 // Create new system platform.

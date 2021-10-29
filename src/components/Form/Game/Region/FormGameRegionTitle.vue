@@ -5,7 +5,7 @@
     label="Title"
     placeholder="Required"
     required
-  ></vi-input>
+  />
 </template>
 
 <script>

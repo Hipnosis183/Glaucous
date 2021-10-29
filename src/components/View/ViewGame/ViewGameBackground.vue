@@ -14,7 +14,7 @@
   <div class="relative w-full">
     <div class="card-gradient flex flex-col h-full mt-auto shadow-color w-full">
       <!-- Game page contents. -->
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

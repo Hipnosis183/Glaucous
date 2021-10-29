@@ -3,7 +3,7 @@
   <vi-input
     v-model="romanizedTitle"
     label="Romanized Title"
-  ></vi-input>
+  />
 </template>
 
 <script>

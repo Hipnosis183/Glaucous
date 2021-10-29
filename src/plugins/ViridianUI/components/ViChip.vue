@@ -10,7 +10,7 @@
     ]"
   >
     <div class="pointer-events-none">
-      <slot></slot>
+      <slot />
     </div>
     <button
       v-if="removeable"

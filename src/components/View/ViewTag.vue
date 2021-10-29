@@ -99,8 +99,8 @@ import { useStore } from 'vuex'
 import { getTag, deleteTag } from '@/database/controllers/User'
 import { getGamesTag } from '@/database/controllers/Game'
 // Import form components.
-import EditTag from '../Edit/EditTag.vue'
-import SettingsLists from '../Settings/SettingsLists.vue'
+import EditTag from '@/components/Edit/EditTag.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
   name: 'ViewTag',

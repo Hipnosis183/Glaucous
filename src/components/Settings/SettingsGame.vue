@@ -7,11 +7,11 @@
   >
     <!-- Padding. -->
     <div class="w-80" />
-    <!-- Form header. -->
+    <!-- Header. -->
     <div class="flex justify-between mb-6 mx-2">
-      <!-- Form title. -->
+      <!-- Title. -->
       <p class="mr-10 pt-1 text-2xl">Hide Elements</p>
-      <!-- Form buttons. -->
+      <!-- Buttons. -->
       <vi-button-icon @click="minimalUiDisplayShow()">
         <vi-icon class="w-6">
           <icon-close />

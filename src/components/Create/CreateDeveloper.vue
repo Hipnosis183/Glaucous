@@ -11,11 +11,11 @@
     >
       Complete the required fields.
     </vi-dialog-box>
-    <!-- Form header. -->
+    <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
-      <!-- Form title. -->
+      <!-- Title. -->
       <p class="mr-10 pt-1 text-2xl">New Developer</p>
-      <!-- Form buttons. -->
+      <!-- Buttons. -->
       <div class="h-10 space-x-4">
         <vi-button-icon @click="onSubmit()">
           <vi-icon class="w-6">
@@ -35,14 +35,13 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 // Import form components.
 import { FormDeveloperName } from '@/components/Form'
 // Import database controllers functions.
 import { createDeveloper } from '@/database/controllers/Developer'
-
-// Import Vue functions.
-import { ref } from 'vue'
-import { useStore } from 'vuex'
 
 export default {
   name: "CreateDeveloper",

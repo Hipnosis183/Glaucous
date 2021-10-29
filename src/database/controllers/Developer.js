@@ -1,5 +1,5 @@
-import DeveloperModel from '../models/Developer'
-import { generateID, connectDatastore } from '../datastore'
+import DeveloperModel from '@/database/models/Developer'
+import { generateID, connectDatastore } from '@/database/datastore'
 import { getGamePlatformCountD, deleteGamesDeveloper } from './Game'
 
 // Create new game developer.

@@ -1,7 +1,7 @@
 <template>
   <button class="hover:bg-color-500 dark:hover:bg-color-600 font-medium h-14 text-color-200 text-xl w-full">
     <h6 class="flex h-full items-center space-x-4 w-full">
-      <slot></slot>
+      <slot />
     </h6>
   </button>
 </template>

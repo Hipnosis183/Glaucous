@@ -4,7 +4,7 @@
     :class="$store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'"
     :style="listDisplay == 0 ? 'grid-template-columns: repeat(' + gridColumns  + ', minmax(0, 1fr))' : ''"
   >
-    <slot></slot>
+    <slot />
   </ul>
   <div
     ref="sentinel"

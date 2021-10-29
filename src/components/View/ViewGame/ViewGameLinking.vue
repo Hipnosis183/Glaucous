@@ -54,11 +54,11 @@
     <vi-modal v-if="$store.getters.getSettingsGeneralEditMode">
       <!-- Padding. -->
       <div class="w-80" />
-      <!-- Form header. -->
+      <!-- Header. -->
       <div class="flex justify-between mb-6 mx-2">
-        <!-- Form title. -->
+        <!-- Title. -->
         <p class="mr-10 pt-1 text-2xl">Game Linking</p>
-        <!-- Form buttons. -->
+        <!-- Buttons. -->
         <div class="space-x-4">
           <vi-button-icon @click="linkGame_()">
             <vi-icon class="w-6">

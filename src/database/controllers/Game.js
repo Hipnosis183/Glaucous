@@ -1,7 +1,7 @@
-import GamePlatformModel from '../models/GamePlatform'
-import GameRegionModel from '../models/GameRegion'
-import GameVersionModel from '../models/GameVersion'
-import { generateID } from '../datastore'
+import GamePlatformModel from '@/database/models/GamePlatform'
+import GameRegionModel from '@/database/models/GameRegion'
+import GameVersionModel from '@/database/models/GameVersion'
+import { generateID } from '@/database/datastore'
 import { getDeveloper, getDeveloperByName } from './Developer'
 import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
 import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from './User'
@@ -9,7 +9,7 @@ import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from '.
 import { app } from '@electron/remote'
 import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, remove, removeSync } from 'fs-extra'
 
-import Regions from '../../../public/files/flags.json'
+import Regions from '@/../public/files/flags.json'
 
 // Declare game variables.
 let gamePlatform

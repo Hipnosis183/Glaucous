@@ -3,7 +3,7 @@
   <vi-input
     v-model="subTitle"
     label="Subtitle"
-  ></vi-input>
+  />
 </template>
 
 <script>

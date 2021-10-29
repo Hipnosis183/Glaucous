@@ -4,7 +4,7 @@
     <vi-label v-if="label">{{ label }}</vi-label>
     <!-- Container. -->
     <div class="flex h-10 rounded-xl shadow-color">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

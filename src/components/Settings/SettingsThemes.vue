@@ -88,10 +88,10 @@
 // Import Vue functions.
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-// Import theme objects and functions.
-import { colors, selectColor, selectFont, selectTheme, themes } from '@/theme'
 // Import functions from modules.
 import { readdirSync } from 'fs-extra'
+// Import theme objects and functions.
+import { colors, selectColor, selectFont, selectTheme, themes } from '@/theme'
 
 export default {
   name: 'SettingsThemes',

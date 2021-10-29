@@ -25,7 +25,7 @@
             class="bg-theme-0 dark:bg-theme-700 list-none max-h-96 overflow-y-auto px-2 py-6 rounded-3xl shadow-color transition-menu"
           >
             <!-- Options list. -->
-            <slot></slot>
+            <slot />
           </div>
         </transition>
       </div>

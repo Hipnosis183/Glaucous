@@ -7,7 +7,7 @@
       large ? 'w-full' : 'w-max'
     ]"
   >
-    <slot></slot>
+    <slot />
   </button>
 </template>
 

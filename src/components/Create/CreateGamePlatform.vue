@@ -11,9 +11,9 @@
     >
       Complete the required fields.
     </vi-dialog-box>
-    <!-- Form header. -->
+    <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
-      <!-- Form title. -->
+      <!-- Title. -->
       <div class="flex h-10">
         <p class="mr-4 pt-1 text-2xl">New Game Entry</p>
         <form-game-images
@@ -22,7 +22,7 @@
           showVersion
         />
       </div>
-      <!-- Form buttons. -->
+      <!-- Buttons. -->
       <div class="h-10 space-x-4">
         <vi-button-icon @click="onSubmit()">
           <vi-icon class="w-6">

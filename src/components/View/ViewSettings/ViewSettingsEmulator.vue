@@ -69,7 +69,7 @@
           :key="item.id"
           :label="item.name"
           :value="item.id"
-        ></vi-option>
+        />
       </vi-select>
     </div>
   </vi-section-content>

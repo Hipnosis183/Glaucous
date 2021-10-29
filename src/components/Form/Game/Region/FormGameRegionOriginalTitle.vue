@@ -3,7 +3,7 @@
   <vi-input
     v-model="originalTitle"
     label="Original Title"
-  ></vi-input>
+  />
 </template>
 
 <script>

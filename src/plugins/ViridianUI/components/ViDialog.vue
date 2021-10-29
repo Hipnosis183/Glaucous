@@ -1,7 +1,7 @@
 <template>
   <vi-overlay :width="width ? width : false">
     <vi-modal>
-      <slot></slot>
+      <slot />
     </vi-modal>
   </vi-overlay>
 </template>

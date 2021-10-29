@@ -1,6 +1,6 @@
 <template>
   <p class="mb-1 ml-1 mt-4 text-theme-800">
-    <slot></slot>
+    <slot />
   </p>
 </template>
 

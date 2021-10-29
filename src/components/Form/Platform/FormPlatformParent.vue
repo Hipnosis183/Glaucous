@@ -12,8 +12,7 @@
       :key="item._id"
       :label="item.name"
       :value="item._id"
-    >
-    </vi-option>
+    />
   </vi-select>
 </template>
 

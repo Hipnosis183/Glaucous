@@ -6,7 +6,7 @@
   >
     <!-- Dialog message. -->
     <p class="text-center text-lg">
-      <slot></slot>
+      <slot />
     </p>
     <!-- Dialog buttons. -->
     <div class="flex justify-center mt-6 space-x-4">

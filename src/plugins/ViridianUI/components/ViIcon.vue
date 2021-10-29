@@ -11,7 +11,7 @@
     ]"
   >
     <!-- Icon contents. -->
-    <slot></slot>
+    <slot />
   </svg>
 </template>
 

@@ -1,5 +1,5 @@
-import UserModel from '../models/User'
-import { generateID } from '../datastore'
+import UserModel from '@/database/models/User'
+import { generateID } from '@/database/datastore'
 import { deleteGamesTag } from './Game'
 
 // Set user data.

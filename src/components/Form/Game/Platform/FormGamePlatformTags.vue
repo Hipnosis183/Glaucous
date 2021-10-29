@@ -41,8 +41,7 @@
         :key="item._id"
         :label="item.name"
         :value="item._id"
-      >
-      </vi-option>
+      />
     </vi-select>
     <!-- Tags list section. -->
     <div v-if="gameTags.length > 0">
@@ -83,8 +82,7 @@
         :key="item._id"
         :label="item.name"
         :value="item._id"
-      >
-      </vi-option>
+      />
     </vi-select>
     <!-- Buttons -->
     <vi-button-icon @click="addTags()">

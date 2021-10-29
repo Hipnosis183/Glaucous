@@ -14,7 +14,7 @@
           width ? width : ''
         ]"
       >
-        <slot></slot>
+        <slot />
       </div>
     </div>
   </transition>
