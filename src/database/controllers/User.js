@@ -1,5 +1,6 @@
 import UserModel from '../models/User'
 import { generateID } from '../datastore'
+import { deleteGamesTag } from './Game'
 
 // Set user data.
 const userId = '00000000'
@@ -291,6 +292,38 @@ export async function createTag(req) {
         })
 }
 
+// Update a specific tag.
+export async function updateTag(req, id) {
+    // Get all tags.
+    await UserModel.findOne({ _id: userId }, { select: ['tags'] })
+        .then(async (res) => {
+            // Get the selected tag.
+            for (let [i, tag] of res.tags.entries()) {
+                if (tag._id == id) {
+                    // Update tag properties.
+                    tag.name = req.name
+                    res.tags[i] = tag
+                    // Update tags.
+                    await UserModel.findOneAndUpdate({ _id: userId }, { tags: res.tags })
+                }
+            }
+        })
+}
+
+// Delete a specific tag.
+export async function deleteTag(req) {
+    // Delete tag from all of the games in which is included.
+    await deleteGamesTag(req)
+    // Get all tags.
+    await UserModel.findOne({ _id: userId }, { select: ['tags'] })
+        .then(async (res) => {
+            // Remove selected tag object.
+            res.tags = res.tags.filter((res) => res._id != req)
+            // Update tags.
+            await UserModel.findOneAndUpdate({ _id: userId }, { tags: res.tags })
+        })
+}
+
 // Search for a specific tag.
 export async function getTag(req) {
     // Get all tags.
@@ -312,5 +345,17 @@ export async function getTags(req) {
         .then((res) => {
             if (req) { res.tags = res.tags.filter((tag) => req.includes(tag._id)) }
             return res.tags
+        })
+}
+
+// Get all tags matching a given search query.
+export async function getTagsSearch(index, count, query) {
+    await ensureUser()
+    const search = new RegExp(query, 'i')
+    // Get all tags.
+    return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['tags'] })
+        .then((res) => {
+            // Search tags matching the query, case insensitive.
+            return res.tags.filter((res) => search.test(res.name))
         })
 }

@@ -202,7 +202,7 @@
                 :versionIndex="versionIndex"
               >
                 <div class="flex h-full">
-                  <div class="flex flex-col">
+                  <div class="flex flex-col max-w-1/2">
                     <!-- Top container. -->
                     <div class="flex mr-auto p-6 space-x-2 text-theme-100">
                       <!-- Game settings. -->
@@ -293,11 +293,13 @@
                       <!-- View game tags. -->
                       <div
                         v-if="minimalUiDisplayGameTags && gameInfo.gameTags.length > 0"
-                        class="flex space-x-2 text-lg"
+                        class="flex flex-wrap"
                       >
                         <vi-chip-ui
                           v-for="tag in gameInfo.gameTags"
                           :key="tag._id"
+                          @clicked="$router.push({ name: 'Tag', params: { id: tag._id } })"
+                          class="mb-0.5 mr-0.5"
                         >
                           {{ tag.name }}
                         </vi-chip-ui>

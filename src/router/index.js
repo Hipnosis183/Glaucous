@@ -76,6 +76,16 @@ const routes = [
     name: 'Playlist',
     component: () => import('../components/View/ViewPlaylist.vue')
   },
+  {
+    path: '/tags',
+    name: 'Tags',
+    component: () => import('../components/List/ListTags.vue')
+  },
+  {
+    path: '/tags/:id',
+    name: 'Tag',
+    component: () => import('../components/View/ViewTag.vue')
+  },
   // Others
   {
     path: '/players/:id',

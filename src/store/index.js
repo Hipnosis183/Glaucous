@@ -194,6 +194,10 @@ export default createStore({
     playlistSelected: null,
     playlistForm: {
       name: null
+    },
+    tagSelected: null,
+    tagForm: {
+      name: null
     }
   },
   getters: {
@@ -865,6 +869,13 @@ export default createStore({
     },
     setPlaylistName(state, data) {
       state.playlistForm.name = data
+    },
+    // Tag form.
+    resetTagForm(state) {
+      state.tagForm.name = null
+    },
+    setTagName(state, data) {
+      state.tagForm.name = data
     }
   }
 })

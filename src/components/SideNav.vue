@@ -34,7 +34,7 @@
           </h6>
         </div>
         <!-- Buttons. -->
-        <div class="flex flex-col mb-auto">
+        <div class="flex flex-col max-h-80 mb-auto no-scrollbar overflow-scroll">
           <vi-button-sb
             @click="selectList()"
             class="flex h-16 pl-4 z-50"
@@ -58,6 +58,18 @@
               <icon-star-s />
             </vi-icon>
             <h6>Favorites</h6>
+          </vi-button-sb>
+          <vi-button-sb
+            @click="$router.push({ name: 'Tags' })"
+            class="flex h-16 pl-4"
+          >
+            <vi-icon
+              icon-manual
+              class="w-8"
+            >
+              <icon-tag />
+            </vi-icon>
+            <h6>Explore Tags</h6>
           </vi-button-sb>
           <vi-button-sb
             @click="$router.push({ name: 'Playlists' })"
@@ -84,20 +96,7 @@
             <h6>Recently Played</h6>
           </vi-button-sb>
         </div>
-        <div class="flex flex-col mt-auto z-50">
-          <vi-button-sb
-            v-show="history > 0"
-            @click="$router.back()"
-            class="flex h-16 pl-3"
-          >
-            <vi-icon
-              icon-manual
-              class="w-7"
-            >
-              <icon-back />
-            </vi-icon>
-            <h6>Go Back</h6>
-          </vi-button-sb>
+        <div class="flex flex-col max-h-32 mt-auto no-scrollbar overflow-scroll z-50">
           <vi-button-sb
             @click="searchShow()"
             class="flex h-16 pl-4"
@@ -162,7 +161,7 @@
           </h6>
         </div>
         <!-- Buttons. -->
-        <div class="flex flex-col mb-auto z-40">
+        <div class="flex flex-col max-h-80 mb-auto no-scrollbar overflow-scroll z-40">
           <vi-button-sb @click="selectList()">
             <vi-icon class="text-color-200 w-8">
               <icon-games />
@@ -171,6 +170,11 @@
           <vi-button-sb @click="$router.push({ name: 'Favorites' })">
             <vi-icon class="text-color-200 w-8">
               <icon-star-s />
+            </vi-icon>
+          </vi-button-sb>
+          <vi-button-sb @click="$router.push({ name: 'Tags' })">
+            <vi-icon class="text-color-200 w-8">
+              <icon-tag />
             </vi-icon>
           </vi-button-sb>
           <vi-button-sb @click="$router.push({ name: 'Playlists' })">
@@ -184,7 +188,10 @@
             </vi-icon>
           </vi-button-sb>
         </div>
-        <div class="flex flex-col mt-auto z-40">
+        <div
+          class="flex flex-col mt-auto no-scrollbar overflow-scroll z-40"
+          :class="history > 0 ? 'max-h-48' : 'max-h-32'"
+        >
           <vi-button-sb
             v-show="history > 0"
             @click="$router.back()"

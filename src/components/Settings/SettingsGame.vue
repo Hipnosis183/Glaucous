@@ -105,7 +105,7 @@
             <vi-icon
               icon-manual
               @click="minimalUiDisplayShow()"
-              class="cursor-pointer mr-2 w-6 vi-menu-close"
+              class="cursor-pointer mr-2 text-theme-300 vi-menu-close w-6"
             >
               <icon-setting-f class="vi-menu-close" />
             </vi-icon>

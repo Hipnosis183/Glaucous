@@ -1,16 +1,16 @@
 <template>
   <div>
-    <!-- Create playlist dialog. -->
-    <create-playlist
-      v-show="createPlaylistDialog"
-      @close="createPlaylistClose()"
+    <!-- Create tag dialog. -->
+    <create-tag
+      v-show="createTagDialog"
+      @close="createTagClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar title="Playlists">
-      <!-- Open create playlist dialog. -->
+    <vi-nav-bar title="Tags">
+      <!-- Open create tag dialog. -->
       <vi-button-nb
         v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createPlaylistOpen()"
+        @click="createTagOpen()"
       >
         <vi-icon class="w-6">
           <icon-add />
@@ -27,7 +27,7 @@
         />
       </div>
     </vi-nav-bar>
-    <!-- Show playlists list. -->
+    <!-- Show tags list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
       <div
         class="flex-1 overflow-y-scroll"
@@ -35,19 +35,19 @@
       >
         <vi-list
           :listDisplay="1"
-          :remote-method="loadPlaylistNext"
+          :remote-method="loadTagsNext"
         >
           <li
-            v-for="playlist in playlists"
-            :key="playlist._id"
-            :value="playlist._id"
-            @click="$router.push({ name: 'Playlist', params: { id: playlist._id } })"
+            v-for="tag in gameTags"
+            :key="tag._id"
+            :value="tag._id"
+            @click="$router.push({ name: 'Tag', params: { id: tag._id } })"
           >
-            <!-- Playlist card. -->
+            <!-- Tag card. -->
             <vi-card>
               <div class="flex items-center p-4 space-x-2">
-                <h1 class="font-medium">{{ playlist.name }}</h1>
-                <h3 class="pt-0.5 text-sm">{{ playlist.games.length }} {{ playlist.games.length == 1 ? 'Title' : 'Titles' }}</h3>
+                <h1 class="font-medium">{{ tag.name }}</h1>
+                <h3 class="pt-0.5 text-sm">{{ tag.games }} {{ tag.games == 1 ? 'Title' : 'Titles' }}</h3>
               </div>
             </vi-card>
           </li>
@@ -62,65 +62,70 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getPlaylists, getPlaylistsSearch } from '@/database/controllers/User'
+import { getGamePlatformCountT } from '@/database/controllers/Game'
+import { getTags, getTagsSearch } from '@/database/controllers/User'
 // Import form components.
-import CreatePlaylist from '@/components/Create/CreatePlaylist.vue'
+import CreateTag from '@/components/Create/CreateTag.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
-  name: 'ListPlaylists',
+  name: 'ListTags',
   components: {
-    CreatePlaylist,
+    CreateTag,
     SettingsLists
   },
   setup() {
     // Instantiate Vue elements.
     const store = useStore()
 
-    // Load playlists list on mounting.
-    onMounted(() => { loadPlaylists() })
+    // Load tags list on mounting.
+    onMounted(() => { loadTags() })
 
-    // Load playlists list.
-    let playlists = ref(null)
+    // Load tags list.
+    let gameTags = ref([])
     let paginationIndex = ref(0)
     const paginationCount = 50
-    const loadPlaylists = () => {
+    const loadTags = () => {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
-      // Get first batch of playlists.
-      getPlaylists(paginationIndex.value, paginationCount)
-        .then((res) => {
-          playlists.value = res
+      // Get first batch of tags.
+      getTags(paginationIndex.value, paginationCount)
+        .then(async (res) => {
+          gameTags.value = res
           // Set next pagination index.
           paginationIndex.value += paginationCount
+          // Get game count for each tag.
+          for (let [i, tag] of res.entries()) {
+            gameTags.value[i].games = await getGamePlatformCountT(tag._id)
+          }
         })
     }
-    const loadPlaylistNext = () => {
-      // Check loaded playlists to avoid duplication.
-      if (playlists.value) {
-        // Get next batch of playlists.
-        getPlaylists(paginationIndex.value, paginationCount)
+    const loadTagsNext = () => {
+      // Check loaded tags to avoid duplication.
+      if (gameTags.value) {
+        // Get next batch of tags.
+        getTags(paginationIndex.value, paginationCount)
           .then((res) => {
-            playlists.value = playlists.value.concat(res)
+            gameTags.value = gameTags.value.concat(res)
             // Set next pagination index.
             paginationIndex.value += paginationCount
           })
       }
     }
 
-    // Manage playlist operations.
-    let createPlaylistDialog = ref(false)
-    const createPlaylistOpen = () => {
+    // Manage tag operations.
+    let createTagDialog = ref(false)
+    const createTagOpen = () => {
       // Restore the data on the store.
-      store.commit('resetPlaylistForm')
+      store.commit('resetTagForm')
       // Open create dialog.
-      createPlaylistDialog.value = !createPlaylistDialog.value
+      createTagDialog.value = !createTagDialog.value
     }
-    const createPlaylistClose = () => {
-      // Reload playlists.
-      loadPlaylists()
+    const createTagClose = () => {
+      // Reload tags.
+      loadTags()
       // Close create dialog.
-      createPlaylistDialog.value = !createPlaylistDialog.value
+      createTagDialog.value = !createTagDialog.value
     }
 
     // Manage search queries.
@@ -133,10 +138,10 @@ export default {
         paginationIndex.value = 0
         // A search has been done.
         querySearched.value = true
-        // Search for playlists matching the query.
-        getPlaylistsSearch(paginationIndex.value, paginationCount, query)
+        // Search for tags matching the query.
+        getTagsSearch(paginationIndex.value, paginationCount, query)
           .then((res) => {
-            playlists.value = res
+            gameTags.value = res
             // Set next pagination index.
             paginationIndex.value += paginationCount
           })
@@ -149,16 +154,16 @@ export default {
     const queryClear = () => {
       // A search hasn't been done yet.
       querySearched.value = false
-      // Reload playlists list.
-      loadPlaylists()
+      // Reload tags list.
+      loadTags()
     }
 
     return {
-      createPlaylistClose,
-      createPlaylistDialog,
-      createPlaylistOpen,
-      loadPlaylistNext,
-      playlists,
+      createTagClose,
+      createTagDialog,
+      createTagOpen,
+      gameTags,
+      loadTagsNext,
       queryInput,
       querySearched,
       querySearch

@@ -267,6 +267,19 @@ export async function deleteGamesPlatform(req) {
         })
 }
 
+// Delete a specific tag from all of the games in which is included.
+export async function deleteGamesTag(req) {
+    await GamePlatformModel.find({ gameTags: req }, { populate: false })
+        .then(async (res) => {
+            // Update all the game platforms that includes the tag.
+            for (let gamePlatform of res) {
+                // Filter tag from the game tags array.
+                let gameTags = gamePlatform.gameTags.filter((res) => res != req)
+                await GamePlatformModel.findOneAndUpdate({ _id: gamePlatform._id }, { gameTags: gameTags })
+            }
+        })
+}
+
 // Store images for a specific game.
 async function storeImages(images, path) {
     // Set image path for a specific game.
@@ -414,6 +427,11 @@ export async function getGamePlatformCountD(req) {
 // Get the count of game platforms belonging to a specific platform.
 export async function getGamePlatformCountP(req) {
     return await GamePlatformModel.count({ platform: req }, { populate: false })
+}
+
+// Get the count of game platforms containing a specific tag.
+export async function getGamePlatformCountT(req) {
+    return await GamePlatformModel.count({ gameTags: req }, { populate: false })
 }
 
 // Get a specific game region.
@@ -708,6 +726,25 @@ export async function getGamesPlaylist(req, index, count, query) {
     const gamesPlaylist = await getPlaylist(req)
     // Search all game platforms included in the playlist.
     return await GamePlatformModel.find({ _id: { $in: gamesPlaylist.games } }, { populate: false, select: ['gameRegions'] })
+        .then(async (res) => {
+            for (let gamePlatform of res) {
+                // Store default region for the sorted search.
+                gameRegions.push(gamePlatform.gameRegions[0])
+            }
+            // Configure the search parameters.
+            const search = new RegExp(query, 'i')
+            // Configure the search query.
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            // Get all playlist games.
+            return await getGamesAll(index, count, querySearch, true)
+        })
+}
+
+// Get all games by a specific tag.
+export async function getGamesTag(req, index, count, query) {
+    let gameRegions = []
+    // Search all game platforms including the tag.
+    return await GamePlatformModel.find({ gameTags: req }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
                 // Store default region for the sorted search.

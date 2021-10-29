@@ -11,6 +11,8 @@ import FormPlatformName from './Platform/FormPlatformName.vue'
 import FormPlatformParent from './Platform/FormPlatformParent.vue'
 // Playlist form.
 import FormPlaylistName from './Playlist/FormPlaylistName.vue'
+// Tag form.
+import FormTagName from './Tag/FormTagName.vue'
 // Game form.
 import FormGameImages from './Game/FormGameImages.vue'
 import FormGameImagesView from './Game/FormGameImagesView.vue'
@@ -50,6 +52,8 @@ export {
     FormPlatformParent,
     // Playlist form.
     FormPlaylistName,
+    // Tag form.
+    FormTagName,
     // Game form.
     FormGameImages,
     FormGameImagesView,

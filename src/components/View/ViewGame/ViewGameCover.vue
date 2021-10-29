@@ -17,7 +17,7 @@
   </vi-overlay>
   <!-- View cover image. -->
   <div
-    class="ml-auto p-8 pb-0 relative"
+    class="flex-shrink-0 ml-auto p-8 pb-0 relative"
     :style="'height:' + imageHeight"
   >
     <!-- Cover overlay. -->
