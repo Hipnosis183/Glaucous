@@ -1,21 +1,25 @@
 <template>
   <div>
-    <!-- Create developer dialog. -->
-    <create-developer
-      v-show="createDeveloperDialog"
-      @close="createDeveloperClose()"
-    />
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create developer dialog. -->
+      <create-developer
+        v-show="createDeveloperDialog"
+        @close="createDeveloperClose()"
+      />
+    </div>
     <!-- Navigation bar. -->
     <vi-nav-bar title="Developers">
-      <!-- Open create developer dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createDeveloperOpen()"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open create developer dialog. -->
+        <vi-button-nb @click="createDeveloperOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

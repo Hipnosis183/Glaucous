@@ -1,56 +1,54 @@
 <template>
   <div>
-    <!-- Create game platform dialog. -->
-    <create-game-platform
-      v-show="createPlatformDialog"
-      :gameDeveloper="$route.params.id"
-      @close="createPlatformClose()"
-    />
-    <!-- Edit developer dialog. -->
-    <edit-developer
-      v-show="editDeveloperDialog"
-      @close="editDeveloperClose()"
-    />
-    <!-- Delete developer dialog. -->
-    <vi-dialog-box
-      v-show="deleteDeveloperDialog"
-      @accept="deleteDeveloperClose()"
-      @cancel="deleteDeveloperOpen()"
-      actions="OkCancel"
-    >
-      Delete developer <b>'{{ developer.name }}'</b> ?
-      <br />
-      It will also delete all its game entries.
-    </vi-dialog-box>
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create game platform dialog. -->
+      <create-game-platform
+        v-show="createPlatformDialog"
+        :gameDeveloper="$route.params.id"
+        @close="createPlatformClose()"
+      />
+      <!-- Edit developer dialog. -->
+      <edit-developer
+        v-show="editDeveloperDialog"
+        @close="editDeveloperClose()"
+      />
+      <!-- Delete developer dialog. -->
+      <vi-dialog-box
+        v-show="deleteDeveloperDialog"
+        @accept="deleteDeveloperClose()"
+        @cancel="deleteDeveloperOpen()"
+        actions="OkCancel"
+      >
+        Delete developer <b>'{{ developer.name }}'</b> ?
+        <br />
+        It will also delete all its game entries.
+      </vi-dialog-box>
+    </div>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="developer.name">
-      <!-- Open create game platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createPlatformOpen()"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open edit developer dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="editDeveloperOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-edit />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open delete developer dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deleteDeveloperOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-remove />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open create game platform dialog. -->
+        <vi-button-nb @click="createPlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open edit developer dialog. -->
+        <vi-button-nb @click="editDeveloperOpen()">
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open delete developer dialog. -->
+        <vi-button-nb @click="deleteDeveloperOpen()">
+          <vi-icon class="w-6">
+            <icon-remove />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

@@ -1,66 +1,64 @@
 <template>
   <div>
-    <!-- Create platform dialog. -->
-    <create-platform
-      v-show="createPlatformDialog"
-      :groupPlatform="$route.params.id"
-      @close="createPlatformClose()"
-    />
-    <!-- Edit platform dialog. -->
-    <edit-platform
-      v-show="editPlatformDialog"
-      :groupPlatform="platform.parent"
-      @close="editPlatformClose()"
-    />
-    <!-- Delete platform allowed dialog. -->
-    <vi-dialog-box
-      v-if="!platform.platforms.length > 0"
-      v-show="deletePlatformDialog"
-      @accept="deletePlatformClose()"
-      @cancel="deletePlatformOpen()"
-      actions="OkCancel"
-    >
-      Delete platform group <b>'{{ platform.name }}'</b> ?
-    </vi-dialog-box>
-    <!-- Delete platform denied dialog. -->
-    <vi-dialog-box
-      v-else
-      v-show="deletePlatformDialog"
-      @accept="deletePlatformOpen()"
-    >
-      You can't delete a group if it has platforms on it.
-      <br />
-      Delete the platforms individually first.
-    </vi-dialog-box>
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create platform dialog. -->
+      <create-platform
+        v-show="createPlatformDialog"
+        :groupPlatform="$route.params.id"
+        @close="createPlatformClose()"
+      />
+      <!-- Edit platform dialog. -->
+      <edit-platform
+        v-show="editPlatformDialog"
+        :groupPlatform="platform.parent"
+        @close="editPlatformClose()"
+      />
+      <!-- Delete platform allowed dialog. -->
+      <vi-dialog-box
+        v-if="!platform.platforms.length > 0"
+        v-show="deletePlatformDialog"
+        @accept="deletePlatformClose()"
+        @cancel="deletePlatformOpen()"
+        actions="OkCancel"
+      >
+        Delete platform group <b>'{{ platform.name }}'</b> ?
+      </vi-dialog-box>
+      <!-- Delete platform denied dialog. -->
+      <vi-dialog-box
+        v-else
+        v-show="deletePlatformDialog"
+        @accept="deletePlatformOpen()"
+      >
+        You can't delete a group if it has platforms on it.
+        <br />
+        Delete the platforms individually first.
+      </vi-dialog-box>
+    </div>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="platform.name">
-      <!-- Open create platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createPlatformOpen()"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open edit platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="editPlatformOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-edit />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open delete platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deletePlatformOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-remove />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open create platform dialog. -->
+        <vi-button-nb @click="createPlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open edit platform dialog. -->
+        <vi-button-nb @click="editPlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open delete platform dialog. -->
+        <vi-button-nb @click="deletePlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-remove />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

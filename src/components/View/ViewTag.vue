@@ -1,39 +1,40 @@
 <template>
   <div>
-    <!-- Edit tag dialog. -->
-    <edit-tag
-      v-show="editTagDialog"
-      @close="editTagClose()"
-    />
-    <!-- Delete tag dialog. -->
-    <vi-dialog-box
-      v-show="deleteTagDialog"
-      @accept="deleteTagClose()"
-      @cancel="deleteTagOpen()"
-      actions="OkCancel"
-    >
-      Delete tag <b>'{{ gameTag.name }}'</b> ?
-    </vi-dialog-box>
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Edit tag dialog. -->
+      <edit-tag
+        v-show="editTagDialog"
+        @close="editTagClose()"
+      />
+      <!-- Delete tag dialog. -->
+      <vi-dialog-box
+        v-show="deleteTagDialog"
+        @accept="deleteTagClose()"
+        @cancel="deleteTagOpen()"
+        actions="OkCancel"
+      >
+        Delete tag <b>'{{ gameTag.name }}'</b> ?
+      </vi-dialog-box>
+    </div>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="gameTag.name">
-      <!-- Open edit tag dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="editTagOpen()"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-edit />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open delete tag dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deleteTagOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-remove />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open edit tag dialog. -->
+        <vi-button-nb @click="editTagOpen()">
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open delete tag dialog. -->
+        <vi-button-nb @click="deleteTagOpen()">
+          <vi-icon class="w-6">
+            <icon-remove />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

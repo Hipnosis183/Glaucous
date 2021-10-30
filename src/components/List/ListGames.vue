@@ -1,21 +1,25 @@
 <template>
   <div>
-    <!-- Create game platform dialog. -->
-    <create-game-platform
-      v-show="createPlatformDialog"
-      @close="createPlatformClose()"
-    />
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create game platform dialog. -->
+      <create-game-platform
+        v-show="createPlatformDialog"
+        @close="createPlatformClose()"
+      />
+    </div>
     <!-- Navigation bar. -->
     <vi-nav-bar title="Games">
-      <!-- Open create developer dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createPlatformOpen()"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open create developer dialog. -->
+        <vi-button-nb @click="createPlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

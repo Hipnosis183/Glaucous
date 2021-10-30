@@ -1,21 +1,25 @@
 <template>
   <div>
-    <!-- Create tag dialog. -->
-    <create-tag
-      v-show="createTagDialog"
-      @close="createTagClose()"
-    />
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create tag dialog. -->
+      <create-tag
+        v-show="createTagDialog"
+        @close="createTagClose()"
+      />
+    </div>
     <!-- Navigation bar. -->
     <vi-nav-bar title="Tags">
-      <!-- Open create tag dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createTagOpen()"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open create tag dialog. -->
+        <vi-button-nb @click="createTagOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

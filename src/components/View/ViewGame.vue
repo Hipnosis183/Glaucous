@@ -1,61 +1,63 @@
 <template>
   <div>
-    <!-- Create game platform dialog. -->
-    <create-game-platform
-      v-show="createPlatformDialog"
-      @close="createPlatformClose($event)"
-    />
-    <!-- Create game region dialog. -->
-    <create-game-region
-      v-show="createRegionDialog"
-      @close="createRegionClose($event)"
-    />
-    <!-- Create game version dialog. -->
-    <create-game-version
-      v-show="createVersionDialog"
-      @close="createVersionClose($event)"
-    />
-    <!-- Edit game dialog. -->
-    <edit-game
-      v-show="editGameDialog"
-      :gameDeveloper="gameInfo.developer._id"
-      :gamePlatform="gameInfo.platform._id"
-      @close="editGameClose($event)"
-    />
-    <!-- Delete game platform dialog. -->
-    <vi-dialog-box
-      v-show="deletePlatformDialog"
-      @accept="deletePlatformClose()"
-      @cancel="deletePlatformOpen()"
-      actions="OkCancel"
-    >
-      Delete game <b>'{{ fullTitle }}'</b> ?
-      <br />
-      It will also delete all its regions and versions.
-    </vi-dialog-box>
-    <!-- Delete game region dialog. -->
-    <vi-dialog-box
-      v-show="deleteRegionDialog"
-      @accept="deleteRegionClose()"
-      @cancel="deleteRegionOpen()"
-      actions="OkCancel"
-    >
-      Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
-      from game <b>'{{ fullTitle }}'</b> ?
-      <br />
-      It will also delete all its versions.
-    </vi-dialog-box>
-    <!-- Delete game version dialog. -->
-    <vi-dialog-box
-      v-show="deleteVersionDialog"
-      @accept="deleteVersionClose()"
-      @cancel="deleteVersionOpen()"
-      actions="OkCancel"
-    >
-      Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
-      <br />
-      If it's the only version, it will also delete the region.
-    </vi-dialog-box>
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create game platform dialog. -->
+      <create-game-platform
+        v-show="createPlatformDialog"
+        @close="createPlatformClose($event)"
+      />
+      <!-- Create game region dialog. -->
+      <create-game-region
+        v-show="createRegionDialog"
+        @close="createRegionClose($event)"
+      />
+      <!-- Create game version dialog. -->
+      <create-game-version
+        v-show="createVersionDialog"
+        @close="createVersionClose($event)"
+      />
+      <!-- Edit game dialog. -->
+      <edit-game
+        v-show="editGameDialog"
+        :gameDeveloper="gameInfo.developer._id"
+        :gamePlatform="gameInfo.platform._id"
+        @close="editGameClose($event)"
+      />
+      <!-- Delete game platform dialog. -->
+      <vi-dialog-box
+        v-show="deletePlatformDialog"
+        @accept="deletePlatformClose()"
+        @cancel="deletePlatformOpen()"
+        actions="OkCancel"
+      >
+        Delete game <b>'{{ fullTitle }}'</b> ?
+        <br />
+        It will also delete all its regions and versions.
+      </vi-dialog-box>
+      <!-- Delete game region dialog. -->
+      <vi-dialog-box
+        v-show="deleteRegionDialog"
+        @accept="deleteRegionClose()"
+        @cancel="deleteRegionOpen()"
+        actions="OkCancel"
+      >
+        Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
+        from game <b>'{{ fullTitle }}'</b> ?
+        <br />
+        It will also delete all its versions.
+      </vi-dialog-box>
+      <!-- Delete game version dialog. -->
+      <vi-dialog-box
+        v-show="deleteVersionDialog"
+        @accept="deleteVersionClose()"
+        @cancel="deleteVersionOpen()"
+        actions="OkCancel"
+      >
+        Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
+        <br />
+        If it's the only version, it will also delete the region.
+      </vi-dialog-box>
+    </div>
     <!-- Playlists management dialog. -->
     <view-game-playlists
       v-show="managePlaylistsDialog"
@@ -63,87 +65,77 @@
     />
     <!-- Navigation bar. -->
     <vi-nav-bar :class="$store.getters.getSettingsGeneralEditMode ? 'mr-1' : 'mx-1'">
-      <!-- Create games menu dialog. -->
-      <vi-menu-select
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        icon="icon-add"
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <!-- Open create game platform dialog. -->
-        <vi-menu-option
-          label="Create Game Platform"
-          :method="createPlatformOpen"
-        />
-        <!-- Open create game region dialog. -->
-        <vi-menu-option
-          label="Create Game Region"
-          :method="createRegionOpen"
-        />
-        <!-- Open create game version dialog. -->
-        <vi-menu-option
-          label="Create Game Version"
-          :method="createVersionOpen"
-        />
-      </vi-menu-select>
-      <!-- Open edit game dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="editGameOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-edit />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Delete games menu dialog. -->
-      <vi-menu-select
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        icon="icon-remove"
-      >
-        <!-- Open create game platform dialog. -->
-        <vi-menu-option
-          label="Delete Game Platform"
-          :method="deletePlatformOpen"
-        />
-        <!-- Open create game region dialog. -->
-        <vi-menu-option
-          label="Delete Game Region"
-          :method="deleteRegionOpen"
-        />
-        <!-- Open create game version dialog. -->
-        <vi-menu-option
-          label="Delete Game Version"
-          :method="deleteVersionOpen"
-        />
-      </vi-menu-select>
-      <!-- Create games menu dialog. -->
-      <vi-menu-select
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        icon="icon-folder"
-      >
-        <!-- Open create game region dialog. -->
-        <vi-menu-option
-          label="Open Game Directory"
-          :method="openGamePath"
-        />
-        <!-- Open create game platform dialog. -->
-        <vi-menu-option
-          label="Open Store Directory"
-          :method="openStorePath"
-        />
-        <!-- Open create game version dialog. -->
-        <vi-menu-option
-          label="Open Images Directory"
-          :method="openImagesPath"
-        />
-      </vi-menu-select>
-      <!-- Set selected game region as the main region. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="setGameRegion()"
-      >
-        <vi-icon class="w-6">
-          <icon-pin />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Create games menu dialog. -->
+        <vi-menu-select icon="icon-add">
+          <!-- Open create game platform dialog. -->
+          <vi-menu-option
+            label="Create Game Platform"
+            :method="createPlatformOpen"
+          />
+          <!-- Open create game region dialog. -->
+          <vi-menu-option
+            label="Create Game Region"
+            :method="createRegionOpen"
+          />
+          <!-- Open create game version dialog. -->
+          <vi-menu-option
+            label="Create Game Version"
+            :method="createVersionOpen"
+          />
+        </vi-menu-select>
+        <!-- Open edit game dialog. -->
+        <vi-button-nb @click="editGameOpen()">
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Delete games menu dialog. -->
+        <vi-menu-select icon="icon-remove">
+          <!-- Open create game platform dialog. -->
+          <vi-menu-option
+            label="Delete Game Platform"
+            :method="deletePlatformOpen"
+          />
+          <!-- Open create game region dialog. -->
+          <vi-menu-option
+            label="Delete Game Region"
+            :method="deleteRegionOpen"
+          />
+          <!-- Open create game version dialog. -->
+          <vi-menu-option
+            label="Delete Game Version"
+            :method="deleteVersionOpen"
+          />
+        </vi-menu-select>
+        <!-- Create games menu dialog. -->
+        <vi-menu-select icon="icon-folder">
+          <!-- Open create game region dialog. -->
+          <vi-menu-option
+            label="Open Game Directory"
+            :method="openGamePath"
+          />
+          <!-- Open create game platform dialog. -->
+          <vi-menu-option
+            label="Open Store Directory"
+            :method="openStorePath"
+          />
+          <!-- Open create game version dialog. -->
+          <vi-menu-option
+            label="Open Images Directory"
+            :method="openImagesPath"
+          />
+        </vi-menu-select>
+        <!-- Set selected game region as the main region. -->
+        <vi-button-nb @click="setGameRegion()">
+          <vi-icon class="w-6">
+            <icon-pin />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Game region tabs. -->
       <ul class="flex h-full w-full">
         <li

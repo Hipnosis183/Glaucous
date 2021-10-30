@@ -1,70 +1,62 @@
 <template>
   <div>
-    <!-- Create game platform dialog. -->
-    <create-game-platform
-      v-show="createPlatformDialog"
-      :gamePlatform="$route.params.id"
-      @close="createPlatformClose()"
-    />
-    <!-- Edit platform dialog. -->
-    <edit-platform
-      v-show="editPlatformDialog"
-      :groupPlatform="platform.parent"
-      @close="editPlatformClose()"
-    />
-    <!-- Delete platform dialog. -->
-    <vi-dialog-box
-      v-show="deletePlatformDialog"
-      @accept="deletePlatformClose()"
-      @cancel="deletePlatformOpen()"
-      actions="OkCancel"
-    >
-      Delete platform <b>'{{ platform.name }}'</b> ?
-      <br />
-      It will also delete all its game entries.
-    </vi-dialog-box>
+    <div v-if="$store.getters.getSettingsGeneralEditMode">
+      <!-- Create game platform dialog. -->
+      <create-game-platform
+        v-show="createPlatformDialog"
+        :gamePlatform="$route.params.id"
+        @close="createPlatformClose()"
+      />
+      <!-- Edit platform dialog. -->
+      <edit-platform
+        v-show="editPlatformDialog"
+        :groupPlatform="platform.parent"
+        @close="editPlatformClose()"
+      />
+      <!-- Delete platform dialog. -->
+      <vi-dialog-box
+        v-show="deletePlatformDialog"
+        @accept="deletePlatformClose()"
+        @cancel="deletePlatformOpen()"
+        actions="OkCancel"
+      >
+        Delete platform <b>'{{ platform.name }}'</b> ?
+        <br />
+        It will also delete all its game entries.
+      </vi-dialog-box>
+    </div>
     <!-- Platform settings dialog. -->
     <view-platform-settings
       v-show="settingsPlatformDialog"
       @close="settingsPlatformClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar
-      :button="true"
-      :title="platform.name"
-    >
-      <!-- Open create game platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="createPlatformOpen()"
+    <vi-nav-bar :title="platform.name">
+      <div
+        v-if="$store.getters.getSettingsGeneralEditMode"
+        class="flex"
       >
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open edit platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="editPlatformOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-edit />
-        </vi-icon>
-      </vi-button-nb>
-      <!-- Open delete platform dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="deletePlatformOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-remove />
-        </vi-icon>
-      </vi-button-nb>
+        <!-- Open create game platform dialog. -->
+        <vi-button-nb @click="createPlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open edit platform dialog. -->
+        <vi-button-nb @click="editPlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-button-nb>
+        <!-- Open delete platform dialog. -->
+        <vi-button-nb @click="deletePlatformOpen()">
+          <vi-icon class="w-6">
+            <icon-remove />
+          </vi-icon>
+        </vi-button-nb>
+      </div>
       <!-- Open platform settings dialog. -->
-      <vi-button-nb
-        v-show="$store.getters.getSettingsGeneralEditMode"
-        @click="settingsPlatformOpen()"
-      >
+      <vi-button-nb @click="settingsPlatformOpen()">
         <vi-icon class="w-6">
           <icon-setting />
         </vi-icon>

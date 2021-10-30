@@ -5,14 +5,10 @@
       <slot />
       <div
         v-if="title"
-        class="inline-flex"
-        :class="{ 'w-full' : !button }"
+        class="inline-flex w-full"
       >
         <!-- Horizontal padding. -->
-        <div
-          v-if="!button"
-          class="w-full"
-        />
+        <div class="w-full" />
         <!-- Page title. -->
         <p class="mr-6 my-auto text-xl whitespace-nowrap">{{ title }}</p>
       </div>
@@ -24,7 +20,6 @@
 export default {
   name: 'ViNavBar',
   props: {
-    button: { type: Boolean, default: false },
     title: { type: String }
   }
 }
