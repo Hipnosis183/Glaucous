@@ -1,5 +1,5 @@
 import UserModel from '@/database/models/User'
-import { compareLocale, generateID } from '@/database/datastore'
+import { generateID } from '@/database/datastore'
 import { deleteGamesTag } from './Game'
 
 // Set user data.
@@ -69,7 +69,7 @@ export async function removeFavorites(req) {
 export async function getFavorite(req) {
     return await UserModel.findOne({ _id: userId }, { populate: false })
         .then((res) => {
-            if (res) { return res.favorites.includes(req) }
+            return res ? res.favorites.includes(req) : false
         })
 }
 
