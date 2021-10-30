@@ -1,5 +1,5 @@
 import UserModel from '@/database/models/User'
-import { generateID } from '@/database/datastore'
+import { compareLocale, generateID } from '@/database/datastore'
 import { deleteGamesTag } from './Game'
 
 // Set user data.
@@ -31,6 +31,12 @@ export async function removeGameUser(req) {
     await removeRecent(req._id)
     // Remove the game from all playlists.
     await removePlaylistAll(req._id)
+}
+
+// Sorting function for user objects.
+const sortUserList = (a, b) => {
+    // Compare function that returns natural ordered elements.
+    return a.name.localeCompare(b.name, navigator.language, { numeric: true, ignorePunctuation: true })
 }
 
 // Add a game platform to favorites.
@@ -240,7 +246,7 @@ export async function getPlaylists(index, count) {
     await ensureUser()
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
         .then((res) => {
-            return res.playlists
+            return res.playlists.sort(sortUserList)
         })
 }
 
@@ -258,7 +264,7 @@ export async function getGamePlaylists(req) {
                 }
             }
             // Return playlists.
-            return gamePlaylists
+            return gamePlaylists.sort(sortUserList)
         })
 }
 
@@ -270,7 +276,7 @@ export async function getPlaylistsSearch(index, count, query) {
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
         .then((res) => {
             // Search playlists matching the query, case insensitive.
-            return res.playlists.filter((res) => search.test(res.name))
+            return res.playlists.filter((res) => search.test(res.name)).sort(sortUserList)
         })
 }
 
@@ -346,7 +352,7 @@ export async function getTags(req) {
     return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
         .then((res) => {
             if (req) { res.tags = res.tags.filter((tag) => req.includes(tag._id)) }
-            return res.tags
+            return res.tags.sort(sortUserList)
         })
 }
 
@@ -358,6 +364,6 @@ export async function getTagsSearch(index, count, query) {
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['tags'] })
         .then((res) => {
             // Search tags matching the query, case insensitive.
-            return res.tags.filter((res) => search.test(res.name))
+            return res.tags.filter((res) => search.test(res.name)).sort(sortUserList)
         })
 }

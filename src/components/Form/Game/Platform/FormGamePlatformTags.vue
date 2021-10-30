@@ -151,7 +151,7 @@ export default {
         })
       }
       // Set the game tags list.
-      gameTags.value = listTags
+      gameTags.value = listTags.sort(sortTagsList)
       // Reload all tags.
       getTags().then((res) => {
         allTags.value = res
@@ -159,6 +159,10 @@ export default {
         filteredTags.value = res.filter((res) => !gameTagsStore.value.includes(res._id))
         queryResults.value = filteredTags.value
       })
+    }
+    const sortTagsList = (a, b) => {
+      // Compare function that returns natural ordered elements.
+      return a.name.localeCompare(b.name, navigator.language, { numeric: true, ignorePunctuation: true })
     }
     let expandedTagsDialog = ref(false)
     const expandedTagsShow = () => {

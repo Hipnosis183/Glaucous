@@ -633,7 +633,10 @@ export async function getGamesLinked(req) {
                 gameLinked.image = getImage(gameLinked)
                 gamePlatforms.push(gameLinked)
             }
-            return gamePlatforms
+            return gamePlatforms.sort((a, b) => {
+                // Compare function that returns natural ordered elements.
+                return a.gameRegions[0].title.localeCompare(b.gameRegions[0].title, navigator.language, { numeric: true, ignorePunctuation: true })
+            })
         })
 }
 
@@ -644,7 +647,7 @@ export async function getGamesLinkedSearch(req, query) {
     // Configure the search query.
     const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
     // Search through game regions, case insensitive.
-    return await GameRegionModel.find(querySearch)
+    return await GameRegionModel.find(querySearch, { sort: 'title' })
         .then(async (res) => {
             let idBlacklist = []
             let gamePlatforms = []
