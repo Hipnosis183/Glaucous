@@ -47,7 +47,9 @@ import { onUnmounted, computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
-import { ensureDirSync, readdirSync } from 'fs-extra'
+import { ensureDirSync } from 'fs-extra'
+// Import utility functions.
+import { readfiles } from '@/utils/filesystem'
 
 export default {
   name: 'ViewGameCover',
@@ -66,20 +68,20 @@ export default {
     const getImages = () => {
       if (props.gameInfo._id) {
         // Set the image directory path for all game types.
-        let gamePathPlatform = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-        let gamePathRegion = '/games/' + props.gameInfo.gameRegions[props.regionIndex]._id
-        let gamePathVersion = '/games/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
-        imagePathPlatform.value = gamePathPlatform + '/images'
-        imagePathRegion.value = gamePathPlatform + gamePathRegion + '/images'
-        imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion + '/images'
+        let gamePathPlatform = app.getAppPath() + '/data/images/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+        let gamePathRegion = '/' + props.gameInfo.gameRegions[props.regionIndex]._id
+        let gamePathVersion = '/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+        imagePathPlatform.value = gamePathPlatform
+        imagePathRegion.value = gamePathPlatform + gamePathRegion
+        imagePathVersion.value = gamePathPlatform + gamePathRegion + gamePathVersion
         // Ensure images directories existance.
         ensureDirSync(imagePathPlatform.value)
         ensureDirSync(imagePathRegion.value)
         ensureDirSync(imagePathVersion.value)
         // Load images filenames.
-        imageFilesPlatform.value = readdirSync(imagePathPlatform.value)
-        imageFilesRegion.value = readdirSync(imagePathRegion.value)
-        imageFilesVersion.value = readdirSync(imagePathVersion.value)
+        imageFilesPlatform.value = readfiles(imagePathPlatform.value)
+        imageFilesRegion.value = readfiles(imagePathRegion.value)
+        imageFilesVersion.value = readfiles(imagePathVersion.value)
       }
     }
 

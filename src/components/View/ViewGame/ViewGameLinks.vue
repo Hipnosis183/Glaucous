@@ -73,7 +73,7 @@ export default {
     let gameLinks = ref([])
     const getLinks = () => {
       // Set the links file path for the game platform.
-      let linksPath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id + '/links'
+      let linksPath = app.getAppPath() + '/data/links/' + props.gameInfo.platform._id + '/' + props.gameInfo._id + '/links'
       if (existsSync(linksPath)) {
         // Load links file.
         readFile(linksPath, 'utf8')

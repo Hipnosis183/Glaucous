@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 import Store from 'electron-store'
 
 // App settings store.
-const localStore = new Store({ cwd: app.getAppPath() })
+const localStore = new Store({ cwd: app.getAppPath(), name: 'viridian' })
 // Platform settings store.
 let platformStore
 // Game settings store.
@@ -524,7 +524,7 @@ export default createStore({
     },
     setGameOverStore(state) {
       if (state.selectedPlatform) {
-        gameOverStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform })
+        gameOverStore = new Store({ cwd: app.getAppPath() + '/data/config/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform, name: state.gameSelected.gamePlatform })
         state.settingsApp.settingsGame.settingsOver.settingsOver = gameOverStore.get('settingsGameOver.settingsOver', false)
         state.settingsApp.settingsGame.settingsOver.displayCoverImage = gameOverStore.get('settingsGameOver.displayCoverImage', true)
         state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
@@ -578,7 +578,7 @@ export default createStore({
     // Platform settings.
     setPlatformStore(state) {
       if (state.selectedPlatform) {
-        platformStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform })
+        platformStore = new Store({ cwd: app.getAppPath() + '/data/config/' + state.selectedPlatform, name: state.selectedPlatform })
         state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
         state.settingsPlatform.relativePath = platformStore.get('settingsPlatform.relativePath', '')
       }
@@ -596,7 +596,7 @@ export default createStore({
     // Game settings.
     setGameStore(state) {
       if (state.selectedPlatform) {
-        gameStore = new Store({ cwd: app.getAppPath() + '/data/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/games/' + state.gameSelected.gameRegion + '/games/' + state.gameSelected.gameVersion })
+        gameStore = new Store({ cwd: app.getAppPath() + '/data/config/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/' + state.gameSelected.gameVersion, name: state.gameSelected.gameVersion })
         state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
         state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
         state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')

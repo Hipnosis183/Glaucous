@@ -73,7 +73,9 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
 import { app } from '@electron/remote'
-import { existsSync, readdirSync, readJSONSync } from 'fs-extra'
+import { existsSync, readJSONSync } from 'fs-extra'
+// Import utility functions.
+import { readfiles } from '@/utils/filesystem'
 // Import database controllers functions.
 import { getPlatform } from '@/database/controllers/Platform'
 
@@ -111,26 +113,26 @@ export default {
     const getImage = computed(() => {
       if (!(imagePath.value && imageFiles.value)) {
         // Set the image directory path of the game platform.
-        let gamePath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+        let gamePath = app.getAppPath() + '/data/images/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
         // Check if there are images for the selected game version.
-        imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[0]._id + '/games/' + props.gameInfo.gameRegions[0].gameVersions[0] + '/images'
-        if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
+        imagePath.value = gamePath + '/' + props.gameInfo.gameRegions[0]._id + '/' + props.gameInfo.gameRegions[0].gameVersions[0]
+        if (existsSync(imagePath.value) && readfiles(imagePath.value).length > 0) {
           // Load images filenames.
-          imageFiles.value = readdirSync(imagePath.value)
+          imageFiles.value = readfiles(imagePath.value)
         }
         else {
           // Check if there are images for the selected game region.
-          imagePath.value = gamePath + '/games/' + props.gameInfo.gameRegions[0]._id + '/images'
-          if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
+          imagePath.value = gamePath + '/' + props.gameInfo.gameRegions[0]._id
+          if (existsSync(imagePath.value) && readfiles(imagePath.value).length > 0) {
             // Load images filenames.
-            imageFiles.value = readdirSync(imagePath.value)
+            imageFiles.value = readfiles(imagePath.value)
           }
           else {
             // Check if there are images for the selected game platform.
-            imagePath.value = gamePath + '/images'
-            if (existsSync(imagePath.value) && readdirSync(imagePath.value).length > 0) {
+            imagePath.value = gamePath
+            if (existsSync(imagePath.value) && readfiles(imagePath.value).length > 0) {
               // Load images filenames.
-              imageFiles.value = readdirSync(imagePath.value)
+              imageFiles.value = readfiles(imagePath.value)
             }
             else {
               // Empty image variables.
@@ -189,7 +191,7 @@ export default {
           : !store.getters.getSettingsPlatformImagesFiltering
       } else {
         // Set the platform configuration file path for the game.
-        let configPlatformPath = app.getAppPath() + '/data/' + props.gameInfo.platform._id + '/config.json'
+        let configPlatformPath = app.getAppPath() + '/data/config/' + props.gameInfo.platform._id + '/' + props.gameInfo.platform._id + '.json'
         try { return !readJSONSync(configPlatformPath).settingsPlatformOver.imagesFiltering }
         catch { return false }
       }
@@ -199,10 +201,10 @@ export default {
       gameInfoHover,
       gameInfoShow,
       getImage,
-      imageFiles,
-      imagesFiltering,
       gridHeight,
+      imageFiles,
       imagesDisplay,
+      imagesFiltering,
       parentName
     }
   }

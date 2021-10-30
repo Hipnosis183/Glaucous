@@ -8,6 +8,7 @@ import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from '.
 
 import { app } from '@electron/remote'
 import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, remove, removeSync } from 'fs-extra'
+import { readfiles } from '@/utils/filesystem'
 
 import Regions from '@/../public/files/flags.json'
 
@@ -15,6 +16,11 @@ import Regions from '@/../public/files/flags.json'
 let gamePlatform
 let gameRegion
 let gameVersion
+
+// Declare paths variables.
+let dataPathConfig = app.getAppPath() + '/data/config/'
+let dataPathImages = app.getAppPath() + '/data/images/'
+let dataPathLinks = app.getAppPath() + '/data/links/'
 
 // Create a new game platform.
 export async function newGamePlatform(req, id) {
@@ -27,8 +33,8 @@ export async function newGamePlatform(req, id) {
     // Store uploaded images for the game.
     let imagesPath = req.gamePlatform.platform + '/' + gamePlatform
     await storeImages(req.gamePlatform.images, imagesPath)
-    await storeImages(req.gameRegion.images, imagesPath + '/games/' + gameRegion)
-    await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameRegion + '/games/' + gameVersion)
+    await storeImages(req.gameRegion.images, imagesPath + '/' + gameRegion)
+    await storeImages(req.gameVersion.images, imagesPath + '/' + gameRegion + '/' + gameVersion)
     // Store links for the game.
     await storeLinks(req.gamePlatform)
     // Link to other games if an ID is given.
@@ -50,9 +56,9 @@ export async function newGameRegion(req, id) {
             res.gameRegions.push(gameRegion)
             await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, { gameRegions: res.gameRegions })
             // Store uploaded images for the game.
-            let imagesPath = res.platform + '/' + id.gamePlatform + '/games/' + gameRegion
+            let imagesPath = res.platform + '/' + id.gamePlatform + '/' + gameRegion
             await storeImages(req.gameRegion.images, imagesPath)
-            await storeImages(req.gameVersion.images, imagesPath + '/games/' + gameVersion)
+            await storeImages(req.gameVersion.images, imagesPath + '/' + gameVersion)
         })
 }
 
@@ -66,7 +72,7 @@ export async function newGameVersion(req, pla, id) {
             res.gameVersions.push(gameVersion)
             await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, { gameVersions: res.gameVersions })
             // Store uploaded images for the game.
-            let imagesPath = pla + '/' + id.gamePlatform + '/games/' + id.gameRegion + '/games/' + gameVersion
+            let imagesPath = pla + '/' + id.gamePlatform + '/' + id.gameRegion + '/' + gameVersion
             await storeImages(req.gameVersion.images, imagesPath)
         })
 }
@@ -159,8 +165,8 @@ export async function updateGame(req, id) {
     // Update stored images for the game.
     let imagesPath = old.platform + '/' + id.gamePlatform
     await updateImages(req.gamePlatform.images, imagesPath)
-    await updateImages(req.gameRegion.images, imagesPath + '/games/' + id.gameRegion)
-    await updateImages(req.gameVersion.images, imagesPath + '/games/' + id.gameRegion + '/games/' + id.gameVersion)
+    await updateImages(req.gameRegion.images, imagesPath + '/' + id.gameRegion)
+    await updateImages(req.gameVersion.images, imagesPath + '/' + id.gameRegion + '/' + id.gameVersion)
     // Update stored links for the game.
     await storeLinks(req.gamePlatform, id.gamePlatform)
     // Update game store directory.
@@ -182,7 +188,9 @@ export async function deleteGamePlatform(req, p, del) {
     // Unlink game.
     await unlinkGame(req, true)
     // Remove game platform's data.
-    remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id)
+    remove(dataPathConfig + req.platform._id + '/' + req._id)
+    remove(dataPathImages + req.platform._id + '/' + req._id)
+    remove(dataPathLinks + req.platform._id + '/' + req._id)
     // Remove game from all user lists.
     await removeGameUser(req)
 }
@@ -207,7 +215,9 @@ export async function deleteGameRegion(req, i, del) {
                 await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: res.gameRegions })
             })
         // Remove game region data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/games/' + req.gameRegions[i]._id)
+        remove(dataPathConfig + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
+        remove(dataPathImages + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
+        remove(dataPathLinks + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
         // There are other regions for the platform.
         return true
     }
@@ -233,7 +243,9 @@ export async function deleteGameVersion(req, r, v) {
                 await GameRegionModel.findOneAndUpdate({ _id: res._id }, { gameVersions: res.gameVersions })
             })
         // Remove game version data.
-        remove(app.getAppPath() + '/data/' + req.platform._id + '/' + req._id + '/games/' + req.gameRegions[r]._id + '/games/' + req.gameRegions[r].gameVersions[v]._id)
+        remove(dataPathConfig + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
+        remove(dataPathImages + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
+        remove(dataPathLinks + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
         // There are other versions for the region.
         return true
     }
@@ -263,7 +275,9 @@ export async function deleteGamesPlatform(req) {
                 await deleteGamePlatform(gamePlatform, true)
             }
             // Remove platform data.
-            remove(app.getAppPath() + '/data/' + req)
+            remove(dataPathConfig + req)
+            remove(dataPathImages + req)
+            remove(dataPathLinks + req)
         })
 }
 
@@ -283,7 +297,7 @@ export async function deleteGamesTag(req) {
 // Store images for a specific game.
 async function storeImages(images, path) {
     // Set image path for a specific game.
-    let imagesPath = app.getAppPath() + '/data/' + path + '/images'
+    let imagesPath = dataPathImages + path
     // Ensure images directory creation, even if there are no images.
     ensureDirSync(imagesPath)
     // Add cover image file.
@@ -305,7 +319,7 @@ async function storeImages(images, path) {
 // Update stored images for a specific game.
 async function updateImages(images, path) {
     // Set image path for a specific game.
-    let imagesPath = app.getAppPath() + '/data/' + path + '/images'
+    let imagesPath = dataPathImages + path
     // Ensure images directory creation, even if there are no images.
     ensureDirSync(imagesPath)
     // Remove cover image file.
@@ -337,7 +351,7 @@ async function updateImages(images, path) {
         removeSync(imagesPath + '/' + image)
     }
     // Add pictures image files.
-    let i = readdirSync(imagesPath).filter((res) => !res.startsWith('0'.repeat(8))).length + 1
+    let i = readfiles(imagesPath).filter((res) => !res.startsWith('0'.repeat(8))).length + 1
     for (let image of images.pictures.add) {
         copySync(image, imagesPath + '/' + i.toString(16).toUpperCase().padStart(2, '0') + generateID().substr(0, 14))
         i++
@@ -357,15 +371,17 @@ async function storeLinks(req, id) {
     // Ensure link icons directory creation.
     ensureDirSync(app.getAppPath() + '/assets/links/')
     // Create links file.
-    outputFileSync(app.getAppPath() + '/data/' + req.platform + '/' + gamePlatform + '/links', linksFile)
+    outputFileSync(dataPathLinks + req.platform + '/' + gamePlatform + '/links', linksFile)
 }
 
-// Move the game directory if the developer has changed.
+// Move the game directory if the platform has changed.
 async function updateStore(platform, old, game) {
     if (platform != old) {
-        let pathOld = app.getAppPath() + '/data/' + old + '/' + game
-        let pathNew = app.getAppPath() + '/data/' + platform + '/' + game
-        moveSync(pathOld, pathNew, { overwrite: true })
+        let pathOld = old + '/' + game
+        let pathNew = platform + '/' + game
+        moveSync(dataPathConfig + pathOld, dataPathConfig + pathNew, { overwrite: true })
+        moveSync(dataPathImages + pathOld, dataPathImages + pathNew, { overwrite: true })
+        moveSync(dataPathLinks + pathOld, dataPathLinks + pathNew, { overwrite: true })
     }
 }
 
@@ -769,16 +785,16 @@ function getImage(game) {
     // Define game version ID variable depending on the context.
     let gameVer = game.gameRegions[0].gameVersions[0]._id ? game.gameRegions[0].gameVersions[0]._id : game.gameRegions[0].gameVersions[0]
     // Set the image directory path of the game platform.
-    let gamePath = app.getAppPath() + '/data/' + game.platform._id + '/' + game._id
-    let imagePath = gamePath + '/games/' + game.gameRegions[0]._id + '/games/' + gameVer + '/images'
+    let gamePath = dataPathImages + game.platform._id + '/' + game._id
+    let imagePath = gamePath + '/' + game.gameRegions[0]._id + '/' + gameVer
     ensureDirSync(imagePath)
     // Check if there are images for the selected game version.
-    if (!readdirSync(imagePath).length > 0) {
-        imagePath = gamePath + '/games/' + game.gameRegions[0]._id + '/images'
+    if (!readfiles(imagePath).length > 0) {
+        imagePath = gamePath + '/' + game.gameRegions[0]._id
         ensureDirSync(imagePath)
         // Check if there are images for the selected game region.
-        if (!readdirSync(imagePath).length > 0) {
-            imagePath = gamePath + '/images'
+        if (!readfiles(imagePath).length > 0) {
+            imagePath = gamePath
             ensureDirSync(imagePath)
         }
     }
@@ -786,7 +802,7 @@ function getImage(game) {
     let imageFile = readdirSync(imagePath).filter((res) => res.startsWith('0'.repeat(8)))[0]
     // Load first picture image as cover if it doesn't exists.
     if (!imageFile) {
-        imageFile = readdirSync(imagePath).filter((res) => !res.startsWith('0'.repeat(8)))[0]
+        imageFile = readfiles(imagePath).filter((res) => !res.startsWith('0'.repeat(8)))[0]
         image.cover = false
     }
     // Set full image cover path.

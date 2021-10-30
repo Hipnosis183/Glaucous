@@ -57,6 +57,49 @@
         <br />
         If it's the only version, it will also delete the region.
       </vi-dialog-box>
+      <!-- Open game directories dialog. -->
+      <vi-dialog
+        v-show="dataPathDialog"
+        @close="dataPathShow()"
+        class="z-10"
+      >
+        <!-- Padding. -->
+        <div class="w-80" />
+        <!-- Header. -->
+        <div class="flex justify-between mb-6 mx-2">
+          <!-- Title. -->
+          <p class="mr-10 pt-1 text-2xl">Directories</p>
+          <!-- Buttons. -->
+          <vi-button-icon @click="dataPathShow()">
+            <vi-icon class="w-6">
+              <icon-close />
+            </vi-icon>
+          </vi-button-icon>
+        </div>
+        <!-- Separator. -->
+        <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+        <!-- Open directories buttons. -->
+        <div class="flex flex-col space-y-4">
+          <vi-button
+            large
+            @click="openPathGame()"
+          >
+            Open Game Folder
+          </vi-button>
+          <vi-button
+            large
+            @click="openPathConfig()"
+          >
+            Open Configuration Folder
+          </vi-button>
+          <vi-button
+            large
+            @click="openPathImages()"
+          >
+            Open Images Folder
+          </vi-button>
+        </div>
+      </vi-dialog>
     </div>
     <!-- Playlists management dialog. -->
     <view-game-playlists
@@ -115,18 +158,18 @@
         <vi-menu-select icon="icon-folder">
           <!-- Open create game region dialog. -->
           <vi-menu-option
-            label="Open Game Directory"
-            :method="openGamePath"
+            label="Platform Directories"
+            :method="directoriesPlatform"
           />
           <!-- Open create game platform dialog. -->
           <vi-menu-option
-            label="Open Store Directory"
-            :method="openStorePath"
+            label="Region Directories"
+            :method="directoriesRegion"
           />
           <!-- Open create game version dialog. -->
           <vi-menu-option
-            label="Open Images Directory"
-            :method="openImagesPath"
+            label="Version Directories"
+            :method="directoriesVersion"
           />
         </vi-menu-select>
         <!-- Set selected game region as the main region. -->
@@ -335,6 +378,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import functions from modules.
 import { app, shell } from '@electron/remote'
+import { ensureDirSync } from 'fs-extra'
 // Import database controllers functions.
 import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion } from '@/database/controllers/Game'
 import { addFavorites, getFavorite, removeFavorites } from '@/database/controllers/User'
@@ -432,8 +476,6 @@ export default {
           store.state.gameSelected.gamePlatform = res._id
           store.state.gameSelected.gameRegion = res.gameRegions[regionIndex.value]._id
           store.state.gameSelected.gameVersion = res.gameRegions[regionIndex.value].gameVersions[versionIndex.value]._id
-          // Set game store path.
-          setGamePath(res.platform._id + '/' + res._id + '/games/' + res.gameRegions[regionIndex.value]._id)
           // Set initial favorited status.
           updateFavorite()
         })
@@ -571,21 +613,47 @@ export default {
     }
 
     // Manage game directories opening.
-    let gamePath = null
-    const setGamePath = (path) => {
-      gamePath = app.getAppPath() + '/data/' + path
+    let basePath = app.getAppPath() + '/data'
+    const basePathConfig = computed(() => { return '/config/' + gameInfo.value.platform._id })
+    const basePathImages = computed(() => { return '/images/' + gameInfo.value.platform._id })
+    const basePathPlatform = computed(() => { return '/' + gameInfo.value._id })
+    const basePathRegion = computed(() => { return '/' + gameInfo.value.gameRegions[regionIndex.value]._id })
+    const basePathVersion = computed(() => { return '/' + gameInfo.value.gameRegions[regionIndex.value].gameVersions[versionIndex.value]._id })
+    let dataPathConfig = ref('')
+    let dataPathImages = ref('')
+    const directoriesPlatform = () => {
+      dataPathConfig.value = basePathConfig.value + basePathPlatform.value
+      dataPathImages.value = basePathImages.value + basePathPlatform.value
+      dataPathDialog.value = true
     }
-    const openGamePath = () => {
+    const directoriesRegion = () => {
+      dataPathConfig.value = basePathConfig.value + basePathPlatform.value + basePathRegion.value
+      dataPathImages.value = basePathImages.value + basePathPlatform.value + basePathRegion.value
+      dataPathDialog.value = true
+    }
+    const directoriesVersion = () => {
+      dataPathConfig.value = basePathConfig.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
+      dataPathImages.value = basePathImages.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
+      dataPathDialog.value = true
+    }
+    let dataPathDialog = ref(false)
+    const dataPathShow = () => {
+      // Open create dialog.
+      dataPathDialog.value = !dataPathDialog.value
+    }
+    const openPathGame = () => {
       // Open game file location path in the file manager.
       shell.openPath((store.state.settingsGame.relativePath ? store.state.settingsPlatform.relativePath + '/' : '') + store.state.settingsGame.gamePath)
     }
-    const openStorePath = () => {
-      // Open game store location path in the file manager.
-      shell.openPath(gamePath)
+    const openPathConfig = () => {
+      ensureDirSync(basePath + dataPathConfig.value)
+      // Open game configuration location path in the file manager.
+      shell.openPath(basePath + dataPathConfig.value)
     }
-    const openImagesPath = () => {
+    const openPathImages = () => {
+      ensureDirSync(basePath + dataPathImages.value)
       // Open images location path in the file manager.
-      shell.openPath(gamePath + '/images')
+      shell.openPath(basePath + dataPathImages.value)
     }
 
     // Region selection operations.
@@ -600,8 +668,6 @@ export default {
       // Save current game IDs into the store.
       store.state.gameSelected.gameRegion = gameInfo.value.gameRegions[sel]._id
       store.state.gameSelected.gameVersion = gameInfo.value.gameRegions[sel].gameVersions[versionIndex.value]._id
-      // Update game store path.
-      setGamePath(gameInfo.value.platform._id + '/' + gameInfo.value._id + '/games/' + gameInfo.value.gameRegions[sel]._id)
     }
     const nextRegion = () => {
       if (regionIndex.value < gameInfo.value.gameRegions.length - 1) {
@@ -734,6 +800,10 @@ export default {
       createVersionClose,
       createVersionDialog,
       createVersionOpen,
+      dataPathConfig,
+      dataPathDialog,
+      dataPathImages,
+      dataPathShow,
       deletePlatformClose,
       deletePlatformDialog,
       deletePlatformOpen,
@@ -743,6 +813,9 @@ export default {
       deleteVersionClose,
       deleteVersionDialog,
       deleteVersionOpen,
+      directoriesPlatform,
+      directoriesRegion,
+      directoriesVersion,
       editGameClose,
       editGameDialog,
       editGameOpen,
@@ -762,9 +835,9 @@ export default {
       minimalUiDisplayLinks,
       minimalUiDisplayPlaylists,
       minimalUiDisplayRegionFlags,
-      openGamePath,
-      openImagesPath,
-      openStorePath,
+      openPathConfig,
+      openPathGame,
+      openPathImages,
       regionIndex,
       removeFavorite,
       setGameRegion,

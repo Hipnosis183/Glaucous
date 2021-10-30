@@ -217,7 +217,9 @@ import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
 import { app, dialog } from '@electron/remote'
-import { existsSync, readdirSync } from 'fs-extra'
+import { existsSync } from 'fs-extra'
+// Import utility functions.
+import { readfiles } from '@/utils/filesystem'
 
 export default {
   name: 'FormGameImagesView',
@@ -257,23 +259,23 @@ export default {
     })
     const getImages = () => {
       // Set the base image directory path of the game.
-      let basePath = app.getAppPath() + '/data/' + store.state.gameForm.gamePlatform.platform + '/' + store.state.gameSelected.gamePlatform
+      let basePath = app.getAppPath() + '/data/images/' + store.state.gameForm.gamePlatform.platform + '/' + store.state.gameSelected.gamePlatform
       switch (props.gameType) {
         // Set the working variables for the game platform images.
         case 'gamePlatform': {
-          imagePath.value = basePath + '/images'
+          imagePath.value = basePath
           gameTypeName.value = 'Platform'
           break
         }
         // Set the working variables for the game region images.
         case 'gameRegion': {
-          imagePath.value = basePath + '/games/' + store.state.gameSelected.gameRegion + '/images'
+          imagePath.value = basePath + '/' + store.state.gameSelected.gameRegion
           gameTypeName.value = 'Region'
           break
         }
         // Set the working variables for the game version images.
         case 'gameVersion': {
-          imagePath.value = basePath + '/games/' + store.state.gameSelected.gameRegion + '/games/' + store.state.gameSelected.gameVersion + '/images'
+          imagePath.value = basePath + '/' + store.state.gameSelected.gameRegion + '/' + store.state.gameSelected.gameVersion
           gameTypeName.value = 'Version'
           break
         }
@@ -281,7 +283,7 @@ export default {
       // Avoid showing the images of the selected game if not in an edit form.
       if (existsSync(imagePath.value) && props.editForm) {
         // Load images filenames.
-        imageFiles.value = readdirSync(imagePath.value)
+        imageFiles.value = readfiles(imagePath.value)
       }
       else {
         // Empty image variables.
