@@ -154,30 +154,37 @@
             :method="deleteVersionOpen"
           />
         </vi-menu-select>
-        <!-- Create games menu dialog. -->
+        <!-- Open game directories dialog. -->
         <vi-menu-select icon="icon-folder">
-          <!-- Open create game region dialog. -->
+          <!-- Open game platform directories menu dialog. -->
           <vi-menu-option
             label="Platform Directories"
             :method="directoriesPlatform"
           />
-          <!-- Open create game platform dialog. -->
+          <!-- Open game region directories menu dialog. -->
           <vi-menu-option
             label="Region Directories"
             :method="directoriesRegion"
           />
-          <!-- Open create game version dialog. -->
+          <!-- Open game version directories menu dialog. -->
           <vi-menu-option
             label="Version Directories"
             :method="directoriesVersion"
           />
         </vi-menu-select>
-        <!-- Set selected game region as the main region. -->
-        <vi-button-nb @click="setGameRegion()">
-          <vi-icon class="w-6">
-            <icon-pin />
-          </vi-icon>
-        </vi-button-nb>
+        <!-- Select default games. -->
+        <vi-menu-select icon="icon-pin">
+          <!-- Set selected region as the main region. -->
+          <vi-menu-option
+            label="Set Region as Default"
+            :method="setGameRegion"
+          />
+          <!-- Set selected version as the main version. -->
+          <vi-menu-option
+            label="Set Version as Default"
+            :method="setGameVersion"
+          />
+        </vi-menu-select>
       </div>
       <!-- Game region tabs. -->
       <ul class="flex h-full w-full">
@@ -189,7 +196,7 @@
         >
           <!-- Region tab button. -->
           <div
-            class="cursor-pointer duration-500 h-full relative w-full"
+            class="cursor-pointer duration-500 h-full relative transition-colors w-full"
             :class="index == regionIndex ? 'border-b-4 border-color-400' : ''"
           >
             <div
@@ -380,7 +387,7 @@ import { useStore } from 'vuex'
 import { app, shell } from '@electron/remote'
 import { ensureDirSync } from 'fs-extra'
 // Import database controllers functions.
-import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion } from '@/database/controllers/Game'
+import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion, selectGameVersion } from '@/database/controllers/Game'
 import { addFavorites, getFavorite, removeFavorites } from '@/database/controllers/User'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
@@ -685,6 +692,8 @@ export default {
         regionIndex.value--
       }
     }
+
+    // Manage default game selection.
     const setGameRegion = () => {
       // Set the currently selected region as the default.
       selectGameRegion(gameInfo.value, regionIndex.value)
@@ -693,6 +702,16 @@ export default {
           loadGame()
           // Reset region index.
           regionIndex.value = 0
+          // Reset version index.
+          versionIndex.value = 0
+        })
+    }
+    const setGameVersion = () => {
+      // Set the currently selected version as the default.
+      selectGameVersion(gameInfo.value.gameRegions[regionIndex.value], versionIndex.value)
+        .then(() => {
+          // Reload game.
+          loadGame()
           // Reset version index.
           versionIndex.value = 0
         })
@@ -841,6 +860,7 @@ export default {
       regionIndex,
       removeFavorite,
       setGameRegion,
+      setGameVersion,
       slideBack,
       versionIndex
     }

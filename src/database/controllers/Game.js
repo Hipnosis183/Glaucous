@@ -430,6 +430,20 @@ export async function selectGameRegion(req, index) {
     await GamePlatformModel.findOneAndUpdate({ _id: req._id }, { gameRegions: gameRegionsSorted })
 }
 
+// Reorder a game versions array to select one as the default.
+export async function selectGameVersion(req, index) {
+    let gameVersions = []
+    // Get all game regions IDs.
+    for (let gameVersion of req.gameVersions) {
+        gameVersions.push(gameVersion._id)
+    }
+    // Create new sorted array.
+    let gameVersionsSorted = new Array(gameVersions[index])
+    gameVersionsSorted = gameVersionsSorted.concat(gameVersions.filter((res) => res != gameVersions[index]))
+    // Update the game region.
+    await GameRegionModel.findOneAndUpdate({ _id: req._id }, { gameVersions: gameVersionsSorted })
+}
+
 // Get a specific game platform.
 export async function getGamePlatform(req) {
     return await GamePlatformModel.findOne({ _id: req }, { populate: false })
