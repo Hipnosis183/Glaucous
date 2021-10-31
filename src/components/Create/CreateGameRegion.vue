@@ -40,13 +40,8 @@
       <div class="w-1/2">
         <form-game-region-region />
         <form-game-region-title />
-        <form-game-region-pre-title />
-        <form-game-region-sub-title />
       </div>
       <div class="w-1/2">
-        <form-game-region-original-title />
-        <form-game-region-romanized-title />
-        <form-game-region-translated-title />
         <div class="flex space-x-4">
           <form-game-platform-serial />
           <form-game-version-name />
@@ -71,13 +66,8 @@ import { newGameRegion } from '@/database/controllers/Game'
 import {
   FormGameImages,
   FormGamePlatformSerial,
-  FormGameRegionOriginalTitle,
-  FormGameRegionPreTitle,
   FormGameRegionRegion,
-  FormGameRegionRomanizedTitle,
-  FormGameRegionSubTitle,
   FormGameRegionTitle,
-  FormGameRegionTranslatedTitle,
   FormGameVersionComments,
   FormGameVersionName,
   FormGameVersionNumber,
@@ -89,13 +79,8 @@ export default {
   components: {
     FormGameImages,
     FormGamePlatformSerial,
-    FormGameRegionOriginalTitle,
-    FormGameRegionPreTitle,
     FormGameRegionRegion,
-    FormGameRegionRomanizedTitle,
-    FormGameRegionSubTitle,
     FormGameRegionTitle,
-    FormGameRegionTranslatedTitle,
     FormGameVersionComments,
     FormGameVersionName,
     FormGameVersionNumber,

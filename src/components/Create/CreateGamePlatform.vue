@@ -40,11 +40,6 @@
     <div class="flex space-x-4">
       <div class="w-1/2">
         <form-game-region-title />
-        <form-game-region-pre-title />
-        <form-game-region-sub-title />
-        <form-game-region-original-title />
-        <form-game-region-romanized-title />
-        <form-game-region-translated-title />
       </div>
       <div class="w-1/2">
         <div class="flex space-x-4">
@@ -91,13 +86,8 @@ import {
   FormGamePlatformReleaseYear,
   FormGamePlatformSerial,
   FormGamePlatformTags,
-  FormGameRegionOriginalTitle,
-  FormGameRegionPreTitle,
   FormGameRegionRegion,
-  FormGameRegionRomanizedTitle,
-  FormGameRegionSubTitle,
   FormGameRegionTitle,
-  FormGameRegionTranslatedTitle,
   FormGameVersionComments,
   FormGameVersionName,
   FormGameVersionNumber,
@@ -115,13 +105,8 @@ export default {
     FormGamePlatformReleaseYear,
     FormGamePlatformSerial,
     FormGamePlatformTags,
-    FormGameRegionOriginalTitle,
-    FormGameRegionPreTitle,
     FormGameRegionRegion,
-    FormGameRegionRomanizedTitle,
-    FormGameRegionSubTitle,
     FormGameRegionTitle,
-    FormGameRegionTranslatedTitle,
     FormGameVersionComments,
     FormGameVersionName,
     FormGameVersionNumber,

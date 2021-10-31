@@ -25,13 +25,8 @@ import FormGamePlatformReleaseYear from './Game/Platform/FormGamePlatformRelease
 import FormGamePlatformSerial from './Game/Platform/FormGamePlatformSerial.vue'
 import FormGamePlatformTags from './Game/Platform/FormGamePlatformTags.vue'
 // Game region form.
-import FormGameRegionOriginalTitle from './Game/Region/FormGameRegionOriginalTitle.vue'
-import FormGameRegionPreTitle from './Game/Region/FormGameRegionPreTitle.vue'
 import FormGameRegionRegion from './Game/Region/FormGameRegionRegion.vue'
-import FormGameRegionRomanizedTitle from './Game/Region/FormGameRegionRomanizedTitle.vue'
-import FormGameRegionSubTitle from './Game/Region/FormGameRegionSubTitle.vue'
 import FormGameRegionTitle from './Game/Region/FormGameRegionTitle.vue'
-import FormGameRegionTranslatedTitle from './Game/Region/FormGameRegionTranslatedTitle.vue'
 // Game version form.
 import FormGameVersionComments from './Game/Version/FormGameVersionComments.vue'
 import FormGameVersionName from './Game/Version/FormGameVersionName.vue'
@@ -66,13 +61,8 @@ export {
     FormGamePlatformSerial,
     FormGamePlatformTags,
     // Game region form.
-    FormGameRegionOriginalTitle,
-    FormGameRegionPreTitle,
     FormGameRegionRegion,
-    FormGameRegionRomanizedTitle,
-    FormGameRegionSubTitle,
     FormGameRegionTitle,
-    FormGameRegionTranslatedTitle,
     // Game version form.
     FormGameVersionComments,
     FormGameVersionName,
