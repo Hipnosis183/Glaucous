@@ -74,14 +74,11 @@
             <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name">
               {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name }}
             </p>
-            <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number && gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest">
-              {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number }}
-            </p>
-            <p v-else-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">
+            <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">
               ({{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number }})
             </p>
-            <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest">
-              ({{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].latest }})
+            <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].type">
+              ({{ typeOptions[typeOptions.findIndex((res) => res.i == gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].type)].name }})
             </p>
           </div>
         </div>
@@ -131,6 +128,13 @@ export default {
     versionIndex: { type: Number }
   },
   setup() {
+    // Manage details information.
+    const typeOptions = [
+      { i: 'patch', name: 'Patch' },
+      { i: 'romhack', name: 'ROM Hack' },
+      { i: 'translation', name: 'Translation' }
+    ]
+
     // Manage details display.
     let gameDetailsDialog = ref(false)
     const gameDetailsShow = () => {
@@ -140,7 +144,8 @@ export default {
 
     return {
       gameDetailsDialog,
-      gameDetailsShow
+      gameDetailsShow,
+      typeOptions
     }
   }
 }

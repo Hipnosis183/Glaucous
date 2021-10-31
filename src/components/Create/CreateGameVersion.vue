@@ -32,8 +32,8 @@
       </div>
       <div class="w-1/2">
         <div class="flex space-x-4">
+          <form-game-version-type />
           <form-game-version-number />
-          <form-game-version-latest />
         </div>
       </div>
     </div>
@@ -50,9 +50,9 @@ import { newGameVersion } from '@/database/controllers/Game'
 import {
   FormGameImages,
   FormGameVersionComments,
-  FormGameVersionLatest,
   FormGameVersionName,
-  FormGameVersionNumber
+  FormGameVersionNumber,
+  FormGameVersionType
 } from '@/components/Form'
 
 export default {
@@ -60,9 +60,9 @@ export default {
   components: {
     FormGameImages,
     FormGameVersionComments,
-    FormGameVersionLatest,
     FormGameVersionName,
-    FormGameVersionNumber
+    FormGameVersionNumber,
+    FormGameVersionType
   },
   emits: [
     'close'

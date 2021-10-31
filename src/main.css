@@ -93,6 +93,9 @@ h4 {
 .small-scrollbar::-webkit-scrollbar-thumb {
   @apply border-4 !important;
 }
+.ui-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-color-800 dark:bg-color-900 border-6 rounded-none !important;
+}
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

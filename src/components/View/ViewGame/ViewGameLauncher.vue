@@ -46,21 +46,26 @@
       </vi-button-ui>
     </div>
     <div
-      v-if="minimalUiDisplayGameSettings && minimalUiDisplayVersionSelect"
+      v-if="minimalUiDisplayGameSettings || minimalUiDisplayVersionSelect"
       class="cursor-pointer flex space-x-2"
     >
       <vi-select-ui
         v-if="minimalUiDisplayVersionSelect"
         v-model="$store.state.gameSelected.gameVersion"
       >
-        <vi-option-ui
-          v-for="(item, index) in gameInfo.gameRegions[regionIndex].gameVersions"
-          :key="item._id"
-          :label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
-          :value="item._id"
-          @click="changeVersion(index)"
+        <vi-option-group-ui
+          v-for="type in typeOptions()"
+          :key="type.i"
+          :label="type.name"
         >
-        </vi-option-ui>
+          <vi-option-ui
+            v-for="item in typeFilter(type)"
+            :key="item._id"
+            :label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
+            :value="item._id"
+            @click="changeVersion(item._id)"
+          />
+        </vi-option-group-ui>
       </vi-select-ui>
       <vi-button-ui
         v-if="minimalUiDisplayGameSettings && minimalUiDisplayVersionSelect"
@@ -194,9 +199,12 @@ export default {
 
     // Manage game settings.
     let changedVersion = ref(false)
-    const changeVersion = (index) => {
+    const changeVersion = (id) => {
+      // Update the store with the new game version selected.
+      store.commit('setGameStore')
       changedVersion.value = true
       // Send selected game version index to parent component.
+      let index = props.gameInfo.gameRegions[props.regionIndex].gameVersions.findIndex((res) => res._id == id)
       emit('updated', index)
     }
     let settingsGameDialog = ref(false)
@@ -215,6 +223,27 @@ export default {
     const settingsGameClose = () => {
       // Close settings dialog.
       settingsGameDialog.value = !settingsGameDialog.value
+    }
+
+    // Manage version select options.
+    const typeOptionsGroup = [
+      { i: null, name: 'Game Versions' },
+      { i: 'patch', name: 'Patches' },
+      { i: 'romhack', name: 'ROM Hacks' },
+      { i: 'translation', name: 'Translations' }
+    ]
+    const typeOptions = () => {
+      let typeOptionGroup = []
+      // Return the groups that have games on them.
+      for (let typeOption of typeOptionsGroup) {
+        let gameVersions = typeFilter(typeOption)
+        if (gameVersions.length > 0) { typeOptionGroup.push(typeOption) }
+      }
+      return typeOptionGroup
+    }
+    const typeFilter = (type) => {
+      // Filter game versions matching the specified type.
+      return props.gameInfo.gameRegions[props.regionIndex].gameVersions.filter((res) => type.i ? res.type == type.i : res.type == type.i || res.type == '')
     }
 
     // Manage minimal UI state.
@@ -249,7 +278,9 @@ export default {
       minimalUiDisplayVersionSelect,
       settingsGameClose,
       settingsGameDialog,
-      settingsGameOpen
+      settingsGameOpen,
+      typeFilter,
+      typeOptions
     }
   }
 }

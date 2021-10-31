@@ -288,7 +288,7 @@
                         @updated="versionIndex = $event"
                       />
                       <div
-                        v-if="minimalUiDisplayDetails && minimalUiDisplayGameLinking && minimalUiDisplayLinks && minimalUiDisplayGallery"
+                        v-if="minimalUiDisplayDetails || minimalUiDisplayGameLinking || minimalUiDisplayLinks || minimalUiDisplayGallery"
                         class="flex space-x-2 w-full"
                       >
                         <!-- View game details. -->
@@ -446,9 +446,9 @@ export default {
         region: null,
         serial: null,
         gameVersions: [{
+          type: null,
           name: null,
           number: null,
-          latest: null,
           comments: []
         }]
       }]

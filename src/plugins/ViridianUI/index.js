@@ -30,8 +30,9 @@ import ViMenuSelect from './components/ViMenuSelect.vue'
 import ViModal from './components/ViModal.vue'
 import ViNavBar from './components/ViNavBar.vue'
 import ViOption from './components/ViOption.vue'
-import ViOptionGroup from './components/ViOptionGroup.vue'
 import ViOptionUI from './components/ViOptionUI.vue'
+import ViOptionGroup from './components/ViOptionGroup.vue'
+import ViOptionGroupUI from './components/ViOptionGroupUI.vue'
 import ViOverlay from './components/ViOverlay.vue'
 import ViSectionContent from './components/ViSectionContent.vue'
 import ViSectionHeader from './components/ViSectionHeader.vue'
@@ -73,8 +74,9 @@ export default {
         app.component('vi-modal', ViModal)
         app.component('vi-nav-bar', ViNavBar)
         app.component('vi-option', ViOption)
-        app.component('vi-option-group', ViOptionGroup)
         app.component('vi-option-ui', ViOptionUI)
+        app.component('vi-option-group', ViOptionGroup)
+        app.component('vi-option-group-ui', ViOptionGroupUI)
         app.component('vi-overlay', ViOverlay)
         app.component('vi-section-content', ViSectionContent)
         app.component('vi-section-header', ViSectionHeader)

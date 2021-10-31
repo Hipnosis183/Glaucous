@@ -103,7 +103,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-color-700 dark:bg-color-800 list-none max-h-64 overflow-y-auto shadow-color transition-menu"
+            class="bg-color-700 dark:bg-color-800 list-none max-h-64 overflow-y-auto shadow-color transition-menu ui-scrollbar"
           >
             <!-- Select created option. -->
             <vi-option

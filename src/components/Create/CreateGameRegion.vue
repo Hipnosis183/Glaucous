@@ -52,8 +52,8 @@
           <form-game-version-name />
         </div>
         <div class="flex space-x-4">
+          <form-game-version-type />
           <form-game-version-number />
-          <form-game-version-latest />
         </div>
       </div>
     </div>
@@ -79,9 +79,9 @@ import {
   FormGameRegionTitle,
   FormGameRegionTranslatedTitle,
   FormGameVersionComments,
-  FormGameVersionLatest,
   FormGameVersionName,
-  FormGameVersionNumber
+  FormGameVersionNumber,
+  FormGameVersionType
 } from '@/components/Form'
 
 export default {
@@ -97,9 +97,9 @@ export default {
     FormGameRegionTitle,
     FormGameRegionTranslatedTitle,
     FormGameVersionComments,
-    FormGameVersionLatest,
     FormGameVersionName,
-    FormGameVersionNumber
+    FormGameVersionNumber,
+    FormGameVersionType
   },
   emits: [
     'close'

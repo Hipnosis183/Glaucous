@@ -121,9 +121,9 @@ async function createGameVersion(req) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
         _id: generateID(),
+        type: req.type,
         name: req.name,
         number: req.number,
-        latest: req.latest,
         comments: req.comments
     })
     // Save model to database.
@@ -157,9 +157,9 @@ export async function updateGame(req, id) {
     })
     // Update the game version.
     await GameVersionModel.findOneAndUpdate({ _id: id.gameVersion }, {
+        type: req.gameVersion.type,
         name: req.gameVersion.name,
         number: req.gameVersion.number,
-        latest: req.gameVersion.latest,
         comments: req.gameVersion.comments
     })
     // Update stored images for the game.

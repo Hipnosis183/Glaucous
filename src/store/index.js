@@ -154,9 +154,9 @@ export default createStore({
         }
       },
       gameVersion: {
+        type: null,
         name: null,
         number: null,
-        latest: null,
         comments: [],
         images: {
           cover: {
@@ -645,9 +645,9 @@ export default createStore({
       state.gameForm.gameRegion.translatedTitle = game.region.translatedTitle
       state.gameForm.gameRegion.region = game.region.region
       state.gameForm.gameRegion.serial = game.region.serial
+      state.gameForm.gameVersion.type = game.version.type
       state.gameForm.gameVersion.name = game.version.name
       state.gameForm.gameVersion.number = game.version.number
-      state.gameForm.gameVersion.latest = game.version.latest
       // Hack to avoid a bug where reactivity alters the original reference value, despite it not being explicitly modified.
       state.gameForm.gamePlatform.gameTags = []
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
@@ -689,9 +689,9 @@ export default createStore({
       state.gameForm.gameRegion.images.background.remove = false
       state.gameForm.gameRegion.images.pictures.add = []
       state.gameForm.gameRegion.images.pictures.remove = []
+      state.gameForm.gameVersion.type = null
       state.gameForm.gameVersion.name = null
       state.gameForm.gameVersion.number = null
-      state.gameForm.gameVersion.latest = null
       state.gameForm.gameVersion.comments = []
       state.gameForm.gameVersion.images.cover.add = null
       state.gameForm.gameVersion.images.cover.remove = false
@@ -790,14 +790,14 @@ export default createStore({
     setGameRegionImagesPicturesRemove(state, data) {
       state.gameForm.gameRegion.images.pictures.remove.push(data)
     },
+    setGameVersionType(state, data) {
+      state.gameForm.gameVersion.type = data
+    },
     setGameVersionName(state, data) {
       state.gameForm.gameVersion.name = data
     },
     setGameVersionNumber(state, data) {
       state.gameForm.gameVersion.number = data
-    },
-    setGameVersionLatest(state, data) {
-      state.gameForm.gameVersion.latest = data
     },
     setGameVersionComments(state, data) {
       state.gameForm.gameVersion.comments = data
