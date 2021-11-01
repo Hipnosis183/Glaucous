@@ -38,6 +38,10 @@
       v-show="!groupPlatform"
       :groupPlatform="groupPlatform"
     />
+    <!-- Required fields aclaration. -->
+    <p class="mt-8 text-center text-sm">
+      * The fields with red text are required
+    </p>
   </vi-dialog>
 </template>
 

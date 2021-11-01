@@ -2,8 +2,8 @@
   <!-- Executable file input. -->
   <vi-input
     v-model="file"
-    label="Executable File"
-    placeholder="Required"
+    label="Executable File *"
+    placeholder="Select emulator executable..."
     required
   />
 </template>

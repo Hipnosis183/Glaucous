@@ -2,6 +2,7 @@
   <!-- Create game platform dialog. -->
   <vi-dialog
     @close="$emit('close')"
+    width="w-4/5"
     class="z-10"
   >
     <!-- Validation error dialog. -->
@@ -14,14 +15,7 @@
     <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
       <!-- Title. -->
-      <div class="flex h-10">
-        <p class="mr-4 pt-1 text-2xl">New Game Entry</p>
-        <form-game-images
-          showPlatform
-          showRegion
-          showVersion
-        />
-      </div>
+      <p class="mr-4 pt-1 text-2xl">New Game Entry</p>
       <!-- Buttons. -->
       <div class="h-10 space-x-4">
         <vi-button-icon @click="onSubmit()">
@@ -38,32 +32,39 @@
     </div>
     <!-- Form components. -->
     <div class="flex space-x-4">
-      <div class="w-1/2">
+      <div class="w-2/5">
         <form-game-region-title />
+        <form-game-platform-tags />
+        <form-game-version-name />
+        <form-game-images
+          showPlatform
+          showRegion
+          showVersion
+        />
       </div>
-      <div class="w-1/2">
-        <div class="flex space-x-4">
-          <form-game-region-region />
-          <form-game-platform-serial />
-        </div>
+      <div class="w-3/5">
         <div class="flex space-x-4">
           <form-game-platform-developer :gameDeveloper="gameDeveloper" />
           <form-game-platform-platform :gamePlatform="gamePlatform" />
         </div>
         <div class="flex space-x-4">
-          <form-game-platform-release-year />
-          <form-game-platform-number-players />
+          <form-game-region-region />
+          <form-game-platform-serial />
         </div>
-        <form-game-version-name />
         <div class="flex space-x-4">
           <form-game-version-type />
           <form-game-version-number />
         </div>
-        <form-game-platform-tags />
-        <form-game-version-comments />
-        <form-game-platform-links />
+        <div class="flex space-x-4">
+          <form-game-platform-release-year />
+          <form-game-platform-number-players />
+        </div>
       </div>
     </div>
+    <!-- Required fields aclaration. -->
+    <p class="mt-8 text-center text-sm">
+      * The fields with red text are required
+    </p>
   </vi-dialog>
 </template>
 

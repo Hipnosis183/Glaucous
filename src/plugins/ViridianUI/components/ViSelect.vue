@@ -1,9 +1,7 @@
 <template>
-  <div class="w-full">
-    <!-- Label. -->
-    <vi-label v-if="label">{{ label }}</vi-label>
+  <vi-input-group :label=label>
     <!-- Container. -->
-    <div class="flex flex-col h-10 rounded-xl shadow-color">
+    <div class="flex flex-col h-10 rounded-xl w-full">
       <!-- Select container. -->
       <div
         ref="refSelect"
@@ -26,7 +24,7 @@
           class="bg-theme-100 dark:bg-theme-800 cursor-pointer relative rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
           :class="[
             { 'rounded-l-none' : iconPrefix },
-            { 'rounded-r-none' : !required && (iconSuffix || modelValue || !remote) }
+            { 'rounded-r-none' : !required && (iconSuffix || modelValue || !remote || $slots.append) }
           ]"
         >
           <!-- Label placeholder. -->
@@ -58,14 +56,14 @@
           :class="[
             { 'input-error' : required },
             { 'rounded-l-none' : iconPrefix },
-            { 'rounded-r-none' : iconSuffix || !remote }
+            { 'rounded-r-none' : iconSuffix || !remote || $slots.append }
           ]"
         />
         <!-- Clear select icon. -->
         <div
           v-if="(modelValue && remote && !required) || (!remote && clearable)"
           class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex w-max z-0"
-          :class="{ 'rounded-r-xl' : remote && !iconSuffix }"
+          :class="{ 'rounded-r-xl' : remote && !iconSuffix && !$slots.append }"
         >
           <div
             @click.stop="clearValue()"
@@ -80,7 +78,8 @@
         <!-- Open select menu icon. -->
         <div
           v-if="!remote"
-          class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex pr-3 rounded-r-xl w-max"
+          class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex pr-3 w-max"
+          :class="$slots.append ? '' : 'rounded-r-xl'"
         >
           <div class="my-auto text-theme-600 dark:text-theme-400">
             <vi-icon class="w-5">
@@ -134,7 +133,15 @@
         </transition>
       </div>
     </div>
-  </div>
+    <!-- Append container. -->
+    <div
+      v-if="$slots.append"
+      class="flex"
+    >
+      <!-- Append contents. -->
+      <slot name="append" />
+    </div>
+  </vi-input-group>
 </template>
 
 <script>

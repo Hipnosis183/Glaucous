@@ -56,6 +56,10 @@
         >.</div>
       </div>
     </div>
+    <!-- Required fields aclaration. -->
+    <p class="mt-4 text-center text-sm">
+      * The fields with red text are required
+    </p>
   </vi-dialog>
 </template>
 

@@ -3,6 +3,7 @@
   <vi-input
     v-model="name"
     label="Version Name"
+    placeholder="Enter a version name..."
   />
 </template>
 

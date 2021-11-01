@@ -39,39 +39,44 @@
       v-else
       class="text-xl whitespace-nowrap"
     >Emulator Override</p>
-    <div class="flex space-x-2 w-full">
-      <!-- Create emulator. -->
-      <vi-button-icon @click="createEmulatorOpen()">
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-icon>
-      <!-- Edit emulator. -->
-      <vi-button-icon @click="editEmulatorOpen()">
-        <vi-icon class="w-6">
-          <icon-edit />
-        </vi-icon>
-      </vi-button-icon>
-      <!-- Delete emulator. -->
-      <vi-button-icon @click="deleteEmulatorOpen()">
-        <vi-icon class="w-6">
-          <icon-remove />
-        </vi-icon>
-      </vi-button-icon>
-      <!-- Emulator select. -->
-      <vi-select
-        v-model="emulatorStore"
-        clearable
-        :key="emulatorList"
-      >
-        <vi-option
-          v-for="item in emulatorList.sort(sortEmulatorList)"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-        />
-      </vi-select>
-    </div>
+    <!-- Emulator select. -->
+    <vi-select
+      v-model="emulatorStore"
+      clearable
+      :key="emulatorList"
+      placeholder="No Emulator"
+    >
+      <vi-option
+        v-for="item in emulatorList.sort(sortEmulatorList)"
+        :key="item.id"
+        :label="item.name"
+        :value="item.id"
+      />
+      <!-- Buttons -->
+      <template #append>
+        <!-- Create emulator. -->
+        <vi-input-button @click="createEmulatorOpen()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-input-button>
+        <!-- Delete emulator. -->
+        <vi-input-button @click="deleteEmulatorOpen()">
+          <vi-icon class="w-6">
+            <icon-remove />
+          </vi-icon>
+        </vi-input-button>
+        <!-- Edit emulator. -->
+        <vi-input-button
+          last-element
+          @click="editEmulatorOpen()"
+        >
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-input-button>
+      </template>
+    </vi-select>
   </vi-section-content>
 </template>
 

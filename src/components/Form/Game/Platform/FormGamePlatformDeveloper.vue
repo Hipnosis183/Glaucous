@@ -3,8 +3,8 @@
   <vi-select
     v-model="developer"
     allow-create
-    label="Developer"
-    placeholder="Required"
+    label="Developer *"
+    placeholder="Search or create developer..."
     remote
     :remote-method="querySearch"
     required

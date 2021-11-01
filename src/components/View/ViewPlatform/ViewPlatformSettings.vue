@@ -4,7 +4,7 @@
     v-if="$store.state.selectedPlatform"
     :key="$store.state.selectedPlatform"
     @close="$emit('close')"
-    width="w-2/3"
+    width="w-3/5"
     class="z-10"
   >
     <div class="flex max-h-content overflow-hidden">
@@ -37,7 +37,10 @@
         <!-- Relative games path. -->
         <vi-section-content>
           <p class="text-xl whitespace-nowrap">Relative Games Path</p>
-          <vi-input v-model="relativePath" />
+          <vi-input
+            v-model="relativePath"
+            placeholder="Select a directory path..."
+          />
         </vi-section-content>
       </div>
     </div>

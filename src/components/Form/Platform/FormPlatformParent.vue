@@ -3,6 +3,7 @@
   <vi-select
     v-model="parent"
     label="Parent Group"
+    placeholder="Search or create a platform group..."
     remote
     :remote-method="querySearch"
     class="w-full"

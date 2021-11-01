@@ -3,8 +3,8 @@
   <vi-select
     v-model="platform"
     allow-create
-    label="Platform"
-    placeholder="Required"
+    label="Platform *"
+    placeholder="Search or create platform..."
     remote
     :remote-method="querySearch"
     required

@@ -3,6 +3,7 @@
   <vi-input
     v-model="serial"
     label="Serial | Code | Game ID"
+    placeholder="Undefined"
   />
 </template>
 

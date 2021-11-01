@@ -49,16 +49,22 @@
     <!-- Title input. -->
     <vi-input
       v-model="title"
-      label="Title"
+      label="Title *"
       placeholder="Enter a name for the game..."
       required
-    />
-    <!-- Buttons -->
-    <vi-button-icon @click="expandedTitleShow()">
-      <vi-icon class="w-6">
-        <icon-edit />
-      </vi-icon>
-    </vi-button-icon>
+    >
+      <template #append>
+        <!-- Buttons -->
+        <vi-input-button
+          last-element
+          @click="expandedTitleShow()"
+        >
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-input-button>
+      </template>
+    </vi-input>
   </div>
 </template>
 

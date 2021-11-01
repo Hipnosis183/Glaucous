@@ -36,17 +36,26 @@
           <!-- Executable path. -->
           <vi-section-content>
             <p class="text-xl whitespace-nowrap">Game Path</p>
-            <vi-input v-model="gamePath" />
+            <vi-input
+              v-model="gamePath"
+              placeholder="Select game directory path..."
+            />
           </vi-section-content>
           <!-- Executable command. -->
           <vi-section-content>
             <p class="text-xl whitespace-nowrap">Game File</p>
-            <vi-input v-model="gameFile" />
+            <vi-input
+              v-model="gameFile"
+              placeholder="Select game file..."
+            />
           </vi-section-content>
           <!-- Executable parameters. -->
           <vi-section-content>
             <p class="text-xl whitespace-nowrap">Game Parameters *</p>
-            <vi-input v-model="gameParams" />
+            <vi-input
+              v-model="gameParams"
+              placeholder="Undefined"
+            />
           </vi-section-content>
           <!-- Relative path. -->
           <vi-section-content class="flex">
@@ -54,8 +63,7 @@
             <vi-switch v-model="relativePath" />
           </vi-section-content>
           <!-- Command preview. -->
-          <vi-section-header label="Preview">
-          </vi-section-header>
+          <vi-section-header label="Preview" />
           <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
             <div
               v-if="fullCommand"

@@ -24,29 +24,36 @@
     @close="imagesVersionShow()"
   />
   <!-- Images form. -->
-  <div class="flex rounded-xl shadow-color">
+  <vi-input-group
+    label="Images"
+    class="w-full"
+  >
     <vi-input-button
       firstElement
-      class="cursor-default"
-    >
-      <vi-icon class="w-6">
-        <icon-picture />
-      </vi-icon>
-    </vi-input-button>
-    <vi-input-button
       v-if="showPlatform"
       @click="imagesPlatformShow()"
-    >Platform</vi-input-button>
+      class="w-1/3"
+    >
+      Platform
+    </vi-input-button>
     <vi-input-button
       v-if="showRegion"
+      :firstElement="!showPlatform"
       @click="imagesRegionShow()"
-    >Region</vi-input-button>
+      :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
+    >
+      Region
+    </vi-input-button>
     <vi-input-button
       v-if="showVersion"
+      :firstElement="!showPlatform && !showRegion"
       lastElement
       @click="imagesVersionShow()"
-    >Version</vi-input-button>
-  </div>
+      :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
+    >
+      Version
+    </vi-input-button>
+  </vi-input-group>
 </template>
 
 <script>

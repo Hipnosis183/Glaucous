@@ -2,15 +2,13 @@
   <!-- Create game version dialog. -->
   <vi-dialog
     @close="$emit('close')"
+    width="w-4/5"
     class="z-10"
   >
     <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
       <!-- Title. -->
-      <div class="flex h-10">
-        <p class="mr-4 pt-1 text-2xl">New Game Version</p>
-        <form-game-images showVersion />
-      </div>
+      <p class="mr-4 pt-1 text-2xl">New Game Version</p>
       <!-- Buttons. -->
       <div class="h-10 space-x-4">
         <vi-button-icon @click="onSubmit()">
@@ -27,17 +25,21 @@
     </div>
     <!-- Form components. -->
     <div class="flex space-x-4">
-      <div class="w-1/2">
+      <div class="w-2/5">
         <form-game-version-name />
+        <form-game-images showVersion />
       </div>
-      <div class="w-1/2">
+      <div class="w-3/5">
         <div class="flex space-x-4">
           <form-game-version-type />
           <form-game-version-number />
         </div>
       </div>
     </div>
-    <form-game-version-comments />
+    <!-- Required fields aclaration. -->
+    <p class="mt-8 text-center text-sm">
+      * The fields with red text are required
+    </p>
   </vi-dialog>
 </template>
 

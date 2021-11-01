@@ -3,6 +3,7 @@
   <vi-input
     v-model="params"
     label="Parameters"
+    placeholder="Undefined"
   />
 </template>
 

@@ -4,6 +4,7 @@
     v-model="region"
     clearable
     label="Region"
+    placeholder="Unknown"
     class="w-full"
   >
     <vi-option-group

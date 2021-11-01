@@ -83,18 +83,23 @@
         :label="item.name"
         :value="item._id"
       />
+      <template #append>
+        <!-- Buttons -->
+        <vi-input-button @click="addTags()">
+          <vi-icon class="w-6">
+            <icon-add />
+          </vi-icon>
+        </vi-input-button>
+        <vi-input-button
+          last-element
+          @click="expandedTagsShow()"
+        >
+          <vi-icon class="w-6">
+            <icon-edit />
+          </vi-icon>
+        </vi-input-button>
+      </template>
     </vi-select>
-    <!-- Buttons -->
-    <vi-button-icon @click="addTags()">
-      <vi-icon class="w-6">
-        <icon-add />
-      </vi-icon>
-    </vi-button-icon>
-    <vi-button-icon @click="expandedTagsShow()">
-      <vi-icon class="w-6">
-        <icon-edit />
-      </vi-icon>
-    </vi-button-icon>
   </div>
 </template>
 
