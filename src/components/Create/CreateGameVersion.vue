@@ -11,16 +11,14 @@
       <p class="mr-4 pt-1 text-2xl">New Game Version</p>
       <!-- Buttons. -->
       <div class="h-10 space-x-4">
-        <vi-button-icon @click="onSubmit()">
-          <vi-icon class="w-6">
-            <icon-check />
-          </vi-icon>
-        </vi-button-icon>
-        <vi-button-icon @click="$emit('close')">
-          <vi-icon class="w-6">
-            <icon-close />
-          </vi-icon>
-        </vi-button-icon>
+        <vi-button
+          button-icon="icon-check"
+          @click="onSubmit()"
+        />
+        <vi-button
+          button-icon="icon-close"
+          @click="$emit('close')"
+        />
       </div>
     </div>
     <!-- Form components. -->

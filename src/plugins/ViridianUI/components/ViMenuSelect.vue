@@ -4,18 +4,17 @@
     <div
       ref="refSelect"
       @click="openDropMenu()"
-      class="h-full"
+      class="flex h-full"
     >
-      <vi-button-small v-if="small">
-        <vi-icon class="w-4">
-          <component :is="small" />
-        </vi-icon>
-      </vi-button-small>
-      <vi-button-nb v-else>
-        <vi-icon class="w-6">
-          <component :is="icon" />
-        </vi-icon>
-      </vi-button-nb>
+      <vi-button
+        v-if="small"
+        :button-small="small"
+      />
+      <vi-button-nb
+        v-else
+        :button-icon="icon"
+        button-large
+      />
     </div>
     <!-- Dropdown menu. -->
     <div
@@ -29,7 +28,7 @@
           v-show="openMenu"
           ref="refMenu"
           :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-          class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow-color transition-menu"
+          class="bg-theme-100 dark:bg-theme-900 border-2 border-solid border-theme-200 dark:border-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl transition-menu"
         >
           <!-- Options list. -->
           <slot />

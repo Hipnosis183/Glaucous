@@ -70,34 +70,27 @@
           <!-- Title. -->
           <p class="mr-10 pt-1 text-2xl">Directories</p>
           <!-- Buttons. -->
-          <vi-button-icon @click="dataPathShow()">
-            <vi-icon class="w-6">
-              <icon-close />
-            </vi-icon>
-          </vi-button-icon>
+          <vi-button
+            button-icon="icon-close"
+            @click="dataPathShow()"
+          />
         </div>
         <!-- Separator. -->
         <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
         <!-- Open directories buttons. -->
         <div class="flex flex-col space-y-4">
           <vi-button
-            large
+            button-large
             @click="openPathGame()"
-          >
-            Open Game Folder
-          </vi-button>
+          >Open Game Folder</vi-button>
           <vi-button
-            large
+            button-large
             @click="openPathConfig()"
-          >
-            Open Configuration Folder
-          </vi-button>
+          >Open Configuration Folder</vi-button>
           <vi-button
-            large
+            button-large
             @click="openPathImages()"
-          >
-            Open Images Folder
-          </vi-button>
+          >Open Images Folder</vi-button>
         </div>
       </vi-dialog>
     </div>
@@ -107,7 +100,7 @@
       @close="managePlaylistsClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar :class="$store.getters.getSettingsGeneralEditMode ? 'mr-1' : 'mx-1'">
+    <vi-nav-bar :class="{ 'mx-1' : !$store.getters.getSettingsGeneralEditMode }">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex"
@@ -131,11 +124,11 @@
           />
         </vi-menu-select>
         <!-- Open edit game dialog. -->
-        <vi-button-nb @click="editGameOpen()">
-          <vi-icon class="w-6">
-            <icon-edit />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-edit"
+          button-large
+          @click="editGameOpen()"
+        />
         <!-- Delete games menu dialog. -->
         <vi-menu-select icon="icon-remove">
           <!-- Open create game platform dialog. -->
@@ -154,6 +147,19 @@
             :method="deleteVersionOpen"
           />
         </vi-menu-select>
+        <!-- Select default games. -->
+        <vi-menu-select icon="icon-pin">
+          <!-- Set selected region as the main region. -->
+          <vi-menu-option
+            label="Set Region as Default"
+            :method="setGameRegion"
+          />
+          <!-- Set selected version as the main version. -->
+          <vi-menu-option
+            label="Set Version as Default"
+            :method="setGameVersion"
+          />
+        </vi-menu-select>
         <!-- Open game directories dialog. -->
         <vi-menu-select icon="icon-folder">
           <!-- Open game platform directories menu dialog. -->
@@ -170,19 +176,6 @@
           <vi-menu-option
             label="Version Directories"
             :method="directoriesVersion"
-          />
-        </vi-menu-select>
-        <!-- Select default games. -->
-        <vi-menu-select icon="icon-pin">
-          <!-- Set selected region as the main region. -->
-          <vi-menu-option
-            label="Set Region as Default"
-            :method="setGameRegion"
-          />
-          <!-- Set selected version as the main version. -->
-          <vi-menu-option
-            label="Set Version as Default"
-            :method="setGameVersion"
           />
         </vi-menu-select>
       </div>
@@ -216,7 +209,7 @@
           </div>
           <div
             @click="changeRegion(index)"
-            class="absolute bg-theme-800 dark:bg-theme-200 cursor-pointer duration-500 h-full opacity-0 hover:opacity-10 top-0 w-full"
+            class="absolute bg-color-400 cursor-pointer duration-500 h-full opacity-0 hover:opacity-20 top-0 w-full"
           />
         </li>
       </ul>
@@ -256,10 +249,7 @@
                           @click="managePlaylistsClose()"
                           class="duration-200 -mb-1 pl-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
                         >
-                          <vi-icon
-                            icon-shadow
-                            class="w-8"
-                          >
+                          <vi-icon class="icon-shadow w-8">
                             <icon-playlist-add />
                           </vi-icon>
                         </button>

@@ -33,16 +33,14 @@
             <p class="overflow-x-hidden pt-1 text-2xl">Cover</p>
             <!-- Cover buttons. -->
             <div class="flex h-10 space-x-4">
-              <vi-button-icon @click="coverAdd()">
-                <vi-icon class="w-6">
-                  <icon-add />
-                </vi-icon>
-              </vi-button-icon>
-              <vi-button-icon @click="coverRemove()">
-                <vi-icon class="w-6">
-                  <icon-remove />
-                </vi-icon>
-              </vi-button-icon>
+              <vi-button
+                button-icon="icon-add"
+                @click="coverAdd()"
+              />
+              <vi-button
+                button-icon="icon-remove"
+                @click="coverRemove()"
+              />
             </div>
           </div>
           <!-- Cover image. -->
@@ -82,16 +80,14 @@
             <p class="overflow-x-hidden pt-1 text-2xl">Background</p>
             <!-- Background buttons. -->
             <div class="flex h-10 space-x-4">
-              <vi-button-icon @click="backgroundAdd()">
-                <vi-icon class="w-6">
-                  <icon-add />
-                </vi-icon>
-              </vi-button-icon>
-              <vi-button-icon @click="backgroundRemove()">
-                <vi-icon class="w-6">
-                  <icon-remove />
-                </vi-icon>
-              </vi-button-icon>
+              <vi-button
+                button-icon="icon-add"
+                @click="backgroundAdd()"
+              />
+              <vi-button
+                button-icon="icon-remove"
+                @click="backgroundRemove()"
+              />
             </div>
           </div>
           <!-- Background image. -->
@@ -132,16 +128,14 @@
           <p class="pt-1 text-2xl">Pictures</p>
           <!-- Pictures buttons. -->
           <div class="flex h-10 space-x-4">
-            <vi-button-icon @click="picturesAdd()">
-              <vi-icon class="w-6">
-                <icon-add />
-              </vi-icon>
-            </vi-button-icon>
-            <vi-button-icon @click="$emit('close')">
-              <vi-icon class="w-6">
-                <icon-close />
-              </vi-icon>
-            </vi-button-icon>
+            <vi-button
+              button-icon="icon-add"
+              @click="picturesAdd()"
+            />
+            <vi-button
+              button-icon="icon-close"
+              @click="$emit('close')"
+            />
           </div>
         </div>
         <!-- Pictures grid. -->

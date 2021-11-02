@@ -11,34 +11,28 @@
     <!-- Dialog buttons. -->
     <div class="flex justify-center mt-6 space-x-4">
       <!-- Confirm deletion. -->
-      <vi-button-icon @click="$emit('accept')">
-        <vi-icon class="w-6">
-          <icon-check />
-        </vi-icon>
-      </vi-button-icon>
+      <vi-button
+        button-icon="icon-check"
+        @click="$emit('accept')"
+      />
       <!-- Cancel deletion. -->
-      <vi-button-icon
+      <vi-button
         v-if="actions == 'OkCancel'"
+        button-icon="icon-close"
         @click="$emit('cancel')"
-      >
-        <vi-icon class="w-6">
-          <icon-close />
-        </vi-icon>
-      </vi-button-icon>
+      />
     </div>
   </vi-dialog>
 </template>
 
 <script>
 // Import UI components.
-import ViButtonIcon from './ViButtonIcon.vue'
 import ViDialog from './ViDialog.vue'
 import ViIcon from './ViIcon.vue'
 
 export default {
   name: 'ViDialogBox',
   components: {
-    ViButtonIcon,
     ViDialog,
     ViIcon
   },

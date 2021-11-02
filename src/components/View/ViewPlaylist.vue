@@ -1,39 +1,32 @@
 <template>
   <div>
-    <div v-if="$store.getters.getSettingsGeneralEditMode">
-      <!-- Edit playlist dialog. -->
-      <edit-playlist
-        v-show="editPlaylistDialog"
-        @close="editPlaylistClose()"
-      />
-      <!-- Delete playlist dialog. -->
-      <vi-dialog-box
-        v-show="deletePlaylistDialog"
-        @accept="deletePlaylistClose()"
-        @cancel="deletePlaylistOpen()"
-        actions="OkCancel"
-      >
-        Delete playlist <b>'{{ playlist.name }}'</b> ?
-      </vi-dialog-box>
-    </div>
+    <!-- Edit playlist dialog. -->
+    <edit-playlist
+      v-show="editPlaylistDialog"
+      @close="editPlaylistClose()"
+    />
+    <!-- Delete playlist dialog. -->
+    <vi-dialog-box
+      v-show="deletePlaylistDialog"
+      @accept="deletePlaylistClose()"
+      @cancel="deletePlaylistOpen()"
+      actions="OkCancel"
+    >
+      Delete playlist <b>'{{ playlist.name }}'</b> ?
+    </vi-dialog-box>
     <!-- Navigation bar. -->
     <vi-nav-bar :title="playlist.name">
-      <div
-        v-if="$store.getters.getSettingsGeneralEditMode"
-        class="flex"
-      >
+      <div class="flex items-center ml-2 space-x-1">
         <!-- Open edit playlist dialog. -->
-        <vi-button-nb @click="editPlaylistOpen()">
-          <vi-icon class="w-6">
-            <icon-edit />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-edit"
+          @click="editPlaylistOpen()"
+        />
         <!-- Open delete playlist dialog. -->
-        <vi-button-nb @click="deletePlaylistOpen()">
-          <vi-icon class="w-6">
-            <icon-remove />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-remove"
+          @click="deletePlaylistOpen()"
+        />
       </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">

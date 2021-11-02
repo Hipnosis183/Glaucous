@@ -1,11 +1,7 @@
 import ViButton from './components/ViButton.vue'
-import ViButtonGroup from './components/ViButtonGroup.vue'
-import ViButtonIcon from './components/ViButtonIcon.vue'
 import ViButtonNb from './components/ViButtonNb.vue'
 import ViButtonSb from './components/ViButtonSb.vue'
-import ViButtonSbSmall from './components/ViButtonSbSmall.vue'
 import ViButtonSettings from './components/ViButtonSettings.vue'
-import ViButtonSmall from './components/ViButtonSmall.vue'
 import ViButtonUI from './components/ViButtonUI.vue'
 import ViCard from './components/ViCard.vue'
 import ViCardCompact from './components/ViCardCompact.vue'
@@ -43,13 +39,9 @@ import ViSwitch from './components/ViSwitch.vue'
 export default {
     install: (app, options) => {
         app.component('vi-button', ViButton)
-        app.component('vi-button-group', ViButtonGroup)
-        app.component('vi-button-icon', ViButtonIcon)
         app.component('vi-button-nb', ViButtonNb)
         app.component('vi-button-sb', ViButtonSb)
-        app.component('vi-button-sb-small', ViButtonSbSmall)
         app.component('vi-button-settings', ViButtonSettings)
-        app.component('vi-button-small', ViButtonSmall)
         app.component('vi-button-ui', ViButtonUI)
         app.component('vi-card', ViCard)
         app.component('vi-card-compact', ViCardCompact)

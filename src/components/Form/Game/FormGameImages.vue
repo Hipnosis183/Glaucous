@@ -29,7 +29,7 @@
     class="w-full"
   >
     <vi-input-button
-      firstElement
+      first-element
       v-if="showPlatform"
       @click="imagesPlatformShow()"
       class="w-1/3"
@@ -38,7 +38,7 @@
     </vi-input-button>
     <vi-input-button
       v-if="showRegion"
-      :firstElement="!showPlatform"
+      :first-element="!showPlatform"
       @click="imagesRegionShow()"
       :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
     >
@@ -46,8 +46,8 @@
     </vi-input-button>
     <vi-input-button
       v-if="showVersion"
-      :firstElement="!showPlatform && !showRegion"
-      lastElement
+      :first-element="!showPlatform && !showRegion"
+      last-element
       @click="imagesVersionShow()"
       :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
     >

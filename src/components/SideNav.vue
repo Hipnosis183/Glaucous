@@ -36,107 +36,57 @@
         <!-- Buttons. -->
         <div class="flex flex-col max-h-80 mb-auto no-scrollbar overflow-scroll">
           <vi-button-sb
+            button-icon="icon-games"
+            button-large
             @click="selectList()"
-            class="flex h-16 pl-4 z-50"
-          >
-            <vi-icon
-              icon-manual
-              class="w-8"
-            >
-              <icon-games />
-            </vi-icon>
-            <h6>Games</h6>
-          </vi-button-sb>
+          >Games</vi-button-sb>
           <vi-button-sb
+            button-icon="icon-star-s"
+            button-large
             @click="$router.push({ name: 'Favorites' })"
-            class="flex h-16 pl-4"
-          >
-            <vi-icon
-              icon-manual
-              class="w-8"
-            >
-              <icon-star-s />
-            </vi-icon>
-            <h6>Favorites</h6>
-          </vi-button-sb>
+          >Favorites</vi-button-sb>
           <vi-button-sb
+            button-icon="icon-tag"
+            button-large
             @click="$router.push({ name: 'Tags' })"
-            class="flex h-16 pl-4"
-          >
-            <vi-icon
-              icon-manual
-              class="w-8"
-            >
-              <icon-tag />
-            </vi-icon>
-            <h6>Explore Tags</h6>
-          </vi-button-sb>
+          >Explore Tags</vi-button-sb>
           <vi-button-sb
+            button-icon="icon-playlist"
+            button-large
             @click="$router.push({ name: 'Playlists' })"
-            class="flex h-16 pl-4"
-          >
-            <vi-icon
-              icon-manual
-              class="w-8"
-            >
-              <icon-playlist />
-            </vi-icon>
-            <h6>Playlists</h6>
-          </vi-button-sb>
+          >Playlists</vi-button-sb>
           <vi-button-sb
+            button-icon="icon-recent"
+            button-large
             @click="$router.push({ name: 'Recent' })"
-            class="flex h-16 pl-4"
-          >
-            <vi-icon
-              icon-manual
-              class="w-8"
-            >
-              <icon-recent />
-            </vi-icon>
-            <h6>Recently Played</h6>
-          </vi-button-sb>
+          >Recently Played</vi-button-sb>
         </div>
         <div class="flex flex-col max-h-32 mt-auto no-scrollbar overflow-scroll z-50">
           <vi-button-sb
+            button-icon="icon-search"
+            button-large
+            icon-size="w-6"
             @click="searchShow()"
-            class="flex h-16 pl-4"
-          >
-            <vi-icon
-              icon-manual
-              class="w-6"
-            >
-              <icon-search />
-            </vi-icon>
-            <h6>Search</h6>
-          </vi-button-sb>
+          >Search</vi-button-sb>
           <vi-button-sb
+            button-icon="icon-setting-f"
+            button-large
+            icon-size="w-6"
             @click="$router.push({ name: 'Settings' })"
-            class="flex h-16 pl-4"
-          >
-            <vi-icon
-              icon-manual
-              class="w-6"
-            >
-              <icon-setting-f />
-            </vi-icon>
-            <h6>Settings</h6>
-          </vi-button-sb>
+          >Settings</vi-button-sb>
         </div>
         <!-- Bottom bar. -->
         <div class="bottom-shadow flex justify-between">
-          <vi-button-sb-small
+          <vi-button-sb
+            button-small
+            button-icon="icon-exit"
             @click="exitApp()"
-            class="py-3.5"
-          >
-            <vi-icon class="w-6">
-              <icon-exit />
-            </vi-icon>
-          </vi-button-sb-small>
-          <vi-button-sb-small @click="sidenavToggle()">
-            <vi-icon class="w-6">
-              <icon-menu />
-            </vi-icon>
-          </vi-button-sb-small>
+          />
+          <vi-button-sb
+            button-small
+            button-icon="icon-menu"
+            @click="sidenavToggle()"
+          />
         </div>
       </div>
     </transition>
@@ -162,31 +112,26 @@
         </div>
         <!-- Buttons. -->
         <div class="flex flex-col max-h-80 mb-auto no-scrollbar overflow-scroll z-40">
-          <vi-button-sb @click="selectList()">
-            <vi-icon class="text-color-200 w-8">
-              <icon-games />
-            </vi-icon>
-          </vi-button-sb>
-          <vi-button-sb @click="$router.push({ name: 'Favorites' })">
-            <vi-icon class="text-color-200 w-8">
-              <icon-star-s />
-            </vi-icon>
-          </vi-button-sb>
-          <vi-button-sb @click="$router.push({ name: 'Tags' })">
-            <vi-icon class="text-color-200 w-8">
-              <icon-tag />
-            </vi-icon>
-          </vi-button-sb>
-          <vi-button-sb @click="$router.push({ name: 'Playlists' })">
-            <vi-icon class="text-color-200 w-8">
-              <icon-playlist />
-            </vi-icon>
-          </vi-button-sb>
-          <vi-button-sb @click="$router.push({ name: 'Recent' })">
-            <vi-icon class="text-color-200 w-8">
-              <icon-recent />
-            </vi-icon>
-          </vi-button-sb>
+          <vi-button-sb
+            button-icon="icon-games"
+            @click="selectList()"
+          />
+          <vi-button-sb
+            button-icon="icon-star-s"
+            @click="$router.push({ name: 'Favorites' })"
+          />
+          <vi-button-sb
+            button-icon="icon-tag"
+            @click="$router.push({ name: 'Tags' })"
+          />
+          <vi-button-sb
+            button-icon="icon-playlist"
+            @click="$router.push({ name: 'Playlists' })"
+          />
+          <vi-button-sb
+            button-icon="icon-recent"
+            @click="$router.push({ name: 'Recent' })"
+          />
         </div>
         <div
           class="flex flex-col mt-auto no-scrollbar overflow-scroll z-40"
@@ -194,30 +139,28 @@
         >
           <vi-button-sb
             v-show="history > 0"
+            button-icon="icon-back"
+            icon-size="w-7"
             @click="$router.back()"
-          >
-            <vi-icon class="text-color-200 w-7">
-              <icon-back />
-            </vi-icon>
-          </vi-button-sb>
-          <vi-button-sb @click="searchShow()">
-            <vi-icon class="text-color-200 w-6">
-              <icon-search />
-            </vi-icon>
-          </vi-button-sb>
-          <vi-button-sb @click="$router.push({ name: 'Settings' })">
-            <vi-icon class="text-color-200 w-6">
-              <icon-setting-f />
-            </vi-icon>
-          </vi-button-sb>
+          />
+          <vi-button-sb
+            button-icon="icon-search"
+            icon-size="w-6"
+            @click="searchShow()"
+          />
+          <vi-button-sb
+            button-icon="icon-setting-f"
+            icon-size="w-6"
+            @click="$router.push({ name: 'Settings' })"
+          />
         </div>
         <!-- Bottom bar. -->
         <div class="bottom-shadow flex justify-between">
-          <vi-button-sb-small @click="sidenavToggle()">
-            <vi-icon class="w-6">
-              <icon-menu />
-            </vi-icon>
-          </vi-button-sb-small>
+          <vi-button-sb
+            button-small
+            button-icon="icon-menu"
+            @click="sidenavToggle()"
+          />
         </div>
       </div>
     </transition>
@@ -319,10 +262,10 @@ export default {
 <style scoped>
 /* Styling. */
 .bottom-shadow {
-  filter: drop-shadow(0px -1px 1px rgba(var(--color-color-800), 0.6));
+  filter: drop-shadow(-1px -1px 1px rgba(var(--color-color-800), 0.6));
 }
 .top-shadow {
-  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(-1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 .viridian-shadow {
   filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));

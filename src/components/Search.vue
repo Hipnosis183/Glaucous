@@ -12,11 +12,10 @@
           <!-- Dialog title. -->
           <p class="pt-1 text-2xl">Games Search</p>
           <!-- Close search dialog. -->
-          <vi-button-icon @click="$emit('close')">
-            <vi-icon class="w-6">
-              <icon-close />
-            </vi-icon>
-          </vi-button-icon>
+          <vi-button
+            button-icon="icon-close"
+            @click="$emit('close')"
+          />
         </div>
         <div class="flex justify-between space-x-4">
           <!-- Search bar. -->
@@ -43,11 +42,10 @@
             </vi-select>
           </div>
           <!-- Add query button. -->
-          <vi-button-icon @click="queryAdd(queryInput.trim(), searchSelect)">
-            <vi-icon class="w-6">
-              <icon-add />
-            </vi-icon>
-          </vi-button-icon>
+          <vi-button
+            button-icon="icon-add"
+            @click="queryAdd(queryInput.trim(), searchSelect)"
+          />
         </div>
         <!-- Search filters. -->
         <transition name="filters">

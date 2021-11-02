@@ -30,11 +30,10 @@
           >
             <li class="text-justify">{{ link }}</li>
             <!-- Remove related link from the list. -->
-            <vi-button-icon @click="linkRemove(index)">
-              <vi-icon class="w-6">
-                <icon-remove />
-              </vi-icon>
-            </vi-button-icon>
+            <vi-button
+              button-icon="icon-remove"
+              @click="linkRemove(index)"
+            />
           </div>
         </div>
         <div v-else>

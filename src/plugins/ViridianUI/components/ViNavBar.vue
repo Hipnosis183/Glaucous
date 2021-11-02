@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <div class="bg-theme-0 dark:bg-theme-700 h-14 inline-flex justify-evenly shadow-color w-full">
+  <div class="relative z-5">
+    <!-- Handle the bar's shadow without affecting child elements. -->
+    <div class="absolute bar-shadow bg-theme-0 h-14 left-0 top-0 w-full" />
+    <!-- Navigation bar. -->
+    <div class="bg-theme-0 dark:bg-theme-700 h-14 inline-flex justify-evenly relative w-full">
       <!-- Contents. -->
       <slot />
       <div
@@ -25,5 +28,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+/* Styling. */
+.bar-shadow {
+  filter: drop-shadow(0px 1px 1px rgba(var(--color-theme-800), 0.4));
+}
+.dark .bar-shadow {
+  filter: drop-shadow(0px 1px 1px rgba(var(--color-theme-900), 0.6));
+}
 </style>

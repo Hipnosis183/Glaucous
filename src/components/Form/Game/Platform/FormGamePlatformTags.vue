@@ -20,11 +20,10 @@
       <!-- Title. -->
       <p class="mr-10 pt-1 text-2xl">Tags</p>
       <!-- Buttons. -->
-      <vi-button-icon @click="addTags()">
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-icon>
+      <vi-button
+        button-icon="icon-add"
+        @click="addTags()"
+      />
     </div>
     <!-- Tags input select. -->
     <vi-select
@@ -55,7 +54,7 @@
           :value="item"
         >
           <vi-chip
-            large
+            chip-large
             @remove="removeTags(index)"
           >
             {{ item.name }}

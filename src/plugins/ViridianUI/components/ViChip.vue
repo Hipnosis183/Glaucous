@@ -6,7 +6,7 @@
       $store.getters.getSettingsThemesDarkMode ? 'text-shadow' : '',
       clickable ? 'cursor-pointer' : 'cursor-default',
       multiline ? 'rounded-2xl' : 'rounded-full',
-      { 'w-full' : large }
+      { 'w-full' : chipLarge }
     ]"
   >
     <div class="pointer-events-none">
@@ -15,7 +15,7 @@
     <button
       v-if="removeable"
       class="bg-theme-200 dark:bg-theme-900 hover:bg-theme-0 dark:hover:bg-theme-700 h-6 -mr-2 my-auto p-1 rounded-full w-6"
-      :class="large ? 'ml-auto' : 'ml-2'"
+      :class="chipLarge ? 'ml-auto' : 'ml-2'"
       @click="$emit('remove')"
     >
       <vi-icon>
@@ -29,8 +29,8 @@
 export default {
   name: 'ViChip',
   props: {
+    chipLarge: { type: Boolean, default: false },
     clickable: { type: Boolean, default: false },
-    large: { type: Boolean, default: false },
     multiline: { type: Boolean, default: false },
     removeable: { type: Boolean, default: true }
   }

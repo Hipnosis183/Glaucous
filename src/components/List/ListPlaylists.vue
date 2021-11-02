@@ -1,24 +1,18 @@
 <template>
   <div>
-    <div v-if="$store.getters.getSettingsGeneralEditMode">
-      <!-- Create playlist dialog. -->
-      <create-playlist
-        v-show="createPlaylistDialog"
-        @close="createPlaylistClose()"
-      />
-    </div>
+    <!-- Create playlist dialog. -->
+    <create-playlist
+      v-show="createPlaylistDialog"
+      @close="createPlaylistClose()"
+    />
     <!-- Navigation bar. -->
     <vi-nav-bar title="Playlists">
-      <div
-        v-if="$store.getters.getSettingsGeneralEditMode"
-        class="flex"
-      >
+      <div class="flex items-center ml-2">
         <!-- Open create playlist dialog. -->
-        <vi-button-nb @click="createPlaylistOpen()">
-          <vi-icon class="w-6">
-            <icon-add />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-add"
+          @click="createPlaylistOpen()"
+        />
       </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">

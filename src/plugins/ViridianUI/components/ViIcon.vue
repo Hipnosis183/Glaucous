@@ -5,10 +5,7 @@
     fill="currentColor"
     viewBox="0 0 1024 1024"
     :width="iconSize"
-    :class="[
-      { 'm-auto' : iconManual == false },
-      { 'icon-shadow' : iconShadow }
-    ]"
+    :class="{ 'm-auto' : iconManual == false }"
   >
     <!-- Icon contents. -->
     <slot />

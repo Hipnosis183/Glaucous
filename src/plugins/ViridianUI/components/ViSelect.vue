@@ -1,17 +1,29 @@
 <template>
   <vi-input-group :label=label>
+    <!-- Prepend container. -->
+    <div
+      v-if="$slots.prepend"
+      class="flex"
+    >
+      <!-- Prepend contents. -->
+      <slot name="prepend" />
+    </div>
     <!-- Container. -->
-    <div class="flex flex-col h-10 rounded-xl w-full">
+    <div class="flex flex-col h-10 w-full">
       <!-- Select container. -->
       <div
         ref="refSelect"
         @click="openDropMenu()"
-        class="flex h-full rounded-xl w-full"
+        class="bg-theme-100 dark:bg-theme-800 hover:bg-theme-200 dark:hover:bg-theme-900 flex h-full rounded-xl w-full"
+        :class="[
+          { 'rounded-r-none' : $slots.append },
+          { 'rounded-l-none' : $slots.prepend }
+        ]"
       >
         <!-- Prefix icon. -->
         <div
           v-if="iconPrefix"
-          class="bg-theme-100 dark:bg-theme-800 flex pl-3 rounded-l-xl w-max"
+          class="flex pl-3 w-max"
         >
           <div
             class="my-auto text-xl text-theme-600 dark:text-theme-400"
@@ -21,11 +33,7 @@
         <!-- Remote input element. -->
         <div
           v-if="remote"
-          class="bg-theme-100 dark:bg-theme-800 cursor-pointer relative rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
-          :class="[
-            { 'rounded-l-none' : iconPrefix },
-            { 'rounded-r-none' : !required && (iconSuffix || modelValue || !remote || $slots.append) }
-          ]"
+          class="cursor-pointer relative text-base text-theme-800 dark:text-theme-200 w-full"
         >
           <!-- Label placeholder. -->
           <div class="absolute flex h-full overflow-x-hidden px-4 w-full whitespace-nowrap">
@@ -52,18 +60,13 @@
           :disabled="true"
           :placeholder="placeholder"
           @input="updateValue()"
-          class="bg-theme-100 dark:bg-theme-800 cursor-pointer px-4 rounded-xl text-base text-theme-800 dark:text-theme-200 w-full"
-          :class="[
-            { 'input-error' : required },
-            { 'rounded-l-none' : iconPrefix },
-            { 'rounded-r-none' : iconSuffix || !remote || $slots.append }
-          ]"
+          class="bg-transparent cursor-pointer px-4 text-base text-theme-800 dark:text-theme-200 w-full"
+          :class="{ 'input-error' : required }"
         />
         <!-- Clear select icon. -->
         <div
           v-if="(modelValue && remote && !required) || (!remote && clearable)"
-          class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex w-max z-0"
-          :class="{ 'rounded-r-xl' : remote && !iconSuffix && !$slots.append }"
+          class="cursor-pointer flex w-max z-0"
         >
           <div
             @click.stop="clearValue()"
@@ -78,8 +81,7 @@
         <!-- Open select menu icon. -->
         <div
           v-if="!remote"
-          class="bg-theme-100 dark:bg-theme-800 cursor-pointer flex pr-3 w-max"
-          :class="$slots.append ? '' : 'rounded-r-xl'"
+          class="cursor-pointer flex pr-3 w-max"
         >
           <div class="my-auto text-theme-600 dark:text-theme-400">
             <vi-icon class="w-5">
@@ -100,7 +102,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-100 dark:bg-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl shadow-color transition-menu"
+            class="bg-theme-100 dark:bg-theme-900 border-2 border-solid border-theme-200 dark:border-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl transition-menu"
           >
             <!-- Select created option. -->
             <vi-option

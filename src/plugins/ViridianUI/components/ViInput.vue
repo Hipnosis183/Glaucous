@@ -9,12 +9,17 @@
       <slot name="prepend" />
     </div>
     <!-- Input container. -->
-    <div class="flex h-full rounded-xl w-full">
+    <div
+      class="bg-theme-100 dark:bg-theme-800 hover:bg-theme-200 dark:hover:bg-theme-900 flex h-full rounded-xl w-full"
+      :class="[
+        { 'rounded-r-none' : $slots.append },
+        { 'rounded-l-none' : $slots.prepend }
+      ]"
+    >
       <!-- Prefix icon. -->
       <div
         v-if="iconPrefix"
-        class="bg-theme-100 dark:bg-theme-800 flex pl-3 w-max"
-        :class="$slots.prepend ? '' : 'rounded-l-xl'"
+        class="flex pl-3 w-max"
       >
         <div class="my-auto text-theme-600 dark:text-theme-400">
           <vi-icon class="w-5">
@@ -29,12 +34,8 @@
         :disabled="disabled"
         :placeholder="placeholder"
         @input="updateValueDebounced"
-        class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-theme-800 dark:text-theme-200 w-full"
-        :class="[
-          iconPrefix || $slots.prepend ? '' : 'rounded-l-xl',
-          iconSuffix || $slots.append || (remote && modelValue) ? '' : 'rounded-r-xl',
-          required ? 'input-error' : ''
-        ]"
+        class="bg-transparent px-4 text-base text-theme-800 dark:text-theme-200 w-full"
+        :class="required ? 'input-error' : ''"
       />
       <!-- Normal input element. -->
       <input
@@ -43,18 +44,13 @@
         :disabled="disabled"
         :placeholder="placeholder"
         @input="updateValue()"
-        class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-theme-800 dark:text-theme-200 w-full"
-        :class="[
-          iconPrefix || $slots.prepend ? '' : 'rounded-l-xl',
-          iconSuffix || $slots.append || (remote && modelValue) ? '' : 'rounded-r-xl',
-          required ? 'input-error' : ''
-        ]"
+        class="bg-transparent px-4 text-base text-theme-800 dark:text-theme-200 w-full"
+        :class="required ? 'input-error' : ''"
       />
       <!-- Clear input icon. -->
       <div
         v-if="remote && modelValue"
-        class="bg-theme-100 dark:bg-theme-800 flex w-max"
-        :class="iconSuffix || $slots.append ? '' : 'rounded-r-xl'"
+        class="flex w-max"
       >
         <div
           @click="clearValue()"
@@ -68,8 +64,7 @@
       <!-- Sufix icon. -->
       <div
         v-if="iconSuffix"
-        class="bg-theme-100 dark:bg-theme-800 flex pr-3 w-max"
-        :class="$slots.append ? '' : 'rounded-r-xl'"
+        class="flex pr-3 w-max"
       >
         <div class="my-auto text-theme-600 dark:text-theme-400">
           <vi-icon class="w-5">
@@ -150,5 +145,9 @@ export default {
 }
 .input-error::placeholder {
   @apply text-red-500 !important;
+}
+/* Transitions. */
+div {
+  transition: background-color 0.5s;
 }
 </style>

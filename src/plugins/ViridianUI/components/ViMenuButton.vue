@@ -5,11 +5,7 @@
       ref="refSelect"
       @click="openDropMenu()"
     >
-      <vi-button-small>
-        <vi-icon class="w-4">
-          <component :is="icon" />
-        </vi-icon>
-      </vi-button-small>
+      <vi-button :button-small="icon" />
       <!-- Dropdown menu. -->
       <div
         ref="refTooltip"
@@ -22,7 +18,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-0 dark:bg-theme-700 list-none max-h-96 overflow-y-auto px-2 py-6 rounded-3xl shadow-color transition-menu"
+            class="bg-theme-0 dark:bg-theme-700 border-2 border-solid border-theme-200 dark:border-theme-800 list-none max-h-96 overflow-y-auto px-2 py-6 rounded-3xl transition-menu"
           >
             <!-- Options list. -->
             <slot />

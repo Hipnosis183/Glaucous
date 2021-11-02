@@ -18,7 +18,7 @@
       <!-- Switch slider. -->
       <div
         class="flex rounded-full shadow-color switch-slider"
-        :class="modelValue ? 'bg-color-500' : 'bg-theme-200 dark:bg-theme-800'"
+        :class="modelValue ? 'bg-color-500 hover:bg-color-600' : 'bg-theme-200 dark:bg-theme-800 hover:bg-theme-300 dark:hover:bg-theme-900'"
       >
         <!-- Switch button. -->
         <div

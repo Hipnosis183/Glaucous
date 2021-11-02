@@ -6,7 +6,7 @@
   <!-- Separator bar. -->
   <div
     v-if="!last"
-    class="border-b border-theme-600 dark:border-theme-500 flex mb-4 mt-2 mx-5"
+    class="border-b border-theme-400 dark:border-theme-500 flex mb-4 mt-2 mx-5"
   />
 </template>
 

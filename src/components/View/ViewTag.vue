@@ -20,20 +20,18 @@
     <vi-nav-bar :title="gameTag.name">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
-        class="flex"
+        class="flex items-center ml-2 space-x-1"
       >
         <!-- Open edit tag dialog. -->
-        <vi-button-nb @click="editTagOpen()">
-          <vi-icon class="w-6">
-            <icon-edit />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-edit"
+          @click="editTagOpen()"
+        />
         <!-- Open delete tag dialog. -->
-        <vi-button-nb @click="deleteTagOpen()">
-          <vi-icon class="w-6">
-            <icon-remove />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-remove"
+          @click="deleteTagOpen()"
+        />
       </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">

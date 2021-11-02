@@ -18,11 +18,10 @@
       <!-- Title. -->
       <p class="mr-10 pt-1 text-2xl">Playlists</p>
       <!-- Buttons. -->
-      <vi-button-icon @click="addPlaylists()">
-        <vi-icon class="w-6">
-          <icon-add />
-        </vi-icon>
-      </vi-button-icon>
+      <vi-button
+        button-icon="icon-add"
+        @click="addPlaylists()"
+      />
     </div>
     <!-- Playlists input select. -->
     <vi-select
@@ -54,8 +53,8 @@
           :value="item"
         >
           <vi-chip
+            chip-large
             clickable
-            large
             @clicked="$router.push({ name: 'Playlist', params: { id: item._id } })"
             @remove="removePlaylists(item._id)"
           >

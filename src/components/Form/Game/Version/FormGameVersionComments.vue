@@ -23,11 +23,10 @@
           >
             <li class="text-justify">{{ comment }}</li>
             <!-- Remove related comment from the list. -->
-            <vi-button-icon @click="commentRemove(index)">
-              <vi-icon class="w-6">
-                <icon-remove />
-              </vi-icon>
-            </vi-button-icon>
+            <vi-button
+              button-icon="icon-remove"
+              @click="commentRemove(index)"
+            />
           </div>
         </div>
         <div v-else>

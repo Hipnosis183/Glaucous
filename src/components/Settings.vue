@@ -6,16 +6,14 @@
       class="bg-transition"
     >
       <div class="flex-shrink-0 ml-2 my-auto">
-        <vi-button @click="restoreSettings()">
-          Restore Default
-        </vi-button>
+        <vi-button @click="restoreSettings()">Restore Default</vi-button>
       </div>
     </vi-nav-bar>
     <!-- Settings panel. -->
     <div class="flex m-6 space-x-6">
       <div class="bg-theme-0 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-xl shadow-color w-60">
         <vi-button-settings
-          firstElement
+          first-element
           label="General Options"
           :selected="settingIndex == 0"
           @click="settingIndex = 0"

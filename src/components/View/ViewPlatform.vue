@@ -34,33 +34,31 @@
     <vi-nav-bar :title="platform.name">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
-        class="flex"
+        class="flex items-center ml-2 -mr-1 space-x-1"
       >
         <!-- Open create game platform dialog. -->
-        <vi-button-nb @click="createPlatformOpen()">
-          <vi-icon class="w-6">
-            <icon-add />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-add"
+          @click="createPlatformOpen()"
+        />
         <!-- Open edit platform dialog. -->
-        <vi-button-nb @click="editPlatformOpen()">
-          <vi-icon class="w-6">
-            <icon-edit />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-edit"
+          @click="editPlatformOpen()"
+        />
         <!-- Open delete platform dialog. -->
-        <vi-button-nb @click="deletePlatformOpen()">
-          <vi-icon class="w-6">
-            <icon-remove />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-remove"
+          @click="deletePlatformOpen()"
+        />
       </div>
-      <!-- Open platform settings dialog. -->
-      <vi-button-nb @click="settingsPlatformOpen()">
-        <vi-icon class="w-6">
-          <icon-setting />
-        </vi-icon>
-      </vi-button-nb>
+      <div class="flex items-center ml-2">
+        <!-- Open platform settings dialog. -->
+        <vi-button-nb
+          button-icon="icon-setting"
+          @click="settingsPlatformOpen()"
+        />
+      </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

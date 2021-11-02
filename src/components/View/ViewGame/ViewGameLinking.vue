@@ -60,16 +60,14 @@
         <p class="mr-10 pt-1 text-2xl">Game Linking</p>
         <!-- Buttons. -->
         <div class="space-x-4">
-          <vi-button-icon @click="linkGame_()">
-            <vi-icon class="w-6">
-              <icon-add />
-            </vi-icon>
-          </vi-button-icon>
-          <vi-button-icon @click="unlinkGameOpen()">
-            <vi-icon class="w-6">
-              <icon-remove />
-            </vi-icon>
-          </vi-button-icon>
+          <vi-button
+            button-icon="icon-add"
+            @click="linkGame_()"
+          />
+          <vi-button
+            button-icon="icon-remove"
+            @click="unlinkGameOpen()"
+          />
         </div>
       </div>
       <vi-select
@@ -99,8 +97,8 @@
             :value="game"
           >
             <vi-chip
+              chip-large
               clickable
-              large
               multiline
               @clicked="$router.push({ name: 'Game', params: { id: game._id } })"
               @remove="unlinkLinkedGameOpen(game)"

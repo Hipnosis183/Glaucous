@@ -2,7 +2,7 @@
   <!-- Option item. -->
   <li
     @click="setOption()"
-    class="hover:bg-theme-200 dark:hover:bg-theme-600 relative"
+    class="hover:bg-theme-200 dark:hover:bg-theme-600 duration-200 relative"
     :class="{ 'bg-color-300 dark:bg-color-700' : selectedItem }"
   >
     <!-- Option overlay. -->

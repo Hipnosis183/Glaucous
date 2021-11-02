@@ -12,11 +12,10 @@
       <!-- Title. -->
       <p class="mr-10 pt-1 text-2xl">Title</p>
       <!-- Buttons. -->
-      <vi-button-icon @click="expandedTitleShow()">
-        <vi-icon class="w-6">
-          <icon-close />
-        </vi-icon>
-      </vi-button-icon>
+      <vi-button
+        button-icon="icon-close"
+        @click="expandedTitleShow()"
+      />
     </div>
     <!-- Sub title input. -->
     <vi-input

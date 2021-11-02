@@ -16,17 +16,15 @@
           <!-- Buttons. -->
           <div class="h-10 space-x-4">
             <!-- Store settings. -->
-            <vi-button-icon @click="storeSettings()">
-              <vi-icon class="w-6">
-                <icon-check />
-              </vi-icon>
-            </vi-button-icon>
+            <vi-button
+              button-icon="icon-check"
+              @click="storeSettings()"
+            />
             <!-- Close dialog. -->
-            <vi-button-icon @click="$emit('close')">
-              <vi-icon class="w-6">
-                <icon-close />
-              </vi-icon>
-            </vi-button-icon>
+            <vi-button
+              button-icon="icon-close"
+              @click="$emit('close')"
+            />
           </div>
         </div>
         <!-- Settings. -->

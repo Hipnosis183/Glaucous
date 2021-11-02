@@ -24,6 +24,7 @@ import { computed, getCurrentInstance, inject, watch } from 'vue'
 export default {
   name: 'ViOption',
   props: {
+    created: { type: Boolean, default: false },
     label: { type: String },
     value: { type: [String, Number, Object] }
   },
@@ -45,8 +46,18 @@ export default {
     const listenEmitter = inject('listenEmitter')
     const selectID = inject('selectID')
     const selectValue = inject('selectValue', '')
+    const selectLabel = inject('selectLabel', '')
     const selectedItem = computed(() => {
       return selectValue.value == item.value ? true : false
+    })
+    const hideOption = computed(() => {
+      // Hide created option if it matches an existing option.
+      if (!props.created) {
+        return selectLabel.value == item.label ? true : false
+      }
+    })
+    watch(() => hideOption.value, (res) => {
+      if (res) { emitter.emit('hideOption' + selectID.value, true) }
     })
     const catchEmitter = computed(() => {
       return listenEmitter.value

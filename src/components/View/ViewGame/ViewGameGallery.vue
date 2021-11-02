@@ -33,50 +33,44 @@
       </div>
       <div class="mx-auto max-w-max">
         <!-- Control bar. -->
-        <vi-modal class="ml-8 p-viewer rounded-full">
-          <div class="flex h-10 justify-between mx-1 space-x-2">
-            <!-- Close dialog. -->
-            <vi-button-icon @click="imagesPicturesClose()">
-              <vi-icon class="w-6">
-                <icon-close />
-              </vi-icon>
-            </vi-button-icon>
-            <!-- Control bar buttons. -->
-            <div class="flex h-10 rounded-full shadow-color">
-              <!-- Previous image. -->
-              <vi-button-group
-                firstElement
-                @click="prevImage()"
-              >
-                <vi-icon class="w-6">
-                  <icon-arrow-left-d />
-                </vi-icon>
-              </vi-button-group>
-              <!-- Display image in its original size. -->
-              <vi-button-group @click="imageZoomToggle()">
-                <vi-icon class="w-6">
-                  <icon-full-screen />
-                </vi-icon>
-              </vi-button-group>
-              <!-- Next image. -->
-              <vi-button-group
-                lastElement
-                @click="nextImage()"
-              >
-                <vi-icon class="w-6">
-                  <icon-arrow-right-d />
-                </vi-icon>
-              </vi-button-group>
-            </div>
-            <!-- Image counter. -->
+        <div class="flex h-10 justify-between mx-1 space-x-4">
+          <!-- Close dialog. -->
+          <vi-button
+            button-icon="icon-close"
+            @click="imagesPicturesClose()"
+          />
+          <!-- Control bar buttons. -->
+          <div class="flex h-10 rounded-full shadow-color">
+            <!-- Previous image. -->
             <vi-button
-              color
-              class="cursor-default"
-            >
-              {{ (imageIndex + 1) + ' / ' + getPictures.length }}
-            </vi-button>
+              button-icon="icon-arrow-left-d"
+              first-element
+              @click="prevImage()"
+              class="px-4"
+            />
+            <!-- Display image in its original size. -->
+            <vi-button
+              button-icon="icon-full-screen"
+              middle-element
+              @click="imageZoomToggle()"
+              class="px-4"
+            />
+            <!-- Next image. -->
+            <vi-button
+              button-icon="icon-arrow-right-d"
+              last-element
+              @click="nextImage()"
+              class="px-4"
+            />
           </div>
-        </vi-modal>
+          <!-- Image counter. -->
+          <vi-button
+            color
+            class="cursor-default"
+          >
+            {{ (imageIndex + 1) + ' / ' + getPictures.length }}
+          </vi-button>
+        </div>
       </div>
     </vi-overlay>
   </transition>
@@ -130,11 +124,10 @@
         <!-- Gallery buttons. -->
         <div class="absolute mr-4 mt-6 right-0 top-0">
           <!-- Close dialog. -->
-          <vi-button-icon @click="imagesGalleryShow()">
-            <vi-icon class="w-6">
-              <icon-close />
-            </vi-icon>
-          </vi-button-icon>
+          <vi-button
+            button-icon="icon-close"
+            @click="imagesGalleryShow()"
+          />
         </div>
         <!-- List settings. -->
         <div class="absolute bottom-0 mr-5 mb-6 right-0">
@@ -355,10 +348,7 @@ export default {
   width: calc(100% - 3.5rem);
 }
 .h-viewer {
-  height: calc(100vh - 9.2rem);
-}
-.p-viewer {
-  padding: 0.8rem;
+  height: calc(100vh - 7.5rem);
 }
 .w-viewer {
   width: calc(100vw - 7.5rem);

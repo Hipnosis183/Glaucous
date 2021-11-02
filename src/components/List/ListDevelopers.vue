@@ -11,14 +11,13 @@
     <vi-nav-bar title="Developers">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
-        class="flex"
+        class="flex items-center ml-2"
       >
         <!-- Open create developer dialog. -->
-        <vi-button-nb @click="createDeveloperOpen()">
-          <vi-icon class="w-6">
-            <icon-add />
-          </vi-icon>
-        </vi-button-nb>
+        <vi-button-nb
+          button-icon="icon-add"
+          @click="createDeveloperOpen()"
+        />
       </div>
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">

@@ -2,7 +2,7 @@
   <!-- Option item. -->
   <li
     @click="method"
-    class="hover:bg-theme-200 dark:hover:bg-theme-600 relative"
+    class="hover:bg-theme-200 dark:hover:bg-theme-600 duration-200 relative"
   >
     <!-- Option overlay. -->
     <div class="absolute cursor-pointer h-full w-full" />
