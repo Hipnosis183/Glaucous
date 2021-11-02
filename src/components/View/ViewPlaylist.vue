@@ -49,7 +49,7 @@
       >
         <vi-list
           v-if="playlist.games.length > 0"
-          :listDisplay="$store.getters.getSettingsListsDisplayMode"
+          :list-display="$store.getters.getSettingsListsDisplayMode"
           :remote-method="loadPlaylistNext"
         >
           <li
@@ -61,15 +61,15 @@
             <!-- Game cards. -->
             <vi-card-grid
               v-if="$store.getters.getSettingsListsDisplayMode == 0"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-list
               v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-compact
               v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :gameInfo="game"
+              :game-info="game"
             />
           </li>
         </vi-list>

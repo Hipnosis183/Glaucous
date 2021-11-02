@@ -3,24 +3,24 @@
   <form-game-images-view
     v-show="imagesPlatformDisplay"
     :show="imagesPlatformDisplay"
-    :editForm="editForm"
-    gameType="gamePlatform"
+    :edit-form="editForm"
+    game-type="gamePlatform"
     @close="imagesPlatformShow()"
   />
   <!-- Show game region images dialog. -->
   <form-game-images-view
     v-show="imagesRegionDisplay"
     :show="imagesRegionDisplay"
-    :editForm="editForm"
-    gameType="gameRegion"
+    :edit-form="editForm"
+    game-type="gameRegion"
     @close="imagesRegionShow()"
   />
   <!-- Show game version images dialog. -->
   <form-game-images-view
     v-show="imagesVersionDisplay"
     :show="imagesVersionDisplay"
-    :editForm="editForm"
-    gameType="gameVersion"
+    :edit-form="editForm"
+    game-type="gameVersion"
     @close="imagesVersionShow()"
   />
   <!-- Images form. -->

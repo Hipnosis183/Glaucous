@@ -4,13 +4,13 @@
       <!-- Create game platform dialog. -->
       <create-game-platform
         v-show="createPlatformDialog"
-        :gamePlatform="$route.params.id"
+        :game-platform="$route.params.id"
         @close="createPlatformClose()"
       />
       <!-- Edit platform dialog. -->
       <edit-platform
         v-show="editPlatformDialog"
-        :groupPlatform="platform.parent"
+        :group-platform="platform.parent"
         @close="editPlatformClose()"
       />
       <!-- Delete platform dialog. -->
@@ -70,7 +70,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists listPlatform />
+      <settings-lists list-platform />
       <!-- Horizontal padding. -->
       <div class="w-full" />
     </vi-nav-bar>
@@ -82,8 +82,8 @@
       >
         <vi-list
           v-if="platform.games.length > 0"
-          listPlatform
-          :listDisplay="$store.getters.getSettingsListsDisplayMode"
+          :list-display="$store.getters.getSettingsListsDisplayMode"
+          list-platform
           :remote-method="loadPlatformNext"
         >
           <li
@@ -95,16 +95,16 @@
             <!-- Game cards. -->
             <vi-card-grid
               v-if="$store.getters.getSettingsListsDisplayMode == 0"
-              :gameInfo="game"
-              listPlatform
+              :game-info="game"
+              list-platform
             />
             <vi-card-list
               v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-compact
               v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :gameInfo="game"
+              :game-info="game"
             />
           </li>
         </vi-list>

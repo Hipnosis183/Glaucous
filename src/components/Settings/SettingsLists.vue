@@ -72,8 +72,7 @@
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
-                  >
-                  </vi-option>
+                  />
                 </vi-select>
               </div>
             </div>
@@ -90,8 +89,7 @@
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
-                  >
-                  </vi-option>
+                  />
                 </vi-select>
               </div>
             </div>
@@ -108,8 +106,7 @@
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
-                  >
-                  </vi-option>
+                  />
                 </vi-select>
               </div>
             </div>
@@ -126,8 +123,7 @@
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
-                  >
-                  </vi-option>
+                  />
                 </vi-select>
               </div>
             </div>
@@ -168,8 +164,7 @@
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
-                  >
-                  </vi-option>
+                  />
                 </vi-select>
               </div>
             </div>
@@ -189,8 +184,7 @@
                     :key="item.i"
                     :label="item.name"
                     :value="item.i"
-                  >
-                  </vi-option>
+                  />
                 </vi-select>
               </div>
             </div>
@@ -203,8 +197,7 @@
                   :min="1"
                   :max="20"
                   position-side
-                >
-                </vi-input-num>
+                />
               </div>
             </div>
             <!-- Select rows height for the grid display mode. -->
@@ -217,8 +210,7 @@
                   :max="1000"
                   position-side
                   :step="10"
-                >
-                </vi-input-num>
+                />
               </div>
             </div>
             <!-- Load settings presets. -->

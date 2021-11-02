@@ -34,7 +34,7 @@
     </div>
     <form-platform-parent
       v-show="!groupPlatform"
-      :groupPlatform="groupPlatform"
+      :group-platform="groupPlatform"
     />
     <!-- Required fields aclaration. -->
     <p class="mt-8 text-center text-sm">

@@ -34,8 +34,8 @@
         <form-game-region-title />
         <form-game-version-name />
         <form-game-images
-          showRegion
-          showVersion
+          show-region
+          show-version
         />
       </div>
       <div class="w-3/5">

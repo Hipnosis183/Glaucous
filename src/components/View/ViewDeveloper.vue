@@ -4,7 +4,7 @@
       <!-- Create game platform dialog. -->
       <create-game-platform
         v-show="createPlatformDialog"
-        :gameDeveloper="$route.params.id"
+        :game-developer="$route.params.id"
         @close="createPlatformClose()"
       />
       <!-- Edit developer dialog. -->
@@ -67,7 +67,7 @@
       >
         <vi-list
           v-if="developer.games.length > 0"
-          :listDisplay="$store.getters.getSettingsListsDisplayMode"
+          :list-display="$store.getters.getSettingsListsDisplayMode"
           :remote-method="loadDeveloperNext"
         >
           <li
@@ -79,15 +79,15 @@
             <!-- Game cards. -->
             <vi-card-grid
               v-if="$store.getters.getSettingsListsDisplayMode == 0"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-list
               v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-compact
               v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :gameInfo="game"
+              :game-info="game"
             />
           </li>
         </vi-list>

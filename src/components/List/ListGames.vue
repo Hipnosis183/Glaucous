@@ -30,7 +30,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists gameCategory />
+      <settings-lists game-category />
     </vi-nav-bar>
     <!-- Show games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -40,7 +40,7 @@
       >
         <vi-list
           v-if="games.length > 0"
-          :listDisplay="$store.getters.getSettingsListsDisplayMode"
+          :list-display="$store.getters.getSettingsListsDisplayMode"
           :remote-method="loadGamesNext"
         >
           <li
@@ -52,15 +52,15 @@
             <!-- Game cards. -->
             <vi-card-grid
               v-if="$store.getters.getSettingsListsDisplayMode == 0"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-list
               v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-compact
               v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :gameInfo="game"
+              :game-info="game"
             />
           </li>
         </vi-list>

@@ -19,8 +19,8 @@
       <!-- Edit game dialog. -->
       <edit-game
         v-show="editGameDialog"
-        :gameDeveloper="gameInfo.developer._id"
-        :gamePlatform="gameInfo.platform._id"
+        :game-developer="gameInfo.developer._id"
+        :game-platform="gameInfo.platform._id"
         @close="editGameClose($event)"
       />
       <!-- Delete game platform dialog. -->
@@ -232,9 +232,9 @@
               <!-- View game page background. -->
               <view-game-background
                 :key="gameInfo"
-                :gameInfo="gameInfo"
-                :regionIndex="regionIndex"
-                :versionIndex="versionIndex"
+                :game-info="gameInfo"
+                :region-index="regionIndex"
+                :version-index="versionIndex"
               >
                 <div class="flex h-full">
                   <div class="flex flex-col max-w-1/2">
@@ -280,8 +280,8 @@
                       <!-- View game launching elements. -->
                       <view-game-launcher
                         :key="gameInfo"
-                        :gameInfo="gameInfo"
-                        :regionIndex="regionIndex"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
                         @updated="versionIndex = $event"
                       />
                       <div
@@ -292,34 +292,34 @@
                         <view-game-details
                           v-if="minimalUiDisplayDetails"
                           :key="gameInfo"
-                          :fullTitle="fullTitle"
-                          :gameInfo="gameInfo"
-                          :regionIndex="regionIndex"
-                          :versionIndex="versionIndex"
+                          :full-title="fullTitle"
+                          :game-info="gameInfo"
+                          :region-index="regionIndex"
+                          :version-index="versionIndex"
                         />
                         <!-- View game linking. -->
                         <view-game-linking
                           v-if="minimalUiDisplayGameLinking"
                           :key="gameInfo"
-                          :gameInfo="gameInfo"
-                          :regionIndex="regionIndex"
+                          :game-info="gameInfo"
+                          :region-index="regionIndex"
                         />
                         <!-- View game links. -->
                         <view-game-links
                           v-show="minimalUiDisplayLinks"
                           :key="gameInfo"
-                          :fullTitle="fullTitle"
-                          :gameInfo="gameInfo"
-                          :gameRegion="gameInfo.gameRegions[regionIndex]"
+                          :full-title="fullTitle"
+                          :game-info="gameInfo"
+                          :game-region="gameInfo.gameRegions[regionIndex]"
                           @loaded="loadLinks($event)"
                         />
                         <!-- View game gallery. -->
                         <view-game-gallery
                           v-if="minimalUiDisplayGallery"
                           :key="gameInfo"
-                          :gameInfo="gameInfo"
-                          :regionIndex="regionIndex"
-                          :versionIndex="versionIndex"
+                          :game-info="gameInfo"
+                          :region-index="regionIndex"
+                          :version-index="versionIndex"
                         />
                       </div>
                       <!-- View game tags. -->
@@ -341,10 +341,10 @@
                   <!-- View game cover image. -->
                   <view-game-cover
                     :key="gameInfo"
-                    :gameInfo="gameInfo"
-                    :regionIndex="regionIndex"
-                    :versionIndex="versionIndex"
-                    :coverHeight="coverHeight"
+                    :game-info="gameInfo"
+                    :region-index="regionIndex"
+                    :version-index="versionIndex"
+                    :cover-height="coverHeight"
                   />
                 </div>
                 <div
@@ -354,9 +354,9 @@
                   <!-- View game information. -->
                   <view-game-info
                     :key="gameInfo"
-                    :gameInfo="gameInfo"
-                    :regionIndex="regionIndex"
-                    :versionIndex="versionIndex"
+                    :game-info="gameInfo"
+                    :region-index="regionIndex"
+                    :version-index="versionIndex"
                   />
                 </div>
               </view-game-background>

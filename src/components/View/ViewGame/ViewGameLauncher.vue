@@ -2,7 +2,7 @@
   <!-- Game settings dialog. -->
   <view-game-settings
     v-show="settingsGameDialog"
-    :fullCommand="fullCommand"
+    :full-command="fullCommand"
     @close="settingsGameClose()"
   />
   <!-- Launcher error dialog. -->

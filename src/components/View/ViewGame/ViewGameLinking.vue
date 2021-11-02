@@ -83,8 +83,7 @@
           :key="item._id"
           :label="item.child.title + (item.releaseYear ? ' (' + item.releaseYear + ') - ' : ' - ') + item.platforms.join(' / ')"
           :value="item._id"
-        >
-        </vi-option>
+        />
       </vi-select>
       <div v-if="linkedGames.length > 0">
         <!-- Separator. -->
@@ -121,8 +120,8 @@
       >
         <vi-list-dialog
           v-if="linkedGames.length > 0"
-          :listDisplay="$store.getters.getSettingsListsDisplayMode"
-          :listLength="linkedGames.length"
+          :list-display="$store.getters.getSettingsListsDisplayMode"
+          :list-length="linkedGames.length"
         >
           <li
             v-for="game in linkedGames"
@@ -133,15 +132,15 @@
             <!-- Game cards. -->
             <vi-card-grid
               v-if="$store.getters.getSettingsListsDisplayMode == 0"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-list
               v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :gameInfo="game"
+              :game-info="game"
             />
             <vi-card-compact
               v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :gameInfo="game"
+              :game-info="game"
             />
           </li>
         </vi-list-dialog>

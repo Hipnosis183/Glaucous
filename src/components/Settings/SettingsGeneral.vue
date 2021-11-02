@@ -17,8 +17,7 @@
           :key="item.i"
           :label="item.name"
           :value="item.i"
-        >
-        </vi-option>
+        />
       </vi-select>
     </vi-section-content>
   </div>

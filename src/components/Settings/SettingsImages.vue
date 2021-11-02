@@ -31,8 +31,7 @@
                 :key="item.i"
                 :label="item.name"
                 :value="item.i"
-              >
-              </vi-option>
+              />
             </vi-select>
           </div>
         </div>
@@ -45,8 +44,7 @@
               :min="1"
               :max="20"
               position-side
-            >
-            </vi-input-num>
+            />
           </div>
         </div>
       </div>

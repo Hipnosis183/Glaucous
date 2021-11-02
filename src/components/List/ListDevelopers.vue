@@ -30,7 +30,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists gameCategory />
+      <settings-lists game-category />
     </vi-nav-bar>
     <!-- Show developers list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -39,7 +39,7 @@
         :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
       >
         <vi-list
-          :listDisplay="1"
+          :list-display="1"
           :remote-method="loadDevelopersNext"
         >
           <li

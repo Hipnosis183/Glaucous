@@ -123,8 +123,7 @@
                   :key="item.i"
                   :label="item.name"
                   :value="item.i"
-                >
-                </vi-option>
+                />
               </vi-select>
             </div>
           </div>
@@ -141,8 +140,7 @@
                   :key="item.i"
                   :label="item.name"
                   :value="item.i"
-                >
-                </vi-option>
+                />
               </vi-select>
             </div>
           </div>

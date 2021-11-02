@@ -30,7 +30,7 @@
         <!-- Settings. -->
         <div class="mb-6">
           <!-- Emulator. -->
-          <view-settings-emulator settingsType="Platform" />
+          <view-settings-emulator settings-type="Platform" />
         </div>
         <!-- Relative games path. -->
         <vi-section-content>
@@ -47,7 +47,7 @@
 
 <script>
 // Import Vue functions.
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 // Import form components.
 import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'

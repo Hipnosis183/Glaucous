@@ -29,7 +29,7 @@
     </div>
     <!-- Form components. -->
     <form-platform-name />
-    <form-platform-parent :groupPlatform="groupPlatform" />
+    <form-platform-parent :group-platform="groupPlatform" />
     <!-- Required fields aclaration. -->
     <p class="mt-8 text-center text-sm">
       * The fields with red text are required

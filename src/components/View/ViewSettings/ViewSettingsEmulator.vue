@@ -2,15 +2,15 @@
   <!-- Create emulator dialog. -->
   <create-emulator
     v-show="createEmulatorDialog"
-    :emulatorList="emulatorList"
-    :emulatorPath="emulatorPath"
+    :emulator-list="emulatorList"
+    :emulator-path="emulatorPath"
     @close="createEmulatorClose()"
   />
   <!-- Edit emulator dialog. -->
   <edit-emulator
     v-show="editEmulatorDialog"
-    :emulatorList="emulatorList"
-    :emulatorPath="emulatorPath"
+    :emulator-list="emulatorList"
+    :emulator-path="emulatorPath"
     @close="editEmulatorClose()"
   />
   <!-- Delete emulator dialog. -->

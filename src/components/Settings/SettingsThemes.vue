@@ -77,8 +77,7 @@
           :key="font"
           :label="font"
           :value="font"
-        >
-        </vi-option>
+        />
       </vi-select>
     </vi-section-content>
   </div>

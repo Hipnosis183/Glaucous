@@ -25,7 +25,7 @@
     <div class="flex space-x-4">
       <div class="w-2/5">
         <form-game-version-name />
-        <form-game-images showVersion />
+        <form-game-images show-version />
       </div>
       <div class="w-3/5">
         <div class="flex space-x-4">

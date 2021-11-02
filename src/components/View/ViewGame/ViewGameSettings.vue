@@ -30,7 +30,7 @@
         <!-- Settings. -->
         <div class="space-y-6">
           <!-- Emulator override. -->
-          <view-settings-emulator settingsType="Game" />
+          <view-settings-emulator settings-type="Game" />
           <!-- Executable path. -->
           <vi-section-content>
             <p class="text-xl whitespace-nowrap">Game Path</p>

@@ -37,8 +37,7 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              >
-              </vi-option>
+              />
             </vi-select>
           </div>
           <!-- Add query button. -->
@@ -78,8 +77,8 @@
             :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1 pr-0'"
           >
             <vi-list-search
-              :listDisplay="$store.getters.getSettingsListsDisplayMode"
-              :listLength="queryResults.length"
+              :list-display="$store.getters.getSettingsListsDisplayMode"
+              :list-length="queryResults.length"
               :remote-method="querySearchNext"
             >
               <li
@@ -91,15 +90,15 @@
                 <!-- Game cards. -->
                 <vi-card-grid
                   v-if="$store.getters.getSettingsListsDisplayMode == 0"
-                  :gameInfo="game"
+                  :game-info="game"
                 />
                 <vi-card-list
                   v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
-                  :gameInfo="game"
+                  :game-info="game"
                 />
                 <vi-card-compact
                   v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-                  :gameInfo="game"
+                  :game-info="game"
                 />
               </li>
             </vi-list-search>

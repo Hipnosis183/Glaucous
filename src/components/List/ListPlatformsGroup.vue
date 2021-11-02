@@ -4,13 +4,13 @@
       <!-- Create platform dialog. -->
       <create-platform
         v-show="createPlatformDialog"
-        :groupPlatform="$route.params.id"
+        :group-platform="$route.params.id"
         @close="createPlatformClose()"
       />
       <!-- Edit platform dialog. -->
       <edit-platform
         v-show="editPlatformDialog"
-        :groupPlatform="platform.parent"
+        :group-platform="platform.parent"
         @close="editPlatformClose()"
       />
       <!-- Delete platform allowed dialog. -->
@@ -74,7 +74,7 @@
         :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
       >
         <vi-list
-          :listDisplay="1"
+          :list-display="1"
           :remote-method="loadPlatformNext"
         >
           <li
