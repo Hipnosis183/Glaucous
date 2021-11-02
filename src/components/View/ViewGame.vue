@@ -858,7 +858,7 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 /* Calculations. */
 .min-h-content {
   min-height: calc(100vh - 3.5rem);

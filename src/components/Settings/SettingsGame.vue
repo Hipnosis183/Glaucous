@@ -185,13 +185,12 @@
 <script>
 // Import Vue functions.
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 // Import settings objects and functions.
 import { backgroundImageOptions, backgroundPlacementOptions } from '@/settings'
 // Import theme objects and functions.
 import { colors, selectColor } from '@/theme'
-// Import utility functions.
-import { debounce } from '@/utils/debounce'
 
 export default {
   name: 'SettingsGame',
@@ -199,10 +198,16 @@ export default {
   },
   setup() {
     // Instantiate Vue elements.
+    const route = useRoute()
     const store = useStore()
 
     // Initialize the current game settings on the store.
-    onMounted(() => { store.commit('setGameOverStore') })
+    onMounted(() => {
+      // Avoid carrying the values of other games previously loaded.
+      if (store.state.gameSelected.gamePlatform == route.params.id) {
+        store.commit('setGameOverStore')
+      }
+    })
 
     // Manage settings in the store.
     const settingsOver = computed({
@@ -261,15 +266,21 @@ export default {
 
     // Manage color theme load/unload.
     const colorSelect = (res) => {
-      selectColor(res
-        ? colorThemeOver.value != 'default'
-          ? colorThemeOver.value
-          : store.getters.getSettingsThemesSelectedColor
-        : store.getters.getSettingsThemesSelectedColor)
+      // Load theme only when the game has loaded as well.
+      if (colorThemeOver.value) {
+        selectColor(res
+          ? colorThemeOver.value != 'default'
+            ? colorThemeOver.value
+            : store.getters.getSettingsThemesSelectedColor
+          : store.getters.getSettingsThemesSelectedColor)
+      }
     }
-    const colorSelectDebounced = debounce((res) => colorSelect(res), 100)
-    onMounted(() => { colorSelectDebounced(true) })
-    onUnmounted(() => { colorSelectDebounced(false) })
+    onMounted(() => { colorSelect(true) })
+    onUnmounted(() => {
+      colorSelect(false)
+      // Unload theme settings overwrite from the store.
+      store.state.settingsApp.settingsGame.settingsOver.colorThemeOver = null
+    })
 
     // Manage details display.
     let minimalUiDisplayDialog = ref(false)
