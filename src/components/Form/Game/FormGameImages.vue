@@ -3,6 +3,7 @@
   <form-game-images-view
     v-show="imagesPlatformDisplay"
     :show="imagesPlatformDisplay"
+    :key="resetForm"
     :edit-form="editForm"
     game-type="gamePlatform"
     @close="imagesPlatformShow()"
@@ -11,6 +12,7 @@
   <form-game-images-view
     v-show="imagesRegionDisplay"
     :show="imagesRegionDisplay"
+    :key="resetForm"
     :edit-form="editForm"
     game-type="gameRegion"
     @close="imagesRegionShow()"
@@ -19,6 +21,7 @@
   <form-game-images-view
     v-show="imagesVersionDisplay"
     :show="imagesVersionDisplay"
+    :key="resetForm"
     :edit-form="editForm"
     game-type="gameVersion"
     @close="imagesVersionShow()"
@@ -69,23 +72,24 @@ export default {
   },
   props: {
     editForm: { type: Boolean, default: false },
+    resetForm: { type: Boolean, default: false },
     showPlatform: { type: Boolean, default: false },
     showRegion: { type: Boolean, default: false },
     showVersion: { type: Boolean, default: false }
   },
   setup() {
     // Manage image form.
-    const imagesPlatformDisplay = ref(false)
+    let imagesPlatformDisplay = ref(false)
     const imagesPlatformShow = () => {
       // Toggle game platform images dialog.
       imagesPlatformDisplay.value = !imagesPlatformDisplay.value
     }
-    const imagesRegionDisplay = ref(false)
+    let imagesRegionDisplay = ref(false)
     const imagesRegionShow = () => {
       // Toggle game region images dialog.
       imagesRegionDisplay.value = !imagesRegionDisplay.value
     }
-    const imagesVersionDisplay = ref(false)
+    let imagesVersionDisplay = ref(false)
     const imagesVersionShow = () => {
       // Toggle game version images dialog.
       imagesVersionDisplay.value = !imagesVersionDisplay.value

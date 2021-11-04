@@ -648,7 +648,7 @@ export default createStore({
       state.gameForm.gameVersion.type = game.version.type
       state.gameForm.gameVersion.name = game.version.name
       state.gameForm.gameVersion.number = game.version.number
-      // Hack to avoid a bug where reactivity alters the original reference value, despite it not being explicitly modified.
+      // Avoid reactivity to alter the original reference values.
       state.gameForm.gamePlatform.gameTags = []
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
         state.gameForm.gamePlatform.gameTags.push(tag._id)
@@ -743,10 +743,10 @@ export default createStore({
       state.gameForm.gamePlatform.images.cover.remove = data
     },
     setGamePlatformImagesPicturesAdd(state, data) {
-      state.gameForm.gamePlatform.images.pictures.add.push(data)
+      state.gameForm.gamePlatform.images.pictures.add = data
     },
     setGamePlatformImagesPicturesRemove(state, data) {
-      state.gameForm.gamePlatform.images.pictures.remove.push(data)
+      state.gameForm.gamePlatform.images.pictures.remove = data
     },
     setGameRegionTitle(state, data) {
       state.gameForm.gameRegion.title = data
@@ -785,10 +785,10 @@ export default createStore({
       state.gameForm.gameRegion.images.cover.remove = data
     },
     setGameRegionImagesPicturesAdd(state, data) {
-      state.gameForm.gameRegion.images.pictures.add.push(data)
+      state.gameForm.gameRegion.images.pictures.add = data
     },
     setGameRegionImagesPicturesRemove(state, data) {
-      state.gameForm.gameRegion.images.pictures.remove.push(data)
+      state.gameForm.gameRegion.images.pictures.remove = data
     },
     setGameVersionType(state, data) {
       state.gameForm.gameVersion.type = data
@@ -821,10 +821,10 @@ export default createStore({
       state.gameForm.gameVersion.images.cover.remove = data
     },
     setGameVersionImagesPicturesAdd(state, data) {
-      state.gameForm.gameVersion.images.pictures.add.push(data)
+      state.gameForm.gameVersion.images.pictures.add = data
     },
     setGameVersionImagesPicturesRemove(state, data) {
-      state.gameForm.gameVersion.images.pictures.remove.push(data)
+      state.gameForm.gameVersion.images.pictures.remove = data
     },
     // Developer form.
     resetDeveloperForm(state) {

@@ -1,12 +1,33 @@
 <template>
-  <!-- Show selected image dialog. -->
-  <vi-overlay
-    width="w-full"
+  <vi-dialog
     @close="$emit('close')"
+    height="h-full"
+    width="w-full"
     class="pos-initial z-10"
   >
+    <!-- Length error dialog. -->
+    <vi-dialog-box
+      v-show="lengthErrorDialog"
+      @accept="lengthErrorShow()"
+    >
+      You can only upload a single image file.
+    </vi-dialog-box>
+    <!-- Format error dialog. -->
+    <vi-dialog-box
+      v-show="formatErrorDialog"
+      @accept="formatErrorShow()"
+    >
+      The file selected is not an image.
+    </vi-dialog-box>
+    <!-- Pictures format error dialog. -->
+    <vi-dialog-box
+      v-show="picturesErrorDialog"
+      @accept="picturesErrorShow(false)"
+    >
+      One or more files selected are not images and were not uploaded.
+    </vi-dialog-box>
+    <!-- View selected image. -->
     <transition>
-      <!-- View selected image. -->
       <vi-overlay
         v-if="imageSelected"
         v-show="imageSelectedDialog"
@@ -18,191 +39,262 @@
             @click="imageZoomToggle()"
             :src="'file://' + imageSelected"
             class="cursor-pointer object-contain rounded-xl"
-            :class="imageZoom ? 'h-full' : 'h-content'"
+            :class="imageZoom ? 'h-full' : 'h-image'"
           />
         </div>
       </vi-overlay>
     </transition>
-    <div class="flex space-x-4 w-full">
-      <div class="h-content max-h-content space-y-4 w-1/4">
+    <!-- Header. -->
+    <div class="flex justify-between mb-4 mx-2">
+      <!-- Title. -->
+      <p class="pt-1 text-2xl">Images</p>
+      <!-- Buttons. -->
+      <div class="h-10 space-x-4">
+        <vi-button
+          button-icon="icon-check"
+          @click="onSubmit()"
+        />
+        <vi-button
+          button-icon="icon-close"
+          @click="onCancel()"
+        />
+      </div>
+    </div>
+    <!-- Images containers. -->
+    <div class="flex h-content w-full">
+      <div class="h-full w-1/4">
         <!-- Cover panel. -->
-        <vi-modal class="flex flex-col h-content-half relative">
-          <!-- Cover header. -->
-          <div class="flex justify-between mb-6 mx-2">
-            <!-- Cover title. -->
-            <p class="overflow-x-hidden pt-1 text-2xl">Cover</p>
-            <!-- Cover buttons. -->
-            <div class="flex h-10 space-x-4">
-              <vi-button
-                button-icon="icon-add"
-                @click="coverAdd()"
-              />
-              <vi-button
-                button-icon="icon-remove"
-                @click="coverRemove()"
-              />
-            </div>
-          </div>
-          <!-- Cover image. -->
-          <div class="absolute bottom-0 flex h-full left-0 pointer-events-none p-6 pt-22 right-0 top-0 w-full">
+        <div class="flex flex-col h-1/2 pb-3 w-full">
+          <div
+            @mouseenter="coverHover = true"
+            @mouseleave="coverHover = false"
+            @dragenter="coverHover = true"
+            @dragleave="coverHover = false"
+            @dragover.prevent
+            @drop.prevent="coverAddDrop"
+            class="cursor-pointer h-full overflow-hidden p-0.5 relative w-full"
+          >
+            <!-- New cover image. -->
             <img
               v-if="coverAddImages"
-              @click="imageSelectedOpen(coverAddImages)"
               :src="'file://' + coverAddImages"
-              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
+              @click="imageSelectedOpen(coverAddImages)"
+              class="border-2 border-transparent hover:border-color-700 duration-200 h-full image-shadow object-cover rounded-xl w-full"
             />
+            <!-- Existing cover image. -->
             <img
               v-else-if="getCover && !coverRemoveImages"
-              @click="imageSelectedOpen(imagePath + '/' + getCover)"
               :src="'file://' + imagePath + '/' + getCover"
-              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
+              @click="imageSelectedOpen(imagePath + '/' + getCover)"
+              class="border-2 border-transparent hover:border-color-700 duration-200 h-full image-shadow object-cover rounded-xl w-full"
             />
+            <!-- No cover image. -->
             <div
               v-else
-              class="bg-theme-100 dark:bg-theme-800 flex items-center rounded-3xl shadow-color w-full"
+              @click="coverAddClick()"
+              class="duration-500 flex h-full items-center rounded-xl shadow-color w-full"
+              :class="coverHover ? 'bg-theme-200 dark:bg-theme-900' : 'bg-theme-100 dark:bg-theme-800'"
             >
-              <div class="flex flex-col items-center m-auto">
-                <div class="mb-4 text-6xl text-theme-300">
-                  <vi-icon class="w-16">
-                    <icon-picture />
-                  </vi-icon>
-                </div>
-                <p>No image available</p>
-              </div>
-            </div>
-          </div>
-        </vi-modal>
-        <!-- Background panel. -->
-        <vi-modal class="flex flex-col h-content-half relative">
-          <!-- Background header. -->
-          <div class="flex justify-between mb-6 mx-2">
-            <!-- Background title. -->
-            <p class="overflow-x-hidden pt-1 text-2xl">Background</p>
-            <!-- Background buttons. -->
-            <div class="flex h-10 space-x-4">
-              <vi-button
-                button-icon="icon-add"
-                @click="backgroundAdd()"
-              />
-              <vi-button
-                button-icon="icon-remove"
-                @click="backgroundRemove()"
-              />
-            </div>
-          </div>
-          <!-- Background image. -->
-          <div class="absolute bottom-0 flex h-full left-0 pointer-events-none p-6 pt-22 right-0 top-0 w-full">
-            <img
-              v-if="backgroundAddImages"
-              @click="imageSelectedOpen(backgroundAddImages)"
-              :src="'file://' + backgroundAddImages"
-              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
-            />
-            <img
-              v-else-if="getBackground && !backgroundRemoveImages"
-              @click="imageSelectedOpen(imagePath + '/' + getBackground)"
-              :src="'file://' + imagePath + '/' + getBackground"
-              class="border-2 border-transparent hover:border-color-700 cursor-pointer duration-200 image-shadow object-cover pointer-events-auto rounded-xl w-full"
-            />
-            <div
-              v-else
-              class="bg-theme-100 dark:bg-theme-800 flex items-center rounded-3xl shadow-color w-full"
-            >
-              <div class="flex flex-col items-center m-auto">
-                <div class="mb-4 text-6xl text-theme-300">
-                  <vi-icon class="w-16">
-                    <icon-picture />
-                  </vi-icon>
-                </div>
-                <p>No image available</p>
-              </div>
-            </div>
-          </div>
-        </vi-modal>
-      </div>
-      <!-- Pictures panel. -->
-      <vi-modal class="h-content max-h-content w-3/4">
-        <!-- Pictures header. -->
-        <div class="flex justify-between mb-6 mx-2">
-          <!-- Pictures title. -->
-          <p class="pt-1 text-2xl">Pictures</p>
-          <!-- Pictures buttons. -->
-          <div class="flex h-10 space-x-4">
-            <vi-button
-              button-icon="icon-add"
-              @click="picturesAdd()"
-            />
-            <vi-button
-              button-icon="icon-close"
-              @click="$emit('close')"
-            />
-          </div>
-        </div>
-        <!-- Pictures grid. -->
-        <div class="flex flex-1 max-h-images rounded-2xl">
-          <div
-            v-if="getPictures[0] || picturesAddImages[0]"
-            class="flex-1 -mr-4 overflow-y-scroll p-1 pr-2"
-            :class="{ 'dark-scrollbar' : $store.getters.getSettingsThemesDarkMode}"
-          >
-            <div class="gap-4 grid grid-cols-4">
-              <div
-                v-for="(image, index) in getPictures"
-                :key="index"
-                :value="image"
-              >
-                <div class="duration-200 flex h-full image-shadow relative hover:scale-101 transform w-full">
-                  <transition>
-                    <div
-                      v-show="picturesRemoveList(image)"
-                      @click="picturesRemoveSelect(image)"
-                      class="absolute bg-red-800 bg-opacity-40 cursor-pointer flex h-full rounded-xl w-full"
-                    />
-                  </transition>
-                  <img
-                    @click="picturesRemoveSelect(image)"
-                    :src="'file://' + imagePath + '/' + image"
-                    class="border-2 border-transparent hover:border-color-700 cursor-pointer object-cover rounded-xl"
-                  />
-                </div>
-              </div>
-              <div
-                v-for="(image, index) in picturesAddImages"
-                :key="index"
-                :value="image"
-              >
-                <div class="duration-200 flex h-full image-shadow relative hover:scale-101 transform w-full">
-                  <transition>
-                    <div
-                      @click="picturesRemove(image)"
-                      class="absolute bg-green-800 bg-opacity-40 cursor-pointer flex h-full rounded-xl w-full"
-                    />
-                  </transition>
-                  <img
-                    :src="'file://' + image"
-                    class="border-2 border-transparent hover:border-color-700 cursor-pointer object-cover rounded-xl"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            v-else
-            class="bg-theme-100 dark:bg-theme-800 flex h-images items-center rounded-3xl shadow-color w-full"
-          >
-            <div class="flex flex-col items-center m-auto">
-              <div class="mb-4 text-theme-300">
-                <vi-icon class="w-16">
+              <div class="flex flex-col items-center mx-auto opacity-40 p-4 pointer-events-none text-center text-theme-800 dark:text-theme-200">
+                <vi-icon
+                  icon-manual
+                  class="w-16"
+                >
                   <icon-picture />
                 </vi-icon>
+                <p class="mb-4 text-lg">Cover</p>
+                <h6>Click to select a cover image or drag and drop an image file here...</h6>
               </div>
-              <p>No images available</p>
+            </div>
+            <!-- Remove cover image icon. -->
+            <transition>
+              <div
+                v-show="coverHover && (coverAddImages || (getCover && !coverRemoveImages))"
+                @click="coverRemove()"
+                class="absolute image-transition m-4 right-0 top-0"
+              >
+                <vi-icon class="bg-theme-800 duration-200 opacity-60 hover:opacity-100 p-1 rounded-full text-theme-200 w-6">
+                  <icon-cross />
+                </vi-icon>
+              </div>
+            </transition>
+          </div>
+        </div>
+        <!-- Background panel. -->
+        <div class="flex flex-col h-1/2 pt-3 w-full">
+          <div
+            @mouseenter="backgroundHover = true"
+            @mouseleave="backgroundHover = false"
+            @dragenter="backgroundHover = true"
+            @dragleave="backgroundHover = false"
+            @dragover.prevent
+            @drop.prevent="backgroundAddDrop"
+            class="cursor-pointer h-full overflow-hidden p-0.5 relative w-full"
+          >
+            <!-- New background image. -->
+            <img
+              v-if="backgroundAddImages"
+              :src="'file://' + backgroundAddImages"
+              @click="imageSelectedOpen(backgroundAddImages)"
+              class="border-2 border-transparent hover:border-color-700 duration-200 h-full image-shadow object-cover rounded-xl w-full"
+            />
+            <!-- Existing background image. -->
+            <img
+              v-else-if="getBackground && !backgroundRemoveImages"
+              :src="'file://' + imagePath + '/' + getBackground"
+              @click="imageSelectedOpen(imagePath + '/' + getBackground)"
+              class="border-2 border-transparent hover:border-color-700 duration-200 h-full image-shadow object-cover rounded-xl w-full"
+            />
+            <!-- No background image. -->
+            <div
+              v-else
+              @click="backgroundAddClick()"
+              class="duration-500 flex h-full items-center rounded-xl shadow-color w-full"
+              :class="backgroundHover ? 'bg-theme-200 dark:bg-theme-900' : 'bg-theme-100 dark:bg-theme-800'"
+            >
+              <div class="flex flex-col items-center mx-auto opacity-40 p-4 pointer-events-none text-center text-theme-800 dark:text-theme-200">
+                <vi-icon
+                  icon-manual
+                  class="w-16"
+                >
+                  <icon-picture />
+                </vi-icon>
+                <p class="mb-4 text-lg">Background</p>
+                <h6>Click to select a background image or drag and drop an image file here...</h6>
+              </div>
+            </div>
+            <!-- Remove background image icon. -->
+            <transition>
+              <div
+                v-show="backgroundHover && (backgroundAddImages || (getBackground && !backgroundRemoveImages))"
+                @click="backgroundRemove()"
+                class="absolute image-transition m-4 right-0 top-0"
+              >
+                <vi-icon class="bg-theme-800 duration-200 opacity-60 hover:opacity-100 p-1 rounded-full text-theme-200 w-6">
+                  <icon-cross />
+                </vi-icon>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col h-full ml-6 w-3/4">
+        <!-- Pictures panel. -->
+        <div
+          @mouseenter="picturesHover = true"
+          @mouseleave="picturesHover = false"
+          @dragenter="picturesHover = true"
+          @dragleave="picturesHover = false"
+          @dragover.prevent
+          @drop.prevent="picturesAddDrop"
+          class="h-full overflow-hidden p-0.5 select-none w-full"
+        >
+          <!-- New and existing picture images. -->
+          <div
+            v-if="getPictures[0] || picturesAddImages[0]"
+            class="bg-theme-100 dark:bg-theme-800 h-full p-3 pr-1 rounded-xl shadow-color w-full"
+          >
+            <!-- Pictures container. -->
+            <div
+              class="flex-1 h-full overflow-y-scroll"
+              :class="{ 'dark-scrollbar ' : $store.getters.getSettingsThemesDarkMode}"
+            >
+              <!-- Pictures grid. -->
+              <div class="gap-2 grid grid-cols-4">
+                <!-- Add images button -->
+                <div
+                  @click="picturesAddClick()"
+                  class="ar-square bg-theme-200 dark:bg-theme-900 hover:bg-color-200 dark:hover:bg-color-900 cursor-pointer duration-500 flex h-full items-center overflow-hidden rounded-xl shadow-color w-full"
+                >
+                  <div class="flex flex-col items-center mx-auto opacity-40 p-4 pointer-events-none text-center text-theme-800 dark:text-theme-200">
+                    <vi-icon
+                      icon-manual
+                      class="mb-4 w-12"
+                    >
+                      <icon-picture />
+                    </vi-icon>
+                    <h6>Click to add more pictures...</h6>
+                  </div>
+                </div>
+                <!-- Existing images list. -->
+                <div
+                  v-for="(image, index) in getPictures"
+                  :key="index"
+                  @mouseenter="picturesGetHover = index"
+                  @mouseleave="picturesGetHover = null"
+                  class="cursor-pointer relative"
+                >
+                  <!-- Existing picture image. -->
+                  <img
+                    :src="'file://' + imagePath + '/' + image"
+                    @click="imageSelectedOpen(imagePath + '/' + image)"
+                    class="ar-square border-2 border-transparent hover:border-color-700 duration-200 image-shadow object-cover rounded-xl"
+                  />
+                  <!-- Remove picture image icon. -->
+                  <transition>
+                    <div
+                      v-show="picturesGetHover == index"
+                      @click="picturesRemoveSelect(image)"
+                      class="absolute image-transition m-2 right-0 top-0"
+                    >
+                      <vi-icon class="bg-theme-800 duration-200 opacity-60 hover:opacity-100 p-1 rounded-full text-theme-200 w-6">
+                        <icon-cross />
+                      </vi-icon>
+                    </div>
+                  </transition>
+                </div>
+                <!-- Added images list. -->
+                <div
+                  v-for="(image, index) in picturesAddImages"
+                  :key="index"
+                  @mouseenter="picturesAddHover = index"
+                  @mouseleave="picturesAddHover = null"
+                  class="cursor-pointer relative"
+                >
+                  <!-- Added picture image. -->
+                  <img
+                    :src="'file://' + image"
+                    @click="imageSelectedOpen(image)"
+                    class="ar-square border-2 border-transparent hover:border-color-700 duration-200 image-shadow object-cover rounded-xl"
+                  />
+                  <!-- Remove picture image icon. -->
+                  <transition>
+                    <div
+                      v-show="picturesAddHover == index"
+                      @click="picturesRemove(image)"
+                      class="absolute image-transition m-2 right-0 top-0"
+                    >
+                      <vi-icon class="bg-theme-800 duration-200 opacity-60 hover:opacity-100 p-1 rounded-full text-theme-200 w-6">
+                        <icon-cross />
+                      </vi-icon>
+                    </div>
+                  </transition>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- No picture images. -->
+          <div
+            v-else
+            @click="picturesAddClick()"
+            class="cursor-pointer duration-500 flex h-full items-center rounded-xl shadow-color w-full"
+            :class="picturesHover ? 'bg-theme-200 dark:bg-theme-900' : 'bg-theme-100 dark:bg-theme-800'"
+          >
+            <div class="flex flex-col items-center mx-auto opacity-40 p-4 pointer-events-none text-center text-theme-800 dark:text-theme-200">
+              <vi-icon
+                icon-manual
+                class="w-16"
+              >
+                <icon-picture />
+              </vi-icon>
+              <p class="mb-4 text-lg">Pictures</p>
+              <h6>Click to select pictures or drag and drop image files here...</h6>
             </div>
           </div>
         </div>
-      </vi-modal>
+      </div>
     </div>
-  </vi-overlay>
+  </vi-dialog>
 </template>
 
 <script>
@@ -225,7 +317,7 @@ export default {
     editForm: { type: Boolean, default: false },
     show: { type: Boolean, default: false }
   },
-  setup(props) {
+  setup(props, { emit }) {
     // Instantiate Vue elements.
     const store = useStore()
 
@@ -234,6 +326,50 @@ export default {
       // Load images.
       if (value) { getImages() }
     })
+
+    // Manage changes saving.
+    const onSubmit = () => {
+      let setGameType = 'setGame' + gameTypeName.value
+      // Save value changes to the store.
+      store.commit(setGameType + 'ImagesCoverAdd', coverAddImages.value)
+      store.commit(setGameType + 'ImagesCoverRemove', coverRemoveImages.value)
+      store.commit(setGameType + 'ImagesBackgroundAdd', backgroundAddImages.value)
+      store.commit(setGameType + 'ImagesBackgroundRemove', backgroundRemoveImages.value)
+      // Avoid reactivity to alter the original reference values.
+      let picturesAddStore = []
+      for (let image of picturesAddImages.value) {
+        picturesAddStore.push(image)
+      }
+      store.commit(setGameType + 'ImagesPicturesAdd', picturesAddStore)
+      let picturesRemoveStore = []
+      for (let image of picturesRemoveImages.value) {
+        picturesRemoveStore.push(image)
+      }
+      store.commit(setGameType + 'ImagesPicturesRemove', picturesRemoveStore)
+      // Close images dialog.
+      emit('close')
+    }
+    const onCancel = () => {
+      setTimeout(() => {
+        let imagesStore = store.state.gameForm[props.gameType].images
+        // Restore values from the store.
+        coverAddImages.value = imagesStore.cover.add
+        coverRemoveImages.value = imagesStore.cover.remove
+        backgroundAddImages.value = imagesStore.background.add
+        backgroundRemoveImages.value = imagesStore.background.remove
+        // Avoid reactivity to alter the original reference values.
+        picturesAddImages.value = []
+        for (let image of imagesStore.pictures.add) {
+          picturesAddImages.value.push(image)
+        }
+        picturesRemoveImages.value = []
+        for (let image of imagesStore.pictures.remove) {
+          picturesRemoveImages.value.push(image)
+        }
+      }, 500)
+      // Close images dialog.
+      emit('close')
+    }
 
     // Manage images loading.
     let imageFiles = ref([])
@@ -249,7 +385,7 @@ export default {
     })
     const getPictures = computed(() => {
       // Get array of pictures.
-      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)))
+      return imageFiles.value.filter((res) => !res.startsWith('0'.repeat(8)) && !res.startsWith('1'.repeat(8)) && !picturesRemoveImages.value.includes(res))
     })
     const getImages = () => {
       // Set the base image directory path of the game.
@@ -287,15 +423,10 @@ export default {
     }
 
     // Manage cover image operations.
-    const coverAddImages = computed({
-      get() { return store.state.gameForm[props.gameType].images.cover.add },
-      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesCoverAdd', value) }
-    })
-    const coverRemoveImages = computed({
-      get() { return store.state.gameForm[props.gameType].images.cover.remove },
-      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesCoverRemove', value) }
-    })
-    const coverAdd = () => {
+    let coverHover = ref(false)
+    let coverAddImages = ref(null)
+    let coverRemoveImages = ref(false)
+    const coverAddClick = () => {
       // Open dialog to select an image.
       dialog.showOpenDialog({
         properties: ['openFile'],
@@ -309,6 +440,24 @@ export default {
         }
       })
     }
+    const coverAddDrop = (files) => {
+      if (files.dataTransfer.files.length > 0) {
+        // Check if only one image file is being uploaded.
+        if (files.dataTransfer.files.length > 1) {
+          // Toggle length error dialog.
+          lengthErrorShow()
+        } else {
+          // Check if the file uploaded is an image.
+          if (files.dataTransfer.files[0].type.includes('image')) {
+            // Set image's path as the cover image.
+            coverAddImages.value = [files.dataTransfer.files[0].path]
+          } else {
+            // Toggle format error dialog.
+            formatErrorShow()
+          }
+        }
+      }
+    }
     const coverRemove = () => {
       // Remove image from the store.
       coverAddImages.value = null
@@ -316,15 +465,10 @@ export default {
     }
 
     // Manage background image operations.
-    const backgroundAddImages = computed({
-      get() { return store.state.gameForm[props.gameType].images.background.add },
-      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesBackgroundAdd', value) }
-    })
-    const backgroundRemoveImages = computed({
-      get() { return store.state.gameForm[props.gameType].images.background.remove },
-      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesBackgroundRemove', value) }
-    })
-    const backgroundAdd = () => {
+    let backgroundHover = ref(false)
+    let backgroundAddImages = ref(null)
+    let backgroundRemoveImages = ref(false)
+    const backgroundAddClick = () => {
       // Open dialog to select an image.
       dialog.showOpenDialog({
         properties: ['openFile'],
@@ -338,6 +482,24 @@ export default {
         }
       })
     }
+    const backgroundAddDrop = (files) => {
+      if (files.dataTransfer.files.length > 0) {
+        // Check if only one image file is being uploaded.
+        if (files.dataTransfer.files.length > 1) {
+          // Toggle length error dialog.
+          lengthErrorShow()
+        } else {
+          // Check if the file uploaded is an image.
+          if (files.dataTransfer.files[0].type.includes('image')) {
+            // Set image's path as the background image.
+            backgroundAddImages.value = [files.dataTransfer.files[0].path]
+          } else {
+            // Toggle format error dialog.
+            formatErrorShow()
+          }
+        }
+      }
+    }
     const backgroundRemove = () => {
       // Remove image from the store.
       backgroundAddImages.value = null
@@ -345,15 +507,12 @@ export default {
     }
 
     // Manage picture images operations.
-    const picturesAddImages = computed({
-      get() { return store.state.gameForm[props.gameType].images.pictures.add },
-      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesPicturesAdd', value) }
-    })
-    const picturesRemoveImages = computed({
-      get() { return store.state.gameForm[props.gameType].images.pictures.remove },
-      set(value) { store.commit('setGame' + gameTypeName.value + 'ImagesPicturesRemove', value) }
-    })
-    const picturesAdd = () => {
+    let picturesHover = ref(false)
+    let picturesAddHover = ref(null)
+    let picturesGetHover = ref(null)
+    let picturesAddImages = ref([])
+    let picturesRemoveImages = ref([])
+    const picturesAddClick = () => {
       // Open dialog to select images.
       dialog.showOpenDialog({
         properties: ['openFile', 'multiSelections'],
@@ -364,26 +523,31 @@ export default {
       }).then((res) => {
         if (res.filePaths.length > 0) {
           // Save images into the store.
-          res.filePaths.forEach((file) => picturesAddImages.value = file)
+          res.filePaths.forEach((file) => picturesAddImages.value.push(file))
         }
       })
+    }
+    const picturesAddDrop = (files) => {
+      if (files.dataTransfer.files.length > 0) {
+        for (let file of files.dataTransfer.files) {
+          // Check if the file uploaded is an image.
+          if (file.type.includes('image')) {
+            // Add image's path to the picture images array.
+            picturesAddImages.value.push(file.path)
+          } else {
+            // Toggle format error dialog.
+            picturesErrorShow(true)
+          }
+        }
+      }
     }
     const picturesRemove = (image) => {
       // Remove image from the store.
       picturesAddImages.value.splice(picturesAddImages.value.indexOf(image), 1)
     }
-    const picturesRemoveList = (image) => {
-      // Check if the image is in the remove list.
-      return picturesRemoveImages.value.includes(image)
-    }
     const picturesRemoveSelect = (image) => {
-      if (picturesRemoveList(image)) {
-        // Remove image from the remove list.
-        picturesRemoveImages.value.splice(picturesRemoveImages.value.indexOf(image), 1)
-      } else {
-        // Add image to the remove list.
-        picturesRemoveImages.value = image
-      }
+      // Add image to the remove list.
+      picturesRemoveImages.value.push(image)
     }
 
     // Selected image display management.
@@ -407,15 +571,38 @@ export default {
       imageZoom.value = !imageZoom.value
     }
 
+    // Manage error dialogs.
+    let lengthErrorDialog = ref(false)
+    const lengthErrorShow = () => {
+      // Toggle length error dialog.
+      lengthErrorDialog.value = !lengthErrorDialog.value
+    }
+    let formatErrorDialog = ref(false)
+    const formatErrorShow = () => {
+      // Toggle format error dialog.
+      formatErrorDialog.value = !formatErrorDialog.value
+    }
+    let picturesErrorDialog = ref(false)
+    const picturesErrorShow = (res) => {
+      // Toggle pictures format error dialog.
+      picturesErrorDialog.value = res
+    }
+
     return {
-      backgroundAdd,
+      backgroundAddClick,
+      backgroundAddDrop,
       backgroundAddImages,
+      backgroundHover,
       backgroundRemove,
       backgroundRemoveImages,
-      coverAdd,
+      coverAddClick,
+      coverAddDrop,
       coverAddImages,
+      coverHover,
       coverRemove,
       coverRemoveImages,
+      formatErrorDialog,
+      formatErrorShow,
       getBackground,
       getCover,
       getPictures,
@@ -426,10 +613,19 @@ export default {
       imageSelectedOpen,
       imageZoom,
       imageZoomToggle,
-      picturesAdd,
+      lengthErrorDialog,
+      lengthErrorShow,
+      onCancel,
+      onSubmit,
+      picturesAddClick,
+      picturesAddDrop,
       picturesAddImages,
+      picturesErrorDialog,
+      picturesErrorShow,
+      picturesAddHover,
+      picturesGetHover,
+      picturesHover,
       picturesRemove,
-      picturesRemoveList,
       picturesRemoveSelect
     }
   }
@@ -439,22 +635,19 @@ export default {
 <style scoped>
 /* Calculations. */
 .h-content {
+  height: calc(100% - 3.5rem);
+}
+.h-image {
   height: calc(100vh - 4rem);
 }
-.h-content-half {
-  height: calc((100vh - 4rem) / 2 - 0.5rem);
-}
-.max-h-content {
-  max-height: calc(100vh - 4rem);
-}
-.h-images {
-  height: calc(100vh - 11rem);
-}
-.max-h-images {
-  max-height: calc(100vh - 11rem);
-}
 /* Styling. */
+.ar-square {
+  aspect-ratio: 1 / 1;
+}
 .image-shadow {
-  filter: drop-shadow(1px 1px 1px rgba(var(--color-theme-900), 0.6));
+  filter: drop-shadow(1px 1px 1px rgba(var(--color-theme-800), 0.6));
+}
+.image-transition {
+  transition: all 0.2s;
 }
 </style>

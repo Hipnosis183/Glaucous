@@ -1,7 +1,7 @@
 <template>
   <!-- Create game version dialog. -->
   <vi-dialog
-    @close="$emit('close')"
+    @close="onClose()"
     width="w-4/5"
     class="z-10"
   >
@@ -17,7 +17,7 @@
         />
         <vi-button
           button-icon="icon-close"
-          @click="$emit('close')"
+          @click="onClose()"
         />
       </div>
     </div>
@@ -25,7 +25,10 @@
     <div class="flex space-x-4">
       <div class="w-2/5">
         <form-game-version-name />
-        <form-game-images show-version />
+        <form-game-images
+          :reset-form="resetForm"
+          show-version
+        />
       </div>
       <div class="w-3/5">
         <div class="flex space-x-4">
@@ -43,6 +46,7 @@
 
 <script>
 // Import Vue functions.
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
 import { newGameVersion } from '@/database/controllers/Game'
@@ -72,14 +76,23 @@ export default {
     const store = useStore()
 
     // Manage game version creation.
+    let resetForm = ref(false)
     const onSubmit = () => {
       // Save new game entry.
       newGameVersion(store.state.gameForm, store.state.selectedPlatform, store.state.gameSelected)
-        .then(() => emit('close', true))
+        .then(() => onClose(true))
+    }
+    const onClose = (created) => {
+      // Reset images forms.
+      resetForm.value = !resetForm.value
+      // Emit close dialog event.
+      emit('close', created)
     }
 
     return {
-      onSubmit
+      onClose,
+      onSubmit,
+      resetForm
     }
   }
 }

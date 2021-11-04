@@ -1,8 +1,6 @@
 <template>
   <div class="bg-theme-0 dark:bg-theme-700 h-full p-6 rounded-3xl shadow-color">
-    <div>
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>
 

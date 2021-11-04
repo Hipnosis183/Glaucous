@@ -1,7 +1,7 @@
 <template>
   <!-- Edit game dialog. -->
   <vi-dialog
-    @close="$emit('close')"
+    @close="onClose()"
     width="w-4/5"
     class="z-10"
   >
@@ -24,7 +24,7 @@
         />
         <vi-button
           button-icon="icon-close"
-          @click="$emit('close')"
+          @click="onClose()"
         />
       </div>
     </div>
@@ -36,6 +36,7 @@
         <form-game-version-name />
         <form-game-images
           edit-form
+          :reset-form="resetForm"
           show-platform
           show-region
           show-version
@@ -124,6 +125,7 @@ export default {
     const store = useStore()
 
     // Manage game editing.
+    let resetForm = ref(false)
     const onSubmit = () => {
       // Validate required fields.
       if (
@@ -143,8 +145,14 @@ export default {
             .then(() => {
               // Update game entry.
               updateGame(store.state.gameForm, store.state.gameSelected)
-                .then(() => emit('close', true))
+                .then(() => onClose(true))
             })))
+    }
+    const onClose = (edited) => {
+      // Reset images forms.
+      resetForm.value = !resetForm.value
+      // Emit close dialog event.
+      emit('close', edited)
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
@@ -220,7 +228,9 @@ export default {
     }
 
     return {
+      onClose,
       onSubmit,
+      resetForm,
       validationErrorDialog,
       validationErrorShow
     }

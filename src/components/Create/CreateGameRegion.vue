@@ -1,7 +1,7 @@
 <template>
   <!-- Create game region dialog. -->
   <vi-dialog
-    @close="$emit('close')"
+    @close="onClose()"
     width="w-4/5"
     class="z-10"
   >
@@ -24,7 +24,7 @@
         />
         <vi-button
           button-icon="icon-close"
-          @click="$emit('close')"
+          @click="onClose()"
         />
       </div>
     </div>
@@ -34,6 +34,7 @@
         <form-game-region-title />
         <form-game-version-name />
         <form-game-images
+          :reset-form="resetForm"
           show-region
           show-version
         />
@@ -94,6 +95,7 @@ export default {
     const store = useStore()
 
     // Manage game region creation.
+    let resetForm = ref(false)
     const onSubmit = () => {
       // Validate required fields.
       if (!store.state.gameForm.gameRegion.title) {
@@ -102,7 +104,13 @@ export default {
       }
       // Save new game entry.
       newGameRegion(store.state.gameForm, store.state.gameSelected)
-        .then(() => emit('close', true))
+        .then(() => onClose(true))
+    }
+    const onClose = (created) => {
+      // Reset images forms.
+      resetForm.value = !resetForm.value
+      // Emit close dialog event.
+      emit('close', created)
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
@@ -111,7 +119,9 @@ export default {
     }
 
     return {
+      onClose,
       onSubmit,
+      resetForm,
       validationErrorDialog,
       validationErrorShow
     }

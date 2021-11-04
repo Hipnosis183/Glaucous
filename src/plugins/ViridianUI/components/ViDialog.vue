@@ -1,5 +1,8 @@
 <template>
-  <vi-overlay :width="width ? width : false">
+  <vi-overlay
+    :height="height ? height : false"
+    :width="width ? width : false"
+  >
     <vi-modal>
       <slot />
     </vi-modal>
@@ -18,6 +21,7 @@ export default {
     ViOverlay
   },
   props: {
+    height: { type: String },
     width: { type: String }
   }
 }
