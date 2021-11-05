@@ -49,6 +49,7 @@ import { useStore } from 'vuex'
 import { app } from '@electron/remote'
 import { ensureDirSync } from 'fs-extra'
 // Import utility functions.
+import { debounce } from '@/utils/debounce'
 import { readfiles } from '@/utils/filesystem'
 
 export default {
@@ -144,11 +145,12 @@ export default {
         renderReady.value = true
       }
     }
+    const resizeImageDebounced = debounce(() => resizeImage(), 500)
     // Attach window resize event listener on creation.
-    window.addEventListener('resize', resizeImage)
+    window.addEventListener('resize', resizeImageDebounced)
     onUnmounted(() => {
       // Remove window resize event listener on unmount.
-      window.removeEventListener('resize', resizeImage)
+      window.removeEventListener('resize', resizeImageDebounced)
     })
 
     // General image display management.
