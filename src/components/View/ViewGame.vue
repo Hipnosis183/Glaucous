@@ -322,20 +322,6 @@
                           :version-index="versionIndex"
                         />
                       </div>
-                      <!-- View game tags. -->
-                      <div
-                        v-if="minimalUiDisplayGameTags && gameInfo.gameTags.length > 0"
-                        class="flex flex-wrap"
-                      >
-                        <vi-chip-ui
-                          v-for="tag in gameInfo.gameTags"
-                          :key="tag._id"
-                          @clicked="$router.push({ name: 'Tag', params: { id: tag._id } })"
-                          class="mb-0.5 mr-0.5"
-                        >
-                          {{ tag.name }}
-                        </vi-chip-ui>
-                      </div>
                     </div>
                   </div>
                   <!-- View game cover image. -->
@@ -783,11 +769,6 @@ export default {
         return !store.getters.getSettingsGameMinimalUiDisplayGallery
       } else { return true }
     })
-    const minimalUiDisplayGameTags = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGameTags
-      } else { return true }
-    })
     const minimalUiDisplayRegionFlags = computed(() => {
       if (!minimalUiDisplay.value) {
         return !store.getters.getSettingsGameMinimalUiDisplayRegionFlags
@@ -840,7 +821,6 @@ export default {
       minimalUiDisplayFavorites,
       minimalUiDisplayGallery,
       minimalUiDisplayGameLinking,
-      minimalUiDisplayGameTags,
       minimalUiDisplayLinks,
       minimalUiDisplayPlaylists,
       minimalUiDisplayRegionFlags,

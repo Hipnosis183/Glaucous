@@ -1,23 +1,31 @@
 <template>
   <div class="flex">
-    <div class="mr-auto">
+    <div class="flex flex-col mr-auto">
       <p
         v-show="gameInfo.gameRegions[regionIndex].preTitle"
-        class="mb-1 ml-1 text-xl"
+        class="mb-1 ml-1 -mt-3 text-xl"
       >{{ gameInfo.gameRegions[regionIndex].preTitle }}</p>
-      <p class="text-6xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
+      <p class="text-5.5xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
       <p
         v-show="gameInfo.gameRegions[regionIndex].subTitle"
         class="ml-1 mt-2 text-4xl"
       >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
       <p
         v-show="gameInfo.gameRegions[regionIndex].originalTitle"
-        class="ml-1 mt-6 text-3xl"
+        :class="minimalUiDisplayGameTags
+          ? gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1 mt-auto text-2xl' : 'ml-1 mt-4 text-2.5xl'
+          : gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1 mt-auto text-2.5xl' : 'ml-1 mt-4 text-2.5xl'"
       >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
+      <!-- View game tags. -->
+      <view-game-tags
+        v-if="minimalUiDisplayGameTags"
+        :key="gameInfo"
+        :game-info="gameInfo"
+      />
     </div>
     <div
       class="-mb-3 ml-auto -mr-4 text-2xl text-right whitespace-nowrap"
-      :class="gameInfo.gameRegions[regionIndex].preTitle ? 'mt-10' : 'mt-1'"
+      :class="gameInfo.gameRegions[regionIndex].preTitle ? 'mt-6' : 'mt-1'"
     >
       <div class="data-button space-y-1">
         <!-- Go to the platform page. -->
@@ -69,14 +77,26 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+// Import form components.
+import ViewGameTags from './ViewGameTags.vue'
+
 export default {
   name: 'ViewGameInfo',
+  components: {
+    ViewGameTags
+  },
   props: {
     gameInfo: { type: Object },
     regionIndex: { type: Number },
     versionIndex: { type: Number }
   },
   setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Manage number of players state.
     const getNumberPlayers = (index) => {
       switch (props.gameInfo.numberPlayers) {
@@ -102,8 +122,19 @@ export default {
       }
     }
 
+    // Manage minimal UI state.
+    const minimalUiDisplay = computed(() => {
+      return !store.getters.getSettingsGameMinimalUiDisplay
+    })
+    const minimalUiDisplayGameTags = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGameTags
+      } else { return true }
+    })
+
     return {
-      getNumberPlayers
+      getNumberPlayers,
+      minimalUiDisplayGameTags
     }
   }
 }

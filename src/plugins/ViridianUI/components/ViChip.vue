@@ -13,7 +13,7 @@
       <slot />
     </div>
     <button
-      v-if="removeable"
+      v-if="removable"
       class="bg-theme-200 dark:bg-theme-900 hover:bg-theme-0 dark:hover:bg-theme-700 h-6 -mr-2 my-auto p-1 rounded-full w-6"
       :class="chipLarge ? 'ml-auto' : 'ml-2'"
       @click="$emit('remove')"
@@ -32,7 +32,7 @@ export default {
     chipLarge: { type: Boolean, default: false },
     clickable: { type: Boolean, default: false },
     multiline: { type: Boolean, default: false },
-    removeable: { type: Boolean, default: true }
+    removable: { type: Boolean, default: true }
   }
 }
 </script>

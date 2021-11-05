@@ -42,6 +42,10 @@ module.exports = {
           900: 'rgb(var(--color-color-900))'
         }
       },
+      fontSize: {
+        '2.5xl': ['1.75rem', '1'],
+        '5.5xl': ['3.5rem', '1']
+      },
       gridTemplateColumns: {
         'image': 'repeat(var(--grid-cols-image), minmax(0, 1fr))'
       },
