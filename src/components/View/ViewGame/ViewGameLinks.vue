@@ -1,10 +1,6 @@
 <template>
-  <div>
-    <vi-button-ui>
-      <vi-icon class="w-6">
-        <icon-link />
-      </vi-icon>
-    </vi-button-ui>
+  <div class="flex">
+    <vi-button-ui button-small="icon-link" />
     <div class="flex hidden ml-auto pt-4 space-x-2">
       <!-- External links. -->
       <div

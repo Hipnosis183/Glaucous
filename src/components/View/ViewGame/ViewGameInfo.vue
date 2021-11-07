@@ -8,13 +8,14 @@
       <p class="text-5.5xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
       <p
         v-show="gameInfo.gameRegions[regionIndex].subTitle"
-        class="ml-1 mt-2 text-4xl"
+        :class="minimalUiDisplayGameTags && gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1.5 mt-3 text-2.5xl' : 'ml-1 mt-4 text-4xl'"
       >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
       <p
         v-show="gameInfo.gameRegions[regionIndex].originalTitle"
+        class="ml-1"
         :class="minimalUiDisplayGameTags
-          ? gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1 mt-auto text-2xl' : 'ml-1 mt-4 text-2.5xl'
-          : gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1 mt-auto text-2.5xl' : 'ml-1 mt-4 text-2.5xl'"
+          ? gameInfo.gameRegions[regionIndex].subTitle ? 'mt-3 text-2xl' : 'mt-4 text-2.5xl'
+          : gameInfo.gameRegions[regionIndex].subTitle ? 'mt-auto text-2.5xl' : 'mt-4 text-2.5xl'"
       >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
       <!-- View game tags. -->
       <view-game-tags

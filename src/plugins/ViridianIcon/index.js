@@ -20,11 +20,14 @@ import IconFolder from './components/IconFolder.vue'
 import IconFullScreen from './components/IconFullScreen.vue'
 import IconGames from './components/IconGames.vue'
 import IconGrid from './components/IconGrid.vue'
+import IconInfo from './components/IconInfo.vue'
 import IconLink from './components/IconLink.vue'
+import IconLinking from './components/IconLinking.vue'
 import IconList from './components/IconList.vue'
 import IconMenu from './components/IconMenu.vue'
 import IconMinus from './components/IconMinus.vue'
 import IconPicture from './components/IconPicture.vue'
+import IconPictureS from './components/IconPictureS.vue'
 import IconPin from './components/IconPin.vue'
 import IconPlay from './components/IconPlay.vue'
 import IconPlaylist from './components/IconPlaylist.vue'
@@ -36,7 +39,6 @@ import IconSearch from './components/IconSearch.vue'
 import IconSetting from './components/IconSetting.vue'
 import IconSettingF from './components/IconSettingF.vue'
 import IconStar from './components/IconStar.vue'
-import IconStarF from './components/IconStarF.vue'
 import IconStarS from './components/IconStarS.vue'
 import IconTag from './components/IconTag.vue'
 
@@ -64,11 +66,14 @@ export default {
         app.component('icon-full-screen', IconFullScreen)
         app.component('icon-games', IconGames)
         app.component('icon-grid', IconGrid)
+        app.component('icon-info', IconInfo)
         app.component('icon-link', IconLink)
+        app.component('icon-linking', IconLinking)
         app.component('icon-list', IconList)
         app.component('icon-menu', IconMenu)
         app.component('icon-minus', IconMinus)
         app.component('icon-picture', IconPicture)
+        app.component('icon-picture-s', IconPictureS)
         app.component('icon-pin', IconPin)
         app.component('icon-play', IconPlay)
         app.component('icon-playlist', IconPlaylist)
@@ -80,7 +85,6 @@ export default {
         app.component('icon-setting', IconSetting)
         app.component('icon-setting-f', IconSettingF)
         app.component('icon-star', IconStar)
-        app.component('icon-star-f', IconStarF)
         app.component('icon-star-s', IconStarS)
         app.component('icon-tag', IconTag)
     }

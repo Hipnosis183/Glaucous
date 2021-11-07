@@ -204,6 +204,7 @@
                 v-if="minimalUiDisplayRegionFlags && gameInfo.gameRegions[index].region"
                 :src="'./images/flags/' + gameInfo.gameRegions[index].region + '.svg'"
                 class="h-full ml-auto p-4"
+                :class="index == regionIndex ? 'opacity-90' : 'opacity-80'"
               />
             </div>
           </div>
@@ -239,55 +240,11 @@
                 <div class="flex h-full">
                   <div class="flex flex-col max-w-1/2">
                     <!-- Top container. -->
-                    <div class="flex mr-auto p-6 space-x-2 text-theme-100">
+                    <div class="flex mr-auto p-6 pl-6 space-x-2 text-theme-100">
                       <!-- Game settings. -->
                       <settings-game />
-                      <div class="flex space-x-2">
-                        <!-- Open game playlists management dialog. -->
-                        <button
-                          v-if="minimalUiDisplayPlaylists"
-                          @click="managePlaylistsClose()"
-                          class="duration-200 -mb-1 pl-0.5 opacity-60 hover:opacity-80 hover:scale-110 transform"
-                        >
-                          <vi-icon class="icon-shadow w-8">
-                            <icon-playlist-add />
-                          </vi-icon>
-                        </button>
-                        <!-- Remove selected game platform from favorites. -->
-                        <button
-                          v-if="minimalUiDisplayFavorites && gameFavorited"
-                          @click="removeFavorite()"
-                          class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
-                        >
-                          <vi-icon class="icon-shadow w-6">
-                            <icon-star-f />
-                          </vi-icon>
-                        </button>
-                        <!-- Add selected game platform to favorites. -->
-                        <button
-                          v-else-if="minimalUiDisplayFavorites"
-                          @click="addFavorite()"
-                          class="duration-200 opacity-60 hover:opacity-80 hover:scale-110 transform"
-                        >
-                          <vi-icon class="icon-shadow w-6">
-                            <icon-star />
-                          </vi-icon>
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Bottom container. -->
-                    <div class="mt-auto p-8 pb-0 space-y-2">
-                      <!-- View game launching elements. -->
-                      <view-game-launcher
-                        :key="gameInfo"
-                        :game-info="gameInfo"
-                        :region-index="regionIndex"
-                        @updated="versionIndex = $event"
-                      />
-                      <div
-                        v-if="minimalUiDisplayDetails || minimalUiDisplayGameLinking || minimalUiDisplayLinks || minimalUiDisplayGallery"
-                        class="flex space-x-2 w-full"
-                      >
+                      <!-- Buttons. -->
+                      <div class="flex space-x-1">
                         <!-- View game details. -->
                         <view-game-details
                           v-if="minimalUiDisplayDetails"
@@ -296,13 +253,6 @@
                           :game-info="gameInfo"
                           :region-index="regionIndex"
                           :version-index="versionIndex"
-                        />
-                        <!-- View game linking. -->
-                        <view-game-linking
-                          v-if="minimalUiDisplayGameLinking"
-                          :key="gameInfo"
-                          :game-info="gameInfo"
-                          :region-index="regionIndex"
                         />
                         <!-- View game links. -->
                         <view-game-links
@@ -313,6 +263,24 @@
                           :game-region="gameInfo.gameRegions[regionIndex]"
                           @loaded="loadLinks($event)"
                         />
+                        <!-- Open game playlists management dialog. -->
+                        <vi-button-ui
+                          v-if="minimalUiDisplayPlaylists"
+                          @click="managePlaylistsClose()"
+                          button-small="icon-playlist-add"
+                        />
+                        <!-- Remove selected game platform from favorites. -->
+                        <vi-button-ui
+                          v-if="minimalUiDisplayFavorites && gameFavorited"
+                          @click="removeFavorite()"
+                          button-small="icon-star-s"
+                        />
+                        <!-- Add selected game platform to favorites. -->
+                        <vi-button-ui
+                          v-else-if="minimalUiDisplayFavorites"
+                          @click="addFavorite()"
+                          button-small="icon-star"
+                        />
                         <!-- View game gallery. -->
                         <view-game-gallery
                           v-if="minimalUiDisplayGallery"
@@ -322,6 +290,16 @@
                           :version-index="versionIndex"
                         />
                       </div>
+                    </div>
+                    <!-- Bottom container. -->
+                    <div class="mt-auto p-8 pb-0">
+                      <!-- View game launching elements. -->
+                      <view-game-launcher
+                        :key="gameInfo"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
+                        @updated="versionIndex = $event"
+                      />
                     </div>
                   </div>
                   <!-- View game cover image. -->
@@ -378,7 +356,6 @@ import ViewGameDetails from './ViewGame/ViewGameDetails.vue'
 import ViewGameGallery from './ViewGame/ViewGameGallery.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
-import ViewGameLinking from './ViewGame/ViewGameLinking.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
 import ViewGamePlaylists from './ViewGame/ViewGamePlaylists.vue'
 
@@ -396,7 +373,6 @@ export default {
     ViewGameGallery,
     ViewGameInfo,
     ViewGameLauncher,
-    ViewGameLinking,
     ViewGameLinks,
     ViewGamePlaylists
   },
@@ -754,11 +730,6 @@ export default {
         return !store.getters.getSettingsGameMinimalUiDisplayDetails
       } else { return true }
     })
-    const minimalUiDisplayGameLinking = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGameLinking
-      } else { return true }
-    })
     const minimalUiDisplayLinks = computed(() => {
       if (!minimalUiDisplay.value) {
         return !store.getters.getSettingsGameMinimalUiDisplayLinks
@@ -820,7 +791,6 @@ export default {
       minimalUiDisplayDetails,
       minimalUiDisplayFavorites,
       minimalUiDisplayGallery,
-      minimalUiDisplayGameLinking,
       minimalUiDisplayLinks,
       minimalUiDisplayPlaylists,
       minimalUiDisplayRegionFlags,

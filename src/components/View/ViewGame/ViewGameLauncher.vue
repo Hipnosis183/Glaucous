@@ -1,10 +1,4 @@
 <template>
-  <!-- Game settings dialog. -->
-  <view-game-settings
-    v-show="settingsGameDialog"
-    :full-command="fullCommand"
-    @close="settingsGameClose()"
-  />
   <!-- Launcher error dialog. -->
   <vi-dialog-box
     v-show="launchErrorDialog"
@@ -14,8 +8,11 @@
     <br />
     Check if your configuration is correct and try again.
   </vi-dialog-box>
+  <!-- View game launcher. -->
   <div class="flex flex-col mt-auto space-y-2">
-    <div class="cursor-pointer flex space-x-2">
+    <!-- Top container. -->
+    <div class="flex space-x-2">
+      <!-- Plat game button. -->
       <vi-button-ui
         v-if="minimalUiDisplayGameLaunch"
         button-large
@@ -32,23 +29,27 @@
           <h6>Play</h6>
         </div>
       </vi-button-ui>
-      <vi-button-ui
+      <!-- View game linking. -->
+      <view-game-linking
+        v-if="minimalUiDisplayGameLinking && !minimalUiDisplayVersionSelect"
+        :key="gameInfo"
+        :game-info="gameInfo"
+        :icon-large="'large'"
+        :region-index="regionIndex"
+      />
+      <!-- View game settings. -->
+      <view-game-settings
         v-if="minimalUiDisplayGameSettings && !minimalUiDisplayVersionSelect"
-        button-size="large"
-        @click="settingsGameOpen()"
-      >
-        <vi-icon
-          icon-manual
-          class="mx-2 w-8"
-        >
-          <icon-setting />
-        </vi-icon>
-      </vi-button-ui>
+        :full-command="fullCommand"
+        :icon-large="'large'"
+      />
     </div>
+    <!-- Bottom container. -->
     <div
-      v-if="minimalUiDisplayGameSettings || minimalUiDisplayVersionSelect"
-      class="cursor-pointer flex space-x-2"
+      v-if="minimalUiDisplayVersionSelect && (minimalUiDisplayGameLinking || minimalUiDisplayGameSettings)"
+      class="flex space-x-2"
     >
+      <!-- Game version select. -->
       <vi-select-ui
         v-if="minimalUiDisplayVersionSelect"
         v-model="$store.state.gameSelected.gameVersion"
@@ -67,14 +68,18 @@
           />
         </vi-option-group-ui>
       </vi-select-ui>
-      <vi-button-ui
+      <!-- View game linking. -->
+      <view-game-linking
+        v-if="minimalUiDisplayGameLinking && minimalUiDisplayVersionSelect"
+        :key="gameInfo"
+        :game-info="gameInfo"
+        :region-index="regionIndex"
+      />
+      <!-- View game settings. -->
+      <view-game-settings
         v-if="minimalUiDisplayGameSettings && minimalUiDisplayVersionSelect"
-        @click="settingsGameOpen()"
-      >
-        <vi-icon class="w-6">
-          <icon-setting />
-        </vi-icon>
-      </vi-button-ui>
+        :full-command="fullCommand"
+      />
     </div>
   </div>
 </template>
@@ -90,11 +95,13 @@ import { existsSync, readJSONSync } from 'fs-extra'
 // Import database controllers functions.
 import { addRecent } from '@/database/controllers/User'
 // Import form components.
+import ViewGameLinking from './ViewGameLinking.vue'
 import ViewGameSettings from './ViewGameSettings.vue'
 
 export default {
   name: 'ViewGameLauncher',
   components: {
+    ViewGameLinking,
     ViewGameSettings
   },
   emits: [
@@ -198,31 +205,12 @@ export default {
     })
 
     // Manage game settings.
-    let changedVersion = ref(false)
     const changeVersion = (id) => {
       // Update the store with the new game version selected.
       store.commit('setGameStore')
-      changedVersion.value = true
       // Send selected game version index to parent component.
       let index = props.gameInfo.gameRegions[props.regionIndex].gameVersions.findIndex((res) => res._id == id)
       emit('updated', index)
-    }
-    let settingsGameDialog = ref(false)
-    const settingsGameOpen = () => {
-      if (changedVersion.value) {
-        // Update the store with the new game version selected.
-        store.commit('setGameStore')
-        changedVersion.value = false
-      } else {
-        // Load stored data.
-        store.commit('resetGameStore')
-      }
-      // Open settings dialog.
-      settingsGameDialog.value = !settingsGameDialog.value
-    }
-    const settingsGameClose = () => {
-      // Close settings dialog.
-      settingsGameDialog.value = !settingsGameDialog.value
     }
 
     // Manage version select options.
@@ -265,6 +253,11 @@ export default {
         return !store.getters.getSettingsGameMinimalUiDisplayGameSettings
       } else { return true }
     })
+    const minimalUiDisplayGameLinking = computed(() => {
+      if (!minimalUiDisplay.value) {
+        return !store.getters.getSettingsGameMinimalUiDisplayGameLinking
+      } else { return true }
+    })
 
     return {
       changeVersion,
@@ -274,11 +267,9 @@ export default {
       launchErrorDialog,
       launchGame,
       minimalUiDisplayGameLaunch,
+      minimalUiDisplayGameLinking,
       minimalUiDisplayGameSettings,
       minimalUiDisplayVersionSelect,
-      settingsGameClose,
-      settingsGameDialog,
-      settingsGameOpen,
       typeFilter,
       typeOptions
     }

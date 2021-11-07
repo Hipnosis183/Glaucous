@@ -1,10 +1,12 @@
 <template>
   <!-- Open view game linking dialog. -->
   <vi-button-ui
-    button-large
+    :button-size="iconLarge"
     @click="gameLinkingShow()"
   >
-    <h6 class="w-full">Also On</h6>
+    <vi-icon :class="iconLarge ? 'mt-1 mx-2 w-10' : 'mt-px -mx-1.5 w-8'">
+      <icon-linking />
+    </vi-icon>
   </vi-button-ui>
   <!-- View game linking dialog. -->
   <vi-overlay
@@ -144,14 +146,14 @@
             />
           </li>
         </vi-list-dialog>
-        <div v-else>
-          <li>
-            <!-- Empty card. -->
-            <vi-modal class="text-center">
-              <p>No other platforms available.</p>
-            </vi-modal>
-          </li>
-        </div>
+        <!-- No linked games dialog. -->
+        <vi-dialog-box
+          v-else
+          :overlay="false"
+          @accept="gameLinkingShow()"
+        >
+          No other platforms available.
+        </vi-dialog-box>
       </div>
     </div>
   </vi-overlay>
@@ -167,6 +169,7 @@ export default {
   name: 'ViewGameLinking',
   props: {
     gameInfo: { type: Object },
+    iconLarge: { type: String },
     regionIndex: { type: Number }
   },
   setup(props) {

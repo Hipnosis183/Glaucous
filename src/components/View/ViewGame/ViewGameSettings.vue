@@ -1,11 +1,21 @@
 <template>
-  <!-- Game settings dialog. -->
+  <!-- Open view game settings dialog. -->
+  <vi-button-ui
+    :button-size="iconLarge"
+    @click="settingsGameOpen()"
+  >
+    <vi-icon :class="iconLarge ? 'mx-2 w-8' : '-mx-1 w-7'">
+      <icon-setting />
+    </vi-icon>
+  </vi-button-ui>
+  <!-- View game settings dialog. -->
   <vi-dialog
+    v-show="settingsGameDialog"
     v-if="$store.state.gameSelected.gameVersion"
     :key="$store.state.gameSelected.gameVersion"
-    @close="$emit('close')"
+    @close="settingsGameClose()"
     width="w-2/3"
-    class="pos-initial z-10"
+    class="left-12 top-0 z-10"
   >
     <div class="flex max-h-content overflow-hidden">
       <div class="flex-1 no-scrollbar overflow-y-scroll">
@@ -23,7 +33,7 @@
             <!-- Close dialog. -->
             <vi-button
               button-icon="icon-close"
-              @click="$emit('close')"
+              @click="settingsGameClose()"
             />
           </div>
         </div>
@@ -88,7 +98,7 @@
 
 <script>
 // Import Vue functions.
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import form components.
 import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
@@ -98,11 +108,9 @@ export default {
   components: {
     ViewSettingsEmulator
   },
-  emits: [
-    'close'
-  ],
   props: {
-    fullCommand: { type: String }
+    fullCommand: { type: String },
+    iconLarge: { type: String }
   },
   setup(props, { emit }) {
     // Instantiate Vue elements.
@@ -135,7 +143,19 @@ export default {
       store.commit('setSettingsGameGameFile')
       store.commit('setSettingsGameGameParams')
       store.commit('setSettingsGameRelativePath')
-      emit('close')
+      settingsGameClose()
+    }
+
+    // Manage game settings.
+    let settingsGameDialog = ref(false)
+    const settingsGameOpen = () => {
+      store.commit('resetGameStore')
+      // Open settings dialog.
+      settingsGameDialog.value = !settingsGameDialog.value
+    }
+    const settingsGameClose = () => {
+      // Close settings dialog.
+      settingsGameDialog.value = !settingsGameDialog.value
     }
 
     return {
@@ -143,6 +163,9 @@ export default {
       gameParams,
       gamePath,
       relativePath,
+      settingsGameClose,
+      settingsGameDialog,
+      settingsGameOpen,
       storeSettings
     }
   }

@@ -1,6 +1,7 @@
 <template>
   <!-- Delete dialog. -->
   <vi-dialog
+    :overlay="overlay"
     @close="$emit(actions == 'Ok' ? 'accept' : 'cancel')"
     class="pos-initial z-10"
   >
@@ -41,7 +42,8 @@ export default {
     'cancel'
   ],
   props: {
-    actions: { type: String, default: 'Ok' }
+    actions: { type: String, default: 'Ok' },
+    overlay: { type: Boolean, default: true }
   }
 }
 </script>

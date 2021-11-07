@@ -1,11 +1,16 @@
 <template>
+  <!-- Open game gallery. -->
+  <vi-button-ui
+    button-small="icon-picture-s"
+    @click="imagesGalleryShow()"
+  />
   <!-- View selected picture. -->
   <transition>
     <vi-overlay
       v-if="getPictures[imageIndex]"
       v-show="imagesPicturesDialog"
       @close="imagesPicturesClose()"
-      class="left-12 top-0 z-20"
+      class="left-13 top-0 z-20"
     >
       <div
         ref="imageContainer"
@@ -79,17 +84,16 @@
     <div
       v-show="imagesGalleryDialog"
       @close="imagesGalleryShow()"
-      class="fixed h-screen left-12 top-0 w-gallery z-10"
+      class="fixed h-screen left-13 top-0 w-gallery z-10"
     >
-      <div class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full">
+      <div
+        v-if="getPictures[0]"
+        class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full"
+      >
         <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-image w-full">
           <transition name="gallery">
             <!-- Pictures grid. -->
-            <div
-              v-if="getPictures[0]"
-              v-show="imagesGalleryDialog"
-              class="flex-1 mr-6 no-scrollbar overflow-y-scroll"
-            >
+            <div class="flex-1 mr-6 no-scrollbar overflow-y-scroll">
               <div class="grid grid-cols-image">
                 <div
                   v-for="(image, index) in getPictures"
@@ -111,14 +115,6 @@
                 </div>
               </div>
             </div>
-            <div
-              v-else
-              class="flex flex-col items-center m-auto"
-            >
-              <vi-modal>
-                <p>No images available.</p>
-              </vi-modal>
-            </div>
           </transition>
         </div>
         <!-- Gallery buttons. -->
@@ -134,17 +130,15 @@
           <settings-images />
         </div>
       </div>
+      <!-- No linked games dialog. -->
+      <vi-dialog-box
+        v-else
+        @accept="imagesGalleryShow()"
+      >
+        No images available.
+      </vi-dialog-box>
     </div>
   </transition>
-  <!-- Open game gallery. -->
-  <vi-button-ui @click="imagesGalleryShow()">
-    <vi-icon
-      icon-manual
-      class="w-6"
-    >
-      <icon-picture />
-    </vi-icon>
-  </vi-button-ui>
 </template>
 
 <script>

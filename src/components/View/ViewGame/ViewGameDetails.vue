@@ -1,16 +1,14 @@
 <template>
   <!-- Open view game details dialog. -->
   <vi-button-ui
-    button-large
+    button-small="icon-info"
     @click="gameDetailsShow()"
-  >
-    <h6 class="w-full">Details</h6>
-  </vi-button-ui>
+  />
   <!-- View game details dialog. -->
   <vi-dialog
     v-show="gameDetailsDialog"
     @close="gameDetailsShow()"
-    class="left-12 top-0 z-10"
+    class="left-13 top-0 z-10"
   >
     <!-- Game details. -->
     <div class="flex mb-6">

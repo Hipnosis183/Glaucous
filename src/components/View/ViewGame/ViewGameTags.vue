@@ -37,7 +37,7 @@
       </div>
     </div>
   </vi-dialog>
-  <div class="flex mt-auto -mb-2 -ml-2 pr-14 relative">
+  <div class="flex mt-auto -mb-2 pr-14 relative">
     <!-- View game tags list. -->
     <div
       ref="gameTags"

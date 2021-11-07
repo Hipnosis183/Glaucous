@@ -3,7 +3,8 @@
     <div class="fixed flex h-full items-center justify-center w-overlay">
       <div
         @click="close"
-        class="bg-black bg-opacity-50 h-full w-full"
+        class="h-full w-full"
+        :class="{ 'bg-black bg-opacity-50' : overlay }"
       >
       </div>
       <div
@@ -31,6 +32,7 @@ export default {
   ],
   props: {
     height: { type: [Boolean, String] },
+    overlay: { type: Boolean, default: true },
     rounded: { type: Boolean, default: true },
     width: { type: [Boolean, String] }
   },

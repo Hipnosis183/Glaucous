@@ -8,7 +8,7 @@
       <div
         ref="refSelect"
         @click="openDropMenu()"
-        class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 flex h-full w-full"
+        class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 flex h-full hover:scale-101 transform transition-select w-full"
       >
         <!-- Prefix icon. -->
         <div
@@ -44,15 +44,22 @@
           />
         </div>
         <!-- Normal input element. -->
-        <input
+        <div
           v-else
-          v-model="labelSelected"
-          :disabled="true"
-          :placeholder="placeholder"
-          @input="updateValue()"
-          class="bg-transparent cursor-pointer px-4 relative text-xl text-theme-200 w-full"
-          :class="{ 'input-error' : required }"
-        />
+          class="flex items-center overflow-hidden px-4 relative text-xl"
+        >
+          <input
+            v-model="labelSelected"
+            :disabled="true"
+            :placeholder="placeholder"
+            @input="updateValue()"
+            class="absolute bg-transparent cursor-pointer text-theme-200"
+            :class="{ 'input-error' : required }"
+          />
+          <div class="max-h-px overflow-hidden">
+            <div class="invisible">{{ labelSelected }}</div>
+          </div>
+        </div>
         <!-- Clear select icon. -->
         <div
           v-if="(modelValue && remote && !required) || (!remote && clearable)"
@@ -541,8 +548,7 @@ export default {
   @apply text-red-500 !important;
 }
 /* Transitions. */
-div,
-input {
+div {
   transition: background-color 0.5s;
 }
 input {
@@ -558,5 +564,8 @@ input {
 }
 .transition-menu {
   transition: transform 0.2s ease-in-out, opacity 0.1s ease-in-out;
+}
+.transition-select {
+  transition: transform 0.2s ease-in-out, background-color 0.5s;
 }
 </style>
