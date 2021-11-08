@@ -242,7 +242,7 @@
                     <!-- Top container. -->
                     <div class="flex mr-auto p-6 pl-6 space-x-2 text-theme-100">
                       <!-- Game settings. -->
-                      <settings-game />
+                      <settings-games />
                       <!-- Buttons. -->
                       <div class="flex space-x-1">
                         <!-- View game details. -->
@@ -348,7 +348,7 @@ import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
 import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
 import EditGame from '@/components/Edit/EditGame.vue'
-import SettingsGame from '@/components/Settings/SettingsGame.vue'
+import SettingsGames from '@/components/Settings/SettingsGames.vue'
 // Import game page components.
 import ViewGameBackground from './ViewGame/ViewGameBackground.vue'
 import ViewGameCover from './ViewGame/ViewGameCover.vue'
@@ -366,7 +366,7 @@ export default {
     CreateGameRegion,
     CreateGameVersion,
     EditGame,
-    SettingsGame,
+    SettingsGames,
     ViewGameBackground,
     ViewGameCover,
     ViewGameDetails,

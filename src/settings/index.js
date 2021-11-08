@@ -61,13 +61,6 @@ export const gameCategoryOptions = [
     { i: 2, name: 'Developers' }
 ]
 
-// Google search key parameters.
-export const googleKeys = [
-    { i: 0, name: 'Full Title' },
-    { i: 1, name: 'Original Title' },
-    { i: 2, name: 'Developer' }
-]
-
 // Set the border radius size on the game lists cards.
 export const selectListCornersRounding = (cor) => {
     document.documentElement.style.setProperty('--rounded-list', cornersRoundingOptions[cor].value)

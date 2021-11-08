@@ -54,7 +54,7 @@
             </h2>
           </div>
           <div class="text-sm whitespace-nowrap">
-            <h4 v-if="gameInfo.platform.parent && $store.getters.getSettingsGamesGroupsView">
+            <h4 v-if="gameInfo.platform.parent && $store.getters.getSettingsGeneralGroupsView">
               {{ parentName }} ({{ gameInfo.platform.name }})
             </h4>
             <h4 v-else>

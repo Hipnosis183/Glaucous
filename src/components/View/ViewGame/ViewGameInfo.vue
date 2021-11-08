@@ -31,7 +31,7 @@
       <div class="data-button space-y-1">
         <!-- Go to the platform page. -->
         <div @click="$router.push({ name: 'Platform', params: { id: gameInfo.platform._id } })">
-          <p v-if="gameInfo.platform.parent && $store.getters.getSettingsGamesGroupsView">
+          <p v-if="gameInfo.platform.parent && $store.getters.getSettingsGeneralGroupsView">
             {{ gameInfo.platform.parent.name }} ({{ gameInfo.platform.name }})
           </p>
           <p v-else>

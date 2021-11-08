@@ -16,20 +16,14 @@ export default createStore({
     settingsApp: {
       settingsGeneral: {
         editMode: localStore.get('settingsGeneral.editMode', true),
-        gameCategory: localStore.get('settingsGeneral.gameCategory', 0)
-      },
-      settingsGames: {
-        groupsView: localStore.get('settingsGames.groupsView', true)
+        gameCategory: localStore.get('settingsGeneral.gameCategory', 0),
+        groupsView: localStore.get('settingsGeneral.groupsView', true)
       },
       settingsThemes: {
         darkMode: localStore.get('settingsThemes.darkMode', false),
         selectedTheme: localStore.get('settingsThemes.selectedTheme', 0),
         selectedColor: localStore.get('settingsThemes.selectedColor', 0),
         selectedFont: localStore.get('settingsThemes.selectedFont', 'Poppins')
-      },
-      settingsLinks: {
-        searchGoogle: localStore.get('settingsLinks.searchGoogle', true),
-        searchGoogleKey: localStore.get('settingsLinks.searchGoogleKey', 0)
       },
       settingsLists: {
         scalingEffect: localStore.get('settingsLists.scalingEffect', true),
@@ -208,6 +202,9 @@ export default createStore({
     getSettingsGeneralGameCategory(state) {
       return state.settingsApp.settingsGeneral.gameCategory
     },
+    getSettingsGeneralGroupsView(state) {
+      return state.settingsApp.settingsGeneral.groupsView
+    },
     getSettingsThemesDarkMode(state) {
       return state.settingsApp.settingsThemes.darkMode
     },
@@ -219,15 +216,6 @@ export default createStore({
     },
     getSettingsThemesSelectedFont(state) {
       return state.settingsApp.settingsThemes.selectedFont
-    },
-    getSettingsGamesGroupsView(state) {
-      return state.settingsApp.settingsGames.groupsView
-    },
-    getSettingsLinksSearchGoogle(state) {
-      return state.settingsApp.settingsLinks.searchGoogle
-    },
-    getSettingsLinksSearchGoogleKey(state) {
-      return state.settingsApp.settingsLinks.searchGoogleKey
     },
     getSettingsListsScalingEffect(state) {
       return state.settingsApp.settingsLists.scalingEffect
@@ -352,12 +340,10 @@ export default createStore({
     resetSettingsApp(state) {
       localStore.clear()
       state.settingsApp.settingsGeneral.editMode = localStore.get('settingsGeneral.editMode', true)
+      state.settingsApp.settingsGeneral.groupsView = localStore.get('settingsGeneral.groupsView', true)
       state.settingsApp.settingsThemes.darkMode = localStore.get('settingsThemes.darkMode', false)
       state.settingsApp.settingsThemes.selectedTheme = localStore.get('settingsThemes.selectedTheme', 0)
       state.settingsApp.settingsThemes.selectedColor = localStore.get('settingsThemes.selectedColor', 0)
-      state.settingsApp.settingsGames.groupsView = localStore.get('settingsGames.groupsView', true)
-      state.settingsApp.settingsLinks.searchGoogle = localStore.get('settingsLinks.searchGoogle', true)
-      state.settingsApp.settingsLinks.searchGoogleKey = localStore.get('settingsLinks.searchGoogleKey', 0)
     },
     setSettingsGeneralEditMode(state) {
       state.settingsApp.settingsGeneral.editMode = !state.settingsApp.settingsGeneral.editMode
@@ -366,6 +352,10 @@ export default createStore({
     setSettingsGeneralGameCategory(state, data) {
       state.settingsApp.settingsGeneral.gameCategory = data
       localStore.set('settingsGeneral.gameCategory', state.settingsApp.settingsGeneral.gameCategory)
+    },
+    setSettingsGeneralGroupsView(state) {
+      state.settingsApp.settingsGeneral.groupsView = !state.settingsApp.settingsGeneral.groupsView
+      localStore.set('settingsGeneral.groupsView', state.settingsApp.settingsGeneral.groupsView)
     },
     setSettingsThemesDarkMode(state) {
       state.settingsApp.settingsThemes.darkMode = !state.settingsApp.settingsThemes.darkMode
@@ -382,18 +372,6 @@ export default createStore({
     setSettingsThemesSelectedFont(state, data) {
       state.settingsApp.settingsThemes.selectedFont = data
       localStore.set('settingsThemes.selectedFont', state.settingsApp.settingsThemes.selectedFont)
-    },
-    setSettingsGamesGroupsView(state) {
-      state.settingsApp.settingsGames.groupsView = !state.settingsApp.settingsGames.groupsView
-      localStore.set('settingsGames.groupsView', state.settingsApp.settingsGames.groupsView)
-    },
-    setSettingsLinksSearchGoogle(state) {
-      state.settingsApp.settingsLinks.searchGoogle = !state.settingsApp.settingsLinks.searchGoogle
-      localStore.set('settingsLinks.searchGoogle', state.settingsApp.settingsLinks.searchGoogle)
-    },
-    setSettingsLinksSearchGoogleKey(state, data) {
-      state.settingsApp.settingsLinks.searchGoogleKey = data
-      localStore.set('settingsLinks.searchGoogleKey', state.settingsApp.settingsLinks.searchGoogleKey)
     },
     setSettingsListsScalingEffect(state, data) {
       state.settingsApp.settingsLists.scalingEffect = data

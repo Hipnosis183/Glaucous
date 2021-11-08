@@ -20,6 +20,11 @@
         />
       </vi-select>
     </vi-section-content>
+    <!-- View platform groups. -->
+    <vi-section-content>
+      <p class="text-xl">View platform groups</p>
+      <vi-switch v-model="groupsView" />
+    </vi-section-content>
   </div>
 </template>
 
@@ -45,11 +50,16 @@ export default {
       get() { return store.getters.getSettingsGeneralGameCategory },
       set(value) { store.commit('setSettingsGeneralGameCategory', value) }
     })
+    const groupsView = computed({
+      get() { return store.getters.getSettingsGeneralGroupsView },
+      set() { store.commit('setSettingsGeneralGroupsView') }
+    })
 
     return {
       editMode,
       gameCategory,
-      gameCategoryOptions
+      gameCategoryOptions,
+      groupsView
     }
   }
 }
