@@ -55,7 +55,7 @@ import { newGameVersion } from '@/database/controllers/Game'
 import {
   FormGameImages,
   FormGameLinks,
-  FormGameVersionComments,
+  FormGameVersionNotes,
   FormGameVersionName,
   FormGameVersionNumber,
   FormGameVersionType
@@ -66,7 +66,7 @@ export default {
   components: {
     FormGameImages,
     FormGameLinks,
-    FormGameVersionComments,
+    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

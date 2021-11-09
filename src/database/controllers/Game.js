@@ -134,7 +134,7 @@ async function createGameVersion(req) {
         type: req.type,
         name: req.name,
         number: req.number,
-        comments: req.comments
+        notes: req.notes
     })
     // Save model to database.
     await GameVersion.save()
@@ -170,7 +170,7 @@ export async function updateGame(req, id) {
         type: req.gameVersion.type,
         name: req.gameVersion.name,
         number: req.gameVersion.number,
-        comments: req.gameVersion.comments
+        notes: req.gameVersion.notes
     })
     // Set game storage path.
     let storePath = old.platform + '/' + id.gamePlatform

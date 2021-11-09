@@ -27,8 +27,8 @@ import FormGamePlatformTags from './Game/Platform/FormGamePlatformTags.vue'
 import FormGameRegionRegion from './Game/Region/FormGameRegionRegion.vue'
 import FormGameRegionTitle from './Game/Region/FormGameRegionTitle.vue'
 // Game version form.
-import FormGameVersionComments from './Game/Version/FormGameVersionComments.vue'
 import FormGameVersionName from './Game/Version/FormGameVersionName.vue'
+import FormGameVersionNotes from './Game/Version/FormGameVersionNotes.vue'
 import FormGameVersionNumber from './Game/Version/FormGameVersionNumber.vue'
 import FormGameVersionType from './Game/Version/FormGameVersionType.vue'
 
@@ -62,7 +62,7 @@ export {
     FormGameRegionRegion,
     FormGameRegionTitle,
     // Game version form.
-    FormGameVersionComments,
+    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

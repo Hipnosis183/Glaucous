@@ -93,7 +93,7 @@ import {
   FormGamePlatformTags,
   FormGameRegionRegion,
   FormGameRegionTitle,
-  FormGameVersionComments,
+  FormGameVersionNotes,
   FormGameVersionName,
   FormGameVersionNumber,
   FormGameVersionType
@@ -112,7 +112,7 @@ export default {
     FormGamePlatformTags,
     FormGameRegionRegion,
     FormGameRegionTitle,
-    FormGameVersionComments,
+    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

@@ -91,19 +91,19 @@
         </div>
       </div>
     </div>
-    <!-- Comments list. -->
+    <!-- Notes list. -->
     <div class="flex mb-6">
-      <h1 class="data-title">Comments</h1>
+      <h1 class="data-title">Notes</h1>
     </div>
     <div class="mt-1 text-lg">
       <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
-        <div v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].comments.length > 0">
+        <div v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].notes.length > 0">
           <li
-            v-for="comment in gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].comments"
-            :key="comment"
-            :value="comment"
+            v-for="note in gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].notes"
+            :key="note"
+            :value="note"
             class="text-justify"
-          >{{ comment }}</li>
+          >{{ note }}</li>
         </div>
         <div v-else>
           <li>None</li>

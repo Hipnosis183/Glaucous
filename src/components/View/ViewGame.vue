@@ -410,7 +410,7 @@ export default {
           type: null,
           name: null,
           number: null,
-          comments: [],
+          notes: [],
           links: [],
         }]
       }]

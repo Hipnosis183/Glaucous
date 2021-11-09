@@ -7,7 +7,7 @@ class GameVersionModel extends Document {
             type: { type: String },
             name: { type: String },
             number: { type: String },
-            comments: { type: [String] }
+            notes: { type: [String] }
         })
     }
     static collectionName() {

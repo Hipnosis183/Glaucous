@@ -152,7 +152,7 @@ export default createStore({
         type: null,
         name: null,
         number: null,
-        comments: [],
+        notes: [],
         links: [],
         images: {
           cover: {
@@ -633,6 +633,10 @@ export default createStore({
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
         state.gameForm.gamePlatform.gameTags.push(tag._id)
       }
+      state.gameForm.gameVersion.notes = []
+      if (game.version.notes) for (let comment of game.version.notes) {
+        state.gameForm.gameVersion.notes.push(comment)
+      }
       state.gameForm.gamePlatform.links = []
       if (game.platform.links) for (let link of game.platform.links) {
         state.gameForm.gamePlatform.links.push(link)
@@ -644,10 +648,6 @@ export default createStore({
       state.gameForm.gameVersion.links = []
       if (game.version.links) for (let link of game.version.links) {
         state.gameForm.gameVersion.links.push(link)
-      }
-      state.gameForm.gameVersion.comments = []
-      if (game.version.comments) for (let comment of game.version.comments) {
-        state.gameForm.gameVersion.comments.push(comment)
       }
     },
     resetGameForm(state) {
@@ -681,7 +681,7 @@ export default createStore({
       state.gameForm.gameVersion.type = null
       state.gameForm.gameVersion.name = null
       state.gameForm.gameVersion.number = null
-      state.gameForm.gameVersion.comments = []
+      state.gameForm.gameVersion.notes = []
       state.gameForm.gameVersion.links = []
       state.gameForm.gameVersion.images.cover.add = null
       state.gameForm.gameVersion.images.cover.remove = false
@@ -800,14 +800,14 @@ export default createStore({
     setGameVersionNumber(state, data) {
       state.gameForm.gameVersion.number = data
     },
-    setGameVersionComments(state, data) {
-      state.gameForm.gameVersion.comments = data
+    setGameVersionNotes(state, data) {
+      state.gameForm.gameVersion.notes = data
     },
-    setGameVersionCommentsAdd(state, data) {
-      state.gameForm.gameVersion.comments.push(data)
+    setGameVersionNotesAdd(state, data) {
+      state.gameForm.gameVersion.notes.push(data)
     },
-    setGameVersionCommentsRemove(state, data) {
-      state.gameForm.gameVersion.comments.splice(data, 1)
+    setGameVersionNotesRemove(state, data) {
+      state.gameForm.gameVersion.notes.splice(data, 1)
     },
     setGameVersionLinks(state, data) {
       state.gameForm.gameVersion.links = data

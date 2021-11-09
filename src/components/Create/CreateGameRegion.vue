@@ -74,7 +74,7 @@ import {
   FormGamePlatformSerial,
   FormGameRegionRegion,
   FormGameRegionTitle,
-  FormGameVersionComments,
+  FormGameVersionNotes,
   FormGameVersionName,
   FormGameVersionNumber,
   FormGameVersionType
@@ -88,7 +88,7 @@ export default {
     FormGamePlatformSerial,
     FormGameRegionRegion,
     FormGameRegionTitle,
-    FormGameVersionComments,
+    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType
