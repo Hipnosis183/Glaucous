@@ -107,6 +107,7 @@ export default createStore({
         releaseYear: null,
         numberPlayers: null,
         gameTags: [],
+        notes: [],
         links: [],
         images: {
           cover: {
@@ -132,6 +133,7 @@ export default createStore({
         translatedTitle: null,
         region: null,
         serial: null,
+        notes: [],
         links: [],
         images: {
           cover: {
@@ -633,6 +635,14 @@ export default createStore({
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
         state.gameForm.gamePlatform.gameTags.push(tag._id)
       }
+      state.gameForm.gamePlatform.notes = []
+      if (game.platform.notes) for (let comment of game.platform.notes) {
+        state.gameForm.gamePlatform.notes.push(comment)
+      }
+      state.gameForm.gameRegion.notes = []
+      if (game.region.notes) for (let comment of game.region.notes) {
+        state.gameForm.gameRegion.notes.push(comment)
+      }
       state.gameForm.gameVersion.notes = []
       if (game.version.notes) for (let comment of game.version.notes) {
         state.gameForm.gameVersion.notes.push(comment)
@@ -656,6 +666,7 @@ export default createStore({
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
       state.gameForm.gamePlatform.gameTags = []
+      state.gameForm.gamePlatform.notes = []
       state.gameForm.gamePlatform.links = []
       state.gameForm.gamePlatform.images.cover.add = null
       state.gameForm.gamePlatform.images.cover.remove = false
@@ -671,6 +682,7 @@ export default createStore({
       state.gameForm.gameRegion.translatedTitle = null
       state.gameForm.gameRegion.region = null
       state.gameForm.gameRegion.serial = null
+      state.gameForm.gameRegion.notes = []
       state.gameForm.gameRegion.links = []
       state.gameForm.gameRegion.images.cover.add = null
       state.gameForm.gameRegion.images.cover.remove = false
@@ -701,6 +713,15 @@ export default createStore({
     },
     setGamePlatformNumberPlayers(state, data) {
       state.gameForm.gamePlatform.numberPlayers = data
+    },
+    setGamePlatformNotes(state, data) {
+      state.gameForm.gamePlatform.notes = data
+    },
+    setGamePlatformNotesAdd(state, data) {
+      state.gameForm.gamePlatform.notes.push(data)
+    },
+    setGamePlatformNotesRemove(state, data) {
+      state.gameForm.gamePlatform.notes.splice(data, 1)
     },
     setGamePlatformLinks(state, data) {
       state.gameForm.gamePlatform.links = data
@@ -762,6 +783,15 @@ export default createStore({
     },
     setGameRegionSerial(state, data) {
       state.gameForm.gameRegion.serial = data
+    },
+    setGameRegionNotes(state, data) {
+      state.gameForm.gameRegion.notes = data
+    },
+    setGameRegionNotesAdd(state, data) {
+      state.gameForm.gameRegion.notes.push(data)
+    },
+    setGameRegionNotesRemove(state, data) {
+      state.gameForm.gameRegion.notes.splice(data, 1)
     },
     setGameRegionLinks(state, data) {
       state.gameForm.gameRegion.links = data

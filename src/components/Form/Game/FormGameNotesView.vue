@@ -1,45 +1,45 @@
 <template>
-  <!-- Open links dialog. -->
+  <!-- Open notes dialog. -->
   <vi-dialog class="pos-initial z-10">
     <!-- Validation error dialog. -->
     <vi-dialog-box
       v-show="validationErrorDialog"
       @accept="validationErrorShow()"
     >
-      Enter a valid URL.
+      Enter some text first.
     </vi-dialog-box>
     <!-- Padding. -->
     <div class="w-80" />
     <!-- Header. -->
     <div class="flex justify-between mb-6 mx-2">
       <!-- Title. -->
-      <p class="mr-10 pt-1 text-2xl">Links</p>
+      <p class="mr-10 pt-1 text-2xl">Notes</p>
       <!-- Buttons. -->
       <vi-button
         button-icon="icon-add"
-        @click="linkAdd()"
+        @click="noteAdd()"
       />
     </div>
-    <!-- Links input. -->
+    <!-- Notes input. -->
     <vi-input
-      v-model="link"
-      label="Links"
-      placeholder="https://www.viridian.com/"
+      v-model="note"
+      label="Notes"
+      placeholder="Add a note or comment..."
     />
-    <!-- Links list section. -->
-    <div v-if="gameLinks.length > 0">
+    <!-- Notes list section. -->
+    <div v-if="gameNotes.length > 0">
       <!-- Separator. -->
       <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
-      <!-- List links. -->
+      <!-- List notes. -->
       <div class="space-y-2">
         <div
-          v-for="(item, index) in gameLinks"
+          v-for="(item, index) in gameNotes"
           :key="item"
           :value="item"
         >
           <vi-chip
             chip-large
-            @remove="linkRemove(index)"
+            @remove="noteRemove(index)"
           >{{ item }}</vi-chip>
         </div>
       </div>
@@ -53,7 +53,7 @@ import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  name: 'FormGameLinksView',
+  name: 'FormGameNotesView',
   props: {
     gameType: { type: String }
   },
@@ -61,32 +61,25 @@ export default {
     // Instantiate Vue elements.
     const store = useStore()
 
-    // Manage links operations.
-    let link = ref(null)
-    const gameLinks = computed(() => {
-      return store.state.gameForm['g' + props.gameType.slice(1)].links
+    // Manage notes operations.
+    let note = ref(null)
+    const gameNotes = computed(() => {
+      return store.state.gameForm['g' + props.gameType.slice(1)].notes
     })
-    const linkAdd = () => {
-      try {
-        // Check for a valid URL.
-        new URL(link.value)
-        // Save link into the store.
-        store.commit('set' + props.gameType + 'LinksAdd', link.value, sortLinksList)
-        // Reset link input.
-        link.value = null
-      }
-      catch {
-        // Invalid URL.
+    const noteAdd = () => {
+      // Validate required fields.
+      if (!note.value) {
         validationErrorShow()
+        return
       }
+      // Save note into the store.
+      store.commit('set' + props.gameType + 'NotesAdd', note.value)
+      // Reset note input.
+      note.value = null
     }
-    const linkRemove = (link) => {
-      // Remove link from the store.
-      store.commit('set' + props.gameType + 'LinksRemove', link)
-    }
-    const sortLinksList = (a, b) => {
-      // Compare function that returns natural ordered elements.
-      return a.localeCompare(b, navigator.language, { numeric: true, ignorePunctuation: true })
+    const noteRemove = (com) => {
+      // Remove note from the store.
+      store.commit('set' + props.gameType + 'NotesRemove', com)
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
@@ -95,10 +88,10 @@ export default {
     }
 
     return {
-      gameLinks,
-      link,
-      linkAdd,
-      linkRemove,
+      gameNotes,
+      note,
+      noteAdd,
+      noteRemove,
       validationErrorDialog,
       validationErrorShow
     }

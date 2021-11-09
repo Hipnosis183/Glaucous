@@ -13,7 +13,8 @@ class GameRegionModel extends Document {
             romanizedTitle: { type: String },
             translatedTitle: { type: String },
             region: { type: String },
-            serial: { type: String }
+            serial: { type: String },
+            notes: { type: [String] }
         })
     }
     static collectionName() {

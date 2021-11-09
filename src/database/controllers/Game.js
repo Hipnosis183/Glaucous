@@ -99,7 +99,8 @@ async function createGamePlatform(req) {
         platform: req.platform,
         releaseYear: req.releaseYear,
         numberPlayers: req.numberPlayers,
-        gameTags: req.gameTags
+        gameTags: req.gameTags,
+        notes: req.notes
     })
     // Save model to database.
     await GamePlatform.save()
@@ -118,7 +119,8 @@ async function createGameRegion(req) {
         romanizedTitle: req.romanizedTitle,
         translatedTitle: req.translatedTitle,
         region: req.region,
-        serial: req.serial
+        serial: req.serial,
+        notes: req.notes
     })
     // Save model to database.
     await GameRegion.save()
@@ -152,7 +154,8 @@ export async function updateGame(req, id) {
         platform: req.gamePlatform.platform,
         releaseYear: req.gamePlatform.releaseYear,
         numberPlayers: req.gamePlatform.numberPlayers,
-        gameTags: req.gamePlatform.gameTags
+        gameTags: req.gamePlatform.gameTags,
+        notes: req.gamePlatform.notes
     })
     // Update the game region.
     await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, {
@@ -163,7 +166,8 @@ export async function updateGame(req, id) {
         romanizedTitle: req.gameRegion.romanizedTitle,
         translatedTitle: req.gameRegion.translatedTitle,
         region: req.gameRegion.region,
-        serial: req.gameRegion.serial
+        serial: req.gameRegion.serial,
+        notes: req.gameRegion.notes
     })
     // Update the game version.
     await GameVersionModel.findOneAndUpdate({ _id: id.gameVersion }, {

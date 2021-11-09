@@ -13,7 +13,8 @@ class GamePlatformModel extends Document {
             platform: { type: PlatformModel, required: true },
             releaseYear: { type: String },
             numberPlayers: { type: String },
-            gameTags: { type: [String] }
+            gameTags: { type: [String] },
+            notes: { type: [String] }
         })
     }
     static collectionName() {

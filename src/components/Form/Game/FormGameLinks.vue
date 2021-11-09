@@ -1,53 +1,55 @@
 <template>
-  <!-- Show game platform links dialog. -->
-  <form-game-links-view
-    v-show="linksPlatformDisplay"
-    game-type="GamePlatform"
-    @close="linksPlatformShow()"
-  />
-  <!-- Show game region links dialog. -->
-  <form-game-links-view
-    v-show="linksRegionDisplay"
-    game-type="GameRegion"
-    @close="linksRegionShow()"
-  />
-  <!-- Show game version links dialog. -->
-  <form-game-links-view
-    v-show="linksVersionDisplay"
-    game-type="GameVersion"
-    @close="linksVersionShow()"
-  />
-  <!-- Links form. -->
-  <vi-input-group
-    label="Links"
-    class="w-full"
-  >
-    <vi-input-button
-      first-element
-      v-if="showPlatform"
-      @click="linksPlatformShow()"
-      class="w-1/3"
+  <div class="flex w-full">
+    <!-- Show game platform links dialog. -->
+    <form-game-links-view
+      v-show="linksPlatformDisplay"
+      game-type="GamePlatform"
+      @close="linksPlatformShow()"
+    />
+    <!-- Show game region links dialog. -->
+    <form-game-links-view
+      v-show="linksRegionDisplay"
+      game-type="GameRegion"
+      @close="linksRegionShow()"
+    />
+    <!-- Show game version links dialog. -->
+    <form-game-links-view
+      v-show="linksVersionDisplay"
+      game-type="GameVersion"
+      @close="linksVersionShow()"
+    />
+    <!-- Links form. -->
+    <vi-input-group
+      label="Links"
+      class="w-full"
     >
-      Platform
-    </vi-input-button>
-    <vi-input-button
-      v-if="showRegion"
-      :first-element="!showPlatform"
-      @click="linksRegionShow()"
-      :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
-    >
-      Region
-    </vi-input-button>
-    <vi-input-button
-      v-if="showVersion"
-      :first-element="!showPlatform && !showRegion"
-      last-element
-      @click="linksVersionShow()"
-      :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
-    >
-      Version
-    </vi-input-button>
-  </vi-input-group>
+      <vi-input-button
+        first-element
+        v-if="showPlatform"
+        @click="linksPlatformShow()"
+        class="w-1/3"
+      >
+        Platform
+      </vi-input-button>
+      <vi-input-button
+        v-if="showRegion"
+        :first-element="!showPlatform"
+        @click="linksRegionShow()"
+        :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
+      >
+        Region
+      </vi-input-button>
+      <vi-input-button
+        v-if="showVersion"
+        :first-element="!showPlatform && !showRegion"
+        last-element
+        @click="linksVersionShow()"
+        :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
+      >
+        Version
+      </vi-input-button>
+    </vi-input-group>
+  </div>
 </template>
 
 <script>

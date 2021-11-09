@@ -97,9 +97,9 @@
     </div>
     <div class="mt-1 text-lg">
       <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
-        <div v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].notes.length > 0">
+        <div v-if="getNotes().length > 0">
           <li
-            v-for="note in gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].notes"
+            v-for="note in getNotes()"
             :key="note"
             :value="note"
             class="text-justify"
@@ -125,13 +125,18 @@ export default {
     regionIndex: { type: Number },
     versionIndex: { type: Number }
   },
-  setup() {
+  setup(props) {
     // Manage details information.
     const typeOptions = [
       { i: 'patch', name: 'Patch' },
       { i: 'romhack', name: 'ROM Hack' },
       { i: 'translation', name: 'Translation' }
     ]
+
+    // Manage game notes.
+    const getNotes = () => {
+      return props.gameInfo.notes.concat(props.gameInfo.gameRegions[props.regionIndex].notes, props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex].notes)
+    }
 
     // Manage details display.
     let gameDetailsDialog = ref(false)
@@ -143,6 +148,7 @@ export default {
     return {
       gameDetailsDialog,
       gameDetailsShow,
+      getNotes,
       typeOptions
     }
   }

@@ -35,7 +35,10 @@
           <form-game-version-type />
           <form-game-version-number />
         </div>
-        <form-game-links show-version />
+        <div class="flex space-x-4">
+          <form-game-links show-version />
+          <form-game-notes show-version />
+        </div>
       </div>
     </div>
     <!-- Required fields aclaration. -->
@@ -55,7 +58,7 @@ import { newGameVersion } from '@/database/controllers/Game'
 import {
   FormGameImages,
   FormGameLinks,
-  FormGameVersionNotes,
+  FormGameNotes,
   FormGameVersionName,
   FormGameVersionNumber,
   FormGameVersionType
@@ -66,7 +69,7 @@ export default {
   components: {
     FormGameImages,
     FormGameLinks,
-    FormGameVersionNotes,
+    FormGameNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

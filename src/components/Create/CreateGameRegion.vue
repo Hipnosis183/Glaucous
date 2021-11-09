@@ -48,10 +48,16 @@
           <form-game-version-type />
           <form-game-version-number />
         </div>
-        <form-game-links
-          show-region
-          show-version
-        />
+        <div class="flex space-x-4">
+          <form-game-links
+            show-region
+            show-version
+          />
+          <form-game-notes
+            show-region
+            show-version
+          />
+        </div>
       </div>
     </div>
     <!-- Required fields aclaration. -->
@@ -71,10 +77,10 @@ import { newGameRegion } from '@/database/controllers/Game'
 import {
   FormGameImages,
   FormGameLinks,
+  FormGameNotes,
   FormGamePlatformSerial,
   FormGameRegionRegion,
   FormGameRegionTitle,
-  FormGameVersionNotes,
   FormGameVersionName,
   FormGameVersionNumber,
   FormGameVersionType
@@ -85,10 +91,10 @@ export default {
   components: {
     FormGameImages,
     FormGameLinks,
+    FormGameNotes,
     FormGamePlatformSerial,
     FormGameRegionRegion,
     FormGameRegionTitle,
-    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

@@ -60,11 +60,18 @@
         </div>
       </div>
     </div>
-    <form-game-links
-      show-platform
-      show-region
-      show-version
-    />
+    <div class="flex space-x-4">
+      <form-game-links
+        show-platform
+        show-region
+        show-version
+      />
+      <form-game-notes
+        show-platform
+        show-region
+        show-version
+      />
+    </div>
     <!-- Required fields aclaration. -->
     <p class="mt-8 text-center text-sm">
       * The fields with red text are required
@@ -85,6 +92,7 @@ import { createTag, getTag } from '@/database/controllers/User'
 import {
   FormGameImages,
   FormGameLinks,
+  FormGameNotes,
   FormGamePlatformDeveloper,
   FormGamePlatformNumberPlayers,
   FormGamePlatformPlatform,
@@ -93,7 +101,6 @@ import {
   FormGamePlatformTags,
   FormGameRegionRegion,
   FormGameRegionTitle,
-  FormGameVersionNotes,
   FormGameVersionName,
   FormGameVersionNumber,
   FormGameVersionType
@@ -104,6 +111,7 @@ export default {
   components: {
     FormGameImages,
     FormGameLinks,
+    FormGameNotes,
     FormGamePlatformDeveloper,
     FormGamePlatformNumberPlayers,
     FormGamePlatformPlatform,
@@ -112,7 +120,6 @@ export default {
     FormGamePlatformTags,
     FormGameRegionRegion,
     FormGameRegionTitle,
-    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

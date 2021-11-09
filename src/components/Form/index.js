@@ -16,6 +16,7 @@ import FormTagName from './Tag/FormTagName.vue'
 // Game form.
 import FormGameImages from './Game/FormGameImages.vue'
 import FormGameLinks from './Game/FormGameLinks.vue'
+import FormGameNotes from './Game/FormGameNotes.vue'
 // Game platform form.
 import FormGamePlatformDeveloper from './Game/Platform/FormGamePlatformDeveloper.vue'
 import FormGamePlatformNumberPlayers from './Game/Platform/FormGamePlatformNumberPlayers.vue'
@@ -28,7 +29,6 @@ import FormGameRegionRegion from './Game/Region/FormGameRegionRegion.vue'
 import FormGameRegionTitle from './Game/Region/FormGameRegionTitle.vue'
 // Game version form.
 import FormGameVersionName from './Game/Version/FormGameVersionName.vue'
-import FormGameVersionNotes from './Game/Version/FormGameVersionNotes.vue'
 import FormGameVersionNumber from './Game/Version/FormGameVersionNumber.vue'
 import FormGameVersionType from './Game/Version/FormGameVersionType.vue'
 
@@ -51,6 +51,7 @@ export {
     // Game form.
     FormGameImages,
     FormGameLinks,
+    FormGameNotes,
     // Game platform form.
     FormGamePlatformDeveloper,
     FormGamePlatformNumberPlayers,
@@ -62,7 +63,6 @@ export {
     FormGameRegionRegion,
     FormGameRegionTitle,
     // Game version form.
-    FormGameVersionNotes,
     FormGameVersionName,
     FormGameVersionNumber,
     FormGameVersionType

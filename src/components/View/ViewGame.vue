@@ -395,6 +395,7 @@ export default {
       releaseYear: null,
       numberPlayers: null,
       gameTags: [],
+      notes: [],
       links: [],
       gamePlatforms: [],
       gameRegions: [{
@@ -405,6 +406,7 @@ export default {
         translatedTitle: null,
         region: null,
         serial: null,
+        notes: [],
         links: [],
         gameVersions: [{
           type: null,
