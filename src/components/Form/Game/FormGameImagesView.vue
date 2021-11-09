@@ -1,6 +1,5 @@
 <template>
   <vi-dialog
-    @close="$emit('close')"
     height="h-full"
     width="w-full"
     class="pos-initial z-10"

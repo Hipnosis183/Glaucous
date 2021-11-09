@@ -15,10 +15,9 @@ import FormPlaylistName from './Playlist/FormPlaylistName.vue'
 import FormTagName from './Tag/FormTagName.vue'
 // Game form.
 import FormGameImages from './Game/FormGameImages.vue'
-import FormGameImagesView from './Game/FormGameImagesView.vue'
+import FormGameLinks from './Game/FormGameLinks.vue'
 // Game platform form.
 import FormGamePlatformDeveloper from './Game/Platform/FormGamePlatformDeveloper.vue'
-import FormGamePlatformLinks from './Game/Platform/FormGamePlatformLinks.vue'
 import FormGamePlatformNumberPlayers from './Game/Platform/FormGamePlatformNumberPlayers.vue'
 import FormGamePlatformPlatform from './Game/Platform/FormGamePlatformPlatform.vue'
 import FormGamePlatformReleaseYear from './Game/Platform/FormGamePlatformReleaseYear.vue'
@@ -51,10 +50,9 @@ export {
     FormTagName,
     // Game form.
     FormGameImages,
-    FormGameImagesView,
+    FormGameLinks,
     // Game platform form.
     FormGamePlatformDeveloper,
-    FormGamePlatformLinks,
     FormGamePlatformNumberPlayers,
     FormGamePlatformPlatform,
     FormGamePlatformReleaseYear,

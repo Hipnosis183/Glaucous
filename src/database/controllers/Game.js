@@ -30,13 +30,16 @@ export async function newGamePlatform(req, id) {
     await createGameRegion(req.gameRegion)
     // Create platform for the game.
     await createGamePlatform(req.gamePlatform)
+    // Set game storage path.
+    let storePath = req.gamePlatform.platform + '/' + gamePlatform
     // Store uploaded images for the game.
-    let imagesPath = req.gamePlatform.platform + '/' + gamePlatform
-    await storeImages(req.gamePlatform.images, imagesPath)
-    await storeImages(req.gameRegion.images, imagesPath + '/' + gameRegion)
-    await storeImages(req.gameVersion.images, imagesPath + '/' + gameRegion + '/' + gameVersion)
+    await storeImages(req.gamePlatform.images, storePath)
+    await storeImages(req.gameRegion.images, storePath + '/' + gameRegion)
+    await storeImages(req.gameVersion.images, storePath + '/' + gameRegion + '/' + gameVersion)
     // Store links for the game.
-    await storeLinks(req.gamePlatform)
+    await storeLinks(req.gamePlatform.links, storePath, gamePlatform)
+    await storeLinks(req.gameRegion.links, storePath + '/' + gameRegion, gameRegion)
+    await storeLinks(req.gameVersion.links, storePath + '/' + gameRegion + '/' + gameVersion, gameVersion)
     // Link to other games if an ID is given.
     if (id) await getGamePlatform(gamePlatform)
         .then(async (res) => {
@@ -55,10 +58,14 @@ export async function newGameRegion(req, id) {
         .then(async (res) => {
             res.gameRegions.push(gameRegion)
             await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, { gameRegions: res.gameRegions })
+            // Set game storage path.
+            let storePath = res.platform + '/' + id.gamePlatform + '/' + gameRegion
             // Store uploaded images for the game.
-            let imagesPath = res.platform + '/' + id.gamePlatform + '/' + gameRegion
-            await storeImages(req.gameRegion.images, imagesPath)
-            await storeImages(req.gameVersion.images, imagesPath + '/' + gameVersion)
+            await storeImages(req.gameRegion.images, storePath)
+            await storeImages(req.gameVersion.images, storePath + '/' + gameVersion)
+            // Store links for the game.
+            await storeLinks(req.gameRegion.links, storePath, gameRegion)
+            await storeLinks(req.gameVersion.links, storePath + '/' + gameVersion, gameVersion)
         })
 }
 
@@ -71,9 +78,12 @@ export async function newGameVersion(req, pla, id) {
         .then(async (res) => {
             res.gameVersions.push(gameVersion)
             await GameRegionModel.findOneAndUpdate({ _id: id.gameRegion }, { gameVersions: res.gameVersions })
+            // Set game storage path.
+            let storePath = pla + '/' + id.gamePlatform + '/' + id.gameRegion + '/' + gameVersion
             // Store uploaded images for the game.
-            let imagesPath = pla + '/' + id.gamePlatform + '/' + id.gameRegion + '/' + gameVersion
-            await storeImages(req.gameVersion.images, imagesPath)
+            await storeImages(req.gameVersion.images, storePath)
+            // Store links for the game.
+            await storeLinks(req.gameVersion.links, storePath, gameVersion)
         })
 }
 
@@ -162,13 +172,16 @@ export async function updateGame(req, id) {
         number: req.gameVersion.number,
         comments: req.gameVersion.comments
     })
+    // Set game storage path.
+    let storePath = old.platform + '/' + id.gamePlatform
     // Update stored images for the game.
-    let imagesPath = old.platform + '/' + id.gamePlatform
-    await updateImages(req.gamePlatform.images, imagesPath)
-    await updateImages(req.gameRegion.images, imagesPath + '/' + id.gameRegion)
-    await updateImages(req.gameVersion.images, imagesPath + '/' + id.gameRegion + '/' + id.gameVersion)
+    await updateImages(req.gamePlatform.images, storePath)
+    await updateImages(req.gameRegion.images, storePath + '/' + id.gameRegion)
+    await updateImages(req.gameVersion.images, storePath + '/' + id.gameRegion + '/' + id.gameVersion)
     // Update stored links for the game.
-    await storeLinks(req.gamePlatform, id.gamePlatform)
+    await storeLinks(req.gamePlatform.links, storePath, id.gamePlatform)
+    await storeLinks(req.gameRegion.links, storePath + '/' + id.gameRegion, id.gameRegion)
+    await storeLinks(req.gameVersion.links, storePath + '/' + id.gameRegion + '/' + id.gameVersion, id.gameVersion)
     // Update game store directory.
     await updateStore(req.gamePlatform.platform, old.platform, id.gamePlatform)
 }
@@ -359,19 +372,17 @@ async function updateImages(images, path) {
 }
 
 // Store links for a specific game.
-async function storeLinks(req, id) {
-    // Set game platform ID.
-    gamePlatform = id ? id : gamePlatform
+async function storeLinks(links, path, id) {
     // Create links object.
     let linksFile = ''
-    for (let [i, link] of req.links.entries()) {
+    for (let [i, link] of links.entries()) {
         // Add link to object.
-        linksFile += link + (i != req.links.length - 1 ? '\n' : '')
+        linksFile += link + (i != links.length - 1 ? '\n' : '')
     }
     // Ensure link icons directory creation.
     ensureDirSync(app.getAppPath() + '/assets/links/')
     // Create links file.
-    outputFileSync(dataPathLinks + req.platform + '/' + gamePlatform + '/links', linksFile)
+    outputFileSync(dataPathLinks + path + '/' + id + '.txt', linksFile)
 }
 
 // Move the game directory if the platform has changed.

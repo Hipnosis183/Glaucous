@@ -132,6 +132,7 @@ export default createStore({
         translatedTitle: null,
         region: null,
         serial: null,
+        links: [],
         images: {
           cover: {
             add: null,
@@ -152,6 +153,7 @@ export default createStore({
         name: null,
         number: null,
         comments: [],
+        links: [],
         images: {
           cover: {
             add: null,
@@ -635,6 +637,14 @@ export default createStore({
       if (game.platform.links) for (let link of game.platform.links) {
         state.gameForm.gamePlatform.links.push(link)
       }
+      state.gameForm.gameRegion.links = []
+      if (game.region.links) for (let link of game.region.links) {
+        state.gameForm.gameRegion.links.push(link)
+      }
+      state.gameForm.gameVersion.links = []
+      if (game.version.links) for (let link of game.version.links) {
+        state.gameForm.gameVersion.links.push(link)
+      }
       state.gameForm.gameVersion.comments = []
       if (game.version.comments) for (let comment of game.version.comments) {
         state.gameForm.gameVersion.comments.push(comment)
@@ -661,6 +671,7 @@ export default createStore({
       state.gameForm.gameRegion.translatedTitle = null
       state.gameForm.gameRegion.region = null
       state.gameForm.gameRegion.serial = null
+      state.gameForm.gameRegion.links = []
       state.gameForm.gameRegion.images.cover.add = null
       state.gameForm.gameRegion.images.cover.remove = false
       state.gameForm.gameRegion.images.background.add = null
@@ -671,6 +682,7 @@ export default createStore({
       state.gameForm.gameVersion.name = null
       state.gameForm.gameVersion.number = null
       state.gameForm.gameVersion.comments = []
+      state.gameForm.gameVersion.links = []
       state.gameForm.gameVersion.images.cover.add = null
       state.gameForm.gameVersion.images.cover.remove = false
       state.gameForm.gameVersion.images.background.add = null
@@ -693,8 +705,9 @@ export default createStore({
     setGamePlatformLinks(state, data) {
       state.gameForm.gamePlatform.links = data
     },
-    setGamePlatformLinksAdd(state, data) {
+    setGamePlatformLinksAdd(state, data, sort) {
       state.gameForm.gamePlatform.links.push(data)
+      state.gameForm.gamePlatform.links.sort(sort)
     },
     setGamePlatformLinksRemove(state, data) {
       state.gameForm.gamePlatform.links.splice(data, 1)
@@ -750,6 +763,16 @@ export default createStore({
     setGameRegionSerial(state, data) {
       state.gameForm.gameRegion.serial = data
     },
+    setGameRegionLinks(state, data) {
+      state.gameForm.gameRegion.links = data
+    },
+    setGameRegionLinksAdd(state, data, sort) {
+      state.gameForm.gameRegion.links.push(data)
+      state.gameForm.gameRegion.links.sort(sort)
+    },
+    setGameRegionLinksRemove(state, data) {
+      state.gameForm.gameRegion.links.splice(data, 1)
+    },
     setGameRegionImagesBackgroundAdd(state, data) {
       state.gameForm.gameRegion.images.background.add = data
     },
@@ -785,6 +808,16 @@ export default createStore({
     },
     setGameVersionCommentsRemove(state, data) {
       state.gameForm.gameVersion.comments.splice(data, 1)
+    },
+    setGameVersionLinks(state, data) {
+      state.gameForm.gameVersion.links = data
+    },
+    setGameVersionLinksAdd(state, data, sort) {
+      state.gameForm.gameVersion.links.push(data)
+      state.gameForm.gameVersion.links.sort(sort)
+    },
+    setGameVersionLinksRemove(state, data) {
+      state.gameForm.gameVersion.links.splice(data, 1)
     },
     setGameVersionImagesBackgroundAdd(state, data) {
       state.gameForm.gameVersion.images.background.add = data

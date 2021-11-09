@@ -63,7 +63,7 @@
 
 <script>
 // Import Vue functions.
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 // Import functions from modules.
 import { app, shell } from '@electron/remote'
 import { existsSync, readFile, readFileSync } from 'fs-extra'
@@ -76,33 +76,53 @@ export default {
   props: {
     fullTitle: { type: String },
     gameInfo: { type: Object },
-    gameRegion: { type: Object }
+    regionIndex: { type: Number },
+    versionIndex: { type: Number }
   },
   setup(props, { emit }) {
-    // Load game links on mounting.
+    // Load game links.
     onMounted(() => { getLinks() })
-
-    // Manage game links.
     let gameLinks = ref([])
-    const getLinks = () => {
-      // Set the links file path for the game platform.
-      let linksPath = app.getAppPath() + '/data/links/' + props.gameInfo.platform._id + '/' + props.gameInfo._id + '/links'
-      if (existsSync(linksPath)) {
-        // Load links file.
-        readFile(linksPath, 'utf8')
-          .then((res) => {
-            gameLinks.value = []
+    const getLinks = async () => {
+      // Set the links directory path for all game types.
+      let gamePathPlatform = app.getAppPath() + '/data/links/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+      let gamePathRegion = '/' + props.gameInfo.gameRegions[props.regionIndex]._id
+      let gamePathVersion = '/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
+      // Load links files.
+      gameLinks.value = []
+      let linksPath = []
+      linksPath.push(gamePathPlatform + '/' + props.gameInfo._id + '.txt')
+      linksPath.push(gamePathPlatform + gamePathRegion + gamePathRegion + '.txt')
+      linksPath.push(gamePathPlatform + gamePathRegion + gamePathVersion + gamePathVersion + '.txt')
+      let linksList = { gamePlatform: [], gameRegion: [], gameVersion: [] }
+      for (let [index, path] of linksPath.entries()) {
+        if (existsSync(path)) {
+          await readFile(path, 'utf8').then((res) => {
             let links = res.split('\n').filter((res) => res != '')
             for (let link of links) {
               gameLinks.value.push(new URL(link))
+              switch (index) {
+                case 0: linksList.gamePlatform.push(new URL(link)); break
+                case 1: linksList.gameRegion.push(new URL(link)); break
+                case 2: linksList.gameVersion.push(new URL(link)); break
+              }
             }
-            // Sort game links.
-            gameLinks.value = gameLinks.value.sort(sortLinksList)
-            // Send event to parent with the loaded data.
-            emit('loaded', links)
           })
+        }
       }
+      // Build and sort game links list.
+      gameLinks.value.forEach((res, i) => {
+        gameLinks.value[i].hostname = gameLinks.value[i].hostname.replace(/^www\./, '')
+      })
+      gameLinks.value = gameLinks.value.sort(sortLinksList)
+      // Send event to parent with the loaded data.
+      emit('loaded', linksList)
     }
+
+    // Watch for game selection changes.
+    watch(() => [props.regionIndex, props.versionIndex], () => { getLinks() })
+
+    // Manage game links.
     const getLinkIcon = (link) => {
       // Strip 'www.' and top level domain ('.com') from link if present.
       let linkName = link.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.')
@@ -140,12 +160,12 @@ export default {
     }
     const queryGoogle = [
       { i: 0, name: 'Search game full title', value: props.fullTitle },
-      { i: 1, name: 'Search game original title', value: props.gameRegion.originalTitle },
+      { i: 1, name: 'Search game original title', value: props.gameInfo.gameRegions[props.regionIndex].originalTitle },
       { i: 2, name: 'Search game developer', value: props.gameInfo.developer.name }
     ]
     const getLinkGoogle = () => {
       // Avoid showing original title search if it's not set.
-      return props.gameRegion.originalTitle ? queryGoogle
+      return props.gameInfo.gameRegions[props.regionIndex].originalTitle ? queryGoogle
         : queryGoogle.filter((res) => res.i != 1)
     }
 

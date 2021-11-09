@@ -260,7 +260,8 @@
                           :key="gameInfo"
                           :full-title="fullTitle"
                           :game-info="gameInfo"
-                          :game-region="gameInfo.gameRegions[regionIndex]"
+                          :region-index="regionIndex"
+                          :version-index="versionIndex"
                           @loaded="loadLinks($event)"
                         />
                         <!-- Open game playlists management dialog. -->
@@ -404,11 +405,13 @@ export default {
         translatedTitle: null,
         region: null,
         serial: null,
+        links: [],
         gameVersions: [{
           type: null,
           name: null,
           number: null,
-          comments: []
+          comments: [],
+          links: [],
         }]
       }]
     })
@@ -441,7 +444,9 @@ export default {
     }
     const loadLinks = (res) => {
       // Get links.
-      gameInfo.value.links = res
+      gameInfo.value.links = res.gamePlatform
+      gameInfo.value.gameRegions[regionIndex.value].links = res.gameRegion
+      gameInfo.value.gameRegions[regionIndex.value].gameVersions[versionIndex.value].links = res.gameVersion
     }
 
     // Manage game editing operations.

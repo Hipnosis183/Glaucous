@@ -35,6 +35,7 @@
           <form-game-version-type />
           <form-game-version-number />
         </div>
+        <form-game-links show-version />
       </div>
     </div>
     <!-- Required fields aclaration. -->
@@ -53,6 +54,7 @@ import { newGameVersion } from '@/database/controllers/Game'
 // Import form components.
 import {
   FormGameImages,
+  FormGameLinks,
   FormGameVersionComments,
   FormGameVersionName,
   FormGameVersionNumber,
@@ -63,6 +65,7 @@ export default {
   name: 'CreateGameRegion',
   components: {
     FormGameImages,
+    FormGameLinks,
     FormGameVersionComments,
     FormGameVersionName,
     FormGameVersionNumber,
