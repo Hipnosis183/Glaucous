@@ -290,6 +290,13 @@
                           :region-index="regionIndex"
                           :version-index="versionIndex"
                         />
+                        <!-- View game notes. -->
+                        <view-game-notes
+                          :key="gameInfo"
+                          :game-info="gameInfo"
+                          :region-index="regionIndex"
+                          :version-index="versionIndex"
+                        />
                       </div>
                     </div>
                     <!-- Bottom container. -->
@@ -358,6 +365,7 @@ import ViewGameGallery from './ViewGame/ViewGameGallery.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
+import ViewGameNotes from './ViewGame/ViewGameNotes.vue'
 import ViewGamePlaylists from './ViewGame/ViewGamePlaylists.vue'
 
 export default {
@@ -375,6 +383,7 @@ export default {
     ViewGameInfo,
     ViewGameLauncher,
     ViewGameLinks,
+    ViewGameNotes,
     ViewGamePlaylists
   },
   setup() {

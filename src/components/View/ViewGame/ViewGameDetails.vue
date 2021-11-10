@@ -44,7 +44,7 @@
     <div class="flex mb-6">
       <h1 class="data-title">ROM Information</h1>
     </div>
-    <div class="flex mb-8 space-x-6">
+    <div class="flex space-x-6">
       <div>
         <div class="data-content">
           <p class="font-semibold">Region:</p>
@@ -91,25 +91,6 @@
         </div>
       </div>
     </div>
-    <!-- Notes list. -->
-    <div class="flex mb-6">
-      <h1 class="data-title">Notes</h1>
-    </div>
-    <div class="mt-1 text-lg">
-      <ul class="list-disc list-inside text-theme-800 dark:text-theme-100">
-        <div v-if="getNotes().length > 0">
-          <li
-            v-for="note in getNotes()"
-            :key="note"
-            :value="note"
-            class="text-justify"
-          >{{ note }}</li>
-        </div>
-        <div v-else>
-          <li>None</li>
-        </div>
-      </ul>
-    </div>
   </vi-dialog>
 </template>
 
@@ -133,11 +114,6 @@ export default {
       { i: 'translation', name: 'Translation' }
     ]
 
-    // Manage game notes.
-    const getNotes = () => {
-      return props.gameInfo.notes.concat(props.gameInfo.gameRegions[props.regionIndex].notes, props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex].notes)
-    }
-
     // Manage details display.
     let gameDetailsDialog = ref(false)
     const gameDetailsShow = () => {
@@ -148,7 +124,6 @@ export default {
     return {
       gameDetailsDialog,
       gameDetailsShow,
-      getNotes,
       typeOptions
     }
   }

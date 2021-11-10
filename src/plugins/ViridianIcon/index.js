@@ -26,6 +26,7 @@ import IconLinking from './components/IconLinking.vue'
 import IconList from './components/IconList.vue'
 import IconMenu from './components/IconMenu.vue'
 import IconMinus from './components/IconMinus.vue'
+import IconNotes from './components/IconNotes.vue'
 import IconPicture from './components/IconPicture.vue'
 import IconPictureS from './components/IconPictureS.vue'
 import IconPin from './components/IconPin.vue'
@@ -72,6 +73,7 @@ export default {
         app.component('icon-list', IconList)
         app.component('icon-menu', IconMenu)
         app.component('icon-minus', IconMinus)
+        app.component('icon-notes', IconNotes)
         app.component('icon-picture', IconPicture)
         app.component('icon-picture-s', IconPictureS)
         app.component('icon-pin', IconPin)
