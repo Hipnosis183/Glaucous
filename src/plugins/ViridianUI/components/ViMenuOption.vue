@@ -1,6 +1,6 @@
 <template>
   <!-- Option item. -->
-  <li
+  <div
     @click="method"
     class="hover:bg-theme-200 dark:hover:bg-theme-600 duration-200 relative"
   >
@@ -13,7 +13,7 @@
         <p>{{ label }}</p>
       </slot>
     </div>
-  </li>
+  </div>
 </template>
 
 <script>

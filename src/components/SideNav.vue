@@ -69,7 +69,7 @@
             @click="searchShow()"
           >Search</vi-button-sb>
           <vi-button-sb
-            button-icon="icon-setting-f"
+            button-icon="icon-settings-s"
             button-large
             icon-size="w-6"
             @click="$router.push({ name: 'Settings' })"
@@ -149,7 +149,7 @@
             @click="searchShow()"
           />
           <vi-button-sb
-            button-icon="icon-setting-f"
+            button-icon="icon-settings-s"
             icon-size="w-6"
             @click="$router.push({ name: 'Settings' })"
           />

@@ -1,64 +1,56 @@
 <template>
-  <div class="flex">
-    <!-- Open view external links dialog. -->
-    <vi-button-ui
-      button-small="icon-link"
-      @click="gameLinksShow()"
-    />
-    <!-- View external links dialog. -->
-    <vi-dialog
-      v-show="gameLinksDialog"
-      @close="gameLinksShow()"
-      class="pos-initial z-10"
-    >
-      <!-- Padding. -->
-      <div class="w-80" />
-      <!-- Header. -->
-      <div class="flex justify-between mb-6 mx-2">
-        <!-- Title. -->
-        <p class="mr-10 pt-1 text-2xl">External Links</p>
-        <!-- Buttons. -->
-        <vi-button
-          button-icon="icon-close"
-          @click="gameLinksShow()"
-        />
-      </div>
-      <!-- Separator. -->
-      <div class="separator" />
-      <!-- List game links. -->
-      <div v-if="gameLinks.length > 0">
-        <div class="space-y-2">
-          <div
-            v-for="(link, index) in gameLinks"
-            :key="index"
-            @click="openLink(link)"
-            class="link-card"
-          >
-            <!-- Link icon image. -->
-            <img :src="getLinkIcon(link)" />
-            <!-- Link name text. -->
-            <p class="link-text">{{ getLinkText(link) }}</p>
-          </div>
-        </div>
-        <!-- Separator. -->
-        <div class="separator" />
-      </div>
-      <!-- List google links. -->
+  <!-- View external links dialog. -->
+  <vi-dialog
+    @close="$emit('close')"
+    class="pos-initial z-10"
+  >
+    <!-- Padding. -->
+    <div class="w-80" />
+    <!-- Header. -->
+    <div class="flex justify-between mb-6 mx-2">
+      <!-- Title. -->
+      <p class="mr-10 pt-1 text-2xl">External Links</p>
+      <!-- Buttons. -->
+      <vi-button
+        button-icon="icon-close"
+        @click="$emit('close')"
+      />
+    </div>
+    <!-- Separator. -->
+    <div class="separator" />
+    <!-- List game links. -->
+    <div v-if="gameLinks.length > 0">
       <div class="space-y-2">
         <div
-          v-for="link in getLinkGoogle()"
-          :key="link.i"
-          @click="openGoogle(link.value)"
+          v-for="(link, index) in gameLinks"
+          :key="index"
+          @click="openLink(link)"
           class="link-card"
         >
           <!-- Link icon image. -->
-          <img :src="'./images/links/google.com.svg'" />
+          <img :src="getLinkIcon(link)" />
           <!-- Link name text. -->
-          <p class="link-text">{{ link.name }}</p>
+          <p class="link-text">{{ getLinkText(link) }}</p>
         </div>
       </div>
-    </vi-dialog>
-  </div>
+      <!-- Separator. -->
+      <div class="separator" />
+    </div>
+    <!-- List google links. -->
+    <div class="space-y-2">
+      <div
+        v-for="link in getLinkGoogle()"
+        :key="link.i"
+        @click="openGoogle(link.value)"
+        class="link-card"
+      >
+        <!-- Link icon image. -->
+        <img :src="'./images/links/google.com.svg'" />
+        <!-- Link name text. -->
+        <p class="link-text">{{ link.name }}</p>
+      </div>
+    </div>
+  </vi-dialog>
 </template>
 
 <script>
@@ -71,6 +63,7 @@ import { existsSync, readFile, readFileSync } from 'fs-extra'
 export default {
   name: 'ViewGameLinks',
   emits: [
+    'close',
     'loaded'
   ],
   props: {
@@ -143,11 +136,6 @@ export default {
       // Compare function that returns natural ordered elements.
       return a.hostname.localeCompare(b.hostname, navigator.language, { numeric: true, ignorePunctuation: true })
     }
-    let gameLinksDialog = ref(false)
-    const gameLinksShow = () => {
-      // Toggle details dialog.
-      gameLinksDialog.value = !gameLinksDialog.value
-    }
 
     // Manage links opening.
     const openLink = (link) => {
@@ -171,8 +159,6 @@ export default {
 
     return {
       gameLinks,
-      gameLinksDialog,
-      gameLinksShow,
       getLinkGoogle,
       getLinkIcon,
       getLinkText,

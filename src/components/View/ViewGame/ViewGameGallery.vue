@@ -1,144 +1,142 @@
 <template>
-  <!-- Open game gallery. -->
-  <vi-button-ui
-    button-small="icon-picture-s"
-    @click="imagesGalleryShow()"
-  />
-  <!-- View selected picture. -->
-  <transition>
-    <vi-overlay
-      v-if="getPictures[imageIndex]"
-      v-show="imagesPicturesDialog"
-      @close="imagesPicturesClose()"
-      class="left-13 top-0 z-20"
-    >
-      <div
-        ref="imageContainer"
-        class="h-viewer mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-viewer"
-      >
-        <transition
-          :name="slideBack ? 'slide-b' : 'slide-f'"
-          class="absolute bottom-0 left-0 right-0 top-0"
-        >
-          <img
-            ref="pictureImage"
-            :key="imageIndex"
-            @click="imagesPicturesClose()"
-            @load="imagesPicturesLoad()"
-            :src="'file://' + imagePath + '/' + getPictures[imageIndex]"
-            class="object-contain rounded-xl"
-            :class="[
-              imageZoom
-                ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ]
-                : ['m-auto', imageLoaded ? 'h-viewer' : ''],
-              { 'rendering-pixelated' : imagesFiltering }
-            ]"
-          />
-        </transition>
-      </div>
-      <div class="mx-auto max-w-max">
-        <!-- Control bar. -->
-        <div class="flex h-10 justify-between mx-1 space-x-4">
-          <!-- Close dialog. -->
-          <vi-button
-            button-icon="icon-close"
-            @click="imagesPicturesClose()"
-          />
-          <!-- Control bar buttons. -->
-          <div class="flex h-10 rounded-full shadow-color">
-            <!-- Previous image. -->
-            <vi-button
-              button-icon="icon-arrow-left-d"
-              first-element
-              @click="prevImage()"
-              class="px-4"
-            />
-            <!-- Display image in its original size. -->
-            <vi-button
-              button-icon="icon-full-screen"
-              middle-element
-              @click="imageZoomToggle()"
-              class="px-4"
-            />
-            <!-- Next image. -->
-            <vi-button
-              button-icon="icon-arrow-right-d"
-              last-element
-              @click="nextImage()"
-              class="px-4"
-            />
-          </div>
-          <!-- Image counter. -->
-          <vi-button
-            color
-            class="cursor-default"
-          >
-            {{ (imageIndex + 1) + ' / ' + getPictures.length }}
-          </vi-button>
-        </div>
-      </div>
-    </vi-overlay>
-  </transition>
   <!-- View game gallery. -->
-  <transition>
-    <div
-      v-show="imagesGalleryDialog"
-      @close="imagesGalleryShow()"
-      class="fixed h-screen left-13 top-0 w-gallery z-10"
-    >
-      <div
-        v-if="getPictures[0]"
-        class="absolute bg-black bg-opacity-70 flex h-full items-center justify-center w-full"
-      >
-        <div class="absolute max-h-gallery max-w-gallery overflow-y-scroll rounded-image w-full">
-          <transition name="gallery">
-            <!-- Pictures grid. -->
-            <div class="flex-1 mr-6 no-scrollbar overflow-y-scroll">
-              <div class="grid grid-cols-image">
-                <div
-                  v-for="(image, index) in getPictures"
-                  :key="index"
-                  :value="image"
-                  class="flex h-full justify-center"
-                  :class="{ 'p-1' : $store.getters.getSettingsImagesContentSpacing }"
-                >
-                  <img
-                    @click="imagesPicturesOpen(index)"
-                    :src="'file://' + imagePath + '/' + image"
-                    class="border-2 border-transparent hover:border-color-500 dark:hover:border-color-700 cursor-pointer duration-200 object-cover rounded-image transform w-full"
-                    :class="[
-                      { 'rendering-pixelated' : imagesFiltering },
-                      // Disable scaling when the image is not filtered, otherwise it looks horrible.
-                      { 'hover:scale-102' : $store.getters.getSettingsImagesScalingEffect && ($store.getters.getSettingsImagesContentSpacing && $store.getters.getSettingsImagesGridColumns > 1 && !imagesFiltering) }
-                    ]"
-                  />
-                </div>
+  <vi-overlay
+    @close="$emit('close')"
+    :border="3"
+    :rounded="false"
+    height="h-full"
+    width="w-full"
+    class="pos-initial z-10"
+  >
+    <div v-if="getPictures[0]">
+      <!-- View selected picture. -->
+      <transition>
+        <vi-overlay
+          v-if="getPictures[imageIndex]"
+          v-show="imagesPicturesDialog"
+          @close="imagesPicturesClose()"
+          class="pos-initial z-20"
+        >
+          <div
+            ref="imageContainer"
+            class="h-viewer mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-viewer"
+          >
+            <transition
+              :name="slideBack ? 'slide-b' : 'slide-f'"
+              class="absolute bottom-0 left-0 right-0 top-0"
+            >
+              <img
+                ref="pictureImage"
+                :key="imageIndex"
+                @click="imagesPicturesClose()"
+                @load="imagesPicturesLoad()"
+                :src="'file://' + imagePath + '/' + getPictures[imageIndex]"
+                class="object-contain rounded-xl"
+                :class="[
+                  imageZoom
+                    ? ['h-auto mx-auto', imageCenter ? 'my-auto' : 'mt-0' ]
+                    : ['m-auto', imageLoaded ? 'h-viewer' : ''],
+                  { 'rendering-pixelated' : imagesFiltering }
+                ]"
+              />
+            </transition>
+          </div>
+          <div class="mx-auto max-w-max">
+            <!-- Control bar. -->
+            <div class="flex h-10 justify-between mx-1 space-x-4">
+              <!-- Close dialog. -->
+              <vi-button
+                button-icon="icon-close"
+                @click="imagesPicturesClose()"
+              />
+              <!-- Control bar buttons. -->
+              <div class="flex h-10 rounded-full shadow-color">
+                <!-- Previous image. -->
+                <vi-button
+                  button-icon="icon-arrow-left-d"
+                  first-element
+                  @click="prevImage()"
+                  class="px-4"
+                />
+                <!-- Display image in its original size. -->
+                <vi-button
+                  button-icon="icon-full-screen"
+                  middle-element
+                  @click="imageZoomToggle()"
+                  class="px-4"
+                />
+                <!-- Next image. -->
+                <vi-button
+                  button-icon="icon-arrow-right-d"
+                  last-element
+                  @click="nextImage()"
+                  class="px-4"
+                />
+              </div>
+              <!-- Image counter. -->
+              <vi-button
+                color
+                class="cursor-default"
+              >
+                {{ (imageIndex + 1) + ' / ' + getPictures.length }}
+              </vi-button>
+            </div>
+          </div>
+        </vi-overlay>
+      </transition>
+      <!-- Gallery images. -->
+      <div class="absolute max-h-full max-w-gallery overflow-y-scroll w-full">
+        <transition name="gallery">
+          <!-- Pictures grid. -->
+          <div
+            v-show="galleryShow"
+            class="flex-1 mr-4 no-scrollbar overflow-y-scroll"
+          >
+            <div class="grid grid-cols-image">
+              <div
+                v-for="(image, index) in getPictures"
+                :key="index"
+                :value="image"
+                class="flex h-full justify-center"
+                :class="{ 'p-1' : $store.getters.getSettingsImagesContentSpacing }"
+              >
+                <img
+                  @click="imagesPicturesOpen(index)"
+                  :src="'file://' + imagePath + '/' + image"
+                  class="border-2 border-transparent hover:border-color-500 dark:hover:border-color-700 cursor-pointer duration-200 object-cover rounded-image transform w-full"
+                  :class="[
+                    { 'rendering-pixelated' : imagesFiltering },
+                    // Disable scaling when the image is not filtered, otherwise it looks horrible.
+                    { 'hover:scale-102' : $store.getters.getSettingsImagesScalingEffect && ($store.getters.getSettingsImagesContentSpacing && $store.getters.getSettingsImagesGridColumns > 1 && !imagesFiltering) }
+                  ]"
+                />
               </div>
             </div>
-          </transition>
-        </div>
-        <!-- Gallery buttons. -->
-        <div class="absolute mr-4 mt-6 right-0 top-0">
-          <!-- Close dialog. -->
-          <vi-button
-            button-icon="icon-close"
-            @click="imagesGalleryShow()"
-          />
-        </div>
-        <!-- List settings. -->
-        <div class="absolute bottom-0 mr-5 mb-6 right-0">
-          <settings-images />
-        </div>
+          </div>
+        </transition>
       </div>
-      <!-- No linked games dialog. -->
-      <vi-dialog-box
-        v-else
-        @accept="imagesGalleryShow()"
-      >
-        No images available.
-      </vi-dialog-box>
+      <!-- Gallery buttons. -->
+      <div class="absolute right-0 top-0">
+        <!-- Close dialog. -->
+        <vi-button
+          button-icon="icon-close"
+          @click="$emit('close')"
+        />
+      </div>
+      <!-- List settings. -->
+      <div class="absolute bottom-0 mr-1 right-0">
+        <settings-images />
+      </div>
     </div>
-  </transition>
+    <!-- No images available dialog. -->
+    <vi-dialog-box
+      v-else
+      :overlay="false"
+      @accept="$emit('close')"
+    >
+      No images available.
+    </vi-dialog-box>
+  </vi-overlay>
 </template>
 
 <script>
@@ -158,7 +156,11 @@ export default {
   components: {
     SettingsImages
   },
+  emits: [
+    'close'
+  ],
   props: {
+    galleryShow: { type: Boolean, default: false },
     gameInfo: { type: Object },
     regionIndex: { type: Number },
     versionIndex: { type: Number }
@@ -268,11 +270,6 @@ export default {
       // Toggle zoom mode.
       imageZoom.value = !imageZoom.value
     }
-    let imagesGalleryDialog = ref(false)
-    const imagesGalleryShow = () => {
-      // Toggle gallery display.
-      imagesGalleryDialog.value = !imagesGalleryDialog.value
-    }
 
     // Picture images display management.
     let imageCenter = ref(false)
@@ -315,8 +312,6 @@ export default {
       imageZoom,
       imageZoomToggle,
       imagesFiltering,
-      imagesGalleryDialog,
-      imagesGalleryShow,
       imagesPicturesClose,
       imagesPicturesDialog,
       imagesPicturesLoad,
@@ -332,14 +327,8 @@ export default {
 
 <style scoped>
 /* Calculations. */
-.max-h-gallery {
-  max-height: calc(100vh - 3rem);
-}
 .max-w-gallery {
-  max-width: calc(100% - 3rem);
-}
-.w-gallery {
-  width: calc(100% - 3.5rem);
+  max-width: calc(100% - 0.5rem);
 }
 .h-viewer {
   height: calc(100vh - 7.5rem);

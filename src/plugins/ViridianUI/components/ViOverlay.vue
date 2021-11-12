@@ -8,11 +8,15 @@
       >
       </div>
       <div
-        class="absolute flex-col max-h-overlay max-w-overlay no-scrollbar overflow-x-scroll overflow-y-scroll"
+        class="absolute flex-col no-scrollbar overflow-x-scroll overflow-y-scroll"
         :class="[
           rounded ? 'rounded-3xl' : '',
           height ? height : '',
           width ? width : ''
+        ]"
+        :style="[
+          { maxHeight: 'calc(100vh - ' + border + 'rem)' },
+          { maxWidth: 'calc(100% - ' + border + 'rem)' }
         ]"
       >
         <slot />
@@ -31,10 +35,11 @@ export default {
     'close'
   ],
   props: {
+    border: { type: Number, default: 4 },
     height: { type: [Boolean, String] },
     overlay: { type: Boolean, default: true },
     rounded: { type: Boolean, default: true },
-    width: { type: [Boolean, String] }
+    width: { type: [Boolean, String] },
   },
   setup(props, { emit }) {
     // Throttle overlay closing function.
@@ -49,12 +54,6 @@ export default {
 
 <style scoped>
 /* Calculations. */
-.max-h-overlay {
-  max-height: calc(100vh - 4rem);
-}
-.max-w-overlay {
-  max-width: calc(100% - 4rem);
-}
 .w-overlay {
   width: calc(100% - 3.5rem);
 }

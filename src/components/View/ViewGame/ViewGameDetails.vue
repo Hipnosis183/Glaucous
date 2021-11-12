@@ -1,14 +1,8 @@
 <template>
-  <!-- Open view game details dialog. -->
-  <vi-button-ui
-    button-small="icon-info"
-    @click="gameDetailsShow()"
-  />
   <!-- View game details dialog. -->
   <vi-dialog
-    v-show="gameDetailsDialog"
-    @close="gameDetailsShow()"
-    class="left-13 top-0 z-10"
+    @close="$emit('close')"
+    class="pos-initial z-10"
   >
     <!-- Game details. -->
     <div class="flex mb-6">
@@ -95,18 +89,18 @@
 </template>
 
 <script>
-// Import Vue functions.
-import { ref } from 'vue'
-
 export default {
   name: 'ViewGameDetails',
+  emits: [
+    'close'
+  ],
   props: {
     fullTitle: { type: String },
     gameInfo: { type: Object },
     regionIndex: { type: Number },
     versionIndex: { type: Number }
   },
-  setup(props) {
+  setup() {
     // Manage details information.
     const typeOptions = [
       { i: 'patch', name: 'Patch' },
@@ -114,16 +108,7 @@ export default {
       { i: 'translation', name: 'Translation' }
     ]
 
-    // Manage details display.
-    let gameDetailsDialog = ref(false)
-    const gameDetailsShow = () => {
-      // Toggle details dialog.
-      gameDetailsDialog.value = !gameDetailsDialog.value
-    }
-
     return {
-      gameDetailsDialog,
-      gameDetailsShow,
       typeOptions
     }
   }

@@ -4,8 +4,8 @@
     :button-size="iconLarge"
     @click="settingsGameOpen()"
   >
-    <vi-icon :class="iconLarge ? 'mx-2 w-8' : '-mx-1 w-7'">
-      <icon-setting />
+    <vi-icon :class="iconLarge ? 'mx-2 w-9' : '-mx-1 w-8'">
+      <icon-game-settings />
     </vi-icon>
   </vi-button-ui>
   <!-- View game settings dialog. -->

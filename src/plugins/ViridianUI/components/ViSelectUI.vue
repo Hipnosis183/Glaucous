@@ -8,7 +8,7 @@
       <div
         ref="refSelect"
         @click="openDropMenu()"
-        class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 flex h-full hover:scale-101 transform transition-select w-full"
+        class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 flex h-full transition-select w-full"
       >
         <!-- Prefix icon. -->
         <div
@@ -566,6 +566,6 @@ input {
   transition: transform 0.2s ease-in-out, opacity 0.1s ease-in-out;
 }
 .transition-select {
-  transition: transform 0.2s ease-in-out, background-color 0.5s;
+  transition: background-color 0.5s;
 }
 </style>

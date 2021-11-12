@@ -1,7 +1,7 @@
 <template>
   <div
     @click.self="$emit('clicked')"
-    class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 cursor-pointer flex h-full px-4 py-2 hover:scale-102 shadow-color text-theme-200 transform"
+    class="bg-color-700 dark:bg-color-800 hover:bg-color-600 dark:hover:bg-color-700 cursor-pointer flex h-full px-4 py-2 shadow-color text-theme-200"
   >
     <h6 class="pointer-events-none">
       <slot />

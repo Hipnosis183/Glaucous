@@ -55,7 +55,7 @@
       <div class="flex items-center ml-2">
         <!-- Open platform settings dialog. -->
         <vi-button-nb
-          button-icon="icon-setting"
+          button-icon="icon-settings"
           @click="settingsPlatformOpen()"
         />
       </div>

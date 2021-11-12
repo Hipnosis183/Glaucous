@@ -22,7 +22,9 @@ import ViListDialog from './components/ViListDialog.vue'
 import ViListSearch from './components/ViListSearch.vue'
 import ViMenuButton from './components/ViMenuButton.vue'
 import ViMenuOption from './components/ViMenuOption.vue'
+import ViMenuOptionUI from './components/ViMenuOptionUI.vue'
 import ViMenuSelect from './components/ViMenuSelect.vue'
+import ViMenuSelectUI from './components/ViMenuSelectUI.vue'
 import ViModal from './components/ViModal.vue'
 import ViNavBar from './components/ViNavBar.vue'
 import ViOption from './components/ViOption.vue'
@@ -62,7 +64,9 @@ export default {
         app.component('vi-list-search', ViListSearch)
         app.component('vi-menu-button', ViMenuButton)
         app.component('vi-menu-option', ViMenuOption)
+        app.component('vi-menu-option-ui', ViMenuOptionUI)
         app.component('vi-menu-select', ViMenuSelect)
+        app.component('vi-menu-select-ui', ViMenuSelectUI)
         app.component('vi-modal', ViModal)
         app.component('vi-nav-bar', ViNavBar)
         app.component('vi-option', ViOption)

@@ -94,11 +94,6 @@
         </div>
       </vi-dialog>
     </div>
-    <!-- Playlists management dialog. -->
-    <view-game-playlists
-      v-show="managePlaylistsDialog"
-      @close="managePlaylistsClose()"
-    />
     <!-- Navigation bar. -->
     <vi-nav-bar :class="{ 'mx-1' : !$store.getters.getSettingsGeneralEditMode }">
       <div
@@ -240,64 +235,121 @@
                 <div class="flex h-full">
                   <div class="flex flex-col max-w-1/2">
                     <!-- Top container. -->
-                    <div class="flex mr-auto p-6 pl-6 space-x-2 text-theme-100">
-                      <!-- Game settings. -->
-                      <settings-games />
+                    <div class="flex mr-auto p-6 text-theme-100">
+                      <!-- View game details. -->
+                      <view-game-details
+                        v-show="gameDetailsDialog"
+                        @close="gameDetailsShow()"
+                        :key="gameInfo"
+                        :full-title="fullTitle"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
+                        :version-index="versionIndex"
+                      />
+                      <!-- View game gallery. -->
+                      <view-game-gallery
+                        v-show="gameGalleryDialog"
+                        @close="gameGalleryShow()"
+                        :key="gameInfo"
+                        :gallery-show="gameGalleryDialog"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
+                        :version-index="versionIndex"
+                      />
+                      <!-- View game links. -->
+                      <view-game-links
+                        v-show="gameLinksDialog"
+                        @close="gameLinksShow()"
+                        :key="gameInfo"
+                        :full-title="fullTitle"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
+                        :version-index="versionIndex"
+                        @loaded="loadLinks($event)"
+                      />
+                      <!-- View game notes. -->
+                      <view-game-notes
+                        v-show="gameNotesDialog"
+                        @close="gameNotesShow()"
+                        :key="gameInfo"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
+                        :version-index="versionIndex"
+                      />
+                      <!-- View playlists management. -->
+                      <view-game-playlists
+                        v-show="gamePlaylistsDialog"
+                        @close="gamePlaylistsClose()"
+                      />
+                      <!-- View game page settings. -->
+                      <settings-games
+                        v-show="gameSettingsDialog"
+                        @close="gameSettingsShow()"
+                      />
                       <!-- Buttons. -->
-                      <div class="flex space-x-1">
-                        <!-- View game details. -->
-                        <view-game-details
-                          v-if="minimalUiDisplayDetails"
-                          :key="gameInfo"
-                          :full-title="fullTitle"
-                          :game-info="gameInfo"
-                          :region-index="regionIndex"
-                          :version-index="versionIndex"
-                        />
-                        <!-- View game links. -->
-                        <view-game-links
-                          v-show="minimalUiDisplayLinks"
-                          :key="gameInfo"
-                          :full-title="fullTitle"
-                          :game-info="gameInfo"
-                          :region-index="regionIndex"
-                          :version-index="versionIndex"
-                          @loaded="loadLinks($event)"
-                        />
-                        <!-- Open game playlists management dialog. -->
-                        <vi-button-ui
-                          v-if="minimalUiDisplayPlaylists"
-                          @click="managePlaylistsClose()"
-                          button-small="icon-playlist-add"
-                        />
-                        <!-- Remove selected game platform from favorites. -->
-                        <vi-button-ui
-                          v-if="minimalUiDisplayFavorites && gameFavorited"
-                          @click="removeFavorite()"
-                          button-small="icon-star-s"
-                        />
-                        <!-- Add selected game platform to favorites. -->
-                        <vi-button-ui
-                          v-else-if="minimalUiDisplayFavorites"
-                          @click="addFavorite()"
-                          button-small="icon-star"
-                        />
-                        <!-- View game gallery. -->
-                        <view-game-gallery
-                          v-if="minimalUiDisplayGallery"
-                          :key="gameInfo"
-                          :game-info="gameInfo"
-                          :region-index="regionIndex"
-                          :version-index="versionIndex"
-                        />
-                        <!-- View game notes. -->
-                        <view-game-notes
-                          :key="gameInfo"
-                          :game-info="gameInfo"
-                          :region-index="regionIndex"
-                          :version-index="versionIndex"
-                        />
-                      </div>
+                      <vi-menu-select-ui
+                        icon="icon-grid"
+                        class="ml-2 mr-1"
+                      >
+                        <div class="flex">
+                          <div>
+                            <!-- Open game details dialog. -->
+                            <vi-menu-option-ui
+                              icon="icon-info"
+                              label="Details"
+                              :method="gameDetailsShow"
+                            />
+                            <!-- Remove selected game platform from favorites. -->
+                            <vi-menu-option-ui
+                              v-if="gameFavorited"
+                              icon="icon-star-s"
+                              label="Favorited"
+                              :method="removeFavorite"
+                              small
+                            />
+                            <!-- Add selected game platform to favorites. -->
+                            <vi-menu-option-ui
+                              v-else
+                              icon="icon-star"
+                              label="Favorite"
+                              :method="addFavorite"
+                              small
+                            />
+                            <!-- Open game gallery. -->
+                            <vi-menu-option-ui
+                              icon="icon-picture-s"
+                              label="Gallery"
+                              :method="gameGalleryShow"
+                            />
+                            <!-- Open links dialog. -->
+                            <vi-menu-option-ui
+                              icon="icon-link"
+                              label="Links"
+                              :method="gameLinksShow"
+                            />
+                          </div>
+                          <div>
+                            <!-- Open notes dialog. -->
+                            <vi-menu-option-ui
+                              icon="icon-notes"
+                              label="Notes"
+                              :method="gameNotesShow"
+                            />
+                            <!-- Open playlists dialog. -->
+                            <vi-menu-option-ui
+                              icon="icon-playlist-add"
+                              label="Playlists"
+                              :method="gamePlaylistsOpen"
+                            />
+                            <!-- Open settings dialog. -->
+                            <vi-menu-option-ui
+                              icon="icon-settings"
+                              label="Settings"
+                              :method="gameSettingsShow"
+                            />
+                          </div>
+                        </div>
+                      </vi-menu-select-ui>
                     </div>
                     <!-- Bottom container. -->
                     <div class="mt-auto p-8 pb-0">
@@ -685,19 +737,6 @@ export default {
         })
     }
 
-    // Manage playlists operations.
-    let managePlaylistsDialog = ref(false)
-    const managePlaylistsOpen = () => {
-      // Restore the data on the store.
-      store.commit('resetPlaylistForm')
-      // Open create dialog.
-      managePlaylistsDialog.value = !managePlaylistsDialog.value
-    }
-    const managePlaylistsClose = () => {
-      // Close create dialog.
-      managePlaylistsDialog.value = !managePlaylistsDialog.value
-    }
-
     // Manage game favorite state.
     let gameFavorited = ref(false)
     const addFavorite = () => {
@@ -725,6 +764,44 @@ export default {
       if (coverImage.value && gameContent.value) {
         return coverImage.value.clientHeight - gameContent.value.clientHeight
       }
+    }
+
+    // Manage game dialogs display.
+    let gameDetailsDialog = ref(false)
+    const gameDetailsShow = () => {
+      // Toggle details dialog.
+      gameDetailsDialog.value = !gameDetailsDialog.value
+    }
+    let gameGalleryDialog = ref(false)
+    const gameGalleryShow = () => {
+      // Toggle gallery display.
+      gameGalleryDialog.value = !gameGalleryDialog.value
+    }
+    let gameLinksDialog = ref(false)
+    const gameLinksShow = () => {
+      // Toggle links dialog.
+      gameLinksDialog.value = !gameLinksDialog.value
+    }
+    let gameNotesDialog = ref(false)
+    const gameNotesShow = () => {
+      // Toggle notes dialog.
+      gameNotesDialog.value = !gameNotesDialog.value
+    }
+    let gamePlaylistsDialog = ref(false)
+    const gamePlaylistsOpen = () => {
+      // Restore the data on the store.
+      store.commit('resetPlaylistForm')
+      // Open playlists dialog.
+      gamePlaylistsDialog.value = !gamePlaylistsDialog.value
+    }
+    const gamePlaylistsClose = () => {
+      // Close playlists dialog.
+      gamePlaylistsDialog.value = !gamePlaylistsDialog.value
+    }
+    let gameSettingsDialog = ref(false)
+    const gameSettingsShow = () => {
+      // Toggle settings dialog.
+      gameSettingsDialog.value = !gameSettingsDialog.value
     }
 
     // Manage minimal UI state.
@@ -800,10 +877,20 @@ export default {
       gameContent,
       gameFavorited,
       gameInfo,
+      gameDetailsDialog,
+      gameDetailsShow,
+      gameGalleryDialog,
+      gameGalleryShow,
+      gameLinksDialog,
+      gameLinksShow,
+      gameNotesDialog,
+      gameNotesShow,
+      gamePlaylistsClose,
+      gamePlaylistsDialog,
+      gamePlaylistsOpen,
+      gameSettingsDialog,
+      gameSettingsShow,
       loadLinks,
-      managePlaylistsClose,
-      managePlaylistsDialog,
-      managePlaylistsOpen,
       minimalUiDisplayDetails,
       minimalUiDisplayFavorites,
       minimalUiDisplayGallery,

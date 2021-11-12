@@ -4,8 +4,8 @@
     :button-size="iconLarge"
     @click="gameLinkingShow()"
   >
-    <vi-icon :class="iconLarge ? 'mt-1 mx-2 w-10' : 'mt-px -mx-1.5 w-8'">
-      <icon-linking />
+    <vi-icon :class="iconLarge ? 'mt-1 mx-2 w-10' : '-mt-px -mx-1.5 w-9'">
+      <icon-game-linking />
     </vi-icon>
   </vi-button-ui>
   <!-- View game linking dialog. -->

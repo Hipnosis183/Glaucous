@@ -18,15 +18,17 @@ import IconEdit from './components/IconEdit.vue'
 import IconExit from './components/IconExit.vue'
 import IconFolder from './components/IconFolder.vue'
 import IconFullScreen from './components/IconFullScreen.vue'
+import IconGameLinking from './components/IconGameLinking.vue'
+import IconGameSettings from './components/IconGameSettings.vue'
 import IconGames from './components/IconGames.vue'
 import IconGrid from './components/IconGrid.vue'
 import IconInfo from './components/IconInfo.vue'
 import IconLink from './components/IconLink.vue'
-import IconLinking from './components/IconLinking.vue'
 import IconList from './components/IconList.vue'
 import IconMenu from './components/IconMenu.vue'
 import IconMinus from './components/IconMinus.vue'
 import IconNotes from './components/IconNotes.vue'
+import IconOptions from './components/IconOptions.vue'
 import IconPicture from './components/IconPicture.vue'
 import IconPictureS from './components/IconPictureS.vue'
 import IconPin from './components/IconPin.vue'
@@ -37,8 +39,8 @@ import IconPlus from './components/IconPlus.vue'
 import IconRecent from './components/IconRecent.vue'
 import IconRemove from './components/IconRemove.vue'
 import IconSearch from './components/IconSearch.vue'
-import IconSetting from './components/IconSetting.vue'
-import IconSettingF from './components/IconSettingF.vue'
+import IconSettings from './components/IconSettings.vue'
+import IconSettingsS from './components/IconSettingsS.vue'
 import IconStar from './components/IconStar.vue'
 import IconStarS from './components/IconStarS.vue'
 import IconTag from './components/IconTag.vue'
@@ -65,15 +67,17 @@ export default {
         app.component('icon-exit', IconExit)
         app.component('icon-folder', IconFolder)
         app.component('icon-full-screen', IconFullScreen)
+        app.component('icon-game-linking', IconGameLinking)
+        app.component('icon-game-settings', IconGameSettings)
         app.component('icon-games', IconGames)
         app.component('icon-grid', IconGrid)
         app.component('icon-info', IconInfo)
         app.component('icon-link', IconLink)
-        app.component('icon-linking', IconLinking)
         app.component('icon-list', IconList)
         app.component('icon-menu', IconMenu)
         app.component('icon-minus', IconMinus)
         app.component('icon-notes', IconNotes)
+        app.component('icon-options', IconOptions)
         app.component('icon-picture', IconPicture)
         app.component('icon-picture-s', IconPictureS)
         app.component('icon-pin', IconPin)
@@ -84,8 +88,8 @@ export default {
         app.component('icon-recent', IconRecent)
         app.component('icon-remove', IconRemove)
         app.component('icon-search', IconSearch)
-        app.component('icon-setting', IconSetting)
-        app.component('icon-setting-f', IconSettingF)
+        app.component('icon-settings', IconSettings)
+        app.component('icon-settings-s', IconSettingsS)
         app.component('icon-star', IconStar)
         app.component('icon-star-s', IconStarS)
         app.component('icon-tag', IconTag)

@@ -1,183 +1,193 @@
 <template>
-  <!-- View minimal UI display settings. -->
+  <!-- Open list settings dialog. -->
   <vi-dialog
-    v-show="minimalUiDisplayDialog"
-    @close="minimalUiDisplayShow()"
+    @close="$emit('close')"
     class="pos-initial z-10"
   >
+    <!-- View minimal UI display settings. -->
+    <vi-dialog
+      v-show="minimalUiDisplayDialog"
+      @close="minimalUiDisplayShow()"
+      class="pos-initial z-20"
+    >
+      <!-- Padding. -->
+      <div class="w-80" />
+      <!-- Header. -->
+      <div class="flex justify-between mb-6 mx-2">
+        <!-- Title. -->
+        <p class="mr-10 pt-1 text-2xl">Hide Elements</p>
+        <!-- Buttons. -->
+        <vi-button
+          button-icon="icon-close"
+          @click="minimalUiDisplayShow()"
+        />
+      </div>
+      <!-- Separator. -->
+      <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+      <!-- Toggle playlists display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Playlists</p>
+        <vi-switch v-model="minimalUiDisplayPlaylists" />
+      </div>
+      <!-- Toggle favorites display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Favorites</p>
+        <vi-switch v-model="minimalUiDisplayFavorites" />
+      </div>
+      <!-- Toggle game launch display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Game Launch</p>
+        <vi-switch v-model="minimalUiDisplayGameLaunch" />
+      </div>
+      <!-- Toggle version select display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Version Select</p>
+        <vi-switch v-model="minimalUiDisplayVersionSelect" />
+      </div>
+      <!-- Toggle game settings display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Game Settings</p>
+        <vi-switch v-model="minimalUiDisplayGameSettings" />
+      </div>
+      <!-- Toggle details display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Details</p>
+        <vi-switch v-model="minimalUiDisplayDetails" />
+      </div>
+      <!-- Toggle game linking display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Game Linking</p>
+        <vi-switch v-model="minimalUiDisplayGameLinking" />
+      </div>
+      <!-- Toggle links display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Links</p>
+        <vi-switch v-model="minimalUiDisplayLinks" />
+      </div>
+      <!-- Toggle gallery display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Gallery</p>
+        <vi-switch v-model="minimalUiDisplayGallery" />
+      </div>
+      <!-- Toggle tags display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Game Tags</p>
+        <vi-switch v-model="minimalUiDisplayGameTags" />
+      </div>
+      <!-- Toggle region flags display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Region Flags</p>
+        <vi-switch v-model="minimalUiDisplayRegionFlags" />
+      </div>
+      <!-- Settings behavior aclaration. -->
+      <p class="bg-theme-100 dark:bg-theme-800 mt-4 py-2 rounded-lg shadow-color text-center">
+        These settings are global
+      </p>
+    </vi-dialog>
     <!-- Padding. -->
-    <div class="w-80" />
+    <div class="w-96" />
     <!-- Header. -->
     <div class="flex justify-between mb-6 mx-2">
       <!-- Title. -->
-      <p class="mr-10 pt-1 text-2xl">Hide Elements</p>
+      <p class="mr-10 pt-1 text-2xl">Page Settings</p>
       <!-- Buttons. -->
       <vi-button
         button-icon="icon-close"
-        @click="minimalUiDisplayShow()"
+        @click="$emit('close')"
       />
     </div>
-    <!-- Toggle playlists display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Playlists</p>
-      <vi-switch v-model="minimalUiDisplayPlaylists" />
-    </div>
-    <!-- Toggle favorites display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Favorites</p>
-      <vi-switch v-model="minimalUiDisplayFavorites" />
-    </div>
-    <!-- Toggle game launch display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Game Launch</p>
-      <vi-switch v-model="minimalUiDisplayGameLaunch" />
-    </div>
-    <!-- Toggle version select display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Version Select</p>
-      <vi-switch v-model="minimalUiDisplayVersionSelect" />
-    </div>
-    <!-- Toggle game settings display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Game Settings</p>
-      <vi-switch v-model="minimalUiDisplayGameSettings" />
-    </div>
-    <!-- Toggle details display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Details</p>
-      <vi-switch v-model="minimalUiDisplayDetails" />
-    </div>
-    <!-- Toggle game linking display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Game Linking</p>
-      <vi-switch v-model="minimalUiDisplayGameLinking" />
-    </div>
-    <!-- Toggle links display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Links</p>
-      <vi-switch v-model="minimalUiDisplayLinks" />
-    </div>
-    <!-- Toggle gallery display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Gallery</p>
-      <vi-switch v-model="minimalUiDisplayGallery" />
-    </div>
-    <!-- Toggle tags display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Game Tags</p>
-      <vi-switch v-model="minimalUiDisplayGameTags" />
-    </div>
-    <!-- Toggle region flags display. -->
-    <div class="flex h-10 items-center px-2">
-      <p class="mr-auto">Region Flags</p>
-      <vi-switch v-model="minimalUiDisplayRegionFlags" />
-    </div>
-    <!-- Settings behavior aclaration. -->
-    <p class="bg-theme-100 dark:bg-theme-800 mt-4 py-2 rounded-lg shadow-color text-center">
-      These settings are global
-    </p>
-  </vi-dialog>
-  <!-- Open list settings dialog. -->
-  <div class="flex-shrink-0 ml-2 my-auto">
-    <vi-menu-button
-      icon="icon-grid"
-      :offset="[0, 10]"
-      placement="bottom-start"
-    >
-      <!-- List settings. -->
-      <div class="text-center w-96">
-        <h1 class="font-medium mb-5 -mt-1 text-lg">Game Settings</h1>
-        <div class="space-y-2">
-          <!-- Toggle global settings overwrite. -->
-          <div class="flex h-10 items-center pl-4 pr-5">
-            <p class="mr-auto">Global Settings Overwrite</p>
-            <vi-switch v-model="settingsOver" />
-          </div>
-          <!-- Toggle cover image display. -->
-          <div class="flex h-10 items-center pl-4 pr-5">
-            <p class="mr-auto">Display Cover Image</p>
-            <vi-switch v-model="displayCoverImage" />
-          </div>
-          <!-- Toggle minimal UI display. -->
-          <div class="flex h-10 items-center pl-4 pr-5">
-            <p class="mr-auto">Minimal UI Display</p>
-            <vi-icon
-              icon-manual
-              @click="minimalUiDisplayShow()"
-              class="cursor-pointer mr-2 text-theme-300 vi-menu-close w-6"
-            >
-              <icon-setting-f class="vi-menu-close" />
-            </vi-icon>
-            <vi-switch v-model="minimalUiDisplay" />
-          </div>
-          <!-- Select background image display mode. -->
-          <div class="flex items-center px-4">
-            <p class="mr-auto">Background Image</p>
-            <div class="ml-auto w-34">
-              <vi-select
-                v-model="backgroundImage"
-                class="w-auto"
-              >
-                <vi-option
-                  v-for="item in backgroundImageOptions"
-                  :key="item.i"
-                  :label="item.name"
-                  :value="item.i"
-                />
-              </vi-select>
-            </div>
-          </div>
-          <!-- Select background image placement. -->
-          <div class="flex items-center px-4">
-            <p class="mr-auto">Background Placement</p>
-            <div class="ml-auto w-34">
-              <vi-select
-                v-model="backgroundPlacement"
-                class="w-auto"
-              >
-                <vi-option
-                  v-for="item in backgroundPlacementOptions"
-                  :key="item.i"
-                  :label="item.name"
-                  :value="item.i"
-                />
-              </vi-select>
-            </div>
-          </div>
-          <!-- Color theme overwrite select. -->
-          <div class="flex items-center px-4">
-            <p class="mr-auto">Color Theme Overwrite</p>
-            <div class="ml-auto w-34">
-              <vi-select
-                v-model="colorThemeOver"
-                class="w-auto"
-              >
-                <vi-option
-                  label="Default"
-                  value="default"
-                />
-                <vi-option
-                  v-for="color in colors"
-                  :key="color.i"
-                  :label="color.name"
-                  :value="color.i"
-                  class="text-left"
-                >
-                  <div class="align-middle inline-flex items-center space-x-4">
-                    <div
-                      :style="{ backgroundColor: 'rgb(' + color.codes[4] + ')' }"
-                      class="h-6 rounded-full w-6"
-                    />
-                    <p>{{ color.name }}</p>
-                  </div>
-                </vi-option>
-              </vi-select>
-            </div>
-          </div>
+    <!-- Separator. -->
+    <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+    <!-- List settings. -->
+    <div class="space-y-2">
+      <!-- Toggle global settings overwrite. -->
+      <div class="flex h-10 items-center">
+        <p class="mr-auto">Global Settings Overwrite</p>
+        <vi-switch v-model="settingsOver" />
+      </div>
+      <!-- Toggle cover image display. -->
+      <div class="flex h-10 items-center">
+        <p class="mr-auto">Display Cover Image</p>
+        <vi-switch v-model="displayCoverImage" />
+      </div>
+      <!-- Toggle minimal UI display. -->
+      <div class="flex h-10 items-center">
+        <p class="mr-auto">Minimal UI Display</p>
+        <vi-icon
+          icon-manual
+          @click="minimalUiDisplayShow()"
+          class="cursor-pointer mr-2 text-theme-300 vi-menu-close w-6"
+        >
+          <icon-settings-s class="vi-menu-close" />
+        </vi-icon>
+        <vi-switch v-model="minimalUiDisplay" />
+      </div>
+      <!-- Select background image display mode. -->
+      <div class="flex items-center">
+        <p class="mr-auto">Background Image</p>
+        <div class="ml-auto w-34">
+          <vi-select
+            v-model="backgroundImage"
+            class="w-auto"
+          >
+            <vi-option
+              v-for="item in backgroundImageOptions"
+              :key="item.i"
+              :label="item.name"
+              :value="item.i"
+            />
+          </vi-select>
         </div>
       </div>
-    </vi-menu-button>
-  </div>
+      <!-- Select background image placement. -->
+      <div class="flex items-center">
+        <p class="mr-auto">Background Placement</p>
+        <div class="ml-auto w-34">
+          <vi-select
+            v-model="backgroundPlacement"
+            class="w-auto"
+          >
+            <vi-option
+              v-for="item in backgroundPlacementOptions"
+              :key="item.i"
+              :label="item.name"
+              :value="item.i"
+            />
+          </vi-select>
+        </div>
+      </div>
+      <!-- Color theme overwrite select. -->
+      <div class="flex items-center">
+        <p class="mr-auto">Color Theme Overwrite</p>
+        <div class="ml-auto w-34">
+          <vi-select
+            v-model="colorThemeOver"
+            class="w-auto"
+          >
+            <vi-option
+              label="Default"
+              value="default"
+            />
+            <vi-option
+              v-for="color in colors"
+              :key="color.i"
+              :label="color.name"
+              :value="color.i"
+              class="text-left"
+            >
+              <div class="align-middle inline-flex items-center space-x-4">
+                <div
+                  :style="{ backgroundColor: 'rgb(' + color.codes[4] + ')' }"
+                  class="h-6 rounded-full w-6"
+                />
+                <p>{{ color.name }}</p>
+              </div>
+            </vi-option>
+          </vi-select>
+        </div>
+      </div>
+    </div>
+  </vi-dialog>
 </template>
 
 <script>
@@ -192,8 +202,9 @@ import { colors, selectColor } from '@/theme'
 
 export default {
   name: 'SettingsGames',
-  props: {
-  },
+  emits: [
+    'close'
+  ],
   setup() {
     // Instantiate Vue elements.
     const route = useRoute()

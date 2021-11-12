@@ -2,7 +2,7 @@
   <!-- Playlists management dialog. -->
   <vi-dialog
     @close="$emit('close')"
-    class="z-10"
+    class="pos-initial z-10"
   >
     <!-- Validation error dialog. -->
     <vi-dialog-box
