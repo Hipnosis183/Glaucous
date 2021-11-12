@@ -17,6 +17,7 @@
   </vi-overlay>
   <!-- View cover image. -->
   <div
+    v-if="getCover"
     class="flex-shrink-0 ml-auto p-8 pb-0 relative"
     :style="'height:' + imageHeight"
   >
@@ -30,7 +31,6 @@
     <!-- Cover image. -->
     <transition>
       <img
-        v-if="getCover"
         v-show="renderReady"
         @load="resizeImage()"
         :src="'file://' + imagePath + '/' + getCover"
@@ -98,10 +98,8 @@ export default {
     let imageFilesRegion = ref([])
     let imageFilesVersion = ref([])
     const getCover = computed(() => {
-      let settingsGame = store.getters.getSettingsGameOverSettingsOver
-        ? store.getters.getSettingsGameOverDisplayCoverImage
-        : store.getters.getSettingsGameDisplayCoverImage
-      return !settingsGame ? false : getImage((images) => {
+      let settingsGame = store.getters.getSettingsGameHideElementsCover
+      return settingsGame ? false : getImage((images) => {
         return images.filter((res) => res.startsWith('0'.repeat(8)))[0]
       })
     })

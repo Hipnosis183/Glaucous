@@ -8,18 +8,18 @@
       <p class="text-5.5xl">{{ gameInfo.gameRegions[regionIndex].title }}</p>
       <p
         v-show="gameInfo.gameRegions[regionIndex].subTitle"
-        :class="minimalUiDisplayGameTags && gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1.5 mt-3 text-2.5xl' : 'ml-1 mt-4 text-4xl'"
+        :class="hideElementsTags && gameInfo.gameRegions[regionIndex].subTitle ? 'ml-1.5 mt-3 text-2.5xl' : 'ml-1 mt-4 text-4xl'"
       >{{ gameInfo.gameRegions[regionIndex].subTitle }}</p>
       <p
         v-show="gameInfo.gameRegions[regionIndex].originalTitle"
         class="ml-1"
-        :class="minimalUiDisplayGameTags
+        :class="hideElementsTags
           ? gameInfo.gameRegions[regionIndex].subTitle ? 'mt-3 text-2xl' : 'mt-4 text-2.5xl'
           : gameInfo.gameRegions[regionIndex].subTitle ? 'mt-auto text-2.5xl' : 'mt-4 text-2.5xl'"
       >{{ gameInfo.gameRegions[regionIndex].originalTitle }}</p>
       <!-- View game tags. -->
       <view-game-tags
-        v-if="minimalUiDisplayGameTags"
+        v-if="hideElementsTags"
         :key="gameInfo"
         :game-info="gameInfo"
       />
@@ -123,19 +123,14 @@ export default {
       }
     }
 
-    // Manage minimal UI state.
-    const minimalUiDisplay = computed(() => {
-      return !store.getters.getSettingsGameMinimalUiDisplay
-    })
-    const minimalUiDisplayGameTags = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGameTags
-      } else { return true }
+    // Manage elements display state.
+    const hideElementsTags = computed(() => {
+      return !store.getters.getSettingsGameHideElementsTags
     })
 
     return {
       getNumberPlayers,
-      minimalUiDisplayGameTags
+      hideElementsTags
     }
   }
 }

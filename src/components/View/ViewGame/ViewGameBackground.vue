@@ -119,11 +119,11 @@ export default {
     // Manage image display.
     let backgroundRender = ref(false)
     const backgroundImage = computed(() => {
-      let settingsGame = store.getters.getSettingsGameOverSettingsOver
+      let settingsGame = store.getters.getSettingsGameOverBackgroundImage
         ? store.getters.getSettingsGameOverBackgroundImage
         : store.getters.getSettingsGameBackgroundImage
       switch (settingsGame) {
-        case 0: {
+        case 1: {
           // Default to the normal image fallback mode.
           let backgroundImage = getBackground()
           if (backgroundImage) {
@@ -142,19 +142,19 @@ export default {
           }
           break
         }
-        case 1: {
+        case 2: {
           backgroundRender.value = false
           return getBackground()
         }
-        case 2: {
+        case 3: {
           backgroundRender.value = false
           return getCover()
         }
-        case 3: {
+        case 4: {
           backgroundRender.value = true
           return getPictures()[0]
         }
-        case 4: {
+        case 5: {
           backgroundRender.value = true
           // Asume that after the first picture are all in-game images.
           let image = getPictures().filter((res, index) => index > 0)
@@ -164,15 +164,15 @@ export default {
       }
     })
     const backgroundPlacement = computed(() => {
-      let settingsGame = store.getters.getSettingsGameOverSettingsOver
+      let settingsGame = store.getters.getSettingsGameOverBackgroundPlacement
         ? store.getters.getSettingsGameOverBackgroundPlacement
         : store.getters.getSettingsGameBackgroundPlacement
       switch (settingsGame) {
-        case 0: { return 'center' }
-        case 1: { return 'top' }
-        case 2: { return 'bottom' }
-        case 3: { return 'left' }
-        case 4: { return 'right' }
+        case 1: { return 'center' }
+        case 2: { return 'top' }
+        case 3: { return 'bottom' }
+        case 4: { return 'left' }
+        case 5: { return 'right' }
       }
     })
     const backgroundFiltering = computed(() => {

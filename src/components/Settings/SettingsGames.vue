@@ -4,10 +4,10 @@
     @close="$emit('close')"
     class="pos-initial z-10"
   >
-    <!-- View minimal UI display settings. -->
+    <!-- View hide elements options. -->
     <vi-dialog
-      v-show="minimalUiDisplayDialog"
-      @close="minimalUiDisplayShow()"
+      v-show="hideElementsDialog"
+      @close="hideElementsShow()"
       class="pos-initial z-20"
     >
       <!-- Padding. -->
@@ -19,73 +19,82 @@
         <!-- Buttons. -->
         <vi-button
           button-icon="icon-close"
-          @click="minimalUiDisplayShow()"
+          @click="hideElementsShow()"
         />
       </div>
       <!-- Separator. -->
       <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
-      <!-- Toggle playlists display. -->
+      <!-- Toggle details display. -->
       <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Playlists</p>
-        <vi-switch v-model="minimalUiDisplayPlaylists" />
+        <p class="mr-auto">Details</p>
+        <vi-switch v-model="hideElementsDetails" />
       </div>
       <!-- Toggle favorites display. -->
       <div class="flex h-10 items-center px-2">
         <p class="mr-auto">Favorites</p>
-        <vi-switch v-model="minimalUiDisplayFavorites" />
-      </div>
-      <!-- Toggle game launch display. -->
-      <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Game Launch</p>
-        <vi-switch v-model="minimalUiDisplayGameLaunch" />
-      </div>
-      <!-- Toggle version select display. -->
-      <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Version Select</p>
-        <vi-switch v-model="minimalUiDisplayVersionSelect" />
-      </div>
-      <!-- Toggle game settings display. -->
-      <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Game Settings</p>
-        <vi-switch v-model="minimalUiDisplayGameSettings" />
-      </div>
-      <!-- Toggle details display. -->
-      <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Details</p>
-        <vi-switch v-model="minimalUiDisplayDetails" />
-      </div>
-      <!-- Toggle game linking display. -->
-      <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Game Linking</p>
-        <vi-switch v-model="minimalUiDisplayGameLinking" />
-      </div>
-      <!-- Toggle links display. -->
-      <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Links</p>
-        <vi-switch v-model="minimalUiDisplayLinks" />
+        <vi-switch v-model="hideElementsFavorite" />
       </div>
       <!-- Toggle gallery display. -->
       <div class="flex h-10 items-center px-2">
         <p class="mr-auto">Gallery</p>
-        <vi-switch v-model="minimalUiDisplayGallery" />
+        <vi-switch v-model="hideElementsGallery" />
       </div>
-      <!-- Toggle tags display. -->
+      <!-- Toggle links display. -->
       <div class="flex h-10 items-center px-2">
-        <p class="mr-auto">Game Tags</p>
-        <vi-switch v-model="minimalUiDisplayGameTags" />
+        <p class="mr-auto">Links</p>
+        <vi-switch v-model="hideElementsLinks" />
+      </div>
+      <!-- Toggle notes display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Notes</p>
+        <vi-switch v-model="hideElementsNotes" />
+      </div>
+      <!-- Toggle playlists display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Playlists</p>
+        <vi-switch v-model="hideElementsPlaylists" />
+      </div>
+      <!-- Toggle page settings display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Page Settings</p>
+        <vi-switch v-model="hideElementsSettingsPage" />
+      </div>
+      <!-- Toggle cover display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Cover</p>
+        <vi-switch v-model="hideElementsCover" />
+      </div>
+      <!-- Toggle launch display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Launch</p>
+        <vi-switch v-model="hideElementsLaunch" />
+      </div>
+      <!-- Toggle versions display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Versions</p>
+        <vi-switch v-model="hideElementsVersions" />
+      </div>
+      <!-- Toggle linking display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Linking</p>
+        <vi-switch v-model="hideElementsLinking" />
+      </div>
+      <!-- Toggle game settings display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Game Settings</p>
+        <vi-switch v-model="hideElementsSettingsGame" />
       </div>
       <!-- Toggle region flags display. -->
       <div class="flex h-10 items-center px-2">
         <p class="mr-auto">Region Flags</p>
-        <vi-switch v-model="minimalUiDisplayRegionFlags" />
+        <vi-switch v-model="hideElementsRegionFlags" />
       </div>
-      <!-- Settings behavior aclaration. -->
-      <p class="bg-theme-100 dark:bg-theme-800 mt-4 py-2 rounded-lg shadow-color text-center">
-        These settings are global
-      </p>
+      <!-- Toggle tags display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Tags</p>
+        <vi-switch v-model="hideElementsTags" />
+      </div>
     </vi-dialog>
-    <!-- Padding. -->
-    <div class="w-96" />
     <!-- Header. -->
     <div class="flex justify-between mb-6 mx-2">
       <!-- Title. -->
@@ -99,33 +108,34 @@
     <!-- Separator. -->
     <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
     <!-- List settings. -->
-    <div class="space-y-2">
-      <!-- Toggle global settings overwrite. -->
-      <div class="flex h-10 items-center">
-        <p class="mr-auto">Global Settings Overwrite</p>
-        <vi-switch v-model="settingsOver" />
+    <div class="flex">
+      <!-- Settings text. -->
+      <div class="mr-6 space-y-2">
+        <div class="flex invisible mb-3">
+          <p>Placeholder</p>
+        </div>
+        <div class="flex h-10 items-center">
+          <p>Background Image</p>
+        </div>
+        <div class="flex h-10 items-center">
+          <p>Background Placement</p>
+        </div>
+        <div class="flex h-10 items-center">
+          <p>Color Theme</p>
+        </div>
+        <div class="flex h-10 items-center">
+          <p>Hide Elements</p>
+        </div>
       </div>
-      <!-- Toggle cover image display. -->
-      <div class="flex h-10 items-center">
-        <p class="mr-auto">Display Cover Image</p>
-        <vi-switch v-model="displayCoverImage" />
-      </div>
-      <!-- Toggle minimal UI display. -->
-      <div class="flex h-10 items-center">
-        <p class="mr-auto">Minimal UI Display</p>
-        <vi-icon
-          icon-manual
-          @click="minimalUiDisplayShow()"
-          class="cursor-pointer mr-2 text-theme-300 vi-menu-close w-6"
-        >
-          <icon-settings-s class="vi-menu-close" />
-        </vi-icon>
-        <vi-switch v-model="minimalUiDisplay" />
-      </div>
-      <!-- Select background image display mode. -->
-      <div class="flex items-center">
-        <p class="mr-auto">Background Image</p>
-        <div class="ml-auto w-34">
+      <!-- Settings global controllers. -->
+      <div class="space-y-2 w-80">
+        <!-- Header. -->
+        <div class="flex mb-4 -mt-1 w-full">
+          <div class="flex justify-center w-1/2">Global</div>
+          <div class="flex justify-center w-1/2">Overwrite</div>
+        </div>
+        <!-- Select background image display mode. -->
+        <div class="flex space-x-2">
           <vi-select
             v-model="backgroundImage"
             class="w-auto"
@@ -137,12 +147,25 @@
               :value="item.i"
             />
           </vi-select>
+          <vi-select
+            v-model="backgroundImageOver"
+            class="w-auto"
+          >
+            <vi-option
+              label="- Global -"
+              :value="0"
+              class="text-center"
+            />
+            <vi-option
+              v-for="item in backgroundImageOptions"
+              :key="item.i"
+              :label="item.name"
+              :value="item.i"
+            />
+          </vi-select>
         </div>
-      </div>
-      <!-- Select background image placement. -->
-      <div class="flex items-center">
-        <p class="mr-auto">Background Placement</p>
-        <div class="ml-auto w-34">
+        <!-- Select background image placement. -->
+        <div class="flex space-x-2">
           <vi-select
             v-model="backgroundPlacement"
             class="w-auto"
@@ -154,37 +177,53 @@
               :value="item.i"
             />
           </vi-select>
-        </div>
-      </div>
-      <!-- Color theme overwrite select. -->
-      <div class="flex items-center">
-        <p class="mr-auto">Color Theme Overwrite</p>
-        <div class="ml-auto w-34">
           <vi-select
-            v-model="colorThemeOver"
+            v-model="backgroundPlacementOver"
             class="w-auto"
           >
             <vi-option
-              label="Default"
-              value="default"
+              label="- Global -"
+              :value="0"
+              class="text-center"
             />
             <vi-option
-              v-for="color in colors"
-              :key="color.i"
-              :label="color.name"
-              :value="color.i"
-              class="text-left"
-            >
-              <div class="align-middle inline-flex items-center space-x-4">
-                <div
-                  :style="{ backgroundColor: 'rgb(' + color.codes[4] + ')' }"
-                  class="h-6 rounded-full w-6"
-                />
-                <p>{{ color.name }}</p>
-              </div>
-            </vi-option>
+              v-for="item in backgroundPlacementOptions"
+              :key="item.i"
+              :label="item.name"
+              :value="item.i"
+            />
           </vi-select>
         </div>
+        <!-- Color theme overwrite select. -->
+        <vi-select
+          v-model="colorTheme"
+          class="w-auto"
+        >
+          <vi-option
+            label="Default"
+            value="default"
+          />
+          <vi-option
+            v-for="color in colors"
+            :key="color.i"
+            :label="color.name"
+            :value="color.i"
+            class="text-left"
+          >
+            <div class="align-middle inline-flex items-center space-x-4">
+              <div
+                :style="{ backgroundColor: 'rgb(' + color.codes[4] + ')' }"
+                class="h-6 rounded-full w-6"
+              />
+              <p>{{ color.name }}</p>
+            </div>
+          </vi-option>
+        </vi-select>
+        <!-- Open hide elements dialog. -->
+        <vi-button
+          button-large
+          @click="hideElementsShow()"
+        >Configure</vi-button>
       </div>
     </div>
   </vi-dialog>
@@ -195,8 +234,6 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-// Import settings objects and functions.
-import { backgroundImageOptions, backgroundPlacementOptions } from '@/settings'
 // Import theme objects and functions.
 import { colors, selectColor } from '@/theme'
 
@@ -218,68 +255,56 @@ export default {
       }
     })
 
-    // Manage settings in the store.
-    const settingsOver = computed({
-      get() { return store.getters.getSettingsGameOverSettingsOver },
-      set(value) { store.commit('setSettingsGameOverSettingsOver', value) }
-    })
-    const minimalUiDisplay = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplay },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplay', value) }
-    })
-    const displayCoverImage = computed({
-      get() {
-        return settingsOver.value
-          ? store.getters.getSettingsGameOverDisplayCoverImage
-          : store.getters.getSettingsGameDisplayCoverImage
-      },
-      set(value) {
-        store.commit(settingsOver.value
-          ? 'setSettingsGameOverDisplayCoverImage'
-          : 'setSettingsGameDisplayCoverImage', value)
-      }
-    })
+    // Manage background image.
     const backgroundImage = computed({
-      get() {
-        return settingsOver.value
-          ? store.getters.getSettingsGameOverBackgroundImage
-          : store.getters.getSettingsGameBackgroundImage
-      },
-      set(value) {
-        store.commit(settingsOver.value
-          ? 'setSettingsGameOverBackgroundImage'
-          : 'setSettingsGameBackgroundImage', value)
-      }
+      get() { return store.getters.getSettingsGameBackgroundImage },
+      set(value) { store.commit('setSettingsGameBackgroundImage', value) }
     })
+    const backgroundImageOver = computed({
+      get() { return store.getters.getSettingsGameOverBackgroundImage },
+      set(value) { store.commit('setSettingsGameOverBackgroundImage', value) }
+    })
+    const backgroundImageOptions = [
+      { i: 1, name: 'Default' },
+      { i: 2, name: 'Background' },
+      { i: 3, name: 'Cover' },
+      { i: 4, name: 'Title' },
+      { i: 5, name: 'In-Game' }
+    ]
+
+    // Manage background placement.
     const backgroundPlacement = computed({
-      get() {
-        return settingsOver.value
-          ? store.getters.getSettingsGameOverBackgroundPlacement
-          : store.getters.getSettingsGameBackgroundPlacement
-      },
-      set(value) {
-        store.commit(settingsOver.value
-          ? 'setSettingsGameOverBackgroundPlacement'
-          : 'setSettingsGameBackgroundPlacement', value)
-      }
+      get() { return store.getters.getSettingsGameBackgroundPlacement },
+      set(value) { store.commit('setSettingsGameBackgroundPlacement', value) }
     })
-    const colorThemeOver = computed({
-      get() { return store.getters.getSettingsGameOverColorThemeOver },
+    const backgroundPlacementOver = computed({
+      get() { return store.getters.getSettingsGameOverBackgroundPlacement },
+      set(value) { store.commit('setSettingsGameOverBackgroundPlacement', value) }
+    })
+    const backgroundPlacementOptions = [
+      { i: 1, name: 'Default' },
+      { i: 2, name: 'Top' },
+      { i: 3, name: 'Bottom' },
+      { i: 4, name: 'Left' },
+      { i: 5, name: 'Right' }
+    ]
+
+    // Manage color theme.
+    const colorTheme = computed({
+      get() { return store.getters.getSettingsGameOverColorTheme },
       set(value) {
         // Set color theme in the configuration file.
-        store.commit('setSettingsGameOverColorThemeOver', value)
+        store.commit('setSettingsGameOverColorTheme', value)
         // Set color theme in the running application.
-        selectColor(colorThemeOver.value != 'default' ? colorThemeOver.value : store.getters.getSettingsThemesSelectedColor)
+        selectColor(colorTheme.value != 'default' ? colorTheme.value : store.getters.getSettingsThemesSelectedColor)
       }
     })
-
-    // Manage color theme load/unload.
     const colorSelect = (res) => {
       // Load theme only when the game has loaded as well.
-      if (colorThemeOver.value) {
+      if (colorTheme.value) {
         selectColor(res
-          ? colorThemeOver.value != 'default'
-            ? colorThemeOver.value
+          ? colorTheme.value != 'default'
+            ? colorTheme.value
             : store.getters.getSettingsThemesSelectedColor
           : store.getters.getSettingsThemesSelectedColor)
       }
@@ -288,83 +313,96 @@ export default {
     onUnmounted(() => {
       colorSelect(false)
       // Unload theme settings overwrite from the store.
-      store.state.settingsApp.settingsGame.settingsOver.colorThemeOver = null
+      store.state.settingsApp.settingsGame.settingsOver.colorTheme = null
     })
 
-    // Manage details display.
-    let minimalUiDisplayDialog = ref(false)
-    const minimalUiDisplayShow = () => {
-      // Toggle details dialog.
-      minimalUiDisplayDialog.value = !minimalUiDisplayDialog.value
+    // Manage hide elements dialog.
+    let hideElementsDialog = ref(false)
+    const hideElementsShow = () => {
+      hideElementsDialog.value = !hideElementsDialog.value
     }
-    const minimalUiDisplayPlaylists = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayPlaylists },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayPlaylists', value) }
+    const hideElementsDetails = computed({
+      get() { return store.getters.getSettingsGameHideElementsDetails },
+      set(value) { store.commit('setSettingsGameHideElementsDetails', value) }
     })
-    const minimalUiDisplayFavorites = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayFavorites },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayFavorites', value) }
+    const hideElementsFavorite = computed({
+      get() { return store.getters.getSettingsGameHideElementsFavorite },
+      set(value) { store.commit('setSettingsGameHideElementsFavorite', value) }
     })
-    const minimalUiDisplayGameLaunch = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayGameLaunch },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayGameLaunch', value) }
+    const hideElementsGallery = computed({
+      get() { return store.getters.getSettingsGameHideElementsGallery },
+      set(value) { store.commit('setSettingsGameHideElementsGallery', value) }
     })
-    const minimalUiDisplayVersionSelect = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayVersionSelect },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayVersionSelect', value) }
+    const hideElementsLinks = computed({
+      get() { return store.getters.getSettingsGameHideElementsLinks },
+      set(value) { store.commit('setSettingsGameHideElementsLinks', value) }
     })
-    const minimalUiDisplayGameSettings = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayGameSettings },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayGameSettings', value) }
+    const hideElementsNotes = computed({
+      get() { return store.getters.getSettingsGameHideElementsNotes },
+      set(value) { store.commit('setSettingsGameHideElementsNotes', value) }
     })
-    const minimalUiDisplayDetails = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayDetails },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayDetails', value) }
+    const hideElementsPlaylists = computed({
+      get() { return store.getters.getSettingsGameHideElementsPlaylists },
+      set(value) { store.commit('setSettingsGameHideElementsPlaylists', value) }
     })
-    const minimalUiDisplayGameLinking = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayGameLinking },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayGameLinking', value) }
+    const hideElementsSettingsPage = computed({
+      get() { return store.getters.getSettingsGameHideElementsSettingsPage },
+      set(value) { store.commit('setSettingsGameHideElementsSettingsPage', value) }
     })
-    const minimalUiDisplayLinks = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayLinks },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayLinks', value) }
+    const hideElementsCover = computed({
+      get() { return store.getters.getSettingsGameHideElementsCover },
+      set(value) { store.commit('setSettingsGameHideElementsCover', value) }
     })
-    const minimalUiDisplayGallery = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayGallery },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayGallery', value) }
+    const hideElementsLaunch = computed({
+      get() { return store.getters.getSettingsGameHideElementsLaunch },
+      set(value) { store.commit('setSettingsGameHideElementsLaunch', value) }
     })
-    const minimalUiDisplayGameTags = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayGameTags },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayGameTags', value) }
+    const hideElementsVersions = computed({
+      get() { return store.getters.getSettingsGameHideElementsVersions },
+      set(value) { store.commit('setSettingsGameHideElementsVersions', value) }
     })
-    const minimalUiDisplayRegionFlags = computed({
-      get() { return store.getters.getSettingsGameMinimalUiDisplayRegionFlags },
-      set(value) { store.commit('setSettingsGameMinimalUiDisplayRegionFlags', value) }
+    const hideElementsLinking = computed({
+      get() { return store.getters.getSettingsGameHideElementsLinking },
+      set(value) { store.commit('setSettingsGameHideElementsLinking', value) }
+    })
+    const hideElementsSettingsGame = computed({
+      get() { return store.getters.getSettingsGameHideElementsSettingsGame },
+      set(value) { store.commit('setSettingsGameHideElementsSettingsGame', value) }
+    })
+    const hideElementsRegionFlags = computed({
+      get() { return store.getters.getSettingsGameHideElementsRegionFlags },
+      set(value) { store.commit('setSettingsGameHideElementsRegionFlags', value) }
+    })
+    const hideElementsTags = computed({
+      get() { return store.getters.getSettingsGameHideElementsTags },
+      set(value) { store.commit('setSettingsGameHideElementsTags', value) }
     })
 
     return {
       backgroundImage,
       backgroundImageOptions,
+      backgroundImageOver,
       backgroundPlacement,
       backgroundPlacementOptions,
-      colorThemeOver,
+      backgroundPlacementOver,
+      colorTheme,
       colors,
-      displayCoverImage,
-      minimalUiDisplay,
-      minimalUiDisplayDetails,
-      minimalUiDisplayDialog,
-      minimalUiDisplayFavorites,
-      minimalUiDisplayGallery,
-      minimalUiDisplayGameLaunch,
-      minimalUiDisplayGameLinking,
-      minimalUiDisplayGameSettings,
-      minimalUiDisplayGameTags,
-      minimalUiDisplayLinks,
-      minimalUiDisplayPlaylists,
-      minimalUiDisplayRegionFlags,
-      minimalUiDisplayShow,
-      minimalUiDisplayVersionSelect,
-      settingsOver
+      hideElementsCover,
+      hideElementsDetails,
+      hideElementsDialog,
+      hideElementsFavorite,
+      hideElementsGallery,
+      hideElementsLinks,
+      hideElementsNotes,
+      hideElementsPlaylists,
+      hideElementsSettingsPage,
+      hideElementsLaunch,
+      hideElementsVersions,
+      hideElementsLinking,
+      hideElementsSettingsGame,
+      hideElementsRegionFlags,
+      hideElementsShow,
+      hideElementsTags
     }
   }
 }

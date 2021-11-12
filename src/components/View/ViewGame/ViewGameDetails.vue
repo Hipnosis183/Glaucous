@@ -67,7 +67,9 @@
               {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name }}
             </p>
             <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number">
-              ({{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number }})
+              {{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].name
+              ? (gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number)
+              : gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].number}}
             </p>
             <p v-if="gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].type">
               ({{ typeOptions[typeOptions.findIndex((res) => res.i == gameInfo.gameRegions[regionIndex].gameVersions[versionIndex].type)].name }})

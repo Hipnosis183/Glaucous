@@ -36,24 +36,6 @@ export const imagesDisplayOptions = [
     { i: 3, name: 'In-Game' }
 ]
 
-// Background image display options.
-export const backgroundImageOptions = [
-    { i: 0, name: 'Default' },
-    { i: 1, name: 'Background' },
-    { i: 2, name: 'Cover' },
-    { i: 3, name: 'Title' },
-    { i: 4, name: 'In-Game' }
-]
-
-// Background image placement options.
-export const backgroundPlacementOptions = [
-    { i: 0, name: 'Default' },
-    { i: 1, name: 'Top' },
-    { i: 2, name: 'Bottom' },
-    { i: 3, name: 'Left' },
-    { i: 4, name: 'Right' }
-]
-
 // Game list grouping modes.
 export const gameCategoryOptions = [
     { i: 0, name: 'All Games' },

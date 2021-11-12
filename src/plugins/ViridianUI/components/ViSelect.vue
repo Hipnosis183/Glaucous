@@ -102,7 +102,7 @@
             v-show="openMenu"
             ref="refMenu"
             :style="{ transformOrigin: popperPlacement == 'top' ? 'bottom' : 'top'}"
-            class="bg-theme-100 dark:bg-theme-900 border-2 border-solid border-theme-200 dark:border-theme-800 list-none max-h-64 overflow-y-auto py-2 rounded-xl transition-menu"
+            class="bg-theme-100 dark:bg-theme-900 border-2 border-solid border-theme-200 dark:border-theme-800 list-none max-h-68 overflow-y-auto py-2 rounded-xl transition-menu"
           >
             <!-- Select created option. -->
             <vi-option

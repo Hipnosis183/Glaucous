@@ -192,15 +192,19 @@
               :class="index == regionIndex ? 'bg-color-500 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
             />
             <div class="h-full inline-flex items-center relative text-lg w-full">
-              <p :class="gameInfo.gameRegions[index].region && minimalUiDisplayRegionFlags ? 'ml-auto' : 'mx-auto'">
+              <p :class="hideElementsRegionFlags && gameInfo.gameRegions[index].region ? 'ml-auto' : 'mx-auto'">
                 {{ gameInfo.gameRegions[index].title }}
               </p>
-              <img
-                v-if="minimalUiDisplayRegionFlags && gameInfo.gameRegions[index].region"
-                :src="'./images/flags/' + gameInfo.gameRegions[index].region + '.svg'"
-                class="h-full ml-auto p-4"
-                :class="index == regionIndex ? 'opacity-90' : 'opacity-80'"
-              />
+              <div
+                v-if="hideElementsRegionFlags && gameInfo.gameRegions[index].region"
+                class="flex h-full ml-auto p-4"
+              >
+                <img
+                  :src="'./images/flags/' + gameInfo.gameRegions[index].region + '.svg'"
+                  class="rounded"
+                  :class="index == regionIndex ? 'opacity-90' : 'opacity-80'"
+                />
+              </div>
             </div>
           </div>
           <div
@@ -350,6 +354,94 @@
                           </div>
                         </div>
                       </vi-menu-select-ui>
+                      <!-- Open game details dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsDetails"
+                        @click="gameDetailsShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-info />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Remove selected game platform from favorites. -->
+                      <vi-button-ui
+                        v-if="gameFavorited"
+                        @click="removeFavorite()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-star-s />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Add selected game platform to favorites. -->
+                      <vi-button-ui
+                        v-else-if="hideElementsFavorite"
+                        @click="addFavorite()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-star />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open game gallery. -->
+                      <vi-button-ui
+                        v-if="hideElementsGallery"
+                        @click="gameGalleryShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-picture-s />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open links dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsLinks"
+                        @click="gameLinksShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-link />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open notes dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsNotes"
+                        @click="gameNotesShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-notes />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open playlists dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsPlaylists"
+                        @click="gamePlaylistsOpen()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-playlist-add />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open settings dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsSettingsPage"
+                        @click="gameSettingsShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-settings />
+                        </vi-icon>
+                      </vi-button-ui>
                     </div>
                     <!-- Bottom container. -->
                     <div class="mt-auto p-8 pb-0">
@@ -804,39 +896,30 @@ export default {
       gameSettingsDialog.value = !gameSettingsDialog.value
     }
 
-    // Manage minimal UI state.
-    const minimalUiDisplay = computed(() => {
-      return !store.getters.getSettingsGameMinimalUiDisplay
+    // Manage elements display state.
+    const hideElementsDetails = computed(() => {
+      return !store.getters.getSettingsGameHideElementsDetails
     })
-    const minimalUiDisplayPlaylists = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayPlaylists
-      } else { return true }
+    const hideElementsFavorite = computed(() => {
+      return !store.getters.getSettingsGameHideElementsFavorite
     })
-    const minimalUiDisplayFavorites = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayFavorites
-      } else { return true }
+    const hideElementsGallery = computed(() => {
+      return !store.getters.getSettingsGameHideElementsGallery
     })
-    const minimalUiDisplayDetails = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayDetails
-      } else { return true }
+    const hideElementsLinks = computed(() => {
+      return !store.getters.getSettingsGameHideElementsLinks
     })
-    const minimalUiDisplayLinks = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayLinks
-      } else { return true }
+    const hideElementsNotes = computed(() => {
+      return !store.getters.getSettingsGameHideElementsNotes
     })
-    const minimalUiDisplayGallery = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGallery
-      } else { return true }
+    const hideElementsPlaylists = computed(() => {
+      return !store.getters.getSettingsGameHideElementsPlaylists
     })
-    const minimalUiDisplayRegionFlags = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayRegionFlags
-      } else { return true }
+    const hideElementsSettingsPage = computed(() => {
+      return !store.getters.getSettingsGameHideElementsSettingsPage
+    })
+    const hideElementsRegionFlags = computed(() => {
+      return !store.getters.getSettingsGameHideElementsRegionFlags
     })
 
     // Return values to use on template.
@@ -890,13 +973,15 @@ export default {
       gamePlaylistsOpen,
       gameSettingsDialog,
       gameSettingsShow,
+      hideElementsDetails,
+      hideElementsFavorite,
+      hideElementsGallery,
+      hideElementsLinks,
+      hideElementsNotes,
+      hideElementsPlaylists,
+      hideElementsRegionFlags,
+      hideElementsSettingsPage,
       loadLinks,
-      minimalUiDisplayDetails,
-      minimalUiDisplayFavorites,
-      minimalUiDisplayGallery,
-      minimalUiDisplayLinks,
-      minimalUiDisplayPlaylists,
-      minimalUiDisplayRegionFlags,
       openPathConfig,
       openPathGame,
       openPathImages,

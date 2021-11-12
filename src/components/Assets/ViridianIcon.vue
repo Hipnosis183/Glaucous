@@ -99,8 +99,8 @@ export default {
 
     // Use original icon colors when theme 'Viridian' is selected.
     const originalColors = computed(() => {
-      return store.getters.getSettingsGameOverColorThemeOver
-        ? store.getters.getSettingsGameOverColorThemeOver == 'default'
+      return store.getters.getSettingsGameOverColorTheme
+        ? store.getters.getSettingsGameOverColorTheme == 'default'
           ? store.getters.getSettingsThemesSelectedColor == 0 ? false : true : true
         : store.getters.getSettingsThemesSelectedColor == 0 ? false : true
     })

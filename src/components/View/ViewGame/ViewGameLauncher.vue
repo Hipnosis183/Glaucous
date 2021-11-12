@@ -14,7 +14,7 @@
     <div class="flex space-x-2">
       <!-- Plat game button. -->
       <vi-button-ui
-        v-if="minimalUiDisplayGameLaunch"
+        v-if="hideElementsLaunch"
         button-large
         button-size="large"
         @click="launchGame()"
@@ -31,7 +31,7 @@
       </vi-button-ui>
       <!-- View game linking. -->
       <view-game-linking
-        v-if="minimalUiDisplayGameLinking && !minimalUiDisplayVersionSelect"
+        v-if="hideElementsLinking && !hideElementsVersions"
         :key="gameInfo"
         :game-info="gameInfo"
         :icon-large="'large'"
@@ -39,19 +39,19 @@
       />
       <!-- View game settings. -->
       <view-game-settings
-        v-if="minimalUiDisplayGameSettings && !minimalUiDisplayVersionSelect"
+        v-if="hideElementsSettingsGame && !hideElementsVersions"
         :full-command="fullCommand"
         :icon-large="'large'"
       />
     </div>
     <!-- Bottom container. -->
     <div
-      v-if="minimalUiDisplayVersionSelect && (minimalUiDisplayGameLinking || minimalUiDisplayGameSettings)"
+      v-if="hideElementsVersions && (hideElementsLinking || hideElementsSettingsGame)"
       class="flex space-x-2"
     >
       <!-- Game version select. -->
       <vi-select-ui
-        v-if="minimalUiDisplayVersionSelect"
+        v-if="hideElementsVersions"
         v-model="$store.state.gameSelected.gameVersion"
       >
         <vi-option-group-ui
@@ -70,14 +70,14 @@
       </vi-select-ui>
       <!-- View game linking. -->
       <view-game-linking
-        v-if="minimalUiDisplayGameLinking && minimalUiDisplayVersionSelect"
+        v-if="hideElementsLinking && hideElementsVersions"
         :key="gameInfo"
         :game-info="gameInfo"
         :region-index="regionIndex"
       />
       <!-- View game settings. -->
       <view-game-settings
-        v-if="minimalUiDisplayGameSettings && minimalUiDisplayVersionSelect"
+        v-if="hideElementsSettingsGame && hideElementsVersions"
         :full-command="fullCommand"
       />
     </div>
@@ -234,29 +234,18 @@ export default {
       return props.gameInfo.gameRegions[props.regionIndex].gameVersions.filter((res) => type.i ? res.type == type.i : res.type == type.i || res.type == '')
     }
 
-    // Manage minimal UI state.
-    const minimalUiDisplay = computed(() => {
-      return !store.getters.getSettingsGameMinimalUiDisplay
+    // Manage elements display state.
+    const hideElementsLaunch = computed(() => {
+      return !store.getters.getSettingsGameHideElementsLaunch
     })
-    const minimalUiDisplayGameLaunch = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGameLaunch
-      } else { return true }
+    const hideElementsVersions = computed(() => {
+      return !store.getters.getSettingsGameHideElementsVersions
     })
-    const minimalUiDisplayVersionSelect = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayVersionSelect
-      } else { return true }
+    const hideElementsLinking = computed(() => {
+      return !store.getters.getSettingsGameHideElementsLinking
     })
-    const minimalUiDisplayGameSettings = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGameSettings
-      } else { return true }
-    })
-    const minimalUiDisplayGameLinking = computed(() => {
-      if (!minimalUiDisplay.value) {
-        return !store.getters.getSettingsGameMinimalUiDisplayGameLinking
-      } else { return true }
+    const hideElementsSettingsGame = computed(() => {
+      return !store.getters.getSettingsGameHideElementsSettingsGame
     })
 
     return {
@@ -266,10 +255,10 @@ export default {
       launchErrorShow,
       launchErrorDialog,
       launchGame,
-      minimalUiDisplayGameLaunch,
-      minimalUiDisplayGameLinking,
-      minimalUiDisplayGameSettings,
-      minimalUiDisplayVersionSelect,
+      hideElementsLaunch,
+      hideElementsLinking,
+      hideElementsSettingsGame,
+      hideElementsVersions,
       typeFilter,
       typeOptions
     }
