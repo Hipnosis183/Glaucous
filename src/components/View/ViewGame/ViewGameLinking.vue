@@ -13,7 +13,7 @@
     v-show="gameLinkingDialog"
     @close="gameLinkingShow()"
     :rounded="false"
-    :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsDisplayMode == 0 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
+    :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsDisplayMode == 1 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
     class="left-12 top-0 z-10"
   >
     <!-- Unlink game dialog. -->
@@ -133,15 +133,15 @@
           >
             <!-- Game cards. -->
             <vi-card-grid
-              v-if="$store.getters.getSettingsListsDisplayMode == 0"
+              v-if="$store.getters.getSettingsListsDisplayMode == 1"
               :game-info="game"
             />
             <vi-card-list
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
               :game-info="game"
             />
             <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
               :game-info="game"
             />
           </li>

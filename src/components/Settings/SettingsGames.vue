@@ -130,7 +130,7 @@
       <!-- Settings global controllers. -->
       <div class="space-y-2 w-80">
         <!-- Header. -->
-        <div class="flex mb-4 -mt-1 w-full">
+        <div class="flex mb-4 -mt-1 text-theme-700 dark:text-theme-200 w-full">
           <div class="flex justify-center w-1/2">Global</div>
           <div class="flex justify-center w-1/2">Overwrite</div>
         </div>

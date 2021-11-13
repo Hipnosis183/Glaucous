@@ -51,15 +51,15 @@
           >
             <!-- Game cards. -->
             <vi-card-grid
-              v-if="$store.getters.getSettingsListsDisplayMode == 0"
+              v-if="$store.getters.getSettingsListsDisplayMode == 1"
               :game-info="game"
             />
             <vi-card-list
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
               :game-info="game"
             />
             <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
+              v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
               :game-info="game"
             />
           </li>

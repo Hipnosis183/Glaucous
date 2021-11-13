@@ -15,7 +15,7 @@
     <input
       v-model="modelValue"
       :disabled="true"
-      class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-center text-theme-800 dark:text-theme-200 w-24"
+      class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-center text-theme-800 dark:text-theme-200 w-full"
       :class="{ 'rounded-l-xl' : positionSide }"
     />
     <!-- Increase button. -->

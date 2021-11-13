@@ -15,7 +15,7 @@
       :src="'file://' + getImage"
       class="h-full image-content rounded-list"
       :class="[
-        { 'rendering-pixelated' : imagesFiltering && (!gameInfo.image.cover || (imagesDisplay != 0 && imagesDisplay != 1)) },
+        { 'rendering-pixelated' : imagesFiltering && (!gameInfo.image.cover || (imagesDisplay != 1 && imagesDisplay != 2)) },
         { 'card-blur' : ((gameInfoHover && $store.getters.getSettingsListsCardTextDisplay == 0) || $store.getters.getSettingsListsCardTextDisplay == 1) && $store.getters.getSettingsListsCardTextStyle == 3 }
       ]"
     >
@@ -144,20 +144,20 @@ export default {
       }
       // Select type of image to display from settings.
       switch (imagesDisplay.value) {
-        case 0: {
+        case 1: {
           // Default to the normal image fallback mode.
           return props.gameInfo.image.path
         }
-        case 1: {
+        case 2: {
           let image = imageFiles.value.filter(res => res.startsWith('0'.repeat(8)))[0]
           return image ? imagePath.value + '/' + image : false
         }
-        case 2: {
+        case 3: {
           // Asume that the first picture is the title image.
           let image = imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))[0]
           return image ? imagePath.value + '/' + image : false
         }
-        case 3: {
+        case 4: {
           // Asume that after the first picture are all in-game images.
           let image = imageFiles.value.filter(res => !res.startsWith('0'.repeat(8)))
           // Skip title image.
@@ -172,23 +172,21 @@ export default {
     // Manage card display properties.
     const gridHeight = computed(() => {
       return props.listPlatform
-        ? store.getters.getSettingsPlatformOverSettingsOver
+        ? typeof (store.getters.getSettingsPlatformOverGridHeight) == 'number'
           ? store.getters.getSettingsPlatformOverGridHeight
           : store.getters.getSettingsPlatformGridHeight
         : store.getters.getSettingsPlatformGridHeight
     })
     const imagesDisplay = computed(() => {
       return props.listPlatform
-        ? store.getters.getSettingsPlatformOverSettingsOver
+        ? store.getters.getSettingsPlatformOverImagesDisplay
           ? store.getters.getSettingsPlatformOverImagesDisplay
           : store.getters.getSettingsPlatformImagesDisplay
         : store.getters.getSettingsPlatformImagesDisplay
     })
     const imagesFiltering = computed(() => {
       if (props.listPlatform) {
-        return store.getters.getSettingsPlatformOverSettingsOver
-          ? !store.getters.getSettingsPlatformOverImagesFiltering
-          : !store.getters.getSettingsPlatformImagesFiltering
+        return !store.getters.getSettingsPlatformOverImagesFiltering
       } else {
         // Set the platform configuration file path for the game.
         let configPlatformPath = app.getAppPath() + '/data/config/' + props.gameInfo.platform._id + '/' + props.gameInfo.platform._id + '.json'

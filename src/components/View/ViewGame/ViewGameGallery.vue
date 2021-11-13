@@ -297,9 +297,7 @@ export default {
       imagesPicturesDialog.value = !imagesPicturesDialog.value
     }
     const imagesFiltering = computed(() => {
-      return store.getters.getSettingsPlatformOverSettingsOver
-        ? !store.getters.getSettingsPlatformOverImagesFiltering
-        : !store.getters.getSettingsPlatformImagesFiltering
+      return !store.getters.getSettingsPlatformOverImagesFiltering
     })
 
     return {

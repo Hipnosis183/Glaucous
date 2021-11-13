@@ -28,24 +28,23 @@ export default createStore({
       settingsLists: {
         scalingEffect: localStore.get('settingsLists.scalingEffect', true),
         contentSpacing: localStore.get('settingsLists.contentSpacing', true),
-        displayMode: localStore.get('settingsLists.displayMode', 0),
         cornersRounding: localStore.get('settingsLists.cornersRounding', 2),
         cardTextDisplay: localStore.get('settingsLists.cardTextDisplay', 0),
-        cardTextStyle: localStore.get('settingsLists.cardTextStyle', 0)
+        cardTextStyle: localStore.get('settingsLists.cardTextStyle', 0),
+        displayMode: localStore.get('settingsLists.displayMode', 1)
       },
       settingsPlatform: {
         settingsGlobal: {
-          imagesDisplay: localStore.get('settingsPlatform.imagesDisplay', 0),
-          imagesFiltering: localStore.get('settingsPlatform.imagesFiltering', true),
+          imagesDisplay: localStore.get('settingsPlatform.imagesDisplay', 1),
           gridColumns: localStore.get('settingsPlatform.gridColumns', 4),
           gridHeight: localStore.get('settingsPlatform.gridHeight', 200)
         },
         settingsOver: {
-          settingsOver: false,
           imagesFiltering: true,
           imagesDisplay: 0,
-          gridColumns: 4,
-          gridHeight: 200
+          displayMode: 0,
+          gridColumns: '4',
+          gridHeight: '200'
         }
       },
       settingsGame: {
@@ -226,9 +225,6 @@ export default createStore({
     getSettingsListsContentSpacing(state) {
       return state.settingsApp.settingsLists.contentSpacing
     },
-    getSettingsListsDisplayMode(state) {
-      return state.settingsApp.settingsLists.displayMode
-    },
     getSettingsListsCornersRounding(state) {
       return state.settingsApp.settingsLists.cornersRounding
     },
@@ -238,8 +234,8 @@ export default createStore({
     getSettingsListsCardTextStyle(state) {
       return state.settingsApp.settingsLists.cardTextStyle
     },
-    getSettingsPlatformImagesFiltering(state) {
-      return state.settingsApp.settingsPlatform.settingsGlobal.imagesFiltering
+    getSettingsListsDisplayMode(state) {
+      return state.settingsApp.settingsLists.displayMode
     },
     getSettingsPlatformImagesDisplay(state) {
       return state.settingsApp.settingsPlatform.settingsGlobal.imagesDisplay
@@ -255,6 +251,9 @@ export default createStore({
     },
     getSettingsPlatformOverImagesDisplay(state) {
       return state.settingsApp.settingsPlatform.settingsOver.imagesDisplay
+    },
+    getSettingsPlatformOverDisplayMode(state) {
+      return state.settingsApp.settingsPlatform.settingsOver.displayMode
     },
     getSettingsPlatformOverGridColumns(state) {
       return state.settingsApp.settingsPlatform.settingsOver.gridColumns
@@ -378,10 +377,6 @@ export default createStore({
       state.settingsApp.settingsLists.contentSpacing = data
       localStore.set('settingsLists.contentSpacing', state.settingsApp.settingsLists.contentSpacing)
     },
-    setSettingsListsDisplayMode(state, data) {
-      state.settingsApp.settingsLists.displayMode = data
-      localStore.set('settingsLists.displayMode', state.settingsApp.settingsLists.displayMode)
-    },
     setSettingsListsCornersRounding(state, data) {
       state.settingsApp.settingsLists.cornersRounding = data
       localStore.set('settingsLists.cornersRounding', state.settingsApp.settingsLists.cornersRounding)
@@ -394,9 +389,9 @@ export default createStore({
       state.settingsApp.settingsLists.cardTextStyle = data
       localStore.set('settingsLists.cardTextStyle', state.settingsApp.settingsLists.cardTextStyle)
     },
-    setSettingsPlatformImagesFiltering(state, data) {
-      state.settingsApp.settingsPlatform.settingsGlobal.imagesFiltering = data
-      localStore.set('settingsPlatform.imagesFiltering', state.settingsApp.settingsPlatform.settingsGlobal.imagesFiltering)
+    setSettingsListsDisplayMode(state, data) {
+      state.settingsApp.settingsLists.displayMode = data
+      localStore.set('settingsLists.displayMode', state.settingsApp.settingsLists.displayMode)
     },
     setSettingsPlatformImagesDisplay(state, data) {
       state.settingsApp.settingsPlatform.settingsGlobal.imagesDisplay = data
@@ -413,6 +408,7 @@ export default createStore({
     setPlatformOverStore(state) {
       state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = platformStore.get('settingsPlatformOver.imagesFiltering', true)
       state.settingsApp.settingsPlatform.settingsOver.imagesDisplay = platformStore.get('settingsPlatformOver.imagesDisplay', 0)
+      state.settingsApp.settingsPlatform.settingsOver.displayMode = platformStore.get('settingsPlatformOver.displayMode', 0)
       state.settingsApp.settingsPlatform.settingsOver.gridColumns = platformStore.get('settingsPlatformOver.gridColumns', 4)
       state.settingsApp.settingsPlatform.settingsOver.gridHeight = platformStore.get('settingsPlatformOver.gridHeight', 200)
     },
@@ -420,15 +416,19 @@ export default createStore({
       state.settingsApp.settingsPlatform.settingsOver.imagesFiltering = data
       platformStore.set('settingsPlatformOver.imagesFiltering', state.settingsApp.settingsPlatform.settingsOver.imagesFiltering)
     },
-    setgetSettingsPlatformOverImagesDisplay(state, data) {
+    setSettingsPlatformOverImagesDisplay(state, data) {
       state.settingsApp.settingsPlatform.settingsOver.imagesDisplay = data
       platformStore.set('settingsPlatformOver.imagesDisplay', state.settingsApp.settingsPlatform.settingsOver.imagesDisplay)
     },
-    setSettingsPlatformOverListColumns(state, data) {
+    setSettingsPlatformOverDisplayMode(state, data) {
+      state.settingsApp.settingsPlatform.settingsOver.displayMode = data
+      platformStore.set('settingsPlatformOver.displayMode', state.settingsApp.settingsPlatform.settingsOver.displayMode)
+    },
+    setSettingsPlatformOverGridColumns(state, data) {
       state.settingsApp.settingsPlatform.settingsOver.gridColumns = data
       platformStore.set('settingsPlatformOver.gridColumns', state.settingsApp.settingsPlatform.settingsOver.gridColumns)
     },
-    setgetSettingsPlatformOverGridHeight(state, data) {
+    setSettingsPlatformOverGridHeight(state, data) {
       state.settingsApp.settingsPlatform.settingsOver.gridHeight = data
       platformStore.set('settingsPlatformOver.gridHeight', state.settingsApp.settingsPlatform.settingsOver.gridHeight)
     },

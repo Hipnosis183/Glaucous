@@ -2,7 +2,7 @@
   <ul
     class="grid"
     :class="$store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'"
-    :style="listDisplay == 0 ? 'grid-template-columns: repeat(' + gridColumns  + ', minmax(0, 1fr))' : ''"
+    :style="listDisplay == 1 ? 'grid-template-columns: repeat(' + gridColumns  + ', minmax(0, 1fr))' : ''"
   >
     <slot />
   </ul>
@@ -34,7 +34,7 @@ export default {
     // Manage list columns.
     const gridColumns = computed(() => {
       return props.listPlatform
-        ? store.getters.getSettingsPlatformOverSettingsOver
+        ? typeof (store.getters.getSettingsPlatformOverGridColumns) == 'number'
           ? store.getters.getSettingsPlatformOverGridColumns
           : store.getters.getSettingsPlatformGridColumns
         : store.getters.getSettingsPlatformGridColumns

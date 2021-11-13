@@ -8,9 +8,9 @@ export const cornersRoundingOptions = [
 
 // Display mode options.
 export const displayModeOptions = [
-    { i: 0, name: 'Grid' },
-    { i: 1, name: 'List' },
-    { i: 2, name: 'Compact' }
+    { i: 1, name: 'Grid' },
+    { i: 2, name: 'List' },
+    { i: 3, name: 'Compact' }
 ]
 
 // Card text display options.
@@ -30,17 +30,17 @@ export const cardTextStyleOptions = [
 
 // Images display options.
 export const imagesDisplayOptions = [
-    { i: 0, name: 'Default' },
-    { i: 1, name: 'Cover' },
-    { i: 2, name: 'Title' },
-    { i: 3, name: 'In-Game' }
+    { i: 1, name: 'Default' },
+    { i: 2, name: 'Cover' },
+    { i: 3, name: 'Title' },
+    { i: 4, name: 'In-Game' }
 ]
 
 // Game list grouping modes.
 export const gameCategoryOptions = [
-    { i: 0, name: 'All Games' },
-    { i: 1, name: 'Platforms' },
-    { i: 2, name: 'Developers' }
+    { i: 0, name: 'All Games', value: 'Games' },
+    { i: 1, name: 'Platforms', value: 'Platforms' },
+    { i: 2, name: 'Developers', value: 'Developers' }
 ]
 
 // Set the border radius size on the game lists cards.

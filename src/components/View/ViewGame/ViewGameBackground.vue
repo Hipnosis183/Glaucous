@@ -176,9 +176,7 @@ export default {
       }
     })
     const backgroundFiltering = computed(() => {
-      return store.getters.getSettingsPlatformOverSettingsOver
-        ? !store.getters.getSettingsPlatformOverImagesFiltering
-        : !store.getters.getSettingsPlatformImagesFiltering
+      return !store.getters.getSettingsPlatformOverImagesFiltering
     })
 
     return {

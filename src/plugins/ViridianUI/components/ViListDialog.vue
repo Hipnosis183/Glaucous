@@ -1,9 +1,9 @@
 <template>
   <ul
     class="grid"
-    :style="listDisplay == 0 && listLength < 4 ? 'grid-template-columns: repeat(' + listLength + ', minmax(0, 1fr));' : ''"
+    :style="listDisplay == 1 && listLength < 4 ? 'grid-template-columns: repeat(' + listLength + ', minmax(0, 1fr));' : ''"
     :class="[
-      { 'grid-cols-4' : listDisplay == 0 && listLength >= 4 },
+      { 'grid-cols-4' : listDisplay == 1 && listLength >= 4 },
       $store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'
     ]"
   >

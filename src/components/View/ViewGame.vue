@@ -347,7 +347,7 @@
                             />
                             <!-- Open settings dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-settings"
+                              icon="icon-options"
                               label="Settings"
                               :method="gameSettingsShow"
                             />
@@ -439,7 +439,7 @@
                         class="mr-1 rounded-xl"
                       >
                         <vi-icon class="p-px w-6">
-                          <icon-settings />
+                          <icon-options-sm />
                         </vi-icon>
                       </vi-button-ui>
                     </div>

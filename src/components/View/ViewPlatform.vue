@@ -82,7 +82,7 @@
       >
         <vi-list
           v-if="platform.games.length > 0"
-          :list-display="$store.getters.getSettingsListsDisplayMode"
+          :list-display="listDisplay"
           list-platform
           :remote-method="loadPlatformNext"
         >
@@ -94,16 +94,16 @@
           >
             <!-- Game cards. -->
             <vi-card-grid
-              v-if="$store.getters.getSettingsListsDisplayMode == 0"
+              v-if="listDisplay == 1"
               :game-info="game"
               list-platform
             />
             <vi-card-list
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 1"
+              v-else-if="listDisplay == 2"
               :game-info="game"
             />
             <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
+              v-else-if="listDisplay == 3"
               :game-info="game"
             />
           </li>
@@ -121,7 +121,7 @@
 
 <script>
 // Import Vue functions.
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import database controllers functions.
@@ -189,6 +189,11 @@ export default {
           })
       }
     }
+    const listDisplay = computed(() => {
+      return store.getters.getSettingsPlatformOverDisplayMode
+        ? store.getters.getSettingsPlatformOverDisplayMode
+        : store.getters.getSettingsListsDisplayMode
+    })
 
     // Manage game platform operations.
     let createPlatformDialog = ref(false)
@@ -294,6 +299,7 @@ export default {
       editPlatformClose,
       editPlatformDialog,
       editPlatformOpen,
+      listDisplay,
       loadPlatformNext,
       queryInput,
       querySearched,

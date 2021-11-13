@@ -32,7 +32,7 @@
         :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
       >
         <vi-list
-          :list-display="1"
+          :list-display="2"
           :remote-method="loadPlaylistNext"
         >
           <li

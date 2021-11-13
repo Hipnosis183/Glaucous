@@ -66,6 +66,8 @@
           :remote-method="querySearch"
         />
       </div>
+      <!-- List settings. -->
+      <settings-lists game-category />
     </vi-nav-bar>
     <!-- Show platforms list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -74,7 +76,7 @@
         :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
       >
         <vi-list
-          :list-display="1"
+          :list-display="2"
           :remote-method="loadPlatformNext"
         >
           <li
@@ -110,12 +112,14 @@ import { deletePlatform, getPlatform, getPlatformsGroup, getPlatformsGroupAllSea
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
+import SettingsLists from '@/components/Settings/SettingsLists.vue'
 
 export default {
   name: 'ListPlatformsGroup',
   components: {
     CreatePlatform,
-    EditPlatform
+    EditPlatform,
+    SettingsLists
   },
   setup() {
     // Instantiate Vue elements.
