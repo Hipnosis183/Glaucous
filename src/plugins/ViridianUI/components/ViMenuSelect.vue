@@ -13,7 +13,6 @@
       <vi-button-nb
         v-else
         :button-icon="icon"
-        button-large
       />
     </div>
     <!-- Dropdown menu. -->

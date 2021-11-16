@@ -28,7 +28,15 @@
           class="link-card"
         >
           <!-- Link icon image. -->
-          <img :src="getLinkIcon(link)" />
+          <div v-if="getLinkIcon(link)">
+            <img :src="getLinkIcon(link)" />
+          </div>
+          <div
+            v-else
+            class="bg-color-200 flex h-14 items-center w-14"
+          >
+            <h6>{{ getLinkChar(link) }}</h6>
+          </div>
           <!-- Link name text. -->
           <p class="link-text">{{ getLinkText(link) }}</p>
         </div>
@@ -116,13 +124,17 @@ export default {
     watch(() => [props.regionIndex, props.versionIndex], () => { getLinks() })
 
     // Manage game links.
+    const getLinkChar = (link) => {
+      // Strip 'www.' from link if present and return uppercased first char.
+      return link.hostname.replace(/^www\./, '').charAt(0).toUpperCase()
+    }
     const getLinkIcon = (link) => {
       // Strip 'www.' and top level domain ('.com') from link if present.
       let linkName = link.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.')
       // Set the icon image path for links.
       let iconPath = app.getAppPath() + '/assets/links/' + linkName + '.svg'
       // Return link icon path.
-      return existsSync(iconPath) ? 'file://' + iconPath : './images/links/default.svg'
+      return existsSync(iconPath) ? 'file://' + iconPath : false
     }
     const getLinkText = (link) => {
       // Strip 'www.' and top level domain ('.com') from link if present.
@@ -160,6 +172,7 @@ export default {
     return {
       gameLinks,
       getLinkGoogle,
+      getLinkChar,
       getLinkIcon,
       getLinkText,
       openGoogle,
@@ -171,6 +184,9 @@ export default {
 
 <style lang="postcss" scoped>
 /* Styling. */
+h6 {
+  @apply font-semibold mt-1 text-center text-color-700 text-4xl w-full;
+}
 .link-card {
   @apply bg-theme-100 dark:bg-theme-900 hover:bg-theme-200 dark:hover:bg-theme-800 cursor-pointer duration-500 flex h-14 rounded-xl overflow-hidden shadow-color transform w-full;
 }

@@ -92,6 +92,10 @@
             button-large
             @click="openPathImages()"
           >Open Images Folder</vi-button>
+          <vi-button
+            button-large
+            @click="openPathLinks()"
+          >Open Links Folder</vi-button>
         </div>
       </vi-dialog>
     </div>
@@ -99,10 +103,13 @@
     <vi-nav-bar :class="{ 'mx-1' : !$store.getters.getSettingsGeneralEditMode }">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
-        class="flex"
+        class="bg-theme-200 dark:bg-theme-900 flex items-center px-2 space-x-1"
       >
         <!-- Create games menu dialog. -->
-        <vi-menu-select icon="icon-add">
+        <vi-menu-select
+          icon="icon-add"
+          :offset="[0, 14]"
+        >
           <!-- Open create game platform dialog. -->
           <vi-menu-option
             label="Create Game Platform"
@@ -122,11 +129,13 @@
         <!-- Open edit game dialog. -->
         <vi-button-nb
           button-icon="icon-edit"
-          button-large
           @click="editGameOpen()"
         />
         <!-- Delete games menu dialog. -->
-        <vi-menu-select icon="icon-remove">
+        <vi-menu-select
+          icon="icon-remove"
+          :offset="[0, 14]"
+        >
           <!-- Open create game platform dialog. -->
           <vi-menu-option
             label="Delete Game Platform"
@@ -144,7 +153,10 @@
           />
         </vi-menu-select>
         <!-- Select default games. -->
-        <vi-menu-select icon="icon-pin">
+        <vi-menu-select
+          icon="icon-pin"
+          :offset="[0, 14]"
+        >
           <!-- Set selected region as the main region. -->
           <vi-menu-option
             label="Set Region as Default"
@@ -157,7 +169,10 @@
           />
         </vi-menu-select>
         <!-- Open game directories dialog. -->
-        <vi-menu-select icon="icon-folder">
+        <vi-menu-select
+          icon="icon-folder"
+          :offset="[0, 14]"
+        >
           <!-- Open game platform directories menu dialog. -->
           <vi-menu-option
             label="Platform Directories"
@@ -185,12 +200,12 @@
         >
           <!-- Region tab button. -->
           <div
-            class="cursor-pointer duration-500 h-full relative transition-colors w-full"
-            :class="index == regionIndex ? 'border-b-4 border-color-400' : ''"
+            class="border-transparent cursor-pointer duration-500 h-full relative transition-colors w-full"
+            :class="index == regionIndex ? 'border-b-4 border-color-400 dark:border-color-500' : ''"
           >
             <div
               class="absolute duration-500 h-full top-0 w-full"
-              :class="index == regionIndex ? 'bg-color-500 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
+              :class="index == regionIndex ? 'bg-color-500 dark:bg-color-600 opacity-50' : 'bg-theme-200 dark:bg-theme-900'"
             />
             <div class="h-full inline-flex items-center relative text-lg w-full">
               <p :class="hideElementsRegionFlags && gameInfo.gameRegions[index].region ? 'ml-auto' : 'mx-auto'">
@@ -736,24 +751,29 @@ export default {
     let basePath = app.getAppPath() + '/data'
     const basePathConfig = computed(() => { return '/config/' + gameInfo.value.platform._id })
     const basePathImages = computed(() => { return '/images/' + gameInfo.value.platform._id })
+    const basePathLinks = computed(() => { return '/links/' + gameInfo.value.platform._id })
     const basePathPlatform = computed(() => { return '/' + gameInfo.value._id })
     const basePathRegion = computed(() => { return '/' + gameInfo.value.gameRegions[regionIndex.value]._id })
     const basePathVersion = computed(() => { return '/' + gameInfo.value.gameRegions[regionIndex.value].gameVersions[versionIndex.value]._id })
     let dataPathConfig = ref('')
     let dataPathImages = ref('')
+    let dataPathLinks = ref('')
     const directoriesPlatform = () => {
       dataPathConfig.value = basePathConfig.value + basePathPlatform.value
       dataPathImages.value = basePathImages.value + basePathPlatform.value
+      dataPathLinks.value = basePathLinks.value + basePathPlatform.value
       dataPathDialog.value = true
     }
     const directoriesRegion = () => {
       dataPathConfig.value = basePathConfig.value + basePathPlatform.value + basePathRegion.value
       dataPathImages.value = basePathImages.value + basePathPlatform.value + basePathRegion.value
+      dataPathLinks.value = basePathLinks.value + basePathPlatform.value + basePathRegion.value
       dataPathDialog.value = true
     }
     const directoriesVersion = () => {
       dataPathConfig.value = basePathConfig.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
       dataPathImages.value = basePathImages.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
+      dataPathLinks.value = basePathLinks.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
       dataPathDialog.value = true
     }
     let dataPathDialog = ref(false)
@@ -774,6 +794,11 @@ export default {
       ensureDirSync(basePath + dataPathImages.value)
       // Open images location path in the file manager.
       shell.openPath(basePath + dataPathImages.value)
+    }
+    const openPathLinks = () => {
+      ensureDirSync(basePath + dataPathLinks.value)
+      // Open links location path in the file manager.
+      shell.openPath(basePath + dataPathLinks.value)
     }
 
     // Region selection operations.
@@ -986,6 +1011,7 @@ export default {
       openPathConfig,
       openPathGame,
       openPathImages,
+      openPathLinks,
       regionIndex,
       removeFavorite,
       setGameRegion,
