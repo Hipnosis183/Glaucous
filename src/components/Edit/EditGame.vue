@@ -43,7 +43,10 @@
         />
       </div>
       <div class="w-3/5">
-        <div class="flex space-x-4">
+        <div
+          :key="resetGame"
+          class="flex space-x-4"
+        >
           <form-game-platform-developer :game-developer="gameDeveloper" />
           <form-game-platform-platform :game-platform="gamePlatform" />
         </div>
@@ -82,7 +85,7 @@
 
 <script>
 // Import Vue functions.
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
 import { updateGame } from '@/database/controllers/Game'
@@ -130,7 +133,8 @@ export default {
   ],
   props: {
     gameDeveloper: { type: String },
-    gamePlatform: { type: String }
+    gamePlatform: { type: String },
+    gameReset: { type: Boolean }
   },
   setup(props, { emit }) {
     // Instantiate Vue elements.
@@ -138,6 +142,11 @@ export default {
 
     // Manage game editing.
     let resetForm = ref(false)
+    let resetGame = ref(false)
+    watch(() => props.gameReset, (res) => {
+      // Reset form components when the dialog is opened.
+      if (res) { resetGame.value = !resetGame.value }
+    })
     const onSubmit = () => {
       // Validate required fields.
       if (
@@ -243,6 +252,7 @@ export default {
       onClose,
       onSubmit,
       resetForm,
+      resetGame,
       validationErrorDialog,
       validationErrorShow
     }

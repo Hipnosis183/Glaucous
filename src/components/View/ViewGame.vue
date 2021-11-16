@@ -19,6 +19,7 @@
       <!-- Edit game dialog. -->
       <edit-game
         v-show="editGameDialog"
+        :game-reset="editGameDialog"
         :game-developer="gameInfo.developer._id"
         :game-platform="gameInfo.platform._id"
         @close="editGameClose($event)"
