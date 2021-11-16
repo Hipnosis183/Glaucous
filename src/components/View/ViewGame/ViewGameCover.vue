@@ -4,15 +4,28 @@
     v-if="getCover"
     v-show="imagesCoverDialog"
     @close="imagesCoverClose()"
+    :border="1"
+    :rounded="false"
     class="pos-initial z-10"
   >
-    <div class="flex">
+    <div class="flex relative">
       <img
         @click="imageZoomToggle()"
         :src="'file://' + imagePath + '/' + getCover"
-        class="cursor-pointer object-contain rounded-xl"
-        :class="imageZoom ? 'h-full' : 'h-cover'"
+        class="cursor-pointer object-contain"
+        :class="imageZoom ? 'h-full' : 'h-cover rounded-3xl'"
       />
+      <!-- Close cover image view. -->
+      <div class="absolute h-full pointer-events-none right-0 top-0">
+        <div
+          @click="imagesCoverClose()"
+          class="cursor-pointer m-4 sticky top-4"
+        >
+          <vi-icon class="bg-theme-800 duration-200 opacity-60 hover:opacity-100 p-1 pointer-events-auto rounded-full text-theme-200 w-8">
+            <icon-cross />
+          </vi-icon>
+        </div>
+      </div>
     </div>
   </vi-overlay>
   <!-- View cover image. -->
@@ -191,6 +204,6 @@ export default {
 <style scoped>
 /* Calculations. */
 .h-cover {
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 2rem);
 }
 </style>

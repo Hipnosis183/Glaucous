@@ -31,15 +31,28 @@
         v-if="imageSelected"
         v-show="imageSelectedDialog"
         @close="imageSelectedClose()"
+        :border="1"
+        :rounded="false"
         class="pos-initial z-20"
       >
-        <div class="flex">
+        <div class="flex relative">
           <img
             @click="imageZoomToggle()"
             :src="'file://' + imageSelected"
-            class="cursor-pointer object-contain rounded-xl"
-            :class="imageZoom ? 'h-full' : 'h-image'"
+            class="cursor-pointer object-contain"
+            :class="imageZoom ? 'h-full' : 'h-image rounded-3xl'"
           />
+          <!-- Close selected image view. -->
+          <div class="absolute h-full pointer-events-none right-0 top-0">
+            <div
+              @click="imageSelectedClose()"
+              class="cursor-pointer m-4 sticky top-4"
+            >
+              <vi-icon class="bg-theme-800 duration-200 opacity-60 hover:opacity-100 p-1 pointer-events-auto rounded-full text-theme-200 w-8">
+                <icon-cross />
+              </vi-icon>
+            </div>
+          </div>
         </div>
       </vi-overlay>
     </transition>
@@ -637,7 +650,7 @@ export default {
   height: calc(100% - 3.5rem);
 }
 .h-image {
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 2rem);
 }
 /* Styling. */
 .ar-square {
