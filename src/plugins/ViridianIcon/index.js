@@ -11,11 +11,13 @@ import IconCaretLeft from './components/IconCaretLeft.vue'
 import IconCaretRight from './components/IconCaretRight.vue'
 import IconCaretUp from './components/IconCaretUp.vue'
 import IconCheck from './components/IconCheck.vue'
+import IconClip from './components/IconClip.vue'
 import IconCategory from './components/IconCategory.vue'
 import IconClose from './components/IconClose.vue'
 import IconCross from './components/IconCross.vue'
 import IconEdit from './components/IconEdit.vue'
 import IconExit from './components/IconExit.vue'
+import IconFile from './components/IconFile.vue'
 import IconFolder from './components/IconFolder.vue'
 import IconFullScreen from './components/IconFullScreen.vue'
 import IconGameLinking from './components/IconGameLinking.vue'
@@ -62,10 +64,12 @@ export default {
         app.component('icon-caret-up', IconCaretUp)
         app.component('icon-category', IconCategory)
         app.component('icon-check', IconCheck)
+        app.component('icon-clip', IconClip)
         app.component('icon-close', IconClose)
         app.component('icon-cross', IconCross)
         app.component('icon-edit', IconEdit)
         app.component('icon-exit', IconExit)
+        app.component('icon-file', IconFile)
         app.component('icon-folder', IconFolder)
         app.component('icon-full-screen', IconFullScreen)
         app.component('icon-game-linking', IconGameLinking)

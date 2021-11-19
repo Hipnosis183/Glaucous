@@ -34,6 +34,11 @@
         <p class="mr-auto">Favorites</p>
         <vi-switch v-model="hideElementsFavorite" />
       </div>
+      <!-- Toggle files display. -->
+      <div class="flex h-10 items-center px-2">
+        <p class="mr-auto">Files</p>
+        <vi-switch v-model="hideElementsFiles" />
+      </div>
       <!-- Toggle gallery display. -->
       <div class="flex h-10 items-center px-2">
         <p class="mr-auto">Gallery</p>
@@ -329,6 +334,10 @@ export default {
       get() { return store.getters.getSettingsGameHideElementsFavorite },
       set(value) { store.commit('setSettingsGameHideElementsFavorite', value) }
     })
+    const hideElementsFiles = computed({
+      get() { return store.getters.getSettingsGameHideElementsFiles },
+      set(value) { store.commit('setSettingsGameHideElementsFiles', value) }
+    })
     const hideElementsGallery = computed({
       get() { return store.getters.getSettingsGameHideElementsGallery },
       set(value) { store.commit('setSettingsGameHideElementsGallery', value) }
@@ -391,6 +400,7 @@ export default {
       hideElementsDetails,
       hideElementsDialog,
       hideElementsFavorite,
+      hideElementsFiles,
       hideElementsGallery,
       hideElementsLinks,
       hideElementsNotes,

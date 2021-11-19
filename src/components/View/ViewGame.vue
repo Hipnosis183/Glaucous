@@ -270,6 +270,15 @@
                         :region-index="regionIndex"
                         :version-index="versionIndex"
                       />
+                      <!-- View game files. -->
+                      <view-game-files
+                        v-show="gameFilesDialog"
+                        @close="gameFilesShow()"
+                        :key="gameInfo"
+                        :game-info="gameInfo"
+                        :region-index="regionIndex"
+                        :version-index="versionIndex"
+                      />
                       <!-- View game gallery. -->
                       <view-game-gallery
                         v-show="gameGalleryDialog"
@@ -339,20 +348,26 @@
                               :method="addFavorite"
                               small
                             />
+                            <!-- Open files dialog. -->
+                            <vi-menu-option-ui
+                              icon="icon-clip"
+                              label="Files"
+                              :method="gameFilesShow"
+                            />
                             <!-- Open game gallery. -->
                             <vi-menu-option-ui
                               icon="icon-picture-s"
                               label="Gallery"
                               :method="gameGalleryShow"
                             />
+                          </div>
+                          <div>
                             <!-- Open links dialog. -->
                             <vi-menu-option-ui
                               icon="icon-link"
                               label="Links"
                               :method="gameLinksShow"
                             />
-                          </div>
-                          <div>
                             <!-- Open notes dialog. -->
                             <vi-menu-option-ui
                               icon="icon-notes"
@@ -405,6 +420,17 @@
                       >
                         <vi-icon class="p-px w-6">
                           <icon-info />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open files dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsFiles"
+                        @click="gameFilesShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-clip />
                         </vi-icon>
                       </vi-button-ui>
                       <!-- Open game gallery. -->
@@ -525,6 +551,7 @@ import SettingsGames from '@/components/Settings/SettingsGames.vue'
 import ViewGameBackground from './ViewGame/ViewGameBackground.vue'
 import ViewGameCover from './ViewGame/ViewGameCover.vue'
 import ViewGameDetails from './ViewGame/ViewGameDetails.vue'
+import ViewGameFiles from './ViewGame/ViewGameFiles.vue'
 import ViewGameGallery from './ViewGame/ViewGameGallery.vue'
 import ViewGameInfo from './ViewGame/ViewGameInfo.vue'
 import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
@@ -543,6 +570,7 @@ export default {
     ViewGameBackground,
     ViewGameCover,
     ViewGameDetails,
+    ViewGameFiles,
     ViewGameGallery,
     ViewGameInfo,
     ViewGameLauncher,
@@ -907,6 +935,11 @@ export default {
       // Toggle details dialog.
       gameDetailsDialog.value = !gameDetailsDialog.value
     }
+    let gameFilesDialog = ref(false)
+    const gameFilesShow = () => {
+      // Toggle files dialog.
+      gameFilesDialog.value = !gameFilesDialog.value
+    }
     let gameGalleryDialog = ref(false)
     const gameGalleryShow = () => {
       // Toggle gallery display.
@@ -945,6 +978,9 @@ export default {
     })
     const hideElementsFavorite = computed(() => {
       return !store.getters.getSettingsGameHideElementsFavorite
+    })
+    const hideElementsFiles = computed(() => {
+      return !store.getters.getSettingsGameHideElementsFiles
     })
     const hideElementsGallery = computed(() => {
       return !store.getters.getSettingsGameHideElementsGallery
@@ -1005,6 +1041,8 @@ export default {
       gameInfo,
       gameDetailsDialog,
       gameDetailsShow,
+      gameFilesDialog,
+      gameFilesShow,
       gameGalleryDialog,
       gameGalleryShow,
       gameLinksDialog,
@@ -1018,6 +1056,7 @@ export default {
       gameSettingsShow,
       hideElementsDetails,
       hideElementsFavorite,
+      hideElementsFiles,
       hideElementsGallery,
       hideElementsLinks,
       hideElementsNotes,
