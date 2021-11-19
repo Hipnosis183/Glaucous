@@ -90,6 +90,10 @@
           >Open Configuration Folder</vi-button>
           <vi-button
             button-large
+            @click="openPathFiles()"
+          >Open Files Folder</vi-button>
+          <vi-button
+            button-large
             @click="openPathImages()"
           >Open Images Folder</vi-button>
           <vi-button
@@ -370,17 +374,6 @@
                           </div>
                         </div>
                       </vi-menu-select-ui>
-                      <!-- Open game details dialog. -->
-                      <vi-button-ui
-                        v-if="hideElementsDetails"
-                        @click="gameDetailsShow()"
-                        button-small
-                        class="mr-1 rounded-xl"
-                      >
-                        <vi-icon class="p-px w-6">
-                          <icon-info />
-                        </vi-icon>
-                      </vi-button-ui>
                       <!-- Remove selected game platform from favorites. -->
                       <vi-button-ui
                         v-if="gameFavorited"
@@ -401,6 +394,17 @@
                       >
                         <vi-icon class="p-px w-6">
                           <icon-star />
+                        </vi-icon>
+                      </vi-button-ui>
+                      <!-- Open game details dialog. -->
+                      <vi-button-ui
+                        v-if="hideElementsDetails"
+                        @click="gameDetailsShow()"
+                        button-small
+                        class="mr-1 rounded-xl"
+                      >
+                        <vi-icon class="p-px w-6">
+                          <icon-info />
                         </vi-icon>
                       </vi-button-ui>
                       <!-- Open game gallery. -->
@@ -565,6 +569,7 @@ export default {
       numberPlayers: null,
       gameTags: [],
       notes: [],
+      files: [],
       links: [],
       gamePlatforms: [],
       gameRegions: [{
@@ -576,13 +581,15 @@ export default {
         region: null,
         serial: null,
         notes: [],
+        files: [],
         links: [],
         gameVersions: [{
           type: null,
           name: null,
           number: null,
           notes: [],
-          links: [],
+          files: [],
+          links: []
         }]
       }]
     })
@@ -750,28 +757,33 @@ export default {
     // Manage game directories opening.
     let basePath = app.getAppPath() + '/data'
     const basePathConfig = computed(() => { return '/config/' + gameInfo.value.platform._id })
+    const basePathFiles = computed(() => { return '/files/' + gameInfo.value.platform._id })
     const basePathImages = computed(() => { return '/images/' + gameInfo.value.platform._id })
     const basePathLinks = computed(() => { return '/links/' + gameInfo.value.platform._id })
     const basePathPlatform = computed(() => { return '/' + gameInfo.value._id })
     const basePathRegion = computed(() => { return '/' + gameInfo.value.gameRegions[regionIndex.value]._id })
     const basePathVersion = computed(() => { return '/' + gameInfo.value.gameRegions[regionIndex.value].gameVersions[versionIndex.value]._id })
     let dataPathConfig = ref('')
+    let dataPathFiles = ref('')
     let dataPathImages = ref('')
     let dataPathLinks = ref('')
     const directoriesPlatform = () => {
       dataPathConfig.value = basePathConfig.value + basePathPlatform.value
+      dataPathFiles.value = basePathFiles.value + basePathPlatform.value
       dataPathImages.value = basePathImages.value + basePathPlatform.value
       dataPathLinks.value = basePathLinks.value + basePathPlatform.value
       dataPathDialog.value = true
     }
     const directoriesRegion = () => {
       dataPathConfig.value = basePathConfig.value + basePathPlatform.value + basePathRegion.value
+      dataPathFiles.value = basePathFiles.value + basePathPlatform.value + basePathRegion.value
       dataPathImages.value = basePathImages.value + basePathPlatform.value + basePathRegion.value
       dataPathLinks.value = basePathLinks.value + basePathPlatform.value + basePathRegion.value
       dataPathDialog.value = true
     }
     const directoriesVersion = () => {
       dataPathConfig.value = basePathConfig.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
+      dataPathFiles.value = basePathFiles.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
       dataPathImages.value = basePathImages.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
       dataPathLinks.value = basePathLinks.value + basePathPlatform.value + basePathRegion.value + basePathVersion.value
       dataPathDialog.value = true
@@ -789,6 +801,11 @@ export default {
       ensureDirSync(basePath + dataPathConfig.value)
       // Open game configuration location path in the file manager.
       shell.openPath(basePath + dataPathConfig.value)
+    }
+    const openPathFiles = () => {
+      ensureDirSync(basePath + dataPathFiles.value)
+      // Open extra files location path in the file manager.
+      shell.openPath(basePath + dataPathFiles.value)
     }
     const openPathImages = () => {
       ensureDirSync(basePath + dataPathImages.value)
@@ -1009,6 +1026,7 @@ export default {
       hideElementsSettingsPage,
       loadLinks,
       openPathConfig,
+      openPathFiles,
       openPathGame,
       openPathImages,
       openPathLinks,

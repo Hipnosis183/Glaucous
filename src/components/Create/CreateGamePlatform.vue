@@ -61,6 +61,11 @@
       </div>
     </div>
     <div class="flex space-x-4">
+      <form-game-files
+        show-platform
+        show-region
+        show-version
+      />
       <form-game-links
         show-platform
         show-region
@@ -90,6 +95,7 @@ import { createPlatform, getPlatform } from '@/database/controllers/Platform'
 import { createTag, getTag } from '@/database/controllers/User'
 // Import form components.
 import {
+  FormGameFiles,
   FormGameImages,
   FormGameLinks,
   FormGameNotes,
@@ -109,6 +115,7 @@ import {
 export default {
   name: 'CreateGamePlatform',
   components: {
+    FormGameFiles,
     FormGameImages,
     FormGameLinks,
     FormGameNotes,
@@ -142,10 +149,7 @@ export default {
       if (
         !store.state.gameForm.gamePlatform.developer ||
         !store.state.gameForm.gamePlatform.platform
-      ) {
-        validationErrorShow()
-        return
-      }
+      ) { validationErrorShow(); return }
       // Check developer existance.
       checkDeveloper()
         // Check platform existance.

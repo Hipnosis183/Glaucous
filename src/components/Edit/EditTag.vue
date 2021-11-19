@@ -61,8 +61,7 @@ export default {
     const onSubmit = () => {
       // Validate required fields.
       if (!store.state.tagForm.name) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Update tag entry.
       updateTag(store.state.tagForm, store.state.tagSelected)

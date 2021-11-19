@@ -127,8 +127,7 @@ export default {
     const addTags = () => {
       // Validate required fields.
       if (!querySelected.value) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Save tag into the store.
       store.commit('setGamePlatformTagsAdd', querySelected.value)

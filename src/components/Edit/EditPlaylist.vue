@@ -61,8 +61,7 @@ export default {
     const onSubmit = () => {
       // Validate required fields.
       if (!store.state.playlistForm.name) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Update playlist entry.
       updatePlaylist(store.state.playlistForm, store.state.playlistSelected)

@@ -14,6 +14,7 @@ import FormPlaylistName from './Playlist/FormPlaylistName.vue'
 // Tag form.
 import FormTagName from './Tag/FormTagName.vue'
 // Game form.
+import FormGameFiles from './Game/FormGameFiles.vue'
 import FormGameImages from './Game/FormGameImages.vue'
 import FormGameLinks from './Game/FormGameLinks.vue'
 import FormGameNotes from './Game/FormGameNotes.vue'
@@ -49,6 +50,7 @@ export {
     // Tag form.
     FormTagName,
     // Game form.
+    FormGameFiles,
     FormGameImages,
     FormGameLinks,
     FormGameNotes,

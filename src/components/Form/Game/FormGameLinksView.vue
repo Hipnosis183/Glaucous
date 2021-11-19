@@ -75,10 +75,8 @@ export default {
         // Reset link input.
         link.value = null
       }
-      catch {
-        // Invalid URL.
-        validationErrorShow()
-      }
+      // Invalid URL.
+      catch { validationErrorShow() }
     }
     const linkRemove = (link) => {
       // Remove link from the store.

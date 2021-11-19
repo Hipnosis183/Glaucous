@@ -91,8 +91,7 @@ export default {
     const addPlaylists = () => {
       // Validate required fields.
       if (!querySelected.value) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Check if the playlist exists.
       getPlaylist(querySelected.value)

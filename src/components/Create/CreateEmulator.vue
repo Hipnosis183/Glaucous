@@ -109,10 +109,7 @@ export default {
         !store.state.emulatorForm.name ||
         !store.state.emulatorForm.path ||
         !store.state.emulatorForm.file
-      ) {
-        validationErrorShow()
-        return
-      }
+      ) { validationErrorShow(); return }
       // Create entry and populate list.
       store.state.emulatorForm.id = generateID()
       props.emulatorList.push(store.state.emulatorForm)

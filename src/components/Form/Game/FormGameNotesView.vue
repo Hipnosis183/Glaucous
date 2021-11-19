@@ -69,17 +69,16 @@ export default {
     const noteAdd = () => {
       // Validate required fields.
       if (!note.value) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Save note into the store.
       store.commit('set' + props.gameType + 'NotesAdd', note.value)
       // Reset note input.
       note.value = null
     }
-    const noteRemove = (com) => {
+    const noteRemove = (index) => {
       // Remove note from the store.
-      store.commit('set' + props.gameType + 'NotesRemove', com)
+      store.commit('set' + props.gameType + 'NotesRemove', index)
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {

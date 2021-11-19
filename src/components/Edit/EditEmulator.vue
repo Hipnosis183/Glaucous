@@ -107,10 +107,7 @@ export default {
         !store.state.emulatorForm.name ||
         !store.state.emulatorForm.path ||
         !store.state.emulatorForm.file
-      ) {
-        validationErrorShow()
-        return
-      }
+      ) { validationErrorShow(); return }
       // Find entry and update the list.
       let index = props.emulatorList.findIndex((res) => res.id == store.state.emulatorForm.id)
       props.emulatorList[index] = store.state.emulatorForm

@@ -6,8 +6,9 @@ import { getDeveloper, getDeveloperByName } from './Developer'
 import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
 import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from './User'
 
+import * as pathJS from 'path'
 import { app } from '@electron/remote'
-import { copySync, ensureDirSync, moveSync, outputFileSync, readdirSync, remove, removeSync } from 'fs-extra'
+import { copySync, ensureDirSync, existsSync, moveSync, outputFileSync, outputJsonSync, readdirSync, readJsonSync, remove, removeSync } from 'fs-extra'
 import { readfiles } from '@/utils/filesystem'
 
 import Regions from '@/../public/files/flags.json'
@@ -19,6 +20,7 @@ let gameVersion
 
 // Declare paths variables.
 let dataPathConfig = app.getAppPath() + '/data/config/'
+let dataPathFiles = app.getAppPath() + '/data/files/'
 let dataPathImages = app.getAppPath() + '/data/images/'
 let dataPathLinks = app.getAppPath() + '/data/links/'
 
@@ -40,6 +42,10 @@ export async function newGamePlatform(req, id) {
     await storeLinks(req.gamePlatform.links, storePath, gamePlatform)
     await storeLinks(req.gameRegion.links, storePath + '/' + gameRegion, gameRegion)
     await storeLinks(req.gameVersion.links, storePath + '/' + gameRegion + '/' + gameVersion, gameVersion)
+    // Store files for the game.
+    await storeFiles(req.gamePlatform.files, storePath)
+    await storeFiles(req.gameRegion.files, storePath + '/' + gameRegion)
+    await storeFiles(req.gameVersion.files, storePath + '/' + gameRegion + '/' + gameVersion)
     // Link to other games if an ID is given.
     if (id) await getGamePlatform(gamePlatform)
         .then(async (res) => {
@@ -66,6 +72,9 @@ export async function newGameRegion(req, id) {
             // Store links for the game.
             await storeLinks(req.gameRegion.links, storePath, gameRegion)
             await storeLinks(req.gameVersion.links, storePath + '/' + gameVersion, gameVersion)
+            // Store files for the game.
+            await storeFiles(req.gameRegion.files, storePath)
+            await storeFiles(req.gameVersion.files, storePath + '/' + gameVersion)
         })
 }
 
@@ -84,6 +93,8 @@ export async function newGameVersion(req, pla, id) {
             await storeImages(req.gameVersion.images, storePath)
             // Store links for the game.
             await storeLinks(req.gameVersion.links, storePath, gameVersion)
+            // Store files for the game.
+            await storeFiles(req.gameVersion.files, storePath)
         })
 }
 
@@ -186,6 +197,10 @@ export async function updateGame(req, id) {
     await storeLinks(req.gamePlatform.links, storePath, id.gamePlatform)
     await storeLinks(req.gameRegion.links, storePath + '/' + id.gameRegion, id.gameRegion)
     await storeLinks(req.gameVersion.links, storePath + '/' + id.gameRegion + '/' + id.gameVersion, id.gameVersion)
+    // Update stored files for the game.
+    await storeFiles(req.gamePlatform.files, storePath)
+    await storeFiles(req.gameRegion.files, storePath + '/' + id.gameRegion)
+    await storeFiles(req.gameVersion.files, storePath + '/' + id.gameRegion + '/' + id.gameVersion)
     // Update game store directory.
     await updateStore(req.gamePlatform.platform, old.platform, id.gamePlatform)
 }
@@ -206,6 +221,7 @@ export async function deleteGamePlatform(req, p, del) {
     await unlinkGame(req, true)
     // Remove game platform's data.
     remove(dataPathConfig + req.platform._id + '/' + req._id)
+    remove(dataPathFiles + req.platform._id + '/' + req._id)
     remove(dataPathImages + req.platform._id + '/' + req._id)
     remove(dataPathLinks + req.platform._id + '/' + req._id)
     // Remove game from all user lists.
@@ -233,6 +249,7 @@ export async function deleteGameRegion(req, i, del) {
             })
         // Remove game region data.
         remove(dataPathConfig + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
+        remove(dataPathFiles + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
         remove(dataPathImages + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
         remove(dataPathLinks + req.platform._id + '/' + req._id + '/' + req.gameRegions[i]._id)
         // There are other regions for the platform.
@@ -261,6 +278,7 @@ export async function deleteGameVersion(req, r, v) {
             })
         // Remove game version data.
         remove(dataPathConfig + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
+        remove(dataPathFiles + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
         remove(dataPathImages + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
         remove(dataPathLinks + req.platform._id + '/' + req._id + '/' + req.gameRegions[r]._id + '/' + req.gameRegions[r].gameVersions[v]._id)
         // There are other versions for the region.
@@ -293,6 +311,7 @@ export async function deleteGamesPlatform(req) {
             }
             // Remove platform data.
             remove(dataPathConfig + req)
+            remove(dataPathFiles + req)
             remove(dataPathImages + req)
             remove(dataPathLinks + req)
         })
@@ -389,12 +408,39 @@ async function storeLinks(links, path, id) {
     outputFileSync(dataPathLinks + path + '/' + id + '.txt', linksFile)
 }
 
+// Store files for a specific game.
+async function storeFiles(files, path) {
+    // Set files path for the game.
+    let filesPath = dataPathFiles + path
+    // Ensure files directory creation, even if there are no files.
+    ensureDirSync(filesPath)
+    // Add files.
+    for (let file of files.add) {
+        let id = generateID()
+        // Define data object structure.
+        let filesFile = { id: id, name: file.name, paths: [] }
+        for (let f of file.paths) {
+            // Copy files to game files path.
+            copySync(f, filesPath + '/' + id + '/' + pathJS.basename(f))
+            // Add files to the files data object.
+            filesFile.paths.push(id + '/' + pathJS.basename(f))
+        }
+        outputJsonSync(filesPath + '/' + id + '.json', filesFile)
+    }
+    // Remove files.
+    for (let file of files.remove) {
+        removeSync(filesPath + '/' + file)
+        removeSync(filesPath + '/' + file + '.json')
+    }
+}
+
 // Move the game directory if the platform has changed.
 async function updateStore(platform, old, game) {
     if (platform != old) {
         let pathOld = old + '/' + game
         let pathNew = platform + '/' + game
         moveSync(dataPathConfig + pathOld, dataPathConfig + pathNew, { overwrite: true })
+        moveSync(dataPathFiles + pathOld, dataPathFiles + pathNew, { overwrite: true })
         moveSync(dataPathImages + pathOld, dataPathImages + pathNew, { overwrite: true })
         moveSync(dataPathLinks + pathOld, dataPathLinks + pathNew, { overwrite: true })
     }
@@ -512,7 +558,7 @@ export async function getGame(req) {
             await getTags(res.gameTags)
                 .then((tag) => res.gameTags = tag)
             res.gameRegions = gameRegions
-            res.image = getImage(res)
+            res = getFiles(res)
             // Return populated object.
             return res
         })
@@ -837,6 +883,49 @@ function getImage(game) {
     // Set full image cover path.
     image.path = imageFile ? (imagePath + '/' + imageFile) : false
     return image
+}
+
+// Get files for a specific game.
+function getFiles(game) {
+    // Set platform files path for the game.
+    let pathPlatform = dataPathFiles + game.platform._id + '/' + game._id
+    if (existsSync(pathPlatform)) {
+        let filesPlatform = []
+        // Load files paths for each collection.
+        for (let file of readfiles(pathPlatform)) {
+            filesPlatform.push(readJsonSync(pathPlatform + '/' + file))
+        }
+        // Store files into the game platform object.
+        game.files = filesPlatform
+    } else { game.files = [] }
+    // Manage game regions files.
+    for (let [i, gameRegion] of game.gameRegions.entries()) {
+        // Set region files path for the game.
+        let pathRegion = pathPlatform + '/' + gameRegion._id
+        if (existsSync(pathRegion)) {
+            let filesRegion = []
+            // Load files paths for each collection.
+            for (let file of readfiles(pathRegion)) {
+                filesRegion.push(readJsonSync(pathRegion + '/' + file))
+            }
+            // Store files into the game region object.
+            game.gameRegions[i].files = filesRegion
+        } else { game.gameRegions[i].files = [] }
+        // Manage game versions files.
+        for (let [j, gameVersion] of gameRegion.gameVersions.entries()) {
+            // Set version files path for the game.
+            let pathVersion = pathRegion + '/' + gameVersion._id
+            if (existsSync(pathVersion)) {
+                let filesVersion = []
+                // Load files paths for each collection.
+                for (let file of readfiles(pathVersion)) {
+                    filesVersion.push(readJsonSync(pathVersion + '/' + file))
+                }
+                // Store files into the game version object.
+                game.gameRegions[i].gameVersions[j].files = filesVersion
+            } else { game.gameRegions[i].gameVersions[j].files = [] }
+        }
+    } return game
 }
 
 // Get the name for the requested region code.

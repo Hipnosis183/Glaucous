@@ -54,6 +54,7 @@ export default createStore({
           hideElements: {
             details: localStore.get('settingsGame.hideElements.details', true),
             favorite: localStore.get('settingsGame.hideElements.favorite', true),
+            files: localStore.get('settingsGame.hideElements.files', true),
             gallery: localStore.get('settingsGame.hideElements.gallery', true),
             links: localStore.get('settingsGame.hideElements.links', true),
             notes: localStore.get('settingsGame.hideElements.notes', true),
@@ -107,6 +108,11 @@ export default createStore({
         gameTags: [],
         notes: [],
         links: [],
+        files: {
+          add: [],
+          files: [],
+          remove: []
+        },
         images: {
           cover: {
             add: null,
@@ -133,6 +139,11 @@ export default createStore({
         serial: null,
         notes: [],
         links: [],
+        files: {
+          add: [],
+          files: [],
+          remove: []
+        },
         images: {
           cover: {
             add: null,
@@ -154,6 +165,11 @@ export default createStore({
         number: null,
         notes: [],
         links: [],
+        files: {
+          add: [],
+          files: [],
+          remove: []
+        },
         images: {
           cover: {
             add: null,
@@ -269,6 +285,9 @@ export default createStore({
     },
     getSettingsGameHideElementsGallery(state) {
       return state.settingsApp.settingsGame.settingsGlobal.hideElements.gallery
+    },
+    getSettingsGameHideElementsFiles(state) {
+      return state.settingsApp.settingsGame.settingsGlobal.hideElements.files
     },
     getSettingsGameHideElementsLinks(state) {
       return state.settingsApp.settingsGame.settingsGlobal.hideElements.links
@@ -444,6 +463,10 @@ export default createStore({
       state.settingsApp.settingsGame.settingsGlobal.hideElements.gallery = data
       localStore.set('settingsGame.hideElements.gallery', state.settingsApp.settingsGame.settingsGlobal.hideElements.gallery)
     },
+    setSettingsGameHideElementsFiles(state, data) {
+      state.settingsApp.settingsGame.settingsGlobal.hideElements.files = data
+      localStore.set('settingsGame.hideElements.files', state.settingsApp.settingsGame.settingsGlobal.hideElements.files)
+    },
     setSettingsGameHideElementsLinks(state, data) {
       state.settingsApp.settingsGame.settingsGlobal.hideElements.links = data
       localStore.set('settingsGame.hideElements.links', state.settingsApp.settingsGame.settingsGlobal.hideElements.links)
@@ -615,6 +638,18 @@ export default createStore({
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
         state.gameForm.gamePlatform.gameTags.push(tag._id)
       }
+      state.gameForm.gamePlatform.files.files = []
+      if (game.platform.files) for (let file of game.platform.files) {
+        state.gameForm.gamePlatform.files.files.push(file)
+      }
+      state.gameForm.gameRegion.files.files = []
+      if (game.region.files) for (let file of game.region.files) {
+        state.gameForm.gameRegion.files.files.push(file)
+      }
+      state.gameForm.gameVersion.files.files = []
+      if (game.version.files) for (let file of game.version.files) {
+        state.gameForm.gameVersion.files.files.push(file)
+      }
       state.gameForm.gamePlatform.notes = []
       if (game.platform.notes) for (let comment of game.platform.notes) {
         state.gameForm.gamePlatform.notes.push(comment)
@@ -648,6 +683,9 @@ export default createStore({
       state.gameForm.gamePlatform.gameTags = []
       state.gameForm.gamePlatform.notes = []
       state.gameForm.gamePlatform.links = []
+      state.gameForm.gamePlatform.files.add = []
+      state.gameForm.gamePlatform.files.files = []
+      state.gameForm.gamePlatform.files.remove = []
       state.gameForm.gamePlatform.images.cover.add = null
       state.gameForm.gamePlatform.images.cover.remove = false
       state.gameForm.gamePlatform.images.background.add = null
@@ -664,6 +702,9 @@ export default createStore({
       state.gameForm.gameRegion.serial = null
       state.gameForm.gameRegion.notes = []
       state.gameForm.gameRegion.links = []
+      state.gameForm.gameRegion.files.add = []
+      state.gameForm.gameRegion.files.files = []
+      state.gameForm.gameRegion.files.remove = []
       state.gameForm.gameRegion.images.cover.add = null
       state.gameForm.gameRegion.images.cover.remove = false
       state.gameForm.gameRegion.images.background.add = null
@@ -675,6 +716,9 @@ export default createStore({
       state.gameForm.gameVersion.number = null
       state.gameForm.gameVersion.notes = []
       state.gameForm.gameVersion.links = []
+      state.gameForm.gameVersion.files.add = []
+      state.gameForm.gameVersion.files.files = []
+      state.gameForm.gameVersion.files.remove = []
       state.gameForm.gameVersion.images.cover.add = null
       state.gameForm.gameVersion.images.cover.remove = false
       state.gameForm.gameVersion.images.background.add = null
@@ -702,6 +746,15 @@ export default createStore({
     },
     setGamePlatformNotesRemove(state, data) {
       state.gameForm.gamePlatform.notes.splice(data, 1)
+    },
+    setGamePlatformFilesAdd(state, data) {
+      state.gameForm.gamePlatform.files.add.push(data)
+    },
+    setGamePlatformFilesRemoveAdded(state, data) {
+      state.gameForm.gamePlatform.files.add.splice(data, 1)
+    },
+    setGamePlatformFilesRemove(state, data) {
+      state.gameForm.gamePlatform.files.remove.push(data)
     },
     setGamePlatformLinks(state, data) {
       state.gameForm.gamePlatform.links = data
@@ -773,6 +826,15 @@ export default createStore({
     setGameRegionNotesRemove(state, data) {
       state.gameForm.gameRegion.notes.splice(data, 1)
     },
+    setGameRegionFilesAdd(state, data) {
+      state.gameForm.gameRegion.files.add.push(data)
+    },
+    setGameRegionFilesRemoveAdded(state, data) {
+      state.gameForm.gameRegion.files.add.splice(data, 1)
+    },
+    setGameRegionFilesRemove(state, data) {
+      state.gameForm.gameRegion.files.remove.push(data)
+    },
     setGameRegionLinks(state, data) {
       state.gameForm.gameRegion.links = data
     },
@@ -818,6 +880,15 @@ export default createStore({
     },
     setGameVersionNotesRemove(state, data) {
       state.gameForm.gameVersion.notes.splice(data, 1)
+    },
+    setGameVersionFilesAdd(state, data) {
+      state.gameForm.gameVersion.files.add.push(data)
+    },
+    setGameVersionFilesRemoveAdded(state, data) {
+      state.gameForm.gameVersion.files.add.splice(data, 1)
+    },
+    setGameVersionFilesRemove(state, data) {
+      state.gameForm.gameVersion.files.remove.push(data)
     },
     setGameVersionLinks(state, data) {
       state.gameForm.gameVersion.links = data

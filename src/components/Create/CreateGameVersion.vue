@@ -25,21 +25,24 @@
     <div class="flex space-x-4">
       <div class="w-2/5">
         <form-game-version-name />
-        <form-game-images
-          :reset-form="resetForm"
-          show-version
-        />
       </div>
       <div class="w-3/5">
         <div class="flex space-x-4">
           <form-game-version-type />
           <form-game-version-number />
         </div>
-        <div class="flex space-x-4">
-          <form-game-links show-version />
-          <form-game-notes show-version />
-        </div>
       </div>
+    </div>
+    <div class="flex space-x-4">
+      <div class="w-full">
+        <form-game-images
+          :reset-form="resetForm"
+          show-version
+        />
+      </div>
+      <form-game-files show-version />
+      <form-game-links show-version />
+      <form-game-notes show-version />
     </div>
     <!-- Required fields aclaration. -->
     <p class="mt-8 text-center text-sm">
@@ -56,6 +59,7 @@ import { useStore } from 'vuex'
 import { newGameVersion } from '@/database/controllers/Game'
 // Import form components.
 import {
+  FormGameFiles,
   FormGameImages,
   FormGameLinks,
   FormGameNotes,
@@ -67,6 +71,7 @@ import {
 export default {
   name: 'CreateGameRegion',
   components: {
+    FormGameFiles,
     FormGameImages,
     FormGameLinks,
     FormGameNotes,

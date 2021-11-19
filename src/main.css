@@ -87,6 +87,12 @@ h4 {
 .dark-scrollbar::-webkit-scrollbar-thumb {
   @apply bg-theme-700 !important;
 }
+.darker-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-theme-800 !important;
+}
+.darkest-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-theme-900 !important;
+}
 .small-scrollbar::-webkit-scrollbar {
   @apply w-3 !important;
 }

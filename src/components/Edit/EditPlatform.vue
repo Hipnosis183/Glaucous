@@ -66,8 +66,7 @@ export default {
     const onSubmit = () => {
       // Validate required fields.
       if (!store.state.platformForm.name) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Update platform entry.
       updatePlatform(store.state.platformForm, store.state.platformSelected)

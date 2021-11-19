@@ -61,8 +61,7 @@ export default {
     const onSubmit = () => {
       // Validate required fields.
       if (!store.state.developerForm.name) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Update developer entry.
       updateDeveloper(store.state.developerForm, store.state.developerSelected)

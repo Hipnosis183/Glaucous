@@ -214,8 +214,7 @@ export default {
     const linkGame_ = () => {
       // Validate required fields.
       if (!querySelected.value || linkedGamesSearch.value.includes(querySelected.value)) {
-        validationErrorShow()
-        return
+        validationErrorShow(); return
       }
       // Link current to selected game(s).
       let gamePlatforms = { gamePlatforms: linkedGamesSearch.value }
