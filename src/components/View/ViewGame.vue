@@ -298,7 +298,6 @@
                         :game-info="gameInfo"
                         :region-index="regionIndex"
                         :version-index="versionIndex"
-                        @loaded="loadLinks($event)"
                       />
                       <!-- View game notes. -->
                       <view-game-notes
@@ -647,12 +646,6 @@ export default {
           // Set initial favorited status.
           updateFavorite()
         })
-    }
-    const loadLinks = (res) => {
-      // Get links.
-      gameInfo.value.links = res.gamePlatform
-      gameInfo.value.gameRegions[regionIndex.value].links = res.gameRegion
-      gameInfo.value.gameRegions[regionIndex.value].gameVersions[versionIndex.value].links = res.gameVersion
     }
 
     // Manage game editing operations.
@@ -1063,7 +1056,6 @@ export default {
       hideElementsPlaylists,
       hideElementsRegionFlags,
       hideElementsSettingsPage,
-      loadLinks,
       openPathConfig,
       openPathFiles,
       openPathGame,

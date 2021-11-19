@@ -28,7 +28,10 @@
           class="link-card"
         >
           <!-- Link icon image. -->
-          <div v-if="getLinkIcon(link)">
+          <div
+            v-if="getLinkIcon(link)"
+            class="bg-color-200 flex h-14 items-center w-14"
+          >
             <img :src="getLinkIcon(link)" />
           </div>
           <div
@@ -63,16 +66,15 @@
 
 <script>
 // Import Vue functions.
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 // Import functions from modules.
 import { app, shell } from '@electron/remote'
-import { existsSync, readFile, readFileSync } from 'fs-extra'
+import { existsSync, readFileSync } from 'fs-extra'
 
 export default {
   name: 'ViewGameLinks',
   emits: [
-    'close',
-    'loaded'
+    'close'
   ],
   props: {
     fullTitle: { type: String },
@@ -80,48 +82,30 @@ export default {
     regionIndex: { type: Number },
     versionIndex: { type: Number }
   },
-  setup(props, { emit }) {
+  setup(props) {
     // Load game links.
     onMounted(() => { getLinks() })
     let gameLinks = ref([])
     const getLinks = async () => {
-      // Set the links directory path for all game types.
-      let gamePathPlatform = app.getAppPath() + '/data/links/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
-      let gamePathRegion = '/' + props.gameInfo.gameRegions[props.regionIndex]._id
-      let gamePathVersion = '/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
-      // Load links files.
       gameLinks.value = []
-      let linksPath = []
-      linksPath.push(gamePathPlatform + '/' + props.gameInfo._id + '.txt')
-      linksPath.push(gamePathPlatform + gamePathRegion + gamePathRegion + '.txt')
-      linksPath.push(gamePathPlatform + gamePathRegion + gamePathVersion + gamePathVersion + '.txt')
-      let linksList = { gamePlatform: [], gameRegion: [], gameVersion: [] }
-      for (let [index, path] of linksPath.entries()) {
-        if (existsSync(path)) {
-          await readFile(path, 'utf8').then((res) => {
-            let links = res.split('\n').filter((res) => res != '')
-            for (let link of links) {
-              gameLinks.value.push(new URL(link))
-              switch (index) {
-                case 0: linksList.gamePlatform.push(new URL(link)); break
-                case 1: linksList.gameRegion.push(new URL(link)); break
-                case 2: linksList.gameVersion.push(new URL(link)); break
-              }
-            }
-          })
-        }
+      // Load game platform links.
+      for (let linkPlatform of props.gameInfo.links) {
+        gameLinks.value.push(new URL(linkPlatform))
+      }
+      // Load game region links.
+      for (let linkRegion of props.gameInfo.gameRegions[props.regionIndex].links) {
+        gameLinks.value.push(new URL(linkRegion))
+      }
+      // Load game version links.
+      for (let linkVersion of props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex].links) {
+        gameLinks.value.push(new URL(linkVersion))
       }
       // Build and sort game links list.
       gameLinks.value.forEach((res, i) => {
         gameLinks.value[i].hostname = gameLinks.value[i].hostname.replace(/^www\./, '')
       })
       gameLinks.value = gameLinks.value.sort(sortLinksList)
-      // Send event to parent with the loaded data.
-      emit('loaded', linksList)
     }
-
-    // Watch for game selection changes.
-    watch(() => [props.regionIndex, props.versionIndex], () => { getLinks() })
 
     // Manage game links.
     const getLinkChar = (link) => {

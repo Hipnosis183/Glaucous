@@ -8,7 +8,7 @@ import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from '.
 
 import * as pathJS from 'path'
 import { app } from '@electron/remote'
-import { copySync, ensureDirSync, existsSync, moveSync, outputFileSync, outputJsonSync, readdirSync, readJsonSync, remove, removeSync } from 'fs-extra'
+import { copySync, ensureDirSync, existsSync, moveSync, outputFileSync, outputJsonSync, readdirSync, readFile, readJsonSync, remove, removeSync } from 'fs-extra'
 import { readfiles } from '@/utils/filesystem'
 
 import Regions from '@/../public/files/flags.json'
@@ -558,7 +558,8 @@ export async function getGame(req) {
             await getTags(res.gameTags)
                 .then((tag) => res.gameTags = tag)
             res.gameRegions = gameRegions
-            res = getFiles(res)
+            res = await getFiles(res)
+            res = await getLinks(res)
             // Return populated object.
             return res
         })
@@ -886,7 +887,7 @@ function getImage(game) {
 }
 
 // Get files for a specific game.
-function getFiles(game) {
+async function getFiles(game) {
     // Set platform files path for the game.
     let pathPlatform = dataPathFiles + game.platform._id + '/' + game._id
     if (existsSync(pathPlatform)) {
@@ -924,6 +925,58 @@ function getFiles(game) {
                 // Store files into the game version object.
                 game.gameRegions[i].gameVersions[j].files = filesVersion
             } else { game.gameRegions[i].gameVersions[j].files = [] }
+        }
+    } return game
+}
+
+// Get links for a specific game.
+async function getLinks(game) {
+    // Set platform links path for the game.
+    let pathPlatform = dataPathLinks + game.platform._id + '/' + game._id
+    let filePlatform = pathPlatform + '/' + game._id + '.txt'
+    if (existsSync(filePlatform)) {
+        let linksPlatform = []
+        // Load links from file.
+        await readFile(filePlatform, 'utf8').then((res) => {
+            for (let link of res.split('\n').filter((res) => res != '')) {
+                linksPlatform.push(link)
+            }
+        })
+        // Store links into the game platform object.
+        game.links = linksPlatform
+    } else { game.links = [] }
+    // Manage game regions links.
+    for (let [i, gameRegion] of game.gameRegions.entries()) {
+        // Set region links path for the game.
+        let pathRegion = pathPlatform + '/' + gameRegion._id
+        let fileRegion = pathRegion + '/' + gameRegion._id + '.txt'
+        if (existsSync(fileRegion)) {
+            let linksRegion = []
+            // Load links from file.
+            await readFile(fileRegion, 'utf8').then((res) => {
+                for (let link of res.split('\n').filter((res) => res != '')) {
+                    linksRegion.push(link)
+                }
+            })
+            // Store links into the game region object.
+            game.gameRegions[i].links = linksRegion
+        } else { game.gameRegions[i].links = [] }
+        // Manage game versions links.
+        for (let [j, gameVersion] of gameRegion.gameVersions.entries()) {
+            // Set version links path for the game.
+            let pathVersion = pathRegion + '/' + gameVersion._id
+            let fileVersion = pathVersion + '/' + gameVersion._id + '.txt'
+            if (existsSync(fileVersion)) {
+                let linksVersion = []
+                // Load links from file.
+                await readFile(fileVersion, 'utf8').then((res) => {
+                    for (let link of res.split('\n').filter((res) => res != '')) {
+                        linksVersion.push(link)
+                    }
+                })
+                // Store links into the game version object.
+                game.gameRegions[i].gameVersions[j].links = linksVersion
+            } else { game.gameRegions[i].gameVersions[j].links = [] }
         }
     } return game
 }
