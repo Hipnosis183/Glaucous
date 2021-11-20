@@ -2,8 +2,8 @@
   <button
     class=" font-medium text-xl w-full"
     :class="[
-      buttonLarge || buttonSmall ? '' : 'h-14',
       buttonLarge ? 'h-16 pl-4 z-50' : '',
+      buttonLarge || buttonSmall ? '' : 'h-14',
       buttonSmall
         ? 'bg-color-600 dark:bg-color-700 hover:bg-color-400 dark:hover:bg-color-500 py-3 text-color-100'
         : 'hover:bg-color-500 dark:hover:bg-color-600 text-color-200',
@@ -16,7 +16,7 @@
       <vi-icon
         v-if="buttonIcon"
         :icon-manual="buttonLarge"
-        :class="iconSize ? iconSize : buttonSmall ? 'w-6' : 'w-8'"
+        :class="buttonIconSize ? buttonIconSize : buttonSmall ? 'w-6' : 'w-8'"
       >
         <component :is="buttonIcon" />
       </vi-icon>
@@ -33,9 +33,9 @@ export default {
   name: 'ViButtonSb',
   props: {
     buttonIcon: { type: String, default: '' },
+    buttonIconSize: { type: String, default: '' },
     buttonLarge: { type: Boolean, default: false },
-    buttonSmall: { type: Boolean, default: false },
-    iconSize: { type: String, default: '' }
+    buttonSmall: { type: Boolean, default: false }
   }
 }
 </script>

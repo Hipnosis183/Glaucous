@@ -23,8 +23,8 @@
     <!-- Links input. -->
     <vi-input
       v-model="link"
-      label="Links"
-      placeholder="https://www.viridian.com/"
+      input-label="Links"
+      input-placeholder="https://www.viridian.com/"
     />
     <!-- Links list section. -->
     <div v-if="gameLinks.length > 0">

@@ -2,19 +2,19 @@
   <!-- Platform input select. -->
   <vi-select
     v-model="platform"
-    allow-create
-    label="Platform *"
-    placeholder="Search or create platform..."
-    remote
-    :remote-method="querySearch"
-    required
+    select-allow-create
+    select-label="Platform *"
+    select-placeholder="Search or create platform..."
+    select-remote
+    :select-remote-method="querySearch"
+    select-required
     class="w-full"
   >
     <vi-option
       v-for="item in queryResults"
       :key="item._id"
-      :label="item.name"
-      :value="item._id"
+      :option-label="item.name"
+      :option-value="item._id"
     />
   </vi-select>
 </template>

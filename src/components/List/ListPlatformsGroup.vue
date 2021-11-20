@@ -19,7 +19,7 @@
         v-show="deletePlatformDialog"
         @accept="deletePlatformClose()"
         @cancel="deletePlatformOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete platform group <b>'{{ platform.name }}'</b> ?
       </vi-dialog-box>
@@ -35,7 +35,7 @@
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :title="platform.name">
+    <vi-nav-bar :nav-title="platform.name">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 space-x-1"
@@ -60,10 +60,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -77,7 +77,7 @@
       >
         <vi-list
           :list-display="2"
-          :remote-method="loadPlatformNext"
+          :list-remote-method="loadPlatformNext"
         >
           <li
             v-for="platform in platform.platforms"

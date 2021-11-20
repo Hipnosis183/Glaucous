@@ -64,14 +64,14 @@
         <div class="flex flex-col max-h-32 mt-auto no-scrollbar overflow-scroll z-50">
           <vi-button-sb
             button-icon="icon-search"
+            button-icon-size="w-6"
             button-large
-            icon-size="w-6"
             @click="searchShow()"
           >Search</vi-button-sb>
           <vi-button-sb
             button-icon="icon-settings-s"
+            button-icon-size="w-6"
             button-large
-            icon-size="w-6"
             @click="$router.push({ name: 'Settings' })"
           >Settings</vi-button-sb>
         </div>
@@ -140,17 +140,17 @@
           <vi-button-sb
             v-show="history > 0"
             button-icon="icon-back"
-            icon-size="w-7"
+            button-icon-size="w-7"
             @click="$router.back()"
           />
           <vi-button-sb
             button-icon="icon-search"
-            icon-size="w-6"
+            button-icon-size="w-6"
             @click="searchShow()"
           />
           <vi-button-sb
             button-icon="icon-settings-s"
-            icon-size="w-6"
+            button-icon-size="w-6"
             @click="$router.push({ name: 'Settings' })"
           />
         </div>

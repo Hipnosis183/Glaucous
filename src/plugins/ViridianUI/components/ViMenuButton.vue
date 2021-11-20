@@ -5,7 +5,7 @@
       ref="refSelect"
       @click="openDropMenu()"
     >
-      <vi-button :button-small="icon" />
+      <vi-button :button-small="menuIcon" />
       <!-- Dropdown menu. -->
       <div
         ref="refTooltip"
@@ -38,9 +38,9 @@ import { createPopper } from '@popperjs/core'
 export default {
   name: 'ViMenuButton',
   props: {
-    icon: { type: String },
-    offset: { type: Array, default: [0, 20] },
-    placement: { type: String, default: 'bottom' }
+    menuIcon: { type: String },
+    menuOffset: { type: Array, default: [0, 20] },
+    menuPlacement: { type: String, default: 'bottom' }
   },
   setup(props) {
     // Declare template refs.
@@ -105,7 +105,7 @@ export default {
         // Update popper instance.
         popperInstance.value.update()
         // Set current popper placement.
-        popperPlacement.value = !props.placement.includes('bottom') ? 'top' : popperInstance.value.state.placement
+        popperPlacement.value = !props.menuPlacement.includes('bottom') ? 'top' : popperInstance.value.state.placement
       })
     }
     const setMenuPlacement = () => {
@@ -113,10 +113,10 @@ export default {
         // Create a new PopperJS instance.
         popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
-          placement: props.placement,
+          placement: props.menuPlacement,
           modifiers: [
             // Set distance between the select and the menu.
-            { name: 'offset', options: { offset: props.offset } }
+            { name: 'offset', options: { offset: props.menuOffset } }
           ]
         })
       })

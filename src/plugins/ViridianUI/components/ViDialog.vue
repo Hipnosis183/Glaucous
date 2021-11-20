@@ -1,9 +1,9 @@
 <template>
   <!-- Dialog overlay. -->
   <vi-overlay
-    :overlay="overlay"
-    :height="height ? height : false"
-    :width="width ? width : false"
+    :overlay-color="dialogOverlay"
+    :overlay-height="dialogHeight ? dialogHeight : false"
+    :overlay-width="dialogWidth ? dialogWidth : false"
   >
     <!-- Dialog modal. -->
     <vi-modal>
@@ -25,9 +25,9 @@ export default {
     ViOverlay
   },
   props: {
-    overlay: { type: Boolean, default: true },
-    height: { type: String },
-    width: { type: String }
+    dialogHeight: { type: String },
+    dialogWidth: { type: String },
+    dialogOverlay: { type: Boolean, default: true }
   }
 }
 </script>

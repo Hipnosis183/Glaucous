@@ -2,8 +2,8 @@
   <!-- Version number input. -->
   <vi-input
     v-model="number"
-    label="Version Number"
-    placeholder="Undefined"
+    input-label="Version Number"
+    input-placeholder="Undefined"
   />
 </template>
 

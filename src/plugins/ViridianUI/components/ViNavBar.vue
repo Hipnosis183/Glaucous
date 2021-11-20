@@ -7,13 +7,13 @@
       <!-- Contents. -->
       <slot />
       <div
-        v-if="title"
+        v-if="navTitle"
         class="inline-flex w-full"
       >
         <!-- Horizontal padding. -->
         <div class="w-full" />
         <!-- Page title. -->
-        <p class="mr-6 my-auto text-xl whitespace-nowrap">{{ title }}</p>
+        <p class="mr-6 my-auto text-xl whitespace-nowrap">{{ navTitle }}</p>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
 export default {
   name: 'ViNavBar',
   props: {
-    title: { type: String }
+    navTitle: { type: String }
   }
 }
 </script>

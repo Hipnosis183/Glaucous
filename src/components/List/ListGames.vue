@@ -8,7 +8,7 @@
       />
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar title="Games">
+    <vi-nav-bar nav-title="Games">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2"
@@ -23,10 +23,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -41,7 +41,7 @@
         <vi-list
           v-if="games.length > 0"
           :list-display="$store.getters.getSettingsListsDisplayMode"
-          :remote-method="loadGamesNext"
+          :list-remote-method="loadGamesNext"
         >
           <li
             v-for="game in games"

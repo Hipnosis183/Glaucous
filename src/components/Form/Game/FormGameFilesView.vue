@@ -1,8 +1,8 @@
 <template>
   <!-- Open files dialog. -->
   <vi-dialog
-    height="h-full"
-    width="w-1/2"
+    dialog-height="h-full"
+    dialog-width="w-1/2"
     class="pos-initial z-10"
   >
     <!-- Validation error dialog. -->
@@ -25,9 +25,9 @@
     <!-- Files input. -->
     <vi-input
       v-model="files.name"
-      label="Name"
-      placeholder="Add a name for the file/collection..."
-      required
+      input-label="Name"
+      input-placeholder="Add a name for the file/collection..."
+      input-required
     />
     <!-- Files container. -->
     <div class="flex flex-col h-content mt-4">
@@ -68,7 +68,6 @@
               <vi-chip
                 chip-dark
                 chip-large
-                multiline
                 @remove="filesRemove(file)"
               >{{ getFileName(file) }}</vi-chip>
             </div>
@@ -114,7 +113,6 @@
             >
               <vi-chip
                 chip-large
-                multiline
                 @remove="gameFilesRemoveExist(item.id)"
               >
                 {{ item.name }} ({{ item.paths.length }} {{ item.paths.length > 1 ? 'Files' : 'File' }})
@@ -133,7 +131,6 @@
             >
               <vi-chip
                 chip-large
-                multiline
                 @remove="gameFilesRemoveAdded(index)"
               >
                 {{ item.name }} ({{ item.paths.length }} {{ item.paths.length > 1 ? 'Files' : 'File' }})

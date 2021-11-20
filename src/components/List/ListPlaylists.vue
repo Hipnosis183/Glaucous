@@ -6,7 +6,7 @@
       @close="createPlaylistClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar title="Playlists">
+    <vi-nav-bar nav-title="Playlists">
       <div class="flex items-center ml-2">
         <!-- Open create playlist dialog. -->
         <vi-button-nb
@@ -18,10 +18,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
     </vi-nav-bar>
@@ -33,7 +33,7 @@
       >
         <vi-list
           :list-display="2"
-          :remote-method="loadPlaylistNext"
+          :list-remote-method="loadPlaylistNext"
         >
           <li
             v-for="playlist in playlists"

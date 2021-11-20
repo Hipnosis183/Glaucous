@@ -2,9 +2,9 @@
   <div>
     <!-- Label. -->
     <vi-label
-      v-if="label"
+      v-if="switchLabel"
       class="mb-2"
-    >{{ label }}</vi-label>
+    >{{ switchLabel }}</vi-label>
     <!-- Switch container. -->
     <div
       @click="switchValue()"
@@ -41,8 +41,8 @@ export default {
     ViLabel
   },
   props: {
-    label: { type: String },
-    modelValue: { type: Boolean, default: false }
+    modelValue: { type: Boolean, default: false },
+    switchLabel: { type: String }
   },
   setup(props, { emit }) {
     // Switch model value.

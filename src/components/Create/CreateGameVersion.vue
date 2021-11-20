@@ -1,8 +1,8 @@
 <template>
   <!-- Create game version dialog. -->
   <vi-dialog
+    dialog-width="w-4/5"
     @close="onClose()"
-    width="w-4/5"
     class="z-10"
   >
     <!-- Header. -->

@@ -12,8 +12,8 @@
   <vi-overlay
     v-show="gameLinkingDialog"
     @close="gameLinkingShow()"
-    :rounded="false"
-    :width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsDisplayMode == 1 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
+    :overlay-rounded="false"
+    :overlay-width="!$store.getters.getSettingsGeneralEditMode ? $store.getters.getSettingsListsDisplayMode == 1 && linkedGames.length < 4 ? 'w-' + linkedGames.length + '/5' : 'w-3/4' : ''"
     class="left-12 top-0 z-10"
   >
     <!-- Unlink game dialog. -->
@@ -21,7 +21,7 @@
       v-show="unlinkGameDialog"
       @accept="unlinkGameClose()"
       @cancel="unlinkGameOpen()"
-      actions="OkCancel"
+      dialog-actions="OkCancel"
     >
       Unlink the game <b>'{{ gameInfo.gameRegions[regionIndex].title }}'</b> ?
       <br />
@@ -32,7 +32,7 @@
       v-show="unlinkLinkedGameDialog"
       @accept="unlinkLinkedGameClose()"
       @cancel="unlinkLinkedGameOpen()"
-      actions="OkCancel"
+      dialog-actions="OkCancel"
     >
       Unlink the game <b>'{{ unlinkLinkedGameTitle }}'</b> ?
       <br />
@@ -74,17 +74,17 @@
       </div>
       <vi-select
         v-model="querySelected"
-        clearable
-        placeholder="Search..."
-        remote
-        :remote-method="querySearch"
+        select-clearable
+        select-placeholder="Search..."
+        select-remote
+        :select-remote-method="querySearch"
         class="w-full"
       >
         <vi-option
           v-for="item in queryResults"
           :key="item._id"
-          :label="item.child.title + (item.releaseYear ? ' (' + item.releaseYear + ') - ' : ' - ') + item.platforms.join(' / ')"
-          :value="item._id"
+          :option-label="item.child.title + (item.releaseYear ? ' (' + item.releaseYear + ') - ' : ' - ') + item.platforms.join(' / ')"
+          :option-value="item._id"
         />
       </vi-select>
       <div v-if="linkedGames.length > 0">
@@ -98,9 +98,8 @@
             :value="game"
           >
             <vi-chip
+              chip-click
               chip-large
-              clickable
-              multiline
               @clicked="$router.push({ name: 'Game', params: { id: game._id } })"
               @remove="unlinkLinkedGameOpen(game)"
             >

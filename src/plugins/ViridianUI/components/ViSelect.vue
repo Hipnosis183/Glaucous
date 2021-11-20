@@ -1,5 +1,5 @@
 <template>
-  <vi-input-group :label=label>
+  <vi-input-group :input-label=selectLabel>
     <!-- Prepend container. -->
     <div
       v-if="$slots.prepend"
@@ -22,17 +22,17 @@
       >
         <!-- Prefix icon. -->
         <div
-          v-if="iconPrefix"
+          v-if="selectIconPrefix"
           class="flex pl-3 w-max"
         >
           <div
             class="my-auto text-xl text-theme-600 dark:text-theme-400"
-            :class="iconPrefix"
+            :class="selectIconPrefix"
           />
         </div>
         <!-- Remote input element. -->
         <div
-          v-if="remote"
+          v-if="selectRemote"
           class="cursor-pointer relative text-base text-theme-800 dark:text-theme-200 w-full"
         >
           <!-- Label placeholder. -->
@@ -46,11 +46,11 @@
           <input
             v-model="labelSelected"
             ref="refInput"
-            :placeholder="labelHide || !labelPlaceholder ? placeholder : ''"
+            :placeholder="labelHide || !labelPlaceholder ? selectPlaceholder : ''"
             @blur="labelSelected = labelPlaceholder"
             @input="updateValueDebounced"
             class="absolute bg-transparent cursor-pointer h-full px-4 w-full"
-            :class="{ 'input-error' : required }"
+            :class="{ 'input-error' : selectRequired }"
           />
         </div>
         <!-- Normal input element. -->
@@ -58,20 +58,20 @@
           v-else
           v-model="labelSelected"
           :disabled="true"
-          :placeholder="placeholder"
+          :placeholder="selectPlaceholder"
           @input="updateValue()"
           class="bg-transparent cursor-pointer px-4 text-base text-theme-800 dark:text-theme-200 w-full"
-          :class="{ 'input-error' : required }"
+          :class="{ 'input-error' : selectRequired }"
         />
         <!-- Clear select icon. -->
         <div
-          v-if="(modelValue && remote && !required) || (!remote && clearable)"
+          v-if="(modelValue && selectRemote && !selectRequired) || (!selectRemote && selectClearable)"
           class="cursor-pointer flex w-max z-0"
         >
           <div
             @click.stop="clearValue()"
             class="cursor-pointer ml-2 mr-4 my-auto text-theme-700 dark:text-theme-300"
-            :class="(modelValue && (remote || (!remote && clearable)) && !required) ? 'visible' : 'invisible'"
+            :class="(modelValue && (selectRemote || (!selectRemote && selectClearable)) && !selectRequired) ? 'visible' : 'invisible'"
           >
             <vi-icon class="w-5">
               <icon-close />
@@ -80,7 +80,7 @@
         </div>
         <!-- Open select menu icon. -->
         <div
-          v-if="!remote"
+          v-if="!selectRemote"
           class="cursor-pointer flex pr-3 w-max"
         >
           <div class="my-auto text-theme-600 dark:text-theme-400">
@@ -106,11 +106,11 @@
           >
             <!-- Select created option. -->
             <vi-option
-              v-show="allowCreate && labelCached != '' && optionCreateShow"
+              v-show="selectAllowCreate && labelCached != '' && optionCreateShow"
               :key="labelCached"
-              :label="labelCached"
-              :value="labelCached"
-              created
+              option-created
+              :option-label="labelCached"
+              :option-value="labelCached"
             >
               <div class="flex justify-between text-theme-700 dark:text-theme-300">
                 <p>{{ labelCached }}</p>
@@ -125,7 +125,7 @@
             <!-- Select options list. -->
             <slot>
               <li
-                v-if="!allowCreate || labelCached == ''"
+                v-if="!selectAllowCreate || labelCached == ''"
                 class="cursor-none flex justify-center px-4 py-2"
               >
                 <p class="cursor-none">No results</p>
@@ -170,16 +170,16 @@ export default {
     'update:modelValue'
   ],
   props: {
-    allowCreate: { type: Boolean, default: false },
-    clearable: { type: Boolean, default: false },
-    iconPrefix: { type: String },
-    iconSuffix: { type: String },
-    label: { type: String },
     modelValue: { type: [Array, String, Number, Object] },
-    placeholder: { type: String },
-    remote: { type: Boolean, default: false },
-    remoteMethod: { type: Function },
-    required: { type: Boolean, default: false }
+    selectAllowCreate: { type: Boolean, default: false },
+    selectClearable: { type: Boolean, default: false },
+    selectIconPrefix: { type: String },
+    selectIconSuffix: { type: String },
+    selectLabel: { type: String },
+    selectPlaceholder: { type: String },
+    selectRemote: { type: Boolean, default: false },
+    selectRemoteMethod: { type: Function },
+    selectRequired: { type: Boolean, default: false }
   },
   setup(props, { emit }) {
     // Instantiate Mitt.
@@ -193,7 +193,7 @@ export default {
 
     // Setup select label on mounting.
     onMounted(() => {
-      if (props.remote) {
+      if (props.selectRemote) {
         // Reset model value to correctly trigger the label setting.
         emit('update:modelValue', null)
       } setOptionLabel()
@@ -219,7 +219,7 @@ export default {
     const updateValue = () => {
       // Update parent component model value.
       emit('update:modelValue', props.modelValue)
-      if (props.allowCreate) {
+      if (props.selectAllowCreate) {
         // Cache input label.
         labelCached.value = labelSelected.value
         setTimeout(() => { labelSelectedCached.value = labelSelected.value }, 10)
@@ -231,11 +231,11 @@ export default {
           optionCreateShow.value = false
         })
       }
-      if (props.remote) {
+      if (props.selectRemote) {
         // Hide label placeholder.
         labelHide.value = true
         // Update options with new query.
-        props.remoteMethod(labelSelected.value)
+        props.selectRemoteMethod(labelSelected.value)
       }
     }
     const updateValueDebounced = debounce(() => updateValue(), 1000)
@@ -244,7 +244,7 @@ export default {
       labelSelected.value = ''
       // Clear parent component model value.
       emit('update:modelValue', '')
-      if (props.remote) {
+      if (props.selectRemote) {
         // Clear label placeholder.
         labelPlaceholder.value = ''
         // Toggle options clear.
@@ -258,7 +258,7 @@ export default {
         labelPlaceholder.value = ''
       }
       // Apply only for remote searches.
-      if (props.remote) {
+      if (props.selectRemote) {
         // Set label if the option has been cached before.
         if (optionsCache.value.values.includes(value)) {
           labelPlaceholder.value = optionsCache.value.labels[optionsCache.value.values.indexOf(value)]
@@ -305,7 +305,7 @@ export default {
         }
         if (value == '' || value == null) {
           // Empty options results.
-          props.remoteMethod('')
+          props.selectRemoteMethod('')
           // Hide label placeholder.
           labelHide.value = true
           // Clear cache input label.
@@ -317,13 +317,13 @@ export default {
           // Check if the option selected was created or not.
           if (labelCached.value == labelPlaceholder.value && optionCreateShow.value) {
             // Clear options.
-            props.remoteMethod('')
+            props.selectRemoteMethod('')
           } else {
             // Clear cache input label.
             labelCached.value = ''
             labelSelectedCached.value = ''
             // Get label option.
-            props.remoteMethod(labelPlaceholder.value)
+            props.selectRemoteMethod(labelPlaceholder.value)
           }
         }
       }
@@ -347,7 +347,7 @@ export default {
             emitter.on(selectID, (item) => {
               if (item.length > 0) {
                 // Set option label as select label.
-                if (props.remote) {
+                if (props.selectRemote) {
                   labelPlaceholder.value = item
                   labelHide.value = false
                   // Toggle options clear.
@@ -379,7 +379,7 @@ export default {
       // Close menu if it's already open.
       if (openMenu.value === true) {
         closeDropMenu(closeListener)
-        if (props.remote) {
+        if (props.selectRemote) {
           // Remove focus from the input element.
           refInput.value.blur()
         }
@@ -420,7 +420,7 @@ export default {
         // Indicate that the selected value comes from the options list.
         selectedFromOptions.value = true
         // Set option label as select label.
-        labelSelected.value = props.remote ? '' : item.label
+        labelSelected.value = props.selectRemote ? '' : item.label
         labelPlaceholder.value = item.label
         // Show label placeholder.
         labelHide.value = false
@@ -432,7 +432,7 @@ export default {
       refMenu.value.style.minWidth = refSelect.value.clientWidth + 'px'
     }
     const closeDropMenu = (listener) => {
-      if (props.remote) {
+      if (props.selectRemote) {
         // Clear input value.
         labelSelected.value = ''
         // Show label placeholder.
@@ -447,13 +447,13 @@ export default {
             // Cache input label.
             labelCached.value = labelPlaceholder.value
             // Clear options.
-            props.remoteMethod('')
+            props.selectRemoteMethod('')
           } else {
             // Clear cache input label.
             labelCached.value = ''
             labelSelectedCached.value = ''
             // Update options with new query.
-            props.remoteMethod(labelPlaceholder.value)
+            props.selectRemoteMethod(labelPlaceholder.value)
           }
         } else {
           // Clear cache input label.
@@ -462,7 +462,7 @@ export default {
           // Clear parent component model value.
           emit('update:modelValue', '')
           // Clear options.
-          props.remoteMethod('')
+          props.selectRemoteMethod('')
         }
       }
       selectDropMenu(listener)

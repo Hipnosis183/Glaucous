@@ -2,8 +2,8 @@
   <!-- Version name input. -->
   <vi-input
     v-model="name"
-    label="Version Name"
-    placeholder="Enter a version name..."
+    input-label="Version Name"
+    input-placeholder="Enter a version name..."
   />
 </template>
 

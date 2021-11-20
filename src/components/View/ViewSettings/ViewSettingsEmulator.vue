@@ -18,7 +18,7 @@
     v-show="deleteEmulatorDialog"
     @accept="deleteEmulatorClose()"
     @cancel="deleteEmulatorOpen()"
-    actions="OkCancel"
+    dialog-actions="OkCancel"
   >
     Delete emulator <b>'{{ emulatorName }}'</b> ?
   </vi-dialog-box>
@@ -42,15 +42,15 @@
     <!-- Emulator select. -->
     <vi-select
       v-model="emulatorStore"
-      clearable
       :key="emulatorList"
-      placeholder="No Emulator"
+      select-clearable
+      select-placeholder="No Emulator"
     >
       <vi-option
         v-for="item in emulatorList.sort(sortEmulatorList)"
         :key="item.id"
-        :label="item.name"
-        :value="item.id"
+        :option-label="item.name"
+        :option-value="item.id"
       />
       <!-- Buttons -->
       <template #append>
@@ -68,7 +68,7 @@
         </vi-input-button>
         <!-- Edit emulator. -->
         <vi-input-button
-          last-element
+          input-last
           @click="editEmulatorOpen()"
         >
           <vi-icon class="w-6">

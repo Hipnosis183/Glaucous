@@ -20,12 +20,12 @@
     />
     <!-- Files form. -->
     <vi-input-group
-      label="Files"
+      input-label="Files"
       class="w-full"
     >
       <vi-input-button
-        first-element
         v-if="showPlatform"
+        input-first
         @click="filesPlatformShow()"
         class="w-1/3"
       >
@@ -33,7 +33,7 @@
       </vi-input-button>
       <vi-input-button
         v-if="showRegion"
-        :first-element="!showPlatform"
+        :input-first="!showPlatform"
         @click="filesRegionShow()"
         :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
       >
@@ -41,8 +41,8 @@
       </vi-input-button>
       <vi-input-button
         v-if="showVersion"
-        :first-element="!showPlatform && !showRegion"
-        last-element
+        :input-first="!showPlatform && !showRegion"
+        input-last
         @click="filesVersionShow()"
         :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
       >

@@ -2,9 +2,9 @@
   <!-- Emulator path input. -->
   <vi-input
     v-model="path"
-    label="Path *"
-    placeholder="Select emulator directory path..."
-    required
+    input-label="Path *"
+    input-placeholder="Select emulator directory path..."
+    input-required
   />
 </template>
 

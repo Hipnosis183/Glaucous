@@ -1,11 +1,11 @@
 <template>
   <!-- View game gallery. -->
   <vi-overlay
+    :overlay-border="3"
+    overlay-height="h-full"
+    :overlay-rounded="false"
+    overlay-width="w-full"
     @close="$emit('close')"
-    :border="3"
-    :rounded="false"
-    height="h-full"
-    width="w-full"
     class="pos-initial z-10"
   >
     <div v-if="getPictures[0]">
@@ -53,31 +53,28 @@
               <div class="flex h-10 rounded-full shadow-color">
                 <!-- Previous image. -->
                 <vi-button
+                  button-first
                   button-icon="icon-arrow-left-d"
-                  first-element
                   @click="prevImage()"
                   class="px-4"
                 />
                 <!-- Display image in its original size. -->
                 <vi-button
+                  button-middle
                   button-icon="icon-full-screen"
-                  middle-element
                   @click="imageZoomToggle()"
                   class="px-4"
                 />
                 <!-- Next image. -->
                 <vi-button
+                  button-last
                   button-icon="icon-arrow-right-d"
-                  last-element
                   @click="nextImage()"
                   class="px-4"
                 />
               </div>
               <!-- Image counter. -->
-              <vi-button
-                color
-                class="cursor-default"
-              >
+              <vi-button class="cursor-default">
                 {{ (imageIndex + 1) + ' / ' + getPictures.length }}
               </vi-button>
             </div>
@@ -131,7 +128,7 @@
     <!-- No images available dialog. -->
     <vi-dialog-box
       v-else
-      :overlay="false"
+      :dialog-overlay="false"
       @accept="$emit('close')"
     >
       No images available.

@@ -2,17 +2,17 @@
   <!-- Platform group input select. -->
   <vi-select
     v-model="parent"
-    label="Parent Group"
-    placeholder="Search or create a platform group..."
-    remote
-    :remote-method="querySearch"
+    select-label="Parent Group"
+    select-placeholder="Search or create a platform group..."
+    select-remote
+    :select-remote-method="querySearch"
     class="w-full"
   >
     <vi-option
       v-for="item in queryResults"
       :key="item._id"
-      :label="item.name"
-      :value="item._id"
+      :option-label="item.name"
+      :option-value="item._id"
     />
   </vi-select>
 </template>

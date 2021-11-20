@@ -2,8 +2,8 @@
   <!-- Serial input. -->
   <vi-input
     v-model="serial"
-    label="Serial | Code | Game ID"
-    placeholder="Undefined"
+    input-label="Serial | Code | Game ID"
+    input-placeholder="Undefined"
   />
 </template>
 

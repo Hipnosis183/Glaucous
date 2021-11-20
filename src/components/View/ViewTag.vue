@@ -11,13 +11,13 @@
         v-show="deleteTagDialog"
         @accept="deleteTagClose()"
         @cancel="deleteTagOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete tag <b>'{{ gameTag.name }}'</b> ?
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :title="gameTag.name">
+    <vi-nav-bar :nav-title="gameTag.name">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 space-x-1"
@@ -37,10 +37,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -55,7 +55,7 @@
         <vi-list
           v-if="gameTag.games.length > 0"
           :list-display="$store.getters.getSettingsListsDisplayMode"
-          :remote-method="loadTagNext"
+          :list-remote-method="loadTagNext"
         >
           <li
             v-for="game in gameTag.games"

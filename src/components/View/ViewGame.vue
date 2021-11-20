@@ -29,7 +29,7 @@
         v-show="deletePlatformDialog"
         @accept="deletePlatformClose()"
         @cancel="deletePlatformOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete game <b>'{{ fullTitle }}'</b> ?
         <br />
@@ -40,7 +40,7 @@
         v-show="deleteRegionDialog"
         @accept="deleteRegionClose()"
         @cancel="deleteRegionOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete region <b>'{{ gameInfo.gameRegions[regionIndex].regionName }}'</b>
         from game <b>'{{ fullTitle }}'</b> ?
@@ -52,7 +52,7 @@
         v-show="deleteVersionDialog"
         @accept="deleteVersionClose()"
         @cancel="deleteVersionOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete the selected version from game <b>'{{ fullTitle }}'</b> ?
         <br />
@@ -111,23 +111,23 @@
       >
         <!-- Create games menu dialog. -->
         <vi-menu-select
-          icon="icon-add"
-          :offset="[0, 14]"
+          menu-icon="icon-add"
+          :menu-offset="[0, 14]"
         >
           <!-- Open create game platform dialog. -->
           <vi-menu-option
-            label="Create Game Platform"
-            :method="createPlatformOpen"
+            menu-label="Create Game Platform"
+            :menu-method="createPlatformOpen"
           />
           <!-- Open create game region dialog. -->
           <vi-menu-option
-            label="Create Game Region"
-            :method="createRegionOpen"
+            menu-label="Create Game Region"
+            :menu-method="createRegionOpen"
           />
           <!-- Open create game version dialog. -->
           <vi-menu-option
-            label="Create Game Version"
-            :method="createVersionOpen"
+            menu-label="Create Game Version"
+            :menu-method="createVersionOpen"
           />
         </vi-menu-select>
         <!-- Open edit game dialog. -->
@@ -137,60 +137,60 @@
         />
         <!-- Delete games menu dialog. -->
         <vi-menu-select
-          icon="icon-remove"
-          :offset="[0, 14]"
+          menu-icon="icon-remove"
+          :menu-offset="[0, 14]"
         >
           <!-- Open create game platform dialog. -->
           <vi-menu-option
-            label="Delete Game Platform"
-            :method="deletePlatformOpen"
+            menu-label="Delete Game Platform"
+            :menu-method="deletePlatformOpen"
           />
           <!-- Open create game region dialog. -->
           <vi-menu-option
-            label="Delete Game Region"
-            :method="deleteRegionOpen"
+            menu-label="Delete Game Region"
+            :menu-method="deleteRegionOpen"
           />
           <!-- Open create game version dialog. -->
           <vi-menu-option
-            label="Delete Game Version"
-            :method="deleteVersionOpen"
+            menu-label="Delete Game Version"
+            :menu-method="deleteVersionOpen"
           />
         </vi-menu-select>
         <!-- Select default games. -->
         <vi-menu-select
-          icon="icon-pin"
-          :offset="[0, 14]"
+          menu-icon="icon-pin"
+          :menu-offset="[0, 14]"
         >
           <!-- Set selected region as the main region. -->
           <vi-menu-option
-            label="Set Region as Default"
-            :method="setGameRegion"
+            menu-label="Set Region as Default"
+            :menu-method="setGameRegion"
           />
           <!-- Set selected version as the main version. -->
           <vi-menu-option
-            label="Set Version as Default"
-            :method="setGameVersion"
+            menu-label="Set Version as Default"
+            :menu-method="setGameVersion"
           />
         </vi-menu-select>
         <!-- Open game directories dialog. -->
         <vi-menu-select
-          icon="icon-folder"
-          :offset="[0, 14]"
+          menu-icon="icon-folder"
+          :menu-offset="[0, 14]"
         >
           <!-- Open game platform directories menu dialog. -->
           <vi-menu-option
-            label="Platform Directories"
-            :method="directoriesPlatform"
+            menu-label="Platform Directories"
+            :menu-method="directoriesPlatform"
           />
           <!-- Open game region directories menu dialog. -->
           <vi-menu-option
-            label="Region Directories"
-            :method="directoriesRegion"
+            menu-label="Region Directories"
+            :menu-method="directoriesRegion"
           />
           <!-- Open game version directories menu dialog. -->
           <vi-menu-option
-            label="Version Directories"
-            :method="directoriesVersion"
+            menu-label="Version Directories"
+            :menu-method="directoriesVersion"
           />
         </vi-menu-select>
       </div>
@@ -320,70 +320,70 @@
                       />
                       <!-- Buttons. -->
                       <vi-menu-select-ui
-                        icon="icon-grid"
+                        menu-icon="icon-grid"
                         class="ml-2 mr-1"
                       >
                         <div class="flex">
                           <div>
                             <!-- Open game details dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-info"
-                              label="Details"
-                              :method="gameDetailsShow"
+                              menu-icon="icon-info"
+                              menu-label="Details"
+                              :menu-method="gameDetailsShow"
                             />
                             <!-- Remove selected game platform from favorites. -->
                             <vi-menu-option-ui
                               v-if="gameFavorited"
-                              icon="icon-star-s"
-                              label="Favorited"
-                              :method="removeFavorite"
-                              small
+                              menu-icon="icon-star-s"
+                              menu-label="Favorited"
+                              :menu-method="removeFavorite"
+                              menu-small
                             />
                             <!-- Add selected game platform to favorites. -->
                             <vi-menu-option-ui
                               v-else
-                              icon="icon-star"
-                              label="Favorite"
-                              :method="addFavorite"
-                              small
+                              menu-icon="icon-star"
+                              menu-label="Favorite"
+                              :menu-method="addFavorite"
+                              menu-small
                             />
                             <!-- Open files dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-clip"
-                              label="Files"
-                              :method="gameFilesShow"
+                              menu-icon="icon-clip"
+                              menu-label="Files"
+                              :menu-method="gameFilesShow"
                             />
                             <!-- Open game gallery. -->
                             <vi-menu-option-ui
-                              icon="icon-picture-s"
-                              label="Gallery"
-                              :method="gameGalleryShow"
+                              menu-icon="icon-picture-s"
+                              menu-label="Gallery"
+                              :menu-method="gameGalleryShow"
                             />
                           </div>
                           <div>
                             <!-- Open links dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-link"
-                              label="Links"
-                              :method="gameLinksShow"
+                              menu-icon="icon-link"
+                              menu-label="Links"
+                              :menu-method="gameLinksShow"
                             />
                             <!-- Open notes dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-notes"
-                              label="Notes"
-                              :method="gameNotesShow"
+                              menu-icon="icon-notes"
+                              menu-label="Notes"
+                              :menu-method="gameNotesShow"
                             />
                             <!-- Open playlists dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-playlist-add"
-                              label="Playlists"
-                              :method="gamePlaylistsOpen"
+                              menu-icon="icon-playlist-add"
+                              menu-label="Playlists"
+                              :menu-method="gamePlaylistsOpen"
                             />
                             <!-- Open settings dialog. -->
                             <vi-menu-option-ui
-                              icon="icon-options"
-                              label="Settings"
-                              :method="gameSettingsShow"
+                              menu-icon="icon-options"
+                              menu-label="Settings"
+                              :menu-method="gameSettingsShow"
                             />
                           </div>
                         </div>

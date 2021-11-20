@@ -17,7 +17,7 @@
         v-show="deleteDeveloperDialog"
         @accept="deleteDeveloperClose()"
         @cancel="deleteDeveloperOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete developer <b>'{{ developer.name }}'</b> ?
         <br />
@@ -25,7 +25,7 @@
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :title="developer.name">
+    <vi-nav-bar :nav-title="developer.name">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 space-x-1"
@@ -50,10 +50,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -68,7 +68,7 @@
         <vi-list
           v-if="developer.games.length > 0"
           :list-display="$store.getters.getSettingsListsDisplayMode"
-          :remote-method="loadDeveloperNext"
+          :list-remote-method="loadDeveloperNext"
         >
           <li
             v-for="game in developer.games"

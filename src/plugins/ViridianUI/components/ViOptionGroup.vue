@@ -1,11 +1,11 @@
 <template>
   <!-- Option group label. -->
-  <label class="flex my-2 px-5 text-theme-600 dark:text-theme-400 text-sm">{{ label }}</label>
+  <label class="flex my-2 px-5 text-theme-600 dark:text-theme-400 text-sm">{{ optionLabel }}</label>
   <!-- Option group contents. -->
   <slot />
   <!-- Separator bar. -->
   <div
-    v-if="!last"
+    v-if="!optionLast"
     class="border-b border-theme-400 dark:border-theme-500 flex mb-4 mt-2 mx-5"
   />
 </template>
@@ -14,8 +14,8 @@
 export default {
   name: 'ViOptionGroup',
   props: {
-    label: { type: String },
-    last: { type: Boolean, default: false }
+    optionLabel: { type: String },
+    optionLast: { type: Boolean, default: false }
   }
 }
 </script>

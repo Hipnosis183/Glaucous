@@ -7,12 +7,12 @@
       class="flex h-full"
     >
       <vi-button
-        v-if="small"
-        :button-small="small"
+        v-if="menuSmall"
+        :button-small="menuSmall"
       />
       <vi-button-nb
         v-else
-        :button-icon="icon"
+        :button-icon="menuIcon"
       />
     </div>
     <!-- Dropdown menu. -->
@@ -52,10 +52,10 @@ export default {
     ViButtonNb
   },
   props: {
-    icon: { type: String },
-    offset: { type: Array, default: [0, 10] },
-    placement: { type: String, default: 'bottom-start' },
-    small: { type: String }
+    menuIcon: { type: String },
+    menuOffset: { type: Array, default: [0, 10] },
+    menuPlacement: { type: String, default: 'bottom-start' },
+    menuSmall: { type: String }
   },
   setup(props) {
     // Declare template refs.
@@ -129,10 +129,10 @@ export default {
         // Create a new PopperJS instance.
         popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
-          placement: props.placement,
+          placement: props.menuPlacement,
           modifiers: [
             // Set distance between the select and the menu.
-            { name: 'offset', options: { offset: props.offset } }
+            { name: 'offset', options: { offset: props.menuOffset } }
           ]
         })
       })

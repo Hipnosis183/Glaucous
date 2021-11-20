@@ -2,8 +2,8 @@
   <!-- Parameters input. -->
   <vi-input
     v-model="params"
-    label="Parameters"
-    placeholder="Undefined"
+    input-label="Parameters"
+    input-placeholder="Undefined"
   />
 </template>
 

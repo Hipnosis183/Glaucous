@@ -1,7 +1,7 @@
 <template>
   <!-- Option item. -->
   <div
-    @click="method"
+    @click="menuMethod"
     class="hover:bg-color-600 dark:hover:bg-color-700 duration-500 h-14 relative"
   >
     <!-- Option overlay. -->
@@ -12,13 +12,13 @@
         <!-- Default option content. -->
         <div class="flex h-full items-center slot text-lg">
           <vi-icon
-            v-if="icon"
+            v-if="menuIcon"
             icon-manual
-            :class="small ? '-ml-0.5 mr-1.5 -mt-0.5 w-7' : 'mr-2 w-6'"
+            :class="menuSmall ? '-ml-0.5 mr-1.5 -mt-0.5 w-7' : 'mr-2 w-6'"
           >
-            <component :is="icon" />
+            <component :is="menuIcon" />
           </vi-icon>
-          <h6>{{ label }}</h6>
+          <h6>{{ menuLabel }}</h6>
         </div>
       </slot>
     </div>
@@ -29,10 +29,10 @@
 export default {
   name: 'ViMenuOptionUI',
   props: {
-    icon: { type: String },
-    label: { type: String },
-    method: { type: Function },
-    small: { type: Boolean, default: false }
+    menuIcon: { type: String },
+    menuLabel: { type: String },
+    menuMethod: { type: Function },
+    menuSmall: { type: Boolean, default: false }
   }
 }
 </script>

@@ -15,8 +15,8 @@
         <vi-option
           v-for="item in gameCategoryOptions"
           :key="item.i"
-          :label="item.name"
-          :value="item.i"
+          :option-label="item.name"
+          :option-value="item.i"
         />
       </vi-select>
     </vi-section-content>

@@ -24,7 +24,7 @@ export default {
   props: {
     listDisplay: { type: Number, default: 0 },
     listLength: { type: Number, default: 4 },
-    remoteMethod: { type: Function }
+    listRemoteMethod: { type: Function }
   },
   setup(props) {
     // Declare template refs.
@@ -49,7 +49,7 @@ export default {
     watch(() => isIntersecting, (value) => {
       // Execute remote method when reaching the end of the list.
       if (value) {
-        props.remoteMethod()
+        props.listRemoteMethod()
       }
     })
 

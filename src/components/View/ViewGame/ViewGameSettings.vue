@@ -13,8 +13,8 @@
     v-show="settingsGameDialog"
     v-if="$store.state.gameSelected.gameVersion"
     :key="$store.state.gameSelected.gameVersion"
+    dialog-width="w-2/3"
     @close="settingsGameClose()"
-    width="w-2/3"
     class="left-12 top-0 z-10"
   >
     <div class="flex max-h-content overflow-hidden">
@@ -46,7 +46,7 @@
             <p class="text-xl whitespace-nowrap">Game Path</p>
             <vi-input
               v-model="gamePath"
-              placeholder="Select game directory path..."
+              input-placeholder="Select game directory path..."
             />
           </vi-section-content>
           <!-- Executable command. -->
@@ -54,7 +54,7 @@
             <p class="text-xl whitespace-nowrap">Game File</p>
             <vi-input
               v-model="gameFile"
-              placeholder="Select game file..."
+              input-placeholder="Select game file..."
             />
           </vi-section-content>
           <!-- Executable parameters. -->
@@ -62,7 +62,7 @@
             <p class="text-xl whitespace-nowrap">Game Parameters *</p>
             <vi-input
               v-model="gameParams"
-              placeholder="Undefined"
+              input-placeholder="Undefined"
             />
           </vi-section-content>
           <!-- Relative path. -->
@@ -71,7 +71,7 @@
             <vi-switch v-model="relativePath" />
           </vi-section-content>
           <!-- Command preview. -->
-          <vi-section-header label="Preview" />
+          <vi-section-header section-label="Preview" />
           <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
             <div
               v-if="fullCommand"

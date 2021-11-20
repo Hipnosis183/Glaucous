@@ -4,8 +4,8 @@
     v-if="getCover"
     v-show="imagesCoverDialog"
     @close="imagesCoverClose()"
-    :border="1"
-    :rounded="false"
+    :overlay-border="1"
+    :overlay-rounded="false"
     class="pos-initial z-10"
   >
     <div class="flex relative">

@@ -2,12 +2,11 @@
   <button
     class="bg-theme-200 dark:bg-theme-900 hover:bg-color-300 dark:hover:bg-color-900 px-3 text-theme-800 dark:text-theme-200"
     :class="[
-      bottomElement || topElement ? 'h-1/2' : 'h-full py-2',
-      { 'text-shadow' : $store.getters.getSettingsThemesDarkMode },
-      { 'pb-0.5 rounded-br-xl' : bottomElement },
-      { 'pt-0.5 rounded-tr-xl' : topElement },
-      { 'rounded-l-xl' : firstElement },
-      { 'rounded-r-xl' : lastElement }
+      inputBottom || inputTop ? 'h-1/2' : 'h-full py-2',
+      { 'pb-0.5 rounded-br-xl' : inputBottom },
+      { 'pt-0.5 rounded-tr-xl' : inputTop },
+      { 'rounded-l-xl' : inputFirst },
+      { 'rounded-r-xl' : inputLast }
     ]"
   >
     <slot />
@@ -18,10 +17,10 @@
 export default {
   name: 'ViInputButton',
   props: {
-    bottomElement: { type: Boolean, default: false },
-    firstElement: { type: Boolean, default: false },
-    lastElement: { type: Boolean, default: false },
-    topElement: { type: Boolean, default: false }
+    inputBottom: { type: Boolean, default: false },
+    inputFirst: { type: Boolean, default: false },
+    inputLast: { type: Boolean, default: false },
+    inputTop: { type: Boolean, default: false }
   }
 }
 </script>

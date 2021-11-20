@@ -1,8 +1,8 @@
 <template>
   <!-- Open image settings dialog. -->
   <vi-menu-button
-    icon="icon-grid"
-    placement="left-start"
+    menu-icon="icon-grid"
+    menu-placement="left-start"
   >
     <!-- Image settings. -->
     <div class="text-center w-88">
@@ -29,8 +29,8 @@
               <vi-option
                 v-for="item in cornersRoundingOptions"
                 :key="item.i"
-                :label="item.name"
-                :value="item.i"
+                :option-label="item.name"
+                :option-value="item.i"
               />
             </vi-select>
           </div>
@@ -41,9 +41,9 @@
           <div class="ml-auto w-32">
             <vi-input-num
               v-model="gridColumns"
-              :min="1"
-              :max="20"
-              position-side
+              :input-min="1"
+              :input-max="20"
+              input-side
             />
           </div>
         </div>

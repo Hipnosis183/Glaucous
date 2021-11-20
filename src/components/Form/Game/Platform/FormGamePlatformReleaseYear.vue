@@ -2,8 +2,8 @@
   <!-- Release year input. -->
   <vi-input
     v-model="releaseYear"
-    label="Release Year"
-    placeholder="Undefined"
+    input-label="Release Year"
+    input-placeholder="Undefined"
   />
 </template>
 

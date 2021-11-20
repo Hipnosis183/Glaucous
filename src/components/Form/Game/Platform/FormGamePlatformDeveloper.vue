@@ -2,19 +2,19 @@
   <!-- Developer input select. -->
   <vi-select
     v-model="developer"
-    allow-create
-    label="Developer *"
-    placeholder="Search or create developer..."
-    remote
-    :remote-method="querySearch"
-    required
+    select-allow-create
+    select-label="Developer *"
+    select-placeholder="Search or create developer..."
+    select-remote
+    :select-remote-method="querySearch"
+    select-required
     class="w-full"
   >
     <vi-option
       v-for="item in queryResults"
       :key="item._id"
-      :label="item.name"
-      :value="item._id"
+      :option-label="item.name"
+      :option-value="item._id"
     />
   </vi-select>
 </template>

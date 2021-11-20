@@ -11,7 +11,7 @@
     <div class="px-4 py-2 text-color-100 text-shadow text-lg">
       <slot>
         <!-- Default option content. -->
-        <h6>{{ label }}</h6>
+        <h6>{{ optionLabel }}</h6>
       </slot>
     </div>
   </li>
@@ -24,9 +24,9 @@ import { computed, getCurrentInstance, inject, watch } from 'vue'
 export default {
   name: 'ViOption',
   props: {
-    created: { type: Boolean, default: false },
-    label: { type: String },
-    value: { type: [String, Number, Object] }
+    optionCreated: { type: Boolean, default: false },
+    optionLabel: { type: String },
+    optionValue: { type: [String, Number, Object] }
   },
   setup(props) {
     // Instantiate Mitt.
@@ -34,8 +34,8 @@ export default {
 
     // Manage value communication with select component.
     const item = {
-      label: props.label,
-      value: props.value
+      label: props.optionLabel,
+      value: props.optionValue
     }
     const setOption = () => {
       // Emit option data to select component.
@@ -52,7 +52,7 @@ export default {
     })
     const hideOption = computed(() => {
       // Hide created option if it matches an existing option.
-      if (!props.created) {
+      if (!props.optionCreated) {
         return selectLabel.value == item.label ? true : false
       }
     })

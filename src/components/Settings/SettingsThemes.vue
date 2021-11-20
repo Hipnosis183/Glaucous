@@ -15,14 +15,14 @@
         <vi-option-group
           v-for="(group, index) in themes"
           :key="group.name"
-          :label="group.name"
-          :last="index == Object.keys(themes).length - 1"
+          :option-label="group.name"
+          :option-last="index == Object.keys(themes).length - 1"
         >
           <vi-option
             v-for="theme in group.values"
             :key="theme.i"
-            :label="theme.name"
-            :value="theme.i"
+            :option-label="theme.name"
+            :option-value="theme.i"
           >
             <div class="align-middle inline-flex items-center space-x-4">
               <div class="inline-flex space-x-2">
@@ -51,8 +51,8 @@
         <vi-option
           v-for="color in colors"
           :key="color.i"
-          :label="color.name"
-          :value="color.i"
+          :option-label="color.name"
+          :option-value="color.i"
         >
           <div class="align-middle inline-flex items-center space-x-4">
             <div
@@ -75,8 +75,8 @@
         <vi-option
           v-for="font in fontsList"
           :key="font"
-          :label="font"
-          :value="font"
+          :option-label="font"
+          :option-value="font"
         />
       </vi-select>
     </vi-section-content>

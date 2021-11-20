@@ -148,8 +148,8 @@
             <vi-option
               v-for="item in backgroundImageOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
           <vi-select
@@ -157,15 +157,15 @@
             class="w-auto"
           >
             <vi-option
-              label="- Global -"
-              :value="0"
+              option-label="- Global -"
+              :option-value="0"
               class="text-center"
             />
             <vi-option
               v-for="item in backgroundImageOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
         </div>
@@ -178,8 +178,8 @@
             <vi-option
               v-for="item in backgroundPlacementOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
           <vi-select
@@ -187,15 +187,15 @@
             class="w-auto"
           >
             <vi-option
-              label="- Global -"
-              :value="0"
+              option-label="- Global -"
+              :option-value="0"
               class="text-center"
             />
             <vi-option
               v-for="item in backgroundPlacementOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
         </div>
@@ -205,14 +205,14 @@
           class="w-auto"
         >
           <vi-option
-            label="Default"
-            value="default"
+            option-label="Default"
+            option-value="default"
           />
           <vi-option
             v-for="color in colors"
             :key="color.i"
-            :label="color.name"
-            :value="color.i"
+            :option-label="color.name"
+            :option-value="color.i"
             class="text-left"
           >
             <div class="align-middle inline-flex items-center space-x-4">

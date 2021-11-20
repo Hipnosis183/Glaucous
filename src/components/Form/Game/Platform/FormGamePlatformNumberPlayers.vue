@@ -2,16 +2,16 @@
   <!-- Number of players select. -->
   <vi-select
     v-model="numberPlayers"
-    clearable
-    label="Players"
-    placeholder="Undefined"
+    select-clearable
+    select-label="Players"
+    select-placeholder="Undefined"
     class="w-full"
   >
     <vi-option
       v-for="item in numberPlayersOptions"
       :key="item.i"
-      :label="item.name"
-      :value="item.i"
+      :option-label="item.name"
+      :option-value="item.i"
     />
   </vi-select>
 </template>

@@ -1,8 +1,8 @@
 <template>
   <vi-overlay
-    height="h-full"
-    :rounded="false"
-    width="w-3/5"
+    overlay-height="h-full"
+    :overlay-rounded="false"
+    overlay-width="w-3/5"
   >
     <div class="space-y-4 w-full">
       <!-- Search dialog. -->
@@ -23,9 +23,8 @@
             <!-- Search query input. -->
             <vi-input
               v-model="queryInput"
-              clearable
-              icon-prefix="icon-search"
-              placeholder="Search..."
+              input-icon-prefix="icon-search"
+              input-placeholder="Search..."
             />
             <!-- Search category select. -->
             <vi-select
@@ -35,8 +34,8 @@
               <vi-option
                 v-for="item in searchOptions"
                 :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :option-label="item.label"
+                :option-value="item.value"
               />
             </vi-select>
           </div>
@@ -79,7 +78,7 @@
             <vi-list-search
               :list-display="$store.getters.getSettingsListsDisplayMode"
               :list-length="queryResults.length"
-              :remote-method="querySearchNext"
+              :list-remote-method="querySearchNext"
             >
               <li
                 v-for="game in queryResults"

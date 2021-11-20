@@ -28,18 +28,18 @@
     <!-- Tags input select. -->
     <vi-select
       v-model="querySelected"
-      allow-create
-      clearable
-      placeholder="Add or create tags..."
-      remote
-      :remote-method="queryFilter"
+      select-allow-create
+      select-clearable
+      select-placeholder="Add or create tags..."
+      select-remote
+      :select-remote-method="queryFilter"
       class="w-full"
     >
       <vi-option
         v-for="item in queryResults"
         :key="item._id"
-        :label="item.name"
-        :value="item._id"
+        :option-label="item.name"
+        :option-value="item._id"
       />
     </vi-select>
     <!-- Tags list section. -->
@@ -68,19 +68,19 @@
     <!-- Tags input select. -->
     <vi-select
       v-model="querySelected"
-      allow-create
-      clearable
-      label="Tags"
-      placeholder="Add or create tags..."
-      remote
-      :remote-method="queryFilter"
+      select-allow-create
+      select-clearable
+      select-label="Tags"
+      select-placeholder="Add or create tags..."
+      select-remote
+      :select-remote-method="queryFilter"
       class="w-full"
     >
       <vi-option
         v-for="item in queryResults"
         :key="item._id"
-        :label="item.name"
-        :value="item._id"
+        :option-label="item.name"
+        :option-value="item._id"
       />
       <template #append>
         <!-- Buttons -->
@@ -90,7 +90,7 @@
           </vi-icon>
         </vi-input-button>
         <vi-input-button
-          last-element
+          input-last
           @click="expandedTagsShow()"
         >
           <vi-icon class="w-6">

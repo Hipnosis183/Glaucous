@@ -1,5 +1,5 @@
 <template>
-  <vi-input-group :label=label>
+  <vi-input-group :input-label=inputLabel>
     <!-- Prepend container. -->
     <div
       v-if="$slots.prepend"
@@ -18,38 +18,38 @@
     >
       <!-- Prefix icon. -->
       <div
-        v-if="iconPrefix"
+        v-if="inputIconPrefix"
         class="flex pl-3 w-max"
       >
         <div class="my-auto text-theme-600 dark:text-theme-400">
           <vi-icon class="w-5">
-            <component :is="iconPrefix" />
+            <component :is="inputIconPrefix" />
           </vi-icon>
         </div>
       </div>
       <!-- Remote input element. -->
       <input
-        v-if="remote"
+        v-if="inputRemote"
         v-model="modelValue"
-        :disabled="disabled"
-        :placeholder="placeholder"
+        :disabled="inputDisabled"
+        :placeholder="inputPlaceholder"
         @input="updateValueDebounced"
         class="bg-transparent px-4 text-base text-theme-800 dark:text-theme-200 w-full"
-        :class="required ? 'input-error' : ''"
+        :class="inputRequired ? 'input-error' : ''"
       />
       <!-- Normal input element. -->
       <input
         v-else
         v-model="modelValue"
-        :disabled="disabled"
-        :placeholder="placeholder"
+        :disabled="inputDisabled"
+        :placeholder="inputPlaceholder"
         @input="updateValue()"
         class="bg-transparent px-4 text-base text-theme-800 dark:text-theme-200 w-full"
-        :class="required ? 'input-error' : ''"
+        :class="inputRequired ? 'input-error' : ''"
       />
       <!-- Clear input icon. -->
       <div
-        v-if="remote && modelValue"
+        v-if="inputRemote && modelValue"
         class="flex w-max"
       >
         <div
@@ -63,12 +63,12 @@
       </div>
       <!-- Sufix icon. -->
       <div
-        v-if="iconSuffix"
+        v-if="inputIconSuffix"
         class="flex pr-3 w-max"
       >
         <div class="my-auto text-theme-600 dark:text-theme-400">
           <vi-icon class="w-5">
-            <component :is="iconSuffix" />
+            <component :is="inputIconSuffix" />
           </vi-icon>
         </div>
       </div>
@@ -99,33 +99,33 @@ export default {
     'update:modelValue'
   ],
   props: {
-    disabled: { type: Boolean, default: false },
-    iconPrefix: { type: String },
-    iconSuffix: { type: String },
-    label: { type: String },
-    modelValue: { type: [String, Number] },
-    placeholder: { type: String },
-    remote: { type: Boolean, default: false },
-    remoteMethod: { type: Function },
-    required: { type: Boolean, default: false }
+    inputDisabled: { type: Boolean, default: false },
+    inputIconPrefix: { type: String },
+    inputIconSuffix: { type: String },
+    inputLabel: { type: String },
+    inputPlaceholder: { type: String },
+    inputRemote: { type: Boolean, default: false },
+    inputRemoteMethod: { type: Function },
+    inputRequired: { type: Boolean, default: false },
+    modelValue: { type: [String, Number] }
   },
   setup(props, { emit }) {
     // Manage input value.
     const updateValue = () => {
       // Update parent component model value.
       emit('update:modelValue', props.modelValue)
-      if (props.remote) {
+      if (props.inputRemote) {
         // Update results with new query.
-        props.remoteMethod(props.modelValue)
+        props.inputRemoteMethod(props.modelValue)
       }
     }
     const updateValueDebounced = debounce(() => updateValue(), 1000)
     const clearValue = () => {
       // Clear parent component model value.
       emit('update:modelValue', '')
-      if (props.remote) {
+      if (props.inputRemote) {
         // Clear results.
-        props.remoteMethod('')
+        props.inputRemoteMethod('')
       }
     }
 

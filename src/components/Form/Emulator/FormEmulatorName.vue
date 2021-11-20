@@ -2,9 +2,9 @@
   <!-- Emulator name input. -->
   <vi-input
     v-model="name"
-    label="Name *"
-    placeholder="Enter a name for the emulator..."
-    required
+    input-label="Name *"
+    input-placeholder="Enter a name for the emulator..."
+    input-required
   />
 </template>
 

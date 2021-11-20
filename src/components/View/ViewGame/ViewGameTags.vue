@@ -27,9 +27,9 @@
         :value="item"
       >
         <vi-chip
+          chip-click
           chip-large
-          clickable
-          :removable="false"
+          :chip-remove="false"
           @clicked="$router.push({ name: 'Tag', params: { id: item._id } })"
         >
           {{ item.name }}

@@ -3,8 +3,8 @@
   <div class="flex h-10 rounded-xl shadow-color">
     <!-- Decrease button. -->
     <vi-input-button
-      v-if="!positionSide"
-      first-element
+      v-if="!inputSide"
+      input-first
       @click="decreaseValue()"
     >
       <vi-icon class="w-4">
@@ -16,12 +16,12 @@
       v-model="modelValue"
       :disabled="true"
       class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-center text-theme-800 dark:text-theme-200 w-full"
-      :class="{ 'rounded-l-xl' : positionSide }"
+      :class="{ 'rounded-l-xl' : inputSide }"
     />
     <!-- Increase button. -->
     <vi-input-button
-      v-if="!positionSide"
-      last-element
+      v-if="!inputSide"
+      input-last
       @click="increaseValue()"
     >
       <vi-icon class="w-4">
@@ -35,7 +35,7 @@
     >
       <!-- Decrease button -->
       <vi-input-button
-        top-element
+        input-top
         @click="increaseValue()"
       >
         <vi-icon class="w-4">
@@ -44,7 +44,7 @@
       </vi-input-button>
       <!-- Increase button -->
       <vi-input-button
-        bottom-element
+        input-bottom
         @click="decreaseValue()"
       >
         <vi-icon class="w-4">
@@ -68,24 +68,24 @@ export default {
     'update:modelValue'
   ],
   props: {
-    modelValue: { type: Number, required: true },
-    max: { type: Number, default: Infinity },
-    min: { type: Number, default: -Infinity },
-    positionSide: { type: Boolean, default: false },
-    step: { type: Number, default: 1 }
+    inputMax: { type: Number, default: Infinity },
+    inputMin: { type: Number, default: -Infinity },
+    inputSide: { type: Boolean, default: false },
+    inputStep: { type: Number, default: 1 },
+    modelValue: { type: Number, required: true }
   },
   setup(props, { emit }) {
     // Manage input value.
     const increaseValue = () => {
-      if (props.modelValue < props.max) {
+      if (props.modelValue < props.inputMax) {
         // Increase component model value.
-        emit('update:modelValue', props.modelValue + props.step)
+        emit('update:modelValue', props.modelValue + props.inputStep)
       }
     }
     const decreaseValue = () => {
-      if (props.modelValue > props.min) {
+      if (props.modelValue > props.inputMin) {
         // Decrease component model value.
-        emit('update:modelValue', props.modelValue - props.step)
+        emit('update:modelValue', props.modelValue - props.inputStep)
       }
     }
 

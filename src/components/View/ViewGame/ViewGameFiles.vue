@@ -37,7 +37,7 @@
     <!-- No files dialog. -->
     <vi-dialog-box
       v-else
-      :overlay="false"
+      :dialog-overlay="false"
       @accept="$emit('close')"
     >
       No files available.

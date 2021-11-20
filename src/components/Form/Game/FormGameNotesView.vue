@@ -23,8 +23,8 @@
     <!-- Notes input. -->
     <vi-input
       v-model="note"
-      label="Notes"
-      placeholder="Add a note or comment..."
+      input-label="Notes"
+      input-placeholder="Add a note or comment..."
     />
     <!-- Notes list section. -->
     <div v-if="gameNotes.length > 0">

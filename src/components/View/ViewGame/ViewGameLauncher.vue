@@ -57,13 +57,13 @@
         <vi-option-group-ui
           v-for="type in typeOptions()"
           :key="type.i"
-          :label="type.name"
+          :option-label="type.name"
         >
           <vi-option-ui
             v-for="item in typeFilter(type)"
             :key="item._id"
-            :label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
-            :value="item._id"
+            :option-label="gameInfo.gameRegions[regionIndex].title + (item.name ? ' (' + item.name + ')' : item.number ? ' (' + item.number + ')' : '')"
+            :option-value="item._id"
             @click="changeVersion(item._id)"
           />
         </vi-option-group-ui>

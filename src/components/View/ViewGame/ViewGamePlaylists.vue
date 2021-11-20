@@ -26,18 +26,18 @@
     <!-- Playlists input select. -->
     <vi-select
       v-model="querySelected"
-      allow-create
-      clearable
-      placeholder="Add to or create playlists..."
-      remote
-      :remote-method="queryFilter"
+      select-allow-create
+      select-clearable
+      select-placeholder="Add to or create playlists..."
+      select-remote
+      :select-remote-method="queryFilter"
       class="w-full"
     >
       <vi-option
         v-for="item in queryResults"
         :key="item._id"
-        :label="item.name"
-        :value="item._id"
+        :option-label="item.name"
+        :option-value="item._id"
       />
     </vi-select>
     <!-- Playlists list section. -->
@@ -52,8 +52,8 @@
           :value="item"
         >
           <vi-chip
+            chip-click
             chip-large
-            clickable
             @clicked="$router.push({ name: 'Playlist', params: { id: item._id } })"
             @remove="removePlaylists(item._id)"
           >

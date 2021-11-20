@@ -1,7 +1,7 @@
 <template>
   <!-- Option item. -->
   <div
-    @click="method"
+    @click="menuMethod"
     class="hover:bg-theme-200 dark:hover:bg-theme-600 duration-200 relative"
   >
     <!-- Option overlay. -->
@@ -10,7 +10,7 @@
     <div class="px-4 py-2">
       <slot>
         <!-- Default option content. -->
-        <p>{{ label }}</p>
+        <p>{{ menuLabel }}</p>
       </slot>
     </div>
   </div>
@@ -20,8 +20,8 @@
 export default {
   name: 'ViMenuOption',
   props: {
-    label: { type: String },
-    method: { type: Function }
+    menuLabel: { type: String },
+    menuMethod: { type: Function }
   }
 }
 </script>

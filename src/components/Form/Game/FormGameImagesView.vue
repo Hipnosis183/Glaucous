@@ -1,7 +1,7 @@
 <template>
   <vi-dialog
-    height="h-full"
-    width="w-full"
+    dialog-height="h-full"
+    dialog-width="w-full"
     class="pos-initial z-10"
   >
     <!-- Length error dialog. -->
@@ -31,8 +31,8 @@
         v-if="imageSelected"
         v-show="imageSelectedDialog"
         @close="imageSelectedClose()"
-        :border="1"
-        :rounded="false"
+        :overlay-border="1"
+        :overlay-rounded="false"
         class="pos-initial z-20"
       >
         <div class="flex relative">

@@ -2,22 +2,22 @@
   <!-- Region select. -->
   <vi-select
     v-model="region"
-    clearable
-    label="Region"
-    placeholder="Unknown"
+    select-clearable
+    select-label="Region"
+    select-placeholder="Unknown"
     class="w-full"
   >
     <vi-option-group
       v-for="(flags, index) in regions"
       :key="flags.group"
-      :label="flags.group"
-      :last="index == Object.keys(regions).length - 1"
+      :option-label="flags.group"
+      :option-last="index == Object.keys(regions).length - 1"
     >
       <vi-option
         v-for="flag in flags.items"
         :key="flag.code"
-        :label="flag.name"
-        :value="flag.code"
+        :option-label="flag.name"
+        :option-value="flag.code"
       >
         <div class="align-middle inline-flex px-2 space-x-4">
           <img

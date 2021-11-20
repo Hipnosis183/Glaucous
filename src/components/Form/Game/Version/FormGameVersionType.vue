@@ -2,16 +2,16 @@
   <!-- Version type select. -->
   <vi-select
     v-model="type"
-    clearable
-    label="Version Type"
-    placeholder="Game Version"
+    select-clearable
+    select-label="Version Type"
+    select-placeholder="Game Version"
     class="w-full"
   >
     <vi-option
       v-for="item in typeOptions"
       :key="item.i"
-      :label="item.name"
-      :value="item.i"
+      :option-label="item.name"
+      :option-value="item.i"
     />
   </vi-select>
 </template>

@@ -10,12 +10,12 @@
       v-show="deletePlaylistDialog"
       @accept="deletePlaylistClose()"
       @cancel="deletePlaylistOpen()"
-      actions="OkCancel"
+      dialog-actions="OkCancel"
     >
       Delete playlist <b>'{{ playlist.name }}'</b> ?
     </vi-dialog-box>
     <!-- Navigation bar. -->
-    <vi-nav-bar :title="playlist.name">
+    <vi-nav-bar :nav-title="playlist.name">
       <div class="flex items-center ml-2 space-x-1">
         <!-- Open edit playlist dialog. -->
         <vi-button-nb
@@ -32,10 +32,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -50,7 +50,7 @@
         <vi-list
           v-if="playlist.games.length > 0"
           :list-display="$store.getters.getSettingsListsDisplayMode"
-          :remote-method="loadPlaylistNext"
+          :list-remote-method="loadPlaylistNext"
         >
           <li
             v-for="game in playlist.games"

@@ -2,9 +2,9 @@
   <!-- Name input. -->
   <vi-input
     v-model="name"
-    label="Name *"
-    placeholder="Enter a name for the playlist..."
-    required
+    input-label="Name *"
+    input-placeholder="Enter a name for the playlist..."
+    input-required
   />
 </template>
 

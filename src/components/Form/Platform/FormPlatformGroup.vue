@@ -2,7 +2,7 @@
   <!-- Group switch input. -->
   <vi-switch
     v-model="group"
-    label="Group"
+    switch-label="Group"
   />
 </template>
 

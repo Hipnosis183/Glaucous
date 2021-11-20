@@ -2,7 +2,7 @@
   <div>
     <!-- Navigation bar. -->
     <vi-nav-bar
-      title="Settings"
+      nav-title="Settings"
       class="bg-transition"
     >
       <div class="flex-shrink-0 ml-2 my-auto">
@@ -13,14 +13,14 @@
     <div class="flex m-6 space-x-6">
       <div class="bg-theme-0 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-xl shadow-color w-60">
         <vi-button-settings
-          first-element
-          label="General Options"
-          :selected="settingIndex == 0"
+          button-first
+          button-label="General Options"
+          :button-selected="settingIndex == 0"
           @click="settingIndex = 0"
         />
         <vi-button-settings
-          label="Theme Options"
-          :selected="settingIndex == 1"
+          button-label="Theme Options"
+          :button-selected="settingIndex == 1"
           @click="settingIndex = 1"
         />
       </div>

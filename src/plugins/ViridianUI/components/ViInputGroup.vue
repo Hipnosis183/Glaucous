@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <!-- Label. -->
-    <vi-label v-if="label">{{ label }}</vi-label>
+    <vi-label v-if="inputLabel">{{ inputLabel }}</vi-label>
     <!-- Container. -->
     <div class="flex h-10 rounded-xl shadow-color">
       <slot />
@@ -19,7 +19,7 @@ export default {
     ViLabel
   },
   props: {
-    label: { type: String }
+    inputLabel: { type: String }
   }
 }
 </script>

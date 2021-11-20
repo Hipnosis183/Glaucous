@@ -79,8 +79,8 @@
             <vi-option
               v-for="item in cornersRoundingOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
           <!-- Select card text display. -->
@@ -91,8 +91,8 @@
             <vi-option
               v-for="item in cardTextDisplayOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
           <!-- Select card text styling. -->
@@ -103,8 +103,8 @@
             <vi-option
               v-for="item in cardTextStyleOptions"
               :key="item.i"
-              :label="item.name"
-              :value="item.i"
+              :option-label="item.name"
+              :option-value="item.i"
             />
           </vi-select>
         </div>
@@ -162,8 +162,8 @@
                 <vi-option
                   v-for="item in imagesDisplayOptions"
                   :key="item.i"
-                  :label="item.name"
-                  :value="item.i"
+                  :option-label="item.name"
+                  :option-value="item.i"
                 />
               </vi-select>
               <vi-select
@@ -172,15 +172,15 @@
                 class="w-auto"
               >
                 <vi-option
-                  label="- Global -"
-                  :value="0"
+                  option-label="- Global -"
+                  :option-value="0"
                   class="text-center"
                 />
                 <vi-option
                   v-for="item in imagesDisplayOptions"
                   :key="item.i"
-                  :label="item.name"
-                  :value="item.i"
+                  :option-label="item.name"
+                  :option-value="item.i"
                 />
               </vi-select>
             </div>
@@ -193,8 +193,8 @@
                 <vi-option
                   v-for="item in displayModeOptions"
                   :key="item.i"
-                  :label="item.name"
-                  :value="item.i"
+                  :option-label="item.name"
+                  :option-value="item.i"
                 />
               </vi-select>
               <vi-select
@@ -203,15 +203,15 @@
                 class="w-auto"
               >
                 <vi-option
-                  label="- Global -"
-                  :value="0"
+                  option-label="- Global -"
+                  :option-value="0"
                   class="text-center"
                 />
                 <vi-option
                   v-for="item in displayModeOptions"
                   :key="item.i"
-                  :label="item.name"
-                  :value="item.i"
+                  :option-label="item.name"
+                  :option-value="item.i"
                 />
               </vi-select>
             </div>
@@ -219,9 +219,9 @@
             <div class="flex items-center space-x-2">
               <vi-input-num
                 v-model="gridColumns"
-                :min="1"
-                :max="20"
-                position-side
+                :input-min="1"
+                :input-max="20"
+                input-side
               />
               <vi-switch
                 v-if="listPlatform"
@@ -230,19 +230,19 @@
               <vi-input-num
                 v-if="listPlatform"
                 v-model="gridColumnsOver"
-                :min="1"
-                :max="20"
-                position-side
+                :input-min="1"
+                :input-max="20"
+                input-side
               />
             </div>
             <!-- Select rows height for the grid display mode. -->
             <div class="flex items-center space-x-2">
               <vi-input-num
                 v-model="gridHeight"
-                :min="1"
-                :max="1000"
-                position-side
-                :step="10"
+                :input-min="1"
+                :input-max="1000"
+                input-side
+                :input-step="10"
               />
               <vi-switch
                 v-if="listPlatform"
@@ -251,10 +251,10 @@
               <vi-input-num
                 v-if="listPlatform"
                 v-model="gridHeightOver"
-                :min="1"
-                :max="1000"
-                position-side
-                :step="10"
+                :input-min="1"
+                :input-max="1000"
+                input-side
+                :input-step="10"
               />
             </div>
             <!-- Load settings presets. -->
@@ -303,25 +303,25 @@
     class="flex-shrink-0 ml-2 my-auto"
   >
     <vi-menu-select
-      :offset="[0, 20]"
-      placement="bottom"
-      small="icon-category"
+      :menu-offset="[0, 20]"
+      menu-placement="bottom"
+      menu-small="icon-category"
       class="my-auto text-center"
     >
       <vi-menu-option
         v-for="item in gameCategoryOptions"
         :key="item.i"
-        :label="item.name"
-        :method="() => { $router.push({ name: item.value }) }"
+        :menu-label="item.name"
+        :menu-method="() => { $router.push({ name: item.value }) }"
       />
     </vi-menu-select>
   </div>
   <!-- Select list display mode. -->
   <div class="ml-2 my-auto">
     <vi-menu-select
-      :offset="[0, 20]"
-      placement="bottom"
-      small="icon-grid"
+      :menu-offset="[0, 20]"
+      menu-placement="bottom"
+      menu-small="icon-grid"
       class="my-auto text-center"
     >
       <!-- Overwrite display mode. -->
@@ -329,8 +329,8 @@
         <vi-menu-option
           v-for="item in displayModeOptions"
           :key="item.i"
-          :label="item.name"
-          :method="() => { displayModeOver = item.i }"
+          :menu-label="item.name"
+          :menu-method="() => { displayModeOver = item.i }"
         />
       </div>
       <!-- Normal display mode. -->
@@ -338,8 +338,8 @@
         <vi-menu-option
           v-for="item in displayModeOptions"
           :key="item.i"
-          :label="item.name"
-          :method="() => { displayMode = item.i }"
+          :menu-label="item.name"
+          :menu-method="() => { displayMode = item.i }"
         />
       </div>
     </vi-menu-select>

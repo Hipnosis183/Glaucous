@@ -8,7 +8,7 @@
       />
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar title="Platforms">
+    <vi-nav-bar nav-title="Platforms">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2"
@@ -23,10 +23,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -40,7 +40,7 @@
       >
         <vi-list
           :list-display="2"
-          :remote-method="loadPlatformsNext"
+          :list-remote-method="loadPlatformsNext"
         >
           <li
             v-for="platform in platforms"

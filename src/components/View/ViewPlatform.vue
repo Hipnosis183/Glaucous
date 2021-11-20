@@ -18,7 +18,7 @@
         v-show="deletePlatformDialog"
         @accept="deletePlatformClose()"
         @cancel="deletePlatformOpen()"
-        actions="OkCancel"
+        dialog-actions="OkCancel"
       >
         Delete platform <b>'{{ platform.name }}'</b> ?
         <br />
@@ -31,7 +31,7 @@
       @close="settingsPlatformClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar :title="platform.name">
+    <vi-nav-bar :nav-title="platform.name">
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 -mr-1 space-x-1"
@@ -63,10 +63,10 @@
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input
           v-model="queryInput"
-          icon-prefix="icon-search"
-          placeholder="Search..."
-          remote
-          :remote-method="querySearch"
+          input-icon-prefix="icon-search"
+          input-placeholder="Search..."
+          input-remote
+          :input-remote-method="querySearch"
         />
       </div>
       <!-- List settings. -->
@@ -84,7 +84,7 @@
           v-if="platform.games.length > 0"
           :list-display="listDisplay"
           list-platform
-          :remote-method="loadPlatformNext"
+          :list-remote-method="loadPlatformNext"
         >
           <li
             v-for="game in platform.games"

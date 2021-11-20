@@ -20,27 +20,27 @@
     <!-- Sub title input. -->
     <vi-input
       v-model="preTitle"
-      label="Pretitle"
+      input-label="Pretitle"
     />
     <!-- Sub title input. -->
     <vi-input
       v-model="subTitle"
-      label="Subtitle"
+      input-label="Subtitle"
     />
     <!-- Original title input. -->
     <vi-input
       v-model="originalTitle"
-      label="Original Title"
+      input-label="Original Title"
     />
     <!-- Romanized title input. -->
     <vi-input
       v-model="romanizedTitle"
-      label="Romanized Title"
+      input-label="Romanized Title"
     />
     <!-- Translated title input. -->
     <vi-input
       v-model="translatedTitle"
-      label="Translated Title"
+      input-label="Translated Title"
     />
   </vi-dialog>
   <!-- Title management form. -->
@@ -48,14 +48,14 @@
     <!-- Title input. -->
     <vi-input
       v-model="title"
-      label="Title *"
-      placeholder="Enter a name for the game..."
-      required
+      input-label="Title *"
+      input-placeholder="Enter a name for the game..."
+      input-required
     >
       <template #append>
         <!-- Buttons -->
         <vi-input-button
-          last-element
+          input-last
           @click="expandedTitleShow()"
         >
           <vi-icon class="w-6">

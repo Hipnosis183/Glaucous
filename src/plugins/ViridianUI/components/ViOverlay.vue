@@ -4,19 +4,19 @@
       <div
         @click="close"
         class="h-full w-full"
-        :class="{ 'bg-black bg-opacity-50' : overlay }"
+        :class="{ 'bg-black bg-opacity-50' : overlayColor }"
       >
       </div>
       <div
         class="absolute flex-col no-scrollbar overflow-x-scroll overflow-y-scroll"
         :class="[
-          rounded ? 'rounded-3xl' : '',
-          height ? height : '',
-          width ? width : ''
+          overlayRounded ? 'rounded-3xl' : '',
+          overlayHeight ? overlayHeight : '',
+          overlayWidth ? overlayWidth : ''
         ]"
         :style="[
-          { maxHeight: 'calc(100vh - ' + border + 'rem)' },
-          { maxWidth: 'calc(100% - ' + border + 'rem)' }
+          { maxHeight: 'calc(100vh - ' + overlayBorder + 'rem)' },
+          { maxWidth: 'calc(100% - ' + overlayBorder + 'rem)' }
         ]"
       >
         <slot />
@@ -35,11 +35,11 @@ export default {
     'close'
   ],
   props: {
-    border: { type: Number, default: 4 },
-    height: { type: [Boolean, String] },
-    overlay: { type: Boolean, default: true },
-    rounded: { type: Boolean, default: true },
-    width: { type: [Boolean, String] },
+    overlayBorder: { type: Number, default: 4 },
+    overlayColor: { type: Boolean, default: true },
+    overlayHeight: { type: [Boolean, String] },
+    overlayRounded: { type: Boolean, default: true },
+    overlayWidth: { type: [Boolean, String] },
   },
   setup(props, { emit }) {
     // Throttle overlay closing function.

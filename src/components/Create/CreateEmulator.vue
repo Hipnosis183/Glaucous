@@ -1,8 +1,8 @@
 <template>
   <!-- Create emulator dialog. -->
   <vi-dialog
+    dialog-width="w-2/3"
     @close="$emit('close')"
-    width="w-2/3"
     class="pos-initial z-10"
   >
     <!-- Validation error dialog. -->
@@ -42,7 +42,7 @@
     <!-- Command preview. -->
     <div class="space-y-6">
       <div />
-      <vi-section-header label="Preview" />
+      <vi-section-header section-label="Preview" />
       <div class="bg-theme-100 dark:bg-theme-800 px-4 py-2 rounded-xl text-base text-theme-800 dark:text-theme-200 shadow-color w-full">
         <div
           v-if="$store.state.emulatorForm.path || $store.state.emulatorForm.file"

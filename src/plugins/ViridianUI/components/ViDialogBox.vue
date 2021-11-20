@@ -1,8 +1,8 @@
 <template>
   <!-- Delete dialog. -->
   <vi-dialog
-    :overlay="overlay"
-    @close="$emit(actions == 'Ok' ? 'accept' : 'cancel')"
+    :dialog-overlay="dialogOverlay"
+    @close="$emit(dialogActions == 'Ok' ? 'accept' : 'cancel')"
     class="pos-initial z-10"
   >
     <!-- Dialog message. -->
@@ -18,7 +18,7 @@
       />
       <!-- Cancel deletion. -->
       <vi-button
-        v-if="actions == 'OkCancel'"
+        v-if="dialogActions == 'OkCancel'"
         button-icon="icon-close"
         @click="$emit('cancel')"
       />
@@ -42,8 +42,8 @@ export default {
     'cancel'
   ],
   props: {
-    actions: { type: String, default: 'Ok' },
-    overlay: { type: Boolean, default: true }
+    dialogActions: { type: String, default: 'Ok' },
+    dialogOverlay: { type: Boolean, default: true }
   }
 }
 </script>

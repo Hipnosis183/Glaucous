@@ -6,7 +6,7 @@
       @click="openDropMenu()"
       class="flex h-full"
     >
-      <vi-button :button-small="icon" />
+      <vi-button :button-small="menuIcon" />
     </div>
     <!-- Dropdown menu. -->
     <div
@@ -45,12 +45,9 @@ export default {
     ViButtonNb
   },
   props: {
-    icon: { type: String },
-    firstElement: { type: Boolean, default: false },
-    middleElement: { type: Boolean, default: false },
-    lastElement: { type: Boolean, default: false },
-    offset: { type: Array, default: [0, 10] },
-    placement: { type: String, default: 'bottom-start' }
+    menuIcon: { type: String },
+    menuOffset: { type: Array, default: [0, 10] },
+    menuPlacement: { type: String, default: 'bottom-start' }
   },
   setup(props) {
     // Declare template refs.
@@ -124,10 +121,10 @@ export default {
         // Create a new PopperJS instance.
         popperInstance.value = createPopper(refSelect.value, refTooltip.value, {
           strategy: 'fixed',
-          placement: props.placement,
+          placement: props.menuPlacement,
           modifiers: [
             // Set distance between the select and the menu.
-            { name: 'offset', options: { offset: props.offset } }
+            { name: 'offset', options: { offset: props.menuOffset } }
           ]
         })
       })

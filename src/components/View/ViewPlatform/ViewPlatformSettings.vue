@@ -3,8 +3,8 @@
   <vi-dialog
     v-if="$store.state.selectedPlatform"
     :key="$store.state.selectedPlatform"
+    dialog-width="w-3/5"
     @close="$emit('close')"
-    width="w-3/5"
     class="z-10"
   >
     <div class="flex max-h-content overflow-hidden">
@@ -37,7 +37,7 @@
           <p class="text-xl whitespace-nowrap">Relative Games Path</p>
           <vi-input
             v-model="relativePath"
-            placeholder="Select a directory path..."
+            input-placeholder="Select a directory path..."
           />
         </vi-section-content>
       </div>
