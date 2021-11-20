@@ -314,7 +314,7 @@
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
-import { app, dialog } from '@electron/remote'
+import { dialog } from '@electron/remote'
 import { existsSync } from 'fs-extra'
 // Import utility functions.
 import { readfiles } from '@/utils/filesystem'
@@ -401,7 +401,7 @@ export default {
     })
     const getImages = () => {
       // Set the base image directory path of the game.
-      let basePath = app.getAppPath() + '/data/images/' + store.state.gameForm.gamePlatform.platform + '/' + store.state.gameSelected.gamePlatform
+      let basePath = store.getters.getAppPath + '/data/images/' + store.state.gameForm.gamePlatform.platform + '/' + store.state.gameSelected.gamePlatform
       switch (props.gameType) {
         // Set the working variables for the game platform images.
         case 'gamePlatform': {

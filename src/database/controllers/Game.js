@@ -6,8 +6,8 @@ import { getDeveloper, getDeveloperByName } from './Developer'
 import { getPlatform, getPlatformAllByName, getPlatformsGroup } from './Platform'
 import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from './User'
 
-import * as pathJS from 'path'
-import { app } from '@electron/remote'
+import path from 'path'
+import store from '@/store'
 import { copySync, ensureDirSync, existsSync, moveSync, outputFileSync, outputJsonSync, readdirSync, readFile, readJsonSync, remove, removeSync } from 'fs-extra'
 import { readfiles } from '@/utils/filesystem'
 
@@ -19,10 +19,10 @@ let gameRegion
 let gameVersion
 
 // Declare paths variables.
-let dataPathConfig = app.getAppPath() + '/data/config/'
-let dataPathFiles = app.getAppPath() + '/data/files/'
-let dataPathImages = app.getAppPath() + '/data/images/'
-let dataPathLinks = app.getAppPath() + '/data/links/'
+let dataPathConfig = store.getters.getAppPath + '/data/config/'
+let dataPathFiles = store.getters.getAppPath + '/data/files/'
+let dataPathImages = store.getters.getAppPath + '/data/images/'
+let dataPathLinks = store.getters.getAppPath + '/data/links/'
 
 // Create a new game platform.
 export async function newGamePlatform(req, id) {
@@ -403,15 +403,15 @@ async function storeLinks(links, path, id) {
         linksFile += link + (i != links.length - 1 ? '\n' : '')
     }
     // Ensure link icons directory creation.
-    ensureDirSync(app.getAppPath() + '/assets/links/')
+    ensureDirSync(store.getters.getAppPath + '/assets/links/')
     // Create links file.
     outputFileSync(dataPathLinks + path + '/' + id + '.txt', linksFile)
 }
 
 // Store files for a specific game.
-async function storeFiles(files, path) {
+async function storeFiles(files, dir) {
     // Set files path for the game.
-    let filesPath = dataPathFiles + path
+    let filesPath = dataPathFiles + dir
     // Ensure files directory creation, even if there are no files.
     ensureDirSync(filesPath)
     // Add files.
@@ -421,9 +421,9 @@ async function storeFiles(files, path) {
         let filesFile = { id: id, name: file.name, paths: [] }
         for (let f of file.paths) {
             // Copy files to game files path.
-            copySync(f, filesPath + '/' + id + '/' + pathJS.basename(f))
+            copySync(f, filesPath + '/' + id + '/' + path.basename(f))
             // Add files to the files data object.
-            filesFile.paths.push(id + '/' + pathJS.basename(f))
+            filesFile.paths.push(id + '/' + path.basename(f))
         }
         outputJsonSync(filesPath + '/' + id + '.json', filesFile)
     }

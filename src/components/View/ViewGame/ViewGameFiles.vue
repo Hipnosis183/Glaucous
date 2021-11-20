@@ -48,8 +48,9 @@
 <script>
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
-import { app, shell } from '@electron/remote'
+import { shell } from '@electron/remote'
 
 export default {
   name: 'ViewGameFiles',
@@ -62,12 +63,15 @@ export default {
     versionIndex: { type: Number }
   },
   setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Manage game files.
     onMounted(() => { getFiles() })
     let gameFiles = ref([])
     const getFiles = async () => {
       // Set the files directory path for all game types.
-      let gamePathPlatform = app.getAppPath() + '/data/files/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+      let gamePathPlatform = store.getters.getAppPath + '/data/files/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
       let gamePathRegion = gamePathPlatform + '/' + props.gameInfo.gameRegions[props.regionIndex]._id
       let gamePathVersion = gamePathRegion + '/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
       gameFiles.value = []

@@ -535,7 +535,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import functions from modules.
-import { app, shell } from '@electron/remote'
+import { shell } from '@electron/remote'
 import { ensureDirSync } from 'fs-extra'
 // Import database controllers functions.
 import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion, selectGameVersion } from '@/database/controllers/Game'
@@ -776,7 +776,7 @@ export default {
     }
 
     // Manage game directories opening.
-    let basePath = app.getAppPath() + '/data'
+    let basePath = store.getters.getAppPath + '/data'
     const basePathConfig = computed(() => { return '/config/' + gameInfo.value.platform._id })
     const basePathFiles = computed(() => { return '/files/' + gameInfo.value.platform._id })
     const basePathImages = computed(() => { return '/images/' + gameInfo.value.platform._id })

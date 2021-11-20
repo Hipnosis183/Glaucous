@@ -1,9 +1,8 @@
-import { app } from '@electron/remote'
 import { createStore } from 'vuex'
 import Store from 'electron-store'
 
 // App settings store.
-const localStore = new Store({ cwd: app.getAppPath(), name: 'viridian' })
+const localStore = new Store({ cwd: process.cwd(), name: 'viridian' })
 // Platform settings store.
 let platformStore
 // Game settings store.
@@ -12,6 +11,7 @@ let gameOverStore
 
 export default createStore({
   state: {
+    appPath: process.cwd(),
     slideBack: false,
     settingsApp: {
       settingsGeneral: {
@@ -213,6 +213,9 @@ export default createStore({
     }
   },
   getters: {
+    getAppPath(state) {
+      return state.appPath
+    },
     // App settings.
     getSettingsGeneralEditMode(state) {
       return state.settingsApp.settingsGeneral.editMode
@@ -521,7 +524,7 @@ export default createStore({
     },
     setGameOverStore(state) {
       if (state.selectedPlatform) {
-        gameOverStore = new Store({ cwd: app.getAppPath() + '/data/config/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform, name: state.gameSelected.gamePlatform })
+        gameOverStore = new Store({ cwd: state.appPath + '/data/config/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform, name: state.gameSelected.gamePlatform })
         state.settingsApp.settingsGame.settingsOver.backgroundImage = gameOverStore.get('settingsGameOver.backgroundImage', 0)
         state.settingsApp.settingsGame.settingsOver.backgroundPlacement = gameOverStore.get('settingsGameOver.backgroundPlacement', 0)
         state.settingsApp.settingsGame.settingsOver.colorTheme = gameOverStore.get('settingsGameOver.colorTheme', 'default')
@@ -563,7 +566,7 @@ export default createStore({
     // Platform settings.
     setPlatformStore(state) {
       if (state.selectedPlatform) {
-        platformStore = new Store({ cwd: app.getAppPath() + '/data/config/' + state.selectedPlatform, name: state.selectedPlatform })
+        platformStore = new Store({ cwd: state.appPath + '/data/config/' + state.selectedPlatform, name: state.selectedPlatform })
         state.settingsPlatform.emulator = platformStore.get('settingsPlatform.emulator', null)
         state.settingsPlatform.relativePath = platformStore.get('settingsPlatform.relativePath', '')
       }
@@ -581,7 +584,7 @@ export default createStore({
     // Game settings.
     setGameStore(state) {
       if (state.selectedPlatform) {
-        gameStore = new Store({ cwd: app.getAppPath() + '/data/config/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/' + state.gameSelected.gameVersion, name: state.gameSelected.gameVersion })
+        gameStore = new Store({ cwd: state.appPath + '/data/config/' + state.selectedPlatform + '/' + state.gameSelected.gamePlatform + '/' + state.gameSelected.gameRegion + '/' + state.gameSelected.gameVersion, name: state.gameSelected.gameVersion })
         state.settingsGame.emulator = gameStore.get('settingsGame.emulator', null)
         state.settingsGame.gamePath = gameStore.get('settingsGame.gamePath', '')
         state.settingsGame.gameFile = gameStore.get('settingsGame.gameFile', '')

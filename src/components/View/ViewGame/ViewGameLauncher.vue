@@ -89,7 +89,6 @@
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
-import { app } from '@electron/remote'
 import { exec } from 'child_process'
 import { existsSync, readJSONSync } from 'fs-extra'
 // Import database controllers functions.
@@ -144,7 +143,7 @@ export default {
     // Manage emulators.
     let emulatorGame = ref(null)
     let emulatorPlatform = ref(null)
-    const emulatorFile = app.getAppPath() + '/data/emulators.json'
+    const emulatorFile = store.getters.getAppPath + '/data/emulators.json'
     const loadEmulator = () => {
       // Reset emulators.
       emulatorPlatform.value = null

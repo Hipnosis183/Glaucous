@@ -67,8 +67,9 @@
 <script>
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 // Import functions from modules.
-import { app, shell } from '@electron/remote'
+import { shell } from '@electron/remote'
 import { existsSync, readFileSync } from 'fs-extra'
 
 export default {
@@ -83,6 +84,9 @@ export default {
     versionIndex: { type: Number }
   },
   setup(props) {
+    // Instantiate Vue elements.
+    const store = useStore()
+
     // Load game links.
     onMounted(() => { getLinks() })
     let gameLinks = ref([])
@@ -116,7 +120,7 @@ export default {
       // Strip 'www.' and top level domain ('.com') from link if present.
       let linkName = link.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.')
       // Set the icon image path for links.
-      let iconPath = app.getAppPath() + '/assets/links/' + linkName + '.svg'
+      let iconPath = store.getters.getAppPath + '/assets/links/' + linkName + '.svg'
       // Return link icon path.
       return existsSync(iconPath) ? 'file://' + iconPath : false
     }
@@ -124,7 +128,7 @@ export default {
       // Strip 'www.' and top level domain ('.com') from link if present.
       let linkName = link.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.')
       // Set the text path for links.
-      let textPath = app.getAppPath() + '/assets/links/' + linkName + '.txt'
+      let textPath = store.getters.getAppPath + '/assets/links/' + linkName + '.txt'
       // Return link text.
       return existsSync(textPath) ? readFileSync(textPath, 'utf8') : link.hostname
     }

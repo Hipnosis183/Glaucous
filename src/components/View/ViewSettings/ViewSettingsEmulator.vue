@@ -85,7 +85,6 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
-import { app } from '@electron/remote'
 import { existsSync, readJSONSync, outputJSONSync } from 'fs-extra'
 // Import form components.
 import CreateEmulator from '@/components/Create/CreateEmulator.vue'
@@ -112,7 +111,7 @@ export default {
         return emulatorList.value[index] ? emulatorList.value[index].name : ''
       }
     })
-    const emulatorPath = app.getAppPath() + '/data/emulators.json'
+    const emulatorPath = store.getters.getAppPath + '/data/emulators.json'
     const emulatorStore = computed({
       get() { return store.state['settings' + props.settingsType].emulator },
       set(value) { store.state['settings' + props.settingsType].emulator = value }

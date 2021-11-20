@@ -30,3 +30,7 @@ pnpm-debug.log*
 
 # Other
 .todo-list.txt
+
+# Viridian generated files
+/data
+viridian.json

@@ -141,7 +141,6 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
-import { app } from '@electron/remote'
 import { ensureDirSync } from 'fs-extra'
 // Import utility functions.
 import { readfiles } from '@/utils/filesystem'
@@ -175,7 +174,7 @@ export default {
     const getImages = () => {
       if (props.gameInfo._id) {
         // Set the image directory path for all game types.
-        let gamePathPlatform = app.getAppPath() + '/data/images/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+        let gamePathPlatform = store.getters.getAppPath + '/data/images/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
         let gamePathRegion = '/' + props.gameInfo.gameRegions[props.regionIndex]._id
         let gamePathVersion = '/' + props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex]._id
         imagePathPlatform.value = gamePathPlatform

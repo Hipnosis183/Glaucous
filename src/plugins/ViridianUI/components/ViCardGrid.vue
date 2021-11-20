@@ -72,7 +72,6 @@
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import functions from modules.
-import { app } from '@electron/remote'
 import { existsSync, readJSONSync } from 'fs-extra'
 // Import utility functions.
 import { readfiles } from '@/utils/filesystem'
@@ -113,7 +112,7 @@ export default {
     const getImage = computed(() => {
       if (!(imagePath.value && imageFiles.value)) {
         // Set the image directory path of the game platform.
-        let gamePath = app.getAppPath() + '/data/images/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
+        let gamePath = store.getters.getAppPath + '/data/images/' + props.gameInfo.platform._id + '/' + props.gameInfo._id
         // Check if there are images for the selected game version.
         imagePath.value = gamePath + '/' + props.gameInfo.gameRegions[0]._id + '/' + props.gameInfo.gameRegions[0].gameVersions[0]
         if (existsSync(imagePath.value) && readfiles(imagePath.value).length > 0) {
@@ -189,7 +188,7 @@ export default {
         return !store.getters.getSettingsPlatformOverImagesFiltering
       } else {
         // Set the platform configuration file path for the game.
-        let configPlatformPath = app.getAppPath() + '/data/config/' + props.gameInfo.platform._id + '/' + props.gameInfo.platform._id + '.json'
+        let configPlatformPath = store.getters.getAppPath + '/data/config/' + props.gameInfo.platform._id + '/' + props.gameInfo.platform._id + '.json'
         try { return !readJSONSync(configPlatformPath).settingsPlatformOver.imagesFiltering }
         catch { return false }
       }
