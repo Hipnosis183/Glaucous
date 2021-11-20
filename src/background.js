@@ -4,7 +4,9 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import Store from 'electron-store'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-const isDevelopment = process.env.NODE_ENV !== 'production'
+
+// Set development mode status value.
+const IS_DEV = process.env.NODE_ENV !== 'production'
 
 // Initialize external Electron remote module.
 require('@electron/remote/main').initialize()
@@ -23,26 +25,25 @@ async function createWindow() {
     width: 1280,
     height: 720,
     webPreferences: {
-      // Use pluginOptions.nodeIntegration, leave this alone.
-      // See https://nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration
-      // Fuck security, I already spent too much time on this shit.
-      nodeIntegration: true,
       contextIsolation: false,
+      nodeIntegration: true,
       spellcheck: false,
       webSecurity: false
     }
   })
-
+  // Disable manu bar display.
+  win.setMenuBarVisibility(false)
   // Enable Electron remote module.
   require('@electron/remote/main').enable(win.webContents)
-
+  // Manage app loading.
   if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode.
+    // Load the development server URL.
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    // Open devtools panel.
+    if (!process.env.IS_TEST) { win.webContents.openDevTools() }
   } else {
+    // Load the application 'index.html'.
     createProtocol('app')
-    // Load the 'index.html' when not in development.
     win.loadURL('app://./index.html')
   }
 }
@@ -66,28 +67,21 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (IS_DEV && !process.env.IS_TEST) {
     // Install Vue Devtools.
-    try {
-      await installExtension(VUEJS3_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
+    try { await installExtension(VUEJS3_DEVTOOLS) }
+    catch (e) { console.error('Vue Devtools error:', e.toString()) }
   }
   createWindow()
 })
 
 // Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
+if (IS_DEV) {
   if (process.platform === 'win32') {
     process.on('message', (data) => {
-      if (data === 'graceful-exit') {
-        app.quit()
-      }
+      if (data === 'graceful-exit') { app.quit() }
     })
   } else {
-    process.on('SIGTERM', () => {
-      app.quit()
-    })
+    process.on('SIGTERM', () => { app.quit() })
   }
 }
