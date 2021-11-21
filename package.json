@@ -2,7 +2,7 @@
   "name": "viridian",
   "version": "0.0.1",
   "private": true,
-  "author": "Renzo Pigliacampo",
+  "author": "Renzo Pigliacampo <renzopigliacampo@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

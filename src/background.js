@@ -3,6 +3,7 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import Store from 'electron-store'
+import path from 'path'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 
 // Set development mode status value.
@@ -24,6 +25,8 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
+    icon: path.join(__static, '/images/icon.png'),
+    title: 'Viridian',
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,

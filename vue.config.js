@@ -7,16 +7,19 @@ module.exports = {
 			builderOptions: {
 				"productName": "Viridian",
 				"appId": "com.viridian",
-				"mac": {
-					"icon": "build/icons/icon.icns"
+				"linux": {
+					"artifactName": "${productName}-${version}-Linux64.${ext}",
+					"target": ["appImage", "deb", "7z"],
+					"category": "Game"
 				},
 				"win": {
-					"icon": "build/icons/icon.ico"
+					"artifactName": "${productName}-${version}-Win64.${ext}",
+					"target": ["nsis", "7z"]
 				},
-				"linux": {
-					"icon": "build/icons/icon.png",
-					"target": "appImage"
-				}
+				"nsis": {
+					"oneClick": false,
+					"allowToChangeInstallationDirectory": true
+				},
 			}
 		}
 	}
