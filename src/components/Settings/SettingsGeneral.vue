@@ -6,6 +6,11 @@
         <p>Edit mode</p>
         <vi-switch v-model="editMode" />
       </vi-section-content>
+      <!-- Fullscreen mode. -->
+      <vi-section-content>
+        <p>Fullscreen mode</p>
+        <vi-switch v-model="fullscreenMode" />
+      </vi-section-content>
     </vi-section-header>
     <vi-section-header section-label="Lists Settings">
       <!-- Game page category. -->
@@ -36,6 +41,8 @@
 // Import Vue functions.
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { getCurrentWindow } from '@electron/remote'
 // Import settings objects and functions.
 import { gameCategoryOptions } from '@/settings'
 
@@ -50,6 +57,13 @@ export default {
       get() { return store.getters.getSettingsGeneralEditMode },
       set() { store.commit('setSettingsGeneralEditMode') }
     })
+    const fullscreenMode = computed({
+      get() { return store.getters.getSettingsGeneralFullscreenMode },
+      set() {
+        getCurrentWindow().setFullScreen(!getCurrentWindow().isFullScreen())
+        store.commit('setSettingsGeneralFullscreenMode')
+      }
+    })
     const gameCategory = computed({
       get() { return store.getters.getSettingsGeneralGameCategory },
       set(value) { store.commit('setSettingsGeneralGameCategory', value) }
@@ -61,6 +75,7 @@ export default {
 
     return {
       editMode,
+      fullscreenMode,
       gameCategory,
       gameCategoryOptions,
       groupsView

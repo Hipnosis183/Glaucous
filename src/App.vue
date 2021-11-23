@@ -33,6 +33,8 @@
 // Import Vue functions.
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+// Import functions from modules.
+import { getCurrentWindow } from '@electron/remote'
 // Import settings objects and functions.
 import { selectImageGridColumns, selectImageCornersRounding, selectListCornersRounding } from '@/settings'
 // Import theme objects and functions.
@@ -50,6 +52,18 @@ export default {
     // Instantiate Vue elements.
     const store = useStore()
 
+    // Manage fullscreen settings change on the fly.
+    getCurrentWindow().on('enter-full-screen', () => { manageFullScreen() })
+    getCurrentWindow().on('leave-full-screen', () => { manageFullScreen() })
+    const manageFullScreen = () => {
+      // Check if the fullscreen event came from a hotkey press instead of a settings change.
+      if (store.getters.getSettingsGeneralFullscreenMode != getCurrentWindow().isFullScreen()) {
+        store.commit('setSettingsGeneralFullscreenMode')
+      }
+    }
+
+    // Set fullscreen mode if enable in the store.
+    getCurrentWindow().setFullScreen(store.getters.getSettingsGeneralFullscreenMode)
     // Set theme stored in the configuration.
     selectTheme(store.getters.getSettingsThemesSelectedTheme)
     // Set color theme stored in the configuration.

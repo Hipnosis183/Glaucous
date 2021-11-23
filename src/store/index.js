@@ -16,6 +16,7 @@ export default createStore({
     settingsApp: {
       settingsGeneral: {
         editMode: localStore.get('settingsGeneral.editMode', true),
+        fullscreenMode: localStore.get('settingsGeneral.fullscreenMode', true),
         gameCategory: localStore.get('settingsGeneral.gameCategory', 0),
         groupsView: localStore.get('settingsGeneral.groupsView', true)
       },
@@ -220,6 +221,9 @@ export default createStore({
     getSettingsGeneralEditMode(state) {
       return state.settingsApp.settingsGeneral.editMode
     },
+    getSettingsGeneralFullscreenMode(state) {
+      return state.settingsApp.settingsGeneral.fullscreenMode
+    },
     getSettingsGeneralGameCategory(state) {
       return state.settingsApp.settingsGeneral.gameCategory
     },
@@ -358,6 +362,7 @@ export default createStore({
     resetSettingsApp(state) {
       localStore.clear()
       state.settingsApp.settingsGeneral.editMode = localStore.get('settingsGeneral.editMode', true)
+      state.settingsApp.settingsGeneral.fullscreenMode = localStore.get('settingsGeneral.fullscreenMode', true)
       state.settingsApp.settingsGeneral.groupsView = localStore.get('settingsGeneral.groupsView', true)
       state.settingsApp.settingsThemes.darkMode = localStore.get('settingsThemes.darkMode', false)
       state.settingsApp.settingsThemes.selectedTheme = localStore.get('settingsThemes.selectedTheme', 0)
@@ -366,6 +371,10 @@ export default createStore({
     setSettingsGeneralEditMode(state) {
       state.settingsApp.settingsGeneral.editMode = !state.settingsApp.settingsGeneral.editMode
       localStore.set('settingsGeneral.editMode', state.settingsApp.settingsGeneral.editMode)
+    },
+    setSettingsGeneralFullscreenMode(state) {
+      state.settingsApp.settingsGeneral.fullscreenMode = !state.settingsApp.settingsGeneral.fullscreenMode
+      localStore.set('settingsGeneral.fullscreenMode', state.settingsApp.settingsGeneral.fullscreenMode)
     },
     setSettingsGeneralGameCategory(state, data) {
       state.settingsApp.settingsGeneral.gameCategory = data
