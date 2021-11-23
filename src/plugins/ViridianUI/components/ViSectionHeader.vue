@@ -1,11 +1,12 @@
 <template>
-  <div class="mb-10">
-    <div class="mb-6 px-4 w-full">
-      <h1 class="bg-transition border-b-2 border-color-800 dark:border-color-500 pb-2 text-xl">
+  <div class="mb-10 mx-1">
+    <div class="mb-6 w-full">
+      <h6 class="bg-transition pb-2 text-xl text-color-800 dark:text-color-500">
         {{ sectionLabel }}
-      </h1>
+      </h6>
+      <div class="border-b-2 border-color-800 dark:border-color-500 border-transition" />
     </div>
-    <div class="mx-6 space-y-6">
+    <div class="space-y-4">
       <slot />
     </div>
   </div>
@@ -22,7 +23,12 @@ export default {
 
 <style scoped>
 /* Transitions. */
+.border-transition {
+  filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 0.6));
+  transition: border-color 1s;
+}
 .bg-transition {
-  transition: border-color 1s, color 1s;
+  filter: drop-shadow(2px 2px 0px rgba(var(--color-theme-900), 1));
+  transition: color 1s;
 }
 </style>

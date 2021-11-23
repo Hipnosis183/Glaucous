@@ -1,30 +1,34 @@
 <template>
   <div class="space-y-6">
-    <!-- Edit mode. -->
-    <vi-section-content>
-      <p class="text-xl">Edit mode</p>
-      <vi-switch v-model="editMode" />
-    </vi-section-content>
-    <!-- Game page category. -->
-    <vi-section-content>
-      <p class="text-xl">Default game page category</p>
-      <vi-select
-        v-model="gameCategory"
-        class="w-max"
-      >
-        <vi-option
-          v-for="item in gameCategoryOptions"
-          :key="item.i"
-          :option-label="item.name"
-          :option-value="item.i"
-        />
-      </vi-select>
-    </vi-section-content>
-    <!-- View platform groups. -->
-    <vi-section-content>
-      <p class="text-xl">View platform groups</p>
-      <vi-switch v-model="groupsView" />
-    </vi-section-content>
+    <vi-section-header section-label="App Settings">
+      <!-- Edit mode. -->
+      <vi-section-content>
+        <p>Edit mode</p>
+        <vi-switch v-model="editMode" />
+      </vi-section-content>
+    </vi-section-header>
+    <vi-section-header section-label="Lists Settings">
+      <!-- Game page category. -->
+      <vi-section-content>
+        <p>Default game page category</p>
+        <vi-select
+          v-model="gameCategory"
+          class="w-max"
+        >
+          <vi-option
+            v-for="item in gameCategoryOptions"
+            :key="item.i"
+            :option-label="item.name"
+            :option-value="item.i"
+          />
+        </vi-select>
+      </vi-section-content>
+      <!-- View platform groups. -->
+      <vi-section-content>
+        <p>View platform groups</p>
+        <vi-switch v-model="groupsView" />
+      </vi-section-content>
+    </vi-section-header>
   </div>
 </template>
 
@@ -65,5 +69,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss" scoped>
+p {
+  @apply text-lg;
+}
 </style>

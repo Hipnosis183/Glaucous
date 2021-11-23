@@ -6,6 +6,7 @@ import IconArrowRight from './components/IconArrowRight.vue'
 import IconArrowRightD from './components/IconArrowRightD.vue'
 import IconArrowUp from './components/IconArrowUp.vue'
 import IconBack from './components/IconBack.vue'
+import IconBrush from './components/IconBrush.vue'
 import IconCaretDown from './components/IconCaretDown.vue'
 import IconCaretLeft from './components/IconCaretLeft.vue'
 import IconCaretRight from './components/IconCaretRight.vue'
@@ -23,6 +24,7 @@ import IconFullScreen from './components/IconFullScreen.vue'
 import IconGameLinking from './components/IconGameLinking.vue'
 import IconGameSettings from './components/IconGameSettings.vue'
 import IconGames from './components/IconGames.vue'
+import IconGlobal from './components/IconGlobal.vue'
 import IconGrid from './components/IconGrid.vue'
 import IconInfo from './components/IconInfo.vue'
 import IconLink from './components/IconLink.vue'
@@ -58,6 +60,7 @@ export default {
         app.component('icon-arrow-right-d', IconArrowRightD)
         app.component('icon-arrow-up', IconArrowUp)
         app.component('icon-back', IconBack)
+        app.component('icon-brush', IconBrush)
         app.component('icon-caret-down', IconCaretDown)
         app.component('icon-caret-left', IconCaretLeft)
         app.component('icon-caret-right', IconCaretRight)
@@ -75,6 +78,7 @@ export default {
         app.component('icon-game-linking', IconGameLinking)
         app.component('icon-game-settings', IconGameSettings)
         app.component('icon-games', IconGames)
+        app.component('icon-global', IconGlobal)
         app.component('icon-grid', IconGrid)
         app.component('icon-info', IconInfo)
         app.component('icon-link', IconLink)

@@ -10,21 +10,26 @@
       </div>
     </vi-nav-bar>
     <!-- Settings panel. -->
-    <div class="flex m-6 space-x-6">
-      <div class="bg-theme-0 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-xl shadow-color w-60">
+    <div class="flex m-4">
+      <div class="bg-theme-0 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-l-xl shadow-color w-60">
         <vi-button-settings
           button-first
+          button-icon="icon-global"
           button-label="General Options"
           :button-selected="settingIndex == 0"
           @click="settingIndex = 0"
         />
         <vi-button-settings
+          button-icon="icon-brush"
           button-label="Theme Options"
           :button-selected="settingIndex == 1"
           @click="settingIndex = 1"
         />
       </div>
-      <vi-modal class="bg-transition h-content w-full">
+      <vi-modal
+        rounded="rounded-r-xl"
+        class="bg-transition h-content w-full"
+      >
         <div class="flex max-h-content overflow-hidden">
           <div class="flex-1 no-scrollbar overflow-y-scroll">
             <!-- General options. -->
@@ -81,10 +86,10 @@ export default {
 <style scoped>
 /* Calculations. */
 .h-content {
-  height: calc(100vh - 6.25rem);
+  height: calc(100vh - 5.25rem);
 }
 .max-h-content {
-  max-height: calc(100vh - 10rem);
+  max-height: calc(100vh - 9rem);
 }
 /* Transitions. */
 .bg-transition {
