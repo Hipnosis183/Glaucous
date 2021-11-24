@@ -13,7 +13,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <list-settings />
     </vi-nav-bar>
     <!-- Show games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -64,12 +64,12 @@ import { onMounted, ref } from 'vue'
 // Import database controllers functions.
 import { getGamesRecent } from '@/database/controllers/Game'
 // Import form components.
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'Recent',
   components: {
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Load games list on mounting.

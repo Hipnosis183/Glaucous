@@ -101,7 +101,7 @@
         v-if="gameFiles.length > 0 || gameFilesStoreAdd.length > 0"
         class="max-h-content"
       >
-        <div class="h-full space-y-2 overflow-y-auto small-scrollbar darker-scrollbar -mr-1 pr-1">
+        <div class="darker-scrollbar h-full -mr-1 overflow-y-auto pr-1 small-scrollbar space-y-2">
           <!-- Existing files list. -->
           <div
             v-if="gameFiles.length > 0"

@@ -1,16 +1,19 @@
-// Corner rounding options.
-export const cornersRoundingOptions = [
-    { i: 0, name: 'None', value: '0px' },
-    { i: 1, name: 'Medium', value: '6px' },
-    { i: 2, name: 'Large', value: '12px' },
-    { i: 3, name: 'Extra Large', value: '18px' }
+// Background image options.
+export const backgroundImageOptions = [
+    { i: 1, name: 'Default' },
+    { i: 2, name: 'Background' },
+    { i: 3, name: 'Cover' },
+    { i: 4, name: 'Title' },
+    { i: 5, name: 'In-Game' }
 ]
 
-// Display mode options.
-export const displayModeOptions = [
-    { i: 1, name: 'Grid' },
-    { i: 2, name: 'List' },
-    { i: 3, name: 'Compact' }
+// Background placement options.
+export const backgroundPlacementOptions = [
+    { i: 1, name: 'Default' },
+    { i: 2, name: 'Top' },
+    { i: 3, name: 'Bottom' },
+    { i: 4, name: 'Left' },
+    { i: 5, name: 'Right' }
 ]
 
 // Card text display options.
@@ -28,12 +31,19 @@ export const cardTextStyleOptions = [
     { i: 3, name: 'Blurred' }
 ]
 
-// Images display options.
-export const imagesDisplayOptions = [
-    { i: 1, name: 'Default' },
-    { i: 2, name: 'Cover' },
-    { i: 3, name: 'Title' },
-    { i: 4, name: 'In-Game' }
+// Corner rounding options.
+export const cornersRoundingOptions = [
+    { i: 0, name: 'None', value: '0px' },
+    { i: 1, name: 'Medium', value: '6px' },
+    { i: 2, name: 'Large', value: '12px' },
+    { i: 3, name: 'Extra Large', value: '18px' }
+]
+
+// Display mode options.
+export const displayModeOptions = [
+    { i: 1, name: 'Grid' },
+    { i: 2, name: 'List' },
+    { i: 3, name: 'Compact' }
 ]
 
 // Game list grouping modes.
@@ -41,6 +51,14 @@ export const gameCategoryOptions = [
     { i: 0, name: 'All Games', value: 'Games' },
     { i: 1, name: 'Platforms', value: 'Platforms' },
     { i: 2, name: 'Developers', value: 'Developers' }
+]
+
+// Images display options.
+export const imagesDisplayOptions = [
+    { i: 1, name: 'Default' },
+    { i: 2, name: 'Cover' },
+    { i: 3, name: 'Title' },
+    { i: 4, name: 'In-Game' }
 ]
 
 // Set the border radius size on the game lists cards.

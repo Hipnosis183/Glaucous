@@ -13,7 +13,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <list-settings />
     </vi-nav-bar>
     <!-- Show games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -65,12 +65,12 @@ import { useRoute } from 'vue-router'
 // Import database controllers functions.
 import { getGamesPlayers } from '@/database/controllers/Game'
 // Import form components.
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'ViewPlayers',
   components: {
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Instantiate Vue elements.

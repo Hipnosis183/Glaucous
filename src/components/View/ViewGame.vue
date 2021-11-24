@@ -314,7 +314,7 @@
                         @close="gamePlaylistsClose()"
                       />
                       <!-- View game page settings. -->
-                      <settings-games
+                      <view-settings-games
                         v-show="gameSettingsDialog"
                         @close="gameSettingsShow()"
                       />
@@ -545,7 +545,6 @@ import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
 import CreateGameVersion from '@/components/Create/CreateGameVersion.vue'
 import EditGame from '@/components/Edit/EditGame.vue'
-import SettingsGames from '@/components/Settings/SettingsGames.vue'
 // Import game page components.
 import ViewGameBackground from './ViewGame/ViewGameBackground.vue'
 import ViewGameCover from './ViewGame/ViewGameCover.vue'
@@ -557,6 +556,7 @@ import ViewGameLauncher from './ViewGame/ViewGameLauncher.vue'
 import ViewGameLinks from './ViewGame/ViewGameLinks.vue'
 import ViewGameNotes from './ViewGame/ViewGameNotes.vue'
 import ViewGamePlaylists from './ViewGame/ViewGamePlaylists.vue'
+import ViewSettingsGames from './ViewSettings/ViewSettingsGames.vue'
 
 export default {
   name: 'ViewGame',
@@ -565,7 +565,6 @@ export default {
     CreateGameRegion,
     CreateGameVersion,
     EditGame,
-    SettingsGames,
     ViewGameBackground,
     ViewGameCover,
     ViewGameDetails,
@@ -575,7 +574,8 @@ export default {
     ViewGameLauncher,
     ViewGameLinks,
     ViewGameNotes,
-    ViewGamePlaylists
+    ViewGamePlaylists,
+    ViewSettingsGames
   },
   setup() {
     // Instantiate Vue elements.

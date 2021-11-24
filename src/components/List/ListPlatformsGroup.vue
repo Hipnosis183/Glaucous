@@ -67,7 +67,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists game-category />
+      <list-settings game-category />
     </vi-nav-bar>
     <!-- Show platforms list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -112,14 +112,14 @@ import { deletePlatform, getPlatform, getPlatformsGroup, getPlatformsGroupAllSea
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'ListPlatformsGroup',
   components: {
     CreatePlatform,
     EditPlatform,
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Instantiate Vue elements.

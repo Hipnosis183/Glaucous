@@ -39,7 +39,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <list-settings />
     </vi-nav-bar>
     <!-- Show playlist's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -94,13 +94,13 @@ import { getPlaylist, deletePlaylist } from '@/database/controllers/User'
 import { getGamesPlaylist } from '@/database/controllers/Game'
 // Import form components.
 import EditPlaylist from '@/components/Edit/EditPlaylist.vue'
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'ViewPlaylist',
   components: {
     EditPlaylist,
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Instantiate Vue elements.

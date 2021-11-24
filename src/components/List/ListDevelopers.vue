@@ -30,7 +30,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists game-category />
+      <list-settings game-category />
     </vi-nav-bar>
     <!-- Show developers list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -70,13 +70,13 @@ import { useStore } from 'vuex'
 import { getDevelopers, getDevelopersAllSearch } from '@/database/controllers/Developer'
 // Import form components.
 import CreateDeveloper from '@/components/Create/CreateDeveloper.vue'
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'ListDevelopers',
   components: {
     CreateDeveloper,
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Instantiate Vue elements.

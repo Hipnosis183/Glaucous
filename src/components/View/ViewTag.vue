@@ -44,7 +44,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists />
+      <list-settings />
     </vi-nav-bar>
     <!-- Show tag's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -99,13 +99,13 @@ import { getTag, deleteTag } from '@/database/controllers/User'
 import { getGamesTag } from '@/database/controllers/Game'
 // Import form components.
 import EditTag from '@/components/Edit/EditTag.vue'
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'ViewTag',
   components: {
     EditTag,
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Instantiate Vue elements.

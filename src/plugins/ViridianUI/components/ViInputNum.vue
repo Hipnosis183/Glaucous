@@ -6,6 +6,7 @@
       v-if="!inputSide"
       input-first
       @click="decreaseValue()"
+      class="z-5"
     >
       <vi-icon class="w-4">
         <icon-minus />
@@ -15,8 +16,8 @@
     <input
       v-model="modelValue"
       :disabled="true"
-      class="bg-theme-100 dark:bg-theme-800 px-4 text-base text-center text-theme-800 dark:text-theme-200 w-full"
-      :class="{ 'rounded-l-xl' : inputSide }"
+      class="bg-theme-100 dark:bg-theme-800 text-base text-center text-theme-800 dark:text-theme-200 w-full"
+      :class="inputSide ? 'px-3 rounded-l-xl' : '-mx-2'"
     />
     <!-- Increase button. -->
     <vi-input-button

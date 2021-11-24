@@ -30,7 +30,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists game-category />
+      <list-settings game-category />
     </vi-nav-bar>
     <!-- Show games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
@@ -83,13 +83,13 @@ import { useStore } from 'vuex'
 import { getGamesAll, getGamesAllSearch } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
 export default {
   name: 'ListGames',
   components: {
     CreateGamePlatform,
-    SettingsLists
+    ListSettings
   },
   setup() {
     // Instantiate Vue elements.

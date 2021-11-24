@@ -85,6 +85,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+/* Styling. */
 p {
   @apply text-lg;
 }

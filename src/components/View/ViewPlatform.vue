@@ -70,7 +70,7 @@
         />
       </div>
       <!-- List settings. -->
-      <settings-lists list-platform />
+      <list-settings list-platform />
       <!-- Horizontal padding. -->
       <div class="w-full" />
     </vi-nav-bar>
@@ -130,7 +130,7 @@ import { getGamesPlatform } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
-import SettingsLists from '@/components/Settings/SettingsLists.vue'
+import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 import ViewPlatformSettings from './ViewPlatform/ViewPlatformSettings.vue'
 
 export default {
@@ -138,7 +138,7 @@ export default {
   components: {
     CreateGamePlatform,
     EditPlatform,
-    SettingsLists,
+    ListSettings,
     ViewPlatformSettings
   },
   setup() {

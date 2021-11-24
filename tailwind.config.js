@@ -12,6 +12,9 @@ module.exports = {
         'list': 'var(--rounded-list)'
       },
       borderWidth: {
+        '1': '1px',
+        '3': '3px',
+        '5': '5px',
         '6': '6px'
       },
       boxShadow: {
@@ -65,6 +68,9 @@ module.exports = {
         '102': '1.02'
       },
       spacing: {
+        '4.5': '1.15rem',
+        '5.5': '1.40rem',
+        '6.5': '1.65rem',
         '13': '3.25rem',
         '22': '5.5rem',
         '34': '8.5rem',
