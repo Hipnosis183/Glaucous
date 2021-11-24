@@ -25,6 +25,7 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
+    fullscreen: true,
     icon: path.join(__static, '/images/icon.png'),
     title: 'Viridian',
     webPreferences: {
