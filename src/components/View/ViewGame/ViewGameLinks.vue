@@ -29,19 +29,19 @@
         >
           <!-- Link icon image. -->
           <div
-            v-if="getLinkIcon(link)"
+            v-if="getLinkIcon(link.url)"
             class="bg-color-200 flex h-14 items-center w-14"
           >
-            <img :src="getLinkIcon(link)" />
+            <img :src="getLinkIcon(link.url)" />
           </div>
           <div
             v-else
             class="bg-color-200 flex h-14 items-center w-14"
           >
-            <h6>{{ getLinkChar(link) }}</h6>
+            <h6>{{ getLinkChar(link.url) }}</h6>
           </div>
           <!-- Link name text. -->
-          <p class="link-text">{{ getLinkText(link) }}</p>
+          <p class="link-text">{{ link.name ? link.name : getLinkText(link.url) }}</p>
         </div>
       </div>
       <!-- Separator. -->
@@ -94,19 +94,22 @@ export default {
       gameLinks.value = []
       // Load game platform links.
       for (let linkPlatform of props.gameInfo.links) {
-        gameLinks.value.push(new URL(linkPlatform))
+        linkPlatform.url = new URL(linkPlatform.url)
+        gameLinks.value.push(linkPlatform)
       }
       // Load game region links.
       for (let linkRegion of props.gameInfo.gameRegions[props.regionIndex].links) {
-        gameLinks.value.push(new URL(linkRegion))
+        linkRegion.url = new URL(linkRegion.url)
+        gameLinks.value.push(linkRegion)
       }
       // Load game version links.
       for (let linkVersion of props.gameInfo.gameRegions[props.regionIndex].gameVersions[props.versionIndex].links) {
-        gameLinks.value.push(new URL(linkVersion))
+        linkVersion.url = new URL(linkVersion.url)
+        gameLinks.value.push(linkVersion)
       }
       // Build and sort game links list.
       gameLinks.value.forEach((res, i) => {
-        gameLinks.value[i].hostname = gameLinks.value[i].hostname.replace(/^www\./, '')
+        gameLinks.value[i].url.hostname = gameLinks.value[i].url.hostname.replace(/^www\./, '')
       })
       gameLinks.value = gameLinks.value.sort(sortLinksList)
     }
@@ -134,7 +137,7 @@ export default {
     }
     const sortLinksList = (a, b) => {
       // Compare function that returns natural ordered elements.
-      return a.hostname.localeCompare(b.hostname, navigator.language, { numeric: true, ignorePunctuation: true })
+      return a.url.hostname.localeCompare(b.url.hostname, navigator.language, { numeric: true, ignorePunctuation: true })
     }
 
     // Manage links opening.

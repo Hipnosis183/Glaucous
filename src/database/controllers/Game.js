@@ -397,15 +397,21 @@ async function updateImages(images, path) {
 // Store links for a specific game.
 async function storeLinks(links, path, id) {
     // Create links object.
-    let linksFile = ''
-    for (let [i, link] of links.entries()) {
+    let linksFile = []
+    for (let link of links) {
+        let linkFile = {}
+        // Avoid writting the name prop if it's null.
+        if (link.name) { linkFile.name = link.name }
+        linkFile.url = link.url
         // Add link to object.
-        linksFile += link + (i != links.length - 1 ? '\n' : '')
+        linksFile.push(linkFile)
     }
     // Ensure link icons directory creation.
     ensureDirSync(store.getters.getAppPath + '/assets/links/')
     // Create links file.
-    outputFileSync(dataPathLinks + path + '/' + id + '.txt', linksFile)
+    if (links.length > 0) {
+        outputJsonSync(dataPathLinks + path + '/' + id + '.json', linksFile)
+    }
 }
 
 // Store files for a specific game.
@@ -933,50 +939,23 @@ async function getFiles(game) {
 async function getLinks(game) {
     // Set platform links path for the game.
     let pathPlatform = dataPathLinks + game.platform._id + '/' + game._id
-    let filePlatform = pathPlatform + '/' + game._id + '.txt'
-    if (existsSync(filePlatform)) {
-        let linksPlatform = []
-        // Load links from file.
-        await readFile(filePlatform, 'utf8').then((res) => {
-            for (let link of res.split('\n').filter((res) => res != '')) {
-                linksPlatform.push(link)
-            }
-        })
-        // Store links into the game platform object.
-        game.links = linksPlatform
-    } else { game.links = [] }
+    let filePlatform = pathPlatform + '/' + game._id + '.json'
+    // Store links into the game platform object.
+    game.links = existsSync(filePlatform) ? readJsonSync(filePlatform) : []
     // Manage game regions links.
     for (let [i, gameRegion] of game.gameRegions.entries()) {
         // Set region links path for the game.
         let pathRegion = pathPlatform + '/' + gameRegion._id
-        let fileRegion = pathRegion + '/' + gameRegion._id + '.txt'
-        if (existsSync(fileRegion)) {
-            let linksRegion = []
-            // Load links from file.
-            await readFile(fileRegion, 'utf8').then((res) => {
-                for (let link of res.split('\n').filter((res) => res != '')) {
-                    linksRegion.push(link)
-                }
-            })
-            // Store links into the game region object.
-            game.gameRegions[i].links = linksRegion
-        } else { game.gameRegions[i].links = [] }
+        let fileRegion = pathRegion + '/' + gameRegion._id + '.json'
+        // Store links into the game region object.
+        game.gameRegions[i].links = existsSync(fileRegion) ? readJsonSync(fileRegion) : []
         // Manage game versions links.
         for (let [j, gameVersion] of gameRegion.gameVersions.entries()) {
             // Set version links path for the game.
             let pathVersion = pathRegion + '/' + gameVersion._id
-            let fileVersion = pathVersion + '/' + gameVersion._id + '.txt'
-            if (existsSync(fileVersion)) {
-                let linksVersion = []
-                // Load links from file.
-                await readFile(fileVersion, 'utf8').then((res) => {
-                    for (let link of res.split('\n').filter((res) => res != '')) {
-                        linksVersion.push(link)
-                    }
-                })
-                // Store links into the game version object.
-                game.gameRegions[i].gameVersions[j].links = linksVersion
-            } else { game.gameRegions[i].gameVersions[j].links = [] }
+            let fileVersion = pathVersion + '/' + gameVersion._id + '.json'
+            // Store links into the game version object.
+            game.gameRegions[i].gameVersions[j].links = existsSync(fileVersion) ? readJsonSync(fileVersion) : []
         }
     } return game
 }

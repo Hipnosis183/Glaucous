@@ -20,11 +20,18 @@
         @click="linkAdd()"
       />
     </div>
+    <!-- Name input. -->
+    <vi-input
+      v-model="link.name"
+      input-label="Name"
+      input-placeholder="Enter a name for the link..."
+    />
     <!-- Links input. -->
     <vi-input
-      v-model="link"
-      input-label="Links"
+      v-model="link.url"
+      input-label="URL"
       input-placeholder="https://www.viridian.com/"
+      input-required
     />
     <!-- Links list section. -->
     <div v-if="gameLinks.length > 0">
@@ -35,12 +42,17 @@
         <div
           v-for="(item, index) in gameLinks"
           :key="item"
-          :value="item"
         >
           <vi-chip
             chip-large
             @remove="linkRemove(index)"
-          >{{ item }}</vi-chip>
+          >
+            <h2
+              v-if="item.name"
+              class="text-sm mb-1"
+            >{{ item.name }}</h2>
+            {{ item.url }}
+          </vi-chip>
         </div>
       </div>
     </div>
@@ -62,18 +74,27 @@ export default {
     const store = useStore()
 
     // Manage links operations.
-    let link = ref(null)
+    let link = ref({
+      name: null,
+      url: null
+    })
     const gameLinks = computed(() => {
       return store.state.gameForm['g' + props.gameType.slice(1)].links
     })
     const linkAdd = () => {
       try {
         // Check for a valid URL.
-        new URL(link.value)
+        new URL(link.value.url)
+        // Avoid reactivity to alter the original reference values.
+        let linkStore = {
+          name: link.value.name,
+          url: link.value.url
+        }
         // Save link into the store.
-        store.commit('set' + props.gameType + 'LinksAdd', link.value, sortLinksList)
+        store.commit('set' + props.gameType + 'LinksAdd', linkStore, sortLinksList)
         // Reset link input.
-        link.value = null
+        link.value.name = null
+        link.value.url = null
       }
       // Invalid URL.
       catch { validationErrorShow() }
@@ -84,7 +105,7 @@ export default {
     }
     const sortLinksList = (a, b) => {
       // Compare function that returns natural ordered elements.
-      return a.localeCompare(b, navigator.language, { numeric: true, ignorePunctuation: true })
+      return a.url.localeCompare(b.url, navigator.language, { numeric: true, ignorePunctuation: true })
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
