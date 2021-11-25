@@ -27,7 +27,6 @@ async function createWindow() {
     height: 720,
     fullscreen: true,
     icon: path.join(__static, '/images/icon.png'),
-    title: 'Viridian',
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,
