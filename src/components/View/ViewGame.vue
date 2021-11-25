@@ -540,6 +540,8 @@ import { ensureDirSync } from 'fs-extra'
 // Import database controllers functions.
 import { getGame, deleteGamePlatform, deleteGameRegion, deleteGameVersion, selectGameRegion, selectGameVersion } from '@/database/controllers/Game'
 import { addFavorites, getFavorite, removeFavorites } from '@/database/controllers/User'
+// Import settings objects and functions.
+import { gameSeparatorOptions } from '@/settings'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import CreateGameRegion from '@/components/Create/CreateGameRegion.vue'
@@ -622,11 +624,12 @@ export default {
     })
     const fullTitle = computed(() => {
       let fullTitle = gameInfo.value.gameRegions[regionIndex.value].title
+      let gameSeparator = gameSeparatorOptions[store.getters.getSettingsGeneralGameSeparator].value
       if (gameInfo.value.gameRegions[regionIndex.value].subTitle) {
-        fullTitle = fullTitle + ' ' + gameInfo.value.gameRegions[regionIndex.value].subTitle
+        fullTitle = fullTitle + gameSeparator + gameInfo.value.gameRegions[regionIndex.value].subTitle
       }
       if (gameInfo.value.gameRegions[regionIndex.value].preTitle) {
-        fullTitle = gameInfo.value.gameRegions[regionIndex.value].preTitle + ' ' + fullTitle
+        fullTitle = gameInfo.value.gameRegions[regionIndex.value].preTitle + gameSeparator + fullTitle
       }
       return fullTitle
     })

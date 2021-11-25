@@ -53,6 +53,13 @@ export const gameCategoryOptions = [
     { i: 2, name: 'Developers', value: 'Developers' }
 ]
 
+// Game full title separator options.
+export const gameSeparatorOptions = [
+    { i: 0, name: 'Space', value: ' ' },
+    { i: 1, name: 'Dash', value: ' - ' },
+    { i: 2, name: 'Colon', value: ': ' }
+]
+
 // Images display options.
 export const imagesDisplayOptions = [
     { i: 1, name: 'Default' },

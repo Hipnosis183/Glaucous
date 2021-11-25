@@ -12,7 +12,7 @@
         <vi-switch v-model="fullscreenMode" />
       </vi-section-content>
     </vi-section-header>
-    <vi-section-header section-label="Lists Settings">
+    <vi-section-header section-label="Other Settings">
       <!-- Game page category. -->
       <vi-section-content>
         <p>Default game page category</p>
@@ -22,6 +22,21 @@
         >
           <vi-option
             v-for="item in gameCategoryOptions"
+            :key="item.i"
+            :option-label="item.name"
+            :option-value="item.i"
+          />
+        </vi-select>
+      </vi-section-content>
+      <!-- Game full title separator. -->
+      <vi-section-content>
+        <p>Game full title separator</p>
+        <vi-select
+          v-model="gameSeparator"
+          class="w-max"
+        >
+          <vi-option
+            v-for="item in gameSeparatorOptions"
             :key="item.i"
             :option-label="item.name"
             :option-value="item.i"
@@ -44,7 +59,7 @@ import { useStore } from 'vuex'
 // Import functions from modules.
 import { getCurrentWindow } from '@electron/remote'
 // Import settings objects and functions.
-import { gameCategoryOptions } from '@/settings'
+import { gameCategoryOptions, gameSeparatorOptions } from '@/settings'
 
 export default {
   name: 'SettingsGeneral',
@@ -68,6 +83,10 @@ export default {
       get() { return store.getters.getSettingsGeneralGameCategory },
       set(value) { store.commit('setSettingsGeneralGameCategory', value) }
     })
+    const gameSeparator = computed({
+      get() { return store.getters.getSettingsGeneralGameSeparator },
+      set(value) { store.commit('setSettingsGeneralGameSeparator', value) }
+    })
     const groupsView = computed({
       get() { return store.getters.getSettingsGeneralGroupsView },
       set() { store.commit('setSettingsGeneralGroupsView') }
@@ -78,6 +97,8 @@ export default {
       fullscreenMode,
       gameCategory,
       gameCategoryOptions,
+      gameSeparator,
+      gameSeparatorOptions,
       groupsView
     }
   }

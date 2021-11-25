@@ -18,6 +18,7 @@ export default createStore({
         editMode: localStore.get('settingsGeneral.editMode', true),
         fullscreenMode: localStore.get('settingsGeneral.fullscreenMode', true),
         gameCategory: localStore.get('settingsGeneral.gameCategory', 0),
+        gameSeparator: localStore.get('settingsGeneral.gameSeparator', 0),
         groupsView: localStore.get('settingsGeneral.groupsView', true)
       },
       settingsThemes: {
@@ -227,6 +228,9 @@ export default createStore({
     getSettingsGeneralGameCategory(state) {
       return state.settingsApp.settingsGeneral.gameCategory
     },
+    getSettingsGeneralGameSeparator(state) {
+      return state.settingsApp.settingsGeneral.gameSeparator
+    },
     getSettingsGeneralGroupsView(state) {
       return state.settingsApp.settingsGeneral.groupsView
     },
@@ -379,6 +383,10 @@ export default createStore({
     setSettingsGeneralGameCategory(state, data) {
       state.settingsApp.settingsGeneral.gameCategory = data
       localStore.set('settingsGeneral.gameCategory', state.settingsApp.settingsGeneral.gameCategory)
+    },
+    setSettingsGeneralGameSeparator(state, data) {
+      state.settingsApp.settingsGeneral.gameSeparator = data
+      localStore.set('settingsGeneral.gameSeparator', state.settingsApp.settingsGeneral.gameSeparator)
     },
     setSettingsGeneralGroupsView(state) {
       state.settingsApp.settingsGeneral.groupsView = !state.settingsApp.settingsGeneral.groupsView
