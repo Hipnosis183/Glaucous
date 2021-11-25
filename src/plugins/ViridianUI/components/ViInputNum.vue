@@ -14,7 +14,7 @@
     </vi-input-button>
     <!-- Input element. -->
     <input
-      v-model="modelValue"
+      v-model="inputValue"
       :disabled="true"
       class="bg-theme-100 dark:bg-theme-800 text-base text-center text-theme-800 dark:text-theme-200 w-full"
       :class="inputSide ? 'px-3 rounded-l-xl' : '-mx-2'"
@@ -57,6 +57,10 @@
 </template>
 
 <script>
+// Import Vue functions.
+import { onMounted, ref } from 'vue'
+// Import utility functions.
+import { debounce } from '@/utils/debounce'
 // Import UI components.
 import ViInputButton from './ViInputButton.vue'
 
@@ -77,20 +81,28 @@ export default {
   },
   setup(props, { emit }) {
     // Manage input value.
+    let inputValue = ref(null)
     const increaseValue = () => {
-      if (props.modelValue < props.inputMax) {
+      if (inputValue.value < props.inputMax) {
+        // Icrease input value.
+        inputValue.value = inputValue.value + props.inputStep
         // Increase component model value.
-        emit('update:modelValue', props.modelValue + props.inputStep)
+        updateValue()
       }
     }
     const decreaseValue = () => {
-      if (props.modelValue > props.inputMin) {
+      if (inputValue.value > props.inputMin) {
         // Decrease component model value.
-        emit('update:modelValue', props.modelValue - props.inputStep)
+        inputValue.value = inputValue.value - props.inputStep
+        // Decrease component model value.
+        updateValue()
       }
     }
+    onMounted(() => { inputValue.value = props.modelValue })
+    const updateValue = debounce(() => emit('update:modelValue', inputValue.value), 500)
 
     return {
+      inputValue,
       decreaseValue,
       increaseValue
     }
