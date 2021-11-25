@@ -17,48 +17,56 @@
           button-icon="icon-global"
           button-label="General Options"
           :button-selected="settingIndex == 0"
-          @click="settingIndex = 0"
+          @click="selectIndex(0)"
         />
         <vi-button-settings
           button-icon="icon-brush"
           button-label="Theme Options"
           :button-selected="settingIndex == 1"
-          @click="settingIndex = 1"
+          @click="selectIndex(1)"
         />
         <h6>Pages Settings</h6>
         <vi-button-settings
           button-icon="icon-games"
           button-label="Games Options"
           :button-selected="settingIndex == 2"
-          @click="settingIndex = 2"
+          @click="selectIndex(2)"
         />
         <vi-button-settings
           button-icon="icon-grid"
           button-icon-size="21px"
           button-label="Lists Options"
           :button-selected="settingIndex == 3"
-          @click="settingIndex = 3"
+          @click="selectIndex(3)"
         />
       </div>
       <vi-modal
         rounded="rounded-r-xl"
-        class="bg-transition h-content pr-2 w-full"
+        class="bg-transition h-content overflow-hidden relative w-full"
       >
-        <div class="flex max-h-content overflow-hidden">
+        <transition
+          :name="settingSlide ? 'slide-down' : 'slide-up'"
+          class="absolute bottom-0 left-0 p-6 pr-2 right-0 top-0"
+        >
           <div
-            class="flex-1 overflow-y-scroll pr-1"
-            :class="{ 'darker-scrollbar ' : $store.getters.getSettingsThemesDarkMode }"
+            :key="settingIndex"
+            class="flex overflow-hidden"
           >
-            <!-- General options. -->
-            <settings-general v-show="settingIndex == 0" />
-            <!-- Theme options. -->
-            <settings-themes v-show="settingIndex == 1" />
-            <!-- Games options. -->
-            <settings-games v-show="settingIndex == 2" />
-            <!-- Lists options. -->
-            <settings-lists v-show="settingIndex == 3" />
+            <div
+              class="flex-1 overflow-y-scroll pr-1"
+              :class="{ 'darker-scrollbar ' : $store.getters.getSettingsThemesDarkMode }"
+            >
+              <!-- General options. -->
+              <settings-general v-show="settingIndex == 0" />
+              <!-- Theme options. -->
+              <settings-themes v-show="settingIndex == 1" />
+              <!-- Games options. -->
+              <settings-games v-show="settingIndex == 2" />
+              <!-- Lists options. -->
+              <settings-lists v-show="settingIndex == 3" />
+            </div>
           </div>
-        </div>
+        </transition>
       </vi-modal>
     </div>
   </div>
@@ -90,6 +98,13 @@ export default {
 
     // Manage settings tabs indexing.
     let settingIndex = ref(0)
+    let settingSlide = ref(false)
+    const selectIndex = (index) => {
+      // Set slide orientation.
+      settingSlide.value = index > settingIndex.value
+      // Set the current tab index.
+      settingIndex.value = index
+    }
 
     // Manage settings restoring.
     const restoreSettings = () => {
@@ -102,7 +117,9 @@ export default {
 
     return {
       restoreSettings,
-      settingIndex
+      selectIndex,
+      settingIndex,
+      settingSlide
     }
   }
 }
@@ -112,9 +129,6 @@ export default {
 /* Calculations. */
 .h-content {
   height: calc(100vh - 5.5rem);
-}
-.max-h-content {
-  max-height: calc(100vh - 8.5rem);
 }
 /* Styling. */
 h6 {

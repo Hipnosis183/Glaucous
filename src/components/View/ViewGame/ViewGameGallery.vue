@@ -22,7 +22,7 @@
             class="h-viewer mb-4 no-scrollbar overflow-y-scroll relative rounded-xl w-viewer"
           >
             <transition
-              :name="slideBack ? 'slide-b' : 'slide-f'"
+              :name="slideBack ? 'slide-left' : 'slide-right'"
               class="absolute bottom-0 left-0 right-0 top-0"
             >
               <img

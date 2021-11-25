@@ -237,7 +237,7 @@
     <!-- Game information. -->
     <div class="relative">
       <transition
-        :name="slideBack ? 'slide-b' : 'slide-f'"
+        :name="slideBack ? 'slide-left' : 'slide-right'"
         class="absolute bottom-0 left-0 right-0 top-0"
       >
         <div

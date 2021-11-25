@@ -13,7 +13,7 @@
           <router-view v-slot="{ Component }">
             <div class="relative">
               <transition
-                :name="$store.state.slideBack ? 'slide-b' : 'slide-f'"
+                :name="$store.state.slideBack ? 'slide-left' : 'slide-right'"
                 class="absolute bottom-0 left-0 right-0 top-0"
               >
                 <component

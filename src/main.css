@@ -121,23 +121,43 @@ h4 {
 .v-leave-to {
   opacity: 0;
 }
-.slide-b-leave-active,
-.slide-b-enter-active {
+.slide-up-leave-active,
+.slide-up-enter-active {
   transition: 0.5s;
 }
-.slide-b-enter-from {
+.slide-up-enter-from {
+  transform: translate(0, -100vh);
+}
+.slide-up-leave-to {
+  transform: translate(0, 100vh);
+}
+.slide-down-leave-active,
+.slide-down-enter-active {
+  transition: 0.5s;
+}
+.slide-down-enter-from {
+  transform: translate(0, 100vh);
+}
+.slide-down-leave-to {
+  transform: translate(0, -100vh);
+}
+.slide-left-leave-active,
+.slide-left-enter-active {
+  transition: 0.5s;
+}
+.slide-left-enter-from {
   transform: translate(-100vw, 0);
 }
-.slide-b-leave-to {
+.slide-left-leave-to {
   transform: translate(100vw, 0);
 }
-.slide-f-leave-active,
-.slide-f-enter-active {
+.slide-right-leave-active,
+.slide-right-enter-active {
   transition: 0.5s;
 }
-.slide-f-enter-from {
+.slide-right-enter-from {
   transform: translate(100vw, 0);
 }
-.slide-f-leave-to {
+.slide-right-leave-to {
   transform: translate(-100vw, 0);
 }
