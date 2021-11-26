@@ -8,10 +8,10 @@ import { getFavorites, getPlaylist, getRecent, getTags, removeGameUser } from '.
 
 import path from 'path'
 import store from '@/store'
-import { copySync, ensureDirSync, existsSync, moveSync, outputFileSync, outputJsonSync, readdirSync, readFile, readJsonSync, remove, removeSync } from 'fs-extra'
+import { copySync, ensureDirSync, existsSync, moveSync, outputJsonSync, readdirSync, readJsonSync, remove, removeSync } from 'fs-extra'
 import { readfiles } from '@/utils/filesystem'
 
-import Regions from '@/../public/files/flags.json'
+import Regions from '@/../public/files/flags/flags.json'
 
 // Declare game variables.
 let gamePlatform
@@ -406,10 +406,10 @@ async function storeLinks(links, path, id) {
         // Add link to object.
         linksFile.push(linkFile)
     }
-    // Ensure link icons directory creation.
-    ensureDirSync(store.getters.getAppPath + '/assets/links/')
-    // Create links file.
     if (links.length > 0) {
+        // Ensure link icons directory creation.
+        ensureDirSync(dataPathLinks)
+        // Create links file.
         outputJsonSync(dataPathLinks + path + '/' + id + '.json', linksFile)
     }
 }

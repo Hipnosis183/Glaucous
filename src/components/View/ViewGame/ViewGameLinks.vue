@@ -56,7 +56,7 @@
         class="link-card"
       >
         <!-- Link icon image. -->
-        <img :src="'./images/links/google.com.svg'" />
+        <img :src="'./images/links/google.svg'" />
         <!-- Link name text. -->
         <p class="link-text">{{ link.name }}</p>
       </div>
@@ -123,7 +123,8 @@ export default {
       // Strip 'www.' and top level domain ('.com') from link if present.
       let linkName = link.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.')
       // Set the icon image path for links.
-      let iconPath = store.getters.getAppPath + '/assets/links/' + linkName + '.svg'
+      let iconPath = store.getters.getAppPath + '/data/links/' + linkName + '.svg'
+      if (!existsSync(iconPath)) { iconPath = __static + '/images/links/' + linkName + '.svg' }
       // Return link icon path.
       return existsSync(iconPath) ? 'file://' + iconPath : false
     }
@@ -131,7 +132,8 @@ export default {
       // Strip 'www.' and top level domain ('.com') from link if present.
       let linkName = link.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.')
       // Set the text path for links.
-      let textPath = store.getters.getAppPath + '/assets/links/' + linkName + '.txt'
+      let textPath = store.getters.getAppPath + '/data/links/' + linkName + '.txt'
+      if (!existsSync(textPath)) { textPath = __static + '/files/links/' + linkName + '.txt' }
       // Return link text.
       return existsSync(textPath) ? readFileSync(textPath, 'utf8') : link.hostname
     }

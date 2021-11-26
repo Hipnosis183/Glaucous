@@ -36,7 +36,7 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 // Import region data.
-import regions from '@/../public/files/flags-g.json'
+import regions from '@/../public/files/flags/flags-g.json'
 
 export default {
   name: 'FormGameRegionRegion',
