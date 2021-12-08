@@ -57,12 +57,13 @@ export default {
 
     // Manage game loading.
     onMounted(() => {
+      // Set title separator.
+      gameSeparator.value = gameSeparatorOptions[store.getters.getSettingsGeneralGameSeparator].value
       // Check if the platform has a parent group.
       if (props.gameInfo.platform.parent) {
         // Get parent platform name.
         getPlatform(props.gameInfo.platform.parent)
           .then((res) => {
-            gameSeparator.value = gameSeparatorOptions[store.getters.getSettingsGeneralGameSeparator].value
             parentName.value = res.name
           })
       }
