@@ -56,7 +56,7 @@ export default {
       // Disconnect the observer watcher.
       intersectionObserver.value.disconnect()
     })
-    watch(() => isIntersecting, (value) => {
+    watch(() => isIntersecting.value, (value) => {
       // Execute remote method when reaching the end of the list.
       if (value) {
         props.listRemoteMethod()
