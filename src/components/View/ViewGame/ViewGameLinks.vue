@@ -145,7 +145,7 @@ export default {
     // Manage links opening.
     const openLink = (link) => {
       // Open the selected link in the system default browser.
-      shell.openExternal(link.href)
+      shell.openExternal(link.url.href)
     }
     const openGoogle = (query) => {
       // Make a Google search with the selected parameter.
