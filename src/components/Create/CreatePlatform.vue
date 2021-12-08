@@ -11,6 +11,15 @@
     >
       Complete the required fields.
     </vi-dialog-box>
+    <!-- Collision error dialog. -->
+    <vi-dialog-box
+      v-show="collisionErrorDialog"
+      @accept="collisionErrorShow()"
+    >
+      The indicated ID is already in use.
+      <br />
+      Select a different ID or leave empty to randomly generate one.
+    </vi-dialog-box>
     <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
       <!-- Title. -->
@@ -29,9 +38,10 @@
     </div>
     <!-- Form components. -->
     <div class="flex space-x-4">
-      <form-platform-name />
+      <form-platform-id />
       <form-platform-group />
     </div>
+    <form-platform-name />
     <form-platform-parent
       v-show="!groupPlatform"
       :group-platform="groupPlatform"
@@ -48,10 +58,11 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { createPlatform } from '@/database/controllers/Platform'
+import { createPlatform, getPlatform } from '@/database/controllers/Platform'
 // Import form components.
 import {
   FormPlatformGroup,
+  FormPlatformId,
   FormPlatformName,
   FormPlatformParent,
 } from '@/components/Form'
@@ -60,6 +71,7 @@ export default {
   name: "CreatePlatform",
   components: {
     FormPlatformGroup,
+    FormPlatformId,
     FormPlatformName,
     FormPlatformParent
   },
@@ -74,14 +86,25 @@ export default {
     const store = useStore()
 
     // Manage platform editing.
-    const onSubmit = () => {
+    const onSubmit = async () => {
       // Validate required fields.
       if (!store.state.platformForm.name) {
         validationErrorShow(); return
       }
+      // Check for ID collisions.
+      if (store.state.platformForm.id) {
+        if (await getPlatform(store.state.platformForm.id)) {
+          collisionErrorShow(); return
+        }
+      }
       // Save new platform entry.
       createPlatform(store.state.platformForm)
         .then(() => emit('close'))
+    }
+    let collisionErrorDialog = ref(false)
+    const collisionErrorShow = () => {
+      // Toggle collision error dialog.
+      collisionErrorDialog.value = !collisionErrorDialog.value
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
@@ -90,6 +113,8 @@ export default {
     }
 
     return {
+      collisionErrorDialog,
+      collisionErrorShow,
       onSubmit,
       validationErrorDialog,
       validationErrorShow

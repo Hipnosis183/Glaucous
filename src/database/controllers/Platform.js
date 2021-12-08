@@ -6,7 +6,7 @@ import { getGamePlatformCountP, deleteGamesPlatform } from './Game'
 export async function createPlatform(req) {
     // Create platform model.
     const Platform = PlatformModel.create({
-        _id: generateID(),
+        _id: req.id ? req.id : generateID(),
         group: req.group,
         name: req.name,
         parent: req.parent

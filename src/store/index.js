@@ -194,6 +194,7 @@ export default createStore({
     },
     platformSelected: null,
     platformForm: {
+      id: null,
       group: false,
       name: null,
       parent: null
@@ -947,9 +948,13 @@ export default createStore({
     },
     // Platform form.
     resetPlatformForm(state) {
+      state.platformForm.id = null
       state.platformForm.group = false
       state.platformForm.name = null
       state.platformForm.parent = null
+    },
+    setPlatformID(state, data) {
+      state.platformForm.id = data
     },
     setPlatformGroup(state, data) {
       state.platformForm.group = data

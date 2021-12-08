@@ -7,6 +7,7 @@ import FormEmulatorParams from './Emulator/FormEmulatorParams.vue'
 import FormEmulatorPath from './Emulator/FormEmulatorPath.vue'
 // Platform form.
 import FormPlatformGroup from './Platform/FormPlatformGroup.vue'
+import FormPlatformId from './Platform/FormPlatformId.vue'
 import FormPlatformName from './Platform/FormPlatformName.vue'
 import FormPlatformParent from './Platform/FormPlatformParent.vue'
 // Playlist form.
@@ -43,6 +44,7 @@ export {
     FormEmulatorPath,
     // Platform form.
     FormPlatformGroup,
+    FormPlatformId,
     FormPlatformName,
     FormPlatformParent,
     // Playlist form.
