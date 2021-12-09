@@ -83,7 +83,7 @@
         </div>
         <div class="data-content">
           <p class="font-semibold">Database ID:</p>
-          <p>{{ gameInfo.gameRegions[regionIndex]._id }}</p>
+          <p>{{ gameInfo.gameRegions[regionIndex].gameVersions[versionIndex]._id }}</p>
         </div>
       </div>
     </div>
