@@ -51,7 +51,6 @@
           <form-game-platform-platform :game-platform="gamePlatform" />
         </div>
         <div class="flex space-x-4">
-          <form-game-region-region />
           <form-game-platform-serial />
         </div>
         <div class="flex space-x-4">
@@ -109,7 +108,6 @@ import {
   FormGamePlatformReleaseYear,
   FormGamePlatformSerial,
   FormGamePlatformTags,
-  FormGameRegionRegion,
   FormGameRegionTitle,
   FormGameVersionName,
   FormGameVersionNumber,
@@ -129,7 +127,6 @@ export default {
     FormGamePlatformReleaseYear,
     FormGamePlatformSerial,
     FormGamePlatformTags,
-    FormGameRegionRegion,
     FormGameRegionTitle,
     FormGameVersionName,
     FormGameVersionNumber,

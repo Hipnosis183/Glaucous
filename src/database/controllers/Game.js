@@ -195,7 +195,6 @@ export async function updateGame(req, id) {
         originalTitle: req.gameRegion.originalTitle,
         romanizedTitle: req.gameRegion.romanizedTitle,
         translatedTitle: req.gameRegion.translatedTitle,
-        region: req.gameRegion.region,
         serial: req.gameRegion.serial,
         notes: req.gameRegion.notes
     })
