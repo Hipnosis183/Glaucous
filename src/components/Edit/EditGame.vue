@@ -30,45 +30,48 @@
     </div>
     <!-- Form components. -->
     <div class="flex space-x-4">
-      <div class="w-2/5">
+      <div class="w-1/2">
         <form-game-region-title />
         <form-game-platform-tags />
-        <form-game-version-name />
-        <form-game-images
-          edit-form
-          :reset-form="resetForm"
-          show-platform
-          show-region
-          show-version
-        />
       </div>
-      <div class="w-3/5">
-        <div
-          :key="resetGame"
-          class="flex space-x-4"
-        >
-          <form-game-platform-developer :game-developer="gameDeveloper" />
+      <div class="w-1/2">
+        <div :key="resetGame">
           <form-game-platform-platform :game-platform="gamePlatform" />
         </div>
+        <form-game-platform-developer :game-developer="gameDeveloper" />
+      </div>
+    </div>
+    <div class="flex space-x-4">
+      <div class="w-2/5">
+        <form-game-platform-serial />
+        <form-game-version-name />
+      </div>
+      <div class="w-3/5">
         <div class="flex space-x-4">
-          <form-game-platform-serial />
+          <form-game-platform-release-year />
+          <form-game-platform-number-players />
         </div>
         <div class="flex space-x-4">
           <form-game-version-type />
           <form-game-version-number />
         </div>
-        <div class="flex space-x-4">
-          <form-game-platform-release-year />
-          <form-game-platform-number-players />
-        </div>
       </div>
     </div>
     <div class="flex space-x-4">
+      <form-game-images
+        edit-form
+        :reset-form="resetForm"
+        show-platform
+        show-region
+        show-version
+      />
       <form-game-files
         show-platform
         show-region
         show-version
       />
+    </div>
+    <div class="flex space-x-4">
       <form-game-links
         show-platform
         show-region

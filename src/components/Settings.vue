@@ -11,7 +11,7 @@
     </vi-nav-bar>
     <!-- Settings panel. -->
     <div class="flex m-4">
-      <div class="bg-theme-0 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-l-xl shadow-color w-60">
+      <div class="bg-color-100 dark:bg-theme-900 bg-transition flex-shrink-0 rounded-l-xl shadow-color w-60">
         <h6>Global Settings</h6>
         <vi-button-settings
           button-icon="icon-global"
@@ -132,7 +132,7 @@ export default {
 }
 /* Styling. */
 h6 {
-  @apply border-b-1 border-theme-300 cursor-default m-4 pb-2 text-theme-400 !important;
+  @apply border-b-1 border-theme-400 cursor-default m-4 pb-2 text-theme-500 !important;
 }
 .dark h6 {
   @apply border-theme-400 text-theme-400 !important;

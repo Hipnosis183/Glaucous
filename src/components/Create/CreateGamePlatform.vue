@@ -41,26 +41,26 @@
     <div class="flex space-x-4">
       <div class="w-2/5">
         <form-game-region-title />
+        <form-game-platform-developer :game-developer="gameDeveloper" />
         <form-game-platform-tags />
         <form-game-version-name />
-        <form-game-id />
       </div>
       <div class="w-3/5">
         <div class="flex space-x-4">
-          <form-game-platform-developer :game-developer="gameDeveloper" />
           <form-game-platform-platform :game-platform="gamePlatform" />
+          <form-game-id />
         </div>
         <div class="flex space-x-4">
           <form-game-region-region />
           <form-game-platform-serial />
         </div>
         <div class="flex space-x-4">
-          <form-game-version-type />
-          <form-game-version-number />
-        </div>
-        <div class="flex space-x-4">
           <form-game-platform-release-year />
           <form-game-platform-number-players />
+        </div>
+        <div class="flex space-x-4">
+          <form-game-version-type />
+          <form-game-version-number />
         </div>
       </div>
     </div>

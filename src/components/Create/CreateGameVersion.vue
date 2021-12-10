@@ -1,7 +1,7 @@
 <template>
   <!-- Create game version dialog. -->
   <vi-dialog
-    dialog-width="w-4/5"
+    dialog-width="w-3/5"
     @close="onClose()"
     class="z-10"
   >
@@ -23,24 +23,18 @@
     </div>
     <!-- Form components. -->
     <div class="flex space-x-4">
-      <div class="w-2/5">
-        <form-game-version-name />
-      </div>
-      <div class="w-3/5">
-        <div class="flex space-x-4">
-          <form-game-version-type />
-          <form-game-version-number />
-        </div>
-      </div>
+      <form-game-version-name />
+      <form-game-version-type />
+      <form-game-version-number />
     </div>
     <div class="flex space-x-4">
-      <div class="w-full">
-        <form-game-images
-          :reset-form="resetForm"
-          show-version
-        />
-      </div>
+      <form-game-images
+        :reset-form="resetForm"
+        show-version
+      />
       <form-game-files show-version />
+    </div>
+    <div class="flex space-x-4">
       <form-game-links show-version />
       <form-game-notes show-version />
     </div>

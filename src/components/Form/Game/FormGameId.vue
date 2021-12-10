@@ -2,7 +2,7 @@
   <!-- ID input. -->
   <vi-input
     v-model="id"
-    input-label="ID"
+    input-label="Database ID"
     input-placeholder="Randomly generated"
   />
 </template>
