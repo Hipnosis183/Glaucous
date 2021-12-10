@@ -12,6 +12,15 @@
     >
       Complete the required fields.
     </vi-dialog-box>
+    <!-- Collision error dialog. -->
+    <vi-dialog-box
+      v-show="collisionErrorDialog"
+      @accept="collisionErrorShow()"
+    >
+      The indicated region is already in use.
+      <br />
+      Select a different region or leave empty.
+    </vi-dialog-box>
     <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
       <!-- Title. -->
@@ -80,7 +89,7 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { newGameRegion } from '@/database/controllers/Game'
+import { getGamePlatform, newGameRegion } from '@/database/controllers/Game'
 // Import form components.
 import {
   FormGameFiles,
@@ -118,10 +127,19 @@ export default {
 
     // Manage game region creation.
     let resetForm = ref(false)
-    const onSubmit = () => {
+    const onSubmit = async () => {
       // Validate required fields.
       if (!store.state.gameForm.gameRegion.title) {
         validationErrorShow(); return
+      }
+      // Check for ID collisions.
+      if (store.state.gameForm.gameRegion.region) {
+        let gameValidation = await getGamePlatform(store.state.gameSelected.gamePlatform)
+        for (let region of gameValidation.gameRegions) {
+          if (region.slice(-2) == store.state.gameForm.gameRegion.region.toUpperCase()) {
+            collisionErrorShow(); return
+          }
+        }
       }
       // Save new game entry.
       newGameRegion(store.state.gameForm, store.state.gameSelected)
@@ -133,6 +151,11 @@ export default {
       // Emit close dialog event.
       emit('close', created)
     }
+    let collisionErrorDialog = ref(false)
+    const collisionErrorShow = () => {
+      // Toggle collision error dialog.
+      collisionErrorDialog.value = !collisionErrorDialog.value
+    }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
       // Toggle validation error dialog.
@@ -140,6 +163,8 @@ export default {
     }
 
     return {
+      collisionErrorDialog,
+      collisionErrorShow,
       onClose,
       onSubmit,
       resetForm,
