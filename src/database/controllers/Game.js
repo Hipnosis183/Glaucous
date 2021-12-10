@@ -26,12 +26,14 @@ let dataPathLinks = store.getters.getAppPath + '/data/links/'
 
 // Create a new game platform.
 export async function newGamePlatform(req, id) {
+    let platformId = req.id ? req.id : generateID()
+    let regionId = req.gameRegion.region ? req.gameRegion.region : '00'
     // Create a version for the game.
-    await createGameVersion(req.gameVersion)
+    await createGameVersion(req.gameVersion, (platformId + '-' + regionId + '-00').toUpperCase())
     // Create a region for the game.
-    await createGameRegion(req.gameRegion)
+    await createGameRegion(req.gameRegion, (platformId + '-' + regionId).toUpperCase())
     // Create platform for the game.
-    await createGamePlatform(req.gamePlatform)
+    await createGamePlatform(req.gamePlatform, platformId.toUpperCase())
     // Set game storage path.
     let storePath = req.gamePlatform.platform + '/' + gamePlatform
     // Store uploaded images for the game.
@@ -55,10 +57,21 @@ export async function newGamePlatform(req, id) {
 
 // Create a new game region.
 export async function newGameRegion(req, id) {
+    // Resolve the game region ID to use.
+    let regionId = req.gameRegion.region ? req.gameRegion.region
+        : await GamePlatformModel.findOne({ _id: id.gamePlatform }, { populate: false })
+            .then(async (res) => {
+                // Get the region codes from the IDs of the parent game platform.
+                let regionCodes = res.gameRegions.map((r) => parseInt(r.slice(-2), 10))
+                // Filter non-numeric region code values.
+                regionCodes = regionCodes.filter((r) => r >= 0)
+                return regionCodes.length > 0
+                    ? (Math.max(...regionCodes) + 1).toString().padStart(2, '0') : '00'
+            })
     // Create a version for the game.
-    await createGameVersion(req.gameVersion)
+    await createGameVersion(req.gameVersion, (id.gamePlatform + '-' + regionId + '-00').toUpperCase())
     // Create a region for the game.
-    await createGameRegion(req.gameRegion)
+    await createGameRegion(req.gameRegion, (id.gamePlatform + '-' + regionId).toUpperCase())
     // Update platform for the game.
     await getGamePlatform(id.gamePlatform)
         .then(async (res) => {
@@ -80,8 +93,15 @@ export async function newGameRegion(req, id) {
 
 // Create a new game version.
 export async function newGameVersion(req, pla, id) {
+    // Resolve the game version ID to use.
+    let versionId = await GameRegionModel.findOne({ _id: id.gameRegion }, { populate: false })
+        .then(async (res) => {
+            // Get the version index from the IDs of the parent game region.
+            let versionIndex = res.gameVersions.map((v) => parseInt(v.slice(-2), 10))
+            return (Math.max(...versionIndex) + 1).toString().padStart(2, '0')
+        })
     // Create a version for the game.
-    await createGameVersion(req.gameVersion)
+    await createGameVersion(req.gameVersion, (id.gameRegion + '-' + versionId).toUpperCase())
     // Update region for the game.
     await GameRegionModel.findOne({ _id: id.gameRegion }, { populate: false })
         .then(async (res) => {
@@ -99,12 +119,11 @@ export async function newGameVersion(req, pla, id) {
 }
 
 // Create a specific game for a determined platform.
-async function createGamePlatform(req) {
-    gamePlatform = generateID()
+async function createGamePlatform(req, id) {
     // Create game platform model.
     const GamePlatform = GamePlatformModel.create({
-        _id: gamePlatform,
-        gamePlatforms: new Array(gamePlatform),
+        _id: id,
+        gamePlatforms: new Array(id),
         gameRegions: new Array(gameRegion),
         developer: req.developer,
         platform: req.platform,
@@ -118,10 +137,10 @@ async function createGamePlatform(req) {
 }
 
 // Create a specific region for a determined game.
-async function createGameRegion(req) {
+async function createGameRegion(req, id) {
     // Create game region model.
     const GameRegion = GameRegionModel.create({
-        _id: generateID(),
+        _id: id,
         gameVersions: new Array(gameVersion),
         title: req.title,
         preTitle: req.preTitle,
@@ -140,10 +159,10 @@ async function createGameRegion(req) {
 }
 
 // Create a specific version for a determined region.
-async function createGameVersion(req) {
+async function createGameVersion(req, id) {
     // Create game version model.
     const GameVersion = GameVersionModel.create({
-        _id: generateID(),
+        _id: id,
         type: req.type,
         name: req.name,
         number: req.number,

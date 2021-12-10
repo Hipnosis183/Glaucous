@@ -102,6 +102,7 @@ export default createStore({
       gameVersion: null
     },
     gameForm: {
+      id: null,
       gamePlatform: {
         developer: null,
         platform: null,
@@ -697,6 +698,7 @@ export default createStore({
       }
     },
     resetGameForm(state) {
+      state.gameForm.id = null
       state.gameForm.gamePlatform.developer = null
       state.gameForm.gamePlatform.platform = null
       state.gameForm.gamePlatform.releaseYear = null
@@ -746,6 +748,9 @@ export default createStore({
       state.gameForm.gameVersion.images.background.remove = false
       state.gameForm.gameVersion.images.pictures.add = []
       state.gameForm.gameVersion.images.pictures.remove = []
+    },
+    setGameID(state, data) {
+      state.gameForm.id = data
     },
     setGamePlatformDeveloper(state, data) {
       state.gameForm.gamePlatform.developer = data

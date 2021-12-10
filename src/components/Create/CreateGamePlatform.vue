@@ -12,6 +12,15 @@
     >
       Complete the required fields.
     </vi-dialog-box>
+    <!-- Collision error dialog. -->
+    <vi-dialog-box
+      v-show="collisionErrorDialog"
+      @accept="collisionErrorShow()"
+    >
+      The indicated ID is already in use.
+      <br />
+      Select a different ID or leave empty to randomly generate one.
+    </vi-dialog-box>
     <!-- Header. -->
     <div class="flex justify-between mb-4 mx-2">
       <!-- Title. -->
@@ -34,12 +43,7 @@
         <form-game-region-title />
         <form-game-platform-tags />
         <form-game-version-name />
-        <form-game-images
-          :reset-form="resetForm"
-          show-platform
-          show-region
-          show-version
-        />
+        <form-game-id />
       </div>
       <div class="w-3/5">
         <div class="flex space-x-4">
@@ -61,11 +65,19 @@
       </div>
     </div>
     <div class="flex space-x-4">
+      <form-game-images
+        :reset-form="resetForm"
+        show-platform
+        show-region
+        show-version
+      />
       <form-game-files
         show-platform
         show-region
         show-version
       />
+    </div>
+    <div class="flex space-x-4">
       <form-game-links
         show-platform
         show-region
@@ -89,13 +101,14 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { newGamePlatform } from '@/database/controllers/Game'
+import { getGamePlatform, newGamePlatform } from '@/database/controllers/Game'
 import { createDeveloper, getDeveloper } from '@/database/controllers/Developer'
 import { createPlatform, getPlatform } from '@/database/controllers/Platform'
 import { createTag, getTag } from '@/database/controllers/User'
 // Import form components.
 import {
   FormGameFiles,
+  FormGameId,
   FormGameImages,
   FormGameLinks,
   FormGameNotes,
@@ -116,6 +129,7 @@ export default {
   name: 'CreateGamePlatform',
   components: {
     FormGameFiles,
+    FormGameId,
     FormGameImages,
     FormGameLinks,
     FormGameNotes,
@@ -144,12 +158,18 @@ export default {
 
     // Manage game platform creation.
     let resetForm = ref(false)
-    const onSubmit = () => {
+    const onSubmit = async () => {
       // Validate required fields.
       if (
         !store.state.gameForm.gamePlatform.developer ||
         !store.state.gameForm.gamePlatform.platform
       ) { validationErrorShow(); return }
+      // Check for ID collisions.
+      if (store.state.gameForm.id) {
+        if (await getGamePlatform(store.state.gameForm.id)) {
+          collisionErrorShow(); return
+        }
+      }
       // Check developer existance.
       checkDeveloper()
         // Check platform existance.
@@ -167,6 +187,11 @@ export default {
       resetForm.value = !resetForm.value
       // Emit close dialog event.
       emit('close', created)
+    }
+    let collisionErrorDialog = ref(false)
+    const collisionErrorShow = () => {
+      // Toggle collision error dialog.
+      collisionErrorDialog.value = !collisionErrorDialog.value
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
@@ -242,6 +267,8 @@ export default {
     }
 
     return {
+      collisionErrorDialog,
+      collisionErrorShow,
       onClose,
       onSubmit,
       resetForm,

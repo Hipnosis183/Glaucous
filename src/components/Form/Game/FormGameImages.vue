@@ -1,62 +1,64 @@
 <template>
-  <!-- Show game platform images dialog. -->
-  <form-game-images-view
-    v-show="imagesPlatformDisplay"
-    :show="imagesPlatformDisplay"
-    :key="resetForm"
-    :edit-form="editForm"
-    game-type="gamePlatform"
-    @close="imagesPlatformShow()"
-  />
-  <!-- Show game region images dialog. -->
-  <form-game-images-view
-    v-show="imagesRegionDisplay"
-    :show="imagesRegionDisplay"
-    :key="resetForm"
-    :edit-form="editForm"
-    game-type="gameRegion"
-    @close="imagesRegionShow()"
-  />
-  <!-- Show game version images dialog. -->
-  <form-game-images-view
-    v-show="imagesVersionDisplay"
-    :show="imagesVersionDisplay"
-    :key="resetForm"
-    :edit-form="editForm"
-    game-type="gameVersion"
-    @close="imagesVersionShow()"
-  />
-  <!-- Images form. -->
-  <vi-input-group
-    input-label="Images"
-    class="w-full"
-  >
-    <vi-input-button
-      v-if="showPlatform"
-      input-first
-      @click="imagesPlatformShow()"
-      class="w-1/3"
+  <div class="flex w-full">
+    <!-- Show game platform images dialog. -->
+    <form-game-images-view
+      v-show="imagesPlatformDisplay"
+      :show="imagesPlatformDisplay"
+      :key="resetForm"
+      :edit-form="editForm"
+      game-type="gamePlatform"
+      @close="imagesPlatformShow()"
+    />
+    <!-- Show game region images dialog. -->
+    <form-game-images-view
+      v-show="imagesRegionDisplay"
+      :show="imagesRegionDisplay"
+      :key="resetForm"
+      :edit-form="editForm"
+      game-type="gameRegion"
+      @close="imagesRegionShow()"
+    />
+    <!-- Show game version images dialog. -->
+    <form-game-images-view
+      v-show="imagesVersionDisplay"
+      :show="imagesVersionDisplay"
+      :key="resetForm"
+      :edit-form="editForm"
+      game-type="gameVersion"
+      @close="imagesVersionShow()"
+    />
+    <!-- Images form. -->
+    <vi-input-group
+      input-label="Images"
+      class="w-full"
     >
-      Platform
-    </vi-input-button>
-    <vi-input-button
-      v-if="showRegion"
-      :input-first="!showPlatform"
-      @click="imagesRegionShow()"
-      :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
-    >
-      Region
-    </vi-input-button>
-    <vi-input-button
-      v-if="showVersion"
-      :input-first="!showPlatform && !showRegion"
-      input-last
-      @click="imagesVersionShow()"
-      :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
-    >
-      Version
-    </vi-input-button>
-  </vi-input-group>
+      <vi-input-button
+        v-if="showPlatform"
+        input-first
+        @click="imagesPlatformShow()"
+        class="w-1/3"
+      >
+        Platform
+      </vi-input-button>
+      <vi-input-button
+        v-if="showRegion"
+        :input-first="!showPlatform"
+        @click="imagesRegionShow()"
+        :class="!showPlatform ? 'w-1/2' : 'w-1/3'"
+      >
+        Region
+      </vi-input-button>
+      <vi-input-button
+        v-if="showVersion"
+        :input-first="!showPlatform && !showRegion"
+        input-last
+        @click="imagesVersionShow()"
+        :class="!showPlatform ? !showRegion ? 'w-full' : 'w-1/2' : 'w-1/3'"
+      >
+        Version
+      </vi-input-button>
+    </vi-input-group>
+  </div>
 </template>
 
 <script>
