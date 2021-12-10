@@ -152,9 +152,8 @@ export default {
       shell.openExternal('https://google.com/search?q=' + query)
     }
     const queryGoogle = [
-      { i: 0, name: 'Search game full title', value: props.fullTitle },
-      { i: 1, name: 'Search game original title', value: props.gameInfo.gameRegions[props.regionIndex].originalTitle },
-      { i: 2, name: 'Search game developer', value: props.gameInfo.developer.name }
+      { i: 0, name: 'Search game title', value: props.fullTitle },
+      { i: 1, name: 'Search game original title', value: props.gameInfo.gameRegions[props.regionIndex].originalTitle }
     ]
     const getLinkGoogle = () => {
       // Avoid showing original title search if it's not set.

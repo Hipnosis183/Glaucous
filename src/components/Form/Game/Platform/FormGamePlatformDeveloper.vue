@@ -3,11 +3,10 @@
   <vi-select
     v-model="developer"
     select-allow-create
-    select-label="Developer *"
+    select-label="Developer"
     select-placeholder="Search or create developer..."
     select-remote
     :select-remote-method="querySearch"
-    select-required
     class="w-full"
   >
     <vi-option
@@ -54,11 +53,15 @@ export default {
     })
     const selectDeveloper = () => {
       // Get developer from parent page.
-      getDeveloper(props.gameDeveloper)
-        .then((res) => {
-          developer.value = props.gameDeveloper
-          queryResults.value = new Array(res)
-        })
+      if (props.gameDeveloper) {
+        getDeveloper(props.gameDeveloper)
+          .then((res) => {
+            developer.value = props.gameDeveloper
+            queryResults.value = new Array(res)
+          })
+      } else {
+        queryResults.value = []
+      }
     }
 
     // Manage search queries.

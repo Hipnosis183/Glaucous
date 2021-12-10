@@ -161,7 +161,7 @@ export default {
     const onSubmit = async () => {
       // Validate required fields.
       if (
-        !store.state.gameForm.gamePlatform.developer ||
+        !store.state.gameForm.gameRegion.title ||
         !store.state.gameForm.gamePlatform.platform
       ) { validationErrorShow(); return }
       // Check for ID collisions.
@@ -206,17 +206,19 @@ export default {
     })
     const checkDeveloper = async () => {
       // Check if the developer entered exists.
-      await getDeveloper(developer.value)
-        .then(async (res) => {
-          if (!res) {
-            // Populate new developer form.
-            store.commit('setDeveloperName', developer.value)
-            // Save new developer entry.
-            await createDeveloper(store.state.developerForm)
-              // Set the new developer in the game form.
-              .then((res) => developer.value = res._id)
-          }
-        })
+      if (developer.value) {
+        await getDeveloper(developer.value)
+          .then(async (res) => {
+            if (!res) {
+              // Populate new developer form.
+              store.commit('setDeveloperName', developer.value)
+              // Save new developer entry.
+              await createDeveloper(store.state.developerForm)
+                // Set the new developer in the game form.
+                .then((res) => developer.value = res._id)
+            }
+          })
+      }
     }
 
     // Manage platform field input.

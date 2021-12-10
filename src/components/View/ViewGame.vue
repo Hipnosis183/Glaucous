@@ -595,7 +595,7 @@ export default {
     let regionIndex = ref(0)
     let versionIndex = ref(0)
     let gameInfo = ref({
-      developer: { name: null },
+      developer: { _id: null, name: null },
       platform: { name: null },
       releaseYear: null,
       numberPlayers: null,
@@ -641,6 +641,7 @@ export default {
       getGame(route.params.id)
         .then((res) => {
           gameInfo.value = res
+          gameInfo.value.developer = res.developer ? res.developer : { _id: null, name: null }
           // Save current platform ID into the store.
           store.state.selectedPlatform = res.platform._id
           store.commit('setPlatformStore')

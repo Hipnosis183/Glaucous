@@ -39,9 +39,11 @@
           </p>
         </div>
         <!-- Go to the developer page. -->
-        <p @click="$router.push({ name: 'Developer', params: { id: gameInfo.developer._id } })">
-          {{ gameInfo.developer.name }}
-        </p>
+        <div v-if="gameInfo.developer">
+          <p @click="$router.push({ name: 'Developer', params: { id: gameInfo.developer._id } })">
+            {{ gameInfo.developer.name }}
+          </p>
+        </div>
       </div>
       <p
         v-show="gameInfo.releaseYear"
