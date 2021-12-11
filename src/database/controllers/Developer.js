@@ -22,7 +22,7 @@ export async function updateDeveloper(req, id) {
 export async function deleteDeveloper(req) {
     // Compact database.
     await connectDatastore().then(async () => {
-        // Delete all of the developer's related games.
+        // Delete the developer from all the games it's included in.
         await deleteGamesDeveloper(req)
         // Delete the developer itself.
         await DeveloperModel.findOneAndDelete({ _id: req })
@@ -41,14 +41,6 @@ export async function getDeveloperByName(query) {
     return await DeveloperModel.find({ name: search })
 }
 
-// Search for all developers.
-export async function getDevelopers(index, count) {
-    return await DeveloperModel.find({}, { skip: index, limit: count, sort: 'name' })
-        .then(async (res) => {
-            return await getDeveloperCount(res)
-        })
-}
-
 // Get title/platform count for each platform/group given.
 async function getDeveloperCount(req) {
     for (let developer of req) {
@@ -58,6 +50,19 @@ async function getDeveloperCount(req) {
     }
     // Return object.
     return req
+}
+
+// Get a specified group of developers.
+export async function getDevelopers(req) {
+    return await DeveloperModel.find({ _id: { $in: req } })
+}
+
+// Search for all developers.
+export async function getDevelopersAll(index, count) {
+    return await DeveloperModel.find({}, { skip: index, limit: count, sort: 'name' })
+        .then(async (res) => {
+            return await getDeveloperCount(res)
+        })
 }
 
 // Get all developers matching a given search query.

@@ -21,7 +21,7 @@ import FormGameImages from './Game/FormGameImages.vue'
 import FormGameLinks from './Game/FormGameLinks.vue'
 import FormGameNotes from './Game/FormGameNotes.vue'
 // Game platform form.
-import FormGamePlatformDeveloper from './Game/Platform/FormGamePlatformDeveloper.vue'
+import FormGamePlatformDevelopers from './Game/Platform/FormGamePlatformDevelopers.vue'
 import FormGamePlatformNumberPlayers from './Game/Platform/FormGamePlatformNumberPlayers.vue'
 import FormGamePlatformPlatform from './Game/Platform/FormGamePlatformPlatform.vue'
 import FormGamePlatformReleaseYear from './Game/Platform/FormGamePlatformReleaseYear.vue'
@@ -59,7 +59,7 @@ export {
     FormGameLinks,
     FormGameNotes,
     // Game platform form.
-    FormGamePlatformDeveloper,
+    FormGamePlatformDevelopers,
     FormGamePlatformNumberPlayers,
     FormGamePlatformPlatform,
     FormGamePlatformReleaseYear,

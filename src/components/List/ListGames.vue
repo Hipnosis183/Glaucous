@@ -13,7 +13,7 @@
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2"
       >
-        <!-- Open create developer dialog. -->
+        <!-- Open create game platform dialog. -->
         <vi-button-nb
           button-icon="icon-add"
           @click="createPlatformOpen()"

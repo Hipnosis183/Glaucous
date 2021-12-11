@@ -67,7 +67,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getDevelopers, getDevelopersAllSearch } from '@/database/controllers/Developer'
+import { getDevelopersAll, getDevelopersAllSearch } from '@/database/controllers/Developer'
 // Import form components.
 import CreateDeveloper from '@/components/Create/CreateDeveloper.vue'
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
@@ -93,7 +93,7 @@ export default {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
       // Get first batch of developers.
-      getDevelopers(paginationIndex.value, paginationCount)
+      getDevelopersAll(paginationIndex.value, paginationCount)
         .then((res) => {
           developers.value = res
           // Set next pagination index.
@@ -104,7 +104,7 @@ export default {
       // Check loaded developers to avoid duplication.
       if (developers.value) {
         // Get next batch of developers.
-        getDevelopers(paginationIndex.value, paginationCount)
+        getDevelopersAll(paginationIndex.value, paginationCount)
           .then((res) => {
             developers.value = developers.value.concat(res)
             // Set next pagination index.

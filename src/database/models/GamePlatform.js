@@ -9,8 +9,8 @@ class GamePlatformModel extends Document {
         this.schema({
             gamePlatforms: { type: [GamePlatformModel], required: true },
             gameRegions: { type: [GameRegionModel], required: true },
-            developer: { type: DeveloperModel },
             platform: { type: PlatformModel, required: true },
+            developers: { type: [DeveloperModel] },
             releaseYear: { type: String },
             numberPlayers: { type: String },
             gameTags: { type: [String] },

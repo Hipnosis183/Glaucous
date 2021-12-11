@@ -4,7 +4,6 @@
       <!-- Create game platform dialog. -->
       <create-game-platform
         v-show="createPlatformDialog"
-        :game-developer="$route.params.id"
         @close="createPlatformClose()"
       />
       <!-- Edit developer dialog. -->
@@ -21,7 +20,7 @@
       >
         Delete developer <b>'{{ developer.name }}'</b> ?
         <br />
-        It will also delete all its game entries.
+        It will remove it from all game entries where it's included.
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
@@ -170,7 +169,7 @@ export default {
       store.commit('resetGameSelected')
       store.commit('resetGameForm')
       // Save data of the current developer into the store.
-      store.commit('setGamePlatformDeveloper', route.params.id)
+      store.commit('setGamePlatformDevelopers', [route.params.id])
       // Open create dialog.
       createPlatformDialog.value = !createPlatformDialog.value
     }

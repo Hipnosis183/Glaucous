@@ -41,7 +41,7 @@
     <div class="flex space-x-4">
       <div class="w-2/5">
         <form-game-region-title />
-        <form-game-platform-developer :game-developer="gameDeveloper" />
+        <form-game-platform-developers />
         <form-game-platform-tags />
         <form-game-version-name />
       </div>
@@ -112,7 +112,7 @@ import {
   FormGameImages,
   FormGameLinks,
   FormGameNotes,
-  FormGamePlatformDeveloper,
+  FormGamePlatformDevelopers,
   FormGamePlatformNumberPlayers,
   FormGamePlatformPlatform,
   FormGamePlatformReleaseYear,
@@ -133,7 +133,7 @@ export default {
     FormGameImages,
     FormGameLinks,
     FormGameNotes,
-    FormGamePlatformDeveloper,
+    FormGamePlatformDevelopers,
     FormGamePlatformNumberPlayers,
     FormGamePlatformPlatform,
     FormGamePlatformReleaseYear,
@@ -149,7 +149,6 @@ export default {
     'close'
   ],
   props: {
-    gameDeveloper: { type: String },
     gamePlatform: { type: String }
   },
   setup(props, { emit }) {
@@ -170,10 +169,10 @@ export default {
           collisionErrorShow(); return
         }
       }
-      // Check developer existance.
-      checkDeveloper()
-        // Check platform existance.
-        .then(() => checkPlatform()
+      // Check platform existance.
+      checkPlatform()
+        // Check developer existance.
+        .then(() => checkDevelopers()
           // Check tags existance.
           .then(() => checkTags()
             .then(() => {
@@ -199,26 +198,31 @@ export default {
       validationErrorDialog.value = !validationErrorDialog.value
     }
 
-    // Manage developer field input.
-    const developer = computed({
-      get() { return store.state.gameForm.gamePlatform.developer },
-      set(value) { store.commit('setGamePlatformDeveloper', value) }
+    // Manage developers field input.
+    const developers = computed({
+      get() { return store.state.gameForm.gamePlatform.developers },
+      set(value) { store.commit('setGamePlatformDevelopers', value) }
     })
-    const checkDeveloper = async () => {
-      // Check if the developer entered exists.
-      if (developer.value) {
-        await getDeveloper(developer.value)
+    const checkDevelopers = async () => {
+      let gameDevelopers = []
+      // Check all the developers on the game form.
+      for (let developer of developers.value) {
+        // Check if the developer entered exists.
+        await getDeveloper(developer)
           .then(async (res) => {
             if (!res) {
-              // Populate new developer form.
-              store.commit('setDeveloperName', developer.value)
               // Save new developer entry.
-              await createDeveloper(store.state.developerForm)
-                // Set the new developer in the game form.
-                .then((res) => developer.value = res._id)
+              await createDeveloper({ name: developer })
+                // Add the new developer to the array.
+                .then((res) => gameDevelopers.push(res._id))
+            } else {
+              // Add the existing developer to the array.
+              gameDevelopers.push(developer)
             }
           })
       }
+      // Set the new developers in the game form.
+      developers.value = gameDevelopers
     }
 
     // Manage platform field input.

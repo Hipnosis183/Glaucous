@@ -145,7 +145,7 @@ export default {
     let queryObject = ref({
       title: '',
       platform: '',
-      developer: '',
+      developers: '',
       releaseYear: ''
     })
     const querySearch = () => {
@@ -188,8 +188,8 @@ export default {
           }
           // Set developer search parameter.
           case 'developer': {
-            if (queryObject.value.developer != '') return
-            else queryObject.value.developer = input; break
+            if (queryObject.value.developers != '') return
+            else queryObject.value.developers = input; break
           }
           // Set release year search parameter.
           case 'releaseYear': {
@@ -217,7 +217,7 @@ export default {
         case 'platform': queryObject.value.platform = ''
           break
         // Remove developer search parameter.
-        case 'developer': queryObject.value.developer = ''
+        case 'developer': queryObject.value.developers = ''
           break
         // Remove release year search parameter.
         case 'releaseYear': queryObject.value.releaseYear = ''

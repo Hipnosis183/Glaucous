@@ -1,5 +1,5 @@
 <template>
-  <!-- Playlists management dialog. -->
+  <!-- Expanded tags dialog. -->
   <vi-dialog
     v-show="expandedTagsDialog"
     @close="expandedTagsShow()"

@@ -1,5 +1,43 @@
 <template>
   <div class="flex">
+    <!-- Expanded developers dialog. -->
+    <vi-dialog
+      v-show="expandedDevelopersDialog"
+      @close="expandedDevelopersShow()"
+      class="pos-initial z-10"
+    >
+      <!-- Padding. -->
+      <div class="w-80" />
+      <!-- Header. -->
+      <div class="flex justify-between mb-6 mx-2">
+        <!-- Title. -->
+        <p class="mr-10 pt-1 text-2xl">Developers</p>
+        <!-- Buttons. -->
+        <vi-button
+          button-icon="icon-close"
+          @click="expandedDevelopersShow()"
+        />
+      </div>
+      <!-- Separator. -->
+      <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+      <!-- List game playlists. -->
+      <div class="font-medium space-y-2">
+        <div
+          v-for="item in gameInfo.developers"
+          :key="item"
+          :value="item"
+        >
+          <vi-chip
+            chip-click
+            chip-large
+            :chip-remove="false"
+            @clicked="$router.push({ name: 'Developer', params: { id: item._id } })"
+          >
+            {{ item.name }}
+          </vi-chip>
+        </div>
+      </div>
+    </vi-dialog>
     <div class="flex flex-col mr-auto">
       <p
         v-show="gameInfo.gameRegions[regionIndex].preTitle"
@@ -39,9 +77,10 @@
           </p>
         </div>
         <!-- Go to the developer page. -->
-        <div v-if="gameInfo.developer">
-          <p @click="$router.push({ name: 'Developer', params: { id: gameInfo.developer._id } })">
-            {{ gameInfo.developer.name }}
+        <div v-if="gameInfo.developers.length > 0">
+          <p @click="gameInfo.developers.length > 1 ? expandedDevelopersShow()
+            : $router.push({ name: 'Developer', params: { id: gameInfo.developers[0]._id } })">
+            {{ gameInfo.developers[0].name }}
           </p>
         </div>
       </div>
@@ -81,7 +120,7 @@
 
 <script>
 // Import Vue functions.
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import form components.
 import ViewGameTags from './ViewGameTags.vue'
@@ -99,6 +138,13 @@ export default {
   setup(props) {
     // Instantiate Vue elements.
     const store = useStore()
+
+    // Manage developers state.
+    let expandedDevelopersDialog = ref(false)
+    const expandedDevelopersShow = () => {
+      // Toggle expanded developers dialog.
+      expandedDevelopersDialog.value = !expandedDevelopersDialog.value
+    }
 
     // Manage number of players state.
     const getNumberPlayers = (index) => {
@@ -131,6 +177,8 @@ export default {
     })
 
     return {
+      expandedDevelopersDialog,
+      expandedDevelopersShow,
       getNumberPlayers,
       hideElementsTags
     }

@@ -104,8 +104,8 @@ export default createStore({
     gameForm: {
       id: null,
       gamePlatform: {
-        developer: null,
         platform: null,
+        developers: [],
         releaseYear: null,
         numberPlayers: null,
         gameTags: [],
@@ -640,7 +640,6 @@ export default createStore({
       state.gameSelected.gameVersion = null
     },
     setGameForm(state, game) {
-      state.gameForm.gamePlatform.developer = game.platform.developer._id
       state.gameForm.gamePlatform.platform = game.platform.platform._id
       state.gameForm.gamePlatform.releaseYear = game.platform.releaseYear
       state.gameForm.gamePlatform.numberPlayers = game.platform.numberPlayers
@@ -656,6 +655,10 @@ export default createStore({
       state.gameForm.gameVersion.name = game.version.name
       state.gameForm.gameVersion.number = game.version.number
       // Avoid reactivity to alter the original reference values.
+      state.gameForm.gamePlatform.developers = []
+      if (game.platform.developers) for (let developer of game.platform.developers) {
+        state.gameForm.gamePlatform.developers.push(developer._id)
+      }
       state.gameForm.gamePlatform.gameTags = []
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
         state.gameForm.gamePlatform.gameTags.push(tag._id)
@@ -699,8 +702,8 @@ export default createStore({
     },
     resetGameForm(state) {
       state.gameForm.id = null
-      state.gameForm.gamePlatform.developer = null
       state.gameForm.gamePlatform.platform = null
+      state.gameForm.gamePlatform.developers = []
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
       state.gameForm.gamePlatform.gameTags = []
@@ -752,11 +755,17 @@ export default createStore({
     setGameID(state, data) {
       state.gameForm.id = data
     },
-    setGamePlatformDeveloper(state, data) {
-      state.gameForm.gamePlatform.developer = data
-    },
     setGamePlatformPlatform(state, data) {
       state.gameForm.gamePlatform.platform = data
+    },
+    setGamePlatformDevelopers(state, data) {
+      state.gameForm.gamePlatform.developers = data
+    },
+    setGamePlatformDevelopersAdd(state, data) {
+      state.gameForm.gamePlatform.developers.push(data)
+    },
+    setGamePlatformDevelopersRemove(state, data) {
+      state.gameForm.gamePlatform.developers.splice(data, 1)
     },
     setGamePlatformReleaseYear(state, data) {
       state.gameForm.gamePlatform.releaseYear = data

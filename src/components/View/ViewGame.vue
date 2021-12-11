@@ -20,7 +20,6 @@
       <edit-game
         v-show="editGameDialog"
         :game-reset="editGameDialog"
-        :game-developer="gameInfo.developer._id"
         :game-platform="gameInfo.platform._id"
         @close="editGameClose($event)"
       />
@@ -595,8 +594,8 @@ export default {
     let regionIndex = ref(0)
     let versionIndex = ref(0)
     let gameInfo = ref({
-      developer: { _id: null, name: null },
       platform: { name: null },
+      developers: [],
       releaseYear: null,
       numberPlayers: null,
       gameTags: [],
@@ -641,7 +640,6 @@ export default {
       getGame(route.params.id)
         .then((res) => {
           gameInfo.value = res
-          gameInfo.value.developer = res.developer ? res.developer : { _id: null, name: null }
           // Save current platform ID into the store.
           store.state.selectedPlatform = res.platform._id
           store.commit('setPlatformStore')
