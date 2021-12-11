@@ -128,8 +128,8 @@ async function createGamePlatform(req, id) {
         platform: req.platform,
         developers: req.developers,
         publishers: req.publishers,
-        releaseYear: req.releaseYear,
-        numberPlayers: req.numberPlayers,
+        releaseYear: req.releaseYear ? req.releaseYear : '',
+        numberPlayers: req.numberPlayers ? req.numberPlayers : '',
         gameTags: req.gameTags,
         notes: req.notes
     })
