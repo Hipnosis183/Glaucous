@@ -161,15 +161,17 @@ export default {
       ) { validationErrorShow(); return }
       // Check platform existance.
       checkPlatform()
-        // Check developer existance.
+        // Check developers existance.
         .then(() => checkDevelopers()
-          // Check tags existance.
-          .then(() => checkTags()
-            .then(() => {
-              // Update game entry.
-              updateGame(store.state.gameForm, store.state.gameSelected)
-                .then(() => onClose(true))
-            })))
+          // Check publishers existance.
+          .then(() => checkPublishers()
+            // Check tags existance.
+            .then(() => checkTags()
+              .then(() => {
+                // Update game entry.
+                updateGame(store.state.gameForm, store.state.gameSelected)
+                  .then(() => onClose(true))
+              }))))
     }
     const onClose = (edited) => {
       // Reset images forms.
@@ -208,6 +210,33 @@ export default {
       }
       // Set the new developers in the game form.
       developers.value = gameDevelopers
+    }
+
+    // Manage publishers field input.
+    const publishers = computed({
+      get() { return store.state.gameForm.gamePlatform.publishers },
+      set(value) { store.commit('setGamePlatformPublishers', value) }
+    })
+    const checkPublishers = async () => {
+      let gamePublishers = []
+      // Check all the publishers on the game form.
+      for (let publisher of publishers.value) {
+        // Check if the publisher entered exists.
+        await getDeveloper(publisher)
+          .then(async (res) => {
+            if (!res) {
+              // Save new publisher entry.
+              await createDeveloper({ name: publisher })
+                // Add the new publisher to the array.
+                .then((res) => gamePublishers.push(res._id))
+            } else {
+              // Add the existing publisher to the array.
+              gamePublishers.push(publisher)
+            }
+          })
+      }
+      // Set the new publishers in the game form.
+      publishers.value = gamePublishers
     }
 
     // Manage platform field input.

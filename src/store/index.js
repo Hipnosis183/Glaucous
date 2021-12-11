@@ -106,6 +106,7 @@ export default createStore({
       gamePlatform: {
         platform: null,
         developers: [],
+        publishers: [],
         releaseYear: null,
         numberPlayers: null,
         gameTags: [],
@@ -659,6 +660,10 @@ export default createStore({
       if (game.platform.developers) for (let developer of game.platform.developers) {
         state.gameForm.gamePlatform.developers.push(developer._id)
       }
+      state.gameForm.gamePlatform.publishers = []
+      if (game.platform.publishers) for (let publisher of game.platform.publishers) {
+        state.gameForm.gamePlatform.publishers.push(publisher._id)
+      }
       state.gameForm.gamePlatform.gameTags = []
       if (game.platform.gameTags) for (let tag of game.platform.gameTags) {
         state.gameForm.gamePlatform.gameTags.push(tag._id)
@@ -704,6 +709,7 @@ export default createStore({
       state.gameForm.id = null
       state.gameForm.gamePlatform.platform = null
       state.gameForm.gamePlatform.developers = []
+      state.gameForm.gamePlatform.publishers = []
       state.gameForm.gamePlatform.releaseYear = null
       state.gameForm.gamePlatform.numberPlayers = null
       state.gameForm.gamePlatform.gameTags = []
@@ -766,6 +772,15 @@ export default createStore({
     },
     setGamePlatformDevelopersRemove(state, data) {
       state.gameForm.gamePlatform.developers.splice(data, 1)
+    },
+    setGamePlatformPublishers(state, data) {
+      state.gameForm.gamePlatform.publishers = data
+    },
+    setGamePlatformPublishersAdd(state, data) {
+      state.gameForm.gamePlatform.publishers.push(data)
+    },
+    setGamePlatformPublishersRemove(state, data) {
+      state.gameForm.gamePlatform.publishers.splice(data, 1)
     },
     setGamePlatformReleaseYear(state, data) {
       state.gameForm.gamePlatform.releaseYear = data

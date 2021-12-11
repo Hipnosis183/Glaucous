@@ -54,7 +54,7 @@ async function getDeveloperCount(req) {
 
 // Get a specified group of developers.
 export async function getDevelopers(req) {
-    return await DeveloperModel.find({ _id: { $in: req } })
+    return await DeveloperModel.find({ _id: { $in: req } }, { sort: 'name' })
 }
 
 // Search for all developers.

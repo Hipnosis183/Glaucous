@@ -596,6 +596,7 @@ export default {
     let gameInfo = ref({
       platform: { name: null },
       developers: [],
+      publishers: [],
       releaseYear: null,
       numberPlayers: null,
       gameTags: [],

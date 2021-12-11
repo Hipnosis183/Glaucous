@@ -127,6 +127,7 @@ async function createGamePlatform(req, id) {
         gameRegions: new Array(gameRegion),
         platform: req.platform,
         developers: req.developers,
+        publishers: req.publishers,
         releaseYear: req.releaseYear,
         numberPlayers: req.numberPlayers,
         gameTags: req.gameTags,
@@ -182,6 +183,7 @@ export async function updateGame(req, id) {
     await GamePlatformModel.findOneAndUpdate({ _id: id.gamePlatform }, {
         platform: req.gamePlatform.platform,
         developers: req.gamePlatform.developers,
+        publishers: req.gamePlatform.publishers,
         releaseYear: req.gamePlatform.releaseYear,
         numberPlayers: req.gamePlatform.numberPlayers,
         gameTags: req.gamePlatform.gameTags,
@@ -323,6 +325,7 @@ export async function deleteGamesPlatform(req) {
             remove(dataPathLinks + req)
         })
 }
+
 // Delete a specific developer from all of the games in which is included.
 export async function deleteGamesDeveloper(req) {
     await GamePlatformModel.find({ developers: req }, { populate: false })
@@ -332,6 +335,15 @@ export async function deleteGamesDeveloper(req) {
                 // Filter developer from the game developers array.
                 let developers = gamePlatform.developers.filter((res) => res != req)
                 await GamePlatformModel.findOneAndUpdate({ _id: gamePlatform._id }, { developers: developers })
+            }
+        })
+    await GamePlatformModel.find({ publishers: req }, { populate: false })
+        .then(async (res) => {
+            // Update all the game platforms that includes the publisher.
+            for (let gamePlatform of res) {
+                // Filter publisher from the game publishers array.
+                let publishers = gamePlatform.publishers.filter((res) => res != req)
+                await GamePlatformModel.findOneAndUpdate({ _id: gamePlatform._id }, { publishers: publishers })
             }
         })
 }
@@ -580,6 +592,8 @@ export async function getGame(req) {
                 .then((pla) => res.platform = pla)
             await getDevelopers(res.developers)
                 .then((dev) => res.developers = dev)
+            await getDevelopers(res.publishers)
+                .then((dev) => res.publishers = dev)
             await getTags(res.gameTags)
                 .then((tag) => res.gameTags = tag)
             res.gameRegions = gameRegions
@@ -648,7 +662,7 @@ export async function getGamesPlatform(req, index, count, query) {
 export async function getGamesDeveloper(req, index, count, query) {
     let gameRegions = []
     // Search all game platforms for the selected developer.
-    return await GamePlatformModel.find({ developers: req }, { populate: false, select: ['gameRegions'] })
+    return await GamePlatformModel.find({ $or: [{ developers: req }, { publishers: req }] }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
                 // Store default region for the sorted search.
@@ -710,7 +724,7 @@ export async function getGamesSearch(index, count, query) {
         })
     let gameRegions = []
     // Search all game platforms matching the selected developer and platform.
-    await GamePlatformModel.find({ $and: [{ platform: { $in: platforms }, developers: { $in: developers }, releaseYear: search.releaseYear }] }, { populate: false, select: ['gameRegions'] })
+    await GamePlatformModel.find({ $and: [{ platform: { $in: platforms }, $or: [{ developers: { $in: developers } }, { publishers: { $in: developers } }], releaseYear: search.releaseYear }] }, { populate: false, select: ['gameRegions'] })
         .then((res) => {
             for (let gamePlatform of res) {
                 // Store default region for the sorted search.

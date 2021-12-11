@@ -9,32 +9,59 @@
       <!-- Padding. -->
       <div class="w-80" />
       <!-- Header. -->
-      <div class="flex justify-between mb-6 mx-2">
+      <div class="flex justify-between mb-4 mx-2">
         <!-- Title. -->
-        <p class="mr-10 pt-1 text-2xl">Developers</p>
+        <p class="mr-10 pt-1 text-2xl">Developers | Publishers</p>
         <!-- Buttons. -->
         <vi-button
           button-icon="icon-close"
           @click="expandedDevelopersShow()"
         />
       </div>
-      <!-- Separator. -->
-      <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
-      <!-- List game playlists. -->
-      <div class="font-medium space-y-2">
-        <div
-          v-for="item in gameInfo.developers"
-          :key="item"
-          :value="item"
-        >
-          <vi-chip
-            chip-click
-            chip-large
-            :chip-remove="false"
-            @clicked="$router.push({ name: 'Developer', params: { id: item._id } })"
+      <div v-if="gameInfo.developers.length > 0">
+        <!-- Separator. -->
+        <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+        <!-- Subtitle. -->
+        <p class="pb-2 pl-2">Developers</p>
+        <!-- List game playlists. -->
+        <div class="font-medium space-y-2">
+          <div
+            v-for="item in gameInfo.developers"
+            :key="item"
+            :value="item"
           >
-            {{ item.name }}
-          </vi-chip>
+            <vi-chip
+              chip-click
+              chip-large
+              :chip-remove="false"
+              @clicked="$router.push({ name: 'Developer', params: { id: item._id } })"
+            >
+              {{ item.name }}
+            </vi-chip>
+          </div>
+        </div>
+      </div>
+      <div v-if="gameInfo.publishers.length > 0">
+        <!-- Separator. -->
+        <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+        <!-- Subtitle. -->
+        <p class="pb-2 pl-2">Publishers</p>
+        <!-- List game playlists. -->
+        <div class="font-medium space-y-2">
+          <div
+            v-for="item in gameInfo.publishers"
+            :key="item"
+            :value="item"
+          >
+            <vi-chip
+              chip-click
+              chip-large
+              :chip-remove="false"
+              @clicked="$router.push({ name: 'Developer', params: { id: item._id } })"
+            >
+              {{ item.name }}
+            </vi-chip>
+          </div>
         </div>
       </div>
     </vi-dialog>
@@ -78,9 +105,16 @@
         </div>
         <!-- Go to the developer page. -->
         <div v-if="gameInfo.developers.length > 0">
-          <p @click="gameInfo.developers.length > 1 ? expandedDevelopersShow()
+          <p @click="gameInfo.developers.length > 1 || gameInfo.publishers.length > 0
+            ? expandedDevelopersShow()
             : $router.push({ name: 'Developer', params: { id: gameInfo.developers[0]._id } })">
             {{ gameInfo.developers[0].name }}
+          </p>
+        </div>
+        <div v-else-if="gameInfo.publishers.length > 0">
+          <p @click="gameInfo.publishers.length > 1 ? expandedDevelopersShow()
+            : $router.push({ name: 'Developer', params: { id: gameInfo.publishers[0]._id } })">
+            {{ gameInfo.publishers[0].name }}
           </p>
         </div>
       </div>

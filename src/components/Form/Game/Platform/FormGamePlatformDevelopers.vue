@@ -10,7 +10,7 @@
   <!-- Expanded developers management dialog. -->
   <vi-dialog
     v-show="expandedDevelopersDialog"
-    @close="expandedDevelopersShow()"
+    @close="expandedDevelopersClose()"
     class="pos-initial z-10"
   >
     <!-- Padding. -->
@@ -22,30 +22,40 @@
       <!-- Buttons. -->
       <vi-button
         button-icon="icon-add"
-        @click="addDevelopers()"
+        @click="isPublisher ? addPublishers() : addDevelopers()"
       />
     </div>
-    <!-- Developer input select. -->
-    <vi-select
-      v-model="querySelected"
-      select-allow-create
-      select-clearable
-      select-placeholder="Add or create a developer..."
-      select-remote
-      :select-remote-method="querySearch"
-      class="w-full"
-    >
-      <vi-option
-        v-for="item in queryResults"
-        :key="item._id"
-        :option-label="item.name"
-        :option-value="item._id"
+    <div class="flex space-x-4">
+      <!-- Developer input select. -->
+      <vi-select
+        v-model="querySelected"
+        select-allow-create
+        select-clearable
+        select-label="Name"
+        select-placeholder="Add or create a developer..."
+        select-remote
+        :select-remote-method="querySearch"
+        class="w-full"
+      >
+        <vi-option
+          v-for="item in queryResults"
+          :key="item._id"
+          :option-label="item.name"
+          :option-value="item._id"
+        />
+      </vi-select>
+      <!-- Publisher switch input. -->
+      <vi-switch
+        v-model="isPublisher"
+        switch-label="Publish"
       />
-    </vi-select>
+    </div>
     <!-- Developers list section. -->
     <div v-if="developers.length > 0">
       <!-- Separator. -->
       <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+      <!-- Subtitle. -->
+      <p class="pb-2 pl-2">Developers</p>
       <!-- List game developers. -->
       <div class="font-medium space-y-2">
         <div
@@ -56,6 +66,28 @@
           <vi-chip
             chip-large
             @remove="removeDevelopers(index)"
+          >
+            {{ item.name }}
+          </vi-chip>
+        </div>
+      </div>
+    </div>
+    <!-- Publishers list section. -->
+    <div v-if="publishers.length > 0">
+      <!-- Separator. -->
+      <div class="bg-theme-200 dark:bg-theme-600 h-0.5 my-5 w-full" />
+      <!-- Subtitle. -->
+      <p class="pb-2 pl-2">Publishers</p>
+      <!-- List game publishers. -->
+      <div class="font-medium space-y-2">
+        <div
+          v-for="(item, index) in publishers"
+          :key="item"
+          :value="item"
+        >
+          <vi-chip
+            chip-large
+            @remove="removePublishers(index)"
           >
             {{ item.name }}
           </vi-chip>
@@ -84,14 +116,14 @@
       />
       <template #append>
         <!-- Buttons -->
-        <vi-input-button @click="addDevelopers()">
+        <vi-input-button @click="isPublisher ? addPublishers() : addDevelopers()">
           <vi-icon class="w-6">
             <icon-add />
           </vi-icon>
         </vi-input-button>
         <vi-input-button
           input-last
-          @click="expandedDevelopersShow()"
+          @click="expandedDevelopersOpen()"
         >
           <vi-icon class="w-6">
             <icon-edit />
@@ -115,10 +147,12 @@ export default {
     // Instantiate Vue elements.
     const store = useStore()
 
-    // Load all developers on mounting.
-    onMounted(() => { updateDevelopers() })
+    // Load all developers and publishers on mounting.
+    onMounted(() => { updateDevelopers(); updatePublishers() })
     const developersStore = computed(() => { return store.state.gameForm.gamePlatform.developers })
+    const publishersStore = computed(() => { return store.state.gameForm.gamePlatform.publishers })
     watch(() => developersStore.value, () => { updateDevelopers() })
+    watch(() => publishersStore.value, () => { updatePublishers() })
 
     // Developers input operations.
     let developers = ref([])
@@ -151,10 +185,20 @@ export default {
           listDevelopers.push(res ? res : { _id: developer, name: developer })
         })
       }
-      developers.value = listDevelopers
+      developers.value = listDevelopers.sort(sortDevelopersList)
+    }
+    const sortDevelopersList = (a, b) => {
+      // Compare function that returns natural ordered elements.
+      return a.name.localeCompare(b.name, navigator.language, { numeric: true, ignorePunctuation: true })
     }
     let expandedDevelopersDialog = ref(false)
-    const expandedDevelopersShow = () => {
+    const expandedDevelopersOpen = () => {
+      // Toggle expanded developers dialog.
+      expandedDevelopersDialog.value = !expandedDevelopersDialog.value
+    }
+    const expandedDevelopersClose = () => {
+      // Reset publisher toggle.
+      setTimeout(() => { isPublisher.value = false }, 500)
       // Toggle expanded developers dialog.
       expandedDevelopersDialog.value = !expandedDevelopersDialog.value
     }
@@ -162,6 +206,41 @@ export default {
     const validationErrorShow = () => {
       // Toggle validation error dialog.
       validationErrorDialog.value = !validationErrorDialog.value
+    }
+
+    // Publishers input operations.
+    let isPublisher = ref(false)
+    let publishers = ref([])
+    const addPublishers = () => {
+      // Validate required fields.
+      if (!querySelected.value) {
+        validationErrorShow(); return
+      }
+      // Save publisher into the store.
+      store.commit('setGamePlatformPublishersAdd', querySelected.value)
+      // Reset publisher input.
+      querySelected.value = null
+      // Update game publishers list.
+      updatePublishers()
+    }
+    const removePublishers = (id) => {
+      // Remove publisher from the store.
+      store.commit('setGamePlatformPublishersRemove', id)
+      // Reset publisher input.
+      querySelected.value = null
+      // Update game publishers list.
+      updatePublishers()
+    }
+    const updatePublishers = async () => {
+      // Manage game publishers.
+      let listPublishers = []
+      for (let publisher of publishersStore.value) {
+        await getDeveloper(publisher).then((res) => {
+          // Make a temporary publisher object to display if it was created.
+          listPublishers.push(res ? res : { _id: publisher, name: publisher })
+        })
+      }
+      publishers.value = listPublishers
     }
 
     // Manage search queries.
@@ -184,14 +263,20 @@ export default {
 
     return {
       addDevelopers,
+      addPublishers,
       developers,
       developersStore,
+      expandedDevelopersClose,
       expandedDevelopersDialog,
-      expandedDevelopersShow,
+      expandedDevelopersOpen,
+      isPublisher,
+      publishers,
+      publishersStore,
       queryResults,
       querySearch,
       querySelected,
       removeDevelopers,
+      removePublishers,
       validationErrorDialog,
       validationErrorShow
     }
