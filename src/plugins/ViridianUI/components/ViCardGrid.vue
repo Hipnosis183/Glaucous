@@ -5,7 +5,7 @@
     @mouseleave="gameInfoShow()"
     :style="{ height: gridHeight + 'px' }"
     class="bg-theme-200 dark:bg-theme-700 flex overflow-hidden relative rounded-list shadow-color transform"
-    :class="gameInfoHover && $store.getters.getSettingsListsScalingEffect ? $store.getters.getSettingsPlatformGridColumns > 1 ? $store.getters.getSettingsPlatformGridColumns > 3 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
+    :class="gameInfoHover && $store.getters.getSettingsListsScalingEffect ? gridColumns > 1 ? gridColumns > 3 ? 'hover:scale-102' : 'hover:scale-101' : 'hover:scale-1005' : ''"
   >
     <!-- Game card overlay. -->
     <div class="absolute border-2 border-transparent hover:border-color-400 dark:hover:border-color-900 cursor-pointer h-full rounded-list w-full z-5" />
@@ -169,6 +169,14 @@ export default {
     })
 
     // Manage card display properties.
+    // Manage list columns.
+    const gridColumns = computed(() => {
+      return props.listPlatform
+        ? typeof (store.getters.getSettingsPlatformOverGridColumns) == 'number'
+          ? store.getters.getSettingsPlatformOverGridColumns
+          : store.getters.getSettingsPlatformGridColumns
+        : store.getters.getSettingsPlatformGridColumns
+    })
     const gridHeight = computed(() => {
       return props.listPlatform
         ? typeof (store.getters.getSettingsPlatformOverGridHeight) == 'number'
@@ -198,6 +206,7 @@ export default {
       gameInfoHover,
       gameInfoShow,
       getImage,
+      gridColumns,
       gridHeight,
       imageFiles,
       imagesDisplay,
