@@ -2,6 +2,8 @@ import PlatformModel from '@/database/models/Platform'
 import { generateID, connectDatastore } from '@/database/datastore'
 import { getGamePlatformCountP, deleteGamesPlatform } from './Game'
 
+import { normalize } from '@/utils/normalize'
+
 // Create new system platform.
 export async function createPlatform(req) {
     // Create platform model.
@@ -47,14 +49,14 @@ export async function getPlatformGroupCount(req) {
 
 // Search for a specific platform by name.
 export async function getPlatformByName(query) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ name: search, group: false })
 }
 
 // Search for a specific platform group by name.
 export async function getPlatformGroupByName(query, id) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ group: true, name: search })
         .then((res) => {
@@ -74,7 +76,7 @@ export async function getPlatformGroupByName(query, id) {
 
 // Search for a specific platform (including groups) by name.
 export async function getPlatformAllByName(query) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ name: search })
 }
@@ -115,7 +117,7 @@ async function getPlatformCount(req) {
 
 // Get all platforms (and groups, recursively) matching a given search query.
 export async function getPlatformsAllSearch(index, count, query) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ name: search }, { skip: index, limit: count, sort: 'name' })
         .then(async (res) => {
@@ -125,7 +127,7 @@ export async function getPlatformsAllSearch(index, count, query) {
 
 // Get all platforms from a specific group matching a given search query.
 export async function getPlatformsGroupAllSearch(index, count, req, query) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through platforms, case insensitive.
     return await PlatformModel.find({ parent: req, name: search }, { skip: index, limit: count, sort: 'name' })
         .then(async (res) => {

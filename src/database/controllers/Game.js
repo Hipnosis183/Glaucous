@@ -10,6 +10,7 @@ import path from 'path'
 import store from '@/store'
 import { copySync, ensureDirSync, existsSync, moveSync, outputJsonSync, readdirSync, readJsonSync, remove, removeSync } from 'fs-extra'
 import { readfiles } from '@/utils/filesystem'
+import { normalize } from '@/utils/normalize'
 
 import Regions from '@/../public/files/flags/flags.json'
 
@@ -632,7 +633,7 @@ export async function getGamesAll(index, count, query, sort) {
 // Get all games matching a given search query.
 export async function getGamesAllSearch(index, count, query) {
     // Configure the search parameters.
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Configure the search query.
     const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
     // Get all game regions for the selected platform.
@@ -650,7 +651,7 @@ export async function getGamesPlatform(req, index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
@@ -669,7 +670,7 @@ export async function getGamesDeveloper(req, index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
@@ -688,7 +689,7 @@ export async function getGamesPlayers(req, index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
@@ -702,10 +703,10 @@ let platforms = []
 export async function getGamesSearch(index, count, query) {
     // Configure the search parameters.
     const search = {
-        title: new RegExp(query.title, 'i'),
-        platform: new RegExp(query.platform, 'i'),
-        developers: new RegExp(query.developers, 'i'),
-        releaseYear: new RegExp(query.releaseYear, 'i')
+        title: new RegExp(normalize(query.title), 'i'),
+        platform: new RegExp(normalize(query.platform), 'i'),
+        developers: new RegExp(normalize(query.developers), 'i'),
+        releaseYear: new RegExp(normalize(query.releaseYear), 'i')
     }
     platforms = []
     // Get all platforms matching the given query.
@@ -774,7 +775,7 @@ export async function getGamesLinked(req) {
 // Get all linked games matching a given search query.
 export async function getGamesLinkedSearch(req, query) {
     // Configure the search parameters.
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Configure the search query.
     const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
     // Search through game regions, case insensitive.
@@ -826,7 +827,7 @@ export async function getGamesFavorited(index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all favorited games.
@@ -846,7 +847,7 @@ export async function getGamesRecent(index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all favorited games.
@@ -866,7 +867,7 @@ export async function getGamesPlaylist(req, index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all playlist games.
@@ -885,7 +886,7 @@ export async function getGamesTag(req, index, count, query) {
                 gameRegions.push(gamePlatform.gameRegions[0])
             }
             // Configure the search parameters.
-            const search = new RegExp(query, 'i')
+            const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
             // Get all playlist games.

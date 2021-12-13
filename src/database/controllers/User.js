@@ -2,6 +2,8 @@ import UserModel from '@/database/models/User'
 import { generateID } from '@/database/datastore'
 import { deleteGamesTag } from './Game'
 
+import { normalize } from '@/utils/normalize'
+
 // Set user data.
 const userId = '00000000'
 const userName = 'Viridian'
@@ -271,7 +273,7 @@ export async function getGamePlaylists(req) {
 // Get all playlists matching a given search query.
 export async function getPlaylistsSearch(index, count, query) {
     await ensureUser()
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Get all playlists.
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
         .then((res) => {
@@ -359,7 +361,7 @@ export async function getTags(req) {
 // Get all tags matching a given search query.
 export async function getTagsSearch(index, count, query) {
     await ensureUser()
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Get all tags.
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['tags'] })
         .then((res) => {

@@ -2,6 +2,8 @@ import DeveloperModel from '@/database/models/Developer'
 import { generateID, connectDatastore } from '@/database/datastore'
 import { getGamePlatformCountD, deleteGamesDeveloper } from './Game'
 
+import { normalize } from '@/utils/normalize'
+
 // Create new game developer.
 export async function createDeveloper(req) {
     // Create developer model.
@@ -36,7 +38,7 @@ export async function getDeveloper(req) {
 
 // Search for all developers in the database matching the given name.
 export async function getDeveloperByName(query) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through developers, case insensitive.
     return await DeveloperModel.find({ name: search })
 }
@@ -67,7 +69,7 @@ export async function getDevelopersAll(index, count) {
 
 // Get all developers matching a given search query.
 export async function getDevelopersAllSearch(index, count, query) {
-    const search = new RegExp(query, 'i')
+    const search = new RegExp(normalize(query), 'i')
     // Search through developers, case insensitive.
     return await DeveloperModel.find({ name: search }, { skip: index, limit: count, sort: 'name' })
         .then(async (res) => {
