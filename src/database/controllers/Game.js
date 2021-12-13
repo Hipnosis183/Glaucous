@@ -614,15 +614,15 @@ export async function getGamesAll(index, count, query, sort) {
     return await GameRegionModel.find(search, { skip: index, limit: count, sort: sorting, populate: false })
         .then(async (res) => {
             let gamePlatforms = []
+            let gamePlatformsId = []
             for (let gameRegion of res) {
                 // Populate the required game platform data for the region.
                 await GamePlatformModel.findOne({ gameRegions: gameRegion._id }, { populate: true })
                     .then((pla) => {
-                        // Avoid returning all regions of the game.
-                        if (pla.gameRegions[0]._id == gameRegion._id) {
-                            pla.gameRegions[0] = gameRegion
+                        if (!gamePlatformsId.includes(pla._id)) {
                             pla.image = getImage(pla)
                             gamePlatforms.push(pla)
+                            gamePlatformsId.push(pla._id)
                         }
                     })
             }
@@ -635,7 +635,7 @@ export async function getGamesAllSearch(index, count, query) {
     // Configure the search parameters.
     const search = new RegExp(normalize(query), 'i')
     // Configure the search query.
-    const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+    const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
     // Get all game regions for the selected platform.
     return await getGamesAll(index, count, querySearch, true)
 }
@@ -647,13 +647,15 @@ export async function getGamesPlatform(req, index, count, query) {
     return await GamePlatformModel.find({ platform: req }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, querySearch, true)
         })
@@ -666,13 +668,15 @@ export async function getGamesDeveloper(req, index, count, query) {
     return await GamePlatformModel.find({ $or: [{ developers: req }, { publishers: req }] }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, querySearch, true)
         })
@@ -685,13 +689,15 @@ export async function getGamesPlayers(req, index, count, query) {
     return await GamePlatformModel.find({ numberPlayers: req }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, querySearch, true)
         })
@@ -710,13 +716,13 @@ export async function getGamesSearch(index, count, query) {
     }
     platforms = []
     // Get all platforms matching the given query.
-    await getPlatformAllByName(search.platform)
+    await getPlatformAllByName(query.platform)
         .then(async (res) => {
             await getGamesSearchPlatform(res)
         })
     let developers = []
     // Get all developers matching the given query.
-    await getDeveloperByName(search.developers)
+    await getDeveloperByName(query.developers)
         .then((res) => {
             for (let developer of res) {
                 // Store the developer IDs.
@@ -728,12 +734,14 @@ export async function getGamesSearch(index, count, query) {
     await GamePlatformModel.find({ $and: [{ platform: { $in: platforms }, $or: [{ developers: { $in: developers } }, { publishers: { $in: developers } }], releaseYear: search.releaseYear }] }, { populate: false, select: ['gameRegions'] })
         .then((res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
         })
     // Configure the search query.
-    const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { preTitle: search.title }, { subTitle: search.title }, { translatedTitle: search.title }] }
+    const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { preTitle: search.title }, { subTitle: search.title }, { originalTitle: search }, { translatedTitle: search.title }] }
     // Get all the game regions matching the search query.
     return await getGamesAll(index, count, querySearch, true)
 }
@@ -777,7 +785,7 @@ export async function getGamesLinkedSearch(req, query) {
     // Configure the search parameters.
     const search = new RegExp(normalize(query), 'i')
     // Configure the search query.
-    const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+    const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
     // Search through game regions, case insensitive.
     return await GameRegionModel.find(querySearch, { sort: 'title' })
         .then(async (res) => {
@@ -823,13 +831,15 @@ export async function getGamesFavorited(index, count, query) {
     return await GamePlatformModel.find({ _id: { $in: gamesFavorited } }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all favorited games.
             return await getGamesAll(index, count, querySearch, true)
         })
@@ -843,13 +853,15 @@ export async function getGamesRecent(index, count, query) {
     return await GamePlatformModel.find({ _id: { $in: gamesRecent } }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all favorited games.
             return await getGamesAll(index, count, querySearch)
         })
@@ -863,13 +875,15 @@ export async function getGamesPlaylist(req, index, count, query) {
     return await GamePlatformModel.find({ _id: { $in: gamesPlaylist.games } }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all playlist games.
             return await getGamesAll(index, count, querySearch, true)
         })
@@ -882,13 +896,15 @@ export async function getGamesTag(req, index, count, query) {
     return await GamePlatformModel.find({ gameTags: req }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
-                // Store default region for the sorted search.
-                gameRegions.push(gamePlatform.gameRegions[0])
+                for (let gameRegion of gamePlatform.gameRegions) {
+                    // Store game regions for the sorted search.
+                    gameRegions.push(gameRegion)
+                }
             }
             // Configure the search parameters.
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
-            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { translatedTitle: search }] }
+            const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all playlist games.
             return await getGamesAll(index, count, querySearch, true)
         })
