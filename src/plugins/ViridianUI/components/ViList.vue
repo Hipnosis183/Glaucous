@@ -1,4 +1,8 @@
 <template>
+  <div
+    ref="top"
+    class="h-px w-px"
+  />
   <ul
     class="grid"
     :class="$store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'"
@@ -30,6 +34,7 @@ export default {
 
     // Declare template refs.
     const sentinel = ref(null)
+    const top = ref(null)
 
     // Manage list columns.
     const gridColumns = computed(() => {
@@ -58,14 +63,15 @@ export default {
     })
     watch(() => isIntersecting.value, (value) => {
       // Execute remote method when reaching the end of the list.
-      if (value) {
+      if (value && top.value.getBoundingClientRect().top < 0) {
         props.listRemoteMethod()
       }
     })
 
     return {
       gridColumns,
-      sentinel
+      sentinel,
+      top
     }
   }
 }
