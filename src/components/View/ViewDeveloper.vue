@@ -63,42 +63,37 @@
     </vi-nav-bar>
     <!-- Show developer's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div
-        class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+      <vi-list
+        v-if="developer.games.length > 0"
+        :list-display="$store.getters.getSettingsListsDisplayMode"
+        :list-remote-method="loadDeveloperNext"
       >
-        <vi-list
-          v-if="developer.games.length > 0"
-          :list-display="$store.getters.getSettingsListsDisplayMode"
-          :list-remote-method="loadDeveloperNext"
+        <li
+          v-for="game in developer.games"
+          :key="game._id"
+          :value="game._id"
+          @click="$router.push({ name: 'Game', params: { id: game._id } })"
         >
-          <li
-            v-for="game in developer.games"
-            :key="game._id"
-            :value="game._id"
-            @click="$router.push({ name: 'Game', params: { id: game._id } })"
-          >
-            <!-- Game cards. -->
-            <vi-card-grid
-              v-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :game-info="game"
-            />
-            <vi-card-list
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :game-info="game"
-            />
-            <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
-              :game-info="game"
-            />
-          </li>
-        </vi-list>
-        <div
-          v-else-if="querySearched"
-          class="flex h-content w-full"
-        >
-          <p class="m-auto">No games found.</p>
-        </div>
+          <!-- Game cards. -->
+          <vi-card-grid
+            v-if="$store.getters.getSettingsListsDisplayMode == 1"
+            :game-info="game"
+          />
+          <vi-card-list
+            v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
+            :game-info="game"
+          />
+          <vi-card-compact
+            v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
+            :game-info="game"
+          />
+        </li>
+      </vi-list>
+      <div
+        v-else-if="querySearched"
+        class="flex h-content w-full"
+      >
+        <p class="m-auto">No games found.</p>
       </div>
     </div>
   </div>

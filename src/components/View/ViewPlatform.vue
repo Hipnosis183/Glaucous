@@ -79,44 +79,39 @@
     </vi-nav-bar>
     <!-- Show platform's games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div
-        class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+      <vi-list
+        v-if="platform.games.length > 0"
+        :list-display="listDisplay"
+        list-platform
+        :list-remote-method="loadPlatformNext"
       >
-        <vi-list
-          v-if="platform.games.length > 0"
-          :list-display="listDisplay"
-          list-platform
-          :list-remote-method="loadPlatformNext"
+        <li
+          v-for="game in platform.games"
+          :key="game._id"
+          :value="game._id"
+          @click="$router.push({ name: 'Game', params: { id: game._id } })"
         >
-          <li
-            v-for="game in platform.games"
-            :key="game._id"
-            :value="game._id"
-            @click="$router.push({ name: 'Game', params: { id: game._id } })"
-          >
-            <!-- Game cards. -->
-            <vi-card-grid
-              v-if="listDisplay == 1"
-              :game-info="game"
-              list-platform
-            />
-            <vi-card-list
-              v-else-if="listDisplay == 2"
-              :game-info="game"
-            />
-            <vi-card-compact
-              v-else-if="listDisplay == 3"
-              :game-info="game"
-            />
-          </li>
-        </vi-list>
-        <div
-          v-else-if="querySearched"
-          class="flex h-content w-full"
-        >
-          <p class="m-auto">No games found.</p>
-        </div>
+          <!-- Game cards. -->
+          <vi-card-grid
+            v-if="listDisplay == 1"
+            :game-info="game"
+            list-platform
+          />
+          <vi-card-list
+            v-else-if="listDisplay == 2"
+            :game-info="game"
+          />
+          <vi-card-compact
+            v-else-if="listDisplay == 3"
+            :game-info="game"
+          />
+        </li>
+      </vi-list>
+      <div
+        v-else-if="querySearched"
+        class="flex h-content w-full"
+      >
+        <p class="m-auto">No games found.</p>
       </div>
     </div>
   </div>

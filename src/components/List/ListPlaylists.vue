@@ -30,30 +30,25 @@
     </vi-nav-bar>
     <!-- Show playlists list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div
-        class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+      <vi-list
+        :list-display="2"
+        :list-remote-method="loadPlaylistNext"
       >
-        <vi-list
-          :list-display="2"
-          :list-remote-method="loadPlaylistNext"
+        <li
+          v-for="playlist in playlists"
+          :key="playlist._id"
+          :value="playlist._id"
+          @click="$router.push({ name: 'Playlist', params: { id: playlist._id } })"
         >
-          <li
-            v-for="playlist in playlists"
-            :key="playlist._id"
-            :value="playlist._id"
-            @click="$router.push({ name: 'Playlist', params: { id: playlist._id } })"
-          >
-            <!-- Playlist card. -->
-            <vi-card>
-              <div class="flex items-center p-4 space-x-2">
-                <h1 class="font-medium">{{ playlist.name }}</h1>
-                <h3 class="pt-0.5 text-sm">{{ playlist.games.length }} {{ playlist.games.length == 1 ? 'Title' : 'Titles' }}</h3>
-              </div>
-            </vi-card>
-          </li>
-        </vi-list>
-      </div>
+          <!-- Playlist card. -->
+          <vi-card>
+            <div class="flex items-center p-4 space-x-2">
+              <h1 class="font-medium">{{ playlist.name }}</h1>
+              <h3 class="pt-0.5 text-sm">{{ playlist.games.length }} {{ playlist.games.length == 1 ? 'Title' : 'Titles' }}</h3>
+            </div>
+          </vi-card>
+        </li>
+      </vi-list>
     </div>
   </div>
 </template>

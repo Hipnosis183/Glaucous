@@ -1,19 +1,24 @@
 <template>
   <div
-    ref="top"
-    class="h-px w-px"
-  />
-  <ul
-    class="grid"
-    :class="$store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'"
-    :style="listDisplay == 1 ? 'grid-template-columns: repeat(' + gridColumns  + ', minmax(0, 1fr))' : ''"
+    class="flex-1 overflow-x-hidden overflow-y-scroll"
+    :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1 spacing' : 'p-1 pr-0 small-scrollbar'"
   >
-    <slot />
-  </ul>
-  <div
-    ref="sentinel"
-    class="h-px w-px"
-  />
+    <div
+      ref="top"
+      class="h-px w-px"
+    />
+    <ul
+      class="grid"
+      :class="$store.getters.getSettingsListsContentSpacing ? 'gap-4' : 'gap-1'"
+      :style="listDisplay == 1 ? 'grid-template-columns: repeat(' + gridColumns  + ', minmax(0, 1fr))' : ''"
+    >
+      <slot />
+    </ul>
+    <div
+      ref="sentinel"
+      class="h-px w-px"
+    />
+  </div>
 </template>
 
 <script>
@@ -77,5 +82,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+/* Styling. */
+.spacing::-webkit-scrollbar-track-piece:start {
+  margin-top: 10px;
+}
+.spacing::-webkit-scrollbar-track-piece:end {
+  margin-bottom: 10px;
+}
 </style>

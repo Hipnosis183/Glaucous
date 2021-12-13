@@ -71,37 +71,32 @@
           v-if="queryResults.length > 0"
           class="flex flex-col max-h-results min-h-results overflow-hidden"
         >
-          <div
-            class="flex-1 no-scrollbar overflow-y-scroll"
-            :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1 pr-0'"
+          <vi-list-search
+            :list-display="$store.getters.getSettingsListsDisplayMode"
+            :list-length="queryResults.length"
+            :list-remote-method="querySearchNext"
           >
-            <vi-list-search
-              :list-display="$store.getters.getSettingsListsDisplayMode"
-              :list-length="queryResults.length"
-              :list-remote-method="querySearchNext"
+            <li
+              v-for="game in queryResults"
+              :key="game._id"
+              :value="game._id"
+              @click="gameOpen(game._id)"
             >
-              <li
-                v-for="game in queryResults"
-                :key="game._id"
-                :value="game._id"
-                @click="gameOpen(game._id)"
-              >
-                <!-- Game cards. -->
-                <vi-card-grid
-                  v-if="$store.getters.getSettingsListsDisplayMode == 1"
-                  :game-info="game"
-                />
-                <vi-card-list
-                  v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-                  :game-info="game"
-                />
-                <vi-card-compact
-                  v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
-                  :game-info="game"
-                />
-              </li>
-            </vi-list-search>
-          </div>
+              <!-- Game cards. -->
+              <vi-card-grid
+                v-if="$store.getters.getSettingsListsDisplayMode == 1"
+                :game-info="game"
+              />
+              <vi-card-list
+                v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
+                :game-info="game"
+              />
+              <vi-card-compact
+                v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
+                :game-info="game"
+              />
+            </li>
+          </vi-list-search>
         </div>
       </transition>
     </div>

@@ -74,33 +74,28 @@
     </vi-nav-bar>
     <!-- Show platforms list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div
-        class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+      <vi-list
+        :list-display="2"
+        :list-remote-method="loadPlatformNext"
       >
-        <vi-list
-          :list-display="2"
-          :list-remote-method="loadPlatformNext"
+        <li
+          v-for="platform in platform.platforms"
+          :key="platform._id"
+          :value="platform._id"
+          @click="$router.push({ name: platform.group ? 'PlatformsGroup' : 'Platform', params: { id: platform._id } })"
         >
-          <li
-            v-for="platform in platform.platforms"
-            :key="platform._id"
-            :value="platform._id"
-            @click="$router.push({ name: platform.group ? 'PlatformsGroup' : 'Platform', params: { id: platform._id } })"
-          >
-            <!-- Platform card. -->
-            <vi-card>
-              <div class="flex items-center p-4 space-x-2">
-                <h1 class="font-medium">{{ platform.name }}</h1>
-                <div class="pt-0.5 text-sm">
-                  <h3 v-if="platform.group">{{ platform.titles }} {{ platform.titles == 1 ? 'Platform' : 'Platforms' }}</h3>
-                  <h3 v-else>{{ platform.titles }} {{ platform.titles == 1 ? 'Title' : 'Titles' }}</h3>
-                </div>
+          <!-- Platform card. -->
+          <vi-card>
+            <div class="flex items-center p-4 space-x-2">
+              <h1 class="font-medium">{{ platform.name }}</h1>
+              <div class="pt-0.5 text-sm">
+                <h3 v-if="platform.group">{{ platform.titles }} {{ platform.titles == 1 ? 'Platform' : 'Platforms' }}</h3>
+                <h3 v-else>{{ platform.titles }} {{ platform.titles == 1 ? 'Title' : 'Titles' }}</h3>
               </div>
-            </vi-card>
-          </li>
-        </vi-list>
-      </div>
+            </div>
+          </vi-card>
+        </li>
+      </vi-list>
     </div>
   </div>
 </template>

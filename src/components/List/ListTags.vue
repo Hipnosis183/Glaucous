@@ -35,30 +35,25 @@
     </vi-nav-bar>
     <!-- Show tags list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div
-        class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+      <vi-list
+        :list-display="2"
+        :list-remote-method="loadTagsNext"
       >
-        <vi-list
-          :list-display="2"
-          :list-remote-method="loadTagsNext"
+        <li
+          v-for="tag in gameTags"
+          :key="tag._id"
+          :value="tag._id"
+          @click="$router.push({ name: 'Tag', params: { id: tag._id } })"
         >
-          <li
-            v-for="tag in gameTags"
-            :key="tag._id"
-            :value="tag._id"
-            @click="$router.push({ name: 'Tag', params: { id: tag._id } })"
-          >
-            <!-- Tag card. -->
-            <vi-card>
-              <div class="flex items-center p-4 space-x-2">
-                <h1 class="font-medium">{{ tag.name }}</h1>
-                <h3 class="pt-0.5 text-sm">{{ tag.games }} {{ tag.games == 1 ? 'Title' : 'Titles' }}</h3>
-              </div>
-            </vi-card>
-          </li>
-        </vi-list>
-      </div>
+          <!-- Tag card. -->
+          <vi-card>
+            <div class="flex items-center p-4 space-x-2">
+              <h1 class="font-medium">{{ tag.name }}</h1>
+              <h3 class="pt-0.5 text-sm">{{ tag.games }} {{ tag.games == 1 ? 'Title' : 'Titles' }}</h3>
+            </div>
+          </vi-card>
+        </li>
+      </vi-list>
     </div>
   </div>
 </template>

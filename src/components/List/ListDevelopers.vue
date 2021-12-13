@@ -37,30 +37,25 @@
     </vi-nav-bar>
     <!-- Show developers list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
-      <div
-        class="flex-1 overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4 pr-1' : 'p-1 pr-0 small-scrollbar'"
+      <vi-list
+        :list-display="2"
+        :list-remote-method="loadDevelopersNext"
       >
-        <vi-list
-          :list-display="2"
-          :list-remote-method="loadDevelopersNext"
+        <li
+          v-for="developer in developers"
+          :key="developer._id"
+          :value="developer._id"
+          @click="$router.push({ name: 'Developer', params: { id: developer._id } })"
         >
-          <li
-            v-for="developer in developers"
-            :key="developer._id"
-            :value="developer._id"
-            @click="$router.push({ name: 'Developer', params: { id: developer._id } })"
-          >
-            <!-- Developer card. -->
-            <vi-card>
-              <div class="flex items-center p-4 space-x-2">
-                <h1 class="font-medium">{{ developer.name }}</h1>
-                <h3 class="pt-0.5 text-sm">{{ developer.titles }} {{ developer.titles == 1 ? 'Title' : 'Titles' }}</h3>
-              </div>
-            </vi-card>
-          </li>
-        </vi-list>
-      </div>
+          <!-- Developer card. -->
+          <vi-card>
+            <div class="flex items-center p-4 space-x-2">
+              <h1 class="font-medium">{{ developer.name }}</h1>
+              <h3 class="pt-0.5 text-sm">{{ developer.titles }} {{ developer.titles == 1 ? 'Title' : 'Titles' }}</h3>
+            </div>
+          </vi-card>
+        </li>
+      </vi-list>
     </div>
   </div>
 </template>

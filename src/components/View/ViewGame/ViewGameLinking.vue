@@ -115,45 +115,40 @@
       v-else
       class="flex flex-col overflow-hidden"
     >
-      <div
-        class="flex-1 no-scrollbar overflow-y-scroll"
-        :class="$store.getters.getSettingsListsContentSpacing ? 'p-4' : 'p-1'"
+      <vi-list-dialog
+        v-if="linkedGames.length > 0"
+        :list-display="$store.getters.getSettingsListsDisplayMode"
+        :list-length="linkedGames.length"
       >
-        <vi-list-dialog
-          v-if="linkedGames.length > 0"
-          :list-display="$store.getters.getSettingsListsDisplayMode"
-          :list-length="linkedGames.length"
+        <li
+          v-for="game in linkedGames"
+          :key="game._id"
+          :value="game._id"
+          @click="$router.push({ name: 'Game', params: { id: game._id } })"
         >
-          <li
-            v-for="game in linkedGames"
-            :key="game._id"
-            :value="game._id"
-            @click="$router.push({ name: 'Game', params: { id: game._id } })"
-          >
-            <!-- Game cards. -->
-            <vi-card-grid
-              v-if="$store.getters.getSettingsListsDisplayMode == 1"
-              :game-info="game"
-            />
-            <vi-card-list
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
-              :game-info="game"
-            />
-            <vi-card-compact
-              v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
-              :game-info="game"
-            />
-          </li>
-        </vi-list-dialog>
-        <!-- No linked games dialog. -->
-        <vi-dialog-box
-          v-else
-          :overlay="false"
-          @accept="gameLinkingShow()"
-        >
-          No other platforms available.
-        </vi-dialog-box>
-      </div>
+          <!-- Game cards. -->
+          <vi-card-grid
+            v-if="$store.getters.getSettingsListsDisplayMode == 1"
+            :game-info="game"
+          />
+          <vi-card-list
+            v-else-if="$store.getters.getSettingsListsDisplayMode == 2"
+            :game-info="game"
+          />
+          <vi-card-compact
+            v-else-if="$store.getters.getSettingsListsDisplayMode == 3"
+            :game-info="game"
+          />
+        </li>
+      </vi-list-dialog>
+      <!-- No linked games dialog. -->
+      <vi-dialog-box
+        v-else
+        :overlay="false"
+        @accept="gameLinkingShow()"
+      >
+        No other platforms available.
+      </vi-dialog-box>
     </div>
   </vi-overlay>
 </template>
