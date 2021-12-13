@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- Navigation bar. -->
-    <vi-nav-bar nav-title="Recently Played">
+    <vi-nav-bar
+      nav-title="Recently Played"
+      :nav-subtitle="games.length + ' elements'"
+    >
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

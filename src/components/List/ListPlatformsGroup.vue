@@ -35,7 +35,10 @@
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :nav-title="platform.name">
+    <vi-nav-bar
+      :nav-title="platform.name"
+      :nav-subtitle="platform.platforms.length + ' elements'"
+    >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 space-x-1"

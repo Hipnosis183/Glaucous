@@ -24,7 +24,10 @@
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :nav-title="developer.name">
+    <vi-nav-bar
+      :nav-title="developer.name"
+      :nav-subtitle="developer.games.length + ' elements'"
+    >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 space-x-1"

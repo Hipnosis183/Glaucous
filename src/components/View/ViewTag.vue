@@ -17,7 +17,10 @@
       </vi-dialog-box>
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :nav-title="gameTag.name">
+    <vi-nav-bar
+      :nav-title="gameTag.name"
+      :nav-subtitle="gameTag.games.length + ' elements'"
+    >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 space-x-1"

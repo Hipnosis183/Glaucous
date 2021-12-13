@@ -8,7 +8,10 @@
       />
     </div>
     <!-- Navigation bar. -->
-    <vi-nav-bar nav-title="Developers">
+    <vi-nav-bar
+      nav-title="Developers"
+      :nav-subtitle="(developers ? developers.length : 0) + ' elements'"
+    >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2"

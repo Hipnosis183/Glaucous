@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- Navigation bar. -->
-    <vi-nav-bar :nav-title="$route.params.id + ($route.params.id == '1' ? ' Player' : ' Players') + ' Games'">
+    <vi-nav-bar
+      :nav-title="$route.params.id + ($route.params.id == '1' ? ' Player' : ' Players') + ' Games'"
+      :nav-subtitle="games.length + ' elements'"
+    >
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
         <vi-input

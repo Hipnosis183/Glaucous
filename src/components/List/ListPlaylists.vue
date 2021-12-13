@@ -6,7 +6,10 @@
       @close="createPlaylistClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar nav-title="Playlists">
+    <vi-nav-bar
+      nav-title="Playlists"
+      :nav-subtitle="(playlists ? playlists.length : 0) + ' elements'"
+    >
       <div class="flex items-center ml-2">
         <!-- Open create playlist dialog. -->
         <vi-button-nb

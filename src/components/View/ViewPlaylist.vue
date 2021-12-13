@@ -15,7 +15,10 @@
       Delete playlist <b>'{{ playlist.name }}'</b> ?
     </vi-dialog-box>
     <!-- Navigation bar. -->
-    <vi-nav-bar :nav-title="playlist.name">
+    <vi-nav-bar
+      :nav-title="playlist.name"
+      :nav-subtitle="playlist.games.length + ' elements'"
+    >
       <div class="flex items-center ml-2 space-x-1">
         <!-- Open edit playlist dialog. -->
         <vi-button-nb

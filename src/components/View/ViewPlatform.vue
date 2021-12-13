@@ -31,7 +31,10 @@
       @close="settingsPlatformClose()"
     />
     <!-- Navigation bar. -->
-    <vi-nav-bar :nav-title="platform.name">
+    <vi-nav-bar
+      :nav-title="platform.name"
+      :nav-subtitle="platform.games.length + ' elements'"
+    >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
         class="flex items-center ml-2 -mr-1 space-x-1"

@@ -7,7 +7,20 @@
       <!-- Contents. -->
       <slot />
       <div
-        v-if="navTitle"
+        v-if="navSubtitle"
+        class="inline-flex w-full"
+      >
+        <!-- Horizontal padding. -->
+        <div class="w-full" />
+        <div class="flex flex-col mr-4 my-auto text-right whitespace-nowrap">
+          <!-- Page title. -->
+          <p class="-mb-1 text-lg">{{ navTitle }}</p>
+          <!-- Page subtitle. -->
+          <p class="text-xs">{{ navSubtitle }}</p>
+        </div>
+      </div>
+      <div
+        v-else-if="navTitle"
         class="inline-flex w-full"
       >
         <!-- Horizontal padding. -->
@@ -23,7 +36,8 @@
 export default {
   name: 'ViNavBar',
   props: {
-    navTitle: { type: String }
+    navTitle: { type: String },
+    navSubtitle: { type: String }
   }
 }
 </script>
