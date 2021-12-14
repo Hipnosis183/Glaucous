@@ -7,6 +7,14 @@
   >
     Select a developer first.
   </vi-dialog-box>
+  <!-- Collision error dialog. -->
+  <vi-dialog-box
+    v-show="collisionErrorDialog"
+    @accept="collisionErrorShow()"
+    class="z-20"
+  >
+    The selected developer is already in the indicated list.
+  </vi-dialog-box>
   <!-- Expanded developers management dialog. -->
   <vi-dialog
     v-show="expandedDevelopersDialog"
@@ -161,6 +169,10 @@ export default {
       if (!querySelected.value) {
         validationErrorShow(); return
       }
+      // Check for developers already in the list.
+      if (developersStore.value.includes(querySelected.value)) {
+        collisionErrorShow(); return
+      }
       // Save developer into the store.
       store.commit('setGamePlatformDevelopersAdd', querySelected.value)
       // Reset developer input.
@@ -202,6 +214,11 @@ export default {
       // Toggle expanded developers dialog.
       expandedDevelopersDialog.value = !expandedDevelopersDialog.value
     }
+    let collisionErrorDialog = ref(false)
+    const collisionErrorShow = () => {
+      // Toggle collision error dialog.
+      collisionErrorDialog.value = !collisionErrorDialog.value
+    }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {
       // Toggle validation error dialog.
@@ -215,6 +232,10 @@ export default {
       // Validate required fields.
       if (!querySelected.value) {
         validationErrorShow(); return
+      }
+      // Check for publishers already in the list.
+      if (publishersStore.value.includes(querySelected.value)) {
+        collisionErrorShow(); return
       }
       // Save publisher into the store.
       store.commit('setGamePlatformPublishersAdd', querySelected.value)
@@ -253,7 +274,7 @@ export default {
         getDeveloperByName(query)
           .then((res) => {
             // Store results.
-            queryResults.value = res.filter((res) => !developersStore.value.includes(res._id))
+            queryResults.value = res
           })
       } else {
         // Keep results empty.
@@ -264,6 +285,8 @@ export default {
     return {
       addDevelopers,
       addPublishers,
+      collisionErrorDialog,
+      collisionErrorShow,
       developers,
       developersStore,
       expandedDevelopersClose,
