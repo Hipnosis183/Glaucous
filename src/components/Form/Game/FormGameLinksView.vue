@@ -88,10 +88,12 @@ export default {
         // Avoid reactivity to alter the original reference values.
         let linkStore = {
           name: link.value.name,
-          url: link.value.url
+          url: link.value.url.replace(/www\./, '')
         }
         // Save link into the store.
-        store.commit('set' + props.gameType + 'LinksAdd', linkStore, sortLinksList)
+        store.commit('set' + props.gameType + 'LinksAdd', linkStore)
+        let linksStore = gameLinks.value
+        store.commit('set' + props.gameType + 'Links', linksStore.sort(sortLinksList))
         // Reset link input.
         link.value.name = null
         link.value.url = null
@@ -105,7 +107,7 @@ export default {
     }
     const sortLinksList = (a, b) => {
       // Compare function that returns natural ordered elements.
-      return a.url.localeCompare(b.url, navigator.language, { numeric: true, ignorePunctuation: true })
+      return a.url.toString().localeCompare(b.url.toString(), navigator.language, { numeric: true, ignorePunctuation: true })
     }
     let validationErrorDialog = ref(false)
     const validationErrorShow = () => {

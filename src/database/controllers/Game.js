@@ -136,6 +136,8 @@ async function createGamePlatform(req, id) {
     })
     // Save model to database.
     await GamePlatform.save()
+        // Store platform id.
+        .then((res) => gamePlatform = res._id)
 }
 
 // Create a specific region for a determined game.

@@ -809,9 +809,8 @@ export default createStore({
     setGamePlatformLinks(state, data) {
       state.gameForm.gamePlatform.links = data
     },
-    setGamePlatformLinksAdd(state, data, sort) {
+    setGamePlatformLinksAdd(state, data) {
       state.gameForm.gamePlatform.links.push(data)
-      state.gameForm.gamePlatform.links.sort(sort)
     },
     setGamePlatformLinksRemove(state, data) {
       state.gameForm.gamePlatform.links.splice(data, 1)
@@ -888,9 +887,8 @@ export default createStore({
     setGameRegionLinks(state, data) {
       state.gameForm.gameRegion.links = data
     },
-    setGameRegionLinksAdd(state, data, sort) {
+    setGameRegionLinksAdd(state, data) {
       state.gameForm.gameRegion.links.push(data)
-      state.gameForm.gameRegion.links.sort(sort)
     },
     setGameRegionLinksRemove(state, data) {
       state.gameForm.gameRegion.links.splice(data, 1)
@@ -943,9 +941,8 @@ export default createStore({
     setGameVersionLinks(state, data) {
       state.gameForm.gameVersion.links = data
     },
-    setGameVersionLinksAdd(state, data, sort) {
+    setGameVersionLinksAdd(state, data) {
       state.gameForm.gameVersion.links.push(data)
-      state.gameForm.gameVersion.links.sort(sort)
     },
     setGameVersionLinksRemove(state, data) {
       state.gameForm.gameVersion.links.splice(data, 1)
