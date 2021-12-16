@@ -99,6 +99,7 @@
 <script>
 // Import Vue functions.
 import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 // Import form components.
 import ViewSettingsEmulator from '../ViewSettings/ViewSettingsEmulator.vue'
@@ -112,12 +113,17 @@ export default {
     fullCommand: { type: String },
     iconLarge: { type: String }
   },
-  setup(props, { emit }) {
+  setup() {
     // Instantiate Vue elements.
+    const route = useRoute()
     const store = useStore()
 
     // Initialize the current game settings on the store.
-    onMounted(() => { store.commit('setGameStore') })
+    onMounted(() => {
+      if (store.state.gameSelected.gamePlatform == route.params.id) {
+        store.commit('setGameStore')
+      }
+    })
 
     // Manage settings in the store.
     const gamePath = computed({
