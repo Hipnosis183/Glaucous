@@ -607,16 +607,19 @@ export async function getGame(req) {
         })
 }
 
+// Global games list, to keep consistency with paginated queries.
+let gamePlatformsId = []
 // Get all games.
 export async function getGamesAll(index, count, query, sort) {
     // Configure the search query.
     const search = query ? query : {}
     const sorting = sort ? 'title' : ''
+    // Clear previous games list when querying for a different list.
+    if (index == 0) { gamePlatformsId = [] }
     // Search game regions first to be able to sort elements by title.
     return await GameRegionModel.find(search, { skip: index, limit: count, sort: sorting, populate: false })
         .then(async (res) => {
             let gamePlatforms = []
-            let gamePlatformsId = []
             for (let gameRegion of res) {
                 // Populate the required game platform data for the region.
                 await GamePlatformModel.findOne({ gameRegions: gameRegion._id }, { populate: true })
