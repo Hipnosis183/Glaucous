@@ -26,7 +26,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       :nav-title="developer.name"
-      :nav-subtitle="developer.games.length + ' elements'"
+      :nav-subtitle="developer.count + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -106,7 +106,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import database controllers functions.
 import { getDeveloper, deleteDeveloper } from '@/database/controllers/Developer'
-import { getGamesDeveloper } from '@/database/controllers/Game'
+import { getGamesDeveloper, getGamesDeveloperCount } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import EditDeveloper from '@/components/Edit/EditDeveloper.vue'
@@ -131,6 +131,7 @@ export default {
     // Load and manage developer information.
     let developer = ref({
       name: null,
+      count: null,
       games: []
     })
     const loadDeveloper = () => {
@@ -146,6 +147,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getGamesDeveloperCount(route.params.id)
+        .then((res) => { developer.value.count = res })
     }
     const loadDeveloperNext = () => {
       // Check loaded games to avoid duplication.

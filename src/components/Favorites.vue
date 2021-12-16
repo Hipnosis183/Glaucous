@@ -3,7 +3,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       nav-title="Favorites"
-      :nav-subtitle="games.length + ' elements'"
+      :nav-subtitle="favorites.count + ' elements'"
     >
       <!-- Search bar. -->
       <div class="flex-shrink-0 ml-2 my-auto w-80">
@@ -21,12 +21,12 @@
     <!-- Show games list. -->
     <div class="flex flex-col max-h-content min-h-content overflow-hidden">
       <vi-list
-        v-if="games.length > 0"
+        v-if="favorites.games.length > 0"
         :list-display="$store.getters.getSettingsListsDisplayMode"
         :list-remote-method="loadGamesNext"
       >
         <li
-          v-for="game in games"
+          v-for="game in favorites.games"
           :key="game._id"
           :value="game._id"
           @click="$router.push({ name: 'Game', params: { id: game._id } })"
@@ -60,7 +60,7 @@
 // Import Vue functions.
 import { onMounted, ref } from 'vue'
 // Import database controllers functions.
-import { getGamesFavorited } from '@/database/controllers/Game'
+import { getGamesFavorited, getGamesFavoritedCount } from '@/database/controllers/Game'
 // Import form components.
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
 
@@ -74,7 +74,10 @@ export default {
     onMounted(() => { loadGames() })
 
     // Load games list.
-    let games = ref([])
+    let favorites = ref({
+      count: null,
+      games: []
+    })
     let paginationIndex = ref(0)
     const paginationCount = 50
     const loadGames = () => {
@@ -83,18 +86,21 @@ export default {
       // Get first batch of games.
       getGamesFavorited(paginationIndex.value, paginationCount)
         .then((res) => {
-          games.value = res
+          favorites.value.games = res
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getGamesFavoritedCount()
+        .then((res) => { favorites.value.count = res })
     }
     const loadGamesNext = () => {
       // Check loaded games to avoid duplication.
-      if (games.value) {
+      if (favorites.value.games) {
         // Get next batch of games.
         getGamesFavorited(paginationIndex.value, paginationCount)
           .then((res) => {
-            games.value = games.value.concat(res)
+            favorites.value.games = favorites.value.games.concat(res)
             // Set next pagination index.
             paginationIndex.value += paginationCount
           })
@@ -114,7 +120,7 @@ export default {
         // Search for games matching the query.
         getGamesFavorited(paginationIndex.value, paginationCount, query)
           .then((res) => {
-            games.value = res
+            favorites.value.games = res
             // Set next pagination index.
             paginationIndex.value += paginationCount
           })
@@ -132,7 +138,7 @@ export default {
     }
 
     return {
-      games,
+      favorites,
       loadGamesNext,
       queryInput,
       querySearched,

@@ -17,7 +17,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       :nav-title="playlist.name"
-      :nav-subtitle="playlist.games.length + ' elements'"
+      :nav-subtitle="playlist.count + ' elements'"
     >
       <div class="flex items-center ml-2 space-x-1">
         <!-- Open edit playlist dialog. -->
@@ -89,7 +89,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import database controllers functions.
 import { getPlaylist, deletePlaylist } from '@/database/controllers/User'
-import { getGamesPlaylist } from '@/database/controllers/Game'
+import { getGamesPlaylist, getGamesPlaylistCount } from '@/database/controllers/Game'
 // Import form components.
 import EditPlaylist from '@/components/Edit/EditPlaylist.vue'
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
@@ -112,6 +112,7 @@ export default {
     // Load and manage playlist information.
     let playlist = ref({
       name: null,
+      count: null,
       games: []
     })
     const loadPlaylist = () => {
@@ -127,6 +128,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getGamesPlaylistCount(route.params.id)
+        .then((res) => { playlist.value.count = res })
     }
     const loadPlaylistNext = () => {
       // Check loaded games to avoid duplication.

@@ -69,7 +69,7 @@ export default {
     watch(() => isIntersecting.value, (value) => {
       // Execute remote method when reaching the end of the list.
       if (value && top.value.getBoundingClientRect().top < 0) {
-        props.listRemoteMethod()
+        if (props.listRemoteMethod) { props.listRemoteMethod() }
       }
     })
 

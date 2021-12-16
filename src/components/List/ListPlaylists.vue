@@ -8,7 +8,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       nav-title="Playlists"
-      :nav-subtitle="(playlists ? playlists.length : 0) + ' elements'"
+      :nav-subtitle="playlistsCount + ' elements'"
     >
       <div class="flex items-center ml-2">
         <!-- Open create playlist dialog. -->
@@ -58,7 +58,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getPlaylists, getPlaylistsSearch } from '@/database/controllers/User'
+import { getPlaylists, getPlaylistsCount, getPlaylistsSearch } from '@/database/controllers/User'
 // Import form components.
 import CreatePlaylist from '@/components/Create/CreatePlaylist.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
@@ -78,6 +78,7 @@ export default {
 
     // Load playlists list.
     let playlists = ref(null)
+    let playlistsCount = ref(null)
     let paginationIndex = ref(0)
     const paginationCount = 50
     const loadPlaylists = () => {
@@ -90,6 +91,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get playlists count.
+      getPlaylistsCount()
+        .then((res) => { playlistsCount.value = res })
     }
     const loadPlaylistNext = () => {
       // Check loaded playlists to avoid duplication.
@@ -150,6 +154,7 @@ export default {
     }
 
     return {
+      playlistsCount,
       createPlaylistClose,
       createPlaylistDialog,
       createPlaylistOpen,

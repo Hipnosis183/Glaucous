@@ -77,8 +77,9 @@ export async function getFavorite(req) {
 
 // Get all favorites.
 export async function getFavorites(index, count) {
-    return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['favorites'], populate: false })
+    return await UserModel.findOne({ _id: userId }, { select: ['favorites'], populate: false })
         .then((res) => {
+            if (count) { res.favorites = res.favorites.slice(index, index + count) }
             return res.favorites
         })
 }
@@ -117,9 +118,11 @@ export async function removeRecent(req) {
 // Get all recently played games.
 export async function getRecent(index, count) {
     await ensureUser()
-    return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['recent'], populate: false })
+    return await UserModel.findOne({ _id: userId }, { select: ['recent'], populate: false })
         .then((res) => {
-            return res.recent.reverse()
+            res.recent = res.recent.reverse()
+            if (count) { res.recent = res.recent.slice(index, index + count) }
+            return res.recent
         })
 }
 
@@ -246,9 +249,31 @@ export async function getPlaylist(req) {
 // Get all playlists.
 export async function getPlaylists(index, count) {
     await ensureUser()
+    return await UserModel.findOne({ _id: userId }, { select: ['playlists'] })
+        .then((res) => {
+            res.playlists = res.playlists.sort(sortUserList)
+            if (count) { res.playlists = res.playlists.slice(index, index + count) }
+            return res.playlists
+        })
+}
+
+// Get the count of all playlists.
+export async function getPlaylistsCount() {
+    return await UserModel.findOne({ _id: userId }, { select: ['playlists'], populate: false })
+        .then((res) => {
+            return res.playlists.length
+        })
+}
+
+// Get all playlists matching a given search query.
+export async function getPlaylistsSearch(index, count, query) {
+    await ensureUser()
+    const search = new RegExp(normalize(query), 'i')
+    // Get all playlists.
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
         .then((res) => {
-            return res.playlists.sort(sortUserList)
+            // Search playlists matching the query, case insensitive.
+            return res.playlists.filter((res) => search.test(res.name)).sort(sortUserList)
         })
 }
 
@@ -267,18 +292,6 @@ export async function getGamePlaylists(req) {
             }
             // Return playlists.
             return gamePlaylists.sort(sortUserList)
-        })
-}
-
-// Get all playlists matching a given search query.
-export async function getPlaylistsSearch(index, count, query) {
-    await ensureUser()
-    const search = new RegExp(normalize(query), 'i')
-    // Get all playlists.
-    return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
-        .then((res) => {
-            // Search playlists matching the query, case insensitive.
-            return res.playlists.filter((res) => search.test(res.name)).sort(sortUserList)
         })
 }
 
@@ -349,21 +362,31 @@ export async function getTag(req) {
 }
 
 // Get all or a specified group of tags.
-export async function getTags(req) {
+export async function getTags(req, index, count) {
     await ensureUser()
     return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
         .then((res) => {
+            res.tags = res.tags.sort(sortUserList)
             if (req) { res.tags = res.tags.filter((tag) => req.includes(tag._id)) }
-            return res.tags.sort(sortUserList)
+            if (count) { res.tags = res.tags.slice(index, index + count) }
+            return res.tags
+        })
+}
+
+// Get the count of all game tags.
+export async function getTagsCount() {
+    return await UserModel.findOne({ _id: userId }, { select: ['tags'], populate: false })
+        .then((res) => {
+            return res.tags.length
         })
 }
 
 // Get all tags matching a given search query.
-export async function getTagsSearch(index, count, query) {
+export async function getTagsSearch(query) {
     await ensureUser()
     const search = new RegExp(normalize(query), 'i')
     // Get all tags.
-    return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['tags'] })
+    return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
         .then((res) => {
             // Search tags matching the query, case insensitive.
             return res.tags.filter((res) => search.test(res.name)).sort(sortUserList)

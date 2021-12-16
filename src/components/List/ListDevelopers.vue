@@ -10,7 +10,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       nav-title="Developers"
-      :nav-subtitle="(developers ? developers.length : 0) + ' elements'"
+      :nav-subtitle="developersCount + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -65,7 +65,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getDevelopersAll, getDevelopersAllSearch } from '@/database/controllers/Developer'
+import { getDevelopersCount, getDevelopersAll, getDevelopersAllSearch } from '@/database/controllers/Developer'
 // Import form components.
 import CreateDeveloper from '@/components/Create/CreateDeveloper.vue'
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
@@ -85,6 +85,7 @@ export default {
 
     // Load developers list.
     let developers = ref(null)
+    let developersCount = ref(null)
     let paginationIndex = ref(0)
     const paginationCount = 50
     const loadDevelopers = () => {
@@ -97,6 +98,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getDevelopersCount()
+        .then((res) => { developersCount.value = res })
     }
     const loadDevelopersNext = () => {
       // Check loaded developers to avoid duplication.
@@ -161,6 +165,7 @@ export default {
       createDeveloperDialog,
       createDeveloperOpen,
       developers,
+      developersCount,
       loadDevelopersNext,
       queryInput,
       querySearched,

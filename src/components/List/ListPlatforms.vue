@@ -10,7 +10,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       nav-title="Platforms"
-      :nav-subtitle="(platforms ? platforms.length : 0) + ' elements'"
+      :nav-subtitle="platformsCount + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -68,7 +68,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getPlatforms, getPlatformsAllSearch } from '@/database/controllers/Platform'
+import { getPlatforms, getPlatformsCount, getPlatformsAllSearch } from '@/database/controllers/Platform'
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
@@ -88,6 +88,7 @@ export default {
 
     // Load platforms list.
     let platforms = ref(null)
+    let platformsCount = ref(null)
     let paginationIndex = ref(0)
     const paginationCount = 50
     const loadPlatforms = () => {
@@ -100,6 +101,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get playlists count.
+      getPlatformsCount()
+        .then((res) => { platformsCount.value = res })
     }
     const loadPlatformsNext = () => {
       // Check loaded platforms to avoid duplication.
@@ -165,6 +169,7 @@ export default {
       createPlatformOpen,
       loadPlatformsNext,
       platforms,
+      platformsCount,
       queryInput,
       querySearched,
       querySearch

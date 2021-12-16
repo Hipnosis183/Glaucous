@@ -10,7 +10,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       nav-title="Games"
-      :nav-subtitle="(games ? games.length : 0) + ' elements'"
+      :nav-subtitle="gamesCount + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -78,7 +78,7 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getGamesAll, getGamesAllSearch } from '@/database/controllers/Game'
+import { getGamesAll, getGamesAllCount, getGamesAllSearch } from '@/database/controllers/Game'
 // Import form components.
 import CreateGamePlatform from '@/components/Create/CreateGamePlatform.vue'
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
@@ -98,6 +98,7 @@ export default {
 
     // Load games list.
     let games = ref([])
+    let gamesCount = ref(null)
     let paginationIndex = ref(0)
     const paginationCount = 50
     const loadGames = () => {
@@ -110,6 +111,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getGamesAllCount()
+        .then((res) => { gamesCount.value = res })
     }
     const loadGamesNext = () => {
       // Check loaded games to avoid duplication.
@@ -175,6 +179,7 @@ export default {
       createPlatformDialog,
       createPlatformOpen,
       games,
+      gamesCount,
       loadGamesNext,
       queryInput,
       querySearched,

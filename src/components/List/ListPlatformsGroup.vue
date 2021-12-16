@@ -37,7 +37,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       :nav-title="platform.name"
-      :nav-subtitle="platform.platforms.length + ' elements'"
+      :nav-subtitle="platform.count + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -106,7 +106,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { deletePlatform, getPlatform, getPlatformsGroup, getPlatformsGroupAllSearch } from '@/database/controllers/Platform'
+import { deletePlatform, getPlatform, getPlatformsGroup, getPlatformsGroupCount, getPlatformsGroupAllSearch } from '@/database/controllers/Platform'
 // Import form components.
 import CreatePlatform from '@/components/Create/CreatePlatform.vue'
 import EditPlatform from '@/components/Edit/EditPlatform.vue'
@@ -132,6 +132,7 @@ export default {
     let platform = ref({
       name: null,
       parent: null,
+      count: null,
       platforms: []
     })
     let paginationIndex = ref(0)
@@ -152,6 +153,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getPlatformsGroupCount(route.params.id)
+        .then((res) => { platform.value.count = res })
     }
     const loadPlatformNext = () => {
       // Check loaded platforms to avoid duplication.

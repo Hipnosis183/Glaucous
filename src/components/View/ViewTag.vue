@@ -19,7 +19,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       :nav-title="gameTag.name"
-      :nav-subtitle="gameTag.games.length + ' elements'"
+      :nav-subtitle="gameTag.count + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -94,7 +94,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 // Import database controllers functions.
 import { getTag, deleteTag } from '@/database/controllers/User'
-import { getGamesTag } from '@/database/controllers/Game'
+import { getGamesTag, getGamesTagCount } from '@/database/controllers/Game'
 // Import form components.
 import EditTag from '@/components/Edit/EditTag.vue'
 import ListSettings from '@/components/List/ListSettings/ListSettings.vue'
@@ -117,6 +117,7 @@ export default {
     // Load and manage tag information.
     let gameTag = ref({
       name: null,
+      count: null,
       games: []
     })
     const loadTag = () => {
@@ -132,6 +133,9 @@ export default {
           // Set next pagination index.
           paginationIndex.value += paginationCount
         })
+      // Get games count.
+      getGamesTagCount(route.params.id)
+        .then((res) => { gameTag.value.count = res })
     }
     const loadTagNext = () => {
       // Check loaded games to avoid duplication.

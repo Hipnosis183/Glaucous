@@ -1,6 +1,6 @@
 import PlatformModel from '@/database/models/Platform'
 import { generateID, connectDatastore } from '@/database/datastore'
-import { getGamePlatformCountP, deleteGamesPlatform } from './Game'
+import { getGamesPlatformCount, deleteGamesPlatform } from './Game'
 
 import { normalize } from '@/utils/normalize'
 
@@ -40,11 +40,6 @@ export async function deletePlatform(req) {
 // Search for a specific platform.
 export async function getPlatform(req) {
     return await PlatformModel.findOne({ _id: req })
-}
-
-// Get the count of platforms belonging to a specific group.
-export async function getPlatformGroupCount(req) {
-    return await PlatformModel.count({ parent: req })
 }
 
 // Search for a specific platform by name.
@@ -90,6 +85,11 @@ export async function getPlatforms(index, count) {
         })
 }
 
+// Get the count of all platforms.
+export async function getPlatformsCount() {
+    return await PlatformModel.count({ parent: { $exists: false } }, { populate: false })
+}
+
 // Search for all platforms from a specific group.
 export async function getPlatformsGroup(req, index, count) {
     return await PlatformModel.find({ parent: req }, { skip: index, limit: count, sort: 'name' })
@@ -98,16 +98,21 @@ export async function getPlatformsGroup(req, index, count) {
         })
 }
 
+// Get the count of all platforms from a specific group.
+export async function getPlatformsGroupCount(req) {
+    return await PlatformModel.count({ parent: req }, { populate: false })
+}
+
 // Get title/platform count for each platform/group given.
 async function getPlatformCount(req) {
     for (let platform of req) {
         if (platform.group) {
             // Get and add platforms count to the object.
-            await getPlatformGroupCount(platform._id)
+            await getPlatformsGroupCount(platform._id)
                 .then((count) => { platform.titles = count })
         } else {
             // Get and add titles count to the object.
-            await getGamePlatformCountP(platform._id)
+            await getGamesPlatformCount(platform._id)
                 .then((count) => { platform.titles = count })
         }
     }

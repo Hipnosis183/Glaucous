@@ -10,7 +10,7 @@
     <!-- Navigation bar. -->
     <vi-nav-bar
       nav-title="Tags"
-      :nav-subtitle="(gameTags ? gameTags.length : 0) + ' elements'"
+      :nav-subtitle="gameTagsCount + ' elements'"
     >
       <div
         v-if="$store.getters.getSettingsGeneralEditMode"
@@ -63,8 +63,8 @@
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 // Import database controllers functions.
-import { getGamePlatformCountT } from '@/database/controllers/Game'
-import { getTags, getTagsSearch } from '@/database/controllers/User'
+import { getGamesTagCount } from '@/database/controllers/Game'
+import { getTags, getTagsCount, getTagsSearch } from '@/database/controllers/User'
 // Import form components.
 import CreateTag from '@/components/Create/CreateTag.vue'
 import SettingsLists from '@/components/Settings/SettingsLists.vue'
@@ -84,32 +84,41 @@ export default {
 
     // Load tags list.
     let gameTags = ref([])
+    let gameTagsCount = ref(null)
     let paginationIndex = ref(0)
     const paginationCount = 50
     const loadTags = () => {
       // Ensure pagination index is reset.
       paginationIndex.value = 0
       // Get first batch of tags.
-      getTags(paginationIndex.value, paginationCount)
+      getTags(false, paginationIndex.value, paginationCount)
         .then(async (res) => {
           gameTags.value = res
           // Set next pagination index.
           paginationIndex.value += paginationCount
           // Get game count for each tag.
           for (let [i, tag] of res.entries()) {
-            gameTags.value[i].games = await getGamePlatformCountT(tag._id)
+            gameTags.value[i].games = await getGamesTagCount(tag._id)
           }
         })
+      // Get playlists count.
+      getTagsCount()
+        .then((res) => { gameTagsCount.value = res })
     }
     const loadTagsNext = () => {
       // Check loaded tags to avoid duplication.
       if (gameTags.value) {
         // Get next batch of tags.
-        getTags(paginationIndex.value, paginationCount)
-          .then((res) => {
+        getTags(false, paginationIndex.value, paginationCount)
+          .then(async (res) => {
             gameTags.value = gameTags.value.concat(res)
             // Set next pagination index.
             paginationIndex.value += paginationCount
+            // Get game count for each tag.
+            for (let [i, tag] of res.entries()) {
+              let index = paginationIndex.value - paginationCount + i
+              gameTags.value[index].games = await getGamesTagCount(tag._id)
+            }
           })
       }
     }
@@ -164,6 +173,7 @@ export default {
       createTagDialog,
       createTagOpen,
       gameTags,
+      gameTagsCount,
       loadTagsNext,
       queryInput,
       querySearched,

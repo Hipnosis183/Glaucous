@@ -550,21 +550,6 @@ export async function getGamePlatform(req) {
     return await GamePlatformModel.findOne({ _id: req }, { populate: false })
 }
 
-// Get the count of game platforms belonging to a specific platform.
-export async function getGamePlatformCountP(req) {
-    return await GamePlatformModel.count({ platform: req }, { populate: false })
-}
-
-// Get the count of game platforms belonging to a specific developer.
-export async function getGamePlatformCountD(req) {
-    return await GamePlatformModel.count({ developers: req }, { populate: false })
-}
-
-// Get the count of game platforms containing a specific tag.
-export async function getGamePlatformCountT(req) {
-    return await GamePlatformModel.count({ gameTags: req }, { populate: false })
-}
-
 // Get a specific game region.
 export async function getGameRegion(req) {
     return await GameRegionModel.findOne({ _id: req }, { populate: true })
@@ -609,6 +594,7 @@ export async function getGame(req) {
 
 // Global games list, to keep consistency with paginated queries.
 let gamePlatformsId = []
+
 // Get all games.
 export async function getGamesAll(index, count, query, sort) {
     // Configure the search query.
@@ -633,6 +619,11 @@ export async function getGamesAll(index, count, query, sort) {
             }
             return gamePlatforms
         })
+}
+
+// Get the count of all games.
+export async function getGamesAllCount() {
+    return await GamePlatformModel.count({}, { populate: false })
 }
 
 // Get all games matching a given search query.
@@ -666,6 +657,11 @@ export async function getGamesPlatform(req, index, count, query) {
         })
 }
 
+// Get the count of game platforms containing a specific platform.
+export async function getGamesPlatformCount(req) {
+    return await GamePlatformModel.count({ platform: req }, { populate: false })
+}
+
 // Get all games by a specific developer.
 export async function getGamesDeveloper(req, index, count, query) {
     let gameRegions = []
@@ -687,6 +683,11 @@ export async function getGamesDeveloper(req, index, count, query) {
         })
 }
 
+// Get the count of game platforms containing a specific developer.
+export async function getGamesDeveloperCount(req) {
+    return await GamePlatformModel.count({ $or: [{ developers: req }, { publishers: req }] }, { populate: false })
+}
+
 // Get all games by a specific amount of players.
 export async function getGamesPlayers(req, index, count, query) {
     let gameRegions = []
@@ -706,6 +707,11 @@ export async function getGamesPlayers(req, index, count, query) {
             // Get all game regions for the selected platform.
             return await getGamesAll(index, count, querySearch, true)
         })
+}
+
+// Get the count of game platforms containing a specific amount of players.
+export async function getGamesPlayersCount(req) {
+    return await GamePlatformModel.count({ numberPlayers: req }, { populate: false })
 }
 
 let platforms = []
@@ -850,11 +856,17 @@ export async function getGamesFavorited(index, count, query) {
         })
 }
 
-// Get all favorited games.
+// Get the count of favorited games.
+export async function getGamesFavoritedCount() {
+    const gamesFavorited = await getFavorites()
+    return await GamePlatformModel.count({ _id: { $in: gamesFavorited } }, { populate: false })
+}
+
+// Get all recent games.
 export async function getGamesRecent(index, count, query) {
     let gameRegions = []
     const gamesRecent = await getRecent()
-    // Search all favorited game platforms.
+    // Search all recent game platforms.
     return await GamePlatformModel.find({ _id: { $in: gamesRecent } }, { populate: false, select: ['gameRegions'] })
         .then(async (res) => {
             for (let gamePlatform of res) {
@@ -867,9 +879,15 @@ export async function getGamesRecent(index, count, query) {
             const search = new RegExp(normalize(query), 'i')
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
-            // Get all favorited games.
+            // Get all recent games.
             return await getGamesAll(index, count, querySearch)
         })
+}
+
+// Get the count of recent games.
+export async function getGamesRecentCount() {
+    const gamesRecent = await getRecent()
+    return await GamePlatformModel.count({ _id: { $in: gamesRecent } }, { populate: false })
 }
 
 // Get all games by a specific playlist.
@@ -894,6 +912,12 @@ export async function getGamesPlaylist(req, index, count, query) {
         })
 }
 
+// Get the count of game platforms containing a specific playlist.
+export async function getGamesPlaylistCount(req) {
+    const gamesPlaylist = await getPlaylist(req)
+    return await GamePlatformModel.count({ _id: { $in: gamesPlaylist.games } }, { populate: false })
+}
+
 // Get all games by a specific tag.
 export async function getGamesTag(req, index, count, query) {
     let gameRegions = []
@@ -913,6 +937,11 @@ export async function getGamesTag(req, index, count, query) {
             // Get all playlist games.
             return await getGamesAll(index, count, querySearch, true)
         })
+}
+
+// Get the count of game platforms containing a specific tag.
+export async function getGamesTagCount(req) {
+    return await GamePlatformModel.count({ gameTags: req }, { populate: false })
 }
 
 // Get cover image for a specific game.

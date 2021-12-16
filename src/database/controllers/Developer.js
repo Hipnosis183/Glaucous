@@ -1,6 +1,6 @@
 import DeveloperModel from '@/database/models/Developer'
 import { generateID, connectDatastore } from '@/database/datastore'
-import { getGamePlatformCountD, deleteGamesDeveloper } from './Game'
+import { getGamesDeveloperCount, deleteGamesDeveloper } from './Game'
 
 import { normalize } from '@/utils/normalize'
 
@@ -47,7 +47,7 @@ export async function getDeveloperByName(query) {
 async function getDeveloperCount(req) {
     for (let developer of req) {
         // Get and add titles count to the object.
-        await getGamePlatformCountD(developer._id)
+        await getGamesDeveloperCount(developer._id)
             .then((count) => { developer.titles = count })
     }
     // Return object.
@@ -57,6 +57,11 @@ async function getDeveloperCount(req) {
 // Get a specified group of developers.
 export async function getDevelopers(req) {
     return await DeveloperModel.find({ _id: { $in: req } }, { sort: 'name' })
+}
+
+// Get the count of all developers.
+export async function getDevelopersCount() {
+    return await DeveloperModel.count({}, { populate: false })
 }
 
 // Search for all developers.

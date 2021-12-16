@@ -127,7 +127,7 @@ export default {
         })
     }
     const resetPlaylists = () => {
-      getPlaylists(route.params.id)
+      getPlaylists()
         .then((res) => {
           allPlaylists.value = res
           updatePlaylists()
