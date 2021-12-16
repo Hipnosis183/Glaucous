@@ -273,7 +273,9 @@ export async function getPlaylistsSearch(index, count, query) {
     return await UserModel.findOne({ _id: userId }, { skip: index, limit: count, select: ['playlists'] })
         .then((res) => {
             // Search playlists matching the query, case insensitive.
-            return res.playlists.filter((res) => search.test(res.name)).sort(sortUserList)
+            res.playlists = res.playlists.filter((res) => search.test(res.name)).sort(sortUserList)
+            res.playlists = res.playlists.slice(index, index + count)
+            return res.playlists
         })
 }
 
@@ -382,13 +384,15 @@ export async function getTagsCount() {
 }
 
 // Get all tags matching a given search query.
-export async function getTagsSearch(query) {
+export async function getTagsSearch(index, count, query) {
     await ensureUser()
     const search = new RegExp(normalize(query), 'i')
     // Get all tags.
     return await UserModel.findOne({ _id: userId }, { select: ['tags'] })
         .then((res) => {
             // Search tags matching the query, case insensitive.
-            return res.tags.filter((res) => search.test(res.name)).sort(sortUserList)
+            res.tags = res.tags.filter((res) => search.test(res.name)).sort(sortUserList)
+            res.tags = res.tags.slice(index, index + count)
+            return res.tags
         })
 }

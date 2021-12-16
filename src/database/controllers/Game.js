@@ -596,7 +596,7 @@ export async function getGame(req) {
 let gamePlatformsId = []
 
 // Get all games.
-export async function getGamesAll(index, count, query, sort) {
+export async function getGamesAll(index, count, query, sort, searchQuery) {
     // Configure the search query.
     const search = query ? query : {}
     const sorting = sort ? 'title' : ''
@@ -610,7 +610,12 @@ export async function getGamesAll(index, count, query, sort) {
                 // Populate the required game platform data for the region.
                 await GamePlatformModel.findOne({ gameRegions: gameRegion._id }, { populate: true })
                     .then((pla) => {
-                        if (!gamePlatformsId.includes(pla._id)) {
+                        // Check if a search query has been made.
+                        if (searchQuery
+                            // Allow searching multiple regions (disordered results).
+                            ? !gamePlatformsId.includes(pla._id)
+                            // Restrict searching multiple regions (ordered results).
+                            : !gamePlatformsId.includes(pla._id) && pla.gameRegions[0]._id == gameRegion._id) {
                             pla.image = getImage(pla)
                             gamePlatforms.push(pla)
                             gamePlatformsId.push(pla._id)
@@ -633,7 +638,7 @@ export async function getGamesAllSearch(index, count, query) {
     // Configure the search query.
     const querySearch = { $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
     // Get all game regions for the selected platform.
-    return await getGamesAll(index, count, querySearch, true)
+    return await getGamesAll(index, count, querySearch, true, query)
 }
 
 // Get all games by a specific platform.
@@ -653,7 +658,7 @@ export async function getGamesPlatform(req, index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
-            return await getGamesAll(index, count, querySearch, true)
+            return await getGamesAll(index, count, querySearch, true, query)
         })
 }
 
@@ -679,7 +684,7 @@ export async function getGamesDeveloper(req, index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
-            return await getGamesAll(index, count, querySearch, true)
+            return await getGamesAll(index, count, querySearch, true, query)
         })
 }
 
@@ -705,7 +710,7 @@ export async function getGamesPlayers(req, index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all game regions for the selected platform.
-            return await getGamesAll(index, count, querySearch, true)
+            return await getGamesAll(index, count, querySearch, true, query)
         })
 }
 
@@ -754,7 +759,7 @@ export async function getGamesSearch(index, count, query) {
     // Configure the search query.
     const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search.title }, { preTitle: search.title }, { subTitle: search.title }, { originalTitle: search }, { translatedTitle: search.title }] }
     // Get all the game regions matching the search query.
-    return await getGamesAll(index, count, querySearch, true)
+    return await getGamesAll(index, count, querySearch, true, true)
 }
 
 // Get all (nested) platforms for a specific search query.
@@ -852,7 +857,7 @@ export async function getGamesFavorited(index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all favorited games.
-            return await getGamesAll(index, count, querySearch, true)
+            return await getGamesAll(index, count, querySearch, true, query)
         })
 }
 
@@ -880,7 +885,7 @@ export async function getGamesRecent(index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all recent games.
-            return await getGamesAll(index, count, querySearch)
+            return await getGamesAll(index, count, querySearch, query)
         })
 }
 
@@ -908,7 +913,7 @@ export async function getGamesPlaylist(req, index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all playlist games.
-            return await getGamesAll(index, count, querySearch, true)
+            return await getGamesAll(index, count, querySearch, true, query)
         })
 }
 
@@ -935,7 +940,7 @@ export async function getGamesTag(req, index, count, query) {
             // Configure the search query.
             const querySearch = { _id: { $in: gameRegions }, $or: [{ title: search }, { preTitle: search }, { subTitle: search }, { originalTitle: search }, { translatedTitle: search }] }
             // Get all playlist games.
-            return await getGamesAll(index, count, querySearch, true)
+            return await getGamesAll(index, count, querySearch, true, query)
         })
 }
 
