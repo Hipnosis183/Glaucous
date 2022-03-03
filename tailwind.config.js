@@ -1,9 +1,10 @@
 module.exports = {
-  purge: [
+  content: [
     './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}'
+    './src/**/*.{vue,js}'
   ],
   darkMode: 'class',
+  plugins: [],
   theme: {
     extend: {
       borderRadius: {
@@ -88,11 +89,5 @@ module.exports = {
         100: 100
       }
     },
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
+  }
 }

@@ -1,7 +1,7 @@
 module.exports = {
-    devServer: {
-        watchOptions: {
-            ignored: /node_modules/,
-        }
-    },
+  devServer: {
+    watchOptions: {
+      ignored: /node_modules/,
+    }
+  }
 }
