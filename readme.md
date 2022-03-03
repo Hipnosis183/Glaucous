@@ -5,23 +5,13 @@
 
 &nbsp;
 
-# Viridian
-
 Videogames database builder, library manager and emulator frontend with **Vue**, **Electron** and **Tailwind**.
-
-&nbsp;
 
 ![](/src/assets/screens/0.png)
 
-&nbsp;
-
 **Viridian** allows you to create your own personalized videogames database, plus the ability to use it as a *launcher/frontend*. The application design and structure makes it possible to build dynamic databases, and its configuration is very customizable, being adaptable to your needs and current setup, without forcing you to make things in a specific way.
 
-&nbsp;
-
 ![](/src/assets/screens/1.png)
-
-&nbsp;
 
 While the application is **fully-featured**, **completely functional** and **stable**, it shows its true potential when used with a populated database. There's been a lot of care and effort put into data entry operations and features to make it pleasant and easy to use, but it's still a very time consuming task.
 
