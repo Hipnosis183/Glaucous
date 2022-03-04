@@ -25,7 +25,7 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
-    fullscreen: true,
+    show: false,
     icon: path.join(__static, '/images/icon.png'),
     webPreferences: {
       contextIsolation: false,
@@ -34,6 +34,11 @@ async function createWindow() {
       webSecurity: false
     }
   })
+  // Manage fullscreen state.
+  let fullscreen = false
+  win.once('fullscreen', (value) => { if (value) { fullscreen = true } })
+  // Render window once it finished loading.
+  win.once('ready-to-show', () => { win.show(); win.setFullScreen(fullscreen) })
   // Disable manu bar display.
   win.setMenuBarVisibility(false)
   // Enable Electron remote module.

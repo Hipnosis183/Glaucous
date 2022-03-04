@@ -7,8 +7,8 @@ import { selectImageGridColumns, selectImageCornersRounding, selectListCornersRo
 // Import theme objects and functions.
 import { selectColor, selectFont, selectTheme } from '@/theme'
 
-// Set fullscreen mode if enable in the store.
-getCurrentWindow().setFullScreen(store.getters.getSettingsGeneralFullscreenMode)
+// Set fullscreen mode if enabled in the store.
+getCurrentWindow().emit('fullscreen', store.getters.getSettingsGeneralFullscreenMode)
 // Set theme stored in the configuration.
 selectTheme(store.getters.getSettingsThemesSelectedTheme)
 // Set color theme stored in the configuration.
