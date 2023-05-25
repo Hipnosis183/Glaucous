@@ -1,29 +1,29 @@
-&nbsp;
+<br>
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="src/assets/images/logo-lite.svg">
+    <img src="src/assets/images/logo-dark.svg" width="80%">
+  </picture>
+</div>
+<br>
 
-![](/src/assets/images/logo-dark.svg#gh-light-mode-only)
-![](/src/assets/images/logo-lite.svg#gh-dark-mode-only)
+**Glaucous** is a videogames database builder, library manager and emulator frontend.
+It allows you to create your own customized database, plus the ability to use it as a *launcher/frontend*.
 
-&nbsp;
+The application and database are designed to be as dynamic as possible, giving you the freedom to choose what you want to see and how. Customization and flexibility are paramount, allowing you to adapt your current setup without forcing any specific changes to work.
 
-Videogames database builder, library manager and emulator frontend with **Vue**, **Electron** and **Tailwind**.
+A quality database is being slowly worked on. Once it reaches a mature state, it will be available online, and users will be able to scrape the information from the application right away. Extensive documentation for the program usage and configuration will also be available at a later date.
+
+# Screenshots
 
 ![](/src/assets/screens/0.png)
-
-**Viridian** allows you to create your own personalized videogames database, plus the ability to use it as a *launcher/frontend*. The application design and structure makes it possible to build dynamic databases, and its configuration is very customizable, being adaptable to your needs and current setup, without forcing you to make things in a specific way.
-
 ![](/src/assets/screens/1.png)
 
-While the application is **fully-featured**, **completely functional** and **stable**, it shows its true potential when used with a populated database. There's been a lot of care and effort put into data entry operations and features to make it pleasant and easy to use, but it's still a very time consuming task.
+# Getting started
 
-Since I plan to make a ***Viridian-compatible***, high quality online database in the future, where users would be able to scrape the information right away from the app and browser, documentation and more details will be eventually added at a later time.
+For now, Glaucous is only runnable locally as a database + frontend desktop application, but eventually it'll be available as an online database with scraping support.
 
-Still, I encourage you to try the app on its current state for yourself and discover its true potential!
-
-## Getting started
-
-For now, Viridian is only runnable locally as a database + frontend desktop application, but eventually (whenever I get a decently populated and high quality database, and a domain name) it'll be available as an online database with scraping support.
-
-To run and/or compile the program, after installing the dependencies (`npm install`), execute `npm run electron:serve` for live debugging, or `npm run electron:build` to compile to the current platform as a target.
+To run/compile the program, after installing the dependencies (`npm install`), execute `npm run electron:serve` for live debugging, or `npm run electron:build` to compile to the current platform as a target.
 
 The compilation targets builds:
 

@@ -7,8 +7,8 @@ module.exports = {
       externals: ['nedb-promises'],
       mainProcessFile: 'src/main.js',
       builderOptions: {
-        "productName": "Viridian",
-        "appId": "com.viridian",
+        "productName": "Glaucous",
+        "appId": "com.glaucous",
         "linux": {
           "artifactName": "${productName}-${version}-Linux64.${ext}",
           "target": ["appImage", "deb", "7z"],

@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import Store from 'electron-store'
 
 // App settings store.
-const localStore = new Store({ cwd: process.cwd(), name: 'viridian' })
+const localStore = new Store({ cwd: process.cwd(), name: 'glaucous' })
 // Platform settings store.
 let platformStore
 // Game settings store.
